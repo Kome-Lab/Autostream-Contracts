@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StartReadinessResponse",
+  "type": "object",
+  "required": [
+    "stream_id",
+    "ready",
+    "missing_service_types",
+    "issues",
+    "assigned_service_count",
+    "primary_service_count"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "stream_id": { "type": "string", "minLength": 1 },
+    "ready": { "type": "boolean" },
+    "missing_service_types": {
+      "type": "array",
+      "items": {
+        "enum": ["discord_bot", "worker", "encoder_recorder"]
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/readinessIssue" }
+    },
+    "assigned_service_count": { "type": "integer", "minimum": 0 },
+    "primary_service_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of primary assignments considered eligible for start dispatch. Standby assignments are listed but excluded from dispatch until promoted."
+    },
+    "assignments": {
+      "type": "array",
+      "description": "Public registered service summaries. Service token binding IDs and raw tokens are never returned.",
+      "items": { "$ref": "#/$defs/registeredService" }
+    }
+  },
+  "$defs": {
+    "registeredService": {
+      "type": "object",
+      "required": ["service_id", "service_type", "service_name", "public_url", "version", "status", "capabilities", "created_at", "updated_at"],
+      "additionalProperties": false,
+      "properties": {
+        "service_id": { "type": "string", "minLength": 1 },
+        "service_type": {
+          "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+        },
+        "service_name": { "type": "string", "minLength": 1 },
+        "public_url": { "type": "string", "format": "uri", "pattern": "^https?://" },
+        "version": { "type": "string" },
+        "status": {
+          "enum": ["unknown", "pending", "registered", "assigned", "restart_requested", "online", "degraded", "offline", "starting", "stopping"]
+        },
+        "assignment_role": {
+          "enum": ["primary", "standby"],
+          "description": "Only primary services receive start dispatch. Standby services are visible as failover candidates but cannot resolve stream-scoped runtime secrets until promoted."
+        },
+        "last_heartbeat_at": { "type": "string", "format": "date-time" },
+        "current_stream_id": { "type": "string" },
+        "capabilities": { "type": "object", "additionalProperties": true },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "readinessIssue": {
+      "type": "object",
+      "required": ["code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "service_id": { "type": "string" },
+        "service_type": {
+          "enum": ["discord_bot", "worker", "encoder_recorder", "observability"]
+        },
+        "code": {
+          "description": "Stable start-readiness issue code. The check is side-effect-free and must not read or return raw secrets.",
+          "enum": [
+            "missing_stream_assignments",
+            "service_call_token_missing",
+            "service_public_url_invalid",
+            "service_public_url_blocked",
+            "encoder_public_url_missing",
+            "encoder_public_url_invalid",
+            "encoder_public_url_blocked",
+            "service_offline",
+            "service_heartbeat_stale",
+            "discord_audio_forward_unavailable",
+            "discord_audio_capture_unavailable",
+            "discord_config_required",
+            "discord_config_not_found",
+            "discord_config_invalid",
+            "discord_config_service_mismatch",
+            "youtube_output_not_found",
+            "youtube_output_invalid_config",
+            "youtube_stream_key_unavailable",
+            "youtube_live_api_unavailable",
+            "youtube_oauth_account_unavailable",
+            "archive_profile_not_found",
+            "archive_profile_invalid_config",
+            "drive_destination_not_found",
+            "drive_destination_unavailable",
+            "drive_oauth_account_unavailable"
+          ]
+        },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

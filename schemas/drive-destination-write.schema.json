@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/drive-destination-write.schema.json",
+  "title": "DriveDestinationWriteRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "auth_mode"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "auth_mode": { "const": "oauth2" }
+        },
+        "required": ["auth_mode"]
+      },
+      "then": {
+        "required": ["oauth_account_id"]
+      }
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "auth_mode": {
+      "type": "string",
+      "enum": ["oauth2", "service_account"]
+    },
+    "oauth_account_id": {
+      "minLength": 1,
+      "type": "string",
+      "description": "Required for oauth2 destinations and must reference a Google connected account with Drive scope."
+    },
+    "folder_id": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Write-only Google Drive folder ID, including shared drive folder IDs. It is required when creating a destination, optional when updating an existing destination, encrypted at rest, and never returned raw."
+    },
+    "shared_drive": {
+      "type": "boolean",
+      "description": "When true, upload clients must use supportsAllDrives=true."
+    },
+    "base_path": {
+      "type": "string",
+      "default": "AutoStream"
+    }
+  }
+}

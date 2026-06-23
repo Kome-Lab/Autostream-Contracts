@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://autostream.example.com/schemas/passkey-registration-start.schema.json",
+  "title": "PasskeyRegistrationStart",
+  "type": "object",
+  "required": ["registration_token", "expires_at", "public_key"],
+  "properties": {
+    "registration_token": {
+      "type": "string",
+      "description": "Short-lived one-time token returned only to the current authenticated user."
+    },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "public_key": {
+      "type": "object",
+      "required": ["challenge", "rp", "user", "pubKeyCredParams", "timeout", "attestation", "authenticatorSelection"],
+      "properties": {
+        "challenge": { "type": "string" },
+        "rp": {
+          "type": "object",
+          "required": ["id", "name"],
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        },
+        "user": {
+          "type": "object",
+          "required": ["id", "name", "displayName"],
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "displayName": { "type": "string" }
+          }
+        },
+        "pubKeyCredParams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "alg"],
+            "properties": {
+              "type": { "const": "public-key" },
+              "alg": { "type": "integer" }
+            }
+          }
+        },
+        "timeout": { "type": "integer", "minimum": 1 },
+        "attestation": { "type": "string" },
+        "authenticatorSelection": {
+          "type": "object",
+          "required": ["residentKey", "userVerification"],
+          "properties": {
+            "residentKey": { "type": "string" },
+            "userVerification": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

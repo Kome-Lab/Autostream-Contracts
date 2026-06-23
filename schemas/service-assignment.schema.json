@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/service-assignment.schema.json",
+  "title": "ServiceAssignment",
+  "type": "object",
+  "required": ["stream_id", "service_id", "service_type", "assignment_role", "assigned_at"],
+  "additionalProperties": false,
+  "properties": {
+    "stream_id": { "type": "string", "minLength": 1 },
+    "service_id": { "type": "string", "minLength": 1 },
+    "service_type": {
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+    },
+    "assignment_role": {
+      "enum": ["primary", "standby"],
+      "description": "Only primary services receive stream start/stop/retry dispatch. Standby services are failover candidates and cannot resolve stream-scoped secrets until promoted."
+    },
+    "assigned_at": { "type": "string", "format": "date-time" }
+  }
+}

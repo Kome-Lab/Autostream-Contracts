@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-start-stream-request.schema.json",
+  "title": "EncoderStartStreamRequest",
+  "type": "object",
+  "required": ["stream_id", "name", "rtmp_url"],
+  "additionalProperties": false,
+  "properties": {
+    "stream_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "input_url": { "type": "string" },
+    "input_mode": { "enum": ["external", "discord_opus_rtp"] },
+    "rtmp_url": { "type": "string" },
+    "stream_key": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Deprecated backward-compatible raw runtime secret. Production Control Panel-managed YouTube outputs, including live_api_dry_run, must send stream_key_secret_name instead."
+    },
+    "stream_key_secret_name": {
+      "type": "string",
+      "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through the Control Panel. This is preferred for stored YouTube outputs and YouTube Live API short-lived stream keys."
+    },
+    "encoder_profile_id": { "type": "string" },
+    "archive_profile_id": { "type": "string" },
+    "youtube_runtime": {
+      "description": "Non-secret YouTube lifecycle metadata prepared by Control Panel. Raw stream keys and OAuth tokens must not be included here.",
+      "$ref": "youtube-runtime-config.schema.json"
+    },
+    "archive_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "drive_destination_id": { "type": "string" },
+        "archive_profile_id": { "type": "string" },
+        "auth_mode": { "enum": ["service_account", "oauth2"] },
+        "oauth_account_id": { "type": "string" },
+        "oauth_provider_id": { "type": "string" },
+        "folder_id_secret_name": {
+          "type": "string",
+          "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through Control Panel."
+        },
+        "service_account_credentials_secret_name": {
+          "type": "string",
+          "description": "Runtime secret reference for Service Account credential JSON. This is the preferred Control Panel-managed field for service_account destinations."
+        },
+        "service_account_json_secret_name": {
+          "type": "string",
+          "description": "Backward-compatible alias for service_account_credentials_secret_name."
+        },
+        "base_path": { "type": "string" },
+        "shared_drive": { "type": "boolean" },
+        "client_id": {
+          "type": "string",
+          "description": "OAuth client ID for Encoder/Recorder token refresh."
+        },
+        "client_secret_secret_name": {
+          "type": "string",
+          "description": "Runtime secret reference for the OAuth client secret."
+        },
+        "refresh_token_secret_name": {
+          "type": "string",
+          "description": "Runtime secret reference for the OAuth refresh token."
+        }
+      }
+    },
+    "dry_run": { "type": "boolean" }
+  }
+}

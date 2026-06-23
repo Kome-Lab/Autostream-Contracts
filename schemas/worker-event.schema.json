@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WorkerEvent",
+  "type": "object",
+  "required": ["id", "stream_id", "type", "payload", "timestamp"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "stream_id": { "type": "string", "minLength": 1 },
+    "service_id": { "type": "string", "minLength": 1 },
+    "type": {
+      "type": "string",
+      "pattern": "^(overlay\\.|caption\\.)",
+      "examples": [
+        "overlay.current_time",
+        "overlay.participants",
+        "overlay.active_speaker",
+        "caption.telop",
+        "caption.final"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ArchiveMetadata",
+  "type": "object",
+  "required": ["stream_id", "name", "started_at_jst", "archive", "upload"],
+  "additionalProperties": false,
+  "properties": {
+    "stream_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "started_at_jst": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "archive": {
+      "type": "object",
+      "required": ["tmp_dir", "final_dir", "final_mkv", "final_mp4"],
+      "additionalProperties": { "type": "string" },
+      "properties": {
+        "tmp_dir": { "type": "string" },
+        "final_dir": { "type": "string" },
+        "final_mkv": { "type": "string" },
+        "final_mp4": { "type": "string" }
+      }
+    },
+    "upload": {
+      "type": "object",
+      "required": ["dry_run", "attempts"],
+      "additionalProperties": false,
+      "properties": {
+        "dry_run": { "type": "boolean" },
+        "folder_id_configured": { "type": "boolean" },
+        "folder_id_fingerprint": {
+          "type": "string",
+          "description": "Short fingerprint of the Drive folder ID. The raw folder ID must not be stored in metadata."
+        },
+        "file_count": { "type": "integer", "minimum": 0 },
+        "file_fingerprints": {
+          "type": "object",
+          "description": "Map from archive file name to a short fingerprint of the Drive file ID. Raw Drive file IDs must not be stored in metadata.",
+          "additionalProperties": { "type": "string" },
+          "properties": {
+            "final.mp4": { "type": "string" },
+            "captions.vtt": { "type": "string" },
+            "transcript.json": { "type": "string" },
+            "metadata.json": { "type": "string" },
+            "logs.jsonl": { "type": "string" }
+          }
+        },
+        "attempts": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "extra": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

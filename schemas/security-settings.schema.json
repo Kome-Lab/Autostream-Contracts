@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SecuritySettings",
+  "type": "object",
+  "required": [
+    "password_min_length",
+    "password_hash",
+    "login_lockout_threshold",
+    "session_idle_timeout_min",
+    "session_absolute_lifetime_h",
+    "remember_me_enabled",
+    "mfa_mode"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "password_min_length": { "type": "integer", "minimum": 12 },
+    "password_hash": { "enum": ["argon2id"] },
+    "login_lockout_threshold": { "type": "integer", "minimum": 3 },
+    "session_idle_timeout_min": { "type": "integer", "minimum": 5 },
+    "session_absolute_lifetime_h": { "type": "integer", "minimum": 1 },
+    "remember_me_enabled": { "type": "boolean", "const": false },
+    "mfa_mode": { "enum": ["disabled", "totp", "passkey"] },
+    "mfa_required_roles": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "When empty, an enabled mfa_mode applies to all users. When set, only users with one of these roles are required to complete that MFA policy."
+    },
+    "mfa_supported_methods": {
+      "type": "array",
+      "readOnly": true,
+      "items": { "enum": ["totp", "passkey"] },
+      "description": "MFA methods currently implemented by the Control Panel. Passkey must not be shown as enabled until present here."
+    },
+    "passkey_status": {
+      "enum": ["planned", "credential_store_ready", "available"],
+      "readOnly": true,
+      "description": "available means WebAuthn registration, passwordless login, and passkey-required login policy are available."
+    },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

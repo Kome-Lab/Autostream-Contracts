@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-account-connection-callback.schema.json",
+  "title": "OAuthAccountConnectionCallbackRequest",
+  "type": "object",
+  "required": ["state", "code"],
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "Optional explicit provider id; must match the consumed state when supplied."
+    },
+    "state": { "type": "string", "minLength": 1 },
+    "code": { "type": "string", "minLength": 1 },
+    "account_label": { "type": "string" }
+  },
+  "additionalProperties": false
+}

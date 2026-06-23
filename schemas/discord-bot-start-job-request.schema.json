@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DiscordBotStartJobRequest",
+  "type": "object",
+  "required": ["stream_id", "guild_id", "voice_channel_id"],
+  "additionalProperties": false,
+  "properties": {
+    "stream_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "guild_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Resolved Discord guild ID. It may come from the selected Discord Config default or the stream-specific override."
+    },
+    "voice_channel_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Resolved Discord voice channel ID. It may come from the selected Discord Config default or the stream-specific override."
+    },
+    "text_channel_id": {
+      "type": "string",
+      "description": "Optional resolved Discord text channel ID for participant/speaker/caption related notifications."
+    },
+    "encoder_audio_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Encoder/Recorder audio ingest endpoint. Treat as runtime-only and do not expose it in public status or logs."
+    },
+    "caption_audio_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional caption/STT audio ingest endpoint. Treat as runtime-only and do not expose it in public status or logs."
+    },
+    "stream_ingest_token": {
+      "type": "string",
+      "description": "Short-lived stream-scoped ingest token issued by Control Panel. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses."
+    }
+  }
+}

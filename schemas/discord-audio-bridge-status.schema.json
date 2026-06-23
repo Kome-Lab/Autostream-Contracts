@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DiscordAudioBridgeStatus",
+  "type": "object",
+  "required": ["stream_id", "bridge_active", "started_at", "packets_total", "rtp_forwarded", "last_packet_age_sec"],
+  "additionalProperties": false,
+  "properties": {
+    "stream_id": { "type": "string", "minLength": 1 },
+    "bridge_active": { "type": "boolean" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "last_packet_at": { "type": "string", "format": "date-time" },
+    "packets_total": { "type": "integer", "minimum": 0 },
+    "rtp_forwarded": { "type": "integer", "minimum": 0 },
+    "last_packet_age_sec": { "type": "number", "minimum": 0 }
+  }
+}

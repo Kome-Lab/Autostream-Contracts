@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServiceRegistration",
+  "type": "object",
+  "required": ["service_id", "service_type", "service_name", "public_url", "version", "capabilities"],
+  "additionalProperties": false,
+  "properties": {
+    "service_id": { "type": "string", "minLength": 1 },
+    "service_type": {
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+    },
+    "service_name": { "type": "string", "minLength": 1 },
+    "public_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://",
+      "description": "Control Panelから到達可能なHTTP(S) URL。userinfoは禁止し、private/loopback/link-local宛てはControl Panelの明示allowlistが必要。"
+    },
+    "version": { "type": "string" },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

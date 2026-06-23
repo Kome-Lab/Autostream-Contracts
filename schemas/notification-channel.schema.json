@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NotificationChannel",
+  "type": "object",
+  "required": ["id", "name", "type", "enabled", "created_at", "updated_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "type": { "enum": ["discord", "slack", "generic", "email"] },
+    "enabled": { "type": "boolean" },
+    "masked_webhook_url": { "type": "string" },
+    "smtp_password_configured": { "type": "boolean" },
+    "masked_email_target": { "type": "string" },
+    "severity_filter": {
+      "type": "array",
+      "items": { "enum": ["info", "warning", "error", "critical"] },
+      "uniqueItems": true
+    },
+    "event_type_filter": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

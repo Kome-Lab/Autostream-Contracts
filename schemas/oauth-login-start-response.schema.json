@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-login-start-response.schema.json",
+  "title": "OAuthLoginStartResponse",
+  "type": "object",
+  "required": ["provider", "authorization_url", "state", "nonce", "expires_at"],
+  "additionalProperties": false,
+  "properties": {
+    "provider": { "$ref": "oauth-login-provider.schema.json" },
+    "authorization_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Provider authorization URL containing a one-time state token. It must not include client_secret."
+    },
+    "state": {
+      "type": "string",
+      "description": "One-time OAuth state token. The server stores only a hash and also binds it to an HttpOnly state cookie."
+    },
+    "nonce": {
+      "type": "string",
+      "description": "One-time nonce used by providers that return ID tokens, especially Google."
+    },
+    "expires_at": { "type": "string", "format": "date-time" }
+  }
+}

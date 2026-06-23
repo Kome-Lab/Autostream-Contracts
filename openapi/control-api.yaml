@@ -1,0 +1,2917 @@
+openapi: 3.1.0
+info:
+  title: AutoStream Control API
+  version: 0.2.0
+servers:
+  - url: https://control.example.com
+security:
+  - cookieSession: []
+paths:
+  /health:
+    get:
+      security: []
+      responses:
+        "200":
+          description: healthy
+  /setup/first-admin:
+    post:
+      security: []
+      responses:
+        "201":
+          description: first admin created
+  /auth/login:
+    post:
+      security: []
+      responses:
+        "200":
+          description: login succeeded
+  /auth/oauth/providers:
+    get:
+      security: []
+      responses:
+        "200":
+          description: enabled OAuth login providers without client secrets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OAuthLoginProvider"
+  /auth/oauth/{id}/start:
+    post:
+      security: []
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthLoginStartRequest"
+      responses:
+        "200":
+          description: OAuth authorization URL and one-time state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OAuthLoginStartResponse"
+  /auth/oauth/callback:
+    post:
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthLoginCallbackRequest"
+      responses:
+        "200":
+          description: OAuth login succeeded and session cookie was issued
+        "202":
+          description: MFA challenge required
+        "403":
+          description: OAuth identity is not linked to a local user or not allowed
+  /auth/logout:
+    post:
+      responses:
+        "200":
+          description: logout succeeded
+  /auth/me:
+    get:
+      responses:
+        "200":
+          description: current user
+  /auth/change-password:
+    post:
+      responses:
+        "200":
+          description: password changed
+  /auth/mfa/enroll:
+    post:
+      responses:
+        "202":
+          description: TOTP enrollment started
+  /auth/mfa/verify:
+    post:
+      responses:
+        "200":
+          description: MFA verified
+  /auth/mfa/disable:
+    post:
+      responses:
+        "200":
+          description: MFA disabled
+  /auth/recovery-codes/regenerate:
+    post:
+      responses:
+        "200":
+          description: recovery codes regenerated
+  /auth/passkeys/register/start:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                display_name:
+                  type: string
+                  maxLength: 255
+      responses:
+        "201":
+          description: Passkey registration challenge created. Response must be sent with Cache-Control no-store.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: no-store
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasskeyRegistrationStartResponse"
+  /auth/passkeys/register/finish:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasskeyRegistrationFinishRequest"
+      responses:
+        "201":
+          description: Passkey credential registered for the current authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasskeyCredential"
+        "401":
+          description: registration challenge is invalid, expired, or verification failed
+  /auth/passkeys/login/start:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasskeyLoginStartRequest"
+      responses:
+        "200":
+          description: Passkey login challenge created. Response must be sent with Cache-Control no-store and must not enumerate users.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: no-store
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasskeyLoginStartResponse"
+  /auth/passkeys/login/finish:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasskeyLoginFinishRequest"
+      responses:
+        "200":
+          description: Passkey login succeeded and session cookie was issued
+        "202":
+          description: Passkey assertion succeeded but TOTP MFA challenge is still required
+        "401":
+          description: challenge is invalid, expired, or assertion verification failed
+        "403":
+          description: MFA enrollment is required before login can continue
+  /auth/passkeys:
+    get:
+      responses:
+        "200":
+          description: current user's public passkey credentials
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PasskeyCredential"
+  /auth/passkeys/{id}:
+    delete:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/csrfToken"
+      responses:
+        "204":
+          description: passkey deleted
+        "404":
+          description: passkey not found for current user
+  /permissions:
+    get:
+      responses:
+        "200":
+          description: permission names
+  /users:
+    get:
+      responses:
+        "200":
+          description: list users
+    post:
+      responses:
+        "201":
+          description: create user
+  /users/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: user detail
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: user updated
+  /users/{id}/disable:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: user disabled
+  /users/{id}/lock:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: user locked
+  /users/{id}/unlock:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: user unlocked
+  /users/{id}/reset-password:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: temporary password set
+  /users/{id}/force-password-change:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: password change required
+  /users/{id}/oauth-links:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: list OAuth login links for the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OAuthUserLink"
+    post:
+      deprecated: true
+      summary: Manual OAuth login links are disabled
+      description: |
+        Manual subject entry is disabled to avoid linking a local account to an
+        attacker-controlled provider subject. OAuth user links are created only
+        by the OAuth callback ceremony after state, nonce, provider identity,
+        and allowlist checks succeed. This endpoint is retained only for legacy
+        clients and always returns 403 manual_oauth_link_disabled.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthUserLinkWriteRequest"
+      responses:
+        "403":
+          description: manual OAuth subject link creation is disabled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /users/{id}/oauth-links/{link_id}:
+    delete:
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - name: link_id
+          in: path
+          required: true
+          schema: {type: string}
+      responses:
+        "200":
+          description: OAuth login link deleted
+  /roles:
+    get:
+      responses:
+        "200":
+          description: list roles
+    post:
+      responses:
+        "201":
+          description: create role
+  /roles/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: role detail
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: role updated
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: role deleted
+  /streams:
+    get:
+      responses:
+        "200":
+          description: list streams
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StreamWriteRequest"
+      responses:
+        "201":
+          description: create stream
+  /streams/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: stream detail
+  /streams/{id}/settings:
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StreamSettingsWriteRequest"
+      responses:
+        "200":
+          description: stream settings updated
+        "404":
+          description: stream not found
+  /streams/{id}/start-readiness:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StartStreamRequest"
+      responses:
+        "200":
+          description: start readiness check result; no stream status change or service dispatch is attempted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StartReadinessResponse"
+  /streams/{id}/external-e2e-config:
+    get:
+      summary: Export non-secret external verification Control Panel confirmation
+      description: >
+        Returns the Control Panel-managed IDs and boolean confirmations needed by
+        the external verification handoff file. Requires a cookie-authenticated user with
+        streams.read. The response is always Cache-Control: no-store and never
+        returns raw Discord guild/channel IDs, Drive folder IDs, OAuth refresh
+        tokens, client secrets, RTMPS URLs, stream keys, service tokens, or
+        session cookies.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: non-secret external verification confirmation export
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store because the response confirms runtime integration state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExternalE2EConfigResponse"
+        "403":
+          description: authenticated user does not have streams.read
+        "404":
+          description: stream not found
+  /streams/{id}/start:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StartStreamRequest"
+      responses:
+        "200":
+          description: stream started
+        "409":
+          description: required service assignments are missing; no dispatch is attempted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MissingStreamAssignmentsResponse"
+  /streams/{id}/stop:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: stream stopped
+        "409":
+          description: required service assignments are missing; no stop dispatch is attempted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MissingStreamAssignmentsResponse"
+  /streams/{id}/youtube/complete:
+    post:
+      description: Manually retry completion of a retained YouTube Live API runtime after stop or start-cleanup failure. Control Panel also retries retained runtimes automatically with backoff. Raw OAuth tokens and stream keys are never returned.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: YouTube runtime completion retried or no retained runtime exists
+        "502":
+          description: YouTube Live API completion failed; runtime is retained for another retry
+  /streams/{id}/mark-failed:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: stream marked failed
+  /streams/{id}/retry-upload:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "202":
+          description: archive upload retry queued
+        "409":
+          description: assigned encoder_recorder service is missing; no package retry dispatch is attempted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MissingStreamAssignmentsResponse"
+  /streams/{id}/encoder-preflight:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: assigned Encoder/Recorder preflight checks with secret values redacted
+        "409":
+          description: assigned Encoder/Recorder service is missing
+  /streams/{id}/audio-status:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: Discord audio bridge status from the assigned Encoder/Recorder
+        "409":
+          description: assigned Encoder/Recorder service is missing
+  /streams/{id}/worker-events:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: recent Worker events returned through the assigned Encoder/Recorder with secret values redacted
+        "409":
+          description: assigned Encoder/Recorder service is missing
+  /streams/{id}/worker-events/test:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "202":
+          description: test Worker event dispatched to the assigned Encoder/Recorder
+        "409":
+          description: assigned Encoder/Recorder service is missing
+  /streams/{id}/logs:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: stream logs
+  /streams/{id}/artifacts:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: stream artifacts
+  /profiles/encoder:
+    get: {$ref: "#/components/pathItems/listCreateProfile/get"}
+    post: {$ref: "#/components/pathItems/listCreateProfile/post"}
+  /profiles/encoder/{id}:
+    get: {$ref: "#/components/pathItems/itemProfile/get"}
+    put: {$ref: "#/components/pathItems/itemProfile/put"}
+    delete: {$ref: "#/components/pathItems/itemProfile/delete"}
+  /profiles/archive:
+    get: {$ref: "#/components/pathItems/listCreateProfile/get"}
+    post: {$ref: "#/components/pathItems/listCreateProfile/post"}
+  /profiles/archive/{id}:
+    get: {$ref: "#/components/pathItems/itemProfile/get"}
+    put: {$ref: "#/components/pathItems/itemProfile/put"}
+    delete: {$ref: "#/components/pathItems/itemProfile/delete"}
+  /profiles/caption:
+    get: {$ref: "#/components/pathItems/listCreateProfile/get"}
+    post: {$ref: "#/components/pathItems/listCreateProfile/post"}
+  /profiles/caption/{id}:
+    get: {$ref: "#/components/pathItems/itemProfile/get"}
+    put: {$ref: "#/components/pathItems/itemProfile/put"}
+    delete: {$ref: "#/components/pathItems/itemProfile/delete"}
+  /profiles/overlay:
+    get: {$ref: "#/components/pathItems/listCreateProfile/get"}
+    post: {$ref: "#/components/pathItems/listCreateProfile/post"}
+  /profiles/overlay/{id}:
+    get: {$ref: "#/components/pathItems/itemProfile/get"}
+    put: {$ref: "#/components/pathItems/itemProfile/put"}
+    delete: {$ref: "#/components/pathItems/itemProfile/delete"}
+  /discord/configs:
+    get:
+      responses:
+        "200":
+          description: list Discord Bot configs without raw bot tokens
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DiscordConfig"
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiscordConfigWriteRequest"
+      responses:
+        "201":
+          description: create Discord Bot config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscordConfig"
+  /discord/configs/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: Discord Bot config detail without raw bot token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscordConfig"
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiscordConfigWriteRequest"
+      responses:
+        "200":
+          description: update Discord Bot config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscordConfig"
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: Discord Bot config deleted
+  /youtube/outputs:
+    get:
+      responses:
+        "200":
+          description: list YouTube outputs without raw stream keys or OAuth refresh tokens
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/YouTubeOutput"
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/YouTubeOutputWriteRequest"
+      responses:
+        "201":
+          description: create YouTube output
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YouTubeOutput"
+  /youtube/outputs/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: YouTube output detail without raw stream key or OAuth refresh token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YouTubeOutput"
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/YouTubeOutputWriteRequest"
+      responses:
+        "200":
+          description: update YouTube output
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YouTubeOutput"
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: YouTube output deleted
+  /workers:
+    get:
+      responses:
+        "200":
+          description: list worker services
+  /workers/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: worker detail
+  /workers/{id}/assign:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceAssignmentWriteRequest"
+      responses:
+        "200":
+          description: worker assigned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisteredService"
+  /workers/{id}/assignment:
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: worker unassigned from its current stream
+  /workers/{id}/restart:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "202":
+          description: worker restart requested
+  /api-tokens:
+    get:
+      responses:
+        "200":
+          description: list service/API tokens without raw token values
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ServiceToken"
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceTokenCreateRequest"
+      responses:
+        "201":
+          description: create token and show raw token once. If service_id is present, a pending service registry entry is also created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceToken"
+        "409":
+          description: service_id already exists when precreating a service registry entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api-tokens/{id}:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "201":
+          description: revoke the old token, create a replacement token, rebind linked services, and show the new raw token once
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceToken"
+        "403":
+          description: caller lacks api_tokens.revoke
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: token not found or already revoked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: token revoked
+  /services/register:
+    post:
+      security:
+        - bearerToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceRegistrationRequest"
+      responses:
+        "202":
+          description: service registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisteredService"
+        "400":
+          description: invalid service registration payload or outbound-policy-blocked public URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /services/runtime-config:
+    get:
+      security:
+        - bearerToken: []
+      description: Service-token endpoint for a registered service to fetch only its own assignments and Control Panel-managed non-secret runtime profiles. Requires service.config.read.
+      parameters:
+        - name: service_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: runtime config for the authenticated service
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store because runtime config includes assignments and runtime secret reference names.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceRuntimeConfig"
+        "403":
+          description: token does not own the requested service_id or lacks service.config.read
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /services/runtime-secrets/resolve:
+    post:
+      security:
+        - bearerToken: []
+      description: Service-token endpoint for resolving a short-lived raw runtime secret that is explicitly referenced by the authenticated service runtime config or an assigned stream archive runtime config. Requires service.secret.resolve. A server-side lease prevents the same service/context/secret from being resolved repeatedly during the returned expires_in_sec window. This endpoint is not for browser UI use and responses must not be cached, logged, audited with raw values, or exposed to the frontend.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceRuntimeSecretResolveRequest"
+      responses:
+        "200":
+          description: one-time runtime secret for the authenticated service
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceRuntimeSecretResolveResponse"
+        "403":
+          description: token does not own service_id, lacks service.secret.resolve, or secret_name is not referenced by that service runtime config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: service or configured secret was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: runtime secret lease is still active for the same service/context/secret
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /services/heartbeat:
+    post:
+      security:
+        - bearerToken: []
+      responses:
+        "202":
+          description: heartbeat accepted
+  /services/stream-events:
+    post:
+      security:
+        - bearerToken: []
+      responses:
+        "202":
+          description: service stream event accepted
+  /services/stream-artifacts:
+    post:
+      security:
+        - bearerToken: []
+      description: Assigned Encoder/Recorder reports logical archive artifacts. Requires encoder.status.write.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceArtifactReport"
+      responses:
+        "202":
+          description: artifact report accepted
+        "400":
+          description: invalid artifact metadata or unsafe relative path
+        "403":
+          description: wrong service type, missing scope, or service is not assigned to the stream
+  /services/remediation-actions/execute:
+    post:
+      security:
+        - bearerToken: []
+      description: Observability requests an approved remediation dispatch. Requires remediation.execute. action_id, incident_id, and stream_id are required correlation context. Control Panel verifies the context against Observability read API and rejects duplicate action_id replays before service dispatch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceRemediationExecuteRequest"
+      responses:
+        "202":
+          description: remediation dispatch accepted
+        "400":
+          description: missing action_id, incident_id, stream_id, or unsupported action
+        "403":
+          description: wrong service type, missing remediation scope, or remediation context not verified
+        "409":
+          description: duplicate action_id replay or missing stream assignment
+  /service-health:
+    get:
+      responses:
+        "200":
+          description: service health list
+  /services/{id}/assign:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceAssignmentWriteRequest"
+      responses:
+        "200":
+          description: service assigned to a stream
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisteredService"
+  /services/{id}/assignment:
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: service unassigned from its current stream
+  /services/{id}:
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: service deleted from the registry; assignments are removed and the linked service token is revoked
+        "404":
+          description: service not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /secrets/status:
+    get:
+      responses:
+        "200":
+          description: secret configured status only
+  /secrets/{name}:
+    put:
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema: {type: string}
+      responses:
+        "200":
+          description: secret value updated without returning raw value
+  /audit-logs:
+    get:
+      parameters:
+        - $ref: "#/components/parameters/auditActionGroup"
+        - $ref: "#/components/parameters/auditAction"
+        - $ref: "#/components/parameters/auditResult"
+        - $ref: "#/components/parameters/auditQuery"
+        - $ref: "#/components/parameters/limit"
+      responses:
+        "200":
+          description: audit log list
+  /audit-logs/export:
+    get:
+      parameters:
+        - $ref: "#/components/parameters/auditActionGroup"
+        - $ref: "#/components/parameters/auditAction"
+        - $ref: "#/components/parameters/auditResult"
+        - $ref: "#/components/parameters/auditQuery"
+        - $ref: "#/components/parameters/limit"
+      responses:
+        "200":
+          description: audit log export
+  /security/settings:
+    get:
+      responses:
+        "200":
+          description: security settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecuritySettings"
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecuritySettings"
+      responses:
+        "200":
+          description: security settings updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecuritySettings"
+  /observability/incidents:
+    get:
+      responses:
+        "200":
+          description: proxied incidents
+  /observability/incidents/{id}/acknowledge:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: proxied incident acknowledge
+  /observability/incidents/{id}/resolve:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: proxied incident resolve
+  /observability/diagnostics:
+    get:
+      responses:
+        "200":
+          description: proxied diagnostic reports
+  /observability/metrics:
+    get:
+      responses:
+        "200":
+          description: proxied metric snapshots
+  /observability/remediation-actions:
+    get:
+      responses:
+        "200":
+          description: proxied remediation actions
+  /observability/remediation-actions/{id}/approve:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: remediation approved
+  /observability/remediation-actions/{id}/execute:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: remediation execution requested
+  /observability/notification-deliveries:
+    get:
+      responses:
+        "200":
+          description: proxied notification delivery history
+  /observability/notification-channels:
+    get:
+      responses:
+        "200":
+          description: proxied notification channels without raw webhook URLs or raw SMTP settings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NotificationChannel"
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationChannelWriteRequest"
+      responses:
+        "201":
+          description: proxied notification channel created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationChannel"
+        "400":
+          description: invalid notification channel or webhook URL
+  /observability/notification-channels/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: proxied notification channel detail without raw webhook URL or raw SMTP settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationChannel"
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationChannelWriteRequest"
+      responses:
+        "200":
+          description: proxied notification channel updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationChannel"
+        "400":
+          description: invalid notification channel or webhook URL
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: proxied notification channel deleted
+  /observability/notification-channels/{id}/test:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "202":
+          description: proxied notification channel test
+  /integrations/oauth-providers:
+    get:
+      responses:
+        "200":
+          description: list OAuth provider configs without raw client secrets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OAuthProvider"
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthProviderWriteRequest"
+      responses:
+        "201":
+          description: OAuth provider created
+  /integrations/oauth-providers/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: OAuth provider detail without raw client secret
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthProviderWriteRequest"
+      responses:
+        "200":
+          description: OAuth provider updated
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: OAuth provider deleted
+        "409":
+          description: oauth_provider_in_use when connected accounts or login user links still reference this provider
+  /integrations/oauth-accounts:
+    get:
+      responses:
+        "200":
+          description: list connected OAuth accounts without raw refresh tokens
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OAuthAccount"
+    post:
+      deprecated: true
+      summary: Manual OAuth connected account creation is disabled
+      description: >
+        Connected operational accounts must be created through
+        /integrations/oauth-accounts/start and /integrations/oauth-accounts/callback.
+        Manual refresh token import is disabled for normal clients and returns
+        403 manual_oauth_account_create_disabled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthAccountWriteRequest"
+      responses:
+        "403":
+          description: manual OAuth account creation is disabled
+  /integrations/oauth-accounts/start:
+    post:
+      summary: Start OAuth consent for a connected operational account
+      description: Returns a one-time authorization URL. Raw client secrets and refresh tokens are never returned.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthAccountConnectionStartRequest"
+      responses:
+        "200":
+          description: OAuth consent URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OAuthAccountConnectionStartResponse"
+  /integrations/oauth-accounts/callback:
+    get:
+      summary: Browser OAuth callback for connected accounts
+      description: Consumes state/code, stores the refresh token encrypted, then redirects to a safe local path.
+      parameters:
+        - name: state
+          in: query
+          required: true
+          schema: {type: string}
+        - name: code
+          in: query
+          required: true
+          schema: {type: string}
+        - name: provider_id
+          in: query
+          required: false
+          schema: {type: string}
+      responses:
+        "303":
+          description: Connected account created and browser redirected
+    post:
+      summary: API OAuth callback for connected accounts
+      description: Consumes state/code and returns public connected account metadata only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthAccountConnectionCallbackRequest"
+      responses:
+        "201":
+          description: Connected account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OAuthAccount"
+  /integrations/oauth-accounts/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: OAuth account detail without raw refresh token
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthAccountLabelUpdateRequest"
+      responses:
+        "200":
+          description: OAuth account label updated without changing identity or refresh token
+        "403":
+          description: manual OAuth refresh token update is disabled
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: OAuth account deleted
+        "409":
+          description: oauth_account_in_use when Drive destinations, YouTube outputs, or active YouTube runtime metadata still reference this account
+  /archive/destinations:
+    get:
+      responses:
+        "200":
+          description: list Drive archive destinations without raw folder IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DriveDestination"
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DriveDestinationWriteRequest"
+      responses:
+        "201":
+          description: Drive archive destination created
+  /archive/destinations/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: Drive archive destination detail without raw folder ID
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DriveDestinationWriteRequest"
+      responses:
+        "200":
+          description: Drive archive destination updated
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: Drive archive destination deleted
+components:
+  securitySchemes:
+    cookieSession:
+      type: apiKey
+      in: cookie
+      name: autostream_session
+    bearerToken:
+      type: http
+      scheme: bearer
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+    csrfToken:
+      name: X-CSRF-Token
+      in: header
+      required: true
+      description: Required for unsafe cookie-authenticated requests.
+      schema:
+        type: string
+    auditActionGroup:
+      name: action_group
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [all, service_assignment, service_runtime, stream_lifecycle, security, secrets, notifications]
+    auditAction:
+      name: action
+      in: query
+      required: false
+      description: comma-separated audit action names
+      schema:
+        type: string
+    auditResult:
+      name: result
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [success, failure]
+    auditQuery:
+      name: q
+      in: query
+      required: false
+      schema:
+        type: string
+  pathItems:
+    listCreateProfile:
+      get:
+        responses:
+          "200":
+            description: list resources
+      post:
+        responses:
+          "201":
+            description: create resource
+    itemProfile:
+      get:
+        parameters: [{$ref: "#/components/parameters/id"}]
+        responses:
+          "200":
+            description: resource detail
+      put:
+        parameters: [{$ref: "#/components/parameters/id"}]
+        responses:
+          "200":
+            description: resource updated
+      delete:
+        parameters: [{$ref: "#/components/parameters/id"}]
+        responses:
+          "200":
+            description: resource deleted
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [code]
+      properties:
+        request_id:
+          type: string
+        code:
+          type: string
+          description: Stable, secret-safe Control API error or readiness issue code. Start-readiness checks are side-effect-free and do not read or return raw secrets.
+          enum:
+            - missing_stream_assignments
+            - service_call_token_missing
+            - service_public_url_invalid
+            - service_public_url_blocked
+            - encoder_public_url_missing
+            - encoder_public_url_invalid
+            - encoder_public_url_blocked
+            - service_offline
+            - service_heartbeat_stale
+            - discord_audio_forward_unavailable
+            - discord_audio_capture_unavailable
+            - discord_config_required
+            - discord_config_not_found
+            - discord_config_invalid
+            - discord_config_service_mismatch
+            - youtube_output_not_found
+            - youtube_output_invalid_config
+            - youtube_stream_key_unavailable
+            - youtube_live_api_unavailable
+            - youtube_oauth_account_unavailable
+            - archive_profile_not_found
+            - archive_profile_invalid_config
+            - drive_destination_not_found
+            - drive_destination_unavailable
+            - drive_oauth_account_unavailable
+            - runtime_secret_transport_insecure
+            - runtime_secret_lease_active
+            - runtime_secret_not_allowed
+        message:
+          type: string
+    PasskeyCredential:
+      type: object
+      description: Public WebAuthn credential metadata. Raw credential ID and public key material are never returned.
+      required: [id, user_id, name, credential_id_hash, sign_count]
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        name:
+          type: string
+        credential_id_hash:
+          type: string
+        sign_count:
+          type: integer
+          format: int64
+        transports:
+          type: array
+          items:
+            type: string
+        aaguid:
+          type: string
+        backup_eligible:
+          type: boolean
+        backed_up:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        last_used_at:
+          type: string
+          format: date-time
+    PasskeyRegistrationStartResponse:
+      type: object
+      required: [registration_token, expires_at, public_key]
+      properties:
+        registration_token:
+          type: string
+          description: Short-lived one-time token returned only to the current authenticated user.
+        expires_at:
+          type: string
+          format: date-time
+        public_key:
+          type: object
+          required: [challenge, rp, user, pubKeyCredParams, timeout, attestation, authenticatorSelection]
+          properties:
+            challenge:
+              type: string
+            rp:
+              type: object
+              required: [id, name]
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+            user:
+              type: object
+              required: [id, name, displayName]
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                displayName:
+                  type: string
+            pubKeyCredParams:
+              type: array
+              items:
+                type: object
+                required: [type, alg]
+                properties:
+                  type:
+                    const: public-key
+                  alg:
+                    type: integer
+            timeout:
+              type: integer
+            attestation:
+              type: string
+            authenticatorSelection:
+              type: object
+              required: [residentKey, userVerification]
+              properties:
+                residentKey:
+                  type: string
+                userVerification:
+                  type: string
+    PasskeyRegistrationFinishRequest:
+      type: object
+      additionalProperties: false
+      required: [registration_token, credential]
+      properties:
+        registration_token:
+          type: string
+          description: One-time registration token returned by /auth/passkeys/register/start.
+        name:
+          type: string
+          maxLength: 255
+          description: Optional operator-visible passkey label.
+        credential:
+          type: object
+          additionalProperties: true
+          description: WebAuthn attestation response from navigator.credentials.create().
+    PasskeyLoginStartRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        username:
+          type: string
+          description: Optional username hint. Empty requests create a discoverable login challenge without enumerating users.
+    PasskeyLoginStartResponse:
+      type: object
+      required: [challenge_token, expires_at, public_key]
+      properties:
+        challenge_token:
+          type: string
+          description: Short-lived one-time token returned only to the browser starting the login ceremony.
+        expires_at:
+          type: string
+          format: date-time
+        public_key:
+          type: object
+          additionalProperties: true
+          description: PublicKeyCredentialRequestOptions for navigator.credentials.get().
+    PasskeyLoginFinishRequest:
+      type: object
+      additionalProperties: false
+      required: [challenge_token, credential]
+      properties:
+        challenge_token:
+          type: string
+          description: One-time login token returned by /auth/passkeys/login/start.
+        credential:
+          type: object
+          additionalProperties: true
+          description: WebAuthn assertion response from navigator.credentials.get().
+    SecuritySettings:
+      type: object
+      required: [password_min_length, password_hash, login_lockout_threshold, session_idle_timeout_min, session_absolute_lifetime_h, remember_me_enabled, mfa_mode]
+      additionalProperties: false
+      properties:
+        password_min_length:
+          type: integer
+          minimum: 12
+        password_hash:
+          enum: [argon2id]
+        login_lockout_threshold:
+          type: integer
+          minimum: 3
+        session_idle_timeout_min:
+          type: integer
+          minimum: 5
+        session_absolute_lifetime_h:
+          type: integer
+          minimum: 1
+        remember_me_enabled:
+          type: boolean
+          const: false
+        mfa_mode:
+          enum: [disabled, totp, passkey]
+        mfa_required_roles:
+          type: array
+          description: Empty means an enabled mfa_mode applies to all users. Otherwise only users with one of these roles must complete that MFA policy.
+          items:
+            type: string
+        mfa_supported_methods:
+          type: array
+          readOnly: true
+          items:
+            enum: [totp, passkey]
+        passkey_status:
+          enum: [planned, credential_store_ready, available]
+          readOnly: true
+          description: available means WebAuthn registration, passwordless login, and passkey-required login policy are available.
+        updated_at:
+          type: string
+          format: date-time
+    ServiceRegistrationRequest:
+      type: object
+      additionalProperties: false
+      required: [service_id, service_type, service_name, public_url, version, capabilities]
+      properties:
+        service_id:
+          type: string
+          minLength: 1
+        service_type:
+          enum: [discord_bot, encoder_recorder, worker, observability]
+        service_name:
+          type: string
+          minLength: 1
+        public_url:
+          type: string
+          format: uri
+          pattern: "^https?://"
+          description: Control Panel から到達可能な http/https absolute URL。
+        version:
+          type: string
+        capabilities:
+          type: object
+          additionalProperties: true
+    RegisteredService:
+      type: object
+      required: [service_id, service_type, service_name, public_url, version, status, capabilities, created_at, updated_at]
+      properties:
+        service_id:
+          type: string
+        service_type:
+          enum: [discord_bot, encoder_recorder, worker, observability]
+        service_name:
+          type: string
+        public_url:
+          type: string
+          format: uri
+          pattern: "^https?://"
+        version:
+          type: string
+        status:
+          enum: [unknown, pending, registered, assigned, online, offline, degraded, starting, stopping, restart_requested]
+        assignment_role:
+          enum: [primary, standby]
+          description: present only when returned as a stream assignment. Only primary services receive dispatch; standby services are failover candidates and cannot resolve stream-scoped runtime secrets until promoted.
+        last_heartbeat_at:
+          type: string
+          format: date-time
+          nullable: true
+        current_stream_id:
+          type: string
+          nullable: true
+        capabilities:
+          type: object
+          additionalProperties: true
+        metrics:
+          type: object
+          additionalProperties: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ServiceTokenCreateRequest:
+      type: object
+      additionalProperties: false
+      required: [service_type, scopes]
+      properties:
+        service_type:
+          enum: [discord_bot, encoder_recorder, worker, observability]
+        scopes:
+          type: array
+          items:
+            enum:
+              - service.register
+              - service.heartbeat
+              - service.logs.write
+              - service.status.write
+              - service.config.read
+              - service.secret.resolve
+              - worker.events.write
+              - encoder.status.write
+              - discord.status.write
+              - observability.ingest
+              - remediation.execute
+          uniqueItems: true
+        service_id:
+          type: string
+          description: Optional service ID to pre-create as a pending registry entry. Requires service.register scope.
+        service_name:
+          type: string
+        public_url:
+          type: string
+          format: uri
+          pattern: "^https?://"
+        version:
+          type: string
+        capabilities:
+          type: object
+          additionalProperties: true
+          description: Non-secret capability hints. Secret-like keys and values are redacted before persistence.
+    ServiceToken:
+      type: object
+      required: [id, service_type, scopes, created_at]
+      properties:
+        id:
+          type: string
+        service_type:
+          enum: [discord_bot, encoder_recorder, worker, observability]
+        scopes:
+          type: array
+          items:
+            type: string
+        revoked_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        token:
+          type: string
+          description: One-time raw token returned only on create or rotate responses. Never returned by list endpoints.
+    ServiceRemediationExecuteRequest:
+      type: object
+      additionalProperties: false
+      required: [action_id, action, incident_id, stream_id]
+      properties:
+        action_id:
+          type: string
+          minLength: 1
+          description: Remediation action ID created by Observability. Must be unique for each dispatch attempt.
+        action:
+          enum: [retry_gdrive_upload, retry_package_remux]
+        incident_id:
+          type: string
+          minLength: 1
+          description: Incident ID associated with the remediation action.
+        stream_id:
+          type: string
+          minLength: 1
+          description: Stream ID from the incident context.
+    StreamServiceAssignment:
+      type: object
+      description: Stream assignment returned to the authenticated service only. Primary services receive dispatch; standby services are failover candidates and cannot resolve stream-scoped secrets until promoted.
+      required: [stream_id, service_id, service_type, assignment_role, assigned_at]
+      properties:
+        stream_id:
+          type: string
+        service_id:
+          type: string
+        service_type:
+          enum: [discord_bot, encoder_recorder, worker, observability]
+        assignment_role:
+          enum: [primary, standby]
+        assigned_at:
+          type: string
+          format: date-time
+    ServiceAssignmentWriteRequest:
+      type: object
+      additionalProperties: false
+      required: [stream_id]
+      properties:
+        stream_id:
+          type: string
+          minLength: 1
+        assignment_role:
+          type: string
+          enum: [primary, standby]
+          default: primary
+          description: primary is dispatched on stream start; standby is registered as a failover candidate but is not started automatically.
+    DiscordConfig:
+      type: object
+      additionalProperties: false
+      required: [id, name, created_at, updated_at]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        service_id:
+          type: string
+          description: Discord Bot service allowed to receive this config through runtime config.
+        guild_id:
+          type: string
+        voice_channel_id:
+          type: string
+        text_channel_id:
+          type: string
+        bot_token_configured:
+          type: boolean
+        bot_token_fingerprint:
+          type: string
+        caption_enabled:
+          type: boolean
+        stt_profile_id:
+          type: string
+        reconnect_enabled:
+          type: boolean
+        reconnect_max_attempts:
+          type: integer
+          minimum: 1
+        reconnect_base_delay:
+          type: string
+          description: Go duration string for the initial voice rejoin backoff, for example 2s.
+        reconnect_max_delay:
+          type: string
+          description: Go duration string for the maximum voice rejoin backoff, for example 30s.
+        audio_forward_enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    DiscordConfigWriteRequest:
+      type: object
+      additionalProperties: false
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        service_id:
+          type: string
+        guild_id:
+          type: string
+        voice_channel_id:
+          type: string
+        text_channel_id:
+          type: string
+        bot_token:
+          type: string
+          writeOnly: true
+          description: Write-only Discord Bot token. Never returned by Control API, UI, logs, or audit metadata.
+        caption_enabled:
+          type: boolean
+        stt_profile_id:
+          type: string
+        reconnect_enabled:
+          type: boolean
+        reconnect_max_attempts:
+          type: integer
+          minimum: 1
+        reconnect_base_delay:
+          type: string
+          description: Go duration string for the initial voice rejoin backoff, for example 2s.
+        reconnect_max_delay:
+          type: string
+          description: Go duration string for the maximum voice rejoin backoff, for example 30s.
+        audio_forward_enabled:
+          type: boolean
+    YouTubeOutput:
+      type: object
+      additionalProperties: false
+      required: [id, name, mode, created_at, updated_at]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        mode:
+          type: string
+          enum: [stream_key, live_api_dry_run, live_api]
+        rtmp_url:
+          type: string
+          pattern: "^rtmps://"
+          description: Returned without the stream key. Runtime stream keys are delivered only to the assigned Encoder/Recorder.
+        stream_key_configured:
+          type: boolean
+        stream_key_fingerprint:
+          type: string
+        oauth_account_id:
+          type: string
+        broadcast_title_template:
+          type: string
+        broadcast_description:
+          type: string
+        privacy_status:
+          type: string
+          enum: [private, unlisted, public]
+        latency_preference:
+          type: string
+          enum: [normal, low, ultra_low]
+        enable_auto_start:
+          type: boolean
+        enable_auto_stop:
+          type: boolean
+        complete_on_stop:
+          type: boolean
+          description: When true, Control Panel completes the YouTube Live broadcast during normal stream stop.
+        complete_retry_count:
+          type: integer
+          minimum: 0
+          description: Number of failed YouTube Live API complete attempts retained for automatic backoff retry.
+        complete_next_retry_at:
+          type: string
+          format: date-time
+          description: Next automatic YouTube Live API complete retry time, when a retained runtime is waiting for retry.
+        complete_last_error:
+          type: string
+          description: Safe error code from the latest YouTube Live API complete failure. Raw OAuth or stream key material must not be included.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    YouTubeOutputWriteRequest:
+      type: object
+      additionalProperties: false
+      required: [name, mode]
+      oneOf:
+        - required: [name, mode]
+          properties:
+            mode:
+              enum: [stream_key]
+        - required: [name, mode, oauth_account_id]
+          properties:
+            mode:
+              enum: [live_api_dry_run, live_api]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        mode:
+          type: string
+          enum: [stream_key, live_api_dry_run, live_api]
+        rtmp_url:
+          type: string
+          pattern: "^rtmps://"
+        stream_key:
+          type: string
+          writeOnly: true
+          description: Write-only secret. Required when creating stream_key outputs, optional on update to keep the existing encrypted key. Never returned by Control API, UI, logs, or audit metadata.
+        oauth_account_id:
+          type: string
+          minLength: 1
+          description: Required for live_api and live_api_dry_run modes.
+        broadcast_title_template:
+          type: string
+        broadcast_description:
+          type: string
+        privacy_status:
+          type: string
+          enum: [private, unlisted, public]
+        latency_preference:
+          type: string
+          enum: [normal, low, ultra_low]
+        enable_auto_start:
+          type: boolean
+        enable_auto_stop:
+          type: boolean
+        complete_on_stop:
+          type: boolean
+          description: When true, Control Panel completes the YouTube Live broadcast during normal stream stop.
+    YouTubeRuntimeConfig:
+      type: object
+      additionalProperties: false
+      required: [mode]
+      properties:
+        mode:
+          type: string
+          enum: [stream_key, live_api_dry_run, live_api]
+        output_id:
+          type: string
+        oauth_account_id:
+          type: string
+        broadcast_id:
+          type: string
+        live_stream_id:
+          type: string
+        rtmp_url:
+          type: string
+          pattern: "^rtmps://"
+          description: Prepared RTMPS ingest URL for recovering an active YouTube Live API runtime. Stream key material remains in stream_key_secret_name.
+        stream_key_secret_name:
+          type: string
+          description: Short-lived runtime secret reference for YouTube Live API stream key. The raw key must not be included in this object.
+        watch_url:
+          type: string
+          format: uri
+        dry_run:
+          type: boolean
+        complete_on_stop:
+          type: boolean
+          description: When true, Control Panel completes the YouTube Live broadcast during normal stream stop.
+    Profile:
+      type: object
+      required: [id, kind, name, config, created_at, updated_at]
+      properties:
+        id:
+          type: string
+        kind:
+          enum: [encoder, archive, caption, overlay, discord_config, youtube_output]
+        name:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+          description: Secret references may be present, but raw secret values must not be returned.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ServiceRuntimeConfig:
+      type: object
+      description: Runtime config for the authenticated service. It contains only public service metadata, that service's assignments, and Control Panel-managed non-secret profiles filtered to that service.
+      required: [service, assignments, profiles]
+      properties:
+        service:
+          $ref: "#/components/schemas/RegisteredService"
+        assignments:
+          type: array
+          items:
+            $ref: "#/components/schemas/StreamServiceAssignment"
+        profiles:
+          type: object
+          description: Non-secret runtime profiles. Raw bot tokens, stream keys, refresh tokens, Drive folder IDs, webhook URLs, SMTP settings, and credential material must be represented only by configured status, fingerprints, or runtime secret reference names.
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/Profile"
+        stream_discord_configs:
+          type: array
+          description: Resolved per-stream Discord guild/channel settings for the authenticated Discord Bot service only. Raw bot tokens are never included.
+          items:
+            type: object
+            additionalProperties: false
+            required: [stream_id, assignment_role, discord_config_id, guild_id, voice_channel_id]
+            properties:
+              stream_id:
+                type: string
+              assignment_role:
+                type: string
+                enum: [primary, standby]
+              discord_config_id:
+                type: string
+              guild_id:
+                type: string
+              voice_channel_id:
+                type: string
+              text_channel_id:
+                type: string
+              caption_audio_url:
+                type: string
+                format: uri
+        stream_archive_configs:
+          type: array
+          description: Resolved per-stream archive settings for the authenticated Encoder/Recorder service only. It includes runtime secret reference names and shared-drive flags, but never raw Drive folder IDs, OAuth refresh tokens, client secrets, or credential JSON.
+          items:
+            type: object
+            additionalProperties: false
+            required: [stream_id, assignment_role, archive_profile_id, ready]
+            properties:
+              stream_id:
+                type: string
+              assignment_role:
+                type: string
+                enum: [primary, standby]
+              archive_profile_id:
+                type: string
+              ready:
+                type: boolean
+              readiness_code:
+                type: string
+              readiness_message:
+                type: string
+              archive_config:
+                type: object
+                description: Non-secret archive dispatch config. Secret material is represented by *_secret_name fields only.
+                additionalProperties: true
+                properties:
+                  drive_destination_id:
+                    type: string
+                  archive_profile_id:
+                    type: string
+                  auth_mode:
+                    type: string
+                    enum: [oauth2, service_account]
+                  oauth_account_id:
+                    type: string
+                  oauth_provider_id:
+                    type: string
+                  folder_id_secret_name:
+                    type: string
+                  service_account_credentials_secret_name:
+                    type: string
+                  service_account_json_secret_name:
+                    type: string
+                  base_path:
+                    type: string
+                  shared_drive:
+                    type: boolean
+                  client_id:
+                    type: string
+                  client_secret_secret_name:
+                    type: string
+                  refresh_token_secret_name:
+                    type: string
+        stream_youtube_configs:
+          type: array
+          description: Resolved per-stream YouTube output settings for the authenticated Encoder/Recorder service only. It includes RTMPS endpoint metadata and runtime secret reference names, but never raw stream keys, OAuth refresh tokens, or YouTube credential material.
+          items:
+            type: object
+            additionalProperties: false
+            required: [stream_id, assignment_role, youtube_output_id, ready]
+            properties:
+              stream_id:
+                type: string
+              assignment_role:
+                type: string
+                enum: [primary, standby]
+              youtube_output_id:
+                type: string
+              ready:
+                type: boolean
+              readiness_code:
+                type: string
+              readiness_message:
+                type: string
+              youtube_config:
+                type: object
+                description: Non-secret YouTube dispatch config. Stream key material is represented by stream_key_secret_name only.
+                additionalProperties: true
+                properties:
+                  mode:
+                    type: string
+                    enum: [stream_key, live_api, live_api_dry_run]
+                  output_id:
+                    type: string
+                  rtmp_url:
+                    type: string
+                    pattern: "^rtmps://"
+                  stream_key_secret_name:
+                    type: string
+                  oauth_account_id:
+                    type: string
+                  broadcast_title_template:
+                    type: string
+                  broadcast_description:
+                    type: string
+                  privacy_status:
+                    type: string
+                    enum: [private, unlisted, public]
+                  latency_preference:
+                    type: string
+                    enum: [normal, low, ultra_low]
+                  enable_auto_start:
+                    type: boolean
+                  enable_auto_stop:
+                    type: boolean
+                  complete_on_stop:
+                    type: boolean
+              active_runtime:
+                type: object
+                description: Current non-secret YouTube runtime state. Runtime stream keys are represented by stream_key_secret_name only.
+                additionalProperties: true
+                properties:
+                  mode:
+                    type: string
+                  output_id:
+                    type: string
+                  oauth_account_id:
+                    type: string
+                  broadcast_id:
+                    type: string
+                  live_stream_id:
+                    type: string
+                  rtmp_url:
+                    type: string
+                    pattern: "^rtmps://"
+                  stream_key_secret_name:
+                    type: string
+                  dry_run:
+                    type: boolean
+                  complete_on_stop:
+                    type: boolean
+    ServiceRuntimeSecretResolveRequest:
+      type: object
+      additionalProperties: false
+      required: [service_id, secret_name]
+      properties:
+        service_id:
+          type: string
+          minLength: 1
+        stream_id:
+          type: string
+          description: Required for stream-scoped integration secrets such as Drive destination folder IDs.
+        archive_profile_id:
+          type: string
+          description: Required for archive runtime secret references delivered in Encoder/Recorder start payloads.
+        secret_name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          description: Secret reference name previously returned in the authenticated service runtime config.
+    ServiceRuntimeSecretResolveResponse:
+      type: object
+      additionalProperties: false
+      required: [secret_name, value, expires_in_sec]
+      properties:
+        secret_name:
+          type: string
+        value:
+          type: string
+          description: Raw runtime secret. This is returned only to the authenticated service and must not be reused in UI, audit metadata, diagnostics, or logs.
+        expires_in_sec:
+          type: integer
+          minimum: 1
+          description: Lease lifetime for this resolved value. During this window, the same service/context/secret returns runtime_secret_lease_active instead of the raw value.
+    StreamArtifact:
+      type: object
+      additionalProperties: false
+      required: [kind, name, relative_path, size_bytes]
+      oneOf:
+        - properties: {kind: {const: archive}, name: {const: final.mp4}}
+        - properties: {kind: {const: caption}, name: {const: captions.vtt}}
+        - properties: {kind: {const: transcript}, name: {const: transcript.json}}
+        - properties: {kind: {const: metadata}, name: {const: metadata.json}}
+        - properties: {kind: {const: logs}, name: {const: logs.jsonl}}
+      properties:
+        kind:
+          enum: [archive, caption, transcript, metadata, logs]
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          pattern: "^[^/\\\\]+$"
+        relative_path:
+          type: string
+          minLength: 1
+          maxLength: 1024
+          pattern: "^final/[^/\\\\]+/[^/\\\\]+$"
+          description: Logical final/{stream_id}/{name} path; the server verifies the embedded stream and file name.
+        size_bytes:
+          type: integer
+          minimum: 0
+    ServiceArtifactReport:
+      type: object
+      additionalProperties: false
+      required: [service_id, stream_id, artifacts]
+      properties:
+        service_id:
+          type: string
+          minLength: 1
+        stream_id:
+          type: string
+          minLength: 1
+        artifacts:
+          type: array
+          minItems: 1
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/StreamArtifact"
+    NotificationChannelWriteRequest:
+      type: object
+      required: [name, type, enabled]
+      properties:
+        name:
+          type: string
+        type:
+          enum: [discord, slack, generic, email]
+        enabled:
+          type: boolean
+        webhook_url:
+          type: string
+          format: uri
+          pattern: "^https?://"
+          writeOnly: true
+          description: Write-only secret. Only http/https absolute URLs are accepted.
+        email_recipients:
+          type: array
+          items:
+            type: string
+            format: email
+        smtp_host:
+          type: string
+        smtp_port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+        smtp_tls:
+          type: boolean
+        smtp_from:
+          type: string
+          format: email
+        smtp_username:
+          type: string
+        smtp_password:
+          type: string
+          writeOnly: true
+          description: Write-only SMTP password. It is encrypted at rest and never returned.
+        severity_filter:
+          type: array
+          items:
+            enum: [info, warning, error, critical]
+        event_type_filter:
+          type: array
+          items:
+            type: string
+    NotificationChannel:
+      type: object
+      additionalProperties: false
+      required: [id, name, type, enabled, created_at, updated_at]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          enum: [discord, slack, generic, email]
+        enabled:
+          type: boolean
+        masked_webhook_url:
+          type: string
+          description: Raw webhook URL is never returned.
+        smtp_password_configured:
+          type: boolean
+          description: Indicates whether an SMTP password is configured without exposing the password.
+        masked_email_target:
+          type: string
+          description: Raw email recipients and SMTP settings are never returned as unmasked response fields.
+        severity_filter:
+          type: array
+          items:
+            enum: [info, warning, error, critical]
+        event_type_filter:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    OAuthLoginProvider:
+      type: object
+      additionalProperties: false
+      required: [id, provider_type, name, scopes, redirect_uri]
+      properties:
+        id: {type: string}
+        provider_type:
+          enum: [google, github, discord]
+        name: {type: string}
+        scopes:
+          type: array
+          items: {type: string}
+        redirect_uri:
+          type: string
+          format: uri
+    OAuthLoginStartRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        redirect_after:
+          type: string
+          description: same-site relative path to return to after login
+    OAuthLoginStartResponse:
+      type: object
+      additionalProperties: false
+      required: [provider, authorization_url, state, nonce, expires_at]
+      properties:
+        provider:
+          $ref: "#/components/schemas/OAuthLoginProvider"
+        authorization_url:
+          type: string
+          format: uri
+        state:
+          type: string
+          description: one-time OAuth state token; stored hashed server-side
+        nonce:
+          type: string
+          description: one-time nonce for OIDC-capable providers
+        expires_at:
+          type: string
+          format: date-time
+    OAuthLoginCallbackRequest:
+      type: object
+      additionalProperties: false
+      required: [state, code]
+      properties:
+        provider_id: {type: string}
+        state: {type: string}
+        code:
+          type: string
+          writeOnly: true
+    OAuthUserLink:
+      type: object
+      additionalProperties: false
+      required: [id, user_id, provider_id, provider_type, subject, created_at, updated_at]
+      properties:
+        id: {type: string}
+        user_id: {type: string}
+        provider_id: {type: string}
+        provider_type:
+          enum: [google, github, discord]
+        subject: {type: string}
+        email: {type: string}
+        created_at: {type: string, format: date-time}
+        updated_at: {type: string, format: date-time}
+    OAuthUserLinkWriteRequest:
+      description: |
+        Legacy administrative shape. Production links must be created through
+        the OAuth callback ceremony; manual subject entry is disabled by the
+        Control Panel and returns manual_oauth_link_disabled.
+      type: object
+      additionalProperties: false
+      required: [provider_id, subject]
+      properties:
+        provider_id: {type: string}
+        provider_type:
+          enum: [google, github, discord]
+        subject: {type: string}
+        email: {type: string}
+    OAuthProvider:
+      type: object
+      additionalProperties: false
+      required: [id, provider_type, name, enabled, client_id, client_secret_configured, scopes, allowed_domains, auto_provision, redirect_uri, created_at, updated_at]
+      properties:
+        id: {type: string}
+        provider_type:
+          enum: [google, github, discord]
+        name: {type: string}
+        enabled: {type: boolean}
+        client_id: {type: string}
+        client_secret_configured: {type: boolean}
+        scopes:
+          type: array
+          items: {type: string}
+        allowed_domains:
+          type: array
+          items: {type: string}
+        auto_provision:
+          type: boolean
+          description: When true, an allowed but unlinked OAuth identity may create a local user with default_role_ids on first login.
+        default_role_ids:
+          type: array
+          items: {type: string}
+          description: Role IDs assigned to auto-provisioned users. Raw permissions are resolved server-side.
+        redirect_uri:
+          type: string
+          format: uri
+        created_at: {type: string, format: date-time}
+        updated_at: {type: string, format: date-time}
+    OAuthProviderWriteRequest:
+      type: object
+      additionalProperties: false
+      description: >
+        OAuth provider configuration. Login providers use /auth/oauth/callback.
+        Google connected accounts for Drive/YouTube use /integrations/oauth-accounts/callback;
+        that path requires provider_type=google, a Drive or YouTube API scope,
+        and no auto_provision/default_role_ids.
+      required: [provider_type, name, enabled, client_id, redirect_uri]
+      properties:
+        provider_type:
+          enum: [google, github, discord]
+        name: {type: string}
+        enabled: {type: boolean}
+        client_id: {type: string}
+        client_secret:
+          type: string
+          writeOnly: true
+          description: encrypted at rest; never returned by API
+        scopes:
+          type: array
+          items: {type: string}
+        allowed_domains:
+          type: array
+          items: {type: string}
+        auto_provision:
+          type: boolean
+          description: Enable first-login user creation for allowed OAuth identities.
+        default_role_ids:
+          type: array
+          items: {type: string}
+          description: Required when auto_provision is true. Server requires roles.assign for this field.
+        redirect_uri:
+          type: string
+          format: uri
+          description: Must match AUTOSTREAM_PUBLIC_URL scheme/host in production.
+    OAuthAccount:
+      type: object
+      additionalProperties: false
+      required: [id, provider_id, provider_type, account_label, scopes, refresh_token_configured, created_at, updated_at]
+      properties:
+        id: {type: string}
+        provider_id: {type: string}
+        provider_type:
+          enum: [google, github, discord]
+        account_label: {type: string}
+        subject: {type: string}
+        email: {type: string}
+        scopes:
+          type: array
+          items: {type: string}
+        refresh_token_configured: {type: boolean}
+        token_fingerprint:
+          type: string
+          description: short fingerprint for change tracking, not a secret value
+        created_at: {type: string, format: date-time}
+        updated_at: {type: string, format: date-time}
+    OAuthAccountWriteRequest:
+      type: object
+      deprecated: true
+      description: >
+        Legacy manual import shape. The Control Panel rejects normal API calls
+        that try to create connected accounts or update refresh tokens manually;
+        connected accounts are created by OAuth callback only.
+      additionalProperties: false
+      required: [provider_id, provider_type, account_label]
+      properties:
+        provider_id: {type: string}
+        provider_type:
+          enum: [google, github, discord]
+        account_label: {type: string}
+        subject: {type: string}
+        email: {type: string}
+        scopes:
+          type: array
+          items: {type: string}
+        refresh_token:
+          type: string
+          writeOnly: true
+          description: manual refresh token input is disabled; callback stores it encrypted at rest
+    OAuthAccountLabelUpdateRequest:
+      type: object
+      additionalProperties: false
+      required: [account_label]
+      properties:
+        account_label:
+          type: string
+          description: Operator-facing label. Provider identity, scopes, and refresh token remain immutable outside OAuth callback.
+    OAuthAccountConnectionStartRequest:
+      type: object
+      additionalProperties: false
+      required: [provider_id]
+      properties:
+        provider_id:
+          type: string
+          description: OAuth provider configured in the Integration Registry
+        account_label:
+          type: string
+          description: optional operator label; callback may derive a label from the verified email
+        redirect_after:
+          type: string
+          description: safe local path to redirect to after browser callback
+    OAuthAccountConnectionStartResponse:
+      type: object
+      additionalProperties: false
+      required: [provider, authorization_url, state, nonce, expires_at]
+      properties:
+        provider:
+          $ref: "#/components/schemas/OAuthLoginProvider"
+        authorization_url:
+          type: string
+          description: one-time authorization URL with offline consent for Google connected accounts
+        state:
+          type: string
+          description: one-time state token
+        nonce:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+        account_label:
+          type: string
+    OAuthAccountConnectionCallbackRequest:
+      type: object
+      additionalProperties: false
+      required: [state, code]
+      properties:
+        provider_id:
+          type: string
+          description: optional explicit provider id; must match state when supplied
+        state:
+          type: string
+        code:
+          type: string
+        account_label:
+          type: string
+    DriveDestination:
+      type: object
+      additionalProperties: false
+      required: [id, name, auth_mode, folder_id_configured, shared_drive, base_path, created_at, updated_at]
+      properties:
+        id: {type: string}
+        name: {type: string}
+        auth_mode:
+          enum: [oauth2, service_account]
+        oauth_account_id: {type: string}
+        folder_id_configured: {type: boolean}
+        folder_id_fingerprint:
+          type: string
+          description: short fingerprint for change tracking, not the raw folder ID
+        masked_folder_id: {type: string}
+        shared_drive:
+          type: boolean
+          description: use supportsAllDrives=true when uploading
+        base_path: {type: string}
+        created_at: {type: string, format: date-time}
+        updated_at: {type: string, format: date-time}
+    DriveDestinationWriteRequest:
+      type: object
+      additionalProperties: false
+      required: [name, auth_mode]
+      oneOf:
+        - required: [name, auth_mode, oauth_account_id]
+          properties:
+            auth_mode:
+              enum: [oauth2]
+        - required: [name, auth_mode]
+          properties:
+            auth_mode:
+              enum: [service_account]
+      properties:
+        name: {type: string}
+        auth_mode:
+          enum: [oauth2, service_account]
+        oauth_account_id:
+          type: string
+          minLength: 1
+          description: Required for oauth2 destinations and must reference a Google connected account with Drive scope.
+        folder_id:
+          type: string
+          writeOnly: true
+          description: required when creating a destination, optional when updating an existing destination, encrypted at rest, and never returned by API
+        shared_drive:
+          type: boolean
+        base_path:
+          type: string
+    StartStreamRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        discord_config_id:
+          type: string
+          description: Discord Bot Config selected for this stream. Required before stream-specific guild/channel overrides can be used. Control Panel resolves guild/channel server-side and verifies it matches the assigned primary Discord Bot service.
+        discord_guild_id:
+          type: string
+          description: Stream-specific Discord guild ID override. Valid only with discord_config_id. If omitted, the selected Discord Config default is used.
+        discord_voice_channel_id:
+          type: string
+          description: Stream-specific Discord voice channel ID override. Valid only with discord_config_id. If omitted, the selected Discord Config default is used.
+        discord_text_channel_id:
+          type: string
+          description: Optional stream-specific Discord text channel ID override. Valid only with discord_config_id. If omitted, the selected Discord Config default is used.
+        encoder_input_url:
+          type: string
+        encoder_rtmp_url:
+          type: string
+        encoder_profile_id:
+          type: string
+        caption_profile_id:
+          type: string
+        overlay_profile_id:
+          type: string
+        archive_profile_id:
+          type: string
+        youtube_output_id:
+          type: string
+          description: YouTube output profile selected for this stream. Stream key is resolved server-side from a secret reference and is never accepted or returned by the public Control API.
+    StreamSettingsWriteRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        discord_config_id:
+          type: string
+          description: Control Panel managed Discord Bot Config. Required when Discord guild/channel overrides are provided.
+        discord_guild_id:
+          type: string
+          description: Stream-specific Discord guild ID override. Valid only with discord_config_id.
+        discord_voice_channel_id:
+          type: string
+          description: Stream-specific Discord voice channel ID override. Valid only with discord_config_id.
+        discord_text_channel_id:
+          type: string
+          description: Optional stream-specific Discord text channel ID override. Valid only with discord_config_id.
+        encoder_profile_id:
+          type: string
+        caption_profile_id:
+          type: string
+        overlay_profile_id:
+          type: string
+        archive_profile_id:
+          type: string
+        youtube_output_id:
+          type: string
+        encoder_input_url:
+          type: string
+    StreamWriteRequest:
+      type: object
+      additionalProperties: false
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        discord_config_id:
+          type: string
+          description: Control Panel managed Discord Bot Config. Required when Discord guild/channel overrides are provided.
+        discord_guild_id:
+          type: string
+          description: Stream-specific Discord guild ID override. Valid only with discord_config_id.
+        discord_voice_channel_id:
+          type: string
+          description: Stream-specific Discord voice channel ID override. Valid only with discord_config_id.
+        discord_text_channel_id:
+          type: string
+          description: Optional stream-specific Discord text channel ID override. Valid only with discord_config_id.
+        encoder_profile_id:
+          type: string
+        caption_profile_id:
+          type: string
+        overlay_profile_id:
+          type: string
+        archive_profile_id:
+          type: string
+        youtube_output_id:
+          type: string
+        encoder_input_url:
+          type: string
+    MissingStreamAssignmentsResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - missing_service_types
+      properties:
+        code:
+          type: string
+          enum:
+            - missing_stream_assignments
+        missing_service_types:
+          type: array
+          items:
+            type: string
+            enum:
+              - discord_bot
+              - worker
+              - encoder_recorder
+    ReadinessIssue:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - message
+      properties:
+        service_id:
+          type: string
+        service_type:
+          type: string
+        code:
+          type: string
+          enum:
+            - missing_stream_assignments
+            - service_call_token_missing
+            - service_public_url_invalid
+            - service_public_url_blocked
+            - encoder_public_url_missing
+            - encoder_public_url_invalid
+            - encoder_public_url_blocked
+            - service_offline
+            - service_heartbeat_stale
+            - discord_audio_forward_unavailable
+            - discord_audio_capture_unavailable
+            - discord_config_required
+            - discord_config_not_found
+            - discord_config_invalid
+            - discord_config_service_mismatch
+            - youtube_output_not_found
+            - youtube_output_invalid_config
+            - youtube_stream_key_unavailable
+            - youtube_live_api_unavailable
+            - youtube_oauth_account_unavailable
+            - archive_profile_not_found
+            - archive_profile_invalid_config
+            - drive_destination_not_found
+            - drive_destination_unavailable
+            - drive_oauth_account_unavailable
+        message:
+          type: string
+    StartReadinessResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - stream_id
+        - ready
+        - missing_service_types
+        - issues
+        - assigned_service_count
+        - primary_service_count
+      properties:
+        stream_id:
+          type: string
+        ready:
+          type: boolean
+        missing_service_types:
+          type: array
+          items:
+            type: string
+            enum:
+              - discord_bot
+              - worker
+              - encoder_recorder
+        issues:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReadinessIssue"
+        assigned_service_count:
+          type: integer
+          minimum: 0
+        primary_service_count:
+          type: integer
+          minimum: 0
+          description: Number of primary assignments eligible for start dispatch. Standby assignments are listed but excluded until promoted.
+        assignments:
+          type: array
+          description: Public registered service summaries. Service token binding IDs and raw tokens are never returned.
+          items:
+            $ref: "#/components/schemas/RegisteredService"
+    ExternalE2EConfigResponse:
+      type: object
+      additionalProperties: false
+      required: [schema_version, stream_id, runtime_config, service_assignments, confirmations, readiness]
+      properties:
+        schema_version:
+          type: integer
+          enum: [1]
+          description: Version of the non-secret external verification confirmation export schema.
+        stream_id:
+          type: string
+        runtime_config:
+          type: object
+          additionalProperties: false
+          description: Control Panel-managed runtime config IDs only. Raw Discord channel IDs, Drive folder IDs, OAuth tokens, RTMPS URLs, stream keys, and session cookies are never returned.
+          required: [youtube_output_id, drive_destination_id, discord_config_id, encoder_profile_id, archive_profile_id]
+          properties:
+            youtube_output_id:
+              type: string
+            drive_destination_id:
+              type: string
+            discord_config_id:
+              type: string
+            encoder_profile_id:
+              type: string
+            archive_profile_id:
+              type: string
+        service_assignments:
+          type: object
+          additionalProperties: false
+          description: Assigned service IDs only. Service token binding IDs and raw service tokens are never returned.
+          required: [discord_bot_service_id, encoder_recorder_primary_service_id, worker_primary_service_id, encoder_recorder_standby_service_id, worker_standby_service_id]
+          properties:
+            discord_bot_service_id:
+              type: string
+            encoder_recorder_primary_service_id:
+              type: string
+            worker_primary_service_id:
+              type: string
+            encoder_recorder_standby_service_id:
+              type: string
+            worker_standby_service_id:
+              type: string
+        confirmations:
+          type: object
+          additionalProperties: false
+          required: [youtube_output_saved, drive_destination_saved, discord_config_saved, primary_assignments_saved, runtime_config_distribution_enabled]
+          properties:
+            youtube_output_saved:
+              type: boolean
+            drive_destination_saved:
+              type: boolean
+            discord_config_saved:
+              type: boolean
+            primary_assignments_saved:
+              type: boolean
+            runtime_config_distribution_enabled:
+              type: boolean
+        readiness:
+          type: object
+          additionalProperties: false
+          description: Secret-safe external verification readiness summary. Missing lists contain field names, service types, or capability names only.
+          required: [ready, missing_confirmations, missing_runtime_ids, missing_primary_services, missing_runtime_config_capabilities]
+          properties:
+            ready:
+              type: boolean
+            missing_confirmations:
+              type: array
+              items:
+                type: string
+            missing_runtime_ids:
+              type: array
+              items:
+                type: string
+            missing_primary_services:
+              type: array
+              items:
+                type: string
+            missing_runtime_config_capabilities:
+              type: array
+              items:
+                type: string

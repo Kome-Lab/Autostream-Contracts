@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ObservabilitySignal",
+  "type": "object",
+  "required": ["type", "name", "service_id", "service_type"],
+  "additionalProperties": false,
+  "properties": {
+    "type": {
+      "enum": [
+        "heartbeat",
+        "metric",
+        "log",
+        "event",
+        "warning",
+        "error",
+        "incident",
+        "diagnostic_report",
+        "remediation_action",
+        "notification_event"
+      ]
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "service_id": { "type": "string", "minLength": 1 },
+    "service_type": {
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+    },
+    "stream_id": { "type": "string" },
+    "status": { "type": "string" },
+    "value": { "type": "number" },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/youtube-runtime-config.schema.json",
+  "title": "YouTubeRuntimeConfig",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mode"],
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["stream_key", "live_api_dry_run", "live_api"]
+    },
+    "output_id": {
+      "type": "string"
+    },
+    "oauth_account_id": {
+      "type": "string"
+    },
+    "broadcast_id": {
+      "type": "string"
+    },
+    "live_stream_id": {
+      "type": "string"
+    },
+    "rtmp_url": {
+      "type": "string",
+      "pattern": "^rtmps://",
+      "description": "Prepared RTMPS ingest URL for recovering an active YouTube Live API runtime. Stream key material must remain in stream_key_secret_name."
+    },
+    "stream_key_secret_name": {
+      "type": "string",
+      "description": "Short-lived runtime secret reference for YouTube Live API stream key. The raw key must not be included in this object."
+    },
+    "watch_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "dry_run": {
+      "type": "boolean"
+    },
+    "complete_on_stop": {
+      "type": "boolean",
+      "description": "When true, Control Panel completes the YouTube Live broadcast during normal stream stop. Manual retry and cleanup may force completion."
+    },
+    "complete_retry_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of failed YouTube Live API complete attempts retained for automatic backoff retry."
+    },
+    "complete_next_retry_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Next automatic YouTube Live API complete retry time, when a retained runtime is waiting for retry."
+    },
+    "complete_last_error": {
+      "type": "string",
+      "description": "Safe error code from the latest YouTube Live API complete failure. Raw OAuth or stream key material must not be included."
+    }
+  }
+}

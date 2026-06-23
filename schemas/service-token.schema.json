@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServiceToken",
+  "type": "object",
+  "required": ["id", "service_type", "scopes", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "service_type": {
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "service.register",
+          "service.heartbeat",
+          "service.logs.write",
+          "service.status.write",
+          "service.config.read",
+          "service.secret.resolve",
+          "worker.events.write",
+          "encoder.status.write",
+          "discord.status.write",
+          "observability.ingest",
+          "remediation.execute"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "revoked_at": { "type": "string", "format": "date-time" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "token": {
+      "type": "string",
+      "description": "Returned only once when created or rotated. Never returned from list endpoints."
+    }
+  }
+}

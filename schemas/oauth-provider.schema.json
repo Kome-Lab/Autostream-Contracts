@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-provider.schema.json",
+  "type": "object",
+  "required": ["id", "provider_type", "name", "enabled", "client_id", "client_secret_configured", "scopes", "allowed_domains", "auto_provision", "redirect_uri", "created_at", "updated_at"],
+  "properties": {
+    "id": { "type": "string" },
+    "provider_type": { "type": "string", "enum": ["google", "github", "discord"] },
+    "name": { "type": "string" },
+    "enabled": { "type": "boolean" },
+    "client_id": { "type": "string" },
+    "client_secret_configured": { "type": "boolean" },
+    "scopes": { "type": "array", "items": { "type": "string" } },
+    "allowed_domains": { "type": "array", "items": { "type": "string" } },
+    "auto_provision": {
+      "type": "boolean",
+      "description": "When true, first login from an allowed but unlinked identity may create a local user with default_role_ids."
+    },
+    "default_role_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Role IDs assigned to auto-provisioned users. Requires roles.assign when configured."
+    },
+    "redirect_uri": { "type": "string", "format": "uri" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

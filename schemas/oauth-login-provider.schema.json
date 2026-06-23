@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-login-provider.schema.json",
+  "title": "OAuthLoginProvider",
+  "type": "object",
+  "required": ["id", "provider_type", "name", "scopes", "redirect_uri"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "provider_type": {
+      "type": "string",
+      "enum": ["google", "github", "discord"],
+      "description": "Login provider type. Operational Google connected accounts are represented by oauth-account.schema.json instead."
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "scopes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "redirect_uri": {
+      "type": "string",
+      "format": "uri",
+      "description": "Configured login callback URI. Client secret and token endpoint credentials are never returned in this public login provider shape."
+    }
+  }
+}

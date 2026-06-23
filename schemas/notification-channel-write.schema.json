@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NotificationChannelWriteRequest",
+  "type": "object",
+  "required": ["name", "type", "enabled"],
+  "additionalProperties": false,
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "type": { "enum": ["discord", "slack", "generic", "email"] },
+    "enabled": { "type": "boolean" },
+    "webhook_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://",
+      "writeOnly": true,
+      "description": "Write-only Discord, Slack, or generic webhook URL. It is encrypted at rest and never returned raw by API, UI, logs, audit metadata, delivery history, or diagnostics."
+    },
+    "email_recipients": {
+      "type": "array",
+      "items": { "type": "string", "format": "email" },
+      "uniqueItems": true
+    },
+    "smtp_host": { "type": "string" },
+    "smtp_port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+    "smtp_tls": { "type": "boolean" },
+    "smtp_from": { "type": "string", "format": "email" },
+    "smtp_username": { "type": "string" },
+    "smtp_password": {
+      "type": "string",
+      "writeOnly": true
+    },
+    "severity_filter": {
+      "type": "array",
+      "items": { "enum": ["info", "warning", "error", "critical"] },
+      "uniqueItems": true
+    },
+    "event_type_filter": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    }
+  }
+}

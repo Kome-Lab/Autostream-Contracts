@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Heartbeat",
+  "type": "object",
+  "required": ["service_id", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "service_id": { "type": "string", "minLength": 1 },
+    "current_stream_id": { "type": "string" },
+    "status": {
+      "enum": ["unknown", "online", "degraded", "offline", "ready", "running", "stopping", "failed"]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "timestamp": { "type": "string", "format": "date-time" }
+  }
+}

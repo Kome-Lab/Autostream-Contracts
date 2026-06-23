@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Profile",
+  "type": "object",
+  "required": ["id", "kind", "name", "config", "created_at", "updated_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "kind": {
+      "enum": ["encoder", "archive", "caption", "overlay", "discord_config", "youtube_output"]
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "config": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Profile-specific configuration. Raw secrets must not be stored here."
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

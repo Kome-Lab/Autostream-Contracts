@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/discord-config.schema.json",
+  "title": "DiscordConfig",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "created_at", "updated_at"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "service_id": { "type": "string" },
+    "guild_id": { "type": "string" },
+    "voice_channel_id": { "type": "string" },
+    "text_channel_id": { "type": "string" },
+    "bot_token_configured": { "type": "boolean" },
+    "bot_token_fingerprint": { "type": "string" },
+    "caption_enabled": { "type": "boolean" },
+    "stt_profile_id": { "type": "string" },
+    "reconnect_enabled": { "type": "boolean" },
+    "reconnect_max_attempts": { "type": "integer", "minimum": 1 },
+    "reconnect_base_delay": { "type": "string" },
+    "reconnect_max_delay": { "type": "string" },
+    "audio_forward_enabled": { "type": "boolean" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

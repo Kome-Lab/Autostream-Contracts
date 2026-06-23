@@ -1,0 +1,317 @@
+openapi: 3.1.0
+info:
+  title: AutoStream Observability API
+  version: 0.2.0
+servers:
+  - url: https://observability.example.com
+security:
+  - bearerToken: []
+paths:
+  /health:
+    get:
+      security: []
+      responses:
+        "200":
+          description: healthy
+  /status:
+    get:
+      security: []
+      responses:
+        "200":
+          description: service status
+  /heartbeat:
+    post:
+      responses:
+        "202":
+          description: heartbeat accepted
+  /signals:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObservabilitySignal"
+      responses:
+        "202":
+          description: signal accepted; incidents may be returned
+    get:
+      responses:
+        "200":
+          description: recent signals
+  /metrics:
+    get:
+      responses:
+        "200":
+          description: latest metric snapshots
+  /incidents:
+    get:
+      responses:
+        "200":
+          description: incidents
+  /incidents/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: incident detail
+  /incidents/{id}/acknowledge:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: incident acknowledged
+  /incidents/{id}/resolve:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: incident resolved
+  /diagnostics:
+    get:
+      responses:
+        "200":
+          description: diagnostic reports
+  /remediation-actions:
+    get:
+      responses:
+        "200":
+          description: remediation actions
+  /remediation-actions/{id}/dispatch-context:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: verified remediation action / incident / stream context for Control Panel dispatch
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RemediationDispatchContext"
+        "404":
+          description: remediation action not found
+        "409":
+          description: incident context missing, stream context missing, or action is not executable
+  /remediation-actions/{id}/approve:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: remediation action approved
+  /remediation-actions/{id}/execute:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: safe or approved remediation action recorded
+        "403":
+          description: dangerous or unapproved action blocked
+  /notification-deliveries:
+    get:
+      responses:
+        "200":
+          description: notification delivery history with masked targets
+  /notification-channels:
+    get:
+      responses:
+        "200":
+          description: notification channels without raw webhook URLs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NotificationChannel"
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationChannelWriteRequest"
+      responses:
+        "201":
+          description: notification channel created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationChannel"
+        "400":
+          description: invalid notification channel or webhook URL
+  /notification-channels/{id}:
+    get:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: notification channel detail without raw webhook URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationChannel"
+    put:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationChannelWriteRequest"
+      responses:
+        "200":
+          description: notification channel updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationChannel"
+        "400":
+          description: invalid notification channel or webhook URL
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: notification channel deleted
+  /notification-channels/{id}/test:
+    post:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "202":
+          description: test notification attempted
+components:
+  securitySchemes:
+    bearerToken:
+      type: http
+      scheme: bearer
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    ObservabilitySignal:
+      type: object
+      required: [type, name, service_id, service_type]
+      properties:
+        type:
+          enum: [heartbeat, metric, log, event, warning, error, incident, diagnostic_report, remediation_action, notification_event]
+        name:
+          type: string
+        service_id:
+          type: string
+        service_type:
+          enum: [discord_bot, encoder_recorder, worker, observability]
+        stream_id:
+          type: string
+        status:
+          type: string
+        value:
+          type: number
+        metrics:
+          type: object
+          additionalProperties:
+            type: number
+        attributes:
+          type: object
+          additionalProperties: true
+        timestamp:
+          type: string
+          format: date-time
+    NotificationChannel:
+      type: object
+      required: [id, name, type, enabled, created_at, updated_at]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          enum: [discord, slack, generic, email]
+        enabled:
+          type: boolean
+        masked_webhook_url:
+          type: string
+          description: Raw webhook URL is never returned.
+        smtp_password_configured:
+          type: boolean
+        masked_email_target:
+          type: string
+          description: Raw email recipients and SMTP settings are never returned as unmasked response fields.
+        severity_filter:
+          type: array
+          items:
+            enum: [info, warning, error, critical]
+        event_type_filter:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    NotificationChannelWriteRequest:
+      type: object
+      required: [name, type, enabled]
+      properties:
+        name:
+          type: string
+        type:
+          enum: [discord, slack, generic, email]
+        enabled:
+          type: boolean
+        webhook_url:
+          type: string
+          format: uri
+          pattern: "^https?://"
+          writeOnly: true
+          description: Write-only secret. Only http/https absolute URLs are accepted.
+        email_recipients:
+          type: array
+          items:
+            type: string
+            format: email
+        smtp_host:
+          type: string
+        smtp_port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+        smtp_tls:
+          type: boolean
+        smtp_from:
+          type: string
+          format: email
+        smtp_username:
+          type: string
+        smtp_password:
+          type: string
+          writeOnly: true
+          description: Write-only SMTP password. It is encrypted at rest and never returned.
+        severity_filter:
+          type: array
+          items:
+            enum: [info, warning, error, critical]
+        event_type_filter:
+          type: array
+          items:
+            type: string
+    RemediationDispatchContext:
+      type: object
+      additionalProperties: false
+      required: [action_id, action, action_status, incident_id, incident_status, stream_id, executable]
+      properties:
+        action_id:
+          type: string
+        action:
+          enum: [retry_gdrive_upload, retry_package_remux]
+        action_status:
+          type: string
+        incident_id:
+          type: string
+        incident_status:
+          type: string
+        stream_id:
+          type: string
+        executable:
+          type: boolean

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-provider-write.schema.json",
+  "title": "OAuthProviderWriteRequest",
+  "type": "object",
+  "required": ["provider_type", "name", "enabled", "client_id", "redirect_uri"],
+  "properties": {
+    "provider_type": { "type": "string", "enum": ["google", "github", "discord"] },
+    "name": { "type": "string", "minLength": 1 },
+    "enabled": { "type": "boolean" },
+    "client_id": { "type": "string", "minLength": 1 },
+    "client_secret": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Encrypted at rest and never returned by API."
+    },
+    "scopes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "allowed_domains": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "auto_provision": {
+      "type": "boolean",
+      "description": "Enable first-login user creation for allowed OAuth identities."
+    },
+    "default_role_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "description": "Required when auto_provision is true. Server requires roles.assign for this field."
+    },
+    "redirect_uri": {
+      "type": "string",
+      "format": "uri",
+      "description": "Must match AUTOSTREAM_PUBLIC_URL scheme/host in production. Supported paths are /auth/oauth/callback for login providers and /integrations/oauth-accounts/callback for Google connected accounts."
+    }
+  },
+  "description": "For /integrations/oauth-accounts/callback, provider_type must be google, auto_provision/default_role_ids are not allowed, and scopes must include a Google Drive or YouTube API scope.",
+  "additionalProperties": false
+}

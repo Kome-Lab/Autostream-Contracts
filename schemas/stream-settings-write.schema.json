@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/stream-settings-write.schema.json",
+  "title": "StreamSettingsWriteRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "discord_config_id": { "type": "string", "description": "Control Panel managed Discord Bot Config. Required when stream-specific Discord guild/channel overrides are provided." },
+    "discord_guild_id": { "type": "string", "description": "Stream-specific Discord guild override. Valid only with discord_config_id." },
+    "discord_voice_channel_id": { "type": "string", "description": "Stream-specific Discord voice channel override. Valid only with discord_config_id." },
+    "discord_text_channel_id": { "type": "string", "description": "Optional stream-specific Discord text channel override. Valid only with discord_config_id." },
+    "encoder_profile_id": { "type": "string" },
+    "caption_profile_id": { "type": "string" },
+    "overlay_profile_id": { "type": "string" },
+    "archive_profile_id": { "type": "string" },
+    "youtube_output_id": { "type": "string" },
+    "encoder_input_url": { "type": "string" }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RemediationAction",
+  "type": "object",
+  "required": ["id", "incident_id", "action", "mode", "status", "safe_auto", "requires_approval", "created_at", "updated_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "incident_id": { "type": "string", "minLength": 1 },
+    "action": { "type": "string", "minLength": 1 },
+    "mode": { "enum": ["disabled", "suggest_only", "safe_auto", "manual_approval"] },
+    "status": { "type": "string", "minLength": 1 },
+    "safe_auto": { "type": "boolean" },
+    "requires_approval": { "type": "boolean" },
+    "result": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "executed_at": { "type": "string", "format": "date-time" }
+  }
+}

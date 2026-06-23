@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-account-connection-start.schema.json",
+  "title": "OAuthAccountConnectionStartRequest",
+  "type": "object",
+  "required": ["provider_id"],
+  "properties": {
+    "provider_id": { "type": "string", "minLength": 1 },
+    "account_label": { "type": "string" },
+    "redirect_after": {
+      "type": "string",
+      "description": "Safe local path only; implementations must reject absolute or protocol-relative URLs."
+    }
+  },
+  "additionalProperties": false
+}

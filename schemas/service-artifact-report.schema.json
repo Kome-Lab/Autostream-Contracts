@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServiceArtifactReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["service_id", "stream_id", "artifacts"],
+  "properties": {
+    "service_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stream_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "name", "relative_path", "size_bytes"],
+        "properties": {
+          "kind": {
+            "enum": ["archive", "caption", "transcript", "metadata", "logs"]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "pattern": "^[^/\\\\]+$"
+          },
+          "relative_path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "pattern": "^final/[^/\\\\]+/[^/\\\\]+$",
+            "description": "Logical final/{stream_id}/{name} path. The server also verifies stream_id and name equality."
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

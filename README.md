@@ -20,7 +20,7 @@ docs には実 provider 値を置きません。schema examples では `example.
 
 contract を変更するときは、どの repository が owner かを明示します。Control Panel API の request/response は `autostream-control-panel`、Discord voice / audio event は `autostream-discord-bot`、archive/upload metadata は `autostream-encoder-recorder`、overlay/caption event は `autostream-worker`、signal/incident/notification payload は `autostream-observability` が主な consumer です。
 
-breaking change を入れる場合は、schema だけでなく migration path、compatibility period、operator docs、E2E evidence gate を同時に更新します。特に write-only secret field、runtime secret reference、service token scope、primary/standby assignment、provider proof の shape は security boundary なので、既存 field の意味を曖昧に変えないでください。
+breaking change を入れる場合は、schema だけでなく migration path、compatibility period、operator docs、external verification flow を同時に更新します。特に write-only secret field、runtime secret reference、service token scope、primary/standby assignment、provider verification record の shape は security boundary なので、既存 field の意味を曖昧に変えないでください。
 
 ## 検証
 
@@ -29,7 +29,7 @@ go test ./...
 go build ./...
 ```
 
-PR では、変更した schema を参照する service repo の unit test と `autostream-docs` の `npm run goal:audit` も確認します。`goal:audit` は contract 名、security regression symbol、docs hygiene の drift を拾うため、contract だけを green にして完了扱いにしません。
+PR では、変更した schema を参照する service repo の unit test と `autostream-docs` の docs consistency checks も確認します。contract 名、security regression symbol、docs hygiene の drift を拾うため、contract だけを green にして完了扱いにしません。
 
 ## Secret Policy
 

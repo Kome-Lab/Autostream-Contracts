@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StreamJob",
+  "type": "object",
+  "required": ["id", "name", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["created", "starting", "live", "stopping", "completed", "failed"] },
+    "discord_config_id": { "type": "string", "description": "Control Panel managed Discord Bot Config used for this stream." },
+    "discord_guild_id": { "type": "string", "description": "Resolved or saved stream-specific Discord guild override." },
+    "discord_voice_channel_id": { "type": "string", "description": "Resolved or saved stream-specific Discord voice channel override." },
+    "discord_text_channel_id": { "type": "string", "description": "Resolved or saved stream-specific Discord text channel override." },
+    "encoder_profile_id": { "type": "string" },
+    "caption_profile_id": { "type": "string" },
+    "overlay_profile_id": { "type": "string" },
+    "archive_profile_id": { "type": "string" },
+    "youtube_output_id": { "type": "string" },
+    "encoder_input_mode": { "enum": ["external", "discord_opus_rtp"] },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

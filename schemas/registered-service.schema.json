@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RegisteredService",
+  "type": "object",
+  "required": ["service_id", "service_type", "service_name", "public_url", "version", "status", "capabilities", "created_at", "updated_at"],
+  "additionalProperties": false,
+  "properties": {
+    "service_id": { "type": "string", "minLength": 1 },
+    "service_type": {
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+    },
+    "service_name": { "type": "string", "minLength": 1 },
+    "public_url": { "type": "string", "format": "uri", "pattern": "^https?://" },
+    "version": { "type": "string" },
+    "status": {
+      "enum": ["unknown", "pending", "registered", "assigned", "restart_requested", "online", "degraded", "offline", "starting", "stopping"]
+    },
+    "assignment_role": {
+      "enum": ["primary", "standby"],
+      "description": "Present only when returned in a stream assignment context. Only primary services receive start/stop/retry dispatch; standby services are failover candidates."
+    },
+    "last_heartbeat_at": { "type": "string", "format": "date-time" },
+    "health_status": {
+      "enum": ["healthy", "stale", "no_heartbeat", "offline"]
+    },
+    "heartbeat_stale": { "type": "boolean" },
+    "heartbeat_age_sec": { "type": "integer", "minimum": 0 },
+    "current_stream_id": { "type": "string" },
+    "capabilities": { "type": "object", "additionalProperties": true },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

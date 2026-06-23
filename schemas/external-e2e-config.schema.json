@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExternalE2EConfigResponse",
+  "type": "object",
+  "description": "Non-secret external verification confirmation export returned by the Control Panel endpoint that requires streams.read and Cache-Control no-store.",
+  "required": [
+    "schema_version",
+    "stream_id",
+    "runtime_config",
+    "service_assignments",
+    "confirmations",
+    "readiness"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Version of the non-secret external verification confirmation export schema."
+    },
+    "stream_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_config": {
+      "$ref": "#/$defs/runtimeConfig"
+    },
+    "service_assignments": {
+      "$ref": "#/$defs/serviceAssignments"
+    },
+    "confirmations": {
+      "$ref": "#/$defs/confirmations"
+    },
+    "readiness": {
+      "$ref": "#/$defs/readiness"
+    }
+  },
+  "$defs": {
+    "runtimeConfig": {
+      "type": "object",
+      "required": [
+        "youtube_output_id",
+        "drive_destination_id",
+        "discord_config_id",
+        "encoder_profile_id",
+        "archive_profile_id"
+      ],
+      "additionalProperties": false,
+      "description": "Control Panel-managed runtime config IDs only. Raw provider values and browser session material are never returned.",
+      "properties": {
+        "youtube_output_id": { "type": "string" },
+        "drive_destination_id": { "type": "string" },
+        "discord_config_id": { "type": "string" },
+        "encoder_profile_id": { "type": "string" },
+        "archive_profile_id": { "type": "string" }
+      }
+    },
+    "serviceAssignments": {
+      "type": "object",
+      "required": [
+        "discord_bot_service_id",
+        "encoder_recorder_primary_service_id",
+        "worker_primary_service_id",
+        "encoder_recorder_standby_service_id",
+        "worker_standby_service_id"
+      ],
+      "additionalProperties": false,
+      "description": "Assigned service IDs only. Service token binding IDs and raw service tokens are never returned.",
+      "properties": {
+        "discord_bot_service_id": { "type": "string" },
+        "encoder_recorder_primary_service_id": { "type": "string" },
+        "worker_primary_service_id": { "type": "string" },
+        "encoder_recorder_standby_service_id": { "type": "string" },
+        "worker_standby_service_id": { "type": "string" }
+      }
+    },
+    "confirmations": {
+      "type": "object",
+      "required": [
+        "youtube_output_saved",
+        "drive_destination_saved",
+        "discord_config_saved",
+        "primary_assignments_saved",
+        "runtime_config_distribution_enabled"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "youtube_output_saved": { "type": "boolean" },
+        "drive_destination_saved": { "type": "boolean" },
+        "discord_config_saved": { "type": "boolean" },
+        "primary_assignments_saved": { "type": "boolean" },
+        "runtime_config_distribution_enabled": { "type": "boolean" }
+      }
+    },
+    "readiness": {
+      "type": "object",
+      "required": [
+        "ready",
+        "missing_confirmations",
+        "missing_runtime_ids",
+        "missing_primary_services",
+        "missing_runtime_config_capabilities"
+      ],
+      "additionalProperties": false,
+      "description": "Secret-safe readiness summary for external verification. Missing lists contain field names, service types, or capability names only.",
+      "properties": {
+        "ready": { "type": "boolean" },
+        "missing_confirmations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "missing_runtime_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "missing_primary_services": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "missing_runtime_config_capabilities": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

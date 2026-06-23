@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServiceStreamEvent",
+  "type": "object",
+  "required": ["service_id", "stream_id", "event_type", "payload"],
+  "additionalProperties": false,
+  "properties": {
+    "service_id": { "type": "string", "minLength": 1 },
+    "stream_id": { "type": "string", "minLength": 1 },
+    "event_type": { "type": "string", "minLength": 1 },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

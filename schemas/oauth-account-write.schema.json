@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-account-write.schema.json",
+  "title": "OAuthAccountWriteRequest",
+  "description": "Legacy manual import shape. Normal Control Panel clients must create connected accounts through OAuth callback only; manual refresh token entry is disabled.",
+  "deprecated": true,
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider_id", "provider_type", "account_label"],
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_type": {
+      "type": "string",
+      "enum": ["google", "github", "discord"],
+      "description": "Must match the referenced OAuth provider. Connected Drive/YouTube accounts currently require google."
+    },
+    "account_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "scopes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Drive destinations require a Google Drive scope. YouTube Live API outputs require a YouTube scope."
+    },
+    "refresh_token": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Manual refresh token input is disabled for normal clients. OAuth callback stores the token encrypted at rest and it is never returned by API, UI, logs, audit metadata, or diagnostics."
+    }
+  }
+}

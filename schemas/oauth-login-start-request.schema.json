@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-login-start-request.schema.json",
+  "title": "OAuthLoginStartRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "redirect_after": {
+      "type": "string",
+      "description": "Relative post-login path. The server must reject absolute URLs and open redirects."
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/youtube-output-write.schema.json",
+  "title": "YouTubeOutputWriteRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "mode"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": { "enum": ["live_api_dry_run", "live_api"] }
+        },
+        "required": ["mode"]
+      },
+      "then": {
+        "required": ["oauth_account_id"]
+      }
+    }
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["stream_key", "live_api_dry_run", "live_api"]
+    },
+    "rtmp_url": {
+      "type": "string",
+      "pattern": "^rtmps://"
+    },
+    "stream_key": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Write-only secret. Required when creating stream_key outputs, optional on update to keep the existing encrypted key. Never returned by Control API, UI, logs, or audit metadata."
+    },
+    "oauth_account_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required for live_api and live_api_dry_run modes."
+    },
+    "broadcast_title_template": {
+      "type": "string"
+    },
+    "broadcast_description": {
+      "type": "string"
+    },
+    "privacy_status": {
+      "type": "string",
+      "enum": ["private", "unlisted", "public"]
+    },
+    "latency_preference": {
+      "type": "string",
+      "enum": ["normal", "low", "ultra_low"]
+    },
+    "enable_auto_start": {
+      "type": "boolean"
+    },
+    "enable_auto_stop": {
+      "type": "boolean"
+    },
+    "complete_on_stop": {
+      "type": "boolean",
+      "description": "When true, Control Panel completes the YouTube Live broadcast during normal stream stop. Defaults to true when omitted."
+    }
+  }
+}

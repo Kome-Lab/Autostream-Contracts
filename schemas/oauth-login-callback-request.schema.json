@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-login-callback-request.schema.json",
+  "title": "OAuthLoginCallbackRequest",
+  "type": "object",
+  "required": ["state", "code"],
+  "additionalProperties": false,
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "Optional provider hint. The server must trust the consumed state record over this value."
+    },
+    "state": {
+      "type": "string",
+      "description": "One-time OAuth state token. Must match both server-side state and the HttpOnly state cookie."
+    },
+    "code": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Provider authorization code. It must never be logged, audited as metadata, cached, or returned to the frontend after callback."
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServiceTokenCreateRequest",
+  "type": "object",
+  "required": ["service_type", "scopes"],
+  "additionalProperties": false,
+  "properties": {
+    "service_type": {
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "service.register",
+          "service.heartbeat",
+          "service.logs.write",
+          "service.status.write",
+          "service.config.read",
+          "service.secret.resolve",
+          "worker.events.write",
+          "encoder.status.write",
+          "discord.status.write",
+          "observability.ingest",
+          "remediation.execute"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "service_id": {
+      "type": "string",
+      "description": "Optional. When set, Control Panel pre-creates a pending service registry entry linked to the new token. Requires service.register scope."
+    },
+    "service_name": {
+      "type": "string"
+    },
+    "public_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://"
+    },
+    "version": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Non-secret capability hints. Secret-like keys and values are redacted before persistence."
+    }
+  }
+}
