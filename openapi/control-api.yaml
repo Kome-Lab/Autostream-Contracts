@@ -850,6 +850,28 @@ paths:
       responses:
         "202":
           description: heartbeat accepted
+  /services/observability/signals:
+    post:
+      security:
+        - bearerToken: []
+      description: Worker and Encoder/Recorder report Observability signals through Control Panel with a Node Runtime Token. Requires observability.ingest. Control Panel overwrites service_id and service_type from the registered service before forwarding to Observability.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceObservabilitySignal"
+      responses:
+        "202":
+          description: signal accepted for forwarding
+        "400":
+          description: invalid signal payload
+        "401":
+          description: missing or invalid service token
+        "403":
+          description: wrong service type, pending service, or missing observability.ingest scope
+        "502":
+          description: Observability API is unavailable or rejected the forwarded signal
   /services/stream-events:
     post:
       security:
@@ -1731,6 +1753,29 @@ components:
         token:
           type: string
           description: One-time raw token returned only on create or rotate responses. Never returned by list endpoints.
+    ServiceObservabilitySignal:
+      type: object
+      additionalProperties: true
+      required: [type, name]
+      properties:
+        type:
+          enum: [event, metric]
+        name:
+          type: string
+          minLength: 1
+        stream_id:
+          type: string
+        status:
+          type: string
+        value:
+          type: number
+        attributes:
+          type: object
+          additionalProperties: true
+        timestamp:
+          type: string
+          format: date-time
+      description: service_id and service_type, if supplied by the caller, are ignored and replaced with the authenticated registered service identity.
     ServiceRemediationExecuteRequest:
       type: object
       additionalProperties: false
