@@ -41,7 +41,12 @@
           "guild_id": { "type": "string" },
           "voice_channel_id": { "type": "string" },
           "text_channel_id": { "type": "string" },
-          "caption_audio_url": { "type": "string", "format": "uri" }
+          "caption_audio_url": { "type": "string", "format": "uri" },
+          "auto_start_trigger": {
+            "type": "string",
+            "enum": ["discord_voice_join"],
+            "description": "Present only when this stream is explicitly allowed to auto-start from a Discord voice-channel join."
+          }
         }
       }
     },
@@ -66,12 +71,10 @@
             "properties": {
               "drive_destination_id": { "type": "string" },
               "archive_profile_id": { "type": "string" },
-              "auth_mode": { "type": "string", "enum": ["oauth2", "service_account"] },
+              "auth_mode": { "type": "string", "enum": ["oauth2"] },
               "oauth_account_id": { "type": "string" },
               "oauth_provider_id": { "type": "string" },
               "folder_id_secret_name": { "type": "string" },
-              "service_account_credentials_secret_name": { "type": "string" },
-              "service_account_json_secret_name": { "type": "string" },
               "base_path": { "type": "string" },
               "shared_drive": { "type": "boolean" },
               "client_id": { "type": "string" },

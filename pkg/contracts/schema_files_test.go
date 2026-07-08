@@ -193,6 +193,27 @@ func TestServiceRuntimeConfigSchemaDocumentsSecretBoundary(t *testing.T) {
 	}
 }
 
+func TestWorkerEventSchemaDocumentsDiscordChatOverlay(t *testing.T) {
+	body, err := os.ReadFile(filepath.Join("..", "..", "schemas", "worker-event.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	raw := string(body)
+	for _, want := range []string{
+		"overlay.discord_chat",
+		"message_id",
+		"user_id",
+		"display_name",
+		"text_channel_id",
+		"created_at",
+		"Discord Chat Channel ID",
+	} {
+		if !strings.Contains(raw, want) {
+			t.Fatalf("worker-event.schema.json is missing Discord chat overlay marker %q", want)
+		}
+	}
+}
+
 func TestControlOpenAPIDocumentsPasskeyCSRF(t *testing.T) {
 	body, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
 	if err != nil {
@@ -560,7 +581,6 @@ func TestEncoderPackageSchemaDocumentsRuntimeArchiveConfig(t *testing.T) {
 		"EncoderPackageStreamRequest",
 		"archive_config",
 		"folder_id_secret_name",
-		"service_account_credentials_secret_name",
 		"refresh_token_secret_name",
 		"Raw Drive folder IDs and OAuth refresh tokens must not be sent",
 	} {
@@ -611,6 +631,35 @@ func TestStreamSchemasDocumentDiscordChannelOverrides(t *testing.T) {
 			if !strings.Contains(raw, want) {
 				t.Fatalf("%s is missing stream-specific Discord routing field %q", file, want)
 			}
+		}
+	}
+
+	for _, file := range []string{"stream-write.schema.json", "stream-settings-write.schema.json"} {
+		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		raw := string(body)
+		for _, want := range []string{
+			"auto_start_trigger",
+			"discord_voice_join",
+		} {
+			if !strings.Contains(raw, want) {
+				t.Fatalf("%s is missing Discord voice join auto-start field %q", file, want)
+			}
+		}
+	}
+
+	runtimeBody, err := os.ReadFile(filepath.Join("..", "..", "schemas", "service-runtime-config.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{
+		"auto_start_trigger",
+		"discord_voice_join",
+	} {
+		if !strings.Contains(string(runtimeBody), want) {
+			t.Fatalf("service-runtime-config.schema.json is missing Discord voice join auto-start marker %q", want)
 		}
 	}
 }

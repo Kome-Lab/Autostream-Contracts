@@ -25,7 +25,7 @@
     },
     "auth_mode": {
       "type": "string",
-      "enum": ["oauth2", "service_account"]
+      "enum": ["oauth2"]
     },
     "oauth_account_id": {
       "minLength": 1,

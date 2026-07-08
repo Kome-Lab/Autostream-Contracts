@@ -17,20 +17,12 @@
       "properties": {
         "drive_destination_id": { "type": "string" },
         "archive_profile_id": { "type": "string" },
-        "auth_mode": { "enum": ["service_account", "oauth2"] },
+        "auth_mode": { "enum": ["oauth2"] },
         "oauth_account_id": { "type": "string" },
         "oauth_provider_id": { "type": "string" },
         "folder_id_secret_name": {
           "type": "string",
           "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through Control Panel."
-        },
-        "service_account_credentials_secret_name": {
-          "type": "string",
-          "description": "Runtime secret reference for Service Account credential JSON. This is the preferred Control Panel-managed field for service_account destinations."
-        },
-        "service_account_json_secret_name": {
-          "type": "string",
-          "description": "Backward-compatible alias for service_account_credentials_secret_name."
         },
         "base_path": { "type": "string" },
         "shared_drive": { "type": "boolean" },

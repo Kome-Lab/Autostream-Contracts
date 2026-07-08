@@ -2103,6 +2103,10 @@ components:
               caption_audio_url:
                 type: string
                 format: uri
+              auto_start_trigger:
+                type: string
+                enum: [discord_voice_join]
+                description: Present only when this stream is explicitly allowed to auto-start from a Discord voice-channel join.
         stream_archive_configs:
           type: array
           description: Resolved per-stream archive settings for the authenticated Encoder/Recorder service only. It includes runtime secret reference names and shared-drive flags, but never raw Drive folder IDs, OAuth refresh tokens, client secrets, or credential JSON.
@@ -2135,16 +2139,12 @@ components:
                     type: string
                   auth_mode:
                     type: string
-                    enum: [oauth2, service_account]
+                    enum: [oauth2]
                   oauth_account_id:
                     type: string
                   oauth_provider_id:
                     type: string
                   folder_id_secret_name:
-                    type: string
-                  service_account_credentials_secret_name:
-                    type: string
-                  service_account_json_secret_name:
                     type: string
                   base_path:
                     type: string
@@ -2646,7 +2646,7 @@ components:
         id: {type: string}
         name: {type: string}
         auth_mode:
-          enum: [oauth2, service_account]
+          enum: [oauth2]
         oauth_account_id: {type: string}
         folder_id_configured: {type: boolean}
         folder_id_fingerprint:
@@ -2662,20 +2662,11 @@ components:
     DriveDestinationWriteRequest:
       type: object
       additionalProperties: false
-      required: [name, auth_mode]
-      oneOf:
-        - required: [name, auth_mode, oauth_account_id]
-          properties:
-            auth_mode:
-              enum: [oauth2]
-        - required: [name, auth_mode]
-          properties:
-            auth_mode:
-              enum: [service_account]
+      required: [name, auth_mode, oauth_account_id]
       properties:
         name: {type: string}
         auth_mode:
-          enum: [oauth2, service_account]
+          enum: [oauth2]
         oauth_account_id:
           type: string
           minLength: 1
@@ -2735,6 +2726,10 @@ components:
         discord_text_channel_id:
           type: string
           description: Optional stream-specific Discord text channel ID override. Valid only with discord_config_id.
+        auto_start_trigger:
+          type: string
+          enum: ["", discord_voice_join]
+          description: Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start.
         encoder_profile_id:
           type: string
         caption_profile_id:
@@ -2767,6 +2762,10 @@ components:
         discord_text_channel_id:
           type: string
           description: Optional stream-specific Discord text channel ID override. Valid only with discord_config_id.
+        auto_start_trigger:
+          type: string
+          enum: ["", discord_voice_join]
+          description: Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start.
         encoder_profile_id:
           type: string
         caption_profile_id:

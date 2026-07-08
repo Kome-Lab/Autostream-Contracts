@@ -6,7 +6,7 @@
   "properties": {
     "id": { "type": "string" },
     "name": { "type": "string" },
-    "auth_mode": { "type": "string", "enum": ["oauth2", "service_account"] },
+    "auth_mode": { "type": "string", "enum": ["oauth2"] },
     "oauth_account_id": { "type": "string" },
     "folder_id_configured": { "type": "boolean" },
     "folder_id_fingerprint": { "type": "string" },

@@ -15,12 +15,14 @@
         "overlay.current_time",
         "overlay.participants",
         "overlay.active_speaker",
+        "overlay.discord_chat",
         "caption.telop",
         "caption.final"
       ]
     },
     "payload": {
       "type": "object",
+      "description": "Event payload. overlay.discord_chat carries message_id, user_id, display_name, text, text_channel_id, and created_at from the stream's configured Discord Chat Channel ID.",
       "additionalProperties": true
     },
     "timestamp": {

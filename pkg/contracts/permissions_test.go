@@ -37,7 +37,7 @@ func TestCoreWireConstants(t *testing.T) {
 	if SignalMetric != "metric" || SignalDiagnosticReport != "diagnostic_report" {
 		t.Fatal("signal type wire values changed")
 	}
-	if WorkerEventParticipants != "overlay.participants" || WorkerEventCaptionTelop != "caption.telop" {
+	if WorkerEventParticipants != "overlay.participants" || WorkerEventDiscordChat != "overlay.discord_chat" || WorkerEventCaptionTelop != "caption.telop" {
 		t.Fatal("worker event wire values changed")
 	}
 	if EncoderInputModeExternal != "external" || EncoderInputModeDiscordOpusRTP != "discord_opus_rtp" {

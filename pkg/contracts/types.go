@@ -211,13 +211,14 @@ type ServiceRuntimeConfig struct {
 }
 
 type ServiceRuntimeDiscordConfig struct {
-	StreamID        string `json:"stream_id"`
-	AssignmentRole  string `json:"assignment_role"`
-	DiscordConfigID string `json:"discord_config_id"`
-	GuildID         string `json:"guild_id"`
-	VoiceChannelID  string `json:"voice_channel_id"`
-	TextChannelID   string `json:"text_channel_id,omitempty"`
-	CaptionAudioURL string `json:"caption_audio_url,omitempty"`
+	StreamID         string `json:"stream_id"`
+	AssignmentRole   string `json:"assignment_role"`
+	DiscordConfigID  string `json:"discord_config_id"`
+	GuildID          string `json:"guild_id"`
+	VoiceChannelID   string `json:"voice_channel_id"`
+	TextChannelID    string `json:"text_channel_id,omitempty"`
+	CaptionAudioURL  string `json:"caption_audio_url,omitempty"`
+	AutoStartTrigger string `json:"auto_start_trigger,omitempty"`
 }
 
 type ServiceRuntimeArchiveConfig struct {
@@ -302,6 +303,7 @@ const (
 	WorkerEventCurrentTime   WorkerEventType = "overlay.current_time"
 	WorkerEventParticipants  WorkerEventType = "overlay.participants"
 	WorkerEventActiveSpeaker WorkerEventType = "overlay.active_speaker"
+	WorkerEventDiscordChat   WorkerEventType = "overlay.discord_chat"
 	WorkerEventCaptionTelop  WorkerEventType = "caption.telop"
 	WorkerEventCaptionFinal  WorkerEventType = "caption.final"
 )
@@ -395,6 +397,7 @@ type StreamSettingsWriteRequest struct {
 	DiscordGuildID        string `json:"discord_guild_id,omitempty"`
 	DiscordVoiceChannelID string `json:"discord_voice_channel_id,omitempty"`
 	DiscordTextChannelID  string `json:"discord_text_channel_id,omitempty"`
+	AutoStartTrigger      string `json:"auto_start_trigger,omitempty"`
 	EncoderProfileID      string `json:"encoder_profile_id,omitempty"`
 	CaptionProfileID      string `json:"caption_profile_id,omitempty"`
 	OverlayProfileID      string `json:"overlay_profile_id,omitempty"`
@@ -409,19 +412,17 @@ type StreamWriteRequest struct {
 }
 
 type ArchiveRuntimeConfig struct {
-	DriveDestinationID                  string `json:"drive_destination_id,omitempty"`
-	ArchiveProfileID                    string `json:"archive_profile_id,omitempty"`
-	AuthMode                            string `json:"auth_mode,omitempty"`
-	OAuthAccountID                      string `json:"oauth_account_id,omitempty"`
-	OAuthProviderID                     string `json:"oauth_provider_id,omitempty"`
-	FolderIDSecretName                  string `json:"folder_id_secret_name,omitempty"`
-	ServiceAccountCredentialsSecretName string `json:"service_account_credentials_secret_name,omitempty"`
-	ServiceAccountJSONSecretName        string `json:"service_account_json_secret_name,omitempty"`
-	BasePath                            string `json:"base_path,omitempty"`
-	SharedDrive                         bool   `json:"shared_drive,omitempty"`
-	ClientID                            string `json:"client_id,omitempty"`
-	ClientSecretSecretName              string `json:"client_secret_secret_name,omitempty"`
-	RefreshTokenSecretName              string `json:"refresh_token_secret_name,omitempty"`
+	DriveDestinationID     string `json:"drive_destination_id,omitempty"`
+	ArchiveProfileID       string `json:"archive_profile_id,omitempty"`
+	AuthMode               string `json:"auth_mode,omitempty"`
+	OAuthAccountID         string `json:"oauth_account_id,omitempty"`
+	OAuthProviderID        string `json:"oauth_provider_id,omitempty"`
+	FolderIDSecretName     string `json:"folder_id_secret_name,omitempty"`
+	BasePath               string `json:"base_path,omitempty"`
+	SharedDrive            bool   `json:"shared_drive,omitempty"`
+	ClientID               string `json:"client_id,omitempty"`
+	ClientSecretSecretName string `json:"client_secret_secret_name,omitempty"`
+	RefreshTokenSecretName string `json:"refresh_token_secret_name,omitempty"`
 }
 
 type YouTubeOutputMode string
