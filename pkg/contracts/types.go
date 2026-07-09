@@ -334,6 +334,8 @@ type DiscordVoiceJob struct {
 	EncoderAudioURL   string `json:"encoder_audio_url,omitempty"`
 	CaptionAudioURL   string `json:"caption_audio_url,omitempty"`
 	StreamIngestToken string `json:"stream_ingest_token,omitempty"`
+	WorkerEventsURL   string `json:"worker_events_url,omitempty"`
+	WorkerEventsToken string `json:"worker_events_token,omitempty"`
 }
 
 type DiscordBotStartJobRequest = DiscordVoiceJob

@@ -36,6 +36,15 @@
     "stream_ingest_token": {
       "type": "string",
       "description": "Short-lived stream-scoped ingest token issued by Control Panel. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses."
+    },
+    "worker_events_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Worker event endpoint selected by this stream's Worker assignment. Treat as runtime-only and do not expose it in public status or logs."
+    },
+    "worker_events_token": {
+      "type": "string",
+      "description": "Short-lived stream-scoped token for Discord Bot to publish participant, active speaker, and chat events to the selected Worker. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses."
     }
   }
 }
