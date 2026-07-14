@@ -234,21 +234,51 @@ paths:
       responses:
         "200":
           description: list users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
     post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
       responses:
         "201":
           description: create user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
   /users/{id}:
     get:
       parameters: [{$ref: "#/components/parameters/id"}]
       responses:
         "200":
           description: user detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
     put:
       parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdateRequest"
       responses:
         "200":
           description: user updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
   /users/{id}/disable:
     post:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -1105,6 +1135,12 @@ paths:
                 $ref: "#/components/schemas/NotificationChannel"
         "400":
           description: invalid notification channel or webhook URL
+        "429":
+          description: Observability rate limit reached
+        "502":
+          description: Observability Node authentication failed or the service could not be reached
+        "503":
+          description: Observability is unavailable or its secret encryption key is not configured
   /observability/notification-channels/{id}:
     get:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -1132,6 +1168,12 @@ paths:
                 $ref: "#/components/schemas/NotificationChannel"
         "400":
           description: invalid notification channel or webhook URL
+        "429":
+          description: Observability rate limit reached
+        "502":
+          description: Observability Node authentication failed or the service could not be reached
+        "503":
+          description: Observability is unavailable or its secret encryption key is not configured
     delete:
       parameters: [{$ref: "#/components/parameters/id"}]
       responses:
@@ -1465,6 +1507,69 @@ components:
             - runtime_secret_not_allowed
         message:
           type: string
+    User:
+      type: object
+      additionalProperties: false
+      required: [id, username, email, status, roles, role_ids]
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        status:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+          description: Operator-facing role names.
+        role_ids:
+          type: array
+          items:
+            type: string
+          description: Stable role IDs used to initialize the administrative user edit form.
+        last_login_at:
+          type: [string, "null"]
+          format: date-time
+        last_login_ip:
+          type: string
+    UserCreateRequest:
+      type: object
+      additionalProperties: false
+      required: [username, email, temporary_password]
+      properties:
+        username:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+        temporary_password:
+          type: string
+          format: password
+        role_ids:
+          type: array
+          items:
+            type: string
+        send_welcome_email:
+          type: boolean
+    UserUpdateRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        username:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+        role_ids:
+          type: array
+          items:
+            type: string
+          description: Omit to preserve current role assignments. Updating this field requires roles.assign and cannot target the current user's own roles.
     PasskeyCredential:
       type: object
       description: Public WebAuthn credential metadata. Raw credential ID and public key material are never returned.
