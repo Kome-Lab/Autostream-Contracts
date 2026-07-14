@@ -260,6 +260,56 @@ func TestControlOpenAPIDocumentsMFARolePolicy(t *testing.T) {
 	}
 }
 
+func TestDeepgramCaptionAndSessionRefreshContracts(t *testing.T) {
+	files := map[string][]string{
+		"caption-profile-config.schema.json": {
+			"CaptionProfileConfig", "deepgram", "nova-3", "deepgram_api_key", "manual caption input is not a runtime provider",
+		},
+		"discord-bot-start-job-request.schema.json": {
+			"caption_audio_url", "caption_audio_token", "Short-lived stream-scoped token",
+		},
+		"session-refresh-response.schema.json": {
+			"SessionRefreshResponse", "idle_expires_at", "absolute_expires_at", "Activity refresh never moves this timestamp",
+		},
+	}
+	for file, wants := range files {
+		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, want := range wants {
+			if !strings.Contains(string(body), want) {
+				t.Fatalf("%s is missing %q", file, want)
+			}
+		}
+	}
+
+	runtimeConfig, err := os.ReadFile(filepath.Join("..", "..", "schemas", "service-runtime-config.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(runtimeConfig), "caption_audio_url") {
+		t.Fatal("service runtime config must not accept a profile supplied caption audio URL")
+	}
+
+	openapi, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{
+		"/auth/session/refresh:",
+		"#/components/schemas/SessionRefreshResponse",
+		"without extending its absolute lifetime",
+		"discord_caption_audio_forward_unavailable",
+		"worker_deepgram_transcription_unavailable",
+		"minimum: 8",
+	} {
+		if !strings.Contains(string(openapi), want) {
+			t.Fatalf("control-api.yaml is missing %q", want)
+		}
+	}
+}
+
 func TestOAuthLoginSchemasDocumentProviderAndSecretBoundaries(t *testing.T) {
 	files := []string{
 		"oauth-login-provider.schema.json",
@@ -374,6 +424,30 @@ func TestOAuthLoginSchemasDocumentProviderAndSecretBoundaries(t *testing.T) {
 	}
 }
 
+func TestOAuthAccountSchemaIncludesOperatorDisplayNames(t *testing.T) {
+	body, err := os.ReadFile(filepath.Join("..", "..", "schemas", "oauth-account.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	raw := string(body)
+	for _, want := range []string{"provider_name", "account_label", "display_name", "configured account label", "stable short account reference"} {
+		if !strings.Contains(raw, want) {
+			t.Fatalf("oauth-account.schema.json is missing display-name marker %q", want)
+		}
+	}
+
+	openapiBody, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	openapiRaw := string(openapiBody)
+	for _, want := range []string{"provider_name:", "display_name:", "configured account label", "stable short account reference"} {
+		if !strings.Contains(openapiRaw, want) {
+			t.Fatalf("control-api.yaml is missing OAuth account display-name marker %q", want)
+		}
+	}
+}
+
 func TestControlOpenAPIDocumentsRuntimeSecretLease(t *testing.T) {
 	body, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
 	if err != nil {
@@ -408,6 +482,8 @@ func TestStartReadinessContractsDocumentIntegrationIssueCodes(t *testing.T) {
 		"drive_destination_unavailable",
 		"drive_oauth_account_unavailable",
 		"discord_config_service_mismatch",
+		"discord_caption_audio_forward_unavailable",
+		"worker_deepgram_transcription_unavailable",
 		"side-effect-free",
 		"primary_service_count",
 		"Number of primary assignments",

@@ -41,7 +41,6 @@
           "guild_id": { "type": "string" },
           "voice_channel_id": { "type": "string" },
           "text_channel_id": { "type": "string" },
-          "caption_audio_url": { "type": "string", "format": "uri" },
           "auto_start_trigger": {
             "type": "string",
             "enum": ["discord_voice_join"],

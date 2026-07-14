@@ -217,7 +217,6 @@ type ServiceRuntimeDiscordConfig struct {
 	GuildID          string `json:"guild_id"`
 	VoiceChannelID   string `json:"voice_channel_id"`
 	TextChannelID    string `json:"text_channel_id,omitempty"`
-	CaptionAudioURL  string `json:"caption_audio_url,omitempty"`
 	AutoStartTrigger string `json:"auto_start_trigger,omitempty"`
 }
 
@@ -333,6 +332,7 @@ type DiscordVoiceJob struct {
 	TextChannelID     string `json:"text_channel_id,omitempty"`
 	EncoderAudioURL   string `json:"encoder_audio_url,omitempty"`
 	CaptionAudioURL   string `json:"caption_audio_url,omitempty"`
+	CaptionAudioToken string `json:"caption_audio_token,omitempty"`
 	StreamIngestToken string `json:"stream_ingest_token,omitempty"`
 	WorkerEventsURL   string `json:"worker_events_url,omitempty"`
 	WorkerEventsToken string `json:"worker_events_token,omitempty"`
@@ -680,6 +680,23 @@ type ProfileWriteRequest struct {
 	Config map[string]any `json:"config"`
 }
 
+type CaptionProfileConfig struct {
+	Provider         string `json:"provider"`
+	Model            string `json:"model"`
+	Language         string `json:"language"`
+	APIKeySecretName string `json:"api_key_secret_name"`
+	EndpointingMS    int    `json:"endpointing_ms"`
+	InterimResults   bool   `json:"interim_results"`
+	SmartFormat      bool   `json:"smart_format"`
+	DelayMS          int    `json:"delay_ms"`
+}
+
+type SessionRefreshResponse struct {
+	Status            string    `json:"status"`
+	IdleExpiresAt     time.Time `json:"idle_expires_at"`
+	AbsoluteExpiresAt time.Time `json:"absolute_expires_at"`
+}
+
 type SecuritySettings struct {
 	PasswordMinLength        int      `json:"password_min_length"`
 	PasswordHash             string   `json:"password_hash"`
@@ -1016,7 +1033,9 @@ type OAuthAccount struct {
 	ID                     string    `json:"id"`
 	ProviderID             string    `json:"provider_id"`
 	ProviderType           string    `json:"provider_type"`
+	ProviderName           string    `json:"provider_name,omitempty"`
 	AccountLabel           string    `json:"account_label"`
+	DisplayName            string    `json:"display_name,omitempty"`
 	Subject                string    `json:"subject,omitempty"`
 	Email                  string    `json:"email,omitempty"`
 	Scopes                 []string  `json:"scopes"`

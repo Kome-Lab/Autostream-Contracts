@@ -33,6 +33,10 @@
       "format": "uri",
       "description": "Optional caption/STT audio ingest endpoint. Treat as runtime-only and do not expose it in public status or logs."
     },
+    "caption_audio_token": {
+      "type": "string",
+      "description": "Short-lived stream-scoped token authorizing Discord Opus ingest at the selected Worker. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses."
+    },
     "stream_ingest_token": {
       "type": "string",
       "description": "Short-lived stream-scoped ingest token issued by Control Panel. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses."

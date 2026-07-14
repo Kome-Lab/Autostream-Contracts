@@ -90,6 +90,8 @@
             "service_heartbeat_stale",
             "discord_audio_forward_unavailable",
             "discord_audio_capture_unavailable",
+            "discord_caption_audio_forward_unavailable",
+            "worker_deepgram_transcription_unavailable",
             "discord_config_required",
             "discord_config_not_found",
             "discord_config_invalid",

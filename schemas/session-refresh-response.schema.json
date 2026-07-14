@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SessionRefreshResponse",
+  "type": "object",
+  "required": ["status", "idle_expires_at", "absolute_expires_at"],
+  "additionalProperties": false,
+  "properties": {
+    "status": { "const": "refreshed" },
+    "idle_expires_at": { "type": "string", "format": "date-time" },
+    "absolute_expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Hard session expiry. Activity refresh never moves this timestamp."
+    }
+  }
+}

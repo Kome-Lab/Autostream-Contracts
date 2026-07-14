@@ -13,7 +13,7 @@
   ],
   "additionalProperties": false,
   "properties": {
-    "password_min_length": { "type": "integer", "minimum": 12 },
+    "password_min_length": { "type": "integer", "minimum": 8 },
     "password_hash": { "enum": ["argon2id"] },
     "login_lockout_threshold": { "type": "integer", "minimum": 3 },
     "session_idle_timeout_min": { "type": "integer", "minimum": 5 },

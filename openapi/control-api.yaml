@@ -74,6 +74,20 @@ paths:
       responses:
         "200":
           description: logout succeeded
+  /auth/session/refresh:
+    post:
+      description: Explicitly extends the idle expiry for an authenticated active browser session without extending its absolute lifetime.
+      parameters:
+        - $ref: "#/components/parameters/csrfToken"
+      responses:
+        "200":
+          description: session idle expiry refreshed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionRefreshResponse"
+        "401":
+          description: session is missing, idle-expired, or absolute-expired
   /auth/me:
     get:
       responses:
@@ -1430,6 +1444,8 @@ components:
             - service_heartbeat_stale
             - discord_audio_forward_unavailable
             - discord_audio_capture_unavailable
+            - discord_caption_audio_forward_unavailable
+            - worker_deepgram_transcription_unavailable
             - discord_config_required
             - discord_config_not_found
             - discord_config_invalid
@@ -1589,6 +1605,21 @@ components:
           type: object
           additionalProperties: true
           description: WebAuthn assertion response from navigator.credentials.get().
+    SessionRefreshResponse:
+      type: object
+      additionalProperties: false
+      required: [status, idle_expires_at, absolute_expires_at]
+      properties:
+        status:
+          type: string
+          enum: [refreshed]
+        idle_expires_at:
+          type: string
+          format: date-time
+        absolute_expires_at:
+          type: string
+          format: date-time
+          description: Hard session expiry. Activity refresh never moves this timestamp.
     SecuritySettings:
       type: object
       required: [password_min_length, password_hash, login_lockout_threshold, session_idle_timeout_min, session_absolute_lifetime_h, remember_me_enabled, mfa_mode]
@@ -1596,7 +1627,7 @@ components:
       properties:
         password_min_length:
           type: integer
-          minimum: 12
+          minimum: 8
         password_hash:
           enum: [argon2id]
         login_lockout_threshold:
@@ -2100,9 +2131,6 @@ components:
                 type: string
               text_channel_id:
                 type: string
-              caption_audio_url:
-                type: string
-                format: uri
               auto_start_trigger:
                 type: string
                 enum: [discord_voice_join]
@@ -2547,7 +2575,13 @@ components:
         provider_id: {type: string}
         provider_type:
           enum: [google, github, discord]
+        provider_name:
+          type: string
+          description: Configured OAuth provider name used to build a legacy display fallback.
         account_label: {type: string}
+        display_name:
+          type: string
+          description: Resolved operator-facing name. A configured account label takes precedence; legacy rows use the provider name plus a stable short account reference so multiple accounts remain distinguishable.
         subject: {type: string}
         email: {type: string}
         scopes:
@@ -2822,6 +2856,8 @@ components:
             - service_heartbeat_stale
             - discord_audio_forward_unavailable
             - discord_audio_capture_unavailable
+            - discord_caption_audio_forward_unavailable
+            - worker_deepgram_transcription_unavailable
             - discord_config_required
             - discord_config_not_found
             - discord_config_invalid
