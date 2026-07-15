@@ -881,3 +881,176 @@ func TestSecretStatusSchemaDocumentsManagedRuntimeSecretPrefixes(t *testing.T) {
 		}
 	}
 }
+
+func TestAppSettingsContractsSeparatePublicAndManagedViews(t *testing.T) {
+	type schemaDocument struct {
+		Properties map[string]struct {
+			WriteOnly bool `json:"writeOnly"`
+		} `json:"properties"`
+	}
+
+	readSchema := func(name string) schemaDocument {
+		t.Helper()
+		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", name))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var doc schemaDocument
+		if err := json.Unmarshal(body, &doc); err != nil {
+			t.Fatal(err)
+		}
+		return doc
+	}
+
+	public := readSchema("app-settings-public.schema.json")
+	for _, want := range []string{"app_name", "timezone", "turnstile_site_key", "google_analytics_enabled", "google_analytics_measurement_id"} {
+		if _, ok := public.Properties[want]; !ok {
+			t.Fatalf("public app settings schema is missing %q", want)
+		}
+	}
+	for name := range public.Properties {
+		if strings.HasPrefix(name, "smtp_") || name == "turnstile_secret" {
+			t.Fatalf("public app settings schema exposes administrator-only field %q", name)
+		}
+	}
+
+	managed := readSchema("app-settings-manage.schema.json")
+	for _, want := range []string{"smtp_enabled", "smtp_password_configured", "google_analytics_measurement_id"} {
+		if _, ok := managed.Properties[want]; !ok {
+			t.Fatalf("managed app settings schema is missing %q", want)
+		}
+	}
+	for _, forbidden := range []string{"smtp_password", "turnstile_secret"} {
+		if _, ok := managed.Properties[forbidden]; ok {
+			t.Fatalf("managed app settings response exposes raw secret field %q", forbidden)
+		}
+	}
+
+	write := readSchema("app-settings-write.schema.json")
+	for _, secret := range []string{"smtp_password", "turnstile_secret"} {
+		field, ok := write.Properties[secret]
+		if !ok || !field.WriteOnly {
+			t.Fatalf("app settings write field %q must be present and writeOnly", secret)
+		}
+	}
+
+	openapiBody, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{
+		"/settings/app:",
+		"/settings/app/manage:",
+		"#/components/schemas/PublicAppSettings",
+		"#/components/schemas/ManagedAppSettings",
+		"google_analytics_measurement_id:",
+		"SMTP settings and",
+	} {
+		if !strings.Contains(string(openapiBody), want) {
+			t.Fatalf("control-api.yaml is missing app settings marker %q", want)
+		}
+	}
+}
+
+func TestPreviewAndDiscordNotificationContracts(t *testing.T) {
+	files := map[string][]string{
+		"stream-preview-link.schema.json": {
+			"StreamPreviewLink", "expires_at", "bearer capability", "uri-reference", "12 hours", "stream is no longer",
+		},
+		"youtube-live-notification-request.schema.json": {
+			"YouTubeLiveNotificationRequest", "event_id", "watch_url", "Idempotency key", "runtime config",
+		},
+		"youtube-live-notification-response.schema.json": {
+			"YouTubeLiveNotificationResponse", "message_id", "already_sent",
+		},
+		"service-notification-error.schema.json": {
+			"ServiceNotificationError", "retryable",
+		},
+	}
+	for file, wants := range files {
+		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, want := range wants {
+			if !strings.Contains(string(body), want) {
+				t.Fatalf("%s is missing %q", file, want)
+			}
+		}
+	}
+
+	openAPIs := map[string][]string{
+		"control-api.yaml": {
+			"/streams/{id}/preview/{name}:",
+			"/streams/{id}/preview-links:",
+			"/stream-previews/{token}/{name}:",
+			"segment-[0-9]{6}",
+			"12 hours",
+			"never rolls the live stream",
+			"watch URL fingerprint",
+		},
+		"encoder-recorder-api.yaml": {
+			"/streams/{id}/preview/{name}:",
+			"serviceToken",
+			"six-segment rolling playlist",
+			"must not stop either primary output",
+		},
+		"discord-bot-api.yaml": {
+			"/streams/{id}/notifications/youtube-live:",
+			"event_id",
+			"watch_url",
+			"mentions disabled",
+			"runtime config",
+			"Retry-After",
+		},
+	}
+	for file, wants := range openAPIs {
+		body, err := os.ReadFile(filepath.Join("..", "..", "openapi", file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, want := range wants {
+			if !strings.Contains(string(body), want) {
+				t.Fatalf("%s is missing %q", file, want)
+			}
+		}
+	}
+}
+
+func TestYouTubeOutputWatchURLContractIsBackwardCompatible(t *testing.T) {
+	for _, file := range []string{"youtube-output.schema.json", "youtube-output-write.schema.json"} {
+		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(string(body), "watch_url") {
+			t.Fatalf("%s is missing watch_url", file)
+		}
+	}
+
+	body, err := os.ReadFile(filepath.Join("..", "..", "schemas", "youtube-output-write.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var doc struct {
+		Required []string `json:"required"`
+	}
+	if err := json.Unmarshal(body, &doc); err != nil {
+		t.Fatal(err)
+	}
+	for _, required := range doc.Required {
+		if required == "watch_url" {
+			t.Fatal("watch_url must remain optional in the API for existing stream_key profiles")
+		}
+	}
+
+	openapiBody, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{"watch_url:", "New UI-created profiles require it", "existing API profiles without this field remain compatible"} {
+		if !strings.Contains(string(openapiBody), want) {
+			t.Fatalf("control-api.yaml is missing YouTube watch URL compatibility marker %q", want)
+		}
+	}
+}

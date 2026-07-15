@@ -27,6 +27,12 @@
     "stream_key_fingerprint": {
       "type": "string"
     },
+    "watch_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$",
+      "description": "Canonical public watch URL used by stream_key outputs. It contains no stream key or OAuth credential."
+    },
     "oauth_account_id": {
       "type": "string"
     },

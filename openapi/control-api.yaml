@@ -460,6 +460,12 @@ paths:
           description: stream not found
   /streams/{id}/start:
     post:
+      description: >
+        Starts every assigned primary service. After all start dispatches succeed and the
+        stream status becomes live, Control Panel best-effort publishes the canonical
+        YouTube watch URL to the configured Discord text channel. A Discord notification
+        failure is returned as a sanitized dispatch result but never rolls the live stream
+        back. Audit metadata stores only a watch URL fingerprint.
       parameters: [{$ref: "#/components/parameters/id"}]
       requestBody:
         required: false
@@ -523,6 +529,114 @@ paths:
           description: assigned Encoder/Recorder preflight checks with secret values redacted
         "409":
           description: assigned Encoder/Recorder service is missing
+  /streams/{id}/preview/{name}:
+    get:
+      summary: Read an active stream HLS preview asset
+      description: >
+        Proxies the selected primary Encoder/Recorder preview through Control Panel.
+        Requires streams.read. Only index.m3u8 and segment-NNNNNN.ts are accepted, and
+        the stream must be starting, live, or stopping. The assigned Node token is never
+        returned to the browser.
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/previewAssetName"
+      responses:
+        "200":
+          description: HLS playlist or MPEG-TS segment
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: no-store for playlists; private, max-age=30 for segments
+            Referrer-Policy:
+              schema:
+                type: string
+              description: no-referrer
+          content:
+            application/vnd.apple.mpegurl:
+              schema:
+                type: string
+            video/mp2t:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: invalid preview asset name
+        "404":
+          description: stream or preview asset is not ready
+        "409":
+          description: stream is not active or required primary assignment is missing
+        "502":
+          description: Encoder/Recorder preview fetch failed or returned an unsafe playlist
+  /streams/{id}/preview-links:
+    post:
+      summary: Create a VLC-compatible signed HLS preview link
+      description: >
+        Creates a bearer-capability URL for the active stream. Requires streams.read and
+        CSRF protection. The link expires after 12 hours at most and becomes invalid as
+        soon as the stream is no longer starting, live, or stopping. The URL itself must
+        not be written to logs, audit metadata, tickets, or chat.
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/csrfToken"
+      responses:
+        "201":
+          description: signed public HLS link created
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: no-store
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreamPreviewLink"
+        "409":
+          description: stream is not active or required primary assignment is missing
+        "503":
+          description: preview proxy or signing key is unavailable
+  /stream-previews/{token}/{name}:
+    get:
+      security: []
+      summary: Read a signed public HLS preview asset
+      description: >
+        Public capability endpoint used by VLC and other HLS players. The signature is
+        bound to one stream and external_player purpose. Playlist URIs remain relative so
+        segment requests reuse the same signed path. The URL expires after 12 hours at
+        most and returns 410 after the stream stops.
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: Signed bearer capability. Never log or expose this value.
+          schema:
+            type: string
+            minLength: 1
+        - $ref: "#/components/parameters/previewAssetName"
+      responses:
+        "200":
+          description: HLS playlist or MPEG-TS segment
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: no-store for playlists; private, max-age=30 for segments
+            Referrer-Policy:
+              schema:
+                type: string
+              description: no-referrer
+          content:
+            application/vnd.apple.mpegurl:
+              schema:
+                type: string
+            video/mp2t:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: signed token or preview asset is invalid, expired, or not ready
+        "410":
+          description: stream is no longer active
   /streams/{id}/audio-status:
     get:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -1059,6 +1173,53 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SecuritySettings"
+  /settings/app:
+    get:
+      security: []
+      summary: Read public application settings
+      description: >
+        Returns only browser bootstrap settings: application name, time zone, public
+        Turnstile fields/configured status, and Google Analytics fields. SMTP settings and
+        all secret values are excluded.
+      responses:
+        "200":
+          description: public application settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicAppSettings"
+    put:
+      summary: Update managed application settings
+      parameters:
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppSettingsWriteRequest"
+      responses:
+        "200":
+          description: managed application settings updated; raw secrets are not returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedAppSettings"
+        "400":
+          description: invalid application settings or GA4 measurement ID
+  /settings/app/manage:
+    get:
+      summary: Read administrator application settings
+      description: Requires system_settings.update. Secret values are represented only by configured status.
+      responses:
+        "200":
+          description: managed application settings without raw secrets
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedAppSettings"
+        "403":
+          description: authenticated user does not have system_settings.update
   /observability/incidents:
     get:
       responses:
@@ -1411,6 +1572,14 @@ components:
       description: Required for unsafe cookie-authenticated requests.
       schema:
         type: string
+    previewAssetName:
+      name: name
+      in: path
+      required: true
+      description: HLS playlist or six-digit MPEG-TS segment name.
+      schema:
+        type: string
+        pattern: "^(index\\.m3u8|segment-[0-9]{6}\\.ts)$"
     auditActionGroup:
       name: action_group
       in: query
@@ -1725,6 +1894,161 @@ components:
           type: string
           format: date-time
           description: Hard session expiry. Activity refresh never moves this timestamp.
+    PublicAppSettings:
+      type: object
+      additionalProperties: false
+      required: [app_name, timezone]
+      description: Public browser bootstrap settings. SMTP and all secret values are excluded.
+      properties:
+        app_name:
+          type: string
+          minLength: 1
+          maxLength: 80
+        timezone:
+          type: string
+          minLength: 1
+          maxLength: 64
+          description: IANA time zone name used by the Control Panel UI.
+        turnstile_enabled:
+          type: boolean
+        turnstile_site_key:
+          type: string
+          maxLength: 255
+        turnstile_configured:
+          type: boolean
+          description: Configured status only. The Turnstile secret is never returned.
+        google_analytics_enabled:
+          type: boolean
+        google_analytics_measurement_id:
+          type: string
+          pattern: "^G-[A-Z0-9]{4,22}$"
+          description: Public GA4 measurement ID, present only when analytics is enabled and valid.
+        updated_at:
+          type: string
+          format: date-time
+    ManagedAppSettings:
+      type: object
+      additionalProperties: false
+      required: [app_name, timezone, smtp_enabled, smtp_starttls]
+      description: Administrator application settings. Secret values are represented only by configured status.
+      properties:
+        app_name:
+          type: string
+          minLength: 1
+          maxLength: 80
+        timezone:
+          type: string
+          minLength: 1
+          maxLength: 64
+        google_analytics_enabled:
+          type: boolean
+        google_analytics_measurement_id:
+          type: string
+          pattern: "^G-[A-Z0-9]{4,22}$"
+        smtp_enabled:
+          type: boolean
+        smtp_host:
+          type: string
+          maxLength: 255
+        smtp_port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+        smtp_starttls:
+          type: boolean
+        smtp_from:
+          type: string
+          maxLength: 512
+        smtp_username:
+          type: string
+          maxLength: 255
+        smtp_password_configured:
+          type: boolean
+          description: Configured status only. The SMTP password is never returned.
+        turnstile_enabled:
+          type: boolean
+        turnstile_site_key:
+          type: string
+          maxLength: 255
+        turnstile_configured:
+          type: boolean
+          description: Configured status only. The Turnstile secret is never returned.
+        updated_at:
+          type: string
+          format: date-time
+    AppSettingsWriteRequest:
+      type: object
+      additionalProperties: false
+      required: [app_name, timezone]
+      allOf:
+        - if:
+            properties:
+              google_analytics_enabled:
+                const: true
+            required: [google_analytics_enabled]
+          then:
+            required: [google_analytics_measurement_id]
+      properties:
+        app_name:
+          type: string
+          minLength: 1
+          maxLength: 80
+        timezone:
+          type: string
+          minLength: 1
+          maxLength: 64
+        google_analytics_enabled:
+          type: boolean
+        google_analytics_measurement_id:
+          type: string
+          pattern: "^[Gg]-[A-Za-z0-9]{4,22}$"
+          description: Control Panel normalizes accepted GA4 IDs to uppercase and clears the value when analytics is disabled.
+        smtp_enabled:
+          type: boolean
+        smtp_host:
+          type: string
+          maxLength: 255
+        smtp_port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+        smtp_starttls:
+          type: boolean
+        smtp_from:
+          type: string
+          maxLength: 512
+        smtp_username:
+          type: string
+          maxLength: 255
+        smtp_password:
+          type: string
+          writeOnly: true
+          description: Write-only SMTP password. It is encrypted at rest and never returned by API, UI, logs, or audit metadata.
+        turnstile_enabled:
+          type: boolean
+        turnstile_site_key:
+          type: string
+          maxLength: 255
+        turnstile_secret:
+          type: string
+          writeOnly: true
+          description: Write-only Turnstile secret. It is never returned by API, UI, logs, or audit metadata.
+    StreamPreviewLink:
+      type: object
+      additionalProperties: false
+      required: [stream_id, url, expires_at]
+      description: The URL is a bearer capability and must not be written to access logs, tickets, chat, screenshots, or audit metadata.
+      properties:
+        stream_id:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri-reference
+          description: Signed index.m3u8 URL or same-origin path. The web client resolves a same-origin path before copying it to an external player. It expires after 12 hours at most and is invalidated when the stream stops.
+        expires_at:
+          type: string
+          format: date-time
     SecuritySettings:
       type: object
       required: [password_min_length, password_hash, login_lockout_threshold, session_idle_timeout_min, session_absolute_lifetime_h, remember_me_enabled, mfa_mode]
@@ -2062,6 +2386,11 @@ components:
           type: boolean
         stream_key_fingerprint:
           type: string
+        watch_url:
+          type: string
+          format: uri
+          pattern: "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$"
+          description: Canonical public watch URL used by stream_key outputs. It contains no stream key or OAuth credential.
         oauth_account_id:
           type: string
         broadcast_title_template:
@@ -2125,6 +2454,10 @@ components:
           type: string
           writeOnly: true
           description: Write-only secret. Required when creating stream_key outputs, optional on update to keep the existing encrypted key. Never returned by Control API, UI, logs, or audit metadata.
+        watch_url:
+          type: string
+          format: uri
+          description: YouTube watch or share URL for stream_key mode. The server validates supported YouTube hosts and video IDs, rejects credentials, fragments, and non-default ports, then stores a canonical watch URL. New UI-created profiles require it; existing API profiles without this field remain compatible.
         oauth_account_id:
           type: string
           minLength: 1
@@ -2172,6 +2505,8 @@ components:
         watch_url:
           type: string
           format: uri
+          pattern: "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$"
+          description: Canonical public watch URL. Live API modes derive it from broadcast_id; stream_key mode uses the configured output watch_url.
         dry_run:
           type: boolean
         complete_on_stop:

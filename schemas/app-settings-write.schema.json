@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/app-settings-write.schema.json",
+  "title": "AppSettingsWriteRequest",
+  "description": "Administrator-only Control Panel application settings update.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["app_name", "timezone"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "google_analytics_enabled": { "const": true }
+        },
+        "required": ["google_analytics_enabled"]
+      },
+      "then": {
+        "required": ["google_analytics_measurement_id"]
+      }
+    }
+  ],
+  "properties": {
+    "app_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "timezone": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "google_analytics_enabled": {
+      "type": "boolean"
+    },
+    "google_analytics_measurement_id": {
+      "type": "string",
+      "pattern": "^[Gg]-[A-Za-z0-9]{4,22}$",
+      "description": "GA4 measurement ID. Control Panel normalizes accepted IDs to uppercase and clears the value when analytics is disabled."
+    },
+    "smtp_enabled": {
+      "type": "boolean"
+    },
+    "smtp_host": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "smtp_port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "smtp_starttls": {
+      "type": "boolean"
+    },
+    "smtp_from": {
+      "type": "string",
+      "maxLength": 512
+    },
+    "smtp_username": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "smtp_password": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Write-only SMTP password. It is encrypted at rest and never returned by the API, UI, logs, or audit metadata."
+    },
+    "turnstile_enabled": {
+      "type": "boolean"
+    },
+    "turnstile_site_key": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "turnstile_secret": {
+      "type": "string",
+      "writeOnly": true,
+      "description": "Write-only Turnstile secret. It is never returned by the API, UI, logs, or audit metadata."
+    }
+  }
+}

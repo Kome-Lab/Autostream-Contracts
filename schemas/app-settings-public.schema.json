@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/app-settings-public.schema.json",
+  "title": "PublicAppSettings",
+  "description": "Public browser bootstrap settings. SMTP configuration, secret values, and other administrator-only settings must not be included.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["app_name", "timezone"],
+  "properties": {
+    "app_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "timezone": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "IANA time zone name used by the Control Panel UI."
+    },
+    "turnstile_enabled": {
+      "type": "boolean"
+    },
+    "turnstile_site_key": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "turnstile_configured": {
+      "type": "boolean",
+      "description": "Configured status only. The Turnstile secret is never returned."
+    },
+    "google_analytics_enabled": {
+      "type": "boolean"
+    },
+    "google_analytics_measurement_id": {
+      "type": "string",
+      "pattern": "^G-[A-Z0-9]{4,22}$",
+      "description": "Public GA4 measurement ID. Present only when analytics is enabled and the saved ID is valid."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

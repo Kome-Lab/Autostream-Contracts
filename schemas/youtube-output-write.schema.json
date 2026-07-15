@@ -36,6 +36,11 @@
       "writeOnly": true,
       "description": "Write-only secret. Required when creating stream_key outputs, optional on update to keep the existing encrypted key. Never returned by Control API, UI, logs, or audit metadata."
     },
+    "watch_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "YouTube watch or share URL for stream_key mode. The server validates supported YouTube hosts and video IDs, rejects credentials, fragments, and non-default ports, then stores a canonical watch URL. New UI-created profiles require it; the API keeps existing profiles without this field readable and updatable for compatibility."
+    },
     "oauth_account_id": {
       "type": "string",
       "minLength": 1,

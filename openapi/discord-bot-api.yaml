@@ -1,0 +1,145 @@
+openapi: 3.1.0
+info:
+  title: AutoStream Discord Bot API
+  version: 0.1.0
+servers:
+  - url: https://discord-bot.internal.example.com
+security:
+  - serviceToken: []
+paths:
+  /streams/{id}/notifications/youtube-live:
+    post:
+      operationId: notifyYouTubeLive
+      summary: Publish the active YouTube watch URL to Discord
+      description: >
+        The authenticated primary Discord Bot re-fetches runtime config, verifies its
+        primary assignment, the active live job, and the configured text channel, then
+        sends a fixed message with mentions disabled. event_id provides in-process
+        idempotency. The request never accepts a channel ID from Control Panel.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/YouTubeLiveNotificationRequest"
+      responses:
+        "200":
+          description: message sent or an existing completed receipt reused
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YouTubeLiveNotificationResponse"
+        "400":
+          description: invalid JSON, event ID, stream ID, or YouTube watch URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+        "401":
+          description: service token missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+        "403":
+          description: service is not the primary Discord Bot or Discord denied channel access
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+        "409":
+          description: runtime config, active live job, channel binding, or event ID conflicts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+        "422":
+          description: Discord channel was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+        "429":
+          description: Discord rate limit; Control Panel may retry
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+        "500":
+          description: locally invalid Discord request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+        "502":
+          description: Discord or runtime config upstream failure; Control Panel may retry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+        "503":
+          description: runtime config or idempotency capacity unavailable; Control Panel may retry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationError"
+components:
+  securitySchemes:
+    serviceToken:
+      type: http
+      scheme: bearer
+      description: Node/service token supplied by Control Panel.
+  schemas:
+    YouTubeLiveNotificationRequest:
+      type: object
+      additionalProperties: false
+      required: [event_id, watch_url]
+      properties:
+        event_id:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Idempotency key. Reusing it with a different stream or URL is a conflict.
+        watch_url:
+          type: string
+          format: uri
+          maxLength: 1900
+          pattern: "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$"
+          description: Canonical YouTube watch URL without credentials, fragment, or a non-default port.
+    YouTubeLiveNotificationResponse:
+      type: object
+      additionalProperties: false
+      required: [status, message_id, already_sent]
+      properties:
+        status:
+          type: string
+          const: sent
+        message_id:
+          type: string
+          minLength: 1
+        already_sent:
+          type: boolean
+    ServiceNotificationError:
+      type: object
+      additionalProperties: false
+      required: [code, message, retryable]
+      properties:
+        code:
+          type: string
+          minLength: 1
+        message:
+          type: string
+        retryable:
+          type: boolean

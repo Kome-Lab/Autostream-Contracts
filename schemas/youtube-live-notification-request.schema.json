@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/youtube-live-notification-request.schema.json",
+  "title": "YouTubeLiveNotificationRequest",
+  "description": "Service-authenticated request for the primary Discord Bot to publish the active stream's YouTube watch URL. Channel IDs are resolved from runtime config and must not be accepted from this payload.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "watch_url"],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Idempotency key. Reusing it with a different stream or URL is a conflict."
+    },
+    "watch_url": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 1900,
+      "pattern": "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$",
+      "description": "Canonical HTTPS YouTube watch URL without credentials, fragment, or a non-default port."
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/youtube-live-notification-response.schema.json",
+  "title": "YouTubeLiveNotificationResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "message_id", "already_sent"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "const": "sent"
+    },
+    "message_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "already_sent": {
+      "type": "boolean",
+      "description": "True when a completed in-process idempotency receipt was reused."
+    }
+  }
+}

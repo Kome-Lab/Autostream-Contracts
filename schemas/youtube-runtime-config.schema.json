@@ -33,7 +33,9 @@
     },
     "watch_url": {
       "type": "string",
-      "format": "uri"
+      "format": "uri",
+      "pattern": "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$",
+      "description": "Canonical public watch URL. Live API modes derive it from broadcast_id; stream_key mode uses the configured output watch_url."
     },
     "dry_run": {
       "type": "boolean"

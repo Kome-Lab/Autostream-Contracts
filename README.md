@@ -4,7 +4,7 @@ AutoStream ecosystem の shared protocol / schema repository です。
 
 ## 役割
 
-- Control API / Observability API の OpenAPI skeleton。
+- Control API / Observability API / Encoder Recorder API / Discord Bot API の OpenAPI skeleton。
 - stream job、service registration、heartbeat、worker event、archive metadata、incident、remediation、notification の JSON Schema。
 - permission constants と common error response。
 
@@ -27,6 +27,15 @@ breaking change を入れる場合は、schema だけでなく migration path、
 ```powershell
 go test ./...
 go build ./...
+```
+
+OpenAPI YAML の構文と参照解決は、repositoryへ依存を追加せず次で確認できます。
+
+```powershell
+$bundle = Join-Path $env:TEMP 'autostream-control-api-bundle.yaml'
+npx --yes @redocly/cli@2.39.0 bundle openapi/control-api.yaml --output $bundle
+Remove-Item -LiteralPath $bundle -Force
+npx --yes @redocly/cli@2.39.0 lint openapi/encoder-recorder-api.yaml openapi/discord-bot-api.yaml
 ```
 
 PR では、変更した schema を参照する service repo の unit test と `autostream-docs` の docs consistency checks も確認します。contract 名、security regression symbol、docs hygiene の drift を拾うため、contract だけを green にして完了扱いにしません。

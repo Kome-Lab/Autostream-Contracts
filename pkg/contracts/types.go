@@ -370,6 +370,23 @@ type DiscordOpusIngestResponse struct {
 	LogsPath      string `json:"logs_path,omitempty"`
 }
 
+type YouTubeLiveNotificationRequest struct {
+	EventID  string `json:"event_id"`
+	WatchURL string `json:"watch_url"`
+}
+
+type YouTubeLiveNotificationResponse struct {
+	Status      string `json:"status"`
+	MessageID   string `json:"message_id"`
+	AlreadySent bool   `json:"already_sent"`
+}
+
+type ServiceNotificationError struct {
+	Code      string `json:"code"`
+	Message   string `json:"message"`
+	Retryable bool   `json:"retryable"`
+}
+
 type DiscordAudioBridgeStatus struct {
 	StreamID          string    `json:"stream_id"`
 	BridgeActive      bool      `json:"bridge_active"`
@@ -478,6 +495,7 @@ type YouTubeOutput struct {
 	RTMPURL                string            `json:"rtmp_url,omitempty"`
 	StreamKeyConfigured    bool              `json:"stream_key_configured,omitempty"`
 	StreamKeyFingerprint   string            `json:"stream_key_fingerprint,omitempty"`
+	WatchURL               string            `json:"watch_url,omitempty"`
 	OAuthAccountID         string            `json:"oauth_account_id,omitempty"`
 	BroadcastTitleTemplate string            `json:"broadcast_title_template,omitempty"`
 	BroadcastDescription   string            `json:"broadcast_description,omitempty"`
@@ -495,6 +513,7 @@ type YouTubeOutputWriteRequest struct {
 	Mode                   YouTubeOutputMode `json:"mode"`
 	RTMPURL                string            `json:"rtmp_url,omitempty"`
 	StreamKey              string            `json:"stream_key,omitempty"`
+	WatchURL               string            `json:"watch_url,omitempty"`
 	OAuthAccountID         string            `json:"oauth_account_id,omitempty"`
 	BroadcastTitleTemplate string            `json:"broadcast_title_template,omitempty"`
 	BroadcastDescription   string            `json:"broadcast_description,omitempty"`
@@ -697,6 +716,52 @@ type SessionRefreshResponse struct {
 	AbsoluteExpiresAt time.Time `json:"absolute_expires_at"`
 }
 
+type PublicAppSettings struct {
+	AppName                      string `json:"app_name"`
+	Timezone                     string `json:"timezone"`
+	TurnstileEnabled             bool   `json:"turnstile_enabled,omitempty"`
+	TurnstileSiteKey             string `json:"turnstile_site_key,omitempty"`
+	TurnstileConfigured          bool   `json:"turnstile_configured,omitempty"`
+	GoogleAnalyticsEnabled       bool   `json:"google_analytics_enabled,omitempty"`
+	GoogleAnalyticsMeasurementID string `json:"google_analytics_measurement_id,omitempty"`
+	UpdatedAt                    string `json:"updated_at,omitempty"`
+}
+
+type ManagedAppSettings struct {
+	AppName                      string `json:"app_name"`
+	Timezone                     string `json:"timezone"`
+	GoogleAnalyticsEnabled       bool   `json:"google_analytics_enabled,omitempty"`
+	GoogleAnalyticsMeasurementID string `json:"google_analytics_measurement_id,omitempty"`
+	SMTPEnabled                  bool   `json:"smtp_enabled"`
+	SMTPHost                     string `json:"smtp_host,omitempty"`
+	SMTPPort                     int    `json:"smtp_port,omitempty"`
+	SMTPStartTLS                 bool   `json:"smtp_starttls"`
+	SMTPFrom                     string `json:"smtp_from,omitempty"`
+	SMTPUsername                 string `json:"smtp_username,omitempty"`
+	SMTPPasswordConfigured       bool   `json:"smtp_password_configured,omitempty"`
+	TurnstileEnabled             bool   `json:"turnstile_enabled,omitempty"`
+	TurnstileSiteKey             string `json:"turnstile_site_key,omitempty"`
+	TurnstileConfigured          bool   `json:"turnstile_configured,omitempty"`
+	UpdatedAt                    string `json:"updated_at,omitempty"`
+}
+
+type AppSettingsWriteRequest struct {
+	AppName                      string `json:"app_name"`
+	Timezone                     string `json:"timezone"`
+	GoogleAnalyticsEnabled       bool   `json:"google_analytics_enabled,omitempty"`
+	GoogleAnalyticsMeasurementID string `json:"google_analytics_measurement_id,omitempty"`
+	SMTPEnabled                  bool   `json:"smtp_enabled"`
+	SMTPHost                     string `json:"smtp_host,omitempty"`
+	SMTPPort                     int    `json:"smtp_port,omitempty"`
+	SMTPStartTLS                 bool   `json:"smtp_starttls"`
+	SMTPFrom                     string `json:"smtp_from,omitempty"`
+	SMTPUsername                 string `json:"smtp_username,omitempty"`
+	SMTPPassword                 string `json:"smtp_password,omitempty"`
+	TurnstileEnabled             bool   `json:"turnstile_enabled,omitempty"`
+	TurnstileSiteKey             string `json:"turnstile_site_key,omitempty"`
+	TurnstileSecret              string `json:"turnstile_secret,omitempty"`
+}
+
 type SecuritySettings struct {
 	PasswordMinLength        int      `json:"password_min_length"`
 	PasswordHash             string   `json:"password_hash"`
@@ -709,6 +774,12 @@ type SecuritySettings struct {
 	MFASupportedMethods      []string `json:"mfa_supported_methods,omitempty"`
 	PasskeyStatus            string   `json:"passkey_status,omitempty"`
 	UpdatedAt                string   `json:"updated_at,omitempty"`
+}
+
+type StreamPreviewLink struct {
+	StreamID  string    `json:"stream_id"`
+	URL       string    `json:"url"`
+	ExpiresAt time.Time `json:"expires_at"`
 }
 
 type SecretStatus struct {

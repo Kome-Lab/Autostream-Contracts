@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/stream-preview-link.schema.json",
+  "title": "StreamPreviewLink",
+  "description": "Short-lived public HLS playlist link for an active stream. The URL is a bearer capability and must not be written to access logs, tickets, chat, screenshots, or audit metadata.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["stream_id", "url", "expires_at"],
+  "properties": {
+    "stream_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "Signed public index.m3u8 URL or same-origin path. The web client resolves a same-origin path before copying it to an external player. It expires after 12 hours at most and becomes unusable as soon as the stream is no longer starting, live, or stopping."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
