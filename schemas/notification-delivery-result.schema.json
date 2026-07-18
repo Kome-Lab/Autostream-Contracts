@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/notification-delivery-result.schema.json",
+  "title": "NotificationDeliveryResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_type", "channel", "target", "status"],
+  "properties": {
+    "event_type": {
+      "enum": [
+        "stream.started",
+        "stream.live",
+        "stream.completed",
+        "stream.failed",
+        "stream.warning",
+        "stream.error",
+        "incident.opened",
+        "incident.updated",
+        "incident.resolved",
+        "diagnostic.created",
+        "remediation.pending_approval",
+        "remediation.executed",
+        "archive.upload.completed",
+        "archive.upload.failed",
+        "service.offline",
+        "service.recovered",
+        "admin.audit"
+      ]
+    },
+    "channel": { "enum": ["discord", "slack", "generic", "email"] },
+    "target": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+      "description": "Masked delivery target only. Raw webhook URLs and email recipient addresses are never returned."
+    },
+    "status": { "enum": ["success", "failure"] },
+    "error": {
+      "type": "string",
+      "maxLength": 512,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]*$",
+      "description": "Optional sanitized error. Raw provider responses, target URLs, credentials, and tokens are never returned."
+    }
+  }
+}

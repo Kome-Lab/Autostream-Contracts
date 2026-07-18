@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/control-notification-channel-create.schema.json",
+  "title": "ControlNotificationChannelCreateRequest",
+  "description": "Control Panel notification-channel creation. Email channels always use globally managed application SMTP settings, enforced by the backend. Per-channel SMTP fields and uses_global_smtp are intentionally not accepted.",
+  "allOf": [
+    {
+      "$ref": "control-notification-channel-update.schema.json"
+    },
+    {
+      "if": {
+        "required": ["type"],
+        "properties": {
+          "type": { "const": "email" }
+        }
+      },
+      "then": {
+        "required": ["email_recipients"],
+        "properties": {
+          "email_recipients": {}
+        }
+      }
+    }
+  ]
+}

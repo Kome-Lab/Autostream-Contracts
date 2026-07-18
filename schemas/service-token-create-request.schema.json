@@ -22,6 +22,7 @@
           "encoder.status.write",
           "discord.status.write",
           "observability.ingest",
+          "notifications.email.send",
           "remediation.execute"
         ]
       },

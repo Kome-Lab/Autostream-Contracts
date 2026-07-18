@@ -43,17 +43,18 @@ const (
 type ServiceScope string
 
 const (
-	ScopeServiceRegister      ServiceScope = "service.register"
-	ScopeServiceHeartbeat     ServiceScope = "service.heartbeat"
-	ScopeServiceLogsWrite     ServiceScope = "service.logs.write"
-	ScopeServiceStatusWrite   ServiceScope = "service.status.write"
-	ScopeServiceConfigRead    ServiceScope = "service.config.read"
-	ScopeServiceSecretResolve ServiceScope = "service.secret.resolve"
-	ScopeWorkerEventsWrite    ServiceScope = "worker.events.write"
-	ScopeEncoderStatusWrite   ServiceScope = "encoder.status.write"
-	ScopeDiscordStatusWrite   ServiceScope = "discord.status.write"
-	ScopeObservabilityIngest  ServiceScope = "observability.ingest"
-	ScopeRemediationExecute   ServiceScope = "remediation.execute"
+	ScopeServiceRegister        ServiceScope = "service.register"
+	ScopeServiceHeartbeat       ServiceScope = "service.heartbeat"
+	ScopeServiceLogsWrite       ServiceScope = "service.logs.write"
+	ScopeServiceStatusWrite     ServiceScope = "service.status.write"
+	ScopeServiceConfigRead      ServiceScope = "service.config.read"
+	ScopeServiceSecretResolve   ServiceScope = "service.secret.resolve"
+	ScopeWorkerEventsWrite      ServiceScope = "worker.events.write"
+	ScopeEncoderStatusWrite     ServiceScope = "encoder.status.write"
+	ScopeDiscordStatusWrite     ServiceScope = "discord.status.write"
+	ScopeObservabilityIngest    ServiceScope = "observability.ingest"
+	ScopeNotificationsEmailSend ServiceScope = "notifications.email.send"
+	ScopeRemediationExecute     ServiceScope = "remediation.execute"
 )
 
 type ErrorResponse struct {
@@ -252,6 +253,23 @@ type ServiceRuntimeSecretResolveResponse struct {
 	SecretName   string `json:"secret_name"`
 	Value        string `json:"value"`
 	ExpiresInSec int    `json:"expires_in_sec"`
+}
+
+// ServiceNotificationEmailRequest asks Control Panel to deliver one plain-text
+// message with its globally managed SMTP settings. This service-authenticated
+// request is restricted to a registered Observability service token that has
+// the dedicated notifications.email.send scope.
+type ServiceNotificationEmailRequest struct {
+	Recipients []string `json:"recipients"`
+	Subject    string   `json:"subject"`
+	Text       string   `json:"text"`
+}
+
+// ServiceNotificationEmailResponse intentionally reports only a count so raw
+// recipient addresses and SMTP settings never cross the response boundary.
+type ServiceNotificationEmailResponse struct {
+	Status         string `json:"status"`
+	RecipientCount int    `json:"recipient_count"`
 }
 
 type Heartbeat struct {
@@ -1036,13 +1054,40 @@ const (
 	NotificationArchiveUploadFailed        NotificationEventType = "archive.upload.failed"
 	NotificationServiceOffline             NotificationEventType = "service.offline"
 	NotificationServiceRecovered           NotificationEventType = "service.recovered"
+	NotificationAdminAudit                 NotificationEventType = "admin.audit"
 )
+
+// NotificationEventWriteRequest is the secret-free event envelope accepted by
+// Observability's service/admin notification event endpoint. Metadata is
+// deliberately not part of this contract.
+type NotificationEventWriteRequest struct {
+	EventType     NotificationEventType `json:"event_type"`
+	Severity      string                `json:"severity,omitempty"`
+	Status        string                `json:"status,omitempty"`
+	Action        string                `json:"action"`
+	ResourceType  string                `json:"resource_type,omitempty"`
+	ResourceID    string                `json:"resource_id,omitempty"`
+	ActorUsername string                `json:"actor_username,omitempty"`
+	Summary       string                `json:"summary,omitempty"`
+	Timestamp     string                `json:"timestamp,omitempty"`
+}
+
+// NotificationDeliveryResult is a secret-safe delivery attempt returned by
+// notification-events. Target and Error must already be masked or sanitized.
+type NotificationDeliveryResult struct {
+	EventType NotificationEventType `json:"event_type"`
+	Channel   string                `json:"channel"`
+	Target    string                `json:"target"`
+	Status    string                `json:"status"`
+	Error     string                `json:"error,omitempty"`
+}
 
 type NotificationChannel struct {
 	ID                     string    `json:"id"`
 	Name                   string    `json:"name"`
 	Type                   string    `json:"type"`
 	Enabled                bool      `json:"enabled"`
+	UsesGlobalSMTP         bool      `json:"uses_global_smtp"`
 	MaskedWebhookURL       string    `json:"masked_webhook_url,omitempty"`
 	SMTPPasswordConfigured bool      `json:"smtp_password_configured,omitempty"`
 	MaskedEmailTarget      string    `json:"masked_email_target,omitempty"`
@@ -1058,6 +1103,9 @@ type NotificationChannelWriteRequest struct {
 	Enabled         bool     `json:"enabled"`
 	WebhookURL      string   `json:"webhook_url,omitempty"`
 	EmailRecipients []string `json:"email_recipients,omitempty"`
+	UsesGlobalSMTP  *bool    `json:"uses_global_smtp,omitempty"`
+	// Deprecated: direct SMTP settings are retained only for existing
+	// Observability channels. New email channels use UsesGlobalSMTP.
 	SMTPHost        string   `json:"smtp_host,omitempty"`
 	SMTPPort        int      `json:"smtp_port,omitempty"`
 	SMTPTLS         bool     `json:"smtp_tls,omitempty"`
@@ -1067,6 +1115,25 @@ type NotificationChannelWriteRequest struct {
 	SeverityFilter  []string `json:"severity_filter,omitempty"`
 	EventTypeFilter []string `json:"event_type_filter,omitempty"`
 }
+
+// ControlNotificationChannelUpdateRequest is the browser-facing Control Panel
+// write shape. It deliberately excludes per-channel SMTP configuration and the
+// global/legacy SMTP mode selector. Omitted recipients preserve the existing
+// masked recipient set and delivery mode.
+type ControlNotificationChannelUpdateRequest struct {
+	Name            string   `json:"name"`
+	Type            string   `json:"type"`
+	Enabled         bool     `json:"enabled"`
+	WebhookURL      string   `json:"webhook_url,omitempty"`
+	EmailRecipients []string `json:"email_recipients,omitempty"`
+	SeverityFilter  []string `json:"severity_filter,omitempty"`
+	EventTypeFilter []string `json:"event_type_filter,omitempty"`
+}
+
+// ControlNotificationChannelCreateRequest has the same wire fields as an
+// update. The create schema additionally requires recipients for email and the
+// backend always selects globally managed SMTP for new email channels.
+type ControlNotificationChannelCreateRequest = ControlNotificationChannelUpdateRequest
 
 type OAuthProvider struct {
 	ID                     string    `json:"id"`

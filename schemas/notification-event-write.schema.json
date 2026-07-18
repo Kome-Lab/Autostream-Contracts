@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/notification-event-write.schema.json",
+  "title": "NotificationEventWriteRequest",
+  "description": "Secret-free administrative notification event. metadata and all other unknown properties are rejected. Raw tokens, credentials, webhook URLs, passwords, authorization values, and other secrets must never be supplied in any field.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_type", "action"],
+  "properties": {
+    "event_type": {
+      "const": "admin.audit",
+      "description": "Administrative audit notification event type."
+    },
+    "severity": {
+      "enum": ["info", "warning", "error", "critical"],
+      "default": "info"
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "description": "Short non-secret status identifier."
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)*$",
+      "description": "Required stable dotted ASCII identifier; raw values are prohibited."
+    },
+    "resource_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "description": "Non-secret resource type identifier."
+    },
+    "resource_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+      "description": "Non-secret opaque resource identifier. URLs, credentials, tokens, and control characters are prohibited."
+    },
+    "actor_username": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+      "description": "Display-safe non-secret actor name; control characters are prohibited."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+      "description": "Short display-safe summary. Raw secrets, URLs carrying credentials, and control characters are prohibited."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40,
+      "description": "Optional source event time. It is context only and not an outbox or idempotency identifier."
+    }
+  }
+}

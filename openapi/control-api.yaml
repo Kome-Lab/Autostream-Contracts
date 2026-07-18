@@ -1001,6 +1001,74 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /services/notifications/email:
+    post:
+      summary: Send a notification email with global SMTP
+      operationId: sendServiceNotificationEmail
+      security:
+        - bearerToken: []
+      description: Delivers a plain-text notification with the globally managed application SMTP settings. This service endpoint requires the dedicated notifications.email.send scope, a registered non-pending service owned by the token, and service_type=observability. SMTP configuration and credentials are loaded only inside Control Panel and are never copied into notification channels, runtime config, responses, audit metadata, or logs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceNotificationEmailRequest"
+      responses:
+        "202":
+          description: the configured SMTP server accepted the message delivery attempt
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceNotificationEmailResponse"
+        "400":
+          description: bad_request or invalid_email_notification; recipients, subject, or text violated the size, bare-mailbox, or control-character contract
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: missing_service_token or invalid_service_token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: missing_service_scope, service_type_not_allowed, or service_token_not_registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: smtp_not_configured or smtp_requires_tls
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: rate_limited
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: list_services_failed or app_settings_failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: smtp_dial_failed, smtp_starttls_failed, smtp_auth_failed, smtp_from_rejected, smtp_recipient_rejected, smtp_data_failed, smtp_write_failed, smtp_close_failed, or send_failed; the response never includes raw SMTP failure details, credentials, or recipient addresses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: secret_encryption_key_required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /services/heartbeat:
     post:
       security:
@@ -1286,7 +1354,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NotificationChannelWriteRequest"
+              $ref: "#/components/schemas/ControlNotificationChannelCreateRequest"
       responses:
         "201":
           description: proxied notification channel created
@@ -1319,7 +1387,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NotificationChannelWriteRequest"
+              $ref: "#/components/schemas/ControlNotificationChannelUpdateRequest"
       responses:
         "200":
           description: proxied notification channel updated
@@ -1346,6 +1414,12 @@ paths:
       responses:
         "202":
           description: proxied notification channel test
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NotificationDeliveryResult"
   /integrations/oauth-providers:
     get:
       responses:
@@ -1674,6 +1748,28 @@ components:
             - runtime_secret_transport_insecure
             - runtime_secret_lease_active
             - runtime_secret_not_allowed
+            - bad_request
+            - invalid_email_notification
+            - missing_service_token
+            - invalid_service_token
+            - missing_service_scope
+            - service_type_not_allowed
+            - service_token_not_registered
+            - rate_limited
+            - list_services_failed
+            - app_settings_failed
+            - secret_encryption_key_required
+            - smtp_not_configured
+            - smtp_requires_tls
+            - smtp_dial_failed
+            - smtp_starttls_failed
+            - smtp_auth_failed
+            - smtp_from_rejected
+            - smtp_recipient_rejected
+            - smtp_data_failed
+            - smtp_write_failed
+            - smtp_close_failed
+            - send_failed
         message:
           type: string
     User:
@@ -2174,6 +2270,7 @@ components:
               - encoder.status.write
               - discord.status.write
               - observability.ingest
+              - notifications.email.send
               - remediation.execute
           uniqueItems: true
         service_id:
@@ -2735,6 +2832,48 @@ components:
           type: integer
           minimum: 1
           description: Lease lifetime for this resolved value. During this window, the same service/context/secret returns runtime_secret_lease_active instead of the raw value.
+    ServiceNotificationEmailRequest:
+      type: object
+      additionalProperties: false
+      required: [recipients, subject, text]
+      properties:
+        recipients:
+          type: array
+          minItems: 1
+          maxItems: 20
+          uniqueItems: true
+          items:
+            type: string
+            format: email
+            maxLength: 320
+            pattern: '^[^\r\n]+$'
+            description: Bare mailbox address only; display names and CR/LF are rejected.
+          description: Email envelope recipients. Responses and errors never reflect these addresses raw.
+        subject:
+          type: string
+          minLength: 1
+          maxLength: 200
+          pattern: '^[^\r\n]*$'
+          description: Email subject. The server counts Unicode code points and rejects CR/LF to prevent header injection.
+        text:
+          type: string
+          minLength: 1
+          maxLength: 16384
+          pattern: '^[^\u0000]*$'
+          description: Plain-text body. The server enforces a maximum of 16,384 UTF-8 bytes and rejects NUL.
+    ServiceNotificationEmailResponse:
+      type: object
+      additionalProperties: false
+      required: [status, recipient_count]
+      properties:
+        status:
+          type: string
+          const: sent
+        recipient_count:
+          type: integer
+          minimum: 1
+          maximum: 20
+          description: Number of recipients submitted without returning their addresses.
     StreamArtifact:
       type: object
       additionalProperties: false
@@ -2779,12 +2918,15 @@ components:
           maxItems: 20
           items:
             $ref: "#/components/schemas/StreamArtifact"
-    NotificationChannelWriteRequest:
+    ControlNotificationChannelUpdateRequest:
       type: object
+      additionalProperties: false
       required: [name, type, enabled]
+      description: Control Panel notification-channel update. Per-channel SMTP fields and uses_global_smtp are not accepted. Omitting email_recipients preserves the existing masked recipient set, and the backend preserves the channel's existing legacy/global delivery mode.
       properties:
         name:
           type: string
+          minLength: 1
         type:
           enum: [discord, slack, generic, email]
         enabled:
@@ -2794,41 +2936,71 @@ components:
           format: uri
           pattern: "^https?://"
           writeOnly: true
-          description: Write-only secret. Only http/https absolute URLs are accepted.
+          description: Optional write-only webhook replacement. Omission preserves the existing encrypted URL; it is never returned raw.
         email_recipients:
           type: array
+          minItems: 1
+          maxItems: 20
+          uniqueItems: true
           items:
             type: string
             format: email
-        smtp_host:
-          type: string
-        smtp_port:
-          type: integer
-          minimum: 1
-          maximum: 65535
-        smtp_tls:
-          type: boolean
-        smtp_from:
-          type: string
-          format: email
-        smtp_username:
-          type: string
-        smtp_password:
-          type: string
-          writeOnly: true
-          description: Write-only SMTP password. It is encrypted at rest and never returned.
+            maxLength: 320
+            pattern: '^[^\r\n]+$'
+            description: Bare mailbox address only; display names and CR/LF are rejected.
+          description: Optional replacement recipient set. Omission preserves existing recipients; an explicitly empty array is invalid.
         severity_filter:
           type: array
+          uniqueItems: true
           items:
             enum: [info, warning, error, critical]
         event_type_filter:
           type: array
+          uniqueItems: true
           items:
             type: string
+    ControlNotificationChannelCreateRequest:
+      description: Control Panel notification-channel creation. Email channels always use globally managed application SMTP settings, enforced by the backend. Per-channel SMTP fields and uses_global_smtp are not accepted.
+      allOf:
+        - $ref: "#/components/schemas/ControlNotificationChannelUpdateRequest"
+        - if:
+            required: [type]
+            properties:
+              type:
+                const: email
+          then:
+            required: [email_recipients]
+            properties:
+              email_recipients: {}
+    NotificationDeliveryResult:
+      type: object
+      additionalProperties: false
+      required: [event_type, channel, target, status]
+      properties:
+        event_type:
+          type: string
+          enum: [stream.started, stream.live, stream.completed, stream.failed, stream.warning, stream.error, incident.opened, incident.updated, incident.resolved, diagnostic.created, remediation.pending_approval, remediation.executed, archive.upload.completed, archive.upload.failed, service.offline, service.recovered, admin.audit]
+        channel:
+          type: string
+          enum: [discord, slack, generic, email]
+        target:
+          type: string
+          minLength: 1
+          maxLength: 512
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          description: Masked delivery target only. Raw webhook URLs and email recipient addresses are never returned.
+        status:
+          type: string
+          enum: [success, failure]
+        error:
+          type: string
+          maxLength: 512
+          pattern: '^[^\u0000-\u001F\u007F]*$'
+          description: Optional sanitized error. Raw provider responses, target URLs, credentials, and tokens are never returned.
     NotificationChannel:
       type: object
       additionalProperties: false
-      required: [id, name, type, enabled, created_at, updated_at]
+      required: [id, name, type, enabled, uses_global_smtp, created_at, updated_at]
       properties:
         id:
           type: string
@@ -2838,12 +3010,16 @@ components:
           enum: [discord, slack, generic, email]
         enabled:
           type: boolean
+        uses_global_smtp:
+          type: boolean
+          description: Whether this email channel delegates delivery to Control Panel using globally managed application SMTP settings. This reveals no SMTP credentials.
         masked_webhook_url:
           type: string
           description: Raw webhook URL is never returned.
         smtp_password_configured:
           type: boolean
-          description: Indicates whether an SMTP password is configured without exposing the password.
+          deprecated: true
+          description: Deprecated direct-Observability SMTP compatibility status. False for global-SMTP channels and never exposes the password.
         masked_email_target:
           type: string
           description: Raw email recipients and SMTP settings are never returned as unmasked response fields.

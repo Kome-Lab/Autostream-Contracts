@@ -4,6 +4,31 @@
   "type": "object",
   "required": ["name", "type", "enabled"],
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "required": ["uses_global_smtp"],
+        "properties": {
+          "uses_global_smtp": { "const": true }
+        }
+      },
+      "then": {
+        "properties": {
+          "type": { "const": "email" }
+        },
+        "not": {
+          "anyOf": [
+            { "required": ["smtp_host"], "properties": { "smtp_host": {} } },
+            { "required": ["smtp_port"], "properties": { "smtp_port": {} } },
+            { "required": ["smtp_tls"], "properties": { "smtp_tls": {} } },
+            { "required": ["smtp_from"], "properties": { "smtp_from": {} } },
+            { "required": ["smtp_username"], "properties": { "smtp_username": {} } },
+            { "required": ["smtp_password"], "properties": { "smtp_password": {} } }
+          ]
+        }
+      }
+    }
+  ],
   "properties": {
     "name": { "type": "string", "minLength": 1 },
     "type": { "enum": ["discord", "slack", "generic", "email"] },
@@ -17,17 +42,55 @@
     },
     "email_recipients": {
       "type": "array",
-      "items": { "type": "string", "format": "email" },
-      "uniqueItems": true
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "format": "email",
+        "maxLength": 320,
+        "pattern": "^[^\\r\\n]+$",
+        "description": "Bare mailbox address only; display names and CR/LF are not accepted."
+      },
+      "uniqueItems": true,
+      "description": "Notification recipients. Required for email-channel creation by NotificationChannelCreateRequest. On update, omission preserves the existing masked recipient set; when supplied, the array must be non-empty."
     },
-    "smtp_host": { "type": "string" },
-    "smtp_port": { "type": "integer", "minimum": 1, "maximum": 65535 },
-    "smtp_tls": { "type": "boolean" },
-    "smtp_from": { "type": "string", "format": "email" },
-    "smtp_username": { "type": "string" },
+    "uses_global_smtp": {
+      "type": "boolean",
+      "description": "For an email channel, true delegates delivery to the service-authenticated Control Panel email relay, which uses globally managed application SMTP settings; false selects deprecated direct-Observability SMTP compatibility. SMTP credentials are never copied into a global-SMTP channel or runtime config. On update, omission preserves the existing mode."
+    },
+    "smtp_host": {
+      "type": "string",
+      "deprecated": true,
+      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
+    },
+    "smtp_port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535,
+      "deprecated": true,
+      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
+    },
+    "smtp_tls": {
+      "type": "boolean",
+      "deprecated": true,
+      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
+    },
+    "smtp_from": {
+      "type": "string",
+      "format": "email",
+      "deprecated": true,
+      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
+    },
+    "smtp_username": {
+      "type": "string",
+      "deprecated": true,
+      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
+    },
     "smtp_password": {
       "type": "string",
-      "writeOnly": true
+      "writeOnly": true,
+      "deprecated": true,
+      "description": "Deprecated write-only direct-Observability SMTP password. Do not supply when uses_global_smtp is true; it is never returned raw."
     },
     "severity_filter": {
       "type": "array",

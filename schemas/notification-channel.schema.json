@@ -2,15 +2,23 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "NotificationChannel",
   "type": "object",
-  "required": ["id", "name", "type", "enabled", "created_at", "updated_at"],
+  "required": ["id", "name", "type", "enabled", "uses_global_smtp", "created_at", "updated_at"],
   "additionalProperties": false,
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "name": { "type": "string", "minLength": 1 },
     "type": { "enum": ["discord", "slack", "generic", "email"] },
     "enabled": { "type": "boolean" },
+    "uses_global_smtp": {
+      "type": "boolean",
+      "description": "Whether this email channel delegates delivery to the Control Panel using globally managed application SMTP settings. This reveals no SMTP credentials."
+    },
     "masked_webhook_url": { "type": "string" },
-    "smtp_password_configured": { "type": "boolean" },
+    "smtp_password_configured": {
+      "type": "boolean",
+      "deprecated": true,
+      "description": "Deprecated direct-Observability SMTP compatibility status. False for global-SMTP channels."
+    },
     "masked_email_target": { "type": "string" },
     "severity_filter": {
       "type": "array",

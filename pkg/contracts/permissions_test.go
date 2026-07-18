@@ -31,7 +31,7 @@ func TestCoreWireConstants(t *testing.T) {
 	if AssignmentRolePrimary != "primary" || AssignmentRoleStandby != "standby" {
 		t.Fatal("service assignment role wire values changed")
 	}
-	if ScopeServiceRegister != "service.register" || ScopeServiceConfigRead != "service.config.read" || ScopeServiceSecretResolve != "service.secret.resolve" || ScopeObservabilityIngest != "observability.ingest" || ScopeRemediationExecute != "remediation.execute" {
+	if ScopeServiceRegister != "service.register" || ScopeServiceConfigRead != "service.config.read" || ScopeServiceSecretResolve != "service.secret.resolve" || ScopeObservabilityIngest != "observability.ingest" || ScopeNotificationsEmailSend != "notifications.email.send" || ScopeRemediationExecute != "remediation.execute" {
 		t.Fatal("service scope wire values changed")
 	}
 	if SignalMetric != "metric" || SignalDiagnosticReport != "diagnostic_report" {

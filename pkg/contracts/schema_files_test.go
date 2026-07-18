@@ -592,9 +592,11 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 		"\"email\"",
 		"\"webhook_url\"",
 		"\"email_recipients\"",
+		"\"uses_global_smtp\"",
 		"\"format\": \"email\"",
 		"\"smtp_from\"",
 		"\"smtp_password\"",
+		"\"deprecated\": true",
 		"\"writeOnly\": true",
 		"Write-only Discord, Slack, or generic webhook URL",
 	} {
@@ -603,6 +605,7 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 		}
 	}
 	for _, want := range []string{
+		"\"uses_global_smtp\"",
 		"\"smtp_password_configured\"",
 		"\"masked_email_target\"",
 	} {
@@ -624,10 +627,11 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 	for _, want := range []string{
 		"enum: [discord, slack, generic, email]",
 		"NotificationChannel:",
+		"uses_global_smtp:",
+		"Deprecated direct-Observability SMTP compatibility status.",
 		"proxied notification channels without raw webhook URLs or raw SMTP settings",
 		"masked_email_target:",
 		"smtp_password_configured:",
-		"smtp_password:",
 		"writeOnly: true",
 		"format: email",
 		"Raw email recipients and SMTP settings are never returned as unmasked response fields.",
@@ -638,6 +642,7 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 	}
 	for _, want := range []string{
 		"webhook_url:",
+		"uses_global_smtp:",
 		"writeOnly: true",
 		"Write-only secret. Only http/https absolute URLs are accepted.",
 	} {
@@ -645,6 +650,367 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 			t.Fatalf("observability-api.yaml is missing webhook write-only marker %q", want)
 		}
 	}
+}
+
+func TestControlNotificationChannelWriteContractsExcludeLegacySMTP(t *testing.T) {
+	type property struct {
+		MinItems int `json:"minItems"`
+	}
+	read := func(name string) ([]byte, map[string]property) {
+		t.Helper()
+		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", name))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var schema struct {
+			Properties map[string]property `json:"properties"`
+		}
+		if err := json.Unmarshal(body, &schema); err != nil {
+			t.Fatal(err)
+		}
+		return body, schema.Properties
+	}
+
+	updateBody, updateProperties := read("control-notification-channel-update.schema.json")
+	for _, forbidden := range []string{"uses_global_smtp", "smtp_host", "smtp_port", "smtp_tls", "smtp_from", "smtp_username", "smtp_password"} {
+		if _, exists := updateProperties[forbidden]; exists {
+			t.Fatalf("Control notification update schema exposes forbidden field %q", forbidden)
+		}
+	}
+	if updateProperties["email_recipients"].MinItems != 1 || !strings.Contains(string(updateBody), "Omission preserves existing recipients") {
+		t.Fatal("Control notification update must reject explicit empty recipients while preserving omission")
+	}
+
+	createBody, _ := read("control-notification-channel-create.schema.json")
+	var create struct {
+		AllOf []struct {
+			Ref  string `json:"$ref"`
+			Then struct {
+				Required []string `json:"required"`
+			} `json:"then"`
+		} `json:"allOf"`
+	}
+	if err := json.Unmarshal(createBody, &create); err != nil {
+		t.Fatal(err)
+	}
+	if len(create.AllOf) != 2 || create.AllOf[0].Ref != "control-notification-channel-update.schema.json" || !stringSliceContainsForSchemaTest(create.AllOf[1].Then.Required, "email_recipients") {
+		t.Fatalf("Control email create must require recipients on top of its update shape: %#v", create.AllOf)
+	}
+
+	controlOpenAPI, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	raw := string(controlOpenAPI)
+	for _, want := range []string{
+		"#/components/schemas/ControlNotificationChannelCreateRequest",
+		"#/components/schemas/ControlNotificationChannelUpdateRequest",
+		"backend preserves the channel's existing legacy/global delivery mode",
+		"an explicitly empty array is invalid",
+	} {
+		if !strings.Contains(raw, want) {
+			t.Fatalf("control-api.yaml is missing Control notification write marker %q", want)
+		}
+	}
+	for _, forbidden := range []string{"    NotificationChannelWriteRequest:", "    NotificationChannelCreateRequest:"} {
+		if strings.Contains(raw, forbidden) {
+			t.Fatalf("control-api.yaml still exposes legacy request field/component %q", forbidden)
+		}
+	}
+	start := strings.Index(raw, "    ControlNotificationChannelUpdateRequest:")
+	if start < 0 {
+		t.Fatal("could not isolate Control notification request components")
+	}
+	endOffset := strings.Index(raw[start:], "\n    NotificationDeliveryResult:")
+	if endOffset < 0 {
+		t.Fatal("could not isolate Control notification request components")
+	}
+	requestComponents := raw[start : start+endOffset]
+	for _, forbidden := range []string{"        uses_global_smtp:", "        smtp_host:", "        smtp_port:", "        smtp_tls:", "        smtp_from:", "        smtp_username:", "        smtp_password:"} {
+		if strings.Contains(requestComponents, forbidden) {
+			t.Fatalf("Control notification request components expose forbidden field %q", forbidden)
+		}
+	}
+}
+
+func TestServiceNotificationEmailRelayContracts(t *testing.T) {
+	requestBody, err := os.ReadFile(filepath.Join("..", "..", "schemas", "service-notification-email-request.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	responseBody, err := os.ReadFile(filepath.Join("..", "..", "schemas", "service-notification-email-response.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	serviceTokenBody, err := os.ReadFile(filepath.Join("..", "..", "schemas", "service-token-create-request.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(serviceTokenBody), `"notifications.email.send"`) {
+		t.Fatal("service token create schema is missing the dedicated notification email scope")
+	}
+
+	type property struct {
+		Type        string `json:"type"`
+		MinItems    int    `json:"minItems"`
+		MaxItems    int    `json:"maxItems"`
+		MinLength   int    `json:"minLength"`
+		MaxLength   int    `json:"maxLength"`
+		Pattern     string `json:"pattern"`
+		UniqueItems bool   `json:"uniqueItems"`
+		Const       string `json:"const"`
+	}
+	var request struct {
+		AdditionalProperties bool                `json:"additionalProperties"`
+		Required             []string            `json:"required"`
+		Properties           map[string]property `json:"properties"`
+	}
+	if err := json.Unmarshal(requestBody, &request); err != nil {
+		t.Fatal(err)
+	}
+	if request.AdditionalProperties {
+		t.Fatal("service notification email request must reject unknown fields")
+	}
+	for _, field := range []string{"recipients", "subject", "text"} {
+		if !stringSliceContainsForSchemaTest(request.Required, field) {
+			t.Fatalf("service notification email request must require %q", field)
+		}
+	}
+	recipients := request.Properties["recipients"]
+	if recipients.MinItems != 1 || recipients.MaxItems != 20 || !recipients.UniqueItems {
+		t.Fatalf("recipient bounds must be 1..20 unique, got %#v", recipients)
+	}
+	subject := request.Properties["subject"]
+	if subject.MinLength != 1 || subject.MaxLength != 200 || !strings.Contains(subject.Pattern, `\r`) || !strings.Contains(subject.Pattern, `\n`) {
+		t.Fatalf("subject must be 1..200 code points with CR/LF excluded, got %#v", subject)
+	}
+	text := request.Properties["text"]
+	if text.MinLength != 1 || text.MaxLength != 16384 || !strings.Contains(text.Pattern, `\u0000`) {
+		t.Fatalf("text must be 1..16384 with NUL excluded, got %#v", text)
+	}
+
+	var response struct {
+		Required   []string            `json:"required"`
+		Properties map[string]property `json:"properties"`
+	}
+	if err := json.Unmarshal(responseBody, &response); err != nil {
+		t.Fatal(err)
+	}
+	if response.Properties["status"].Const != "sent" || !stringSliceContainsForSchemaTest(response.Required, "recipient_count") {
+		t.Fatalf("service notification email response must expose only sent status and recipient count: %#v", response)
+	}
+
+	writeBody, err := os.ReadFile(filepath.Join("..", "..", "schemas", "notification-channel-write.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var write struct {
+		AllOf []struct {
+			Then struct {
+				Required   []string            `json:"required"`
+				Properties map[string]property `json:"properties"`
+				Not        struct {
+					AnyOf []struct {
+						Required []string `json:"required"`
+					} `json:"anyOf"`
+				} `json:"not"`
+			} `json:"then"`
+		} `json:"allOf"`
+	}
+	if err := json.Unmarshal(writeBody, &write); err != nil {
+		t.Fatal(err)
+	}
+	if len(write.AllOf) != 1 {
+		t.Fatalf("expected one global SMTP compatibility condition: %#v", write.AllOf)
+	}
+	if stringSliceContainsForSchemaTest(write.AllOf[0].Then.Required, "email_recipients") {
+		t.Fatalf("update schema must allow omitted recipients to preserve the existing masked set: %#v", write.AllOf)
+	}
+	if write.AllOf[0].Then.Properties["type"].Const != "email" {
+		t.Fatalf("uses_global_smtp=true must be limited to email channels: %#v", write.AllOf[0].Then.Properties)
+	}
+	forbidden := map[string]bool{}
+	for _, condition := range write.AllOf[0].Then.Not.AnyOf {
+		for _, field := range condition.Required {
+			forbidden[field] = true
+		}
+	}
+	for _, field := range []string{"smtp_host", "smtp_port", "smtp_tls", "smtp_from", "smtp_username", "smtp_password"} {
+		if !forbidden[field] {
+			t.Fatalf("uses_global_smtp=true must reject legacy field %q", field)
+		}
+	}
+
+	createBody, err := os.ReadFile(filepath.Join("..", "..", "schemas", "notification-channel-create.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var create struct {
+		AllOf []struct {
+			Ref  string `json:"$ref"`
+			Then struct {
+				Required []string `json:"required"`
+			} `json:"then"`
+		} `json:"allOf"`
+	}
+	if err := json.Unmarshal(createBody, &create); err != nil {
+		t.Fatal(err)
+	}
+	if len(create.AllOf) != 2 || create.AllOf[0].Ref != "notification-channel-write.schema.json" || !stringSliceContainsForSchemaTest(create.AllOf[1].Then.Required, "email_recipients") {
+		t.Fatalf("email create schema must require recipients while reusing the update-compatible write schema: %#v", create.AllOf)
+	}
+
+	controlOpenAPI, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{
+		"/services/notifications/email:",
+		"requires the dedicated notifications.email.send scope",
+		"#/components/schemas/ServiceNotificationEmailRequest",
+		"#/components/schemas/ServiceNotificationEmailResponse",
+		"#/components/schemas/ControlNotificationChannelCreateRequest",
+		"#/components/schemas/NotificationDeliveryResult",
+		"status:",
+		"const: sent",
+		"recipient_count:",
+		"smtp_not_configured",
+		"smtp_requires_tls",
+		"invalid_email_notification",
+		"smtp_auth_failed",
+		"smtp_recipient_rejected",
+		"send_failed",
+		"service_type_not_allowed",
+		"service_token_not_registered",
+		"rate_limited",
+		"list_services_failed",
+		"app_settings_failed",
+		"secret_encryption_key_required",
+	} {
+		if !strings.Contains(string(controlOpenAPI), want) {
+			t.Fatalf("control-api.yaml is missing service email relay marker %q", want)
+		}
+	}
+}
+
+func TestAdministrativeNotificationEventContracts(t *testing.T) {
+	if NotificationAdminAudit != NotificationEventType("admin.audit") {
+		t.Fatalf("unexpected admin audit event constant %q", NotificationAdminAudit)
+	}
+
+	eventBody, err := os.ReadFile(filepath.Join("..", "..", "schemas", "notification-event-write.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	resultBody, err := os.ReadFile(filepath.Join("..", "..", "schemas", "notification-delivery-result.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	type eventProperty struct {
+		Const     string   `json:"const"`
+		Enum      []string `json:"enum"`
+		MinLength int      `json:"minLength"`
+		MaxLength int      `json:"maxLength"`
+		Pattern   string   `json:"pattern"`
+		Format    string   `json:"format"`
+	}
+	var event struct {
+		AdditionalProperties bool                     `json:"additionalProperties"`
+		Required             []string                 `json:"required"`
+		Properties           map[string]eventProperty `json:"properties"`
+	}
+	if err := json.Unmarshal(eventBody, &event); err != nil {
+		t.Fatal(err)
+	}
+	if event.AdditionalProperties {
+		t.Fatal("notification event request must reject metadata and other unknown fields")
+	}
+	for _, field := range []string{"event_type", "action"} {
+		if !stringSliceContainsForSchemaTest(event.Required, field) {
+			t.Fatalf("notification event request must require %q", field)
+		}
+	}
+	if _, exists := event.Properties["metadata"]; exists {
+		t.Fatal("notification event request must not define metadata")
+	}
+	for _, field := range []string{"event_type", "severity", "status", "action", "resource_type", "resource_id", "actor_username", "summary", "timestamp"} {
+		if _, exists := event.Properties[field]; !exists {
+			t.Fatalf("notification event request is missing %q", field)
+		}
+	}
+	if event.Properties["event_type"].Const != "admin.audit" {
+		t.Fatalf("notification event type must be admin.audit: %#v", event.Properties["event_type"])
+	}
+	for field, maxLength := range map[string]int{"status": 64, "action": 128, "resource_type": 80, "resource_id": 160, "actor_username": 80, "summary": 240} {
+		property := event.Properties[field]
+		if property.MaxLength != maxLength || property.Pattern == "" {
+			t.Fatalf("notification event %s must document its safe length and pattern: %#v", field, property)
+		}
+	}
+	const actionPattern = `^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*$`
+	if event.Properties["action"].Pattern != actionPattern {
+		t.Fatalf("notification event action pattern = %q, want exact implementation pattern %q", event.Properties["action"].Pattern, actionPattern)
+	}
+	if event.Properties["timestamp"].Format != "date-time" {
+		t.Fatalf("notification event timestamp must use date-time format: %#v", event.Properties["timestamp"])
+	}
+	for _, marker := range []string{"Raw tokens", "credentials", "webhook URLs", "passwords", "authorization values"} {
+		if !strings.Contains(string(eventBody), marker) {
+			t.Fatalf("notification event schema is missing secret-boundary marker %q", marker)
+		}
+	}
+
+	var result struct {
+		AdditionalProperties bool                     `json:"additionalProperties"`
+		Required             []string                 `json:"required"`
+		Properties           map[string]eventProperty `json:"properties"`
+	}
+	if err := json.Unmarshal(resultBody, &result); err != nil {
+		t.Fatal(err)
+	}
+	if result.AdditionalProperties {
+		t.Fatal("notification delivery result must reject undeclared response fields")
+	}
+	for _, field := range []string{"event_type", "channel", "target", "status"} {
+		if !stringSliceContainsForSchemaTest(result.Required, field) {
+			t.Fatalf("notification delivery result must require %q", field)
+		}
+	}
+	if !stringSliceContainsForSchemaTest(result.Properties["event_type"].Enum, "admin.audit") {
+		t.Fatalf("notification delivery result event enum is missing admin.audit: %#v", result.Properties["event_type"])
+	}
+
+	observabilityOpenAPI, err := os.ReadFile(filepath.Join("..", "..", "openapi", "observability-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{
+		"/notification-events:",
+		"operationId: createNotificationEvent",
+		"#/components/schemas/NotificationEventWriteRequest",
+		"#/components/schemas/NotificationDeliveryResult",
+		"required: [event_type, action]",
+		"const: admin.audit",
+		"metadata and all other unknown properties are rejected",
+		"event_id and outbox/idempotency semantics are not part of this endpoint",
+		"invalid_notification_event",
+		"missing_admin_scope",
+		"rate_limited",
+		"rate_limit_unavailable",
+	} {
+		if !strings.Contains(string(observabilityOpenAPI), want) {
+			t.Fatalf("observability-api.yaml is missing administrative notification marker %q", want)
+		}
+	}
+}
+
+func stringSliceContainsForSchemaTest(values []string, want string) bool {
+	for _, value := range values {
+		if value == want {
+			return true
+		}
+	}
+	return false
 }
 
 func TestEncoderPackageSchemaDocumentsRuntimeArchiveConfig(t *testing.T) {

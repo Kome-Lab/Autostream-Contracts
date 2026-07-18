@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/notification-channel-create.schema.json",
+  "title": "NotificationChannelCreateRequest",
+  "allOf": [
+    {
+      "$ref": "notification-channel-write.schema.json"
+    },
+    {
+      "if": {
+        "required": ["type"],
+        "properties": {
+          "type": { "const": "email" }
+        }
+      },
+      "then": {
+        "required": ["email_recipients"],
+        "properties": {
+          "email_recipients": {}
+        }
+      }
+    }
+  ]
+}
