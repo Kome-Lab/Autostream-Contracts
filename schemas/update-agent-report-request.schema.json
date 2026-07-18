@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Update Agent Report Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["service_id", "lease_token", "lease_generation", "sequence", "status"],
+  "properties": {
+    "service_id": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "lease_token": { "type": "string", "minLength": 32, "writeOnly": true },
+    "lease_generation": { "type": "integer", "minimum": 1 },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "status": {
+      "enum": [
+        "claimed", "downloading", "verifying", "staging", "stopping", "installing",
+        "starting", "health_checking", "rolling_back", "reconciling", "succeeded",
+        "rolled_back", "failed"
+      ]
+    },
+    "progress": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "code": { "type": "string", "maxLength": 128, "pattern": "^[a-z0-9_.-]+$" },
+    "message": { "type": "string", "maxLength": 500 },
+    "artifact_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "previous_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  }
+}

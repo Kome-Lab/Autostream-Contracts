@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "System Update Create Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["target_id", "strategy", "idempotency_key"],
+  "properties": {
+    "target_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "strategy": { "enum": ["when_idle", "maintenance"] },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    }
+  }
+}

@@ -8,6 +8,11 @@
       "$ref": "control-notification-channel-update.schema.json"
     },
     {
+      "not": {
+        "required": ["migrate_to_global_smtp"]
+      }
+    },
+    {
       "if": {
         "required": ["type"],
         "properties": {

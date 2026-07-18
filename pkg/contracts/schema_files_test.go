@@ -40,6 +40,76 @@ func TestSchemaFilesAreValidJSONAndDoNotExposeRawSecrets(t *testing.T) {
 	}
 }
 
+func TestSystemUpdateContractsKeepExecutionDetailsServerSide(t *testing.T) {
+	for _, file := range []string{
+		"system-update-create-request.schema.json",
+		"update-agent-claim-request.schema.json",
+		"update-agent-report-request.schema.json",
+		"update-agent-authorize-request.schema.json",
+		"update-agent-mutation-grant-issue-request.schema.json",
+		"update-agent-mutation-grant-consume-request.schema.json",
+	} {
+		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var doc struct {
+			AdditionalProperties bool                      `json:"additionalProperties"`
+			Properties           map[string]map[string]any `json:"properties"`
+		}
+		if err := json.Unmarshal(body, &doc); err != nil {
+			t.Fatal(err)
+		}
+		if doc.AdditionalProperties {
+			t.Fatalf("%s must reject unknown execution fields", file)
+		}
+		for _, forbidden := range []string{
+			"url", "path", "command", "unit", "image", "version", "digest",
+			"ssh_address", "ssh_user", "ssh_path", "identity_file", "remote_command",
+		} {
+			if _, ok := doc.Properties[forbidden]; ok {
+				t.Fatalf("%s must not accept caller-supplied %s", file, forbidden)
+			}
+		}
+	}
+
+	openAPI, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{
+		"/system-updates:",
+		"/system-updates/{id}/cancel:",
+		"/services/update-jobs/claim:",
+		"/services/update-jobs/{id}/report:",
+		"/services/update-jobs/{id}/authorize:",
+		"/services/update-jobs/{id}/mutation-grants:",
+		"/services/update-jobs/{id}/mutation-grants/consume:",
+		"The request cannot supply a URL, path, image, command, digest, version, or systemd unit.",
+		"Atomically claims the next eligible job",
+		"Idempotently reports monotonic progress",
+		"Permanently disabled legacy per-host mutation authorization endpoint",
+		"one-time mutation grant",
+		"The grant token is never accepted in the JSON body.",
+	} {
+		if !strings.Contains(string(openAPI), want) {
+			t.Fatalf("control-api.yaml is missing system update marker %q", want)
+		}
+	}
+}
+
+func TestHeartbeatContractCarriesVerifiedBuildIdentity(t *testing.T) {
+	body, err := os.ReadFile(filepath.Join("..", "..", "schemas", "heartbeat.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{"version", "commit", "build_date", "hostname", "os", "arch", "capabilities", "api"} {
+		if !strings.Contains(string(body), `"`+want+`"`) {
+			t.Fatalf("heartbeat schema is missing %q", want)
+		}
+	}
+}
+
 func TestURLSchemasRestrictHTTPOnly(t *testing.T) {
 	tests := []struct {
 		file  string
@@ -654,7 +724,10 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 
 func TestControlNotificationChannelWriteContractsExcludeLegacySMTP(t *testing.T) {
 	type property struct {
-		MinItems int `json:"minItems"`
+		Type        string `json:"type"`
+		MinItems    int    `json:"minItems"`
+		WriteOnly   bool   `json:"writeOnly"`
+		Description string `json:"description"`
 	}
 	read := func(name string) ([]byte, map[string]property) {
 		t.Helper()
@@ -680,11 +753,18 @@ func TestControlNotificationChannelWriteContractsExcludeLegacySMTP(t *testing.T)
 	if updateProperties["email_recipients"].MinItems != 1 || !strings.Contains(string(updateBody), "Omission preserves existing recipients") {
 		t.Fatal("Control notification update must reject explicit empty recipients while preserving omission")
 	}
+	migration, exists := updateProperties["migrate_to_global_smtp"]
+	if !exists || migration.Type != "boolean" || !migration.WriteOnly || !strings.Contains(migration.Description, "Omission or false preserves") {
+		t.Fatalf("Control notification update must expose only the explicit write-only global SMTP migration flag: %#v", migration)
+	}
 
 	createBody, _ := read("control-notification-channel-create.schema.json")
 	var create struct {
 		AllOf []struct {
-			Ref  string `json:"$ref"`
+			Ref string `json:"$ref"`
+			Not struct {
+				Required []string `json:"required"`
+			} `json:"not"`
 			Then struct {
 				Required []string `json:"required"`
 			} `json:"then"`
@@ -693,7 +773,7 @@ func TestControlNotificationChannelWriteContractsExcludeLegacySMTP(t *testing.T)
 	if err := json.Unmarshal(createBody, &create); err != nil {
 		t.Fatal(err)
 	}
-	if len(create.AllOf) != 2 || create.AllOf[0].Ref != "control-notification-channel-update.schema.json" || !stringSliceContainsForSchemaTest(create.AllOf[1].Then.Required, "email_recipients") {
+	if len(create.AllOf) != 3 || create.AllOf[0].Ref != "control-notification-channel-update.schema.json" || !stringSliceContainsForSchemaTest(create.AllOf[1].Not.Required, "migrate_to_global_smtp") || !stringSliceContainsForSchemaTest(create.AllOf[2].Then.Required, "email_recipients") {
 		t.Fatalf("Control email create must require recipients on top of its update shape: %#v", create.AllOf)
 	}
 
@@ -705,7 +785,7 @@ func TestControlNotificationChannelWriteContractsExcludeLegacySMTP(t *testing.T)
 	for _, want := range []string{
 		"#/components/schemas/ControlNotificationChannelCreateRequest",
 		"#/components/schemas/ControlNotificationChannelUpdateRequest",
-		"backend preserves the channel's existing legacy/global delivery mode",
+		"migrate_to_global_smtp is the only supported delivery-mode transition",
 		"an explicitly empty array is invalid",
 	} {
 		if !strings.Contains(raw, want) {
@@ -726,6 +806,9 @@ func TestControlNotificationChannelWriteContractsExcludeLegacySMTP(t *testing.T)
 		t.Fatal("could not isolate Control notification request components")
 	}
 	requestComponents := raw[start : start+endOffset]
+	if !strings.Contains(requestComponents, "        migrate_to_global_smtp:\n          type: boolean\n          writeOnly: true") {
+		t.Fatal("Control notification update OpenAPI component must expose migrate_to_global_smtp as a write-only boolean")
+	}
 	for _, forbidden := range []string{"        uses_global_smtp:", "        smtp_host:", "        smtp_port:", "        smtp_tls:", "        smtp_from:", "        smtp_username:", "        smtp_password:"} {
 		if strings.Contains(requestComponents, forbidden) {
 			t.Fatalf("Control notification request components expose forbidden field %q", forbidden)
@@ -776,6 +859,9 @@ func TestServiceNotificationEmailRelayContracts(t *testing.T) {
 			t.Fatalf("service notification email request must require %q", field)
 		}
 	}
+	if stringSliceContainsForSchemaTest(request.Required, "html") {
+		t.Fatal("service notification email HTML alternative must remain optional")
+	}
 	recipients := request.Properties["recipients"]
 	if recipients.MinItems != 1 || recipients.MaxItems != 20 || !recipients.UniqueItems {
 		t.Fatalf("recipient bounds must be 1..20 unique, got %#v", recipients)
@@ -787,6 +873,10 @@ func TestServiceNotificationEmailRelayContracts(t *testing.T) {
 	text := request.Properties["text"]
 	if text.MinLength != 1 || text.MaxLength != 16384 || !strings.Contains(text.Pattern, `\u0000`) {
 		t.Fatalf("text must be 1..16384 with NUL excluded, got %#v", text)
+	}
+	html := request.Properties["html"]
+	if html.MaxLength != 65536 || !strings.Contains(html.Pattern, `\u0000`) {
+		t.Fatalf("optional HTML must be at most 65536 with NUL excluded, got %#v", html)
 	}
 
 	var response struct {

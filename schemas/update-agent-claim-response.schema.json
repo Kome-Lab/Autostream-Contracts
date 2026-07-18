@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Update Agent Claim Response",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "job", "lease_token", "lease_expires_at", "lease_generation",
+        "report_sequence", "recovery_required", "last_status"
+      ],
+      "properties": {
+        "job": { "$ref": "system-update-job.schema.json" },
+        "lease_token": { "type": "string", "minLength": 32, "writeOnly": true },
+        "lease_expires_at": { "type": "string", "format": "date-time" },
+        "lease_generation": { "type": "integer", "minimum": 1 },
+        "report_sequence": { "type": "integer", "minimum": 1 },
+        "recovery_required": { "type": "boolean" },
+        "last_status": {
+          "enum": [
+            "queued", "claimed", "downloading", "verifying", "staging", "stopping",
+            "installing", "starting", "health_checking", "rolling_back", "reconciling",
+            "succeeded", "rolled_back", "failed", "canceled"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clear_active_job_id"],
+      "properties": {
+        "clear_active_job_id": {
+          "type": "boolean",
+          "const": true,
+          "description": "The reported active job is terminal, missing, or not owned by this updater and must be durably cleared before another claim."
+        }
+      }
+    }
+  ]
+}

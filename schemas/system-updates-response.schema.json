@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "System Updates Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["updaters", "hosts", "targets", "jobs"],
+  "properties": {
+    "updaters": {
+      "type": "array",
+      "items": { "$ref": "system-update-agent-status.schema.json" }
+    },
+    "hosts": {
+      "type": "array",
+      "items": { "$ref": "system-update-host-status.schema.json" }
+    },
+    "targets": {
+      "type": "array",
+      "items": { "$ref": "system-update-target.schema.json" }
+    },
+    "jobs": {
+      "type": "array",
+      "items": { "$ref": "system-update-job.schema.json" }
+    }
+  }
+}

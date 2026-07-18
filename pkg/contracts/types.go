@@ -20,6 +20,7 @@ const (
 	ServiceEncoderRecorder ServiceType = "encoder_recorder"
 	ServiceWorker          ServiceType = "worker"
 	ServiceObservability   ServiceType = "observability"
+	ServiceUpdateAgent     ServiceType = "update_agent"
 )
 
 type ServiceStatus string
@@ -33,6 +34,7 @@ const (
 	ServiceStatusOnline           ServiceStatus = "online"
 	ServiceStatusDegraded         ServiceStatus = "degraded"
 	ServiceStatusOffline          ServiceStatus = "offline"
+	ServiceStatusUpdating         ServiceStatus = "updating"
 )
 
 const (
@@ -55,7 +57,261 @@ const (
 	ScopeObservabilityIngest    ServiceScope = "observability.ingest"
 	ScopeNotificationsEmailSend ServiceScope = "notifications.email.send"
 	ScopeRemediationExecute     ServiceScope = "remediation.execute"
+	ScopeUpdatesClaim           ServiceScope = "updates.claim"
+	ScopeUpdatesReport          ServiceScope = "updates.report"
+	ScopeUpdatesAuthorize       ServiceScope = "updates.authorize"
 )
+
+type SystemUpdateStrategy string
+
+const (
+	SystemUpdateWhenIdle    SystemUpdateStrategy = "when_idle"
+	SystemUpdateMaintenance SystemUpdateStrategy = "maintenance"
+)
+
+type SystemUpdateTargetType string
+
+const (
+	SystemUpdateTargetControlPanel    SystemUpdateTargetType = "control_panel"
+	SystemUpdateTargetDiscordBot      SystemUpdateTargetType = "discord_bot"
+	SystemUpdateTargetEncoderRecorder SystemUpdateTargetType = "encoder_recorder"
+	SystemUpdateTargetObservability   SystemUpdateTargetType = "observability"
+	SystemUpdateTargetWorker          SystemUpdateTargetType = "worker"
+)
+
+type SystemUpdateDeploymentMode string
+
+const (
+	SystemUpdateDeploymentSystemd SystemUpdateDeploymentMode = "systemd"
+	SystemUpdateDeploymentDocker  SystemUpdateDeploymentMode = "docker"
+)
+
+type SystemUpdateReachability string
+
+const (
+	SystemUpdateReachable   SystemUpdateReachability = "reachable"
+	SystemUpdateUnreachable SystemUpdateReachability = "unreachable"
+	SystemUpdateUnknown     SystemUpdateReachability = "unknown"
+)
+
+type SystemUpdateMutationOperation string
+
+const (
+	SystemUpdateMutationApply     SystemUpdateMutationOperation = "apply"
+	SystemUpdateMutationReconcile SystemUpdateMutationOperation = "reconcile"
+)
+
+type SystemUpdateStatus string
+
+const (
+	SystemUpdateQueued         SystemUpdateStatus = "queued"
+	SystemUpdateClaimed        SystemUpdateStatus = "claimed"
+	SystemUpdateDownloading    SystemUpdateStatus = "downloading"
+	SystemUpdateVerifying      SystemUpdateStatus = "verifying"
+	SystemUpdateStaging        SystemUpdateStatus = "staging"
+	SystemUpdateStopping       SystemUpdateStatus = "stopping"
+	SystemUpdateInstalling     SystemUpdateStatus = "installing"
+	SystemUpdateStarting       SystemUpdateStatus = "starting"
+	SystemUpdateHealthChecking SystemUpdateStatus = "health_checking"
+	SystemUpdateReconciling    SystemUpdateStatus = "reconciling"
+	SystemUpdateRollingBack    SystemUpdateStatus = "rolling_back"
+	SystemUpdateSucceeded      SystemUpdateStatus = "succeeded"
+	SystemUpdateRolledBack     SystemUpdateStatus = "rolled_back"
+	SystemUpdateFailed         SystemUpdateStatus = "failed"
+	SystemUpdateCanceled       SystemUpdateStatus = "canceled"
+)
+
+type SystemUpdateCreateRequest struct {
+	TargetID       string               `json:"target_id"`
+	Strategy       SystemUpdateStrategy `json:"strategy"`
+	IdempotencyKey string               `json:"idempotency_key"`
+}
+
+type SystemUpdateTarget struct {
+	TargetID          string                     `json:"target_id"`
+	TargetType        SystemUpdateTargetType     `json:"target_type"`
+	Name              string                     `json:"name"`
+	HostID            string                     `json:"host_id,omitempty"`
+	CurrentVersion    string                     `json:"current_version,omitempty"`
+	LatestVersion     string                     `json:"latest_version,omitempty"`
+	UpdateAvailable   bool                       `json:"update_available"`
+	DeploymentMode    SystemUpdateDeploymentMode `json:"deployment_mode,omitempty"`
+	UpdaterID         string                     `json:"updater_id,omitempty"`
+	UpdaterOnline     bool                       `json:"updater_online"`
+	Eligible          bool                       `json:"eligible"`
+	BlockedReason     string                     `json:"blocked_reason,omitempty"`
+	Busy              bool                       `json:"busy"`
+	CurrentStreamID   string                     `json:"current_stream_id,omitempty"`
+	UpdateCheckSource string                     `json:"update_check_source,omitempty"`
+	UpdateCheckError  string                     `json:"update_check_error,omitempty"`
+}
+
+type SystemUpdateJob struct {
+	ID              string                     `json:"id"`
+	TargetID        string                     `json:"target_id"`
+	TargetType      SystemUpdateTargetType     `json:"target_type"`
+	ExecutionHostID string                     `json:"host_id"`
+	DeploymentMode  SystemUpdateDeploymentMode `json:"deployment_mode"`
+	CurrentVersion  string                     `json:"current_version"`
+	TargetVersion   string                     `json:"target_version"`
+	Strategy        SystemUpdateStrategy       `json:"strategy"`
+	Status          SystemUpdateStatus         `json:"status"`
+	IdempotencyKey  string                     `json:"idempotency_key"`
+	UpdaterID       string                     `json:"updater_id,omitempty"`
+	RequestedBy     string                     `json:"requested_by,omitempty"`
+	LeaseGeneration int64                      `json:"lease_generation"`
+	LeaseExpiresAt  *time.Time                 `json:"lease_expires_at,omitempty"`
+	Sequence        int64                      `json:"sequence"`
+	Progress        int                        `json:"progress"`
+	Code            string                     `json:"code,omitempty"`
+	Message         string                     `json:"message,omitempty"`
+	ArtifactDigest  string                     `json:"artifact_digest,omitempty"`
+	PreviousDigest  string                     `json:"previous_digest,omitempty"`
+	CreatedAt       time.Time                  `json:"created_at"`
+	UpdatedAt       time.Time                  `json:"updated_at"`
+	ClaimedAt       *time.Time                 `json:"claimed_at,omitempty"`
+	CompletedAt     *time.Time                 `json:"completed_at,omitempty"`
+	CanceledAt      *time.Time                 `json:"canceled_at,omitempty"`
+}
+
+type SystemUpdatesResponse struct {
+	Updaters []SystemUpdateAgentStatus `json:"updaters"`
+	Hosts    []SystemUpdateHostStatus  `json:"hosts"`
+	Targets  []SystemUpdateTarget      `json:"targets"`
+	Jobs     []SystemUpdateJob         `json:"jobs"`
+}
+
+type SystemUpdateAgentStatus struct {
+	UpdaterID       string     `json:"updater_id"`
+	Name            string     `json:"name"`
+	Status          string     `json:"status"`
+	Online          bool       `json:"online"`
+	Version         string     `json:"version"`
+	LastHeartbeatAt *time.Time `json:"last_heartbeat_at,omitempty"`
+}
+
+type SystemUpdateHostStatus struct {
+	HostID                string                   `json:"host_id"`
+	Name                  string                   `json:"name"`
+	UpdaterID             string                   `json:"updater_id"`
+	Reachability          SystemUpdateReachability `json:"reachability"`
+	ReachabilityCheckedAt *time.Time               `json:"reachability_checked_at,omitempty"`
+	ReachabilityCode      string                   `json:"reachability_code,omitempty"`
+}
+
+type UpdateAgentClaimRequest struct {
+	ServiceID   string `json:"service_id"`
+	HostID      string `json:"host_id,omitempty"`
+	ActiveJobID string `json:"active_job_id,omitempty"`
+}
+
+type UpdateAgentClaimResponse struct {
+	Job              SystemUpdateJob    `json:"job"`
+	LeaseToken       string             `json:"lease_token"`
+	LeaseExpiresAt   time.Time          `json:"lease_expires_at"`
+	LeaseGeneration  int64              `json:"lease_generation"`
+	ReportSequence   int64              `json:"report_sequence"`
+	RecoveryRequired bool               `json:"recovery_required"`
+	LastStatus       SystemUpdateStatus `json:"last_status"`
+}
+
+// UpdateAgentClearActiveJobResponse tells an updater that the active job it
+// reported is terminal, missing, or no longer owned by that updater. The
+// response is intentionally disjoint from UpdateAgentClaimResponse so a
+// client never mistakes a clear instruction for a newly claimed job.
+type UpdateAgentClearActiveJobResponse struct {
+	ClearActiveJobID bool `json:"clear_active_job_id"`
+}
+
+type UpdateAgentReportRequest struct {
+	ServiceID       string             `json:"service_id"`
+	LeaseToken      string             `json:"lease_token"`
+	LeaseGeneration int64              `json:"lease_generation"`
+	Sequence        int64              `json:"sequence"`
+	Status          SystemUpdateStatus `json:"status"`
+	Progress        int                `json:"progress,omitempty"`
+	Code            string             `json:"code,omitempty"`
+	Message         string             `json:"message,omitempty"`
+	ArtifactDigest  string             `json:"artifact_digest,omitempty"`
+	PreviousDigest  string             `json:"previous_digest,omitempty"`
+}
+
+type UpdateAgentAuthorizeRequest struct {
+	ServiceID       string                     `json:"service_id"`
+	LeaseToken      string                     `json:"lease_token"`
+	LeaseGeneration int64                      `json:"lease_generation"`
+	ExecutionHostID string                     `json:"host_id,omitempty"`
+	TargetID        string                     `json:"target_id"`
+	TargetVersion   string                     `json:"target_version"`
+	DeploymentMode  SystemUpdateDeploymentMode `json:"deployment_mode"`
+}
+
+type UpdateAgentMutationGrantIssueRequest struct {
+	ServiceID       string                        `json:"service_id"`
+	LeaseToken      string                        `json:"lease_token"`
+	LeaseGeneration int64                         `json:"lease_generation"`
+	ExecutionHostID string                        `json:"host_id"`
+	TargetID        string                        `json:"target_id"`
+	TargetVersion   string                        `json:"target_version"`
+	DeploymentMode  SystemUpdateDeploymentMode    `json:"deployment_mode"`
+	Operation       SystemUpdateMutationOperation `json:"operation"`
+	PlanSHA256      string                        `json:"plan_sha256"`
+	SessionID       string                        `json:"session_id"`
+}
+
+type UpdateAgentMutationGrantIssueResponse struct {
+	GrantToken string    `json:"grant_token"`
+	ExpiresAt  time.Time `json:"expires_at"`
+}
+
+type UpdateAgentMutationGrantConsumeRequest struct {
+	LeaseGeneration int64                         `json:"lease_generation"`
+	ExecutionHostID string                        `json:"host_id"`
+	TargetID        string                        `json:"target_id"`
+	TargetVersion   string                        `json:"target_version"`
+	DeploymentMode  SystemUpdateDeploymentMode    `json:"deployment_mode"`
+	Operation       SystemUpdateMutationOperation `json:"operation"`
+	PlanSHA256      string                        `json:"plan_sha256"`
+	SessionID       string                        `json:"session_id"`
+}
+
+type ReleaseChannel string
+
+const (
+	ReleaseChannelHost   ReleaseChannel = "host"
+	ReleaseChannelDocker ReleaseChannel = "docker"
+)
+
+type ReleaseManifest struct {
+	SchemaVersion       int                        `json:"schema_version"`
+	ReleaseID           string                     `json:"release_id"`
+	Channel             ReleaseChannel             `json:"channel"`
+	PublishedAt         time.Time                  `json:"published_at"`
+	BundleVersion       string                     `json:"bundle_version,omitempty"`
+	GeneratedAt         *time.Time                 `json:"generated_at,omitempty"`
+	MinimumAgentVersion string                     `json:"minimum_agent_version"`
+	Components          []ReleaseManifestComponent `json:"components"`
+}
+
+type ReleaseManifestComponent struct {
+	Service            string            `json:"service"`
+	SourceVersion      string            `json:"source_version"`
+	Commit             string            `json:"commit,omitempty"`
+	Image              string            `json:"image,omitempty"`
+	ManifestDigest     string            `json:"manifest_digest,omitempty"`
+	Artifacts          []ReleaseArtifact `json:"artifacts,omitempty"`
+	PlatformDigests    map[string]string `json:"platform_digests,omitempty"`
+	RollbackCompatible bool              `json:"rollback_compatible"`
+	DatabaseSchema     string            `json:"database_schema"`
+}
+
+type ReleaseArtifact struct {
+	OS     string `json:"os"`
+	Arch   string `json:"arch"`
+	Name   string `json:"name"`
+	Size   int64  `json:"size"`
+	SHA256 string `json:"sha256"`
+}
 
 type ErrorResponse struct {
 	RequestID string `json:"request_id"`
@@ -144,9 +400,18 @@ type ServiceRegistration struct {
 	ServiceID    string         `json:"service_id"`
 	ServiceType  ServiceType    `json:"service_type"`
 	ServiceName  string         `json:"service_name"`
+	Description  string         `json:"description,omitempty"`
+	Host         string         `json:"host,omitempty"`
+	Port         int            `json:"port,omitempty"`
+	SSLEnabled   bool           `json:"ssl_enabled"`
 	PublicURL    string         `json:"public_url"`
 	Version      string         `json:"version"`
+	Commit       string         `json:"commit,omitempty"`
+	BuildDate    string         `json:"build_date,omitempty"`
 	Capabilities map[string]any `json:"capabilities"`
+	Hostname     string         `json:"hostname,omitempty"`
+	OS           string         `json:"os,omitempty"`
+	Arch         string         `json:"arch,omitempty"`
 }
 
 type ServiceToken struct {
@@ -255,14 +520,16 @@ type ServiceRuntimeSecretResolveResponse struct {
 	ExpiresInSec int    `json:"expires_in_sec"`
 }
 
-// ServiceNotificationEmailRequest asks Control Panel to deliver one plain-text
-// message with its globally managed SMTP settings. This service-authenticated
+// ServiceNotificationEmailRequest asks Control Panel to deliver one text message
+// and, optionally, an HTML alternative with its globally managed SMTP settings.
+// This service-authenticated
 // request is restricted to a registered Observability service token that has
 // the dedicated notifications.email.send scope.
 type ServiceNotificationEmailRequest struct {
 	Recipients []string `json:"recipients"`
 	Subject    string   `json:"subject"`
 	Text       string   `json:"text"`
+	HTML       string   `json:"html,omitempty"`
 }
 
 // ServiceNotificationEmailResponse intentionally reports only a count so raw
@@ -273,11 +540,27 @@ type ServiceNotificationEmailResponse struct {
 }
 
 type Heartbeat struct {
-	ServiceID       string             `json:"service_id"`
-	CurrentStreamID string             `json:"current_stream_id,omitempty"`
-	Status          string             `json:"status"`
-	Metrics         map[string]float64 `json:"metrics,omitempty"`
-	Timestamp       time.Time          `json:"timestamp,omitempty"`
+	ServiceID       string         `json:"service_id"`
+	NodeID          string         `json:"nodeId,omitempty"`
+	NodeIDSnake     string         `json:"node_id,omitempty"`
+	CurrentStreamID string         `json:"current_stream_id,omitempty"`
+	Status          string         `json:"status"`
+	Version         string         `json:"version,omitempty"`
+	Commit          string         `json:"commit,omitempty"`
+	BuildDate       string         `json:"build_date,omitempty"`
+	Capabilities    map[string]any `json:"capabilities,omitempty"`
+	Hostname        string         `json:"hostname,omitempty"`
+	OS              string         `json:"os,omitempty"`
+	Arch            string         `json:"arch,omitempty"`
+	API             *NodeAgentAPI  `json:"api,omitempty"`
+	Metrics         map[string]any `json:"metrics,omitempty"`
+	Timestamp       *time.Time     `json:"timestamp,omitempty"`
+}
+
+type NodeAgentAPI struct {
+	Host       string `json:"host"`
+	Port       int    `json:"port"`
+	SSLEnabled bool   `json:"sslEnabled"`
 }
 
 type ServicePreflightCheck struct {

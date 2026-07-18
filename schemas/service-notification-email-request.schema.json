@@ -33,6 +33,12 @@
       "maxLength": 16384,
       "pattern": "^[^\\u0000]*$",
       "description": "Plain-text body. The server enforces a maximum of 16,384 UTF-8 bytes and rejects NUL."
+    },
+    "html": {
+      "type": "string",
+      "maxLength": 65536,
+      "pattern": "^[^\\u0000]*$",
+      "description": "Optional HTML alternative. The server enforces a maximum of 65,536 UTF-8 bytes and rejects NUL; text remains the required plain-text fallback."
     }
   }
 }

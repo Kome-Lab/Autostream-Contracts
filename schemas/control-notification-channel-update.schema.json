@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.autostream.example.com/control-notification-channel-update.schema.json",
   "title": "ControlNotificationChannelUpdateRequest",
-  "description": "Control Panel notification-channel update. Per-channel SMTP fields and uses_global_smtp are intentionally not accepted. Omitting email_recipients preserves the existing masked recipient set, and the backend preserves the channel's existing legacy/global delivery mode.",
+  "description": "Control Panel notification-channel update. Per-channel SMTP fields and uses_global_smtp are intentionally not accepted. migrate_to_global_smtp is the only supported delivery-mode transition: true migrates an existing legacy email channel to globally managed application SMTP, while omission or false preserves the current mode. Omitting email_recipients preserves the existing masked recipient set.",
   "type": "object",
   "required": ["name", "type", "enabled"],
   "additionalProperties": false,
@@ -30,6 +30,11 @@
         "description": "Bare mailbox address only; display names and CR/LF are rejected."
       },
       "description": "Optional replacement recipient set. Omission preserves existing recipients; an explicitly empty array is invalid."
+    },
+    "migrate_to_global_smtp": {
+      "type": "boolean",
+      "writeOnly": true,
+      "description": "Set true to migrate an existing legacy email channel from per-channel SMTP to globally managed application SMTP. Omission or false preserves the current delivery mode; this request flag is never returned."
     },
     "severity_filter": {
       "type": "array",

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Update Agent Mutation Grant Issue Request",
+  "description": "Requests a short-lived grant bound to one leased job, execution host, immutable plan and remote session. Host connection details and privileged execution configuration are never accepted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "service_id", "lease_token", "lease_generation", "host_id", "target_id",
+    "target_version", "deployment_mode", "operation", "plan_sha256", "session_id"
+  ],
+  "properties": {
+    "service_id": {
+      "type": "string", "minLength": 1, "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "lease_token": {
+      "type": "string", "minLength": 32, "maxLength": 256,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$", "writeOnly": true
+    },
+    "lease_generation": { "type": "integer", "minimum": 1 },
+    "host_id": {
+      "type": "string", "minLength": 1, "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "target_id": {
+      "type": "string", "minLength": 1, "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "target_version": {
+      "type": "string", "minLength": 1, "maxLength": 128,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "deployment_mode": { "enum": ["systemd", "docker"] },
+    "operation": { "enum": ["apply", "reconcile"] },
+    "plan_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "session_id": {
+      "type": "string", "minLength": 16, "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"
+    }
+  }
+}

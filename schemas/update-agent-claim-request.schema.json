@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Update Agent Claim Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["service_id"],
+  "properties": {
+    "service_id": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "host_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+      "description": "Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior."
+    },
+    "active_job_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "\\S",
+      "description": "Optional locally active job. When present, the server returns only that job's renewed lease or an explicit clear_active_job_id response; it never claims a different job."
+    }
+  }
+}

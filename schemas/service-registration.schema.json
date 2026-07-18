@@ -7,9 +7,13 @@
   "properties": {
     "service_id": { "type": "string", "minLength": 1 },
     "service_type": {
-      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability", "update_agent"]
     },
     "service_name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "host": { "type": "string" },
+    "port": { "type": "integer", "minimum": 0, "maximum": 65535 },
+    "ssl_enabled": { "type": "boolean" },
     "public_url": {
       "type": "string",
       "format": "uri",
@@ -17,9 +21,14 @@
       "description": "Control Panelから到達可能なHTTP(S) URL。userinfoは禁止し、private/loopback/link-local宛てはControl Panelの明示allowlistが必要。"
     },
     "version": { "type": "string" },
+    "commit": { "type": "string" },
+    "build_date": { "type": "string" },
     "capabilities": {
       "type": "object",
       "additionalProperties": true
-    }
+    },
+    "hostname": { "type": "string" },
+    "os": { "type": "string" },
+    "arch": { "type": "string" }
   }
 }

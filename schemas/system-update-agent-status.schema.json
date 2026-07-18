@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "System Update Agent Status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["updater_id", "name", "status", "online", "version"],
+  "properties": {
+    "updater_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "name": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "status": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "online": { "type": "boolean" },
+    "version": { "type": "string", "maxLength": 128 },
+    "last_heartbeat_at": { "type": "string", "format": "date-time" }
+  }
+}

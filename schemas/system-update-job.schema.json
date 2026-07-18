@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "System Update Job",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "target_id", "target_type", "host_id", "deployment_mode", "current_version", "target_version",
+    "strategy", "status", "idempotency_key",
+    "lease_generation", "sequence", "progress", "created_at", "updated_at"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "target_id": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "target_type": {
+      "enum": ["control_panel", "discord_bot", "encoder_recorder", "observability", "worker"]
+    },
+    "host_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "deployment_mode": { "enum": ["systemd", "docker"] },
+    "current_version": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$" },
+    "target_version": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$" },
+    "strategy": { "enum": ["when_idle", "maintenance"] },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "status": {
+      "enum": [
+        "queued", "claimed", "downloading", "verifying", "staging", "stopping",
+        "installing", "starting", "health_checking", "rolling_back", "reconciling",
+        "succeeded", "rolled_back", "failed", "canceled"
+      ]
+    },
+    "progress": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "sequence": { "type": "integer", "minimum": 0 },
+    "code": { "type": "string", "maxLength": 128, "pattern": "^[a-z0-9_.-]+$" },
+    "message": { "type": "string", "maxLength": 500 },
+    "artifact_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "previous_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "updater_id": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "requested_by": { "type": "string" },
+    "lease_generation": { "type": "integer", "minimum": 0 },
+    "lease_expires_at": { "type": "string", "format": "date-time" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "claimed_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "canceled_at": { "type": "string", "format": "date-time" }
+  }
+}

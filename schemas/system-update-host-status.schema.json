@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "System Update Host Status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["host_id", "name", "updater_id", "reachability"],
+  "properties": {
+    "host_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "name": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "updater_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "reachability": { "enum": ["reachable", "unreachable", "unknown"] },
+    "reachability_checked_at": { "type": "string", "format": "date-time" },
+    "reachability_code": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^[a-z0-9_.-]+$"
+    }
+  }
+}

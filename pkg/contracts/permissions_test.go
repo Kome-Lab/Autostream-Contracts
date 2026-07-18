@@ -16,6 +16,9 @@ func TestPermissionExistsFailsClosed(t *testing.T) {
 	if PermissionExists("unknown.permission") {
 		t.Fatal("unknown permissions must fail closed")
 	}
+	if !PermissionExists("system_updates.read") || !PermissionExists("system_updates.execute") {
+		t.Fatal("system update permissions must be registered")
+	}
 }
 
 func TestCoreWireConstants(t *testing.T) {
@@ -25,13 +28,13 @@ func TestCoreWireConstants(t *testing.T) {
 	if ServiceStatusPending != "pending" || ServiceStatusRegistered != "registered" || ServiceStatusAssigned != "assigned" || ServiceStatusRestartRequested != "restart_requested" {
 		t.Fatal("service status wire values changed")
 	}
-	if ServiceDiscordBot != "discord_bot" || ServiceEncoderRecorder != "encoder_recorder" || ServiceWorker != "worker" {
+	if ServiceDiscordBot != "discord_bot" || ServiceEncoderRecorder != "encoder_recorder" || ServiceWorker != "worker" || ServiceUpdateAgent != "update_agent" {
 		t.Fatal("service type wire values changed")
 	}
 	if AssignmentRolePrimary != "primary" || AssignmentRoleStandby != "standby" {
 		t.Fatal("service assignment role wire values changed")
 	}
-	if ScopeServiceRegister != "service.register" || ScopeServiceConfigRead != "service.config.read" || ScopeServiceSecretResolve != "service.secret.resolve" || ScopeObservabilityIngest != "observability.ingest" || ScopeNotificationsEmailSend != "notifications.email.send" || ScopeRemediationExecute != "remediation.execute" {
+	if ScopeServiceRegister != "service.register" || ScopeServiceConfigRead != "service.config.read" || ScopeServiceSecretResolve != "service.secret.resolve" || ScopeObservabilityIngest != "observability.ingest" || ScopeNotificationsEmailSend != "notifications.email.send" || ScopeRemediationExecute != "remediation.execute" || ScopeUpdatesClaim != "updates.claim" || ScopeUpdatesReport != "updates.report" || ScopeUpdatesAuthorize != "updates.authorize" {
 		t.Fatal("service scope wire values changed")
 	}
 	if SignalMetric != "metric" || SignalDiagnosticReport != "diagnostic_report" {

@@ -7,7 +7,7 @@
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "service_type": {
-      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability", "update_agent"]
     },
     "scopes": {
       "type": "array",
@@ -23,7 +23,11 @@
           "encoder.status.write",
           "discord.status.write",
           "observability.ingest",
-          "remediation.execute"
+          "notifications.email.send",
+          "remediation.execute",
+          "updates.claim",
+          "updates.report",
+          "updates.authorize"
         ]
       },
       "uniqueItems": true

@@ -850,6 +850,50 @@ paths:
       responses:
         "202":
           description: worker restart requested
+  /system-updates:
+    get:
+      description: Lists server-resolved updater status, execution-host reachability, update targets, and durable update jobs. Requires system_updates.read. Docker bundle versions remain separate from service source versions.
+      responses:
+        "200":
+          description: update target inventory and job history
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemUpdatesResponse"
+    post:
+      description: Creates one durable update job using the trusted latest release resolved by Control Panel. Requires system_updates.execute. The request cannot supply a URL, path, image, command, digest, version, or systemd unit.
+      parameters:
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SystemUpdateCreateRequest"
+      responses:
+        "202":
+          description: update job persisted before execution
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemUpdateJob"
+        "409":
+          description: target is not eligible, is in maintenance, or already has an active update
+  /system-updates/{id}/cancel:
+    post:
+      description: Cancels a queued update before an updater claims it. Requires system_updates.execute.
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/csrfToken"
+      responses:
+        "200":
+          description: queued job canceled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemUpdateJob"
+        "409":
+          description: job is no longer cancelable
   /api-tokens:
     get:
       responses:
@@ -1007,7 +1051,7 @@ paths:
       operationId: sendServiceNotificationEmail
       security:
         - bearerToken: []
-      description: Delivers a plain-text notification with the globally managed application SMTP settings. This service endpoint requires the dedicated notifications.email.send scope, a registered non-pending service owned by the token, and service_type=observability. SMTP configuration and credentials are loaded only inside Control Panel and are never copied into notification channels, runtime config, responses, audit metadata, or logs.
+      description: Delivers a required plain-text notification and an optional HTML alternative with the globally managed application SMTP settings. This service endpoint requires the dedicated notifications.email.send scope, a registered non-pending service owned by the token, and service_type=observability. SMTP configuration and credentials are loaded only inside Control Panel and are never copied into notification channels, runtime config, responses, audit metadata, or logs.
       requestBody:
         required: true
         content:
@@ -1022,7 +1066,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ServiceNotificationEmailResponse"
         "400":
-          description: bad_request or invalid_email_notification; recipients, subject, or text violated the size, bare-mailbox, or control-character contract
+          description: bad_request or invalid_email_notification; recipients, subject, text, or optional HTML violated the size, bare-mailbox, or control-character contract
           content:
             application/json:
               schema:
@@ -1073,9 +1117,132 @@ paths:
     post:
       security:
         - bearerToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Heartbeat"
       responses:
         "202":
           description: heartbeat accepted
+  /services/update-jobs/claim:
+    post:
+      security:
+        - bearerToken: []
+      description: Atomically claims the next eligible job assigned to the authenticated update_agent and optional host_id execution slot. Requires updates.claim. host_id is required for central multi-host operation and may be omitted only by legacy per-host agents. If active_job_id is present, the server returns only that job's renewed lease or an explicit clear_active_job_id instruction and never claims a different job. The opaque lease token is returned once and must not be logged.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAgentClaimRequest"
+      responses:
+        "200":
+          description: job claimed or renewed with a time-bounded lease, or the reported active job must be durably cleared
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateAgentClaimResponse"
+        "204":
+          description: active_job_id was omitted and no eligible job is currently available
+        "403":
+          description: token is not bound to the requested update_agent or lacks updates.claim
+  /services/update-jobs/{id}/report:
+    post:
+      security:
+        - bearerToken: []
+      description: Idempotently reports monotonic progress for the claimed job. Requires updates.report and the active lease. Arbitrary logs and secrets are rejected or sanitized.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAgentReportRequest"
+      responses:
+        "200":
+          description: progress accepted and lease renewed when applicable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemUpdateJob"
+        "409":
+          description: lease expired, sequence regressed, or state transition is invalid
+  /services/update-jobs/{id}/authorize:
+    post:
+      security:
+        - bearerToken: []
+      deprecated: true
+      description: Permanently disabled legacy per-host mutation authorization endpoint. Central Updater must use the short-lived mutation-grant issue and consume endpoints. Authenticated callers with updates.authorize always receive 410 and no mutation is authorized.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "401":
+          description: missing or invalid service token
+        "403":
+          description: token lacks updates.authorize
+        "410":
+          description: legacy_system_update_authorization_disabled; use mutation grants
+  /services/update-jobs/{id}/mutation-grants:
+    post:
+      security:
+        - bearerToken: []
+      description: Issues a short-lived one-time mutation grant for the destination helper after validating the authenticated update_agent, updates.authorize scope, active lease, execution host, target, version, deployment mode, operation, immutable plan hash, and remote session. The job identity is taken only from the id path parameter. Connection and privileged execution configuration remain server-side.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAgentMutationGrantIssueRequest"
+      responses:
+        "201":
+          description: one-time mutation grant issued for the exact immutable binding
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store because the response contains a one-time grant credential.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateAgentMutationGrantIssueResponse"
+        "400":
+          description: bad_request or invalid_system_update_mutation_grant
+        "401":
+          description: missing or invalid service token
+        "403":
+          description: token lacks updates.authorize or is not bound to service_id
+        "404":
+          description: system_update_job_not_found
+        "409":
+          description: mutation grant state, lease, host, target, version, mode, operation, plan hash, or session binding does not match
+  /services/update-jobs/{id}/mutation-grants/consume:
+    post:
+      security:
+        - bearerToken: []
+      description: Consumes the mutation grant supplied as the Bearer credential against the exact job path and immutable host, target, version, deployment mode, operation, plan hash, lease generation, and session binding. The first matching use and an idempotent replay of the same token, session, and binding return 204; any different reuse returns 409. The grant token is never accepted in the JSON body.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAgentMutationGrantConsumeRequest"
+      responses:
+        "204":
+          description: grant consumed, or the exact same grant, session, and binding was already consumed; response has no body
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store.
+        "400":
+          description: bad_request or invalid_system_update_mutation_grant_consumption
+        "401":
+          description: mutation grant Bearer credential is missing or malformed
+        "409":
+          description: mutation grant is unknown, expired, no longer bound to the current job lease, or was reused with a different job, session, or binding
   /services/observability/signals:
     post:
       security:
@@ -1708,6 +1875,346 @@ components:
           "200":
             description: resource deleted
   schemas:
+    SystemUpdateCreateRequest:
+      type: object
+      additionalProperties: false
+      required: [target_id, strategy, idempotency_key]
+      properties:
+        target_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        strategy:
+          type: string
+          enum: [when_idle, maintenance]
+        idempotency_key:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+    SystemUpdateTarget:
+      type: object
+      additionalProperties: false
+      required: [target_id, target_type, name, update_available, updater_online, eligible, busy]
+      properties:
+        target_id: {type: string, minLength: 1, maxLength: 191}
+        target_type:
+          type: string
+          enum: [control_panel, discord_bot, encoder_recorder, observability, worker]
+        name: {type: string}
+        host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        current_version: {type: string}
+        latest_version: {type: string}
+        update_available: {type: boolean}
+        deployment_mode:
+          type: string
+          enum: [systemd, docker]
+        updater_id: {type: string, maxLength: 191}
+        updater_online: {type: boolean}
+        current_stream_id: {type: string}
+        eligible: {type: boolean}
+        blocked_reason: {type: string}
+        busy: {type: boolean}
+        update_check_source: {type: string}
+        update_check_error: {type: string}
+    SystemUpdateJob:
+      type: object
+      additionalProperties: false
+      required: [id, target_id, target_type, host_id, deployment_mode, current_version, target_version, strategy, status, idempotency_key, lease_generation, sequence, progress, created_at, updated_at]
+      properties:
+        id: {type: string}
+        target_id: {type: string}
+        target_type:
+          type: string
+          enum: [control_panel, discord_bot, encoder_recorder, observability, worker]
+        host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        deployment_mode:
+          type: string
+          enum: [systemd, docker]
+        current_version: {type: string, pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'}
+        target_version: {type: string, pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'}
+        strategy:
+          type: string
+          enum: [when_idle, maintenance]
+        idempotency_key:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        status:
+          type: string
+          enum: [queued, claimed, downloading, verifying, staging, stopping, installing, starting, health_checking, rolling_back, reconciling, succeeded, rolled_back, failed, canceled]
+        progress: {type: integer, minimum: 0, maximum: 100}
+        sequence: {type: integer, format: int64, minimum: 0}
+        code: {type: string, maxLength: 128, pattern: "^[a-z0-9_.-]+$"}
+        message: {type: string, maxLength: 500}
+        artifact_digest: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        previous_digest: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        updater_id: {type: string, maxLength: 191}
+        requested_by: {type: string}
+        lease_generation: {type: integer, format: int64, minimum: 0}
+        lease_expires_at: {type: string, format: date-time}
+        created_at: {type: string, format: date-time}
+        updated_at: {type: string, format: date-time}
+        claimed_at: {type: string, format: date-time}
+        completed_at: {type: string, format: date-time}
+        canceled_at: {type: string, format: date-time}
+    SystemUpdateAgentStatus:
+      type: object
+      additionalProperties: false
+      required: [updater_id, name, status, online, version]
+      properties:
+        updater_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        name: {type: string, minLength: 1, maxLength: 191}
+        status: {type: string, minLength: 1, maxLength: 64}
+        online: {type: boolean}
+        version: {type: string, maxLength: 128}
+        last_heartbeat_at: {type: string, format: date-time}
+    SystemUpdateHostStatus:
+      type: object
+      additionalProperties: false
+      required: [host_id, name, updater_id, reachability]
+      properties:
+        host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        name: {type: string, minLength: 1, maxLength: 191}
+        updater_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        reachability:
+          type: string
+          enum: [reachable, unreachable, unknown]
+        reachability_checked_at: {type: string, format: date-time}
+        reachability_code: {type: string, maxLength: 128, pattern: "^[a-z0-9_.-]+$"}
+    SystemUpdatesResponse:
+      type: object
+      additionalProperties: false
+      required: [updaters, hosts, targets, jobs]
+      properties:
+        updaters:
+          type: array
+          items: {$ref: "#/components/schemas/SystemUpdateAgentStatus"}
+        hosts:
+          type: array
+          items: {$ref: "#/components/schemas/SystemUpdateHostStatus"}
+        targets:
+          type: array
+          items: {$ref: "#/components/schemas/SystemUpdateTarget"}
+        jobs:
+          type: array
+          items: {$ref: "#/components/schemas/SystemUpdateJob"}
+    UpdateAgentClaimRequest:
+      type: object
+      additionalProperties: false
+      required: [service_id]
+      properties:
+        service_id: {type: string, minLength: 1, maxLength: 191}
+        host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          description: Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior.
+        active_job_id:
+          type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '\S'
+          description: Optional locally active job. When present, the server returns only that job's renewed lease or an explicit clear_active_job_id response; it never claims a different job.
+    UpdateAgentClaimResponse:
+      oneOf:
+        - $ref: "#/components/schemas/UpdateAgentLeaseClaimResponse"
+        - $ref: "#/components/schemas/UpdateAgentClearActiveJobResponse"
+    UpdateAgentLeaseClaimResponse:
+      type: object
+      additionalProperties: false
+      required: [job, lease_token, lease_expires_at, lease_generation, report_sequence, recovery_required, last_status]
+      properties:
+        job: {$ref: "#/components/schemas/SystemUpdateJob"}
+        lease_token:
+          type: string
+          minLength: 32
+          writeOnly: true
+        lease_expires_at: {type: string, format: date-time}
+        lease_generation: {type: integer, format: int64, minimum: 1}
+        report_sequence: {type: integer, format: int64, minimum: 1}
+        recovery_required: {type: boolean}
+        last_status:
+          type: string
+          enum: [queued, claimed, downloading, verifying, staging, stopping, installing, starting, health_checking, rolling_back, reconciling, succeeded, rolled_back, failed, canceled]
+    UpdateAgentClearActiveJobResponse:
+      type: object
+      additionalProperties: false
+      required: [clear_active_job_id]
+      properties:
+        clear_active_job_id:
+          type: boolean
+          const: true
+          description: The reported active job is terminal, missing, or not owned by this updater and must be durably cleared before another claim.
+    UpdateAgentReportRequest:
+      type: object
+      additionalProperties: false
+      required: [service_id, lease_token, lease_generation, sequence, status]
+      properties:
+        service_id: {type: string, minLength: 1, maxLength: 191}
+        lease_token:
+          type: string
+          minLength: 32
+          writeOnly: true
+        lease_generation: {type: integer, format: int64, minimum: 1}
+        sequence: {type: integer, format: int64, minimum: 1}
+        status:
+          type: string
+          enum: [claimed, downloading, verifying, staging, stopping, installing, starting, health_checking, rolling_back, reconciling, succeeded, rolled_back, failed]
+        progress: {type: integer, minimum: 0, maximum: 100}
+        code: {type: string, maxLength: 128, pattern: "^[a-z0-9_.-]+$"}
+        message: {type: string, maxLength: 500}
+        artifact_digest: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        previous_digest: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+    UpdateAgentAuthorizeRequest:
+      type: object
+      additionalProperties: false
+      required: [service_id, lease_token, lease_generation, target_id, target_version, deployment_mode]
+      properties:
+        service_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        lease_token:
+          type: string
+          minLength: 32
+          maxLength: 256
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          writeOnly: true
+        lease_generation: {type: integer, format: int64, minimum: 1}
+        host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          description: Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior.
+        target_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        target_version:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        deployment_mode:
+          type: string
+          enum: [systemd, docker]
+    UpdateAgentMutationGrantIssueRequest:
+      type: object
+      additionalProperties: false
+      required: [service_id, lease_token, lease_generation, host_id, target_id, target_version, deployment_mode, operation, plan_sha256, session_id]
+      properties:
+        service_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        lease_token:
+          type: string
+          minLength: 32
+          maxLength: 256
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          writeOnly: true
+        lease_generation: {type: integer, format: int64, minimum: 1}
+        host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        target_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        target_version:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        deployment_mode:
+          type: string
+          enum: [systemd, docker]
+        operation:
+          type: string
+          enum: [apply, reconcile]
+        plan_sha256: {type: string, pattern: "^[a-f0-9]{64}$"}
+        session_id:
+          type: string
+          minLength: 16
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"
+    UpdateAgentMutationGrantIssueResponse:
+      type: object
+      additionalProperties: false
+      required: [grant_token, expires_at]
+      properties:
+        grant_token:
+          type: string
+          minLength: 32
+          maxLength: 256
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          writeOnly: true
+          description: Returned once and supplied as the Bearer credential when the destination helper consumes the grant. It must not be logged or persisted.
+        expires_at: {type: string, format: date-time}
+    UpdateAgentMutationGrantConsumeRequest:
+      type: object
+      additionalProperties: false
+      required: [lease_generation, host_id, target_id, target_version, deployment_mode, operation, plan_sha256, session_id]
+      properties:
+        lease_generation: {type: integer, format: int64, minimum: 1}
+        host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        target_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        target_version:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        deployment_mode:
+          type: string
+          enum: [systemd, docker]
+        operation:
+          type: string
+          enum: [apply, reconcile]
+        plan_sha256: {type: string, pattern: "^[a-f0-9]{64}$"}
+        session_id:
+          type: string
+          minLength: 16
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"
     ErrorResponse:
       type: object
       required: [code]
@@ -2195,10 +2702,20 @@ components:
           type: string
           minLength: 1
         service_type:
-          enum: [discord_bot, encoder_recorder, worker, observability]
+          enum: [discord_bot, encoder_recorder, worker, observability, update_agent]
         service_name:
           type: string
           minLength: 1
+        description:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+          minimum: 0
+          maximum: 65535
+        ssl_enabled:
+          type: boolean
         public_url:
           type: string
           format: uri
@@ -2206,17 +2723,89 @@ components:
           description: Control Panel から到達可能な http/https absolute URL。
         version:
           type: string
+        commit:
+          type: string
+        build_date:
+          type: string
         capabilities:
           type: object
           additionalProperties: true
+        hostname:
+          type: string
+        os:
+          type: string
+        arch:
+          type: string
+    Heartbeat:
+      type: object
+      additionalProperties: false
+      required: [service_id, status]
+      properties:
+        service_id: {type: string, minLength: 1}
+        node_id: {type: string, minLength: 1}
+        nodeId: {type: string, minLength: 1}
+        current_stream_id: {type: string}
+        status:
+          type: string
+          enum: [unknown, online, updating, degraded, offline, ready, running, stopping, failed]
+        metrics:
+          type: object
+          additionalProperties: {type: number}
+        version: {type: string}
+        commit: {type: string}
+        build_date: {type: string}
+        hostname: {type: string}
+        os: {type: string}
+        arch: {type: string}
+        capabilities:
+          type: object
+          additionalProperties: true
+        api:
+          type: object
+          additionalProperties: false
+          required: [host, port, sslEnabled]
+          properties:
+            host: {type: string, minLength: 1}
+            port: {type: integer, minimum: 1, maximum: 65535}
+            sslEnabled: {type: boolean}
+        timestamp: {type: string, format: date-time}
     RegisteredService:
       type: object
-      required: [service_id, service_type, service_name, public_url, version, status, capabilities, created_at, updated_at]
+      required: [service_id, service_type, service_name, ssl_enabled, public_url, version, status, capabilities, created_at, updated_at]
       properties:
+        ssl_enabled:
+          type: boolean
+        description:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+          minimum: 0
+          maximum: 65535
+        reported_version:
+          type: string
+        reported_commit:
+          type: string
+        reported_build_date:
+          type: string
+        last_reported_at:
+          type: string
+          format: date-time
+          nullable: true
+        reported_hostname:
+          type: string
+        reported_os:
+          type: string
+        reported_arch:
+          type: string
+        reported_capabilities:
+          type: object
+          additionalProperties: true
         service_id:
           type: string
         service_type:
-          enum: [discord_bot, encoder_recorder, worker, observability]
+          enum: [discord_bot, encoder_recorder, worker, observability, update_agent]
         service_name:
           type: string
         public_url:
@@ -2226,7 +2815,7 @@ components:
         version:
           type: string
         status:
-          enum: [unknown, pending, registered, assigned, online, offline, degraded, starting, stopping, restart_requested]
+          enum: [unknown, pending, registered, assigned, online, updating, offline, degraded, starting, stopping, restart_requested]
         assignment_role:
           enum: [primary, standby]
           description: present only when returned as a stream assignment. Only primary services receive dispatch; standby services are failover candidates and cannot resolve stream-scoped runtime secrets until promoted.
@@ -2255,7 +2844,7 @@ components:
       required: [service_type, scopes]
       properties:
         service_type:
-          enum: [discord_bot, encoder_recorder, worker, observability]
+          enum: [discord_bot, encoder_recorder, worker, observability, update_agent]
         scopes:
           type: array
           items:
@@ -2272,6 +2861,9 @@ components:
               - observability.ingest
               - notifications.email.send
               - remediation.execute
+              - updates.claim
+              - updates.report
+              - updates.authorize
           uniqueItems: true
         service_id:
           type: string
@@ -2295,11 +2887,26 @@ components:
         id:
           type: string
         service_type:
-          enum: [discord_bot, encoder_recorder, worker, observability]
+          enum: [discord_bot, encoder_recorder, worker, observability, update_agent]
         scopes:
           type: array
           items:
-            type: string
+            enum:
+              - service.register
+              - service.heartbeat
+              - service.logs.write
+              - service.status.write
+              - service.config.read
+              - service.secret.resolve
+              - worker.events.write
+              - encoder.status.write
+              - discord.status.write
+              - observability.ingest
+              - notifications.email.send
+              - remediation.execute
+              - updates.claim
+              - updates.report
+              - updates.authorize
         revoked_at:
           type: string
           format: date-time
@@ -2861,6 +3468,11 @@ components:
           maxLength: 16384
           pattern: '^[^\u0000]*$'
           description: Plain-text body. The server enforces a maximum of 16,384 UTF-8 bytes and rejects NUL.
+        html:
+          type: string
+          maxLength: 65536
+          pattern: '^[^\u0000]*$'
+          description: Optional HTML alternative. The server enforces a maximum of 65,536 UTF-8 bytes and rejects NUL; callers must keep text as the plain-text fallback.
     ServiceNotificationEmailResponse:
       type: object
       additionalProperties: false
@@ -2922,7 +3534,7 @@ components:
       type: object
       additionalProperties: false
       required: [name, type, enabled]
-      description: Control Panel notification-channel update. Per-channel SMTP fields and uses_global_smtp are not accepted. Omitting email_recipients preserves the existing masked recipient set, and the backend preserves the channel's existing legacy/global delivery mode.
+      description: Control Panel notification-channel update. Per-channel SMTP fields and uses_global_smtp are not accepted. migrate_to_global_smtp is the only supported delivery-mode transition; true migrates an existing legacy email channel to globally managed application SMTP, while omission or false preserves the current mode. Omitting email_recipients preserves the existing masked recipient set.
       properties:
         name:
           type: string
@@ -2949,6 +3561,10 @@ components:
             pattern: '^[^\r\n]+$'
             description: Bare mailbox address only; display names and CR/LF are rejected.
           description: Optional replacement recipient set. Omission preserves existing recipients; an explicitly empty array is invalid.
+        migrate_to_global_smtp:
+          type: boolean
+          writeOnly: true
+          description: Set true to migrate an existing legacy email channel from per-channel SMTP to globally managed application SMTP. Omission or false preserves the current delivery mode; this request flag is never returned.
         severity_filter:
           type: array
           uniqueItems: true
@@ -2963,6 +3579,8 @@ components:
       description: Control Panel notification-channel creation. Email channels always use globally managed application SMTP settings, enforced by the backend. Per-channel SMTP fields and uses_global_smtp are not accepted.
       allOf:
         - $ref: "#/components/schemas/ControlNotificationChannelUpdateRequest"
+        - not:
+            required: [migrate_to_global_smtp]
         - if:
             required: [type]
             properties:

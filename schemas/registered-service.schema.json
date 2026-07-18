@@ -2,35 +2,50 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "RegisteredService",
   "type": "object",
-  "required": ["service_id", "service_type", "service_name", "public_url", "version", "status", "capabilities", "created_at", "updated_at"],
+  "required": ["service_id", "service_type", "service_name", "ssl_enabled", "public_url", "version", "status", "capabilities", "created_at", "updated_at"],
   "additionalProperties": false,
   "properties": {
     "service_id": { "type": "string", "minLength": 1 },
     "service_type": {
-      "enum": ["discord_bot", "encoder_recorder", "worker", "observability"]
+      "enum": ["discord_bot", "encoder_recorder", "worker", "observability", "update_agent"]
     },
     "service_name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "host": { "type": "string" },
+    "port": { "type": "integer", "minimum": 0, "maximum": 65535 },
+    "ssl_enabled": { "type": "boolean" },
     "public_url": { "type": "string", "format": "uri", "pattern": "^https?://" },
     "version": { "type": "string" },
+    "reported_version": { "type": "string" },
+    "reported_commit": { "type": "string" },
+    "reported_build_date": { "type": "string" },
     "status": {
-      "enum": ["unknown", "pending", "registered", "assigned", "restart_requested", "online", "degraded", "offline", "starting", "stopping"]
+      "enum": ["unknown", "pending", "registered", "assigned", "restart_requested", "online", "updating", "degraded", "offline", "starting", "stopping"]
     },
     "assignment_role": {
       "enum": ["primary", "standby"],
       "description": "Present only when returned in a stream assignment context. Only primary services receive start/stop/retry dispatch; standby services are failover candidates."
     },
     "last_heartbeat_at": { "type": "string", "format": "date-time" },
+    "last_reported_at": { "type": "string", "format": "date-time" },
     "health_status": {
       "enum": ["healthy", "stale", "no_heartbeat", "offline"]
     },
     "heartbeat_stale": { "type": "boolean" },
     "heartbeat_age_sec": { "type": "integer", "minimum": 0 },
     "current_stream_id": { "type": "string" },
+    "reported_hostname": { "type": "string" },
+    "reported_os": { "type": "string" },
+    "reported_arch": { "type": "string" },
     "capabilities": { "type": "object", "additionalProperties": true },
+    "reported_capabilities": { "type": "object", "additionalProperties": true },
     "metrics": {
       "type": "object",
       "additionalProperties": { "type": "number" }
     },
+    "configure_token_expires_at": { "type": "string", "format": "date-time" },
+    "configure_token_used_at": { "type": "string", "format": "date-time" },
+    "node_token_rotated_at": { "type": "string", "format": "date-time" },
     "created_at": { "type": "string", "format": "date-time" },
     "updated_at": { "type": "string", "format": "date-time" }
   }

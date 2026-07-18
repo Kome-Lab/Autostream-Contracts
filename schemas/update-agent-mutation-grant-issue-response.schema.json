@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Update Agent Mutation Grant Issue Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["grant_token", "expires_at"],
+  "properties": {
+    "grant_token": {
+      "type": "string",
+      "minLength": 32,
+      "maxLength": 256,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+      "writeOnly": true,
+      "description": "Returned once and supplied as the Bearer credential when the destination helper consumes the grant. It must not be logged or persisted."
+    },
+    "expires_at": { "type": "string", "format": "date-time" }
+  }
+}

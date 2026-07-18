@@ -23,6 +23,7 @@ var Permissions = []string{
 	"notification_channels.read", "notification_channels.create", "notification_channels.update", "notification_channels.delete", "notification_channels.test",
 	"integrations.read", "integrations.create", "integrations.update", "integrations.delete",
 	"metrics.read", "service_health.read",
+	"system_updates.read", "system_updates.execute",
 }
 
 func PermissionExists(p string) bool {

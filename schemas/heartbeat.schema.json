@@ -6,13 +6,35 @@
   "additionalProperties": false,
   "properties": {
     "service_id": { "type": "string", "minLength": 1 },
+    "node_id": { "type": "string", "minLength": 1 },
+    "nodeId": { "type": "string", "minLength": 1 },
     "current_stream_id": { "type": "string" },
     "status": {
-      "enum": ["unknown", "online", "degraded", "offline", "ready", "running", "stopping", "failed"]
+      "enum": ["unknown", "online", "updating", "degraded", "offline", "ready", "running", "stopping", "failed"]
     },
     "metrics": {
       "type": "object",
       "additionalProperties": { "type": "number" }
+    },
+    "version": { "type": "string" },
+    "commit": { "type": "string" },
+    "build_date": { "type": "string" },
+    "hostname": { "type": "string" },
+    "os": { "enum": ["linux", "windows", "darwin", "freebsd", "openbsd", "netbsd"] },
+    "arch": { "enum": ["amd64", "arm64", "386", "arm", "riscv64"] },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "api": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["host", "port", "sslEnabled"],
+      "properties": {
+        "host": { "type": "string", "minLength": 1 },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "sslEnabled": { "type": "boolean" }
+      }
     },
     "timestamp": { "type": "string", "format": "date-time" }
   }
