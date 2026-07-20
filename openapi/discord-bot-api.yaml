@@ -7,6 +7,30 @@ servers:
 security:
   - serviceToken: []
 paths:
+  /updater/version:
+    get:
+      operationId: getUpdaterVersion
+      summary: Read the running binary's embedded release version
+      description: >
+        Unauthenticated endpoint for the host-local update helper. Deployments must
+        keep this path on loopback or block it at the public reverse proxy. The value
+        comes from the running binary and never from SERVICE_VERSION.
+      security: []
+      responses:
+        "200":
+          description: embedded release version
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [version]
+                properties:
+                  version:
+                    type: string
+                    pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
+                    example: v1.1.1
+
   /streams/{id}/notifications/youtube-live:
     post:
       operationId: notifyYouTubeLive

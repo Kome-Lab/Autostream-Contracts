@@ -19,6 +19,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release-${{ github.repository }}-${{ github.ref_type == 'tag' && github.ref_name || inputs.version }}
+  cancel-in-progress: false
+
 jobs:
   release-contracts:
     name: Build contracts archive
@@ -34,14 +38,17 @@ jobs:
       - name: Resolve release metadata
         id: meta
         shell: bash
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_PUSH_RELEASE: ${{ inputs.push_release }}
         run: |
           set -euo pipefail
           if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
             version="${GITHUB_REF_NAME}"
             push_release="true"
           else
-            version="${{ inputs.version }}"
-            push_release="${{ inputs.push_release }}"
+            version="${INPUT_VERSION}"
+            push_release="${INPUT_PUSH_RELEASE}"
           fi
           if [[ ! "${version}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
             echo "Version must look like v1.2.3; got ${version}" >&2
@@ -64,20 +71,159 @@ jobs:
           cp -R openapi "staging/${artifact}/openapi"
           cp -R schemas "staging/${artifact}/schemas"
           cp README.md "staging/${artifact}/README.md"
-          (cd "staging/${artifact}" && find . -type f -print0 | sort -z | xargs -0 sha256sum > checksums.txt)
+          (cd "staging/${artifact}" && find . -type f ! -path './checksums.txt' -print0 | sort -z | xargs -0 sha256sum > checksums.txt)
           tar -C staging -czf "artifacts/${artifact}.tar.gz" "${artifact}"
-          sha256sum "artifacts/${artifact}.tar.gz" > "artifacts/${artifact}.tar.gz.sha256"
+          (cd artifacts && sha256sum --text "${artifact}.tar.gz" > "${artifact}.tar.gz.sha256")
+          checksum_path="artifacts/${artifact}.tar.gz.sha256"
+          test "$(wc -l < "${checksum_path}")" -eq 1
+          LC_ALL=C grep -Eq '^[0-9a-f]{64}  [^/[:space:]]+$' "${checksum_path}"
+          test "$(awk 'NR == 1 { print $2 }' "${checksum_path}")" = "${artifact}.tar.gz"
+          (cd artifacts && sha256sum --check --strict "${artifact}.tar.gz.sha256")
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: contracts-release-dry-run
           path: artifacts/*
 
+      - name: Refuse to overwrite existing release or tag
+        if: steps.meta.outputs.push_release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          releases_json="${RUNNER_TEMP}/contracts-release-pages.json"
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/releases?per_page=100" > "${releases_json}"
+          existing_release_count="$(
+            jq -s --arg tag "${RELEASE_VERSION}" \
+              '[.[][] | select(.tag_name == $tag)] | length' \
+              "${releases_json}"
+          )"
+          if [[ "${existing_release_count}" != "0" ]]; then
+            echo "Release ${RELEASE_VERSION} already exists (including drafts); releases are immutable and a failed or partial release requires a new version." >&2
+            exit 1
+          fi
+
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            if [[ "${GITHUB_REF_NAME}" != "${RELEASE_VERSION}" ]]; then
+              echo "Triggered tag ${GITHUB_REF_NAME} does not match ${RELEASE_VERSION}." >&2
+              exit 1
+            fi
+
+            tag_ref="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_VERSION}")"
+            ref_type="$(jq -r '.object.type' <<< "${tag_ref}")"
+            ref_sha="$(jq -r '.object.sha' <<< "${tag_ref}")"
+            depth=0
+            while [[ "${ref_type}" == "tag" ]]; do
+              depth=$((depth + 1))
+              if (( depth > 8 )); then
+                echo "Annotated tag ${RELEASE_VERSION} exceeds the dereference limit." >&2
+                exit 1
+              fi
+              tag_object="$(gh api "repos/${GITHUB_REPOSITORY}/git/tags/${ref_sha}")"
+              ref_type="$(jq -r '.object.type' <<< "${tag_object}")"
+              ref_sha="$(jq -r '.object.sha' <<< "${tag_object}")"
+            done
+            if [[ "${ref_type}" != "commit" || "${ref_sha}" != "${GITHUB_SHA}" ]]; then
+              echo "Tag ${RELEASE_VERSION} does not resolve to workflow commit ${GITHUB_SHA}." >&2
+              exit 1
+            fi
+          else
+            if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_VERSION}" > "${RUNNER_TEMP}/existing-tag.json" 2> "${RUNNER_TEMP}/existing-tag.err"; then
+              echo "Tag ${RELEASE_VERSION} already exists; workflow_dispatch may not overwrite or reuse it, and a failed or partial release requires a new version." >&2
+              exit 1
+            elif ! grep -q 'HTTP 404' "${RUNNER_TEMP}/existing-tag.err"; then
+              cat "${RUNNER_TEMP}/existing-tag.err" >&2
+              exit 1
+            fi
+
+            created_tag="${RUNNER_TEMP}/created-tag.json"
+            if ! gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+              -f ref="refs/tags/${RELEASE_VERSION}" \
+              -f sha="${GITHUB_SHA}" \
+              > "${created_tag}"; then
+              echo "Failed to atomically create tag ${RELEASE_VERSION} at ${GITHUB_SHA}; no Release was created, and an existing version must not be reused." >&2
+              exit 1
+            fi
+            jq -e \
+              --arg ref "refs/tags/${RELEASE_VERSION}" \
+              --arg commit "${GITHUB_SHA}" \
+              '(.ref == $ref) and (.object.type == "commit") and (.object.sha == $commit)' \
+              "${created_tag}" > /dev/null
+          fi
+
       - name: Publish GitHub Release
         if: steps.meta.outputs.push_release == 'true'
         uses: softprops/action-gh-release@c12583777ecdfd3be55c69cf75464299dc01057e # v3
         with:
           tag_name: ${{ steps.meta.outputs.version }}
+          target_commitish: ${{ github.sha }}
           files: artifacts/*
+          fail_on_unmatched_files: true
+          overwrite_files: false
 
+      - name: Verify published release
+        if: steps.meta.outputs.push_release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          set -euo pipefail
 
+          release_json="${RUNNER_TEMP}/contracts-published-release.json"
+          expected_archive="autostream-contracts_${RELEASE_VERSION}.tar.gz"
+          expected_checksum="${expected_archive}.sha256"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_VERSION}" > "${release_json}"
+          jq -e \
+            --arg tag "${RELEASE_VERSION}" \
+            --arg archive "${expected_archive}" \
+            --arg checksum "${expected_checksum}" \
+            '(.tag_name == $tag) and
+             (.draft == false) and
+             (.published_at | type == "string" and length > 0) and
+             (.assets | length == 2) and
+             (([.assets[].name] | sort) == ([$archive, $checksum] | sort))' \
+            "${release_json}" > /dev/null
+
+          expected_assets='[]'
+          while IFS= read -r asset_path; do
+            name="$(basename "${asset_path}")"
+            size="$(stat -c '%s' "${asset_path}")"
+            digest="sha256:$(sha256sum "${asset_path}" | awk '{print $1}')"
+            expected_assets="$(
+              jq \
+                --arg name "${name}" \
+                --argjson size "${size}" \
+                --arg digest "${digest}" \
+                '. + [{name: $name, size: $size, digest: $digest}]' \
+                <<< "${expected_assets}"
+            )"
+          done < <(find artifacts -mindepth 1 -maxdepth 1 -type f -print | LC_ALL=C sort)
+          jq -S 'sort_by(.name)' <<< "${expected_assets}" > "${RUNNER_TEMP}/contracts-expected-assets.json"
+          jq -S '[.assets[] | {name, size, digest}] | sort_by(.name)' \
+            "${release_json}" > "${RUNNER_TEMP}/contracts-published-assets.json"
+          diff -u \
+            "${RUNNER_TEMP}/contracts-expected-assets.json" \
+            "${RUNNER_TEMP}/contracts-published-assets.json"
+
+          tag_ref="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_VERSION}")"
+          ref_type="$(jq -r '.object.type' <<< "${tag_ref}")"
+          ref_sha="$(jq -r '.object.sha' <<< "${tag_ref}")"
+          depth=0
+          while [[ "${ref_type}" == "tag" ]]; do
+            depth=$((depth + 1))
+            if (( depth > 8 )); then
+              echo "Published annotated tag ${RELEASE_VERSION} exceeds the dereference limit." >&2
+              exit 1
+            fi
+            tag_object="$(gh api "repos/${GITHUB_REPOSITORY}/git/tags/${ref_sha}")"
+            ref_type="$(jq -r '.object.type' <<< "${tag_object}")"
+            ref_sha="$(jq -r '.object.sha' <<< "${tag_object}")"
+          done
+          if [[ "${ref_type}" != "commit" || "${ref_sha}" != "${GITHUB_SHA}" ]]; then
+            echo "Published tag ${RELEASE_VERSION} does not resolve to workflow commit ${GITHUB_SHA}; the version must not be reused." >&2
+            exit 1
+          fi

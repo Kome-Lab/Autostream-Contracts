@@ -8,6 +8,41 @@ import (
 	"testing"
 )
 
+func TestUpdaterVersionEndpointContractIsUnauthenticatedAndMinimal(t *testing.T) {
+	for _, file := range []string{
+		"control-api.yaml",
+		"observability-api.yaml",
+		"encoder-recorder-api.yaml",
+		"discord-bot-api.yaml",
+	} {
+		body, err := os.ReadFile(filepath.Join("..", "..", "openapi", file))
+		if err != nil {
+			t.Fatalf("read %s: %v", file, err)
+		}
+		raw := string(body)
+		const pathMarker = "  /updater/version:\n"
+		start := strings.Index(raw, pathMarker)
+		if start < 0 {
+			t.Fatalf("%s is missing %s", file, strings.TrimSpace(pathMarker))
+		}
+		section := raw[start+len(pathMarker):]
+		if end := strings.Index(section, "\n  /"); end >= 0 {
+			section = section[:end]
+		}
+		for _, want := range []string{
+			"operationId: getUpdaterVersion",
+			"security: []",
+			"additionalProperties: false",
+			"required: [version]",
+			"pattern: '^v[0-9]+\\.[0-9]+\\.[0-9]+",
+		} {
+			if !strings.Contains(section, want) {
+				t.Fatalf("%s updater version contract is missing %q", file, want)
+			}
+		}
+	}
+}
+
 func TestSchemaFilesAreValidJSONAndDoNotExposeRawSecrets(t *testing.T) {
 	root := filepath.Join("..", "..", "schemas")
 	entries, err := os.ReadDir(root)
