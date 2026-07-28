@@ -8,13 +8,69 @@
     "updater_id": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
     },
     "name": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "transport_mode": { "enum": ["ssh_v1", "pull_v2"] },
+    "execution_host_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+    },
+    "ownership_epoch": { "type": "integer", "minimum": 0 },
     "status": { "type": "string", "minLength": 1, "maxLength": 64 },
     "online": { "type": "boolean" },
     "version": { "type": "string", "maxLength": 128 },
-    "last_heartbeat_at": { "type": "string", "format": "date-time" }
+    "last_heartbeat_at": { "type": "string", "format": "date-time" },
+    "desired_revision": { "type": "integer", "minimum": 0 },
+    "applied_revision": { "type": "integer", "minimum": 0 },
+    "policy_status": { "enum": ["applied", "pending", "failed"] },
+    "policy_error_code": {
+      "enum": [
+        "policy_fetch_failed",
+        "policy_invalid",
+        "ssh_identity_failed",
+        "ssh_connectivity_failed",
+        "policy_snapshot_failed",
+        "coordinator_start_failed",
+        "active_job_pending"
+      ]
+    },
+    "ssh_client_public_keys": {
+      "type": "object",
+      "propertyNames": {
+        "maxLength": 191,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 80,
+        "pattern": "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$"
+      }
+    },
+    "ssh_client_key_fingerprints": {
+      "type": "object",
+      "propertyNames": {
+        "maxLength": 191,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 50,
+        "pattern": "^SHA256:[A-Za-z0-9+/]{43}$"
+      }
+    },
+    "bootstrap_encryption_public_key": {
+      "type": "string",
+      "maxLength": 87,
+      "pattern": "^B[A-Za-z0-9_-]{86}$"
+    },
+    "bootstrap_encryption_key_fingerprint": {
+      "type": "string",
+      "maxLength": 50,
+      "pattern": "^SHA256:[A-Za-z0-9+/]{43}$"
+    }
   }
 }

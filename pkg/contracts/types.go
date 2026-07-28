@@ -23,6 +23,13 @@ const (
 	ServiceUpdateAgent     ServiceType = "update_agent"
 )
 
+type UpdateTransportMode string
+
+const (
+	UpdateTransportSSHV1  UpdateTransportMode = "ssh_v1"
+	UpdateTransportPullV2 UpdateTransportMode = "pull_v2"
+)
+
 type ServiceStatus string
 
 const (
@@ -94,12 +101,85 @@ const (
 	SystemUpdateUnknown     SystemUpdateReachability = "unknown"
 )
 
+type SystemUpdateOperation string
+
+const (
+	SystemUpdateOperationSoftwareUpdate  SystemUpdateOperation = "software_update"
+	SystemUpdateOperationPortReconfigure SystemUpdateOperation = "port_reconfigure"
+)
+
 type SystemUpdateMutationOperation string
 
 const (
-	SystemUpdateMutationApply     SystemUpdateMutationOperation = "apply"
-	SystemUpdateMutationReconcile SystemUpdateMutationOperation = "reconcile"
+	SystemUpdateMutationApply                    SystemUpdateMutationOperation = "apply"
+	SystemUpdateMutationReconcile                SystemUpdateMutationOperation = "reconcile"
+	SystemUpdateMutationPortReconfigure          SystemUpdateMutationOperation = "port_reconfigure"
+	SystemUpdateMutationPortReconfigureReconcile SystemUpdateMutationOperation = "port_reconfigure_reconcile"
 )
+
+type SystemUpdatePortProtocol string
+
+const (
+	SystemUpdatePortProtocolTCP SystemUpdatePortProtocol = "tcp"
+)
+
+type SystemUpdatePortReconfigurationResult string
+
+const (
+	SystemUpdatePortReconfigurationApplied        SystemUpdatePortReconfigurationResult = "applied"
+	SystemUpdatePortReconfigurationRolledBack     SystemUpdatePortReconfigurationResult = "rolled_back"
+	SystemUpdatePortReconfigurationUnchanged      SystemUpdatePortReconfigurationResult = "unchanged"
+	SystemUpdatePortReconfigurationRollbackFailed SystemUpdatePortReconfigurationResult = "rollback_failed"
+)
+
+type SystemUpdatePortMappingState string
+
+const (
+	SystemUpdatePortMappingApplied     SystemUpdatePortMappingState = "applied"
+	SystemUpdatePortMappingDrifted     SystemUpdatePortMappingState = "drifted"
+	SystemUpdatePortMappingUnavailable SystemUpdatePortMappingState = "unavailable"
+)
+
+type SystemUpdateDockerPortReconfiguration struct {
+	PublishedHostIP             string `json:"published_host_ip,omitempty"`
+	OldPublishedPort            int    `json:"old_published_port,omitempty"`
+	NewPublishedPort            int    `json:"new_published_port,omitempty"`
+	OldContainerPort            int    `json:"old_container_port,omitempty"`
+	NewContainerPort            int    `json:"new_container_port,omitempty"`
+	OldHealthPort               int    `json:"old_health_port,omitempty"`
+	NewHealthPort               int    `json:"new_health_port,omitempty"`
+	ApprovedComposeConfigSHA256 string `json:"approved_compose_config_sha256,omitempty"`
+	ApprovedComposeRevision     int64  `json:"approved_compose_revision,omitempty"`
+	ExpectedVersionEnvSHA256    string `json:"expected_version_env_sha256,omitempty"`
+	ExpectedContainerID         string `json:"expected_container_id,omitempty"`
+	ExpectedImageID             string `json:"expected_image_id,omitempty"`
+	ExpectedRepositoryDigest    string `json:"expected_repository_digest,omitempty"`
+}
+
+// SystemUpdatePortReconfiguration is the nested wire shape shared by a
+// port-reconfiguration job, claim, mutation grant and terminal report. Jobs
+// and grants carry the immutable plan fields, terminal jobs may also expose the
+// accepted Result, and reports carry Result only. Software-update payloads omit
+// this object entirely.
+type SystemUpdatePortReconfiguration struct {
+	NetworkNamespace               string                                 `json:"network_namespace,omitempty"`
+	Protocol                       SystemUpdatePortProtocol               `json:"protocol,omitempty"`
+	OldPort                        int                                    `json:"old_port,omitempty"`
+	NewPort                        int                                    `json:"new_port,omitempty"`
+	ExpectedEndpointRevision       int64                                  `json:"expected_endpoint_revision,omitempty"`
+	TargetEndpointRevision         int64                                  `json:"target_endpoint_revision,omitempty"`
+	ExpectedConfigRevision         int64                                  `json:"expected_config_revision,omitempty"`
+	TargetConfigRevision           int64                                  `json:"target_config_revision,omitempty"`
+	ExpectedConfigSHA256           string                                 `json:"expected_config_sha256,omitempty"`
+	TargetConfigSHA256             string                                 `json:"target_config_sha256,omitempty"`
+	ExpectedSourcePolicyRevision   int64                                  `json:"expected_source_policy_revision,omitempty"`
+	ExpectedUpdaterPolicyRevision  int64                                  `json:"expected_updater_policy_revision,omitempty"`
+	ExpectedExecutorPolicyRevision int64                                  `json:"expected_executor_policy_revision,omitempty"`
+	ExpectedExecutorPolicySHA256   string                                 `json:"expected_executor_policy_sha256,omitempty"`
+	PortPlanSHA256                 string                                 `json:"port_plan_sha256,omitempty"`
+	Docker                         *SystemUpdateDockerPortReconfiguration `json:"docker,omitempty"`
+	Result                         SystemUpdatePortReconfigurationResult  `json:"result,omitempty"`
+}
 
 type SystemUpdateStatus string
 
@@ -122,56 +202,131 @@ const (
 )
 
 type SystemUpdateCreateRequest struct {
-	TargetID       string               `json:"target_id"`
-	Strategy       SystemUpdateStrategy `json:"strategy"`
-	IdempotencyKey string               `json:"idempotency_key"`
+	Operation                SystemUpdateOperation `json:"operation,omitempty"`
+	TargetID                 string                `json:"target_id"`
+	Strategy                 SystemUpdateStrategy  `json:"strategy,omitempty"`
+	NewPort                  int                   `json:"new_port,omitempty"`
+	NewAdvertisedPort        int                   `json:"new_advertised_port,omitempty"`
+	NewPublishedPort         int                   `json:"new_published_port,omitempty"`
+	NewContainerPort         int                   `json:"new_container_port,omitempty"`
+	ExpectedEndpointRevision int64                 `json:"expected_endpoint_revision,omitempty"`
+	IdempotencyKey           string                `json:"idempotency_key"`
+}
+
+type SystemUpdatePullOwnershipActivateRequest struct {
+	ExpectedExecutionHostID             string `json:"expected_execution_host_id"`
+	ExpectedOwnershipEpoch              int64  `json:"expected_ownership_epoch"`
+	ExpectedSourcePolicyRevision        int64  `json:"expected_source_policy_revision"`
+	ExpectedProjectionRevision          int64  `json:"expected_projection_revision"`
+	ExpectedLocalExecutorPolicyRevision int64  `json:"expected_local_executor_policy_revision"`
+	ExpectedLocalExecutorPolicySHA256   string `json:"expected_local_executor_policy_sha256"`
+}
+
+type SystemUpdatePullOwnershipActivateResponse struct {
+	UpdaterID                   string              `json:"updater_id"`
+	ExecutionHostID             string              `json:"execution_host_id"`
+	TransportMode               UpdateTransportMode `json:"transport_mode"`
+	AgentServiceID              string              `json:"agent_service_id"`
+	OwnershipEpoch              int64               `json:"ownership_epoch"`
+	SourcePolicyRevision        int64               `json:"source_policy_revision"`
+	ProjectionRevision          int64               `json:"projection_revision"`
+	LocalExecutorPolicyRevision int64               `json:"local_executor_policy_revision"`
+	LocalExecutorPolicySHA256   string              `json:"local_executor_policy_sha256"`
+}
+
+// SystemUpdatePullOwnershipDeactivateRequest is an administrative
+// compare-and-swap request. The previous ssh_v1 owner is deliberately absent:
+// the server restores only the owner it preserved during activation.
+type SystemUpdatePullOwnershipDeactivateRequest struct {
+	ExpectedExecutionHostID             string `json:"expected_execution_host_id"`
+	ExpectedOwnershipEpoch              int64  `json:"expected_ownership_epoch"`
+	ExpectedSourcePolicyRevision        int64  `json:"expected_source_policy_revision"`
+	ExpectedProjectionRevision          int64  `json:"expected_projection_revision"`
+	ExpectedLocalExecutorPolicyRevision int64  `json:"expected_local_executor_policy_revision"`
+	ExpectedLocalExecutorPolicySHA256   string `json:"expected_local_executor_policy_sha256"`
+}
+
+// SystemUpdatePullOwnershipDeactivateResponse reports the restored ssh_v1
+// execution-host owner and the pull agent's observer epoch. It contains no
+// credential and does not expose a client-selectable legacy owner field.
+type SystemUpdatePullOwnershipDeactivateResponse struct {
+	UpdaterID                   string              `json:"updater_id"`
+	ExecutionHostID             string              `json:"execution_host_id"`
+	TransportMode               UpdateTransportMode `json:"transport_mode"`
+	AgentServiceID              string              `json:"agent_service_id"`
+	OwnershipEpoch              int64               `json:"ownership_epoch"`
+	AgentOwnershipEpoch         int64               `json:"agent_ownership_epoch"`
+	SourcePolicyRevision        int64               `json:"source_policy_revision"`
+	ProjectionRevision          int64               `json:"projection_revision"`
+	LocalExecutorPolicyRevision int64               `json:"local_executor_policy_revision"`
+	LocalExecutorPolicySHA256   string              `json:"local_executor_policy_sha256"`
+}
+
+type SystemUpdatePortMapping struct {
+	Mode            SystemUpdateDeploymentMode   `json:"mode"`
+	State           SystemUpdatePortMappingState `json:"state"`
+	AdvertisedPort  int                          `json:"advertised_port,omitempty"`
+	PublishedPort   int                          `json:"published_port,omitempty"`
+	ContainerPort   int                          `json:"container_port,omitempty"`
+	HealthPort      int                          `json:"health_port,omitempty"`
+	ConfigRevision  int64                        `json:"config_revision,omitempty"`
+	PublishedHostIP string                       `json:"published_host_ip,omitempty"`
+	ReportedAt      *time.Time                   `json:"reported_at,omitempty"`
 }
 
 type SystemUpdateTarget struct {
-	TargetID          string                     `json:"target_id"`
-	TargetType        SystemUpdateTargetType     `json:"target_type"`
-	Name              string                     `json:"name"`
-	HostID            string                     `json:"host_id,omitempty"`
-	CurrentVersion    string                     `json:"current_version,omitempty"`
-	LatestVersion     string                     `json:"latest_version,omitempty"`
-	UpdateAvailable   bool                       `json:"update_available"`
-	DeploymentMode    SystemUpdateDeploymentMode `json:"deployment_mode,omitempty"`
-	UpdaterID         string                     `json:"updater_id,omitempty"`
-	UpdaterOnline     bool                       `json:"updater_online"`
-	Eligible          bool                       `json:"eligible"`
-	BlockedReason     string                     `json:"blocked_reason,omitempty"`
-	Busy              bool                       `json:"busy"`
-	CurrentStreamID   string                     `json:"current_stream_id,omitempty"`
-	UpdateCheckSource string                     `json:"update_check_source,omitempty"`
-	UpdateCheckError  string                     `json:"update_check_error,omitempty"`
+	TargetID                string                     `json:"target_id"`
+	TargetType              SystemUpdateTargetType     `json:"target_type"`
+	Name                    string                     `json:"name"`
+	HostID                  string                     `json:"host_id,omitempty"`
+	CurrentVersion          string                     `json:"current_version,omitempty"`
+	LatestVersion           string                     `json:"latest_version,omitempty"`
+	UpdateAvailable         bool                       `json:"update_available"`
+	DeploymentMode          SystemUpdateDeploymentMode `json:"deployment_mode,omitempty"`
+	UpdaterID               string                     `json:"updater_id,omitempty"`
+	UpdaterOnline           bool                       `json:"updater_online"`
+	Eligible                bool                       `json:"eligible"`
+	BlockedReason           string                     `json:"blocked_reason,omitempty"`
+	EligibleOperations      []SystemUpdateOperation    `json:"eligible_operations,omitempty"`
+	OperationBlockedReasons map[string]string          `json:"operation_blocked_reasons,omitempty"`
+	Busy                    bool                       `json:"busy"`
+	CurrentStreamID         string                     `json:"current_stream_id,omitempty"`
+	UpdateCheckSource       string                     `json:"update_check_source,omitempty"`
+	UpdateCheckError        string                     `json:"update_check_error,omitempty"`
+	PortMapping             *SystemUpdatePortMapping   `json:"port_mapping,omitempty"`
 }
 
 type SystemUpdateJob struct {
-	ID              string                     `json:"id"`
-	TargetID        string                     `json:"target_id"`
-	TargetType      SystemUpdateTargetType     `json:"target_type"`
-	ExecutionHostID string                     `json:"host_id"`
-	DeploymentMode  SystemUpdateDeploymentMode `json:"deployment_mode"`
-	CurrentVersion  string                     `json:"current_version"`
-	TargetVersion   string                     `json:"target_version"`
-	Strategy        SystemUpdateStrategy       `json:"strategy"`
-	Status          SystemUpdateStatus         `json:"status"`
-	IdempotencyKey  string                     `json:"idempotency_key"`
-	UpdaterID       string                     `json:"updater_id,omitempty"`
-	RequestedBy     string                     `json:"requested_by,omitempty"`
-	LeaseGeneration int64                      `json:"lease_generation"`
-	LeaseExpiresAt  *time.Time                 `json:"lease_expires_at,omitempty"`
-	Sequence        int64                      `json:"sequence"`
-	Progress        int                        `json:"progress"`
-	Code            string                     `json:"code,omitempty"`
-	Message         string                     `json:"message,omitempty"`
-	ArtifactDigest  string                     `json:"artifact_digest,omitempty"`
-	PreviousDigest  string                     `json:"previous_digest,omitempty"`
-	CreatedAt       time.Time                  `json:"created_at"`
-	UpdatedAt       time.Time                  `json:"updated_at"`
-	ClaimedAt       *time.Time                 `json:"claimed_at,omitempty"`
-	CompletedAt     *time.Time                 `json:"completed_at,omitempty"`
-	CanceledAt      *time.Time                 `json:"canceled_at,omitempty"`
+	ID              string                           `json:"id"`
+	TargetID        string                           `json:"target_id"`
+	TargetType      SystemUpdateTargetType           `json:"target_type"`
+	ExecutionHostID string                           `json:"host_id"`
+	TransportMode   UpdateTransportMode              `json:"transport_mode,omitempty"`
+	OwnershipEpoch  int64                            `json:"ownership_epoch,omitempty"`
+	PolicyRevision  int64                            `json:"policy_revision,omitempty"`
+	DeploymentMode  SystemUpdateDeploymentMode       `json:"deployment_mode"`
+	CurrentVersion  string                           `json:"current_version"`
+	TargetVersion   string                           `json:"target_version"`
+	Strategy        SystemUpdateStrategy             `json:"strategy"`
+	Status          SystemUpdateStatus               `json:"status"`
+	IdempotencyKey  string                           `json:"idempotency_key"`
+	UpdaterID       string                           `json:"updater_id,omitempty"`
+	RequestedBy     string                           `json:"requested_by,omitempty"`
+	LeaseGeneration int64                            `json:"lease_generation"`
+	LeaseExpiresAt  *time.Time                       `json:"lease_expires_at,omitempty"`
+	Sequence        int64                            `json:"sequence"`
+	Progress        int                              `json:"progress"`
+	Code            string                           `json:"code,omitempty"`
+	Message         string                           `json:"message,omitempty"`
+	ArtifactDigest  string                           `json:"artifact_digest,omitempty"`
+	PreviousDigest  string                           `json:"previous_digest,omitempty"`
+	Operation       SystemUpdateOperation            `json:"operation,omitempty"`
+	PortReconfigure *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
+	CreatedAt       time.Time                        `json:"created_at"`
+	UpdatedAt       time.Time                        `json:"updated_at"`
+	ClaimedAt       *time.Time                       `json:"claimed_at,omitempty"`
+	CompletedAt     *time.Time                       `json:"completed_at,omitempty"`
+	CanceledAt      *time.Time                       `json:"canceled_at,omitempty"`
 }
 
 type SystemUpdatesResponse struct {
@@ -182,21 +337,34 @@ type SystemUpdatesResponse struct {
 }
 
 type SystemUpdateAgentStatus struct {
-	UpdaterID       string     `json:"updater_id"`
-	Name            string     `json:"name"`
-	Status          string     `json:"status"`
-	Online          bool       `json:"online"`
-	Version         string     `json:"version"`
-	LastHeartbeatAt *time.Time `json:"last_heartbeat_at,omitempty"`
+	UpdaterID                         string              `json:"updater_id"`
+	Name                              string              `json:"name"`
+	TransportMode                     UpdateTransportMode `json:"transport_mode,omitempty"`
+	ExecutionHostID                   string              `json:"execution_host_id,omitempty"`
+	OwnershipEpoch                    int64               `json:"ownership_epoch,omitempty"`
+	Status                            string              `json:"status"`
+	Online                            bool                `json:"online"`
+	Version                           string              `json:"version"`
+	LastHeartbeatAt                   *time.Time          `json:"last_heartbeat_at,omitempty"`
+	DesiredRevision                   int64               `json:"desired_revision,omitempty"`
+	AppliedRevision                   int64               `json:"applied_revision,omitempty"`
+	PolicyStatus                      string              `json:"policy_status,omitempty"`
+	PolicyErrorCode                   string              `json:"policy_error_code,omitempty"`
+	SSHClientPublicKeys               map[string]string   `json:"ssh_client_public_keys,omitempty"`
+	SSHClientKeyFingerprints          map[string]string   `json:"ssh_client_key_fingerprints,omitempty"`
+	BootstrapEncryptionPublicKey      string              `json:"bootstrap_encryption_public_key,omitempty"`
+	BootstrapEncryptionKeyFingerprint string              `json:"bootstrap_encryption_key_fingerprint,omitempty"`
 }
 
 type SystemUpdateHostStatus struct {
-	HostID                string                   `json:"host_id"`
-	Name                  string                   `json:"name"`
-	UpdaterID             string                   `json:"updater_id"`
-	Reachability          SystemUpdateReachability `json:"reachability"`
-	ReachabilityCheckedAt *time.Time               `json:"reachability_checked_at,omitempty"`
-	ReachabilityCode      string                   `json:"reachability_code,omitempty"`
+	HostID                  string                   `json:"host_id"`
+	Name                    string                   `json:"name"`
+	UpdaterID               string                   `json:"updater_id"`
+	Reachability            SystemUpdateReachability `json:"reachability"`
+	ReachabilityCheckedAt   *time.Time               `json:"reachability_checked_at,omitempty"`
+	ReachabilityCode        string                   `json:"reachability_code,omitempty"`
+	SSHClientPublicKey      string                   `json:"ssh_client_public_key,omitempty"`
+	SSHClientKeyFingerprint string                   `json:"ssh_client_key_fingerprint,omitempty"`
 }
 
 type UpdateAgentClaimRequest struct {
@@ -224,16 +392,17 @@ type UpdateAgentClearActiveJobResponse struct {
 }
 
 type UpdateAgentReportRequest struct {
-	ServiceID       string             `json:"service_id"`
-	LeaseToken      string             `json:"lease_token"`
-	LeaseGeneration int64              `json:"lease_generation"`
-	Sequence        int64              `json:"sequence"`
-	Status          SystemUpdateStatus `json:"status"`
-	Progress        int                `json:"progress,omitempty"`
-	Code            string             `json:"code,omitempty"`
-	Message         string             `json:"message,omitempty"`
-	ArtifactDigest  string             `json:"artifact_digest,omitempty"`
-	PreviousDigest  string             `json:"previous_digest,omitempty"`
+	ServiceID       string                           `json:"service_id"`
+	LeaseToken      string                           `json:"lease_token"`
+	LeaseGeneration int64                            `json:"lease_generation"`
+	Sequence        int64                            `json:"sequence"`
+	Status          SystemUpdateStatus               `json:"status"`
+	Progress        int                              `json:"progress,omitempty"`
+	Code            string                           `json:"code,omitempty"`
+	Message         string                           `json:"message,omitempty"`
+	ArtifactDigest  string                           `json:"artifact_digest,omitempty"`
+	PreviousDigest  string                           `json:"previous_digest,omitempty"`
+	PortReconfigure *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
 }
 
 type UpdateAgentAuthorizeRequest struct {
@@ -247,16 +416,22 @@ type UpdateAgentAuthorizeRequest struct {
 }
 
 type UpdateAgentMutationGrantIssueRequest struct {
-	ServiceID       string                        `json:"service_id"`
-	LeaseToken      string                        `json:"lease_token"`
-	LeaseGeneration int64                         `json:"lease_generation"`
-	ExecutionHostID string                        `json:"host_id"`
-	TargetID        string                        `json:"target_id"`
-	TargetVersion   string                        `json:"target_version"`
-	DeploymentMode  SystemUpdateDeploymentMode    `json:"deployment_mode"`
-	Operation       SystemUpdateMutationOperation `json:"operation"`
-	PlanSHA256      string                        `json:"plan_sha256"`
-	SessionID       string                        `json:"session_id"`
+	ServiceID       string                           `json:"service_id"`
+	LeaseToken      string                           `json:"lease_token"`
+	LeaseGeneration int64                            `json:"lease_generation"`
+	ExecutionHostID string                           `json:"host_id"`
+	TransportMode   UpdateTransportMode              `json:"transport_mode,omitempty"`
+	OwnershipEpoch  int64                            `json:"ownership_epoch,omitempty"`
+	PolicyRevision  int64                            `json:"policy_revision,omitempty"`
+	TargetID        string                           `json:"target_id"`
+	ServiceType     SystemUpdateTargetType           `json:"service_type,omitempty"`
+	TargetVersion   string                           `json:"target_version"`
+	DeploymentMode  SystemUpdateDeploymentMode       `json:"deployment_mode"`
+	JobOperation    SystemUpdateOperation            `json:"job_operation,omitempty"`
+	Operation       SystemUpdateMutationOperation    `json:"operation"`
+	PlanSHA256      string                           `json:"plan_sha256"`
+	SessionID       string                           `json:"session_id"`
+	PortReconfigure *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
 }
 
 type UpdateAgentMutationGrantIssueResponse struct {
@@ -265,14 +440,20 @@ type UpdateAgentMutationGrantIssueResponse struct {
 }
 
 type UpdateAgentMutationGrantConsumeRequest struct {
-	LeaseGeneration int64                         `json:"lease_generation"`
-	ExecutionHostID string                        `json:"host_id"`
-	TargetID        string                        `json:"target_id"`
-	TargetVersion   string                        `json:"target_version"`
-	DeploymentMode  SystemUpdateDeploymentMode    `json:"deployment_mode"`
-	Operation       SystemUpdateMutationOperation `json:"operation"`
-	PlanSHA256      string                        `json:"plan_sha256"`
-	SessionID       string                        `json:"session_id"`
+	LeaseGeneration int64                            `json:"lease_generation"`
+	ExecutionHostID string                           `json:"host_id"`
+	TransportMode   UpdateTransportMode              `json:"transport_mode,omitempty"`
+	OwnershipEpoch  int64                            `json:"ownership_epoch,omitempty"`
+	PolicyRevision  int64                            `json:"policy_revision,omitempty"`
+	TargetID        string                           `json:"target_id"`
+	ServiceType     SystemUpdateTargetType           `json:"service_type,omitempty"`
+	TargetVersion   string                           `json:"target_version"`
+	DeploymentMode  SystemUpdateDeploymentMode       `json:"deployment_mode"`
+	JobOperation    SystemUpdateOperation            `json:"job_operation,omitempty"`
+	Operation       SystemUpdateMutationOperation    `json:"operation"`
+	PlanSHA256      string                           `json:"plan_sha256"`
+	SessionID       string                           `json:"session_id"`
+	PortReconfigure *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
 }
 
 type ReleaseChannel string
@@ -397,21 +578,22 @@ type PasskeyAuthenticatorSelection struct {
 }
 
 type ServiceRegistration struct {
-	ServiceID    string         `json:"service_id"`
-	ServiceType  ServiceType    `json:"service_type"`
-	ServiceName  string         `json:"service_name"`
-	Description  string         `json:"description,omitempty"`
-	Host         string         `json:"host,omitempty"`
-	Port         int            `json:"port,omitempty"`
-	SSLEnabled   bool           `json:"ssl_enabled"`
-	PublicURL    string         `json:"public_url"`
-	Version      string         `json:"version"`
-	Commit       string         `json:"commit,omitempty"`
-	BuildDate    string         `json:"build_date,omitempty"`
-	Capabilities map[string]any `json:"capabilities"`
-	Hostname     string         `json:"hostname,omitempty"`
-	OS           string         `json:"os,omitempty"`
-	Arch         string         `json:"arch,omitempty"`
+	ServiceID     string              `json:"service_id"`
+	ServiceType   ServiceType         `json:"service_type"`
+	ServiceName   string              `json:"service_name"`
+	TransportMode UpdateTransportMode `json:"transport_mode,omitempty"`
+	Description   string              `json:"description,omitempty"`
+	Host          string              `json:"host,omitempty"`
+	Port          int                 `json:"port,omitempty"`
+	SSLEnabled    bool                `json:"ssl_enabled"`
+	PublicURL     string              `json:"public_url,omitempty"`
+	Version       string              `json:"version"`
+	Commit        string              `json:"commit,omitempty"`
+	BuildDate     string              `json:"build_date,omitempty"`
+	Capabilities  map[string]any      `json:"capabilities"`
+	Hostname      string              `json:"hostname,omitempty"`
+	OS            string              `json:"os,omitempty"`
+	Arch          string              `json:"arch,omitempty"`
 }
 
 type ServiceToken struct {
@@ -435,23 +617,160 @@ type ServiceTokenCreateRequest struct {
 	Capabilities map[string]any `json:"capabilities,omitempty"`
 }
 
+type ServiceEndpoint struct {
+	Host       string `json:"host"`
+	Port       int    `json:"port"`
+	SSLEnabled bool   `json:"ssl_enabled"`
+	PublicURL  string `json:"public_url"`
+}
+
+type HostAgentPolicyRequest struct {
+	ServiceID       string `json:"service_id"`
+	CurrentRevision int64  `json:"current_revision"`
+}
+
+type HostAgentPolicyTarget struct {
+	ServiceID             string           `json:"service_id"`
+	ServiceType           string           `json:"service_type"`
+	DeploymentMode        string           `json:"deployment_mode"`
+	DesiredEndpoint       *ServiceEndpoint `json:"desired_endpoint,omitempty"`
+	AppliedEndpoint       *ServiceEndpoint `json:"applied_endpoint,omitempty"`
+	LocalListenEndpoint   *ServiceEndpoint `json:"local_listen_endpoint,omitempty"`
+	LocalHealthEndpoint   *ServiceEndpoint `json:"local_health_endpoint,omitempty"`
+	AppliedConfigRevision int64            `json:"applied_config_revision,omitempty"`
+	AppliedConfigSHA256   string           `json:"applied_config_sha256,omitempty"`
+}
+
+// HostSelfUpdateReleaseBinding is the credential-free immutable release
+// identity carried across the Host Agent policy and root-executor grant
+// boundaries. Download URLs, tokens, and the Control Panel's
+// attestation_verified_at audit timestamp are intentionally excluded.
+type HostSelfUpdateReleaseBinding struct {
+	Tag                     string    `json:"tag"`
+	Commit                  string    `json:"commit"`
+	PublishedAt             time.Time `json:"published_at"`
+	ManifestAssetID         int64     `json:"manifest_asset_id"`
+	ManifestAssetName       string    `json:"manifest_asset_name"`
+	ManifestSHA256          string    `json:"manifest_sha256"`
+	ManifestChecksumAssetID int64     `json:"manifest_checksum_asset_id"`
+	ManifestChecksumSHA256  string    `json:"manifest_checksum_sha256"`
+	ArchiveAssetID          int64     `json:"archive_asset_id"`
+	ArchiveAssetName        string    `json:"archive_asset_name"`
+	ArchiveSize             int64     `json:"archive_size"`
+	ArchiveSHA256           string    `json:"archive_sha256"`
+	ArchiveChecksumAssetID  int64     `json:"archive_checksum_asset_id"`
+	ArchiveChecksumSHA256   string    `json:"archive_checksum_sha256"`
+	Arch                    string    `json:"arch"`
+	AgentProtocolVersion    int       `json:"agent_protocol_version"`
+	ExecutorProtocolVersion int       `json:"executor_protocol_version"`
+	MutationProtocolVersion int       `json:"mutation_protocol_version"`
+	RecoveryProtocolVersion int       `json:"recovery_protocol_version"`
+	MinimumPanelVersion     string    `json:"minimum_panel_version"`
+}
+
+type HostAgentRuntimeRequirement struct {
+	MinimumAgentVersion     string `json:"minimum_agent_version"`
+	MinimumExecutorVersion  string `json:"minimum_executor_version"`
+	AgentProtocolVersion    int    `json:"agent_protocol_version"`
+	ExecutorProtocolVersion int    `json:"executor_protocol_version"`
+	MutationProtocolVersion int    `json:"mutation_protocol_version"`
+	RecoveryProtocolVersion int    `json:"recovery_protocol_version"`
+}
+
+type HostAgentSelfUpdateDirective struct {
+	Generation              string                       `json:"generation"`
+	AgentVersion            string                       `json:"agent_version"`
+	ExecutorVersion         string                       `json:"executor_version"`
+	Commit                  string                       `json:"commit"`
+	ArtifactSHA256          string                       `json:"artifact_sha256"`
+	AgentProtocolVersion    int                          `json:"agent_protocol_version"`
+	ExecutorProtocolVersion int                          `json:"executor_protocol_version"`
+	MutationProtocolVersion int                          `json:"mutation_protocol_version"`
+	RecoveryProtocolVersion int                          `json:"recovery_protocol_version"`
+	Release                 HostSelfUpdateReleaseBinding `json:"release"`
+	StagedAt                time.Time                    `json:"staged_at"`
+}
+
+type HostSelfUpdateGrant struct {
+	ID                                  string                       `json:"id"`
+	SelfUpdateID                        string                       `json:"self_update_id"`
+	AttemptGeneration                   string                       `json:"attempt_generation"`
+	Operation                           string                       `json:"operation"`
+	ExecutionHostID                     string                       `json:"execution_host_id"`
+	AgentServiceID                      string                       `json:"agent_service_id"`
+	ExpectedSelfUpdateRevision          int64                        `json:"expected_self_update_revision"`
+	ExpectedOwnershipEpoch              int64                        `json:"expected_ownership_epoch"`
+	ExpectedSourcePolicyRevision        int64                        `json:"expected_source_policy_revision"`
+	ExpectedProjectionRevision          int64                        `json:"expected_projection_revision"`
+	ExpectedLocalExecutorPolicyRevision int64                        `json:"expected_local_executor_policy_revision"`
+	ExpectedLocalExecutorPolicySHA256   string                       `json:"expected_local_executor_policy_sha256"`
+	AgentVersion                        string                       `json:"agent_version"`
+	ExecutorVersion                     string                       `json:"executor_version"`
+	ReleaseCommit                       string                       `json:"release_commit"`
+	ArtifactSHA256                      string                       `json:"artifact_sha256"`
+	AgentProtocolVersion                int                          `json:"agent_protocol_version"`
+	ExecutorProtocolVersion             int                          `json:"executor_protocol_version"`
+	MutationProtocolVersion             int                          `json:"mutation_protocol_version"`
+	RecoveryProtocolVersion             int                          `json:"recovery_protocol_version"`
+	Release                             HostSelfUpdateReleaseBinding `json:"release"`
+	DirectiveIssuedAt                   time.Time                    `json:"directive_issued_at"`
+	PlanSHA256                          string                       `json:"plan_sha256"`
+	SessionID                           string                       `json:"session_id"`
+	Revision                            int64                        `json:"revision"`
+	IssuedAt                            time.Time                    `json:"issued_at"`
+	ExpiresAt                           time.Time                    `json:"expires_at"`
+	ConsumedAt                          *time.Time                   `json:"consumed_at,omitempty"`
+	StageClaimRevision                  int64                        `json:"stage_claim_revision,omitempty"`
+	StageClaimedAt                      *time.Time                   `json:"stage_claimed_at,omitempty"`
+	CreatedAt                           time.Time                    `json:"created_at"`
+	UpdatedAt                           time.Time                    `json:"updated_at"`
+}
+
+type HostAgentPolicyResponse struct {
+	ServiceID                   string                        `json:"service_id"`
+	TransportMode               UpdateTransportMode           `json:"transport_mode"`
+	ExecutionHostID             string                        `json:"execution_host_id"`
+	OwnershipEpoch              int64                         `json:"ownership_epoch"`
+	Revision                    int64                         `json:"revision"`
+	SourcePolicyRevision        int64                         `json:"source_policy_revision"`
+	LocalExecutorPolicyRevision int64                         `json:"local_executor_policy_revision"`
+	LocalExecutorPolicySHA256   string                        `json:"local_executor_policy_sha256,omitempty"`
+	ObserveOnly                 bool                          `json:"observe_only"`
+	RuntimeRequirement          *HostAgentRuntimeRequirement  `json:"runtime_requirement,omitempty"`
+	SelfUpdate                  *HostAgentSelfUpdateDirective `json:"self_update,omitempty"`
+	SelfUpdateID                string                        `json:"self_update_id,omitempty"`
+	SelfUpdateRevision          int64                         `json:"self_update_revision,omitempty"`
+	SelfUpdateStatus            string                        `json:"self_update_status,omitempty"`
+	Targets                     []HostAgentPolicyTarget       `json:"targets"`
+}
+
 type RegisteredService struct {
-	ServiceID       string         `json:"service_id"`
-	ServiceType     ServiceType    `json:"service_type"`
-	ServiceName     string         `json:"service_name"`
-	PublicURL       string         `json:"public_url"`
-	Version         string         `json:"version"`
-	Status          ServiceStatus  `json:"status"`
-	AssignmentRole  string         `json:"assignment_role,omitempty"`
-	LastHeartbeatAt *time.Time     `json:"last_heartbeat_at,omitempty"`
-	HealthStatus    string         `json:"health_status,omitempty"`
-	HeartbeatStale  bool           `json:"heartbeat_stale,omitempty"`
-	HeartbeatAgeSec *int64         `json:"heartbeat_age_sec,omitempty"`
-	CurrentStreamID string         `json:"current_stream_id,omitempty"`
-	Capabilities    map[string]any `json:"capabilities"`
-	TokenID         string         `json:"-"`
-	CreatedAt       time.Time      `json:"created_at"`
-	UpdatedAt       time.Time      `json:"updated_at"`
+	ServiceID             string              `json:"service_id"`
+	ServiceType           ServiceType         `json:"service_type"`
+	ServiceName           string              `json:"service_name"`
+	TransportMode         UpdateTransportMode `json:"transport_mode,omitempty"`
+	ExecutionHostID       string              `json:"execution_host_id,omitempty"`
+	OwnershipEpoch        int64               `json:"ownership_epoch,omitempty"`
+	PublicURL             string              `json:"public_url,omitempty"`
+	DesiredEndpoint       *ServiceEndpoint    `json:"desired_endpoint,omitempty"`
+	AppliedEndpoint       *ServiceEndpoint    `json:"applied_endpoint,omitempty"`
+	ReportedEndpoint      *ServiceEndpoint    `json:"reported_endpoint,omitempty"`
+	EndpointRevision      int64               `json:"endpoint_revision,omitempty"`
+	EndpointStatus        string              `json:"endpoint_status,omitempty"`
+	AppliedConfigRevision int64               `json:"applied_config_revision,omitempty"`
+	AppliedConfigSHA256   string              `json:"applied_config_sha256,omitempty"`
+	Version               string              `json:"version"`
+	Status                ServiceStatus       `json:"status"`
+	AssignmentRole        string              `json:"assignment_role,omitempty"`
+	LastHeartbeatAt       *time.Time          `json:"last_heartbeat_at,omitempty"`
+	HealthStatus          string              `json:"health_status,omitempty"`
+	HeartbeatStale        bool                `json:"heartbeat_stale,omitempty"`
+	HeartbeatAgeSec       *int64              `json:"heartbeat_age_sec,omitempty"`
+	CurrentStreamID       string              `json:"current_stream_id,omitempty"`
+	Capabilities          map[string]any      `json:"capabilities"`
+	TokenID               string              `json:"-"`
+	CreatedAt             time.Time           `json:"created_at"`
+	UpdatedAt             time.Time           `json:"updated_at"`
 }
 
 type StreamServiceAssignment struct {

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update Grant Issue Request",
+  "description": "Requests a short-lived grant bound to one exact Host self-update revision and one executor plan.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["expected_revision", "operation", "plan_sha256", "session_id"],
+  "properties": {
+    "expected_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "operation": {
+      "enum": ["stage", "reconcile"]
+    },
+    "plan_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"
+    }
+  }
+}

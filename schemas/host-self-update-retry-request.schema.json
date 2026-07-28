@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update Retry Request",
+  "description": "Retries the same immutable release identity and fences as a terminal Host self-update.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["idempotency_key"],
+  "properties": {
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    }
+  }
+}

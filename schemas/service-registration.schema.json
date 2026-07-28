@@ -2,12 +2,50 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ServiceRegistration",
   "type": "object",
-  "required": ["service_id", "service_type", "service_name", "public_url", "version", "capabilities"],
+  "required": ["service_id", "service_type", "service_name", "version", "capabilities"],
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "required": ["transport_mode"]
+      },
+      "then": {
+        "properties": {
+          "service_type": { "const": "update_agent" }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["service_type", "transport_mode"],
+        "properties": {
+          "service_type": { "const": "update_agent" },
+          "transport_mode": { "const": "pull_v2" }
+        }
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["host"] },
+            { "required": ["port"] },
+            { "required": ["public_url"] }
+          ]
+        }
+      },
+      "else": {
+        "required": ["public_url"]
+      }
+    }
+  ],
   "properties": {
     "service_id": { "type": "string", "minLength": 1 },
     "service_type": {
       "enum": ["discord_bot", "encoder_recorder", "worker", "observability", "update_agent"]
+    },
+    "transport_mode": {
+      "enum": ["ssh_v1", "pull_v2"],
+      "default": "ssh_v1",
+      "description": "Update-agent transport. Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url. Server-owned execution_host_id and ownership_epoch are never accepted from registration input."
     },
     "service_name": { "type": "string", "minLength": 1 },
     "description": { "type": "string" },

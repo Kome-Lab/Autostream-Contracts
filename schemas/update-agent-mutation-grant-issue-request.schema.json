@@ -4,14 +4,150 @@
   "description": "Requests a short-lived grant bound to one leased job, execution host, immutable plan and remote session. Host connection details and privileged execution configuration are never accepted.",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "dockerPortReconfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "published_host_ip",
+        "old_published_port", "new_published_port",
+        "old_container_port", "new_container_port",
+        "old_health_port", "new_health_port",
+        "approved_compose_config_sha256", "approved_compose_revision",
+        "expected_version_env_sha256", "expected_container_id",
+        "expected_image_id", "expected_repository_digest"
+      ],
+      "properties": {
+        "published_host_ip": { "const": "127.0.0.1" },
+        "old_published_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "new_published_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "old_container_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "new_container_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "old_health_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "new_health_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "approved_compose_config_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "approved_compose_revision": { "type": "integer", "minimum": 1 },
+        "expected_version_env_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "expected_container_id": { "type": "string", "pattern": "^[a-f0-9]{12,64}$" },
+        "expected_image_id": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "expected_repository_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+      },
+      "description": "Immutable Docker runtime binding. The server additionally checks health/published equality and rejects a no-op across advertised, published, and container ports."
+    },
+    "portReconfigurationPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_namespace", "protocol", "old_port", "new_port",
+        "expected_endpoint_revision", "target_endpoint_revision",
+        "expected_config_revision", "target_config_revision",
+        "expected_config_sha256", "target_config_sha256",
+        "expected_source_policy_revision", "expected_updater_policy_revision",
+        "expected_executor_policy_revision", "expected_executor_policy_sha256",
+        "port_plan_sha256"
+      ],
+      "properties": {
+        "network_namespace": { "const": "host" },
+        "protocol": { "const": "tcp" },
+        "old_port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "new_port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "expected_endpoint_revision": { "type": "integer", "minimum": 1 },
+        "target_endpoint_revision": { "type": "integer", "minimum": 1 },
+        "expected_config_revision": { "type": "integer", "minimum": 1 },
+        "target_config_revision": { "type": "integer", "minimum": 1 },
+        "expected_config_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "target_config_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "expected_source_policy_revision": { "type": "integer", "minimum": 1 },
+        "expected_updater_policy_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence."
+        },
+        "expected_executor_policy_revision": { "type": "integer", "minimum": 1 },
+        "expected_executor_policy_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "port_plan_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Lease/session-bound executor plan digest; it must equal the top-level plan_sha256."
+        },
+        "docker": { "$ref": "#/$defs/dockerPortReconfiguration" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["operation"],
+        "properties": {
+          "operation": {
+            "enum": ["port_reconfigure", "port_reconfigure_reconcile"]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "job_operation", "port_reconfigure", "transport_mode", "service_type",
+          "ownership_epoch", "policy_revision"
+        ],
+        "properties": {
+          "job_operation": { "const": "port_reconfigure" },
+          "transport_mode": { "const": "pull_v2" },
+          "service_type": {
+            "enum": ["discord_bot", "encoder_recorder", "observability", "worker"]
+          },
+          "policy_revision": { "minimum": 1 }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "deployment_mode": { "const": "systemd" },
+              "port_reconfigure": {
+                "not": { "required": ["docker"] },
+                "properties": {
+                  "old_port": { "minimum": 1024 },
+                  "new_port": { "minimum": 1024 }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "deployment_mode": { "const": "docker" },
+              "port_reconfigure": { "required": ["docker"] }
+            }
+          }
+        ]
+      },
+      "else": {
+        "properties": {
+          "job_operation": { "const": "software_update" }
+        },
+        "not": { "required": ["port_reconfigure"] }
+      }
+    },
+    {
+      "if": {
+        "required": ["transport_mode"],
+        "properties": {
+          "transport_mode": { "const": "pull_v2" }
+        }
+      },
+      "then": {
+        "required": ["ownership_epoch", "policy_revision"],
+        "properties": {
+          "policy_revision": { "minimum": 1 }
+        }
+      }
+    }
+  ],
   "required": [
     "service_id", "lease_token", "lease_generation", "host_id", "target_id",
     "target_version", "deployment_mode", "operation", "plan_sha256", "session_id"
   ],
   "properties": {
     "service_id": {
-      "type": "string", "minLength": 1, "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+      "type": "string", "minLength": 1, "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
     },
     "lease_token": {
       "type": "string", "minLength": 32, "maxLength": 256,
@@ -20,19 +156,33 @@
     "lease_generation": { "type": "integer", "minimum": 1 },
     "host_id": {
       "type": "string", "minLength": 1, "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
     },
+    "transport_mode": { "enum": ["ssh_v1", "pull_v2"] },
+    "ownership_epoch": { "type": "integer", "minimum": 1 },
+    "policy_revision": { "type": "integer", "minimum": 0 },
     "target_id": {
-      "type": "string", "minLength": 1, "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+      "type": "string", "minLength": 1, "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "service_type": {
+      "enum": ["control_panel", "discord_bot", "encoder_recorder", "observability", "worker"]
     },
     "target_version": {
       "type": "string", "minLength": 1, "maxLength": 128,
       "pattern": "^[^\\x00-\\x1F\\x7F]+$"
     },
     "deployment_mode": { "enum": ["systemd", "docker"] },
-    "operation": { "enum": ["apply", "reconcile"] },
-    "plan_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "job_operation": { "enum": ["software_update", "port_reconfigure"] },
+    "operation": {
+      "enum": ["apply", "reconcile", "port_reconfigure", "port_reconfigure_reconcile"]
+    },
+    "plan_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Lease/session-bound executor plan digest; for port operations it must equal port_reconfigure.port_plan_sha256."
+    },
+    "port_reconfigure": { "$ref": "#/$defs/portReconfigurationPlan" },
     "session_id": {
       "type": "string", "minLength": 16, "maxLength": 128,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"

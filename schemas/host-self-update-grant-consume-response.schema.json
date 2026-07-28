@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update Grant Consume Response",
+  "description": "Returns only the non-secret durable receipt. consumed=false is the response-loss replay outcome.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["grant", "consumed"],
+  "properties": {
+    "grant": {
+      "allOf": [
+        { "$ref": "host-self-update-grant.schema.json" },
+        { "required": ["consumed_at"] }
+      ]
+    },
+    "consumed": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update Cancel Request",
+  "description": "Compare-and-swap cancellation request. Executing attempts require the Host Agent cancellation capability.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["expected_revision"],
+  "properties": {
+    "expected_revision": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

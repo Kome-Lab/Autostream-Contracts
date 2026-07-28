@@ -2,12 +2,88 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "RegisteredService",
   "type": "object",
-  "required": ["service_id", "service_type", "service_name", "ssl_enabled", "public_url", "version", "status", "capabilities", "created_at", "updated_at"],
+  "required": ["service_id", "service_type", "service_name", "ssl_enabled", "version", "status", "capabilities", "created_at", "updated_at"],
   "additionalProperties": false,
+  "$defs": {
+    "serviceEndpoint": {
+      "title": "ServiceEndpoint",
+      "type": "object",
+      "required": ["host", "port", "ssl_enabled", "public_url"],
+      "additionalProperties": false,
+      "properties": {
+        "host": { "type": "string", "minLength": 1 },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "ssl_enabled": { "type": "boolean" },
+        "public_url": { "type": "string", "format": "uri", "pattern": "^https?://" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "anyOf": [
+          { "required": ["transport_mode"] },
+          { "required": ["execution_host_id"] },
+          { "required": ["ownership_epoch"] }
+        ]
+      },
+      "then": {
+        "properties": {
+          "service_type": { "const": "update_agent" }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["service_type", "transport_mode"],
+        "properties": {
+          "service_type": { "const": "update_agent" },
+          "transport_mode": { "const": "pull_v2" }
+        }
+      },
+      "then": {
+        "required": ["execution_host_id", "ownership_epoch"],
+        "not": {
+          "anyOf": [
+            { "required": ["host"] },
+            { "required": ["port"] },
+            { "required": ["public_url"] },
+            { "required": ["desired_endpoint"] },
+            { "required": ["applied_endpoint"] },
+            { "required": ["reported_endpoint"] },
+            { "required": ["endpoint_revision"] },
+            { "required": ["endpoint_status"] },
+            { "required": ["applied_config_revision"] },
+            { "required": ["applied_config_sha256"] }
+          ]
+        }
+      },
+      "else": {
+        "required": ["public_url"]
+      }
+    }
+  ],
   "properties": {
     "service_id": { "type": "string", "minLength": 1 },
     "service_type": {
       "enum": ["discord_bot", "encoder_recorder", "worker", "observability", "update_agent"]
+    },
+    "transport_mode": {
+      "enum": ["ssh_v1", "pull_v2"],
+      "default": "ssh_v1",
+      "description": "Update-agent transport. Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url."
+    },
+    "execution_host_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+      "description": "Stable execution-host identity owned by a pull_v2 update agent."
+    },
+    "ownership_epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Server-owned execution-host ownership epoch. Zero is the observe-only, not-yet-owned sentinel."
     },
     "service_name": { "type": "string", "minLength": 1 },
     "description": { "type": "string" },
@@ -15,6 +91,13 @@
     "port": { "type": "integer", "minimum": 0, "maximum": 65535 },
     "ssl_enabled": { "type": "boolean" },
     "public_url": { "type": "string", "format": "uri", "pattern": "^https?://" },
+    "desired_endpoint": { "$ref": "#/$defs/serviceEndpoint" },
+    "applied_endpoint": { "$ref": "#/$defs/serviceEndpoint" },
+    "reported_endpoint": { "$ref": "#/$defs/serviceEndpoint" },
+    "endpoint_revision": { "type": "integer", "minimum": 1 },
+    "endpoint_status": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "applied_config_revision": { "type": "integer", "minimum": 1 },
+    "applied_config_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "version": { "type": "string" },
     "reported_version": { "type": "string" },
     "reported_commit": { "type": "string" },

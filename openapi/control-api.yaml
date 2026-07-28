@@ -918,6 +918,257 @@ paths:
                 $ref: "#/components/schemas/SystemUpdateJob"
         "409":
           description: job is no longer cancelable
+  /system-updates/host-self-updates:
+    get:
+      operationId: listHostSelfUpdates
+      description: Lists the dedicated Host Agent and Local Executor self-update lifecycle. Requires system_updates.read. Raw grants, release credentials, and download locations are never returned.
+      responses:
+        "200":
+          description: bounded Host self-update history
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostSelfUpdateListResponse"
+  /system-updates/hosts/{host_id}/self-updates:
+    post:
+      operationId: createHostSelfUpdate
+      description: Creates one dedicated Host self-update after the server resolves and verifies the fixed public immutable Kome-Lab release. The request supplies only the target version and idempotency key; it cannot supply a host binding, URL, credential, commit, digest, path, command, or artifact.
+      parameters:
+        - name: host_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 191
+            pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HostSelfUpdateCreateRequest"
+      responses:
+        "202":
+          description: new lifecycle persisted, or the exact idempotent result replayed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostSelfUpdate"
+        "400":
+          description: invalid_host_self_update_request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: host_self_update_host_not_found or host_self_update_agent_not_found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: release verification, host readiness, idempotency, ownership, or active-lifecycle conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /system-updates/host-self-updates/{id}/retry:
+    post:
+      operationId: retryHostSelfUpdate
+      description: Creates a new random-generation attempt for the same immutable release and exact host fences after a terminal failed or rolled-back lifecycle. Requires system_updates.execute.
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HostSelfUpdateRetryRequest"
+      responses:
+        "202":
+          description: retry lifecycle persisted, or the exact idempotent result replayed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostSelfUpdate"
+        "400":
+          description: invalid_host_self_update_retry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: host_self_update_not_found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: lifecycle, idempotency, revision, ownership, or active-host conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /system-updates/host-self-updates/{id}/cancel:
+    post:
+      operationId: cancelHostSelfUpdate
+      description: Cancels a queued lifecycle or requests cooperative cancellation from an executing Host Agent. Executing cancellation returns 409 when the registered agent has no cancellation capability. Requires system_updates.execute.
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HostSelfUpdateCancelRequest"
+      responses:
+        "200":
+          description: queued attempt canceled or executing attempt moved to cancel_requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostSelfUpdate"
+        "400":
+          description: invalid_host_self_update_cancel
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: host_self_update_not_found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: host_self_update_cancel_unsupported or lifecycle revision/state conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /system-updates/updaters/{id}/pull-ownership/activate:
+    post:
+      operationId: activateSystemUpdatePullOwnership
+      description: >
+        Atomically transfers one execution host from the legacy ssh_v1 owner to
+        the already-registered and readiness-verified pull_v2 Host Agent.
+        Requires system_updates.execute. The id path parameter selects the
+        pre-created updater; every request field is a compare-and-swap
+        expectation. The server chooses the next ownership epoch and never
+        accepts a replacement owner, credential, command, path, URL, image, or
+        release input.
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SystemUpdatePullOwnershipActivateRequest"
+      responses:
+        "200":
+          description: pull_v2 ownership activated with server-owned fencing values and no secret
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemUpdatePullOwnershipActivateResponse"
+        "400":
+          description: bad_request or invalid_pull_activation_request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: permission_denied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: update_agent_not_registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: updater_policy_revision_conflict, system_update_ownership_conflict, system_update_execution_host_busy, host_agent_not_ready, or update_agent_inactive
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: activate_pull_ownership_failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /system-updates/updaters/{id}/pull-ownership/deactivate:
+    post:
+      operationId: deactivateSystemUpdatePullOwnership
+      description: >
+        Atomically returns one active pull_v2 Host Agent to observer epoch zero
+        and restores the ssh_v1 updater that the server preserved when
+        ownership was activated. Requires system_updates.execute. The id path
+        parameter selects the pull updater; every request field is a
+        compare-and-swap expectation. The client cannot select the legacy
+        owner, replacement transport, next epoch, credential, command, path,
+        URL, image, or release.
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SystemUpdatePullOwnershipDeactivateRequest"
+      responses:
+        "200":
+          description: ssh_v1 ownership restored and the pull updater returned to observer epoch zero
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemUpdatePullOwnershipDeactivateResponse"
+        "400":
+          description: bad_request or invalid_pull_deactivation_request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: permission_denied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: update_agent_not_registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: updater_policy_revision_conflict, system_update_ownership_conflict, host_lifecycle_busy, host_agent_not_ready, or update_agent_inactive
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: deactivate_pull_ownership_failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /api-tokens:
     get:
       responses:
@@ -995,6 +1246,152 @@ paths:
                 $ref: "#/components/schemas/RegisteredService"
         "400":
           description: invalid service registration payload or outbound-policy-blocked public URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /services/host-agent/policy:
+    post:
+      operationId: fetchHostAgentPolicy
+      security:
+        - bearerToken: []
+      description: Fetches the dedicated pull_v2 observe-only policy for the authenticated Host Agent. Requires service.config.read. Server-owned host binding fields are never accepted from the request. This endpoint is separate from the legacy /services/update-agent/policy contract.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HostAgentPolicyRequest"
+      responses:
+        "200":
+          description: newer server-owned Host Agent policy
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostAgentPolicyResponse"
+        "204":
+          description: policy is unchanged or no policy is configured
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store.
+        "400":
+          description: invalid_host_agent_policy_request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: missing or invalid service token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: token does not own service_id or lacks service.config.read
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: host-agent transport binding mismatch or client revision is ahead
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /services/host-agent/self-updates/{id}/grants:
+    post:
+      operationId: issueHostSelfUpdateGrant
+      security:
+        - bearerToken: []
+      description: Issues one short-lived single-logical-consume credential to the authenticated Host Agent for one exact self-update attempt, lifecycle revision, host/agent ownership and policy fence, release identity, protocol set, directive time, plan hash, session, and stage or reconcile operation. Generic update-job grants are not reusable here.
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HostSelfUpdateGrantIssueRequest"
+      responses:
+        "201":
+          description: first issuance returns the transient credential; an idempotent replay returns only the same non-secret receipt with issued=false
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostSelfUpdateGrantIssueResponse"
+        "400":
+          description: invalid_host_self_update_grant_request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: missing or invalid Host Agent service token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: service token does not own the bound Host Agent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: host_self_update_not_found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: lifecycle revision, ownership, policy, plan, operation, expiry, or active-host fence conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /services/host-agent/self-update-grants/consume:
+    post:
+      operationId: consumeHostSelfUpdateGrant
+      security: []
+      description: The root-owned Local Executor consumes the transient credential against the exact complete grant binding and fixed Control Panel origin. The credential is the authorization proof and must not enter argv, environment, logs, or persistent state. Repeating the same credential and exact binding after response loss returns consumed=false with the same receipt; any changed binding fails closed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HostSelfUpdateGrantConsumeRequest"
+      responses:
+        "200":
+          description: grant consumed now, or exact response-loss replay reconciled
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Always no-store.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HostSelfUpdateGrantConsumeResponse"
+        "400":
+          description: invalid_host_self_update_grant_consume
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: host_self_update_grant_expired, host_self_update_grant_consumed, or exact binding/fence mismatch
           content:
             application/json:
               schema:
@@ -1899,30 +2296,472 @@ components:
           "200":
             description: resource deleted
   schemas:
-    SystemUpdateCreateRequest:
+    SystemUpdatePullOwnershipActivateRequest:
       type: object
       additionalProperties: false
-      required: [target_id, strategy, idempotency_key]
+      required:
+        - expected_execution_host_id
+        - expected_ownership_epoch
+        - expected_source_policy_revision
+        - expected_projection_revision
+        - expected_local_executor_policy_revision
+        - expected_local_executor_policy_sha256
+      description: Strict compare-and-swap expectations for the pre-created updater selected by the path. No credential or client-selected replacement owner is accepted.
       properties:
-        target_id:
+        expected_execution_host_id:
           type: string
-          minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
-        strategy:
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        expected_ownership_epoch:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 9223372036854775806
+        expected_source_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Source policy revision used only for derivation/audit compare-and-swap.
+        expected_projection_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Host Agent projection revision that becomes the ownership, job, and mutation-grant policy fence.
+        expected_local_executor_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        expected_local_executor_policy_sha256:
           type: string
-          enum: [when_idle, maintenance]
+          pattern: "^sha256:[a-f0-9]{64}$"
+    SystemUpdatePullOwnershipActivateResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - updater_id
+        - execution_host_id
+        - transport_mode
+        - agent_service_id
+        - ownership_epoch
+        - source_policy_revision
+        - projection_revision
+        - local_executor_policy_revision
+        - local_executor_policy_sha256
+      description: Server-owned pull_v2 ownership and policy fences after atomic activation. No credential or secret is returned.
+      properties:
+        updater_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        execution_host_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        transport_mode:
+          const: pull_v2
+        agent_service_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        ownership_epoch:
+          type: integer
+          format: int64
+          minimum: 1
+        source_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Source policy revision retained for derivation and audit.
+        projection_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Canonical ownership, job, and mutation-grant policy fence.
+        local_executor_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        local_executor_policy_sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+    SystemUpdatePullOwnershipDeactivateRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - expected_execution_host_id
+        - expected_ownership_epoch
+        - expected_source_policy_revision
+        - expected_projection_revision
+        - expected_local_executor_policy_revision
+        - expected_local_executor_policy_sha256
+      description: Strict compare-and-swap expectations for returning the path-selected pull updater to observer mode. The legacy ssh_v1 owner is server-preserved and cannot be selected by the client.
+      properties:
+        expected_execution_host_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        expected_ownership_epoch:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775806
+        expected_source_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Source pull-policy revision used for compare-and-swap and audit.
+        expected_projection_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Pull projection revision currently fencing ownership, jobs, and mutation grants.
+        expected_local_executor_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        expected_local_executor_policy_sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+    SystemUpdatePullOwnershipDeactivateResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - updater_id
+        - execution_host_id
+        - transport_mode
+        - agent_service_id
+        - ownership_epoch
+        - agent_ownership_epoch
+        - source_policy_revision
+        - projection_revision
+        - local_executor_policy_revision
+        - local_executor_policy_sha256
+      description: Server-owned ssh_v1 execution-host ownership after atomic deactivation. agent_service_id is the preserved legacy updater; updater_id is the pull updater now reporting observer epoch zero. No credential or secret is returned.
+      properties:
+        updater_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        execution_host_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        transport_mode:
+          const: ssh_v1
+        agent_service_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        ownership_epoch:
+          type: integer
+          format: int64
+          minimum: 1
+        agent_ownership_epoch:
+          type: integer
+          format: int64
+          const: 0
+        source_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Source pull-policy revision retained for observer operation and future reactivation.
+        projection_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        local_executor_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        local_executor_policy_sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+    HostSelfUpdateCreateRequest:
+      type: object
+      additionalProperties: false
+      required: [target_version, idempotency_key]
+      description: The host binding comes only from the path. Release commit, artifact, digest, location, and credentials are resolved by the server.
+      properties:
+        target_version:
+          type: string
+          minLength: 6
+          maxLength: 128
+          pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
         idempotency_key:
           type: string
           minLength: 1
           maxLength: 128
           pattern: '^[^\u0000-\u001F\u007F]+$'
+    HostSelfUpdateRetryRequest:
+      type: object
+      additionalProperties: false
+      required: [idempotency_key]
+      properties:
+        idempotency_key:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+    HostSelfUpdateCancelRequest:
+      type: object
+      additionalProperties: false
+      required: [expected_revision]
+      properties:
+        expected_revision:
+          type: integer
+          format: int64
+          minimum: 1
+    HostSelfUpdateRelease:
+      type: object
+      additionalProperties: false
+      description: Verified immutable public release identity. No download location or credential is persisted or returned.
+      required:
+        - tag
+        - commit
+        - published_at
+        - manifest_asset_id
+        - manifest_asset_name
+        - manifest_sha256
+        - manifest_checksum_asset_id
+        - manifest_checksum_sha256
+        - archive_asset_id
+        - archive_asset_name
+        - archive_size
+        - archive_sha256
+        - archive_checksum_asset_id
+        - archive_checksum_sha256
+        - arch
+        - agent_protocol_version
+        - executor_protocol_version
+        - mutation_protocol_version
+        - recovery_protocol_version
+        - minimum_panel_version
+        - attestation_verified_at
+      properties:
+        tag:
+          type: string
+          minLength: 6
+          maxLength: 128
+          pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
+        commit: {type: string, pattern: '^[a-f0-9]{40}$'}
+        published_at: {type: string, format: date-time}
+        manifest_asset_id: {type: integer, format: int64, minimum: 1}
+        manifest_asset_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          pattern: '^[A-Za-z0-9][A-Za-z0-9._+-]{0,254}$'
+        manifest_sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        manifest_checksum_asset_id: {type: integer, format: int64, minimum: 1}
+        manifest_checksum_sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        archive_asset_id: {type: integer, format: int64, minimum: 1}
+        archive_asset_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          pattern: '^[A-Za-z0-9][A-Za-z0-9._+-]{0,254}$'
+        archive_size: {type: integer, format: int64, minimum: 1}
+        archive_sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        archive_checksum_asset_id: {type: integer, format: int64, minimum: 1}
+        archive_checksum_sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        arch: {enum: [amd64, arm64]}
+        agent_protocol_version: {type: integer, minimum: 1}
+        executor_protocol_version: {type: integer, minimum: 1}
+        mutation_protocol_version: {type: integer, minimum: 1}
+        recovery_protocol_version: {type: integer, minimum: 1}
+        minimum_panel_version:
+          type: string
+          minLength: 6
+          maxLength: 128
+          pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
+        attestation_verified_at: {type: string, format: date-time}
+    HostSelfUpdate:
+      type: object
+      additionalProperties: false
+      description: Dedicated lifecycle; it is never represented as a generic update job.
+      required:
+        - id
+        - execution_host_id
+        - agent_service_id
+        - target_version
+        - status
+        - revision
+        - idempotency_key
+        - attempt_generation
+        - expected_ownership_epoch
+        - expected_source_policy_revision
+        - expected_projection_revision
+        - expected_local_executor_policy_revision
+        - expected_local_executor_policy_sha256
+        - previous_agent_version
+        - previous_executor_version
+        - previous_agent_protocol_version
+        - previous_executor_protocol_version
+        - previous_mutation_protocol_version
+        - previous_recovery_protocol_version
+        - release
+        - issued_at
+        - observation_state
+        - created_at
+        - updated_at
+      properties:
+        id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+        execution_host_id: {type: string, minLength: 1, maxLength: 191, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$'}
+        agent_service_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+        target_version:
+          type: string
+          minLength: 6
+          maxLength: 128
+          pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
+        status:
+          enum: [queued, staging, activating, verifying, rolling_back, cancel_requested, succeeded, rolled_back, failed, canceled]
+        revision: {type: integer, format: int64, minimum: 1}
+        idempotency_key:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        requested_by:
+          type: string
+          minLength: 1
+          maxLength: 255
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+        retry_of_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+        attempt_generation: {type: string, pattern: '^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$'}
+        expected_ownership_epoch: {type: integer, format: int64, minimum: 1}
+        expected_source_policy_revision: {type: integer, format: int64, minimum: 1}
+        expected_projection_revision: {type: integer, format: int64, minimum: 1}
+        expected_local_executor_policy_revision: {type: integer, format: int64, minimum: 1}
+        expected_local_executor_policy_sha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+        previous_agent_version: {type: string, minLength: 1, maxLength: 128, pattern: '^[^\u0000-\u001F\u007F]+$'}
+        previous_executor_version: {type: string, minLength: 1, maxLength: 128, pattern: '^[^\u0000-\u001F\u007F]+$'}
+        previous_agent_protocol_version: {type: integer, minimum: 1}
+        previous_executor_protocol_version: {type: integer, minimum: 1}
+        previous_mutation_protocol_version: {type: integer, minimum: 1}
+        previous_recovery_protocol_version: {type: integer, minimum: 1}
+        release: {$ref: "#/components/schemas/HostSelfUpdateRelease"}
+        issued_at: {type: string, format: date-time}
+        observation_state: {enum: [known, stalled, unknown]}
+        reported_phase: {type: string, minLength: 1, maxLength: 64, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$'}
+        last_heartbeat_at: {type: string, format: date-time}
+        stalled_since: {type: string, format: date-time}
+        cancel_requested_at: {type: string, format: date-time}
+        started_at: {type: string, format: date-time}
+        completed_at: {type: string, format: date-time}
+        code: {type: string, minLength: 1, maxLength: 64, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$'}
+        message: {type: string, minLength: 1, maxLength: 255, pattern: '^[^\u0000-\u001F\u007F]+$'}
+        created_at: {type: string, format: date-time}
+        updated_at: {type: string, format: date-time}
+    HostSelfUpdateListResponse:
+      type: object
+      additionalProperties: false
+      required: [self_updates]
+      properties:
+        self_updates:
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/HostSelfUpdate"
+    HostSelfUpdateGrant:
+      $ref: "../schemas/host-self-update-grant.schema.json"
+    HostSelfUpdateGrantIssueRequest:
+      type: object
+      additionalProperties: false
+      required: [expected_revision, operation, plan_sha256, session_id]
+      properties:
+        expected_revision: {type: integer, format: int64, minimum: 1}
+        operation: {enum: [stage, reconcile]}
+        plan_sha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+        session_id: {type: string, minLength: 16, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$'}
+    HostSelfUpdateGrantIssueResponse:
+      $ref: "../schemas/host-self-update-grant-issue-response.schema.json"
+    HostSelfUpdateGrantConsumeRequest:
+      $ref: "../schemas/host-self-update-grant-consume-request.schema.json"
+    HostSelfUpdateGrantConsumeResponse:
+      $ref: "../schemas/host-self-update-grant-consume-response.schema.json"
+    SystemUpdateCreateRequest:
+      type: object
+      additionalProperties: false
+      required: [target_id, idempotency_key]
+      allOf:
+        - if:
+            required: [operation]
+            properties:
+              operation: {const: port_reconfigure}
+          then:
+            required: [operation, expected_endpoint_revision]
+            not:
+              required: [strategy]
+            oneOf:
+              - required: [new_port]
+                not:
+                  anyOf:
+                    - required: [new_advertised_port]
+                    - required: [new_published_port]
+                    - required: [new_container_port]
+              - required: [new_advertised_port, new_published_port, new_container_port]
+                not:
+                  required: [new_port]
+          else:
+            required: [strategy]
+            not:
+              anyOf:
+                - required: [new_port]
+                - required: [new_advertised_port]
+                - required: [new_published_port]
+                - required: [new_container_port]
+                - required: [expected_endpoint_revision]
+      properties:
+        operation:
+          type: string
+          enum: [software_update, port_reconfigure]
+          default: software_update
+        target_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        strategy:
+          type: string
+          enum: [when_idle, maintenance]
+        new_port: {type: integer, minimum: 1024, maximum: 65535}
+        new_advertised_port: {type: integer, minimum: 1, maximum: 65535}
+        new_published_port: {type: integer, minimum: 1024, maximum: 65535}
+        new_container_port: {type: integer, minimum: 1024, maximum: 65535}
+        expected_endpoint_revision: {type: integer, format: int64, minimum: 1}
+        idempotency_key:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+    SystemUpdatePortMapping:
+      type: object
+      additionalProperties: false
+      required: [mode, state]
+      allOf:
+        - if:
+            required: [state]
+            properties:
+              state: {const: applied}
+          then:
+            required:
+              - advertised_port
+              - published_port
+              - container_port
+              - health_port
+              - config_revision
+              - published_host_ip
+              - reported_at
+      properties:
+        mode: {type: string, const: docker}
+        state:
+          type: string
+          enum: [applied, drifted, unavailable]
+        advertised_port: {type: integer, minimum: 1, maximum: 65535}
+        published_port: {type: integer, minimum: 1024, maximum: 65535}
+        container_port: {type: integer, minimum: 1024, maximum: 65535}
+        health_port: {type: integer, minimum: 1024, maximum: 65535}
+        config_revision: {type: integer, format: int64, minimum: 1}
+        published_host_ip: {type: string, const: 127.0.0.1}
+        reported_at: {type: string, format: date-time}
     SystemUpdateTarget:
       type: object
       additionalProperties: false
       required: [target_id, target_type, name, update_available, updater_online, eligible, busy]
       properties:
-        target_id: {type: string, minLength: 1, maxLength: 191}
+        target_id: {type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
         target_type:
           type: string
           enum: [control_panel, discord_bot, encoder_recorder, observability, worker]
@@ -1931,28 +2770,247 @@ components:
           type: string
           minLength: 1
           maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
         current_version: {type: string}
         latest_version: {type: string}
         update_available: {type: boolean}
         deployment_mode:
           type: string
           enum: [systemd, docker]
-        updater_id: {type: string, maxLength: 191}
+        updater_id: {type: string, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
         updater_online: {type: boolean}
         current_stream_id: {type: string}
         eligible: {type: boolean}
         blocked_reason: {type: string}
+        eligible_operations:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [software_update, port_reconfigure]
+          description: Operations currently eligible for this target. Legacy eligible and blocked_reason continue to describe software_update.
+        operation_blocked_reasons:
+          type: object
+          additionalProperties: false
+          properties:
+            software_update: {type: string}
+            port_reconfigure: {type: string}
+          description: Stable blocked-reason codes keyed by operation when that operation is not eligible.
         busy: {type: boolean}
         update_check_source: {type: string}
         update_check_error: {type: string}
+        port_mapping:
+          $ref: "#/components/schemas/SystemUpdatePortMapping"
+    SystemUpdateDockerPortReconfiguration:
+      type: object
+      additionalProperties: false
+      required:
+        - published_host_ip
+        - old_published_port
+        - new_published_port
+        - old_container_port
+        - new_container_port
+        - old_health_port
+        - new_health_port
+        - approved_compose_config_sha256
+        - approved_compose_revision
+        - expected_version_env_sha256
+        - expected_container_id
+        - expected_image_id
+        - expected_repository_digest
+      properties:
+        published_host_ip: {type: string, const: 127.0.0.1}
+        old_published_port: {type: integer, minimum: 1024, maximum: 65535}
+        new_published_port: {type: integer, minimum: 1024, maximum: 65535}
+        old_container_port: {type: integer, minimum: 1024, maximum: 65535}
+        new_container_port: {type: integer, minimum: 1024, maximum: 65535}
+        old_health_port: {type: integer, minimum: 1024, maximum: 65535}
+        new_health_port: {type: integer, minimum: 1024, maximum: 65535}
+        approved_compose_config_sha256:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+        approved_compose_revision: {type: integer, format: int64, minimum: 1}
+        expected_version_env_sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+        expected_container_id:
+          type: string
+          pattern: "^[a-f0-9]{12,64}$"
+        expected_image_id:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+        expected_repository_digest:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+      description: Immutable Docker runtime binding. The server additionally requires health ports to equal their published ports and rejects a no-op across advertised, published, and container ports.
+    SystemUpdatePortReconfiguration:
+      type: object
+      additionalProperties: false
+      required:
+        - network_namespace
+        - protocol
+        - old_port
+        - new_port
+        - expected_endpoint_revision
+        - target_endpoint_revision
+        - expected_config_revision
+        - target_config_revision
+        - expected_config_sha256
+        - target_config_sha256
+        - expected_source_policy_revision
+        - expected_updater_policy_revision
+        - expected_executor_policy_revision
+        - expected_executor_policy_sha256
+        - port_plan_sha256
+      properties:
+        network_namespace:
+          type: string
+          const: host
+        protocol:
+          type: string
+          const: tcp
+        old_port: {type: integer, minimum: 1, maximum: 65535}
+        new_port: {type: integer, minimum: 1, maximum: 65535}
+        expected_endpoint_revision: {type: integer, format: int64, minimum: 1}
+        target_endpoint_revision: {type: integer, format: int64, minimum: 1}
+        expected_config_revision: {type: integer, format: int64, minimum: 1}
+        target_config_revision: {type: integer, format: int64, minimum: 1}
+        expected_config_sha256: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        target_config_sha256: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        expected_source_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Source updater policy revision retained separately for derivation and audit binding.
+        expected_updater_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Host Agent projection revision used as the ownership, job, and mutation-grant fence.
+        expected_executor_policy_revision: {type: integer, format: int64, minimum: 1}
+        expected_executor_policy_sha256: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        port_plan_sha256:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+          description: In a job or claim this authenticates the stable server-derived intent.
+        docker:
+          $ref: "#/components/schemas/SystemUpdateDockerPortReconfiguration"
+        result:
+          type: string
+          enum: [applied, rolled_back, unchanged, rollback_failed]
+          description: Present only after a terminal port-reconfiguration report has been accepted.
+    SystemUpdatePortMutationGrantBinding:
+      type: object
+      additionalProperties: false
+      required:
+        - network_namespace
+        - protocol
+        - old_port
+        - new_port
+        - expected_endpoint_revision
+        - target_endpoint_revision
+        - expected_config_revision
+        - target_config_revision
+        - expected_config_sha256
+        - target_config_sha256
+        - expected_source_policy_revision
+        - expected_updater_policy_revision
+        - expected_executor_policy_revision
+        - expected_executor_policy_sha256
+        - port_plan_sha256
+      properties:
+        network_namespace: {type: string, const: host}
+        protocol: {type: string, const: tcp}
+        old_port: {type: integer, minimum: 1, maximum: 65535}
+        new_port: {type: integer, minimum: 1, maximum: 65535}
+        expected_endpoint_revision: {type: integer, format: int64, minimum: 1}
+        target_endpoint_revision: {type: integer, format: int64, minimum: 1}
+        expected_config_revision: {type: integer, format: int64, minimum: 1}
+        target_config_revision: {type: integer, format: int64, minimum: 1}
+        expected_config_sha256: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        target_config_sha256: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        expected_source_policy_revision: {type: integer, format: int64, minimum: 1}
+        expected_updater_policy_revision: {type: integer, format: int64, minimum: 1}
+        expected_executor_policy_revision: {type: integer, format: int64, minimum: 1}
+        expected_executor_policy_sha256: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        port_plan_sha256:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+          description: Lease/session-bound executor plan digest; it must equal the top-level plan_sha256.
+        docker:
+          $ref: "#/components/schemas/SystemUpdateDockerPortReconfiguration"
     SystemUpdateJob:
       type: object
       additionalProperties: false
       required: [id, target_id, target_type, host_id, deployment_mode, current_version, target_version, strategy, status, idempotency_key, lease_generation, sequence, progress, created_at, updated_at]
+      allOf:
+        - if:
+            required: [operation]
+            properties:
+              operation: {const: port_reconfigure}
+          then:
+            required: [port_reconfigure, transport_mode, ownership_epoch, policy_revision]
+            properties:
+              target_type:
+                enum: [discord_bot, encoder_recorder, observability, worker]
+              transport_mode: {const: pull_v2}
+              policy_revision: {minimum: 1}
+            oneOf:
+              - properties:
+                  deployment_mode: {const: systemd}
+                  port_reconfigure:
+                    not:
+                      required: [docker]
+                    properties:
+                      old_port: {minimum: 1024}
+                      new_port: {minimum: 1024}
+              - properties:
+                  deployment_mode: {const: docker}
+                  port_reconfigure:
+                    required: [docker]
+          else:
+            not:
+              required: [port_reconfigure]
+        - if:
+            required: [transport_mode]
+            properties:
+              transport_mode: {const: pull_v2}
+          then:
+            required: [ownership_epoch, policy_revision]
+            properties:
+              policy_revision: {minimum: 1}
+        - if:
+            required: [port_reconfigure]
+            properties:
+              port_reconfigure:
+                required: [result]
+          then:
+            oneOf:
+              - properties:
+                  status: {const: succeeded}
+                  port_reconfigure:
+                    properties:
+                      result:
+                        enum: [applied, unchanged]
+              - properties:
+                  status: {const: rolled_back}
+                  port_reconfigure:
+                    properties:
+                      result: {const: rolled_back}
+              - properties:
+                  status: {const: failed}
+                  port_reconfigure:
+                    properties:
+                      result: {const: rollback_failed}
       properties:
-        id: {type: string}
-        target_id: {type: string}
+        operation:
+          type: string
+          enum: [software_update, port_reconfigure]
+          default: software_update
+        port_reconfigure:
+          $ref: "#/components/schemas/SystemUpdatePortReconfiguration"
+        id: {type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
+        target_id: {type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
         target_type:
           type: string
           enum: [control_panel, discord_bot, encoder_recorder, observability, worker]
@@ -1960,7 +3018,12 @@ components:
           type: string
           minLength: 1
           maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        transport_mode:
+          type: string
+          enum: [ssh_v1, pull_v2]
+        ownership_epoch: {type: integer, format: int64, minimum: 1}
+        policy_revision: {type: integer, format: int64, minimum: 0}
         deployment_mode:
           type: string
           enum: [systemd, docker]
@@ -1983,7 +3046,7 @@ components:
         message: {type: string, maxLength: 500}
         artifact_digest: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
         previous_digest: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
-        updater_id: {type: string, maxLength: 191}
+        updater_id: {type: string, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
         requested_by: {type: string}
         lease_generation: {type: integer, format: int64, minimum: 0}
         lease_expires_at: {type: string, format: date-time}
@@ -2000,13 +3063,51 @@ components:
         updater_id:
           type: string
           minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
         name: {type: string, minLength: 1, maxLength: 191}
+        transport_mode: {enum: [ssh_v1, pull_v2]}
+        execution_host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        ownership_epoch: {type: integer, format: int64, minimum: 0}
         status: {type: string, minLength: 1, maxLength: 64}
         online: {type: boolean}
         version: {type: string, maxLength: 128}
         last_heartbeat_at: {type: string, format: date-time}
+        desired_revision: {type: integer, format: int64, minimum: 0}
+        applied_revision: {type: integer, format: int64, minimum: 0}
+        policy_status: {enum: [applied, pending, failed]}
+        policy_error_code:
+          enum: [policy_fetch_failed, policy_invalid, ssh_identity_failed, ssh_connectivity_failed, policy_snapshot_failed, coordinator_start_failed, active_job_pending]
+        ssh_client_public_keys:
+          type: object
+          propertyNames:
+            maxLength: 191
+            pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+          additionalProperties:
+            type: string
+            maxLength: 80
+            pattern: "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$"
+        ssh_client_key_fingerprints:
+          type: object
+          propertyNames:
+            maxLength: 191
+            pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+          additionalProperties:
+            type: string
+            maxLength: 50
+            pattern: "^SHA256:[A-Za-z0-9+/]{43}$"
+        bootstrap_encryption_public_key:
+          type: string
+          maxLength: 87
+          pattern: "^B[A-Za-z0-9_-]{86}$"
+        bootstrap_encryption_key_fingerprint:
+          type: string
+          maxLength: 50
+          pattern: "^SHA256:[A-Za-z0-9+/]{43}$"
     SystemUpdateHostStatus:
       type: object
       additionalProperties: false
@@ -2016,18 +3117,26 @@ components:
           type: string
           minLength: 1
           maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
         name: {type: string, minLength: 1, maxLength: 191}
         updater_id:
           type: string
           minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
         reachability:
           type: string
           enum: [reachable, unreachable, unknown]
         reachability_checked_at: {type: string, format: date-time}
         reachability_code: {type: string, maxLength: 128, pattern: "^[a-z0-9_.-]+$"}
+        ssh_client_public_key:
+          type: string
+          maxLength: 80
+          pattern: "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$"
+        ssh_client_key_fingerprint:
+          type: string
+          maxLength: 50
+          pattern: "^SHA256:[A-Za-z0-9+/]{43}$"
     SystemUpdatesResponse:
       type: object
       additionalProperties: false
@@ -2050,12 +3159,12 @@ components:
       additionalProperties: false
       required: [service_id]
       properties:
-        service_id: {type: string, minLength: 1, maxLength: 191}
+        service_id: {type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
         host_id:
           type: string
           minLength: 1
           maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
           description: Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior.
         active_job_id:
           type: string
@@ -2097,8 +3206,29 @@ components:
       type: object
       additionalProperties: false
       required: [service_id, lease_token, lease_generation, sequence, status]
+      allOf:
+        - if:
+            required: [port_reconfigure]
+          then:
+            oneOf:
+              - properties:
+                  status: {const: succeeded}
+                  port_reconfigure:
+                    properties:
+                      result:
+                        enum: [applied, unchanged]
+              - properties:
+                  status: {const: rolled_back}
+                  port_reconfigure:
+                    properties:
+                      result: {const: rolled_back}
+              - properties:
+                  status: {const: failed}
+                  port_reconfigure:
+                    properties:
+                      result: {const: rollback_failed}
       properties:
-        service_id: {type: string, minLength: 1, maxLength: 191}
+        service_id: {type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
         lease_token:
           type: string
           minLength: 32
@@ -2113,6 +3243,14 @@ components:
         message: {type: string, maxLength: 500}
         artifact_digest: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
         previous_digest: {type: string, pattern: "^sha256:[a-f0-9]{64}$"}
+        port_reconfigure:
+          type: object
+          additionalProperties: false
+          required: [result]
+          properties:
+            result:
+              type: string
+              enum: [applied, rolled_back, unchanged, rollback_failed]
     UpdateAgentAuthorizeRequest:
       type: object
       additionalProperties: false
@@ -2152,13 +3290,53 @@ components:
     UpdateAgentMutationGrantIssueRequest:
       type: object
       additionalProperties: false
+      allOf:
+        - if:
+            required: [operation]
+            properties:
+              operation:
+                enum: [port_reconfigure, port_reconfigure_reconcile]
+          then:
+            required: [job_operation, port_reconfigure, transport_mode, service_type, ownership_epoch, policy_revision]
+            properties:
+              job_operation: {const: port_reconfigure}
+              transport_mode: {const: pull_v2}
+              service_type:
+                enum: [discord_bot, encoder_recorder, observability, worker]
+              policy_revision: {minimum: 1}
+            oneOf:
+              - properties:
+                  deployment_mode: {const: systemd}
+                  port_reconfigure:
+                    not:
+                      required: [docker]
+                    properties:
+                      old_port: {minimum: 1024}
+                      new_port: {minimum: 1024}
+              - properties:
+                  deployment_mode: {const: docker}
+                  port_reconfigure:
+                    required: [docker]
+          else:
+            properties:
+              job_operation: {const: software_update}
+            not:
+              required: [port_reconfigure]
+        - if:
+            required: [transport_mode]
+            properties:
+              transport_mode: {const: pull_v2}
+          then:
+            required: [ownership_epoch, policy_revision]
+            properties:
+              policy_revision: {minimum: 1}
       required: [service_id, lease_token, lease_generation, host_id, target_id, target_version, deployment_mode, operation, plan_sha256, session_id]
       properties:
         service_id:
           type: string
           minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
         lease_token:
           type: string
           minLength: 32
@@ -2170,12 +3348,20 @@ components:
           type: string
           minLength: 1
           maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        transport_mode:
+          type: string
+          enum: [ssh_v1, pull_v2]
+        ownership_epoch: {type: integer, format: int64, minimum: 1}
+        policy_revision: {type: integer, format: int64, minimum: 0}
         target_id:
           type: string
           minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        service_type:
+          type: string
+          enum: [control_panel, discord_bot, encoder_recorder, observability, worker]
         target_version:
           type: string
           minLength: 1
@@ -2184,10 +3370,18 @@ components:
         deployment_mode:
           type: string
           enum: [systemd, docker]
+        job_operation:
+          type: string
+          enum: [software_update, port_reconfigure]
         operation:
           type: string
-          enum: [apply, reconcile]
-        plan_sha256: {type: string, pattern: "^[a-f0-9]{64}$"}
+          enum: [apply, reconcile, port_reconfigure, port_reconfigure_reconcile]
+        plan_sha256:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+          description: Lease/session-bound executor plan digest. For port operations it must equal port_reconfigure.port_plan_sha256.
+        port_reconfigure:
+          $ref: "#/components/schemas/SystemUpdatePortMutationGrantBinding"
         session_id:
           type: string
           minLength: 16
@@ -2209,6 +3403,46 @@ components:
     UpdateAgentMutationGrantConsumeRequest:
       type: object
       additionalProperties: false
+      allOf:
+        - if:
+            required: [operation]
+            properties:
+              operation:
+                enum: [port_reconfigure, port_reconfigure_reconcile]
+          then:
+            required: [job_operation, port_reconfigure, transport_mode, service_type, ownership_epoch, policy_revision]
+            properties:
+              job_operation: {const: port_reconfigure}
+              transport_mode: {const: pull_v2}
+              service_type:
+                enum: [discord_bot, encoder_recorder, observability, worker]
+              policy_revision: {minimum: 1}
+            oneOf:
+              - properties:
+                  deployment_mode: {const: systemd}
+                  port_reconfigure:
+                    not:
+                      required: [docker]
+                    properties:
+                      old_port: {minimum: 1024}
+                      new_port: {minimum: 1024}
+              - properties:
+                  deployment_mode: {const: docker}
+                  port_reconfigure:
+                    required: [docker]
+          else:
+            properties:
+              job_operation: {const: software_update}
+            not:
+              required: [port_reconfigure]
+        - if:
+            required: [transport_mode]
+            properties:
+              transport_mode: {const: pull_v2}
+          then:
+            required: [ownership_epoch, policy_revision]
+            properties:
+              policy_revision: {minimum: 1}
       required: [lease_generation, host_id, target_id, target_version, deployment_mode, operation, plan_sha256, session_id]
       properties:
         lease_generation: {type: integer, format: int64, minimum: 1}
@@ -2216,12 +3450,20 @@ components:
           type: string
           minLength: 1
           maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+        transport_mode:
+          type: string
+          enum: [ssh_v1, pull_v2]
+        ownership_epoch: {type: integer, format: int64, minimum: 1}
+        policy_revision: {type: integer, format: int64, minimum: 0}
         target_id:
           type: string
           minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        service_type:
+          type: string
+          enum: [control_panel, discord_bot, encoder_recorder, observability, worker]
         target_version:
           type: string
           minLength: 1
@@ -2230,10 +3472,18 @@ components:
         deployment_mode:
           type: string
           enum: [systemd, docker]
+        job_operation:
+          type: string
+          enum: [software_update, port_reconfigure]
         operation:
           type: string
-          enum: [apply, reconcile]
-        plan_sha256: {type: string, pattern: "^[a-f0-9]{64}$"}
+          enum: [apply, reconcile, port_reconfigure, port_reconfigure_reconcile]
+        plan_sha256:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+          description: Lease/session-bound executor plan digest. For port operations it must equal port_reconfigure.port_plan_sha256.
+        port_reconfigure:
+          $ref: "#/components/schemas/SystemUpdatePortMutationGrantBinding"
         session_id:
           type: string
           minLength: 16
@@ -2720,13 +3970,39 @@ components:
     ServiceRegistrationRequest:
       type: object
       additionalProperties: false
-      required: [service_id, service_type, service_name, public_url, version, capabilities]
+      required: [service_id, service_type, service_name, version, capabilities]
+      allOf:
+        - if:
+            required: [transport_mode]
+          then:
+            properties:
+              service_type:
+                const: update_agent
+        - if:
+            required: [service_type, transport_mode]
+            properties:
+              service_type:
+                const: update_agent
+              transport_mode:
+                const: pull_v2
+          then:
+            not:
+              anyOf:
+                - required: [host]
+                - required: [port]
+                - required: [public_url]
+          else:
+            required: [public_url]
       properties:
         service_id:
           type: string
           minLength: 1
         service_type:
           enum: [discord_bot, encoder_recorder, worker, observability, update_agent]
+        transport_mode:
+          enum: [ssh_v1, pull_v2]
+          default: ssh_v1
+          description: Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url. Server-owned execution_host_id and ownership_epoch are never accepted from registration input.
         service_name:
           type: string
           minLength: 1
@@ -2793,9 +4069,236 @@ components:
             port: {type: integer, minimum: 1, maximum: 65535}
             sslEnabled: {type: boolean}
         timestamp: {type: string, format: date-time}
+    HostAgentPolicyRequest:
+      type: object
+      additionalProperties: false
+      required: [service_id, current_revision]
+      description: Server-owned transport, execution_host_id, and ownership_epoch fields are never accepted from this request.
+      properties:
+        service_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        current_revision:
+          type: integer
+          minimum: 0
+    HostAgentPolicyTarget:
+      type: object
+      additionalProperties: false
+      required: [service_id, service_type, deployment_mode]
+      properties:
+        service_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        service_type:
+          enum: [control_panel, worker, encoder_recorder, discord_bot, observability]
+        deployment_mode:
+          enum: [systemd, docker]
+        desired_endpoint:
+          $ref: "#/components/schemas/ServiceEndpoint"
+        applied_endpoint:
+          $ref: "#/components/schemas/ServiceEndpoint"
+        local_listen_endpoint:
+          $ref: "#/components/schemas/ServiceEndpoint"
+        local_health_endpoint:
+          $ref: "#/components/schemas/ServiceEndpoint"
+        applied_config_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        applied_config_sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+    HostAgentPolicyResponse:
+      type: object
+      additionalProperties: false
+      required: [service_id, transport_mode, execution_host_id, ownership_epoch, revision, source_policy_revision, local_executor_policy_revision, observe_only, targets]
+      allOf:
+        - if:
+            properties:
+              ownership_epoch: {const: 0}
+          then:
+            properties:
+              observe_only: {const: true}
+          else:
+            properties:
+              observe_only: {const: false}
+        - if:
+            properties:
+              ownership_epoch: {const: 0}
+          then:
+            oneOf:
+              - properties:
+                  local_executor_policy_revision: {const: 0}
+                not:
+                  required: [local_executor_policy_sha256]
+              - required: [local_executor_policy_sha256]
+                properties:
+                  local_executor_policy_revision: {minimum: 1}
+          else:
+            required: [local_executor_policy_sha256]
+            properties:
+              local_executor_policy_revision: {minimum: 1}
+        - if:
+            required: [self_update_status]
+          then:
+            required: [self_update_id, self_update_revision, self_update_status]
+            allOf:
+              - if:
+                  required: [self_update_status]
+                  properties:
+                    self_update_status: {const: cancel_requested}
+                then:
+                  not:
+                    anyOf:
+                      - required: [runtime_requirement]
+                      - required: [self_update]
+                else:
+                  required: [runtime_requirement, self_update]
+          else:
+            not:
+              anyOf:
+                - required: [self_update_id]
+                - required: [self_update_revision]
+                - required: [runtime_requirement]
+                - required: [self_update]
+        - if:
+            anyOf:
+              - required: [self_update_id]
+              - required: [self_update_revision]
+              - required: [runtime_requirement]
+              - required: [self_update]
+          then:
+            required: [self_update_status]
+      properties:
+        service_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        transport_mode:
+          const: pull_v2
+          description: Server-owned transport binding.
+        execution_host_id:
+          type: string
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+          description: Server-owned execution-host binding.
+        ownership_epoch:
+          type: integer
+          minimum: 0
+          description: Server-owned monotonic fencing epoch. Zero is the observe-only, not-yet-owned sentinel and is never valid for mutation.
+        revision:
+          type: integer
+          minimum: 1
+          description: Projection cursor for this host-agent policy.
+        source_policy_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        local_executor_policy_revision:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Zero is allowed only for an observe-only epoch-zero policy with no policy digest.
+        local_executor_policy_sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+        observe_only:
+          type: boolean
+        targets:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/HostAgentPolicyTarget"
+        self_update_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        self_update_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        self_update_status:
+          enum: [queued, staging, activating, verifying, rolling_back, cancel_requested]
+        runtime_requirement:
+          $ref: "#/components/schemas/HostAgentRuntimeRequirement"
+        self_update:
+          $ref: "#/components/schemas/HostAgentSelfUpdateDirective"
+    HostAgentRuntimeRequirement:
+      type: object
+      additionalProperties: false
+      required: [minimum_agent_version, minimum_executor_version, agent_protocol_version, executor_protocol_version, mutation_protocol_version, recovery_protocol_version]
+      properties:
+        minimum_agent_version:
+          type: string
+          minLength: 6
+          maxLength: 128
+          pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
+        minimum_executor_version:
+          type: string
+          minLength: 6
+          maxLength: 128
+          pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
+        agent_protocol_version: {type: integer, minimum: 1}
+        executor_protocol_version: {type: integer, minimum: 1}
+        mutation_protocol_version: {type: integer, minimum: 1}
+        recovery_protocol_version: {type: integer, minimum: 1}
+    HostAgentSelfUpdateDirective:
+      $ref: "../schemas/host-agent-self-update-directive.schema.json"
+    HostSelfUpdateReleaseBinding:
+      $ref: "../schemas/host-self-update-release-binding.schema.json"
+    ServiceEndpoint:
+      type: object
+      additionalProperties: false
+      required: [host, port, ssl_enabled, public_url]
+      properties:
+        host:
+          type: string
+          minLength: 1
+        port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+        ssl_enabled:
+          type: boolean
+        public_url:
+          type: string
+          format: uri
+          pattern: "^https?://"
     RegisteredService:
       type: object
-      required: [service_id, service_type, service_name, ssl_enabled, public_url, version, status, capabilities, created_at, updated_at]
+      required: [service_id, service_type, service_name, ssl_enabled, version, status, capabilities, created_at, updated_at]
+      allOf:
+        - if:
+            anyOf:
+              - required: [transport_mode]
+              - required: [execution_host_id]
+              - required: [ownership_epoch]
+          then:
+            properties:
+              service_type:
+                const: update_agent
+        - if:
+            required: [service_type, transport_mode]
+            properties:
+              service_type:
+                const: update_agent
+              transport_mode:
+                const: pull_v2
+          then:
+            required: [execution_host_id, ownership_epoch]
+            not:
+              anyOf:
+                - required: [host]
+                - required: [port]
+                - required: [public_url]
+                - required: [desired_endpoint]
+                - required: [applied_endpoint]
+                - required: [reported_endpoint]
+                - required: [endpoint_revision]
+                - required: [endpoint_status]
+                - required: [applied_config_revision]
+                - required: [applied_config_sha256]
+          else:
+            required: [public_url]
       properties:
         ssl_enabled:
           type: boolean
@@ -2830,12 +4333,46 @@ components:
           type: string
         service_type:
           enum: [discord_bot, encoder_recorder, worker, observability, update_agent]
+        transport_mode:
+          enum: [ssh_v1, pull_v2]
+          default: ssh_v1
+          description: Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url.
+        execution_host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: "^[^\\x00-\\x1F\\x7F]+$"
+          description: Stable execution-host identity owned by a pull_v2 update agent.
+        ownership_epoch:
+          type: integer
+          minimum: 0
+          description: Server-owned execution-host ownership epoch. Zero is the observe-only, not-yet-owned sentinel.
         service_name:
           type: string
         public_url:
           type: string
           format: uri
           pattern: "^https?://"
+        desired_endpoint:
+          $ref: "#/components/schemas/ServiceEndpoint"
+        applied_endpoint:
+          $ref: "#/components/schemas/ServiceEndpoint"
+        reported_endpoint:
+          $ref: "#/components/schemas/ServiceEndpoint"
+        endpoint_revision:
+          type: integer
+          minimum: 1
+        endpoint_status:
+          type: string
+          minLength: 1
+          maxLength: 32
+        applied_config_revision:
+          type: integer
+          format: int64
+          minimum: 1
+        applied_config_sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
         version:
           type: string
         status:

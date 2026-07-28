@@ -5,12 +5,12 @@
   "additionalProperties": false,
   "required": ["service_id"],
   "properties": {
-    "service_id": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "service_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "host_id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
       "description": "Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior."
     },
     "active_job_id": {

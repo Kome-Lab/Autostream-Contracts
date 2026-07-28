@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update Release",
+  "description": "Server-verified immutable public release identity. Download locations and credentials are deliberately absent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tag",
+    "commit",
+    "published_at",
+    "manifest_asset_id",
+    "manifest_asset_name",
+    "manifest_sha256",
+    "manifest_checksum_asset_id",
+    "manifest_checksum_sha256",
+    "archive_asset_id",
+    "archive_asset_name",
+    "archive_size",
+    "archive_sha256",
+    "archive_checksum_asset_id",
+    "archive_checksum_sha256",
+    "arch",
+    "agent_protocol_version",
+    "executor_protocol_version",
+    "mutation_protocol_version",
+    "recovery_protocol_version",
+    "minimum_panel_version",
+    "attestation_verified_at"
+  ],
+  "properties": {
+    "tag": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 128,
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "manifest_asset_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "manifest_asset_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]{0,254}$"
+    },
+    "manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "manifest_checksum_asset_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "manifest_checksum_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "archive_asset_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "archive_asset_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]{0,254}$"
+    },
+    "archive_size": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "archive_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "archive_checksum_asset_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "archive_checksum_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "arch": {
+      "enum": ["amd64", "arm64"]
+    },
+    "agent_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "executor_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mutation_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "recovery_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "minimum_panel_version": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 128,
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    },
+    "attestation_verified_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -17,7 +17,9 @@ on:
         type: boolean
 
 permissions:
+  attestations: write
   contents: write
+  id-token: write
 
 concurrency:
   group: release-${{ github.repository }}-${{ github.ref_type == 'tag' && github.ref_name || inputs.version }}
@@ -85,7 +87,27 @@ jobs:
           name: contracts-release-dry-run
           path: artifacts/*
 
-      - name: Refuse to overwrite existing release or tag
+      - name: Require repository immutable releases
+        if: steps.meta.outputs.push_release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.AUTOSTREAM_RELEASE_SETTINGS_TOKEN || github.token }}
+        run: |
+          set -euo pipefail
+          settings_json="${RUNNER_TEMP}/immutable-release-settings.json"
+          settings_error="${RUNNER_TEMP}/immutable-release-settings.err"
+          if ! gh api \
+            --header 'X-GitHub-Api-Version: 2026-03-10' \
+            "repos/${GITHUB_REPOSITORY}/immutable-releases" \
+            > "${settings_json}" 2> "${settings_error}"; then
+            cat "${settings_error}" >&2
+            echo "Cannot prove that immutable releases are enabled. Enable the repository setting and, when GITHUB_TOKEN cannot read it, configure AUTOSTREAM_RELEASE_SETTINGS_TOKEN with Administration (read) only." >&2
+            exit 1
+          fi
+          jq -e '(.enabled == true)' "${settings_json}" > /dev/null
+
+      - name: Validate immutable namespace, deterministic notes, and local assets
+        id: preflight
         if: steps.meta.outputs.push_release == 'true'
         shell: bash
         env:
@@ -94,15 +116,16 @@ jobs:
         run: |
           set -euo pipefail
 
+          draft_tag="${RELEASE_VERSION}-staging-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           releases_json="${RUNNER_TEMP}/contracts-release-pages.json"
           gh api --paginate "repos/${GITHUB_REPOSITORY}/releases?per_page=100" > "${releases_json}"
           existing_release_count="$(
-            jq -s --arg tag "${RELEASE_VERSION}" \
-              '[.[][] | select(.tag_name == $tag)] | length' \
+            jq -s --arg final_tag "${RELEASE_VERSION}" --arg draft_tag "${draft_tag}" \
+              '[.[][] | select(.tag_name == $final_tag or .tag_name == $draft_tag)] | length' \
               "${releases_json}"
           )"
           if [[ "${existing_release_count}" != "0" ]]; then
-            echo "Release ${RELEASE_VERSION} already exists (including drafts); releases are immutable and a failed or partial release requires a new version." >&2
+            echo "Release ${RELEASE_VERSION} or workflow staging namespace ${draft_tag} already exists; refusing to modify it." >&2
             exit 1
           fi
 
@@ -111,7 +134,6 @@ jobs:
               echo "Triggered tag ${GITHUB_REF_NAME} does not match ${RELEASE_VERSION}." >&2
               exit 1
             fi
-
             tag_ref="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_VERSION}")"
             ref_type="$(jq -r '.object.type' <<< "${tag_ref}")"
             ref_sha="$(jq -r '.object.sha' <<< "${tag_ref}")"
@@ -138,73 +160,373 @@ jobs:
               cat "${RUNNER_TEMP}/existing-tag.err" >&2
               exit 1
             fi
-
-            created_tag="${RUNNER_TEMP}/created-tag.json"
-            if ! gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
-              -f ref="refs/tags/${RELEASE_VERSION}" \
-              -f sha="${GITHUB_SHA}" \
-              > "${created_tag}"; then
-              echo "Failed to atomically create tag ${RELEASE_VERSION} at ${GITHUB_SHA}; no Release was created, and an existing version must not be reused." >&2
-              exit 1
-            fi
-            jq -e \
-              --arg ref "refs/tags/${RELEASE_VERSION}" \
-              --arg commit "${GITHUB_SHA}" \
-              '(.ref == $ref) and (.object.type == "commit") and (.object.sha == $commit)' \
-              "${created_tag}" > /dev/null
           fi
 
-      - name: Publish GitHub Release
-        if: steps.meta.outputs.push_release == 'true'
-        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
-        with:
-          tag_name: ${{ steps.meta.outputs.version }}
-          target_commitish: ${{ github.sha }}
-          files: artifacts/*
-          fail_on_unmatched_files: true
-          overwrite_files: false
+          if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${draft_tag}" > "${RUNNER_TEMP}/existing-staging-tag.json" 2> "${RUNNER_TEMP}/existing-staging-tag.err"; then
+            echo "Workflow staging tag ${draft_tag} already exists; refusing to reuse it." >&2
+            exit 1
+          elif ! grep -q 'HTTP 404' "${RUNNER_TEMP}/existing-staging-tag.err"; then
+            cat "${RUNNER_TEMP}/existing-staging-tag.err" >&2
+            exit 1
+          fi
 
-      - name: Verify published release
-        if: steps.meta.outputs.push_release == 'true'
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
-        run: |
-          set -euo pipefail
-
-          release_json="${RUNNER_TEMP}/contracts-published-release.json"
           expected_archive="autostream-contracts_${RELEASE_VERSION}.tar.gz"
           expected_checksum="${expected_archive}.sha256"
-          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_VERSION}" > "${release_json}"
-          jq -e \
-            --arg tag "${RELEASE_VERSION}" \
-            --arg archive "${expected_archive}" \
-            --arg checksum "${expected_checksum}" \
-            '(.tag_name == $tag) and
-             (.draft == false) and
-             (.published_at | type == "string" and length > 0) and
-             (.assets | length == 2) and
-             (([.assets[].name] | sort) == ([$archive, $checksum] | sort))' \
-            "${release_json}" > /dev/null
+          expected_names="${RUNNER_TEMP}/contracts-expected-names.txt"
+          actual_names="${RUNNER_TEMP}/contracts-actual-names.txt"
+          printf '%s\n' "${expected_archive}" "${expected_checksum}" | LC_ALL=C sort > "${expected_names}"
+          unexpected_entry="$(find artifacts -mindepth 1 -maxdepth 1 ! -type f -print -quit)"
+          if [[ -n "${unexpected_entry}" ]]; then
+            echo "Release staging contains a non-file entry: ${unexpected_entry}" >&2
+            exit 1
+          fi
+          find artifacts -mindepth 1 -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort > "${actual_names}"
+          diff -u "${expected_names}" "${actual_names}"
 
           expected_assets='[]'
-          while IFS= read -r asset_path; do
-            name="$(basename "${asset_path}")"
-            size="$(stat -c '%s' "${asset_path}")"
-            digest="sha256:$(sha256sum "${asset_path}" | awk '{print $1}')"
+          while IFS= read -r name; do
+            path="artifacts/${name}"
+            size="$(stat -c %s "${path}")"
+            digest="sha256:$(sha256sum "${path}" | awk '{ print $1 }')"
             expected_assets="$(
-              jq \
+              jq -c \
                 --arg name "${name}" \
                 --argjson size "${size}" \
                 --arg digest "${digest}" \
                 '. + [{name: $name, size: $size, digest: $digest}]' \
                 <<< "${expected_assets}"
             )"
-          done < <(find artifacts -mindepth 1 -maxdepth 1 -type f -print | LC_ALL=C sort)
+          done < "${expected_names}"
           jq -S 'sort_by(.name)' <<< "${expected_assets}" > "${RUNNER_TEMP}/contracts-expected-assets.json"
+
+          release_body_path="${RUNNER_TEMP}/contracts-release-body.md"
+          printf '%s\n\n%s' \
+            "AutoStream Contracts ${RELEASE_VERSION}" \
+            "This immutable release publishes the versioned AutoStream API, schema, and Go contract bundle. Existing Bridge-compatible fields remain available while additive pull_v2 host-update and configurable-port contracts are introduced." \
+            > "${release_body_path}"
+          test -s "${release_body_path}"
+          (
+            cd "${RUNNER_TEMP}"
+            sha256sum --text "contracts-release-body.md" > "contracts-release-body.sha256"
+            sha256sum --check --strict "contracts-release-body.sha256"
+          )
+          echo "draft_tag=${draft_tag}" >> "${GITHUB_OUTPUT}"
+
+      - name: Create workflow-owned unpublished staging release
+        id: create-draft
+        if: steps.meta.outputs.push_release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
+          DRAFT_TAG: ${{ steps.preflight.outputs.draft_tag }}
+        run: |
+          set -euo pipefail
+          release_body_path="${RUNNER_TEMP}/contracts-release-body.md"
+          (
+            cd "${RUNNER_TEMP}"
+            sha256sum --check --strict "contracts-release-body.sha256"
+          )
+          release_id="$(
+            gh api --method POST "repos/${GITHUB_REPOSITORY}/releases" \
+              -f tag_name="${DRAFT_TAG}" \
+              -f target_commitish="${GITHUB_SHA}" \
+              -f name="${RELEASE_VERSION}" \
+              -f body="$(< "${release_body_path}")" \
+              -F draft=true \
+              -F prerelease=false \
+              --jq '.id'
+          )"
+          if [[ ! "${release_id}" =~ ^[0-9]+$ ]]; then
+            echo "GitHub did not return a numeric staging release id." >&2
+            exit 1
+          fi
+          echo "release_id=${release_id}" >> "${GITHUB_OUTPUT}"
+
+      - name: Upload all assets to staging release
+        if: steps.meta.outputs.push_release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRAFT_RELEASE_ID: ${{ steps.create-draft.outputs.release_id }}
+        run: |
+          set -euo pipefail
+          mapfile -t assets < <(find artifacts -mindepth 1 -maxdepth 1 -type f -print | LC_ALL=C sort)
+          if [[ "${#assets[@]}" -ne 2 ]]; then
+            echo "Expected 2 release assets, found ${#assets[@]}." >&2
+            exit 1
+          fi
+          index=0
+          for asset in "${assets[@]}"; do
+            name="${asset##*/}"
+            response="${RUNNER_TEMP}/contracts-upload-${index}.json"
+            curl --silent --show-error --fail-with-body --location \
+              --retry 3 --retry-all-errors --retry-delay 2 \
+              --request POST \
+              --header 'Accept: application/vnd.github+json' \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header 'X-GitHub-Api-Version: 2026-03-10' \
+              --header 'Content-Type: application/octet-stream' \
+              --data-binary "@${asset}" \
+              --output "${response}" \
+              "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${DRAFT_RELEASE_ID}/assets?name=${name}"
+            size="$(stat -c %s "${asset}")"
+            digest="sha256:$(sha256sum "${asset}" | awk '{ print $1 }')"
+            jq -e \
+              --arg name "${name}" \
+              --argjson size "${size}" \
+              --arg digest "${digest}" \
+              '(.name == $name) and
+               (.size == $size) and
+               (.digest == $digest) and
+               (.state == "uploaded")' \
+              "${response}" > /dev/null
+            index=$((index + 1))
+          done
+
+      - name: Verify staging release assets and deterministic notes
+        if: steps.meta.outputs.push_release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRAFT_TAG: ${{ steps.preflight.outputs.draft_tag }}
+          DRAFT_RELEASE_ID: ${{ steps.create-draft.outputs.release_id }}
+        run: |
+          set -euo pipefail
+          release_body_path="${RUNNER_TEMP}/contracts-release-body.md"
+          actual_body_path="${RUNNER_TEMP}/contracts-draft-body.md"
+          draft_json="${RUNNER_TEMP}/contracts-draft-release.json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/${DRAFT_RELEASE_ID}" > "${draft_json}"
+          jq -e \
+            --arg tag "${DRAFT_TAG}" \
+            --arg commit "${GITHUB_SHA}" \
+            '(.tag_name == $tag) and
+             (.target_commitish == $commit) and
+             (.draft == true) and
+             (.published_at == null)' \
+            "${draft_json}" > /dev/null
+          jq -j '.body' "${draft_json}" > "${actual_body_path}"
+          if ! cmp -s "${release_body_path}" "${actual_body_path}"; then
+            echo "Draft release notes differ from the deterministic body." >&2
+            exit 1
+          fi
+
+          assets_pages="${RUNNER_TEMP}/contracts-draft-asset-pages.json"
+          uploaded_assets="${RUNNER_TEMP}/contracts-draft-assets.json"
+          gh api --paginate \
+            "repos/${GITHUB_REPOSITORY}/releases/${DRAFT_RELEASE_ID}/assets?per_page=100" \
+            > "${assets_pages}"
+          jq -s -S '[.[][] | {name, size, digest, state}] | sort_by(.name)' \
+            "${assets_pages}" > "${uploaded_assets}"
+          jq -e \
+            '(length == 2) and
+             (all(.[]; (.state == "uploaded") and
+               (.digest | type == "string" and test("^sha256:[0-9a-f]{64}$"))))' \
+            "${uploaded_assets}" > /dev/null
+          jq -S '[.[] | {name, size, digest}]' "${uploaded_assets}" \
+            > "${RUNNER_TEMP}/contracts-draft-assets-projection.json"
+          diff -u \
+            "${RUNNER_TEMP}/contracts-expected-assets.json" \
+            "${RUNNER_TEMP}/contracts-draft-assets-projection.json"
+
+      - name: Attest release assets
+        if: steps.meta.outputs.push_release == 'true'
+        uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
+        with:
+          subject-path: artifacts/*
+
+      - name: Publish verified release atomically
+        id: publish
+        if: steps.meta.outputs.push_release == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          IMMUTABILITY_TOKEN: ${{ secrets.AUTOSTREAM_RELEASE_SETTINGS_TOKEN || github.token }}
+          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
+          DRAFT_TAG: ${{ steps.preflight.outputs.draft_tag }}
+          DRAFT_RELEASE_ID: ${{ steps.create-draft.outputs.release_id }}
+        run: |
+          set -euo pipefail
+          release_body_path="${RUNNER_TEMP}/contracts-release-body.md"
+          actual_body_path="${RUNNER_TEMP}/contracts-prepublish-body.md"
+          (
+            cd "${RUNNER_TEMP}"
+            sha256sum --check --strict "contracts-release-body.sha256"
+          )
+
+          releases_json="${RUNNER_TEMP}/contracts-prepublish-pages.json"
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/releases?per_page=100" > "${releases_json}"
+          existing_release_count="$(
+            jq -s --arg tag "${RELEASE_VERSION}" \
+              '[.[][] | select(.tag_name == $tag)] | length' \
+              "${releases_json}"
+          )"
+          if [[ "${existing_release_count}" != "0" ]]; then
+            echo "Release ${RELEASE_VERSION} appeared during staging; refusing to overwrite it." >&2
+            exit 1
+          fi
+
+          if [[ "${GITHUB_REF_TYPE}" != "tag" ]]; then
+            if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_VERSION}" > "${RUNNER_TEMP}/prepublish-tag.json" 2> "${RUNNER_TEMP}/prepublish-tag.err"; then
+              echo "Tag ${RELEASE_VERSION} appeared during staging; refusing to overwrite or reuse it." >&2
+              exit 1
+            elif ! grep -q 'HTTP 404' "${RUNNER_TEMP}/prepublish-tag.err"; then
+              cat "${RUNNER_TEMP}/prepublish-tag.err" >&2
+              exit 1
+            fi
+          else
+            tag_ref="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_VERSION}")"
+            ref_type="$(jq -r '.object.type' <<< "${tag_ref}")"
+            ref_sha="$(jq -r '.object.sha' <<< "${tag_ref}")"
+            depth=0
+            while [[ "${ref_type}" == "tag" ]]; do
+              depth=$((depth + 1))
+              if (( depth > 8 )); then
+                echo "Annotated tag ${RELEASE_VERSION} exceeds the dereference limit before publish." >&2
+                exit 1
+              fi
+              tag_object="$(gh api "repos/${GITHUB_REPOSITORY}/git/tags/${ref_sha}")"
+              ref_type="$(jq -r '.object.type' <<< "${tag_object}")"
+              ref_sha="$(jq -r '.object.sha' <<< "${tag_object}")"
+            done
+            if [[ "${ref_type}" != "commit" || "${ref_sha}" != "${GITHUB_SHA}" ]]; then
+              echo "Tag ${RELEASE_VERSION} moved during staging; refusing to publish mismatched assets." >&2
+              exit 1
+            fi
+          fi
+
+          prepublish_json="${RUNNER_TEMP}/contracts-prepublish-release.json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/${DRAFT_RELEASE_ID}" > "${prepublish_json}"
+          jq -e --arg tag "${DRAFT_TAG}" \
+            '(.tag_name == $tag) and (.draft == true) and (.published_at == null)' \
+            "${prepublish_json}" > /dev/null
+          jq -j '.body' "${prepublish_json}" > "${actual_body_path}"
+          if ! cmp -s "${release_body_path}" "${actual_body_path}"; then
+            echo "Prepublish release notes differ from the deterministic body." >&2
+            exit 1
+          fi
+
+          for asset_path in artifacts/*; do
+            gh attestation verify "${asset_path}" --repo "${GITHUB_REPOSITORY}" > /dev/null
+          done
+
+          settings_json="${RUNNER_TEMP}/immutable-release-settings-prepublish.json"
+          settings_error="${RUNNER_TEMP}/immutable-release-settings-prepublish.err"
+          if ! GH_TOKEN="${IMMUTABILITY_TOKEN}" gh api \
+            --header 'X-GitHub-Api-Version: 2026-03-10' \
+            "repos/${GITHUB_REPOSITORY}/immutable-releases" \
+            > "${settings_json}" 2> "${settings_error}"; then
+            cat "${settings_error}" >&2
+            echo "Cannot re-confirm immutable releases immediately before publication; keeping the release unpublished." >&2
+            exit 1
+          fi
+          jq -e '(.enabled == true)' "${settings_json}" > /dev/null
+
+          final_draft_json="${RUNNER_TEMP}/contracts-final-draft-release.json"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/${DRAFT_RELEASE_ID}" > "${final_draft_json}"
+          jq -e --arg tag "${DRAFT_TAG}" --arg commit "${GITHUB_SHA}" \
+            '(.tag_name == $tag) and
+             (.target_commitish == $commit) and
+             (.draft == true) and
+             (.published_at == null) and
+             (.assets | length == 2) and
+             (all(.assets[]; (.state == "uploaded") and
+               (.digest | type == "string" and test("^sha256:[0-9a-f]{64}$"))))' \
+            "${final_draft_json}" > /dev/null
+          jq -j '.body' "${final_draft_json}" > "${actual_body_path}"
+          if ! cmp -s "${release_body_path}" "${actual_body_path}"; then
+            echo "Final draft release notes differ from the deterministic body." >&2
+            exit 1
+          fi
           jq -S '[.assets[] | {name, size, digest}] | sort_by(.name)' \
-            "${release_json}" > "${RUNNER_TEMP}/contracts-published-assets.json"
+            "${final_draft_json}" > "${RUNNER_TEMP}/contracts-final-draft-assets.json"
+          diff -u \
+            "${RUNNER_TEMP}/contracts-expected-assets.json" \
+            "${RUNNER_TEMP}/contracts-final-draft-assets.json"
+
+          final_releases_json="${RUNNER_TEMP}/contracts-final-release-pages.json"
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/releases?per_page=100" > "${final_releases_json}"
+          final_release_count="$(
+            jq -s --arg tag "${RELEASE_VERSION}" \
+              '[.[][] | select(.tag_name == $tag)] | length' \
+              "${final_releases_json}"
+          )"
+          if [[ "${final_release_count}" != "0" ]]; then
+            echo "Release ${RELEASE_VERSION} appeared immediately before publication; refusing to overwrite it." >&2
+            exit 1
+          fi
+
+          if [[ "${GITHUB_REF_TYPE}" != "tag" ]]; then
+            created_ref_json="${RUNNER_TEMP}/contracts-created-final-tag.json"
+            created_ref_error="${RUNNER_TEMP}/contracts-created-final-tag.err"
+            if ! gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+              -f ref="refs/tags/${RELEASE_VERSION}" \
+              -f sha="${GITHUB_SHA}" \
+              > "${created_ref_json}" 2> "${created_ref_error}"; then
+              cat "${created_ref_error}" >&2
+              echo "Could not atomically claim tag ${RELEASE_VERSION}; refusing to overwrite or reuse an existing tag." >&2
+              exit 1
+            fi
+            printf '%s\n' "${GITHUB_SHA}" > "${RUNNER_TEMP}/contracts-owned-final-tag"
+            if ! jq -e \
+              --arg ref "refs/tags/${RELEASE_VERSION}" \
+              --arg commit "${GITHUB_SHA}" \
+              '(.ref == $ref) and (.object.type == "commit") and (.object.sha == $commit)' \
+              "${created_ref_json}" > /dev/null; then
+              echo "Created tag ${RELEASE_VERSION} does not resolve to workflow commit ${GITHUB_SHA}." >&2
+              exit 1
+            fi
+          fi
+
+          final_tag_json="${RUNNER_TEMP}/contracts-final-tag.json"
+          tag_ref="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_VERSION}")"
+          printf '%s\n' "${tag_ref}" > "${final_tag_json}"
+          ref_type="$(jq -r '.object.type' "${final_tag_json}")"
+          ref_sha="$(jq -r '.object.sha' "${final_tag_json}")"
+          depth=0
+          while [[ "${ref_type}" == "tag" ]]; do
+            depth=$((depth + 1))
+            if (( depth > 8 )); then
+              echo "Final tag ${RELEASE_VERSION} exceeds the dereference limit immediately before publish." >&2
+              exit 1
+            fi
+            tag_object="$(gh api "repos/${GITHUB_REPOSITORY}/git/tags/${ref_sha}")"
+            ref_type="$(jq -r '.object.type' <<< "${tag_object}")"
+            ref_sha="$(jq -r '.object.sha' <<< "${tag_object}")"
+          done
+          if [[ "${ref_type}" != "commit" || "${ref_sha}" != "${GITHUB_SHA}" ]]; then
+            echo "Final tag ${RELEASE_VERSION} does not resolve to workflow commit ${GITHUB_SHA} immediately before publish." >&2
+            exit 1
+          fi
+
+          gh api --method PATCH "repos/${GITHUB_REPOSITORY}/releases/${DRAFT_RELEASE_ID}" \
+            -f tag_name="${RELEASE_VERSION}" \
+            -f target_commitish="${GITHUB_SHA}" \
+            -f name="${RELEASE_VERSION}" \
+            -F draft=false \
+            -F prerelease=false \
+            > "${RUNNER_TEMP}/contracts-release-published.json"
+
+          published_json="${RUNNER_TEMP}/contracts-published-release.json"
+          published_body_path="${RUNNER_TEMP}/contracts-published-body.md"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/${DRAFT_RELEASE_ID}" > "${published_json}"
+          jq -e \
+            --arg tag "${RELEASE_VERSION}" \
+            '(.tag_name == $tag) and
+             (.draft == false) and
+             (.immutable == true) and
+             (.published_at | type == "string" and length > 0) and
+             (.assets | length == 2) and
+             (all(.assets[]; (.state == "uploaded") and
+               (.digest | type == "string" and test("^sha256:[0-9a-f]{64}$"))))' \
+            "${published_json}" > /dev/null
+          jq -j '.body' "${published_json}" > "${published_body_path}"
+          if ! cmp -s "${release_body_path}" "${published_body_path}"; then
+            echo "Published release notes differ from the deterministic body." >&2
+            exit 1
+          fi
+          jq -S '[.assets[] | {name, size, digest}] | sort_by(.name)' \
+            "${published_json}" > "${RUNNER_TEMP}/contracts-published-assets.json"
           diff -u \
             "${RUNNER_TEMP}/contracts-expected-assets.json" \
             "${RUNNER_TEMP}/contracts-published-assets.json"
@@ -225,5 +547,58 @@ jobs:
           done
           if [[ "${ref_type}" != "commit" || "${ref_sha}" != "${GITHUB_SHA}" ]]; then
             echo "Published tag ${RELEASE_VERSION} does not resolve to workflow commit ${GITHUB_SHA}; the version must not be reused." >&2
+            exit 1
+          fi
+
+          staging_ref="${RUNNER_TEMP}/contracts-staging-tag.json"
+          if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${DRAFT_TAG}" > "${staging_ref}" 2> "${RUNNER_TEMP}/contracts-staging-tag.err"; then
+            if ! jq -e --arg commit "${GITHUB_SHA}" \
+              '(.object.type == "commit") and (.object.sha == $commit)' \
+              "${staging_ref}" > /dev/null; then
+              echo "Refusing to delete staging tag ${DRAFT_TAG}: it is not the workflow-owned commit." >&2
+              exit 1
+            fi
+            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/tags/${DRAFT_TAG}"
+          elif ! grep -q 'HTTP 404' "${RUNNER_TEMP}/contracts-staging-tag.err"; then
+            cat "${RUNNER_TEMP}/contracts-staging-tag.err" >&2
+            exit 1
+          fi
+          echo "verification_state=verified" >> "${GITHUB_OUTPUT}"
+
+      - name: Preserve failed release state for manual recovery
+        if: ${{ always() && steps.create-draft.outputs.release_id != '' }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
+          DRAFT_TAG: ${{ steps.preflight.outputs.draft_tag }}
+          DRAFT_RELEASE_ID: ${{ steps.create-draft.outputs.release_id }}
+          PUBLISH_VERIFICATION_STATE: ${{ steps.publish.outputs.verification_state }}
+        run: |
+          set -euo pipefail
+          release_json="${RUNNER_TEMP}/contracts-cleanup-release.json"
+          if ! gh api "repos/${GITHUB_REPOSITORY}/releases/${DRAFT_RELEASE_ID}" > "${release_json}" 2> "${RUNNER_TEMP}/contracts-cleanup-release.err"; then
+            if grep -q 'HTTP 404' "${RUNNER_TEMP}/contracts-cleanup-release.err"; then
+              echo "Workflow-owned staging release ${DRAFT_RELEASE_ID} is already absent."
+              exit 0
+            fi
+            cat "${RUNNER_TEMP}/contracts-cleanup-release.err" >&2
+            exit 1
+          fi
+
+          release_tag="$(jq -r '.tag_name' "${release_json}")"
+          is_draft="$(jq -r '.draft' "${release_json}")"
+          if [[ "${is_draft}" == "true" && "${release_tag}" == "${DRAFT_TAG}" ]]; then
+            echo "Preserved workflow-owned unpublished staging release ${DRAFT_RELEASE_ID} and all refs for manual recovery; no release or ref was deleted."
+          elif [[ "${release_tag}" == "${RELEASE_VERSION}" ]]; then
+            if [[ "${PUBLISH_VERIFICATION_STATE}" == "verified" ]]; then
+              echo "Verified release ${RELEASE_VERSION} is published; no staging draft remains."
+            else
+              echo "Release ${RELEASE_VERSION} is published-but-unverified; do not consume or promote its assets." >&2
+              echo "Recovery: inspect immutable state, attestations, tag commit, deterministic notes, and exact asset digests. If verification cannot be established, publish a new version." >&2
+              exit 1
+            fi
+          else
+            echo "Release ${DRAFT_RELEASE_ID} has unexpected tag/state; refusing mutation." >&2
             exit 1
           fi

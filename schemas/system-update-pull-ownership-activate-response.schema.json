@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SystemUpdatePullOwnershipActivateResponse",
+  "description": "Server-owned pull_v2 ownership and policy fences returned after atomic activation. The response contains no credential or secret.",
+  "type": "object",
+  "required": [
+    "updater_id",
+    "execution_host_id",
+    "transport_mode",
+    "agent_service_id",
+    "ownership_epoch",
+    "source_policy_revision",
+    "projection_revision",
+    "local_executor_policy_revision",
+    "local_executor_policy_sha256"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "updater_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "execution_host_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+    },
+    "transport_mode": {
+      "const": "pull_v2"
+    },
+    "agent_service_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "ownership_epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_policy_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "projection_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "local_executor_policy_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "local_executor_policy_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  }
+}

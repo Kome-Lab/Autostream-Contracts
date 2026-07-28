@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Agent Self Update Directive",
+  "description": "Credential-free Host Agent policy directive bound to one exact immutable release and its server issue time.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "generation",
+    "agent_version",
+    "executor_version",
+    "commit",
+    "artifact_sha256",
+    "agent_protocol_version",
+    "executor_protocol_version",
+    "mutation_protocol_version",
+    "recovery_protocol_version",
+    "release",
+    "staged_at"
+  ],
+  "properties": {
+    "generation": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+    },
+    "agent_version": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 128,
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    },
+    "executor_version": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 128,
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "agent_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "executor_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mutation_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "recovery_protocol_version": {
+      "type": "integer",
+      "const": 2
+    },
+    "release": {
+      "$ref": "host-self-update-release-binding.schema.json"
+    },
+    "staged_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    }
+  }
+}

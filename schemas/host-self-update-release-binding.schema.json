@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update Release Binding",
+  "description": "Credential-free immutable release identity carried by a host self-update directive or grant. Download locations, credentials, and server-side attestation timestamps are deliberately absent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tag",
+    "commit",
+    "published_at",
+    "manifest_asset_id",
+    "manifest_asset_name",
+    "manifest_sha256",
+    "manifest_checksum_asset_id",
+    "manifest_checksum_sha256",
+    "archive_asset_id",
+    "archive_asset_name",
+    "archive_size",
+    "archive_sha256",
+    "archive_checksum_asset_id",
+    "archive_checksum_sha256",
+    "arch",
+    "agent_protocol_version",
+    "executor_protocol_version",
+    "mutation_protocol_version",
+    "recovery_protocol_version",
+    "minimum_panel_version"
+  ],
+  "properties": {
+    "tag": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 128,
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "manifest_asset_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "manifest_asset_name": {
+      "const": "host-agent-manifest.json"
+    },
+    "manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "manifest_checksum_asset_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "manifest_checksum_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "archive_asset_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "archive_asset_name": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^autostream-host-agent_v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?_linux_(?:amd64|arm64)\\.tar\\.gz$"
+    },
+    "archive_size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 268435456
+    },
+    "archive_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "archive_checksum_asset_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "archive_checksum_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "arch": {
+      "enum": ["amd64", "arm64"]
+    },
+    "agent_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "executor_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mutation_protocol_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "recovery_protocol_version": {
+      "type": "integer",
+      "const": 2
+    },
+    "minimum_panel_version": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 128,
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    }
+  }
+}

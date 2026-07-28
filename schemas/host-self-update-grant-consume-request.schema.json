@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update Grant Consume Request",
+  "description": "The root-owned executor consumes the transient credential against the exact full binding. The credential must not be logged, persisted, or forwarded in argv or environment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["token", "binding"],
+  "properties": {
+    "token": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "writeOnly": true
+    },
+    "binding": {
+      "allOf": [
+        { "$ref": "host-self-update-grant.schema.json" },
+        {
+          "not": {
+            "anyOf": [
+              { "required": ["consumed_at"] },
+              { "required": ["stage_claim_revision"] },
+              { "required": ["stage_claimed_at"] }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

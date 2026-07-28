@@ -3,9 +3,41 @@
   "title": "System Update Target",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "portMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "state"],
+      "allOf": [
+        {
+          "if": {
+            "properties": { "state": { "const": "applied" } },
+            "required": ["state"]
+          },
+          "then": {
+            "required": [
+              "advertised_port", "published_port", "container_port", "health_port",
+              "config_revision", "published_host_ip", "reported_at"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "mode": { "const": "docker" },
+        "state": { "enum": ["applied", "drifted", "unavailable"] },
+        "advertised_port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "published_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "container_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "health_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "config_revision": { "type": "integer", "minimum": 1 },
+        "published_host_ip": { "const": "127.0.0.1" },
+        "reported_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
   "required": ["target_id", "target_type", "name", "update_available", "updater_online", "eligible", "busy"],
   "properties": {
-    "target_id": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "target_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "target_type": {
       "enum": ["control_panel", "discord_bot", "encoder_recorder", "observability", "worker"]
     },
@@ -14,19 +46,35 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
     },
     "current_version": { "type": "string" },
     "latest_version": { "type": "string" },
     "update_available": { "type": "boolean" },
     "deployment_mode": { "enum": ["systemd", "docker"] },
-    "updater_id": { "type": "string", "maxLength": 191 },
+    "updater_id": { "type": "string", "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "updater_online": { "type": "boolean" },
     "current_stream_id": { "type": "string" },
     "eligible": { "type": "boolean" },
     "blocked_reason": { "type": "string" },
+    "eligible_operations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["software_update", "port_reconfigure"]
+      }
+    },
+    "operation_blocked_reasons": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "software_update": { "type": "string" },
+        "port_reconfigure": { "type": "string" }
+      }
+    },
     "busy": { "type": "boolean" },
     "update_check_source": { "type": "string" },
-    "update_check_error": { "type": "string" }
+    "update_check_error": { "type": "string" },
+    "port_mapping": { "$ref": "#/$defs/portMapping" }
   }
 }

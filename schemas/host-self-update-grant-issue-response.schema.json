@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update Grant Issue Response",
+  "description": "Returns the raw grant credential only on first issuance. A replay returns the durable receipt with issued=false and no credential.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["grant", "issued"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "issued": { "const": true }
+        },
+        "required": ["issued"]
+      },
+      "then": {
+        "required": ["token"]
+      },
+      "else": {
+        "not": {
+          "required": ["token"]
+        }
+      }
+    }
+  ],
+  "properties": {
+    "grant": {
+      "allOf": [
+        { "$ref": "host-self-update-grant.schema.json" },
+        {
+          "not": {
+            "anyOf": [
+              { "required": ["consumed_at"] },
+              { "required": ["stage_claim_revision"] },
+              { "required": ["stage_claimed_at"] }
+            ]
+          }
+        }
+      ]
+    },
+    "token": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "writeOnly": true
+    },
+    "issued": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Host Self Update List Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["self_updates"],
+  "properties": {
+    "self_updates": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "$ref": "host-self-update.schema.json"
+      }
+    }
+  }
+}

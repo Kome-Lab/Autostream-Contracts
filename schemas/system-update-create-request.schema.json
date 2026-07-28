@@ -3,15 +3,85 @@
   "title": "System Update Create Request",
   "type": "object",
   "additionalProperties": false,
-  "required": ["target_id", "strategy", "idempotency_key"],
+  "required": ["target_id", "idempotency_key"],
+  "allOf": [
+    {
+      "if": {
+        "required": ["operation"],
+        "properties": {
+          "operation": { "const": "port_reconfigure" }
+        }
+      },
+      "then": {
+        "required": ["operation", "expected_endpoint_revision"],
+        "not": { "required": ["strategy"] },
+        "oneOf": [
+          {
+            "required": ["new_port"],
+            "not": {
+              "anyOf": [
+                { "required": ["new_advertised_port"] },
+                { "required": ["new_published_port"] },
+                { "required": ["new_container_port"] }
+              ]
+            }
+          },
+          {
+            "required": ["new_advertised_port", "new_published_port", "new_container_port"],
+            "not": { "required": ["new_port"] }
+          }
+        ]
+      },
+      "else": {
+        "required": ["strategy"],
+        "not": {
+          "anyOf": [
+            { "required": ["new_port"] },
+            { "required": ["new_advertised_port"] },
+            { "required": ["new_published_port"] },
+            { "required": ["new_container_port"] },
+            { "required": ["expected_endpoint_revision"] }
+          ]
+        }
+      }
+    }
+  ],
   "properties": {
+    "operation": {
+      "enum": ["software_update", "port_reconfigure"],
+      "default": "software_update"
+    },
     "target_id": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
     },
     "strategy": { "enum": ["when_idle", "maintenance"] },
+    "new_port": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 65535
+    },
+    "new_advertised_port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "new_published_port": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 65535
+    },
+    "new_container_port": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 65535
+    },
+    "expected_endpoint_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
     "idempotency_key": {
       "type": "string",
       "minLength": 1,

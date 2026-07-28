@@ -9,14 +9,14 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
     },
     "name": { "type": "string", "minLength": 1, "maxLength": 191 },
     "updater_id": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 191,
-      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
     },
     "reachability": { "enum": ["reachable", "unreachable", "unknown"] },
     "reachability_checked_at": { "type": "string", "format": "date-time" },
@@ -24,6 +24,16 @@
       "type": "string",
       "maxLength": 128,
       "pattern": "^[a-z0-9_.-]+$"
+    },
+    "ssh_client_public_key": {
+      "type": "string",
+      "maxLength": 80,
+      "pattern": "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$"
+    },
+    "ssh_client_key_fingerprint": {
+      "type": "string",
+      "maxLength": 50,
+      "pattern": "^SHA256:[A-Za-z0-9+/]{43}$"
     }
   }
 }

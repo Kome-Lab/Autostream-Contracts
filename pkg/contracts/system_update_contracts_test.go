@@ -14,8 +14,10 @@ import (
 
 type contractSchemaNode struct {
 	AdditionalProperties any                           `json:"additionalProperties"`
+	Type                 string                        `json:"type"`
 	Required             []string                      `json:"required"`
 	Properties           map[string]contractSchemaNode `json:"properties"`
+	PropertyNames        *contractSchemaNode           `json:"propertyNames"`
 	Items                *contractSchemaNode           `json:"items"`
 	AllOf                []contractSchemaNode          `json:"allOf"`
 	AnyOf                []contractSchemaNode          `json:"anyOf"`
@@ -92,7 +94,10 @@ func requireContractFields(t *testing.T, actual []string, fields ...string) {
 
 func TestSystemUpdatePublicSchemasMatchControlPanelWireShape(t *testing.T) {
 	create := readContractSchema(t, "system-update-create-request.schema.json")
-	requireContractFields(t, create.Required, "target_id", "strategy", "idempotency_key")
+	requireContractFields(t, create.Required, "target_id", "idempotency_key")
+	if _, ok := create.Properties["strategy"]; !ok {
+		t.Fatal("software-update create request is missing strategy")
+	}
 	idempotency := create.Properties["idempotency_key"]
 	if idempotency.MinLength != 1 || idempotency.MaxLength != 128 || idempotency.Pattern == "" {
 		t.Fatalf("idempotency key must match Control Panel validation: %#v", idempotency)
@@ -156,7 +161,7 @@ func TestSystemUpdatePublicSchemasMatchControlPanelWireShape(t *testing.T) {
 	}
 	openAPI := string(openAPIBody)
 	start := strings.Index(openAPI, "    SystemUpdateJob:")
-	end := strings.Index(openAPI, "    SystemUpdatesResponse:")
+	end := strings.Index(openAPI, "    SystemUpdateAgentStatus:")
 	if start < 0 || end <= start {
 		t.Fatal("control OpenAPI is missing the SystemUpdateJob component")
 	}
@@ -255,7 +260,7 @@ func TestUpdateAgentLeaseRecoverySchemasAreExplicit(t *testing.T) {
 	if authorize.AdditionalProperties != false || !authorize.Properties["lease_token"].WriteOnly || authorize.Properties["lease_token"].MinLength != 32 || authorize.Properties["lease_token"].MaxLength != 256 {
 		t.Fatalf("authorize lease token constraints changed: %#v", authorize.Properties["lease_token"])
 	}
-	if authorize.Properties["lease_generation"].Minimum != 1 || authorize.Properties["host_id"].MaxLength != 191 || authorize.Properties["target_id"].MaxLength != 191 || authorize.Properties["target_version"].MaxLength != 128 {
+	if authorize.Properties["lease_generation"].Minimum != 1 || authorize.Properties["host_id"].MaxLength != 191 || authorize.Properties["target_id"].MaxLength != 128 || authorize.Properties["target_version"].MaxLength != 128 {
 		t.Fatal("authorize plan constraints differ from Control Panel validation")
 	}
 	if !contractSliceHas(authorize.Properties["deployment_mode"].Enum, "systemd") || !contractSliceHas(authorize.Properties["deployment_mode"].Enum, "docker") {
@@ -443,8 +448,54 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 		t.Fatal("updater status must reject unknown fields")
 	}
 	requireContractFields(t, updater.Required, "updater_id", "name", "status", "online", "version")
-	if contractSliceHas(updater.Required, "last_heartbeat_at") {
-		t.Fatal("updater last_heartbeat_at must remain optional before the first heartbeat")
+	updaterOptional := []string{
+		"transport_mode", "execution_host_id", "ownership_epoch", "last_heartbeat_at",
+		"desired_revision", "applied_revision", "policy_status", "policy_error_code",
+		"ssh_client_public_keys", "ssh_client_key_fingerprints",
+		"bootstrap_encryption_public_key", "bootstrap_encryption_key_fingerprint",
+	}
+	for _, optional := range updaterOptional {
+		if contractSliceHas(updater.Required, optional) {
+			t.Fatalf("updater status field %q must remain optional for additive ssh_v1 compatibility", optional)
+		}
+	}
+	for _, value := range []string{"ssh_v1", "pull_v2"} {
+		if !contractSliceHas(updater.Properties["transport_mode"].Enum, value) {
+			t.Fatalf("updater transport_mode enum is missing %q", value)
+		}
+	}
+	for _, field := range []string{"ownership_epoch", "desired_revision", "applied_revision"} {
+		property := updater.Properties[field]
+		if property.Type != "integer" || property.Minimum != 0 {
+			t.Fatalf("updater %s must be a non-negative integer: %#v", field, property)
+		}
+	}
+	for _, value := range []string{"applied", "pending", "failed"} {
+		if !contractSliceHas(updater.Properties["policy_status"].Enum, value) {
+			t.Fatalf("updater policy_status enum is missing %q", value)
+		}
+	}
+	for field, wantPattern := range map[string]string{
+		"ssh_client_public_keys":      "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$",
+		"ssh_client_key_fingerprints": "^SHA256:[A-Za-z0-9+/]{43}$",
+	} {
+		property := updater.Properties[field]
+		if property.Type != "object" || property.PropertyNames == nil ||
+			property.PropertyNames.Pattern != "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$" {
+			t.Fatalf("updater %s must be a host-id keyed object: %#v", field, property)
+		}
+		values, ok := property.AdditionalProperties.(map[string]any)
+		if !ok || values["type"] != "string" || values["pattern"] != wantPattern {
+			t.Fatalf("updater %s values must be constrained strings: %#v", field, property.AdditionalProperties)
+		}
+	}
+	for field, wantPattern := range map[string]string{
+		"bootstrap_encryption_public_key":      "^B[A-Za-z0-9_-]{86}$",
+		"bootstrap_encryption_key_fingerprint": "^SHA256:[A-Za-z0-9+/]{43}$",
+	} {
+		if updater.Properties[field].Pattern != wantPattern {
+			t.Fatalf("updater %s has the wrong cryptographic format constraint: %q", field, updater.Properties[field].Pattern)
+		}
 	}
 
 	host := readContractSchema(t, "system-update-host-status.schema.json")
@@ -457,10 +508,17 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 			t.Fatalf("host reachability enum is missing %q", value)
 		}
 	}
-	for _, optional := range []string{"reachability_checked_at", "reachability_code"} {
+	for _, optional := range []string{
+		"reachability_checked_at", "reachability_code",
+		"ssh_client_public_key", "ssh_client_key_fingerprint",
+	} {
 		if contractSliceHas(host.Required, optional) {
 			t.Fatalf("host status field %q must remain optional", optional)
 		}
+	}
+	if host.Properties["ssh_client_public_key"].Pattern != "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$" ||
+		host.Properties["ssh_client_key_fingerprint"].Pattern != "^SHA256:[A-Za-z0-9+/]{43}$" {
+		t.Fatal("host SSH identity fields must use the canonical ED25519 public-key and SHA256 fingerprint formats")
 	}
 
 	response := readContractSchema(t, "system-updates-response.schema.json")
@@ -473,11 +531,23 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 	instance := SystemUpdatesResponse{
 		Updaters: []SystemUpdateAgentStatus{{
 			UpdaterID: "updater-1", Name: "Central Updater", Status: "online",
+			TransportMode: UpdateTransportPullV2, ExecutionHostID: "host-1", OwnershipEpoch: 2,
 			Online: true, Version: "v1.7.0", LastHeartbeatAt: &now,
+			DesiredRevision: 4, AppliedRevision: 3, PolicyStatus: "pending", PolicyErrorCode: "active_job_pending",
+			SSHClientPublicKeys: map[string]string{
+				"host-1": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8g",
+			},
+			SSHClientKeyFingerprints: map[string]string{
+				"host-1": "SHA256:mKqU+0K8OhKmA8bBQi9Rz0Q5l7/g160hIP+rJYSTNj4",
+			},
+			BootstrapEncryptionPublicKey:      "BG_wO5SSQc4drdQ1GeaWDgqFtBppoFwygQOqK84VlMoWPE91OlW_AdxT9sCwx-7ni0DG_30lqW4igrmJzvccFEo",
+			BootstrapEncryptionKeyFingerprint: "SHA256:JWsb4ydF0dHJ1JEhzIe8RRxPLfp1bYm0yRCvrrYliuA",
 		}},
 		Hosts: []SystemUpdateHostStatus{{
 			HostID: "host-1", Name: "Encoder Host", UpdaterID: "updater-1",
 			Reachability: SystemUpdateReachable, ReachabilityCheckedAt: &now,
+			SSHClientPublicKey:      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8g",
+			SSHClientKeyFingerprint: "SHA256:mKqU+0K8OhKmA8bBQi9Rz0Q5l7/g160hIP+rJYSTNj4",
 		}},
 		Targets: []SystemUpdateTarget{{
 			TargetID: "worker-1", TargetType: SystemUpdateTargetWorker, Name: "Worker",
@@ -508,6 +578,83 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 	if err := schema.Validate(document); err != nil {
 		t.Fatalf("Go system update GET response violates schema: %v body=%s", err, body)
 	}
+	root, ok := document.(map[string]any)
+	if !ok {
+		t.Fatalf("system update GET fixture is not an object: %T", document)
+	}
+	cloneDocument := func() map[string]any {
+		t.Helper()
+		encoded, err := json.Marshal(root)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var cloned map[string]any
+		if err := json.Unmarshal(encoded, &cloned); err != nil {
+			t.Fatal(err)
+		}
+		return cloned
+	}
+	updaterAt := func(value map[string]any) map[string]any {
+		return value["updaters"].([]any)[0].(map[string]any)
+	}
+	hostAt := func(value map[string]any) map[string]any {
+		return value["hosts"].([]any)[0].(map[string]any)
+	}
+	invalidCases := []struct {
+		name   string
+		mutate func(map[string]any)
+	}{
+		{name: "unknown_updater_field", mutate: func(value map[string]any) {
+			updaterAt(value)["credential"] = "must-not-be-accepted"
+		}},
+		{name: "unknown_host_field", mutate: func(value map[string]any) {
+			hostAt(value)["ssh_port"] = 22
+		}},
+		{name: "transport_mode", mutate: func(value map[string]any) {
+			updaterAt(value)["transport_mode"] = "grpc_v3"
+		}},
+		{name: "ownership_epoch", mutate: func(value map[string]any) {
+			updaterAt(value)["ownership_epoch"] = -1
+		}},
+		{name: "desired_revision", mutate: func(value map[string]any) {
+			updaterAt(value)["desired_revision"] = -1
+		}},
+		{name: "applied_revision", mutate: func(value map[string]any) {
+			updaterAt(value)["applied_revision"] = -1
+		}},
+		{name: "ssh_key_map_key", mutate: func(value map[string]any) {
+			updaterAt(value)["ssh_client_public_keys"] = map[string]any{
+				"bad host": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8g",
+			}
+		}},
+		{name: "ssh_key_map_value", mutate: func(value map[string]any) {
+			updaterAt(value)["ssh_client_public_keys"] = map[string]any{"host-1": 7}
+		}},
+		{name: "ssh_fingerprint_map_value", mutate: func(value map[string]any) {
+			updaterAt(value)["ssh_client_key_fingerprints"] = map[string]any{"host-1": "MD5:legacy"}
+		}},
+		{name: "bootstrap_public_key", mutate: func(value map[string]any) {
+			updaterAt(value)["bootstrap_encryption_public_key"] = "not-a-p256-public-key"
+		}},
+		{name: "bootstrap_fingerprint", mutate: func(value map[string]any) {
+			updaterAt(value)["bootstrap_encryption_key_fingerprint"] = "sha256:wrong-case"
+		}},
+		{name: "host_ssh_public_key", mutate: func(value map[string]any) {
+			hostAt(value)["ssh_client_public_key"] = "ssh-rsa legacy"
+		}},
+		{name: "host_ssh_fingerprint", mutate: func(value map[string]any) {
+			hostAt(value)["ssh_client_key_fingerprint"] = "MD5:legacy"
+		}},
+	}
+	for _, testCase := range invalidCases {
+		t.Run("reject_"+testCase.name, func(t *testing.T) {
+			invalid := cloneDocument()
+			testCase.mutate(invalid)
+			if err := schema.Validate(invalid); err == nil {
+				t.Fatalf("system update GET schema accepted invalid %s", testCase.name)
+			}
+		})
+	}
 
 	openAPI, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
 	if err != nil {
@@ -516,6 +663,14 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 	for _, marker := range []string{
 		"SystemUpdateAgentStatus:", "SystemUpdateHostStatus:", "required: [updaters, hosts, targets, jobs]",
 		"enum: [reachable, unreachable, unknown]", "reachability_checked_at:", "reachability_code:",
+		"required: [updater_id, name, status, online, version]",
+		"transport_mode: {enum: [ssh_v1, pull_v2]}", "execution_host_id:", "ownership_epoch:",
+		"desired_revision:", "applied_revision:", "policy_status: {enum: [applied, pending, failed]}",
+		"policy_error_code:", "ssh_client_public_keys:", "ssh_client_key_fingerprints:",
+		"bootstrap_encryption_public_key:", "bootstrap_encryption_key_fingerprint:",
+		"ssh_client_public_key:", "ssh_client_key_fingerprint:",
+		`pattern: "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$"`,
+		`pattern: "^B[A-Za-z0-9_-]{86}$"`, `pattern: "^SHA256:[A-Za-z0-9+/]{43}$"`,
 	} {
 		if !strings.Contains(string(openAPI), marker) {
 			t.Fatalf("control OpenAPI is missing inventory-host marker %q", marker)

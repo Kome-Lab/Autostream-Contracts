@@ -4,8 +4,47 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["service_id", "lease_token", "lease_generation", "sequence", "status"],
+  "allOf": [
+    {
+      "if": { "required": ["port_reconfigure"] },
+      "then": {
+        "oneOf": [
+          {
+            "properties": {
+              "status": { "const": "succeeded" },
+              "port_reconfigure": {
+                "properties": {
+                  "result": { "enum": ["applied", "unchanged"] }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "status": { "const": "rolled_back" },
+              "port_reconfigure": {
+                "properties": {
+                  "result": { "const": "rolled_back" }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "status": { "const": "failed" },
+              "port_reconfigure": {
+                "properties": {
+                  "result": { "const": "rollback_failed" }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
   "properties": {
-    "service_id": { "type": "string", "minLength": 1, "maxLength": 191 },
+    "service_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "lease_token": { "type": "string", "minLength": 32, "writeOnly": true },
     "lease_generation": { "type": "integer", "minimum": 1 },
     "sequence": { "type": "integer", "minimum": 1 },
@@ -20,6 +59,16 @@
     "code": { "type": "string", "maxLength": 128, "pattern": "^[a-z0-9_.-]+$" },
     "message": { "type": "string", "maxLength": 500 },
     "artifact_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "previous_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+    "previous_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "port_reconfigure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result"],
+      "properties": {
+        "result": {
+          "enum": ["applied", "rolled_back", "unchanged", "rollback_failed"]
+        }
+      }
+    }
   }
 }
