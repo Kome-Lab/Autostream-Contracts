@@ -1784,6 +1784,7 @@ type OAuthAccount struct {
 	RefreshTokenConfigured bool      `json:"refresh_token_configured"`
 	TokenFingerprint       string    `json:"token_fingerprint,omitempty"`
 	RefreshTokenUpdatedAt  string    `json:"refresh_token_updated_at,omitempty"`
+	AccessTokenRefreshedAt string    `json:"access_token_refreshed_at,omitempty"`
 	CreatedAt              time.Time `json:"created_at"`
 	UpdatedAt              time.Time `json:"updated_at"`
 }

@@ -5416,6 +5416,9 @@ components:
         refresh_token_updated_at:
           type: string
           description: RFC3339 timestamp when the stored OAuth refresh token was first registered or replaced; legacy accounts without recorded history return an empty string
+        access_token_refreshed_at:
+          type: string
+          description: RFC3339 timestamp when the short-lived OAuth access token was last refreshed automatically; the access token itself is never returned or persisted
         created_at: {type: string, format: date-time}
         updated_at: {type: string, format: date-time}
     OAuthAccountWriteRequest:

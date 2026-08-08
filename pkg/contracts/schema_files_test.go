@@ -535,7 +535,7 @@ func TestOAuthAccountSchemaIncludesOperatorDisplayNames(t *testing.T) {
 		t.Fatal(err)
 	}
 	raw := string(body)
-	for _, want := range []string{"provider_name", "account_label", "display_name", "refresh_token_updated_at", "configured account label", "stable short account reference"} {
+	for _, want := range []string{"provider_name", "account_label", "display_name", "refresh_token_updated_at", "access_token_refreshed_at", "configured account label", "stable short account reference"} {
 		if !strings.Contains(raw, want) {
 			t.Fatalf("oauth-account.schema.json is missing display-name marker %q", want)
 		}
@@ -546,7 +546,7 @@ func TestOAuthAccountSchemaIncludesOperatorDisplayNames(t *testing.T) {
 		t.Fatal(err)
 	}
 	openapiRaw := string(openapiBody)
-	for _, want := range []string{"provider_name:", "display_name:", "refresh_token_updated_at:", "configured account label", "stable short account reference"} {
+	for _, want := range []string{"provider_name:", "display_name:", "refresh_token_updated_at:", "access_token_refreshed_at:", "configured account label", "stable short account reference"} {
 		if !strings.Contains(openapiRaw, want) {
 			t.Fatalf("control-api.yaml is missing OAuth account display-name marker %q", want)
 		}
