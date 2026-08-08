@@ -425,6 +425,33 @@ paths:
       responses:
         "200":
           description: stream detail
+    delete:
+      parameters: [{$ref: "#/components/parameters/id"}]
+      description: >
+        Delete a non-active stream, its persisted settings, logs, artifacts,
+        runtime state, and service assignments. Requires streams.delete. Active
+        streams remain protected and return 409 until stopped.
+      responses:
+        "200":
+          description: stream deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [status, stream_id]
+                properties:
+                  status:
+                    type: string
+                    enum: [deleted]
+                  stream_id:
+                    type: string
+        "403":
+          description: authenticated user does not have streams.delete
+        "404":
+          description: stream not found
+        "409":
+          description: active stream cannot be deleted
   /streams/{id}/settings:
     put:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -5386,6 +5413,9 @@ components:
         token_fingerprint:
           type: string
           description: short fingerprint for change tracking, not a secret value
+        refresh_token_updated_at:
+          type: string
+          description: RFC3339 timestamp when the stored OAuth refresh token was first registered or replaced; legacy accounts without recorded history return an empty string
         created_at: {type: string, format: date-time}
         updated_at: {type: string, format: date-time}
     OAuthAccountWriteRequest:

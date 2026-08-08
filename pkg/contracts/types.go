@@ -1660,17 +1660,19 @@ const (
 )
 
 // NotificationEventWriteRequest is the secret-free event envelope accepted by
-// Observability's service/admin notification event endpoint. Metadata is
-// deliberately not part of this contract.
+// Observability's notification event endpoint. Metadata is deliberately not
+// part of this contract; service_id/details carry only display-safe context.
 type NotificationEventWriteRequest struct {
 	EventType     NotificationEventType `json:"event_type"`
 	Severity      string                `json:"severity,omitempty"`
 	Status        string                `json:"status,omitempty"`
 	Action        string                `json:"action"`
+	ServiceID     string                `json:"service_id,omitempty"`
 	ResourceType  string                `json:"resource_type,omitempty"`
 	ResourceID    string                `json:"resource_id,omitempty"`
 	ActorUsername string                `json:"actor_username,omitempty"`
 	Summary       string                `json:"summary,omitempty"`
+	Details       string                `json:"details,omitempty"`
 	Timestamp     string                `json:"timestamp,omitempty"`
 }
 
@@ -1781,6 +1783,7 @@ type OAuthAccount struct {
 	Scopes                 []string  `json:"scopes"`
 	RefreshTokenConfigured bool      `json:"refresh_token_configured"`
 	TokenFingerprint       string    `json:"token_fingerprint,omitempty"`
+	RefreshTokenUpdatedAt  string    `json:"refresh_token_updated_at,omitempty"`
 	CreatedAt              time.Time `json:"created_at"`
 	UpdatedAt              time.Time `json:"updated_at"`
 }

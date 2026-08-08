@@ -211,7 +211,7 @@ paths:
       operationId: createNotificationEvent
       security:
         - bearerToken: []
-      description: Accepts either the configured Control Panel service bearer or an administrator bearer authorized for notifications.manage. The request is deliberately metadata-free; unknown fields are rejected. Raw tokens, credentials, webhook URLs, passwords, authorization values, or other secrets must never be supplied. event_id and outbox/idempotency semantics are not part of this endpoint.
+      description: Accepts either the configured Control Panel service bearer or an administrator bearer authorized for notifications.manage. The request contains only structured, secret-free notification context; unknown fields are rejected. Raw tokens, credentials, webhook URLs, passwords, authorization values, or other secrets must never be supplied. event_id and outbox/idempotency semantics are not part of this endpoint.
       requestBody:
         required: true
         content:
@@ -282,7 +282,7 @@ components:
       type: object
       additionalProperties: false
       required: [event_type, action]
-      description: Secret-free administrative notification event. metadata and all other unknown properties are rejected. Raw credentials, tokens, webhook URLs, passwords, and authorization values are prohibited in every field.
+      description: Secret-free administrative notification event with structured source and detail fields. metadata and all other unknown properties are rejected. Raw credentials, tokens, webhook URLs, passwords, and authorization values are prohibited in every field.
       properties:
         event_type:
           type: string
@@ -303,6 +303,12 @@ components:
           maxLength: 128
           pattern: '^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*$'
           description: Required stable dotted ASCII identifier; raw values are prohibited.
+        service_id:
+          type: string
+          minLength: 1
+          maxLength: 160
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          description: Source service identifier. When omitted, the producer is treated as control-panel; the receiving Observability service is never inferred as the source.
         resource_type:
           type: string
           minLength: 1
@@ -327,6 +333,12 @@ components:
           maxLength: 240
           pattern: '^[^\u0000-\u001F\u007F]+$'
           description: Short display-safe summary. Raw secrets, URLs carrying credentials, and control characters are prohibited.
+        details:
+          type: string
+          minLength: 1
+          maxLength: 3000
+          pattern: '^[^\u0000-\u001F\u007F]+$'
+          description: Optional display-safe diagnostic or operation details. Raw secrets, URLs carrying credentials, and control characters are prohibited.
         timestamp:
           type: string
           format: date-time

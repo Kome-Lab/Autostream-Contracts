@@ -17,6 +17,7 @@ on:
         type: boolean
 
 permissions:
+  actions: read
   attestations: write
   contents: write
   id-token: write
@@ -32,10 +33,25 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
-        with:
-          go-version-file: go.mod
-          cache-dependency-path: go.mod
+      - name: Require successful CI for exact release commit
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ci_runs="${RUNNER_TEMP}/release-ci-runs.json"
+          gh api \
+            --header 'Accept: application/vnd.github+json' \
+            "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs?head_sha=${GITHUB_SHA}&per_page=100" \
+            > "${ci_runs}"
+          if ! jq -e \
+            --arg sha "${GITHUB_SHA}" \
+            'any(.workflow_runs[]?; .head_sha == $sha and .status == "completed" and .conclusion == "success")' \
+            "${ci_runs}" > /dev/null; then
+            echo "No successful ci.yml run exists for release commit ${GITHUB_SHA}. Run CI for this exact ref before retrying the release." >&2
+            exit 1
+          fi
+          echo "Verified successful ci.yml run for ${GITHUB_SHA}."
 
       - name: Resolve release metadata
         id: meta
@@ -58,9 +74,6 @@ jobs:
           fi
           echo "version=${version}" >> "${GITHUB_OUTPUT}"
           echo "push_release=${push_release}" >> "${GITHUB_OUTPUT}"
-
-      - name: Test contracts
-        run: go test ./...
 
       - name: Package contracts
         shell: bash
