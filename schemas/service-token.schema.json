@@ -22,6 +22,8 @@
           "worker.events.write",
           "encoder.status.write",
           "discord.status.write",
+          "streams.start",
+          "streams.stop",
           "observability.ingest",
           "notifications.email.send",
           "remediation.execute",

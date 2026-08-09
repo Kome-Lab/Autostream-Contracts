@@ -61,6 +61,8 @@ const (
 	ScopeWorkerEventsWrite      ServiceScope = "worker.events.write"
 	ScopeEncoderStatusWrite     ServiceScope = "encoder.status.write"
 	ScopeDiscordStatusWrite     ServiceScope = "discord.status.write"
+	ScopeStreamsStart           ServiceScope = "streams.start"
+	ScopeStreamsStop            ServiceScope = "streams.stop"
 	ScopeObservabilityIngest    ServiceScope = "observability.ingest"
 	ScopeNotificationsEmailSend ServiceScope = "notifications.email.send"
 	ScopeRemediationExecute     ServiceScope = "remediation.execute"
@@ -1603,6 +1605,30 @@ type Incident struct {
 	ResolvedAt *time.Time       `json:"resolved_at,omitempty"`
 }
 
+type DiagnosticRerunOutcome string
+
+const (
+	DiagnosticRerunOutcomeEvaluated    DiagnosticRerunOutcome = "evaluated"
+	DiagnosticRerunOutcomeInconclusive DiagnosticRerunOutcome = "inconclusive"
+)
+
+type DiagnosticRerunReason string
+
+const (
+	DiagnosticRerunReasonSavedSignalMissing         DiagnosticRerunReason = "saved_signal_missing"
+	DiagnosticRerunReasonSavedSignalNotFound        DiagnosticRerunReason = "saved_signal_not_found"
+	DiagnosticRerunReasonSavedSignalNoLongerMatches DiagnosticRerunReason = "saved_signal_no_longer_matches_rule"
+	DiagnosticRerunReasonIncidentUpdatedDuringRerun DiagnosticRerunReason = "incident_updated_during_rerun"
+)
+
+// DiagnosticRerunResponse reports a diagnostic-only re-evaluation. Incident
+// lifecycle and remediation state are intentionally unchanged.
+type DiagnosticRerunResponse struct {
+	Incident Incident               `json:"incident"`
+	Outcome  DiagnosticRerunOutcome `json:"outcome"`
+	Reason   DiagnosticRerunReason  `json:"reason,omitempty"`
+}
+
 type DiagnosticReport struct {
 	Summary            string   `json:"summary"`
 	LikelyCause        string   `json:"likely_cause"`
@@ -1771,22 +1797,39 @@ type OAuthProviderWriteRequest struct {
 	RedirectURI string `json:"redirect_uri"`
 }
 
+// OAuthAccountPurpose is derived from the effective OAuth scopes. It is
+// returned by connected-account reads and OAuth consent starts; it never
+// contains an OAuth scope or credential.
+type OAuthAccountPurpose string
+
+const (
+	OAuthAccountPurposeDrive        OAuthAccountPurpose = "drive"
+	OAuthAccountPurposeYouTube      OAuthAccountPurpose = "youtube"
+	OAuthAccountPurposeDriveYouTube OAuthAccountPurpose = "drive_youtube"
+	OAuthAccountPurposeUnknown      OAuthAccountPurpose = "unknown"
+)
+
 type OAuthAccount struct {
-	ID                     string    `json:"id"`
-	ProviderID             string    `json:"provider_id"`
-	ProviderType           string    `json:"provider_type"`
-	ProviderName           string    `json:"provider_name,omitempty"`
-	AccountLabel           string    `json:"account_label"`
-	DisplayName            string    `json:"display_name,omitempty"`
-	Subject                string    `json:"subject,omitempty"`
-	Email                  string    `json:"email,omitempty"`
-	Scopes                 []string  `json:"scopes"`
-	RefreshTokenConfigured bool      `json:"refresh_token_configured"`
-	TokenFingerprint       string    `json:"token_fingerprint,omitempty"`
-	RefreshTokenUpdatedAt  string    `json:"refresh_token_updated_at,omitempty"`
-	AccessTokenRefreshedAt string    `json:"access_token_refreshed_at,omitempty"`
-	CreatedAt              time.Time `json:"created_at"`
-	UpdatedAt              time.Time `json:"updated_at"`
+	ID                               string              `json:"id"`
+	ProviderID                       string              `json:"provider_id"`
+	ProviderType                     string              `json:"provider_type"`
+	ProviderName                     string              `json:"provider_name,omitempty"`
+	AccountLabel                     string              `json:"account_label"`
+	AccountPurpose                   OAuthAccountPurpose `json:"account_purpose"`
+	DisplayName                      string              `json:"display_name,omitempty"`
+	Subject                          string              `json:"subject,omitempty"`
+	Email                            string              `json:"email,omitempty"`
+	Scopes                           []string            `json:"scopes"`
+	RefreshTokenConfigured           bool                `json:"refresh_token_configured"`
+	TokenFingerprint                 string              `json:"token_fingerprint,omitempty"`
+	RefreshTokenUpdatedAt            string              `json:"refresh_token_updated_at,omitempty"`
+	AccessTokenRefreshedAt           string              `json:"access_token_refreshed_at,omitempty"`
+	AccessTokenRefreshAttemptedAt    string              `json:"access_token_refresh_attempted_at,omitempty"`
+	AccessTokenRefreshFailedAt       string              `json:"access_token_refresh_failed_at,omitempty"`
+	AccessTokenRefreshFailureCode    string              `json:"access_token_refresh_failure_code,omitempty"`
+	AccessTokenRefreshRelinkRequired bool                `json:"access_token_refresh_relink_required"`
+	CreatedAt                        time.Time           `json:"created_at"`
+	UpdatedAt                        time.Time           `json:"updated_at"`
 }
 
 type OAuthAccountWriteRequest struct {
@@ -1800,18 +1843,23 @@ type OAuthAccountWriteRequest struct {
 }
 
 type OAuthAccountConnectionStartRequest struct {
-	ProviderID    string `json:"provider_id"`
-	AccountLabel  string `json:"account_label,omitempty"`
-	RedirectAfter string `json:"redirect_after,omitempty"`
+	ProviderID     string `json:"provider_id,omitempty"`
+	OAuthAccountID string `json:"oauth_account_id,omitempty"`
+	AccountLabel   string `json:"account_label,omitempty"`
+	AccountPurpose string `json:"account_purpose,omitempty"`
+	RedirectAfter  string `json:"redirect_after,omitempty"`
 }
 
 type OAuthAccountConnectionStartResponse struct {
-	Provider         OAuthLoginProvider `json:"provider"`
-	AuthorizationURL string             `json:"authorization_url"`
-	State            string             `json:"state"`
-	Nonce            string             `json:"nonce"`
-	ExpiresAt        time.Time          `json:"expires_at"`
-	AccountLabel     string             `json:"account_label,omitempty"`
+	Provider         OAuthLoginProvider  `json:"provider"`
+	AuthorizationURL string              `json:"authorization_url"`
+	State            string              `json:"state"`
+	Nonce            string              `json:"nonce"`
+	ExpiresAt        time.Time           `json:"expires_at"`
+	AccountLabel     string              `json:"account_label"`
+	AccountPurpose   OAuthAccountPurpose `json:"account_purpose"`
+	Relink           bool                `json:"relink"`
+	Scopes           []string            `json:"scopes"`
 }
 
 type OAuthAccountConnectionCallbackRequest struct {

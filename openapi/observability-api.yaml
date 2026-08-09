@@ -79,6 +79,25 @@ paths:
       responses:
         "200":
           description: incident detail
+  /incidents/{id}/diagnostics/rerun:
+    post:
+      description: Re-evaluates the diagnostic report from the incident's already persisted signal. Requires diagnostics.run and never changes incident lifecycle, executes remediation, or sends notifications.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: diagnostic report re-evaluated or safely left inconclusive
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticRerunResponse"
+        "401":
+          description: missing or invalid bearer token
+        "403":
+          description: missing diagnostics.run scope
+        "404":
+          description: incident not found
+        "500":
+          description: persisted incident, signal, or diagnostic report update failed
   /incidents/{id}/acknowledge:
     post:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -531,3 +550,5 @@ components:
           type: string
         executable:
           type: boolean
+    DiagnosticRerunResponse:
+      $ref: "../schemas/diagnostic-rerun-response.schema.json"

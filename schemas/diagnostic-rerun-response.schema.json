@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DiagnosticRerunResponse",
+  "description": "Result of re-evaluating one incident from its already persisted signal. It never changes the incident lifecycle or executes remediation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["incident", "outcome"],
+  "properties": {
+    "incident": {
+      "$ref": "incident.schema.json"
+    },
+    "outcome": {
+      "enum": ["evaluated", "inconclusive"]
+    },
+    "reason": {
+      "enum": [
+        "saved_signal_missing",
+        "saved_signal_not_found",
+        "saved_signal_no_longer_matches_rule",
+        "incident_updated_during_rerun"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": { "const": "evaluated" }
+        }
+      },
+      "then": {
+        "not": { "required": ["reason"] }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": { "const": "inconclusive" }
+        }
+      },
+      "then": {
+        "required": ["reason"]
+      }
+    }
+  ]
+}

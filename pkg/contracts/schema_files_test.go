@@ -535,7 +535,7 @@ func TestOAuthAccountSchemaIncludesOperatorDisplayNames(t *testing.T) {
 		t.Fatal(err)
 	}
 	raw := string(body)
-	for _, want := range []string{"provider_name", "account_label", "display_name", "refresh_token_updated_at", "access_token_refreshed_at", "configured account label", "stable short account reference"} {
+	for _, want := range []string{"provider_name", "account_label", "display_name", "refresh_token_updated_at", "access_token_refreshed_at", "access_token_refresh_attempted_at", "access_token_refresh_failed_at", "access_token_refresh_failure_code", "access_token_refresh_relink_required", "Bounded non-secret operational failure class", "configured account label", "stable short account reference"} {
 		if !strings.Contains(raw, want) {
 			t.Fatalf("oauth-account.schema.json is missing display-name marker %q", want)
 		}
@@ -546,7 +546,7 @@ func TestOAuthAccountSchemaIncludesOperatorDisplayNames(t *testing.T) {
 		t.Fatal(err)
 	}
 	openapiRaw := string(openapiBody)
-	for _, want := range []string{"provider_name:", "display_name:", "refresh_token_updated_at:", "access_token_refreshed_at:", "configured account label", "stable short account reference"} {
+	for _, want := range []string{"provider_name:", "display_name:", "refresh_token_updated_at:", "access_token_refreshed_at:", "access_token_refresh_attempted_at:", "access_token_refresh_failed_at:", "access_token_refresh_failure_code:", "access_token_refresh_relink_required:", "Bounded non-secret operational failure class", "configured account label", "stable short account reference"} {
 		if !strings.Contains(openapiRaw, want) {
 			t.Fatalf("control-api.yaml is missing OAuth account display-name marker %q", want)
 		}
@@ -1542,6 +1542,53 @@ func TestYouTubeOutputWatchURLContractIsBackwardCompatible(t *testing.T) {
 	for _, want := range []string{"watch_url:", "New UI-created profiles require it", "existing API profiles without this field remain compatible"} {
 		if !strings.Contains(string(openapiBody), want) {
 			t.Fatalf("control-api.yaml is missing YouTube watch URL compatibility marker %q", want)
+		}
+	}
+}
+
+func TestDiagnosticRerunContractsRemainReportOnly(t *testing.T) {
+	schema, err := os.ReadFile(filepath.Join("..", "..", "schemas", "diagnostic-rerun-response.schema.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var document struct {
+		AdditionalProperties bool           `json:"additionalProperties"`
+		Required             []string       `json:"required"`
+		Properties           map[string]any `json:"properties"`
+	}
+	if err := json.Unmarshal(schema, &document); err != nil {
+		t.Fatal(err)
+	}
+	if document.AdditionalProperties || !stringSliceContainsForSchemaTest(document.Required, "incident") || !stringSliceContainsForSchemaTest(document.Required, "outcome") {
+		t.Fatalf("diagnostic rerun response schema must be a bounded incident/outcome result: %#v", document)
+	}
+	if _, ok := document.Properties["reason"]; !ok {
+		t.Fatalf("diagnostic rerun response schema must expose a safe inconclusive reason: %#v", document.Properties)
+	}
+
+	openAPIs := map[string][]string{
+		"observability-api.yaml": {
+			"/incidents/{id}/diagnostics/rerun:",
+			"Requires diagnostics.run",
+			"never changes incident lifecycle, executes remediation, or sends notifications",
+			"#/components/schemas/DiagnosticRerunResponse",
+		},
+		"control-api.yaml": {
+			"/observability/incidents/{id}/diagnostics/rerun:",
+			"Requires diagnostics.run",
+			"never resolves the incident or executes remediation",
+			"#/components/schemas/DiagnosticRerunResponse",
+		},
+	}
+	for file, wants := range openAPIs {
+		body, err := os.ReadFile(filepath.Join("..", "..", "openapi", file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, want := range wants {
+			if !strings.Contains(string(body), want) {
+				t.Fatalf("%s is missing diagnostic rerun contract marker %q", file, want)
+			}
 		}
 	}
 }

@@ -1738,6 +1738,38 @@ paths:
           description: invalid artifact metadata or unsafe relative path
         "403":
           description: wrong service type, missing scope, or service is not assigned to the stream
+  /services/streams/{id}/start:
+    post:
+      security:
+        - bearerToken: []
+      description: Starts a waiting stream from its primary assigned Discord Bot after a configured Discord voice-channel join. Requires streams.start. The authenticated service token must be discord_bot, be registered as the stream's primary Discord Bot, and match the saved Discord configuration; request data cannot override the saved stream settings.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: stream start lifecycle accepted or completed
+        "401":
+          description: missing or invalid service token
+        "403":
+          description: missing streams.start scope, non-Discord service, or token is not the primary assigned Discord Bot
+        "409":
+          description: stream is not configured for Discord VC auto-start or is not currently startable
+  /services/streams/{id}/stop:
+    post:
+      security:
+        - bearerToken: []
+      description: Stops an active Discord VC-triggered stream after its primary assigned Discord Bot observes that the configured voice channel is empty. Requires streams.stop. The authenticated service token must be the stream's primary Discord Bot; request data cannot override the saved stream settings. completed and stopping streams are idempotent successes.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: stream stopped, or already stopped
+        "202":
+          description: stop is already in progress
+        "401":
+          description: missing or invalid service token
+        "403":
+          description: missing streams.stop scope, non-Discord service, or token is not the primary assigned Discord Bot
+        "409":
+          description: stream is not configured for Discord VC auto-stop or is not currently stoppable
   /services/remediation-actions/execute:
     post:
       security:
@@ -1920,6 +1952,31 @@ paths:
       responses:
         "200":
           description: proxied incident resolve
+  /observability/incidents/{id}/diagnostics/rerun:
+    post:
+      description: Proxies a report-only diagnostic re-evaluation to Observability. Requires diagnostics.run; it never resolves the incident or executes remediation.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: proxied diagnostic re-evaluation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticRerunResponse"
+        "400":
+          description: invalid incident identifier
+        "401":
+          description: missing or expired authenticated session
+        "403":
+          description: missing diagnostics.run permission or failed CSRF check
+        "404":
+          description: incident not found
+        "429":
+          description: Observability rate limited the re-evaluation request
+        "502":
+          description: Observability request or authentication failed
+        "503":
+          description: Observability is not configured or unavailable
   /observability/diagnostics:
     get:
       responses:
@@ -2111,7 +2168,10 @@ paths:
   /integrations/oauth-accounts/start:
     post:
       summary: Start OAuth consent for a connected operational account
-      description: Returns a one-time authorization URL. Raw client secrets and refresh tokens are never returned.
+      description: >
+        Returns a one-time authorization URL. Supplying oauth_account_id starts a
+        re-link flow that preserves the existing account ID; provider_id is then
+        derived when omitted. Raw client secrets and refresh tokens are never returned.
       requestBody:
         required: true
         content:
@@ -2125,6 +2185,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OAuthAccountConnectionStartResponse"
+        "400":
+          description: Invalid request or unsupported account_purpose
+        "403":
+          description: Missing integrations.create or integrations.update permission
+        "404":
+          description: Referenced OAuth account or provider not found
+        "409":
+          description: Referenced OAuth account/provider mismatch or provider cannot be used for connected accounts
+        "500":
+          description: OAuth provider or one-time state lookup/create failed
   /integrations/oauth-accounts/callback:
     get:
       summary: Browser OAuth callback for connected accounts
@@ -2147,7 +2217,10 @@ paths:
           description: Connected account created and browser redirected
     post:
       summary: API OAuth callback for connected accounts
-      description: Consumes state/code and returns public connected account metadata only.
+      description: >
+        Consumes state/code and returns public connected-account metadata only.
+        A newly created account returns 201; a re-linked account keeps its account
+        ID and returns 200. The returned OAuthAccount carries account_purpose and scopes.
       requestBody:
         required: true
         content:
@@ -2155,12 +2228,32 @@ paths:
             schema:
               $ref: "#/components/schemas/OAuthAccountConnectionCallbackRequest"
       responses:
+        "200":
+          description: Connected account relinked while retaining its account ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OAuthAccount"
         "201":
           description: Connected account created
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/OAuthAccount"
+        "400":
+          description: Invalid callback request or connected-account persistence failed
+        "401":
+          description: Invalid, expired, or browser-state-mismatched OAuth state/code
+        "403":
+          description: Missing required permission or verified OAuth identity is not allowed
+        "404":
+          description: Target OAuth account no longer exists during a re-link
+        "409":
+          description: Provider, identity, redirect, scope, or refresh-token condition prevents completion
+        "500":
+          description: OAuth state/account persistence failed
+        "503":
+          description: Encryption material required to persist the refresh token is unavailable
   /integrations/oauth-accounts/{id}:
     get:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -4446,6 +4539,8 @@ components:
               - worker.events.write
               - encoder.status.write
               - discord.status.write
+              - streams.start
+              - streams.stop
               - observability.ingest
               - notifications.email.send
               - remediation.execute
@@ -4489,6 +4584,8 @@ components:
               - worker.events.write
               - encoder.status.write
               - discord.status.write
+              - streams.start
+              - streams.stop
               - observability.ingest
               - notifications.email.send
               - remediation.execute
@@ -4528,6 +4625,8 @@ components:
           type: string
           format: date-time
       description: service_id and service_type, if supplied by the caller, are ignored and replaced with the authenticated registered service identity.
+    DiagnosticRerunResponse:
+      $ref: "../schemas/diagnostic-rerun-response.schema.json"
     ServiceRemediationExecuteRequest:
       type: object
       additionalProperties: false
@@ -5391,7 +5490,7 @@ components:
     OAuthAccount:
       type: object
       additionalProperties: false
-      required: [id, provider_id, provider_type, account_label, scopes, refresh_token_configured, created_at, updated_at]
+      required: [id, provider_id, provider_type, account_label, account_purpose, scopes, refresh_token_configured, created_at, updated_at]
       properties:
         id: {type: string}
         provider_id: {type: string}
@@ -5401,6 +5500,10 @@ components:
           type: string
           description: Configured OAuth provider name used to build a legacy display fallback.
         account_label: {type: string}
+        account_purpose:
+          type: string
+          enum: [drive, youtube, drive_youtube, unknown]
+          description: Effective connected-account capability derived from the returned scopes. unknown is returned only when no Drive or YouTube capability is present.
         display_name:
           type: string
           description: Resolved operator-facing name. A configured account label takes precedence; legacy rows use the provider name plus a stable short account reference so multiple accounts remain distinguishable.
@@ -5419,6 +5522,19 @@ components:
         access_token_refreshed_at:
           type: string
           description: RFC3339 timestamp when the short-lived OAuth access token was last refreshed automatically; the access token itself is never returned or persisted
+        access_token_refresh_attempted_at:
+          type: string
+          description: RFC3339 timestamp when automatic access-token refresh was last attempted; legacy accounts without recorded history return an empty string
+        access_token_refresh_failed_at:
+          type: string
+          description: RFC3339 timestamp of the active automatic refresh failure; empty after a successful refresh or when no failure is recorded
+        access_token_refresh_failure_code:
+          type: string
+          enum: ["", unknown, credentials_unavailable, provider_not_ready, provider_unavailable, provider_credentials_invalid, reauthorization_required, timeout, invalid_response]
+          description: Bounded non-secret operational failure class. Provider response bodies, error descriptions, and tokens are never returned.
+        access_token_refresh_relink_required:
+          type: boolean
+          description: True only when the recorded automatic refresh failure requires reconnecting this existing OAuth account; reconnecting retains the account ID and its references.
         created_at: {type: string, format: date-time}
         updated_at: {type: string, format: date-time}
     OAuthAccountWriteRequest:
@@ -5455,37 +5571,29 @@ components:
     OAuthAccountConnectionStartRequest:
       type: object
       additionalProperties: false
-      required: [provider_id]
+      anyOf:
+        - required: [provider_id]
+        - required: [oauth_account_id]
       properties:
         provider_id:
           type: string
+          minLength: 1
           description: OAuth provider configured in the Integration Registry
+        oauth_account_id:
+          type: string
+          minLength: 1
+          description: Existing connected-account ID to re-link. The server derives provider_id when it is omitted.
         account_label:
           type: string
           description: optional operator label; callback may derive a label from the verified email
+        account_purpose:
+          type: string
+          description: Optional requested connected-account capability. Canonical values are drive, youtube, and drive_youtube; documented compatibility aliases are accepted and normalized by the Control Panel.
         redirect_after:
           type: string
           description: safe local path to redirect to after browser callback
     OAuthAccountConnectionStartResponse:
-      type: object
-      additionalProperties: false
-      required: [provider, authorization_url, state, nonce, expires_at]
-      properties:
-        provider:
-          $ref: "#/components/schemas/OAuthLoginProvider"
-        authorization_url:
-          type: string
-          description: one-time authorization URL with offline consent for Google connected accounts
-        state:
-          type: string
-          description: one-time state token
-        nonce:
-          type: string
-        expires_at:
-          type: string
-          format: date-time
-        account_label:
-          type: string
+      $ref: "../schemas/oauth-account-connection-start-response.schema.json"
     OAuthAccountConnectionCallbackRequest:
       type: object
       additionalProperties: false

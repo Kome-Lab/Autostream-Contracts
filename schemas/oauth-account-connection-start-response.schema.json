@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/oauth-account-connection-start-response.schema.json",
+  "title": "OAuthAccountConnectionStartResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider", "authorization_url", "state", "nonce", "expires_at", "account_label", "account_purpose", "relink", "scopes"],
+  "properties": {
+    "provider": { "$ref": "oauth-login-provider.schema.json" },
+    "authorization_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "One-time OAuth authorization URL. It is not a client secret or refresh token."
+    },
+    "state": { "type": "string", "minLength": 1, "description": "One-time OAuth state token." },
+    "nonce": { "type": "string", "minLength": 1 },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "account_label": {
+      "type": "string",
+      "description": "Trimmed requested label. A relink preserves the existing account label at callback completion."
+    },
+    "account_purpose": {
+      "type": "string",
+      "enum": ["drive", "youtube", "drive_youtube"],
+      "description": "Canonical capability derived from the effective requested OAuth scopes."
+    },
+    "relink": {
+      "type": "boolean",
+      "description": "True when oauth_account_id bound this one-time OAuth state to an existing connected account."
+    },
+    "scopes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Effective requested OAuth scopes. OAuth credentials are never returned."
+    }
+  }
+}

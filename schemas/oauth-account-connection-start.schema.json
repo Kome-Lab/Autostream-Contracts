@@ -3,10 +3,22 @@
   "$id": "https://schemas.autostream.example.com/oauth-account-connection-start.schema.json",
   "title": "OAuthAccountConnectionStartRequest",
   "type": "object",
-  "required": ["provider_id"],
+  "anyOf": [
+    { "required": ["provider_id"] },
+    { "required": ["oauth_account_id"] }
+  ],
   "properties": {
     "provider_id": { "type": "string", "minLength": 1 },
+    "oauth_account_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Existing connected-account ID to re-link. When provider_id is omitted, the server derives it from this account."
+    },
     "account_label": { "type": "string" },
+    "account_purpose": {
+      "type": "string",
+      "description": "Optional connected-account capability request. Canonical values are drive, youtube, and drive_youtube; the Control Panel also accepts its documented compatibility aliases and normalizes the effective scopes."
+    },
     "redirect_after": {
       "type": "string",
       "description": "Safe local path only; implementations must reject absolute or protocol-relative URLs."
