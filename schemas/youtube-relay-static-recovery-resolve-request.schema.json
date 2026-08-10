@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/youtube-relay-static-recovery-resolve-request.schema.json",
+  "title": "YouTubeRelayStaticRecoveryResolveRequest",
+  "description": "Explicit operator attestation used only when a live_api_relay_static broadcast insert outcome is unknown. It cannot carry an external URL, provider error, credential, or stream key.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["confirm_external_cleanup"],
+  "properties": {
+    "confirm_external_cleanup": {
+      "type": "boolean",
+      "const": true,
+      "description": "Must be true only after the operator has confirmed that any externally-created unstarted broadcast was deleted. A known provider broadcast is deleted by Control Panel instead."
+    }
+  }
+}

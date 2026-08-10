@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/youtube-relay-static-recovery-resolve-response.schema.json",
+  "title": "YouTubeRelayStaticRecoveryResolveResponse",
+  "description": "Confirmed resolution of a live_api_relay_static recovery claim. This response never returns an RTMPS address, stream key, OAuth credential, or provider error body.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["resolved", "cleanup", "relay_binding_id"],
+  "properties": {
+    "resolved": {
+      "const": true
+    },
+    "cleanup": {
+      "type": "string",
+      "enum": ["provider_delete", "provider_complete", "operator_confirmed_unknown_broadcast", "operator_confirmed_provider_cleanup"],
+      "description": "provider_delete confirms Control Panel deleted the known unstarted YouTube Broadcast (404 is also confirmed); provider_complete confirms a possibly-dispatched Broadcast was completed after the assigned Encoder acknowledged its stop; operator_confirmed_unknown_broadcast records the explicit attestation required after an insert response was lost; operator_confirmed_provider_cleanup records an explicit provider-cleanup attestation after a confirmed Encoder stop when automatic completion remained unconfirmed."
+    },
+    "relay_binding_id": {
+      "type": "string",
+      "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Non-secret fixed relay binding identity released by this resolution."
+    }
+  }
+}

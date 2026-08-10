@@ -120,8 +120,8 @@
     "reported_hostname": { "type": "string" },
     "reported_os": { "type": "string" },
     "reported_arch": { "type": "string" },
-    "capabilities": { "type": "object", "additionalProperties": true },
-    "reported_capabilities": { "type": "object", "additionalProperties": true },
+    "capabilities": { "$ref": "encoder-output-relay-capabilities.schema.json" },
+    "reported_capabilities": { "$ref": "encoder-output-relay-capabilities.schema.json" },
     "metrics": {
       "type": "object",
       "additionalProperties": { "type": "number" }

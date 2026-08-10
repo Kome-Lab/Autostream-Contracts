@@ -451,7 +451,17 @@ paths:
         "404":
           description: stream not found
         "409":
-          description: active stream cannot be deleted
+          description: active stream cannot be deleted or youtube_relay_binding_release_pending; a fixed relay binding must be released through its safe lifecycle before deletion.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: youtube_relay_binding_claim_check_failed; Control Panel could not determine whether a fixed relay binding remains claimed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /streams/{id}/settings:
     put:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -466,6 +476,18 @@ paths:
           description: stream settings updated
         "404":
           description: stream not found
+        "409":
+          description: stream_status_not_editable or youtube_relay_binding_release_pending; a fixed relay binding must be released through its safe lifecycle before changing the selected YouTube output.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: youtube_relay_binding_claim_check_failed; Control Panel could not determine whether a fixed relay binding remains claimed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /streams/{id}/start-readiness:
     post:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -512,11 +534,14 @@ paths:
   /streams/{id}/start:
     post:
       description: >
-        Starts every assigned primary service. After all start dispatches succeed and the
-        stream status becomes live, Control Panel best-effort publishes the canonical
-        YouTube watch URL to the configured Discord text channel. A Discord notification
-        failure is returned as a sanitized dispatch result but never rolls the live stream
-        back. Audit metadata stores only a watch URL fingerprint.
+        Starts every assigned primary service. When a public YouTube watch URL and Discord
+        text target are selected, Control Panel atomically enqueues a durable notification
+        intent with the live stream transition; a successful start response means queued,
+        not delivered. live_api and live_api_relay_static wait for the provider Broadcast
+        lifecycle to be live. stream_key remains a legacy_unverified compatibility path.
+        A transport-ambiguous Bot result becomes delivery_unknown and never auto-retries;
+        an operator may explicitly attest and request a new event through the recovery path.
+        Audit metadata stores only a watch URL fingerprint.
       parameters: [{$ref: "#/components/parameters/id"}]
       requestBody:
         required: false
@@ -533,6 +558,98 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MissingStreamAssignmentsResponse"
+  /streams/{id}/youtube-live-notification:
+    get:
+      operationId: getDiscordYouTubeLiveNotification
+      description: >
+        Returns the latest durable Discord YouTube-live notification state for a stream.
+        It contains only the public watch URL, Discord target IDs, lifecycle state, and a
+        confirmed Discord message receipt where available. Event IDs, OAuth credentials,
+        stream keys, and raw Bot errors are never returned.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      responses:
+        "200":
+          description: latest notification state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscordYouTubeLiveNotificationResponse"
+        "403":
+          description: authenticated user does not have streams.read
+        "404":
+          description: not_found or discord_youtube_notification_not_found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: get_stream_failed or get_discord_youtube_notification_failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: discord_youtube_notification_outbox_unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /streams/{id}/youtube-live-notifications/{notification_id}/recover:
+    post:
+      operationId: recoverDiscordYouTubeLiveNotification
+      description: >
+        Requires streams.start and explicit acknowledgement that the original ambiguous
+        request might already have posted to Discord. Only delivery_unknown records on a
+        still-live stream may be recovered. This creates a new event ID and does not reopen
+        or automatically retry the original event.
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/notificationId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiscordYouTubeLiveNotificationRecoveryRequest"
+      responses:
+        "202":
+          description: recovery notification intent created with a new event ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscordYouTubeLiveNotificationResponse"
+        "400":
+          description: duplicate_risk_acknowledgement_required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: authenticated user does not have streams.start
+        "404":
+          description: discord_youtube_notification_not_found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: discord_youtube_notification_recovery_not_allowed or discord_youtube_notification_recovery_already_requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: recover_discord_youtube_notification_failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: discord_youtube_notification_outbox_unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /streams/{id}/stop:
     post:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -552,8 +669,82 @@ paths:
       responses:
         "200":
           description: YouTube runtime completion retried or no retained runtime exists
+        "409":
+          description: youtube_relay_static_completion_requires_completed_stream; a fixed-relay runtime may be completed only after its stream is completed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "502":
           description: YouTube Live API completion failed; runtime is retained for another retry
+  /streams/{id}/youtube/relay-static/recovery/resolve:
+    post:
+      operationId: resolveYouTubeRelayStaticRecovery
+      description: >
+        Explicitly resolves a live_api_relay_static recovery claim. Requires streams.stop.
+        When Control Panel knows an unstarted YouTube Broadcast ID, it deletes that Broadcast
+        (a provider 404 is also confirmed cleanup). For a possibly-dispatched stream, it first
+        requires the assigned Encoder to acknowledge stop, then completes the Broadcast. When a
+        broadcast insert response was lost, confirm_external_cleanup must attest to out-of-band
+        cleanup. After a confirmed Encoder stop, the same attestation may also resolve a known
+        Broadcast whose provider completion outcome could not be confirmed. This endpoint never returns a stream key, OAuth credential, provider error body,
+        or RTMPS ingest address.
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/YouTubeRelayStaticRecoveryResolveRequest"
+      responses:
+        "200":
+          description: Fixed relay recovery claim resolved and released.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YouTubeRelayStaticRecoveryResolveResponse"
+        "400":
+          description: bad_request or youtube_relay_static_external_cleanup_confirmation_required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: permission_denied; requires streams.stop
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: not_found or youtube_relay_static_recovery_not_found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: stream_relay_recovery_not_safe_while_active, youtube_relay_static_recovery_not_required, youtube_relay_static_recovery_encoder_stop_unavailable, youtube_relay_static_recovery_broadcast_unknown, youtube_relay_static_recovery_dispatch_state_invalid, or youtube_oauth_account_unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: get_stream_failed, get_youtube_relay_static_recovery_failed, youtube_relay_static_recovery_credentials_failed, or resolve_youtube_relay_static_recovery_failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: youtube_relay_static_recovery_cleanup_failed, youtube_relay_static_recovery_encoder_stop_unconfirmed, or youtube_relay_static_recovery_complete_failed; the relay claim is retained.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: youtube_relay_binding_store_unavailable or youtube_relay_static_recovery_cleanup_unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /streams/{id}/mark-failed:
     post:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -587,7 +778,7 @@ paths:
         Proxies the selected primary Encoder/Recorder preview through Control Panel.
         Requires streams.read. Only index.m3u8 and segment-NNNNNN.ts are accepted, and
         the stream must be starting, live, or stopping. The assigned Node token is never
-        returned to the browser.
+        returned to the browser. Preview retrieval never rolls the live stream.
       parameters:
         - $ref: "#/components/parameters/id"
         - $ref: "#/components/parameters/previewAssetName"
@@ -857,11 +1048,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/YouTubeOutput"
+        "409":
+          description: youtube_relay_binding_release_pending; the fixed relay binding must be released through its safe lifecycle before this output changes.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: youtube_relay_binding_claim_check_failed; Control Panel could not determine whether the fixed relay binding remains claimed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
     delete:
       parameters: [{$ref: "#/components/parameters/id"}]
       responses:
         "200":
           description: YouTube output deleted
+        "409":
+          description: youtube_relay_binding_release_pending; the fixed relay binding must be released through its safe lifecycle before this output is deleted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: youtube_relay_binding_claim_check_failed; Control Panel could not determine whether the fixed relay binding remains claimed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /workers:
     get:
       responses:
@@ -2339,6 +2554,12 @@ components:
       required: true
       schema:
         type: string
+    notificationId:
+      name: notification_id
+      in: path
+      required: true
+      schema:
+        type: string
     limit:
       name: limit
       in: query
@@ -3641,6 +3862,30 @@ components:
             - youtube_stream_key_unavailable
             - youtube_live_api_unavailable
             - youtube_oauth_account_unavailable
+            - live_api_requires_managed_output_relay
+            - youtube_relay_static_unavailable
+            - youtube_relay_static_binding_unavailable
+            - youtube_relay_binding_store_unavailable
+            - youtube_relay_binding_in_use
+            - youtube_relay_binding_claim_check_failed
+            - youtube_relay_binding_release_pending
+            - youtube_relay_static_config_changed_reload
+            - youtube_relay_static_completion_requires_completed_stream
+            - youtube_relay_static_recovery_required
+            - youtube_relay_static_external_cleanup_confirmation_required
+            - youtube_relay_static_recovery_not_found
+            - stream_relay_recovery_not_safe_while_active
+            - youtube_relay_static_recovery_not_required
+            - youtube_relay_static_recovery_encoder_stop_unavailable
+            - youtube_relay_static_recovery_encoder_stop_unconfirmed
+            - youtube_relay_static_recovery_broadcast_unknown
+            - youtube_relay_static_recovery_dispatch_state_invalid
+            - youtube_relay_static_recovery_complete_failed
+            - youtube_relay_static_recovery_cleanup_failed
+            - youtube_relay_static_recovery_cleanup_unavailable
+            - youtube_relay_static_recovery_credentials_failed
+            - resolve_youtube_relay_static_recovery_failed
+            - get_youtube_relay_static_recovery_failed
             - archive_profile_not_found
             - archive_profile_invalid_config
             - drive_destination_not_found
@@ -3650,6 +3895,17 @@ components:
             - runtime_secret_lease_active
             - runtime_secret_not_allowed
             - bad_request
+            - not_found
+            - permission_denied
+            - get_stream_failed
+            - discord_youtube_notification_enqueue_failed
+            - discord_youtube_notification_outbox_unavailable
+            - discord_youtube_notification_not_found
+            - get_discord_youtube_notification_failed
+            - duplicate_risk_acknowledgement_required
+            - discord_youtube_notification_recovery_not_allowed
+            - discord_youtube_notification_recovery_already_requested
+            - recover_discord_youtube_notification_failed
             - invalid_email_notification
             - missing_service_token
             - invalid_service_token
@@ -4087,6 +4343,35 @@ components:
         updated_at:
           type: string
           format: date-time
+    EncoderOutputRelayMode:
+      type: string
+      enum: [direct, legacy_stream_key, live_api_static, static]
+      description: >
+        Non-secret Encoder/Recorder output relay routing vocabulary. New Encoder reports use the
+        canonical direct, legacy_stream_key, or live_api_static values. direct has no fixed output relay;
+        legacy_stream_key means a fixed relay uses a preconfigured legacy YouTube stream-key route; and
+        live_api_static means a fixed relay accepts the non-secret live API static binding. The historical
+        static value is accepted on Control Panel capability input and registered-service reads for migration
+        compatibility with legacy_stream_key semantics. Unknown values are rejected fail closed. This value
+        never carries an RTMPS URL, relay URL, or stream key.
+    EncoderOutputRelayCapabilities:
+      type: object
+      additionalProperties: true
+      description: Non-secret Encoder/Recorder capability hints for output relay routing.
+      allOf:
+        - if:
+            required: [output_relay_mode]
+            properties:
+              output_relay_mode: {const: live_api_static}
+          then:
+            required: [output_relay_binding_id]
+      properties:
+        output_relay_mode:
+          $ref: "#/components/schemas/EncoderOutputRelayMode"
+        output_relay_binding_id:
+          type: string
+          pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          description: Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output; never an RTMPS address or stream key.
     ServiceRegistrationRequest:
       type: object
       additionalProperties: false
@@ -4148,8 +4433,7 @@ components:
         build_date:
           type: string
         capabilities:
-          type: object
-          additionalProperties: true
+          $ref: "#/components/schemas/EncoderOutputRelayCapabilities"
         hostname:
           type: string
         os:
@@ -4178,8 +4462,7 @@ components:
         os: {type: string}
         arch: {type: string}
         capabilities:
-          type: object
-          additionalProperties: true
+          $ref: "#/components/schemas/EncoderOutputRelayCapabilities"
         api:
           type: object
           additionalProperties: false
@@ -4447,8 +4730,7 @@ components:
         reported_arch:
           type: string
         reported_capabilities:
-          type: object
-          additionalProperties: true
+          $ref: "#/components/schemas/EncoderOutputRelayCapabilities"
         service_id:
           type: string
         service_type:
@@ -4508,8 +4790,7 @@ components:
           type: string
           nullable: true
         capabilities:
-          type: object
-          additionalProperties: true
+          $ref: "#/components/schemas/EncoderOutputRelayCapabilities"
         metrics:
           type: object
           additionalProperties: true
@@ -4560,8 +4841,7 @@ components:
         version:
           type: string
         capabilities:
-          type: object
-          additionalProperties: true
+          $ref: "#/components/schemas/EncoderOutputRelayCapabilities"
           description: Non-secret capability hints. Secret-like keys and values are redacted before persistence.
     ServiceToken:
       type: object
@@ -4761,6 +5041,18 @@ components:
       type: object
       additionalProperties: false
       required: [id, name, mode, created_at, updated_at]
+      allOf:
+        - if:
+            properties:
+              mode: {const: live_api_relay_static}
+            required: [mode]
+          then:
+            not:
+              anyOf:
+                - required: [rtmp_url]
+                - required: [stream_key_configured]
+                - required: [stream_key_fingerprint]
+                - required: [watch_url]
       properties:
         id:
           type: string
@@ -4768,7 +5060,7 @@ components:
           type: string
         mode:
           type: string
-          enum: [stream_key, live_api_dry_run, live_api]
+          enum: [stream_key, live_api_dry_run, live_api, live_api_relay_static]
         rtmp_url:
           type: string
           pattern: "^rtmps://"
@@ -4784,6 +5076,13 @@ components:
           description: Canonical public watch URL used by stream_key outputs. It contains no stream key or OAuth credential.
         oauth_account_id:
           type: string
+        relay_binding_id:
+          type: string
+          pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          description: Non-secret fixed Encoder/Recorder relay binding identity for live_api_relay_static. It is never an RTMPS URL or stream key.
+        reusable_live_stream_id:
+          type: string
+          description: Non-secret reusable YouTube LiveStream identity for live_api_relay_static. Ingestion addresses and stream keys are never returned.
         broadcast_title_template:
           type: string
         broadcast_description:
@@ -4831,13 +5130,22 @@ components:
           properties:
             mode:
               enum: [live_api_dry_run, live_api]
+        - required: [name, mode, oauth_account_id, relay_binding_id, reusable_live_stream_id]
+          properties:
+            mode:
+              enum: [live_api_relay_static]
+          not:
+            anyOf:
+              - required: [rtmp_url]
+              - required: [stream_key]
+              - required: [watch_url]
       properties:
         name:
           type: string
           minLength: 1
         mode:
           type: string
-          enum: [stream_key, live_api_dry_run, live_api]
+          enum: [stream_key, live_api_dry_run, live_api, live_api_relay_static]
         rtmp_url:
           type: string
           pattern: "^rtmps://"
@@ -4852,7 +5160,15 @@ components:
         oauth_account_id:
           type: string
           minLength: 1
-          description: Required for live_api and live_api_dry_run modes.
+          description: Required for live_api, live_api_dry_run, and live_api_relay_static modes.
+        relay_binding_id:
+          type: string
+          pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          description: Required for live_api_relay_static. Non-secret fixed Encoder/Recorder relay binding identity; never an RTMPS URL or stream key.
+        reusable_live_stream_id:
+          type: string
+          minLength: 1
+          description: Required for live_api_relay_static. Non-secret reusable YouTube LiveStream identity; ingestion details and stream keys are not accepted.
         broadcast_title_template:
           type: string
         broadcast_description:
@@ -4874,10 +5190,29 @@ components:
       type: object
       additionalProperties: false
       required: [mode]
+      allOf:
+        - if:
+            properties:
+              mode: {const: live_api_relay_static}
+            required: [mode]
+          then:
+            required: [mode, output_id, oauth_account_id, relay_binding_id, reusable_live_stream_id, broadcast_id, live_stream_id, complete_on_stop]
+            properties:
+              output_id: {type: string, minLength: 1}
+              oauth_account_id: {type: string, minLength: 1}
+              relay_binding_id: {type: string, pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"}
+              reusable_live_stream_id: {type: string, minLength: 1}
+              broadcast_id: {type: string, minLength: 1}
+              live_stream_id: {type: string, minLength: 1}
+              complete_on_stop: {const: true}
+            not:
+              anyOf:
+                - required: [rtmp_url]
+                - required: [stream_key_secret_name]
       properties:
         mode:
           type: string
-          enum: [stream_key, live_api_dry_run, live_api]
+          enum: [stream_key, live_api_dry_run, live_api, live_api_relay_static]
         output_id:
           type: string
         oauth_account_id:
@@ -4886,6 +5221,13 @@ components:
           type: string
         live_stream_id:
           type: string
+        relay_binding_id:
+          type: string
+          pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          description: Non-secret fixed relay binding identity for live_api_relay_static.
+        reusable_live_stream_id:
+          type: string
+          description: Non-secret reusable YouTube LiveStream identity for live_api_relay_static. No ingestion address or stream key is present.
         rtmp_url:
           type: string
           pattern: "^rtmps://"
@@ -4897,12 +5239,16 @@ components:
           type: string
           format: uri
           pattern: "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$"
-          description: Canonical public watch URL. Live API modes derive it from broadcast_id; stream_key mode uses the configured output watch_url.
+          description: Canonical public watch URL. Live API modes derive it from broadcast_id; live_api_relay_static runtime may carry it. stream_key mode uses the configured output watch_url.
         dry_run:
           type: boolean
         complete_on_stop:
           type: boolean
           description: When true, Control Panel completes the YouTube Live broadcast during normal stream stop.
+    YouTubeRelayStaticRecoveryResolveRequest:
+      $ref: "../schemas/youtube-relay-static-recovery-resolve-request.schema.json"
+    YouTubeRelayStaticRecoveryResolveResponse:
+      $ref: "../schemas/youtube-relay-static-recovery-resolve-response.schema.json"
     Profile:
       type: object
       required: [id, kind, name, config, created_at, updated_at]
@@ -5022,6 +5368,44 @@ components:
             type: object
             additionalProperties: false
             required: [stream_id, assignment_role, youtube_output_id, ready]
+            allOf:
+              - if:
+                  required: [ready, youtube_config]
+                  properties:
+                    ready: {const: true}
+                    youtube_config:
+                      type: object
+                      required: [mode]
+                      properties:
+                        mode: {const: live_api_relay_static}
+                then:
+                  properties:
+                    youtube_config:
+                      required: [mode, output_id, oauth_account_id, relay_binding_id, reusable_live_stream_id, complete_on_stop]
+                      properties:
+                        output_id: {type: string, minLength: 1}
+                        oauth_account_id: {type: string, minLength: 1}
+                        relay_binding_id: {type: string, pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"}
+                        reusable_live_stream_id: {type: string, minLength: 1}
+                        complete_on_stop: {const: true}
+              - if:
+                  required: [active_runtime]
+                  properties:
+                    active_runtime:
+                      type: object
+                      required: [mode]
+                      properties:
+                        mode: {const: live_api_relay_static}
+                then:
+                  properties:
+                    active_runtime:
+                      required: [mode, output_id, oauth_account_id, broadcast_id, live_stream_id, complete_on_stop]
+                      properties:
+                        output_id: {type: string, minLength: 1}
+                        oauth_account_id: {type: string, minLength: 1}
+                        broadcast_id: {type: string, minLength: 1}
+                        live_stream_id: {type: string, minLength: 1}
+                        complete_on_stop: {const: true}
             properties:
               stream_id:
                 type: string
@@ -5040,10 +5424,21 @@ components:
                 type: object
                 description: Non-secret YouTube dispatch config. Stream key material is represented by stream_key_secret_name only.
                 additionalProperties: true
+                allOf:
+                  - if:
+                      properties:
+                        mode: {const: live_api_relay_static}
+                      required: [mode]
+                    then:
+                      not:
+                        anyOf:
+                          - required: [rtmp_url]
+                          - required: [stream_key_secret_name]
+                          - required: [stream_key]
                 properties:
                   mode:
                     type: string
-                    enum: [stream_key, live_api, live_api_dry_run]
+                    enum: [stream_key, live_api, live_api_dry_run, live_api_relay_static]
                   output_id:
                     type: string
                   rtmp_url:
@@ -5053,6 +5448,13 @@ components:
                     type: string
                   oauth_account_id:
                     type: string
+                  relay_binding_id:
+                    type: string
+                    pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    description: Non-secret fixed relay binding identity for live_api_relay_static.
+                  reusable_live_stream_id:
+                    type: string
+                    description: Non-secret reusable YouTube LiveStream identity for live_api_relay_static.
                   broadcast_title_template:
                     type: string
                   broadcast_description:
@@ -5069,13 +5471,30 @@ components:
                     type: boolean
                   complete_on_stop:
                     type: boolean
+                  watch_url:
+                    type: string
+                    format: uri
+                    pattern: "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$"
+                    description: Canonical public YouTube watch URL derived for the live API runtime. It contains no stream key or OAuth credential.
               active_runtime:
                 type: object
                 description: Current non-secret YouTube runtime state. Runtime stream keys are represented by stream_key_secret_name only.
                 additionalProperties: true
+                allOf:
+                  - if:
+                      properties:
+                        mode: {const: live_api_relay_static}
+                      required: [mode]
+                    then:
+                      not:
+                        anyOf:
+                          - required: [rtmp_url]
+                          - required: [stream_key_secret_name]
+                          - required: [stream_key]
                 properties:
                   mode:
                     type: string
+                    enum: [stream_key, live_api, live_api_dry_run, live_api_relay_static]
                   output_id:
                     type: string
                   oauth_account_id:
@@ -5083,6 +5502,11 @@ components:
                   broadcast_id:
                     type: string
                   live_stream_id:
+                    type: string
+                  relay_binding_id:
+                    type: string
+                    pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                  reusable_live_stream_id:
                     type: string
                   rtmp_url:
                     type: string
@@ -5093,6 +5517,11 @@ components:
                     type: boolean
                   complete_on_stop:
                     type: boolean
+                  watch_url:
+                    type: string
+                    format: uri
+                    pattern: "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$"
+                    description: Canonical public YouTube watch URL derived for the live API runtime. It contains no stream key or OAuth credential.
     ServiceRuntimeSecretResolveRequest:
       type: object
       additionalProperties: false
@@ -5680,6 +6109,88 @@ components:
         youtube_output_id:
           type: string
           description: YouTube output profile selected for this stream. Stream key is resolved server-side from a secret reference and is never accepted or returned by the public Control API.
+    DiscordYouTubeLiveNotification:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - stream_id
+        - watch_url
+        - discord_service_id
+        - discord_text_channel_id
+        - youtube_mode
+        - state
+        - attempt_count
+        - dispatch_attempt_count
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+        stream_id:
+          type: string
+        watch_url:
+          type: string
+          format: uri
+          description: Canonical public YouTube watch URL; no RTMP URL or stream key is included.
+        discord_service_id:
+          type: string
+        discord_text_channel_id:
+          type: string
+        youtube_mode:
+          type: string
+          enum: [stream_key, live_api, live_api_relay_static]
+        youtube_broadcast_id:
+          type: string
+        lifecycle_status:
+          type: string
+          description: Provider status when known; stream_key uses legacy_unverified by explicit compatibility policy.
+        state:
+          type: string
+          enum: [awaiting_youtube_live, dispatch_pending, dispatching, bot_dispatching, delivered, delivery_unknown, suppressed]
+        attempt_count:
+          type: integer
+          minimum: 0
+        dispatch_attempt_count:
+          type: integer
+          minimum: 0
+        next_attempt_at:
+          type: string
+          format: date-time
+        last_error:
+          type: string
+          description: Stable, secret-safe delivery state code; raw Bot errors are not exposed.
+        discord_message_id:
+          type: string
+          description: Bot-confirmed Discord receipt only.
+        delivered_at:
+          type: string
+          format: date-time
+        recovery_of_id:
+          type: string
+          description: Prior delivery_unknown record acknowledged by an operator.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    DiscordYouTubeLiveNotificationResponse:
+      type: object
+      additionalProperties: false
+      required: [notification]
+      properties:
+        notification:
+          $ref: "#/components/schemas/DiscordYouTubeLiveNotification"
+    DiscordYouTubeLiveNotificationRecoveryRequest:
+      type: object
+      additionalProperties: false
+      required: [acknowledge_possible_duplicate]
+      properties:
+        acknowledge_possible_duplicate:
+          type: boolean
+          const: true
+          description: Explicit operator attestation that the original request may already have posted to Discord.
     StreamSettingsWriteRequest:
       type: object
       additionalProperties: false

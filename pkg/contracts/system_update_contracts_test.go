@@ -3,6 +3,7 @@ package contracts
 import (
 	"bytes"
 	"encoding/json"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -54,6 +55,7 @@ func compileContractJSONSchema(t *testing.T, name string, dependencies ...string
 	compiler := jsonschema.NewCompiler()
 	compiler.AssertFormat()
 	resources := append([]string{name}, dependencies...)
+	canonicalRootID := ""
 	for _, resourceName := range resources {
 		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", resourceName))
 		if err != nil {
@@ -65,6 +67,38 @@ func compileContractJSONSchema(t *testing.T, name string, dependencies ...string
 		}
 		if err := compiler.AddResource(resourceName, document); err != nil {
 			t.Fatalf("%s: %v", resourceName, err)
+		}
+		var identity struct {
+			ID string `json:"$id"`
+		}
+		if err := json.Unmarshal(body, &identity); err != nil {
+			t.Fatalf("%s: %v", resourceName, err)
+		}
+		if identity.ID != "" && identity.ID != resourceName {
+			if err := compiler.AddResource(identity.ID, document); err != nil {
+				t.Fatalf("%s canonical id: %v", resourceName, err)
+			}
+		}
+		if resourceName == name {
+			canonicalRootID = identity.ID
+			continue
+		}
+		if canonicalRootID == "" {
+			continue
+		}
+		rootURL, err := url.Parse(canonicalRootID)
+		if err != nil {
+			t.Fatalf("%s canonical id: %v", name, err)
+		}
+		relativeURL, err := url.Parse(resourceName)
+		if err != nil {
+			t.Fatalf("%s resource name: %v", resourceName, err)
+		}
+		resolvedID := rootURL.ResolveReference(relativeURL).String()
+		if resolvedID != resourceName && resolvedID != identity.ID {
+			if err := compiler.AddResource(resolvedID, document); err != nil {
+				t.Fatalf("%s resolved canonical id: %v", resourceName, err)
+			}
 		}
 	}
 	compiled, err := compiler.Compile(name)
@@ -861,7 +895,7 @@ func TestUpdaterRegistrationScopesHeartbeatAndEmailHTMLContracts(t *testing.T) {
 	if err := json.Unmarshal(issuedTokenRequest, &issuedTokenInstance); err != nil {
 		t.Fatal(err)
 	}
-	if err := compileContractJSONSchema(t, "service-token-create-request.schema.json").Validate(issuedTokenInstance); err != nil {
+	if err := compileContractJSONSchema(t, "service-token-create-request.schema.json", "encoder-output-relay-capabilities.schema.json").Validate(issuedTokenInstance); err != nil {
 		t.Fatalf("Control Panel-issued update_agent token violates the contract: %v body=%s", err, issuedTokenRequest)
 	}
 

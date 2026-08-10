@@ -49,8 +49,7 @@
       "type": "string"
     },
     "capabilities": {
-      "type": "object",
-      "additionalProperties": true,
+      "$ref": "encoder-output-relay-capabilities.schema.json",
       "description": "Non-secret capability hints. Secret-like keys and values are redacted before persistence."
     }
   }

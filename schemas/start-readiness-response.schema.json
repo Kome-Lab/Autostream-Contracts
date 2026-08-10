@@ -58,7 +58,7 @@
         },
         "last_heartbeat_at": { "type": "string", "format": "date-time" },
         "current_stream_id": { "type": "string" },
-        "capabilities": { "type": "object", "additionalProperties": true },
+        "capabilities": { "$ref": "encoder-output-relay-capabilities.schema.json" },
         "metrics": {
           "type": "object",
           "additionalProperties": true
@@ -101,6 +101,11 @@
             "youtube_stream_key_unavailable",
             "youtube_live_api_unavailable",
             "youtube_oauth_account_unavailable",
+            "youtube_relay_static_unavailable",
+            "youtube_relay_static_binding_unavailable",
+            "youtube_relay_binding_store_unavailable",
+            "youtube_relay_binding_in_use",
+            "youtube_relay_static_recovery_required",
             "archive_profile_not_found",
             "archive_profile_invalid_config",
             "drive_destination_not_found",

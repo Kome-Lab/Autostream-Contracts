@@ -91,6 +91,61 @@
         "type": "object",
         "required": ["stream_id", "assignment_role", "youtube_output_id", "ready"],
         "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "required": ["ready", "youtube_config"],
+              "properties": {
+                "ready": { "const": true },
+                "youtube_config": {
+                  "type": "object",
+                  "required": ["mode"],
+                  "properties": { "mode": { "const": "live_api_relay_static" } }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "youtube_config": {
+                  "required": ["mode", "output_id", "oauth_account_id", "relay_binding_id", "reusable_live_stream_id", "complete_on_stop"],
+                  "properties": {
+                    "output_id": { "type": "string", "minLength": 1 },
+                    "oauth_account_id": { "type": "string", "minLength": 1 },
+                    "relay_binding_id": { "type": "string", "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+                    "reusable_live_stream_id": { "type": "string", "minLength": 1 },
+                    "complete_on_stop": { "const": true }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "required": ["active_runtime"],
+              "properties": {
+                "active_runtime": {
+                  "type": "object",
+                  "required": ["mode"],
+                  "properties": { "mode": { "const": "live_api_relay_static" } }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "active_runtime": {
+                  "required": ["mode", "output_id", "oauth_account_id", "broadcast_id", "live_stream_id", "complete_on_stop"],
+                  "properties": {
+                    "output_id": { "type": "string", "minLength": 1 },
+                    "oauth_account_id": { "type": "string", "minLength": 1 },
+                    "broadcast_id": { "type": "string", "minLength": 1 },
+                    "live_stream_id": { "type": "string", "minLength": 1 },
+                    "complete_on_stop": { "const": true }
+                  }
+                }
+              }
+            }
+          }
+        ],
         "properties": {
           "stream_id": { "type": "string" },
           "assignment_role": { "type": "string", "enum": ["primary", "standby"] },
@@ -102,35 +157,85 @@
             "type": "object",
             "description": "Non-secret YouTube dispatch config. Stream key material is represented by stream_key_secret_name only.",
             "additionalProperties": true,
+            "allOf": [
+              {
+                "if": {
+                  "properties": { "mode": { "const": "live_api_relay_static" } },
+                  "required": ["mode"]
+                },
+                "then": {
+                  "not": {
+                    "anyOf": [
+                      { "required": ["rtmp_url"] },
+                      { "required": ["stream_key_secret_name"] },
+                      { "required": ["stream_key"] }
+                    ]
+                  }
+                }
+              }
+            ],
             "properties": {
-              "mode": { "type": "string", "enum": ["stream_key", "live_api", "live_api_dry_run"] },
+              "mode": { "type": "string", "enum": ["stream_key", "live_api", "live_api_dry_run", "live_api_relay_static"] },
               "output_id": { "type": "string" },
               "rtmp_url": { "type": "string", "pattern": "^rtmps://" },
               "stream_key_secret_name": { "type": "string" },
               "oauth_account_id": { "type": "string" },
+              "relay_binding_id": { "type": "string", "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", "description": "Non-secret fixed relay binding identity for live_api_relay_static." },
+              "reusable_live_stream_id": { "type": "string", "description": "Non-secret reusable YouTube LiveStream identity for live_api_relay_static." },
               "broadcast_title_template": { "type": "string" },
               "broadcast_description": { "type": "string" },
               "privacy_status": { "type": "string", "enum": ["private", "unlisted", "public"] },
               "latency_preference": { "type": "string", "enum": ["normal", "low", "ultra_low"] },
               "enable_auto_start": { "type": "boolean" },
               "enable_auto_stop": { "type": "boolean" },
-              "complete_on_stop": { "type": "boolean" }
+              "complete_on_stop": { "type": "boolean" },
+              "watch_url": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$",
+                "description": "Canonical public YouTube watch URL derived for the live API runtime. It contains no stream key or OAuth credential."
+              }
             }
           },
           "active_runtime": {
             "type": "object",
             "description": "Current non-secret YouTube runtime state. Runtime stream keys are represented by stream_key_secret_name only.",
             "additionalProperties": true,
+            "allOf": [
+              {
+                "if": {
+                  "properties": { "mode": { "const": "live_api_relay_static" } },
+                  "required": ["mode"]
+                },
+                "then": {
+                  "not": {
+                    "anyOf": [
+                      { "required": ["rtmp_url"] },
+                      { "required": ["stream_key_secret_name"] },
+                      { "required": ["stream_key"] }
+                    ]
+                  }
+                }
+              }
+            ],
             "properties": {
-              "mode": { "type": "string" },
+              "mode": { "type": "string", "enum": ["stream_key", "live_api", "live_api_dry_run", "live_api_relay_static"] },
               "output_id": { "type": "string" },
               "oauth_account_id": { "type": "string" },
               "broadcast_id": { "type": "string" },
               "live_stream_id": { "type": "string" },
+              "relay_binding_id": { "type": "string", "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+              "reusable_live_stream_id": { "type": "string" },
               "rtmp_url": { "type": "string", "pattern": "^rtmps://" },
               "stream_key_secret_name": { "type": "string" },
               "dry_run": { "type": "boolean" },
-              "complete_on_stop": { "type": "boolean" }
+              "complete_on_stop": { "type": "boolean" },
+              "watch_url": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$",
+                "description": "Canonical public YouTube watch URL derived for the live API runtime. It contains no stream key or OAuth credential."
+              }
             }
           }
         }

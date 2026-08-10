@@ -5,6 +5,26 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "name", "mode", "created_at", "updated_at"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": { "const": "live_api_relay_static" }
+        },
+        "required": ["mode"]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["rtmp_url"] },
+            { "required": ["stream_key_configured"] },
+            { "required": ["stream_key_fingerprint"] },
+            { "required": ["watch_url"] }
+          ]
+        }
+      }
+    }
+  ],
   "properties": {
     "id": {
       "type": "string"
@@ -14,7 +34,7 @@
     },
     "mode": {
       "type": "string",
-      "enum": ["stream_key", "live_api_dry_run", "live_api"]
+      "enum": ["stream_key", "live_api_dry_run", "live_api", "live_api_relay_static"]
     },
     "rtmp_url": {
       "type": "string",
@@ -35,6 +55,15 @@
     },
     "oauth_account_id": {
       "type": "string"
+    },
+    "relay_binding_id": {
+      "type": "string",
+      "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Non-secret fixed Encoder/Recorder relay binding identity used only by live_api_relay_static. It is not an RTMPS URL or stream key."
+    },
+    "reusable_live_stream_id": {
+      "type": "string",
+      "description": "Non-secret YouTube reusable LiveStream identity used only by live_api_relay_static. Ingestion addresses and stream keys are never returned."
     },
     "broadcast_title_template": {
       "type": "string"

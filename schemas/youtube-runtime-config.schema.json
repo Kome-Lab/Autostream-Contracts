@@ -5,10 +5,36 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["mode"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "mode": { "const": "live_api_relay_static" } },
+        "required": ["mode"]
+      },
+      "then": {
+        "required": ["mode", "output_id", "oauth_account_id", "relay_binding_id", "reusable_live_stream_id", "broadcast_id", "live_stream_id", "complete_on_stop"],
+        "properties": {
+          "output_id": { "type": "string", "minLength": 1 },
+          "oauth_account_id": { "type": "string", "minLength": 1 },
+          "relay_binding_id": { "type": "string", "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+          "reusable_live_stream_id": { "type": "string", "minLength": 1 },
+          "broadcast_id": { "type": "string", "minLength": 1 },
+          "live_stream_id": { "type": "string", "minLength": 1 },
+          "complete_on_stop": { "const": true }
+        },
+        "not": {
+          "anyOf": [
+            { "required": ["rtmp_url"] },
+            { "required": ["stream_key_secret_name"] }
+          ]
+        }
+      }
+    }
+  ],
   "properties": {
     "mode": {
       "type": "string",
-      "enum": ["stream_key", "live_api_dry_run", "live_api"]
+      "enum": ["stream_key", "live_api_dry_run", "live_api", "live_api_relay_static"]
     },
     "output_id": {
       "type": "string"
@@ -21,6 +47,15 @@
     },
     "live_stream_id": {
       "type": "string"
+    },
+    "relay_binding_id": {
+      "type": "string",
+      "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Non-secret fixed relay binding identity for live_api_relay_static."
+    },
+    "reusable_live_stream_id": {
+      "type": "string",
+      "description": "Non-secret reusable YouTube LiveStream identity for live_api_relay_static. No ingestion address or stream key is present."
     },
     "rtmp_url": {
       "type": "string",
@@ -35,7 +70,7 @@
       "type": "string",
       "format": "uri",
       "pattern": "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$",
-      "description": "Canonical public watch URL. Live API modes derive it from broadcast_id; stream_key mode uses the configured output watch_url."
+      "description": "Canonical public watch URL. Live API modes derive it from broadcast_id; live_api_relay_static runtime may carry it. stream_key mode uses the configured output watch_url."
     },
     "dry_run": {
       "type": "boolean"

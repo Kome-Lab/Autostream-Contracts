@@ -9,12 +9,30 @@
     {
       "if": {
         "properties": {
-          "mode": { "enum": ["live_api_dry_run", "live_api"] }
+          "mode": { "enum": ["live_api_dry_run", "live_api", "live_api_relay_static"] }
         },
         "required": ["mode"]
       },
       "then": {
         "required": ["oauth_account_id"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": { "const": "live_api_relay_static" }
+        },
+        "required": ["mode"]
+      },
+      "then": {
+        "required": ["relay_binding_id", "reusable_live_stream_id"],
+        "not": {
+          "anyOf": [
+            { "required": ["rtmp_url"] },
+            { "required": ["stream_key"] },
+            { "required": ["watch_url"] }
+          ]
+        }
       }
     }
   ],
@@ -25,7 +43,7 @@
     },
     "mode": {
       "type": "string",
-      "enum": ["stream_key", "live_api_dry_run", "live_api"]
+      "enum": ["stream_key", "live_api_dry_run", "live_api", "live_api_relay_static"]
     },
     "rtmp_url": {
       "type": "string",
@@ -44,7 +62,17 @@
     "oauth_account_id": {
       "type": "string",
       "minLength": 1,
-      "description": "Required for live_api and live_api_dry_run modes."
+      "description": "Required for live_api, live_api_dry_run, and live_api_relay_static modes."
+    },
+    "relay_binding_id": {
+      "type": "string",
+      "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Required for live_api_relay_static. Non-secret fixed Encoder/Recorder relay binding identity; never an RTMPS URL or stream key."
+    },
+    "reusable_live_stream_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required for live_api_relay_static. Non-secret reusable YouTube LiveStream identity; ingestion details and stream keys are not accepted."
     },
     "broadcast_title_template": {
       "type": "string"

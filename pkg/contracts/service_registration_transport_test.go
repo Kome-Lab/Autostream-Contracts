@@ -27,7 +27,7 @@ func validateServiceTransportInstance(t *testing.T, schema *jsonschema.Schema, b
 }
 
 func TestServiceRegistrationTransportModeCompatibility(t *testing.T) {
-	schema := compileContractJSONSchema(t, "service-registration.schema.json")
+	schema := compileContractJSONSchema(t, "service-registration.schema.json", "encoder-output-relay-capabilities.schema.json")
 
 	tests := []struct {
 		name      string
@@ -194,13 +194,13 @@ func TestPullRegistrationGoTypeCarriesNoServerOwnedBinding(t *testing.T) {
 	if err := json.Unmarshal(payload, &document); err != nil {
 		t.Fatal(err)
 	}
-	if err := compileContractJSONSchema(t, "service-registration.schema.json").Validate(document); err != nil {
+	if err := compileContractJSONSchema(t, "service-registration.schema.json", "encoder-output-relay-capabilities.schema.json").Validate(document); err != nil {
 		t.Fatalf("runtime pull registration type does not match schema: %v\n%s", err, raw)
 	}
 }
 
 func TestRegisteredServiceTransportModeCompatibility(t *testing.T) {
-	schema := compileContractJSONSchema(t, "registered-service.schema.json")
+	schema := compileContractJSONSchema(t, "registered-service.schema.json", "encoder-output-relay-capabilities.schema.json")
 
 	const common = `
 		"service_id":"updater-a",

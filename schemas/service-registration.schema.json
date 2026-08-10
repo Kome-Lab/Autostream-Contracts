@@ -61,10 +61,7 @@
     "version": { "type": "string" },
     "commit": { "type": "string" },
     "build_date": { "type": "string" },
-    "capabilities": {
-      "type": "object",
-      "additionalProperties": true
-    },
+    "capabilities": { "$ref": "encoder-output-relay-capabilities.schema.json" },
     "hostname": { "type": "string" },
     "os": { "type": "string" },
     "arch": { "type": "string" }

@@ -425,7 +425,7 @@ func TestPortPolicyProjectionAndAppliedConfigFieldsAreAdditive(t *testing.T) {
 		"targets":[]
 	}`, false)
 
-	registeredSchema := compileContractJSONSchema(t, "registered-service.schema.json")
+	registeredSchema := compileContractJSONSchema(t, "registered-service.schema.json", "encoder-output-relay-capabilities.schema.json")
 	validatePortContractJSON(t, registeredSchema, `{
 		"service_id":"worker-a",
 		"service_type":"worker",
@@ -455,7 +455,7 @@ func TestPortPolicyProjectionAndAppliedConfigFieldsAreAdditive(t *testing.T) {
 		"updated_at":"2026-07-28T00:00:00Z"
 	}`, true)
 
-	registrationSchema := compileContractJSONSchema(t, "service-registration.schema.json")
+	registrationSchema := compileContractJSONSchema(t, "service-registration.schema.json", "encoder-output-relay-capabilities.schema.json")
 	validatePortContractJSON(t, registrationSchema, `{
 		"service_id":"host-agent-a",
 		"service_type":"update_agent",

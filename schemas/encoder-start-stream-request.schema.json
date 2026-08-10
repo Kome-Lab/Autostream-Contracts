@@ -23,7 +23,7 @@
     "encoder_profile_id": { "type": "string" },
     "archive_profile_id": { "type": "string" },
     "youtube_runtime": {
-      "description": "Non-secret YouTube lifecycle metadata prepared by Control Panel. Raw stream keys and OAuth tokens must not be included here.",
+      "description": "Non-secret YouTube lifecycle metadata prepared by Control Panel. A canonical public YouTube watch URL may be included for a prepared live_api_relay_static runtime; raw stream keys and OAuth tokens must not be included here.",
       "$ref": "youtube-runtime-config.schema.json"
     },
     "archive_config": {

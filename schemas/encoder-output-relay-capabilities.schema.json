@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-output-relay-capabilities.schema.json",
+  "title": "EncoderOutputRelayCapabilities",
+  "description": "Non-secret Encoder/Recorder output relay capability hints. output_relay_mode describes routing behavior only and never carries an RTMPS URL, relay URL, or YouTube stream key. New Encoder reports use the canonical direct, legacy_stream_key, or live_api_static values. The historical static value is accepted on Control Panel capability input and registered-service reads for migration compatibility, with legacy_stream_key semantics. Unknown values must be rejected fail closed.",
+  "type": "object",
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "if": {
+        "required": ["output_relay_mode"],
+        "properties": {
+          "output_relay_mode": { "const": "live_api_static" }
+        }
+      },
+      "then": {
+        "required": ["output_relay_binding_id"]
+      }
+    }
+  ],
+  "properties": {
+    "output_relay_mode": {
+      "type": "string",
+      "enum": ["direct", "legacy_stream_key", "live_api_static", "static"],
+      "description": "direct has no fixed output relay. legacy_stream_key is a fixed relay with a preconfigured legacy YouTube stream-key route. live_api_static is a fixed relay that accepts the non-secret live API static binding below. static is the historical alias for legacy_stream_key; it is accepted only for Control Panel input and registered-service read compatibility, while new Encoder reports must use a canonical value."
+    },
+    "output_relay_binding_id": {
+      "type": "string",
+      "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output. It is never an RTMPS address or stream key."
+    }
+  }
+}
