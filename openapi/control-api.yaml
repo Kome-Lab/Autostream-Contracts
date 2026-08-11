@@ -879,6 +879,52 @@ paths:
           description: signed token or preview asset is invalid, expired, or not ready
         "410":
           description: stream is no longer active
+  /stream-previews/{token}/participants:
+    get:
+      security: []
+      summary: Read the current Discord voice participants for a signed preview
+      description: >
+        Returns non-secret display metadata from the latest worker participant
+        snapshot. The preview bearer token authorizes this request; Discord
+        credentials and service tokens are never returned.
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: Signed bearer capability. Never log or expose this value.
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Current voice participants and active speaker state
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [participants]
+                properties:
+                  participants:
+                    type: array
+                    items:
+                      type: object
+                      required: [user_id]
+                      properties:
+                        user_id: {type: string}
+                        display_name: {type: string}
+                        avatar_url: {type: string, format: uri}
+                        is_bot: {type: boolean}
+                        speaking: {type: boolean}
+                  active_speaker_id: {type: string}
+                  updated_at: {type: string, format: date-time}
+        "404":
+          description: signed token is invalid or expired
+        "410":
+          description: stream is no longer active
+        "502":
+          description: worker participant events could not be read
+        "503":
+          description: preview participant service is unavailable
   /streams/{id}/audio-status:
     get:
       parameters: [{$ref: "#/components/parameters/id"}]
