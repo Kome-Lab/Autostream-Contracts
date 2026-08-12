@@ -12,7 +12,7 @@
     "folder_id_fingerprint": { "type": "string" },
     "masked_folder_id": { "type": "string" },
     "shared_drive": { "type": "boolean" },
-    "base_path": { "type": "string" },
+    "base_path": { "type": "string", "deprecated": true, "description": "Legacy value retained for compatible reads. folder_id is the archive root." },
     "created_at": { "type": "string", "format": "date-time" },
     "updated_at": { "type": "string", "format": "date-time" }
   },

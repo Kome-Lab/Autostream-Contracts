@@ -1952,6 +1952,7 @@ func TestIntegrationWriteSchemasDocumentSecretBoundaries(t *testing.T) {
 				"writeOnly",
 				"supportsAllDrives=true",
 				"shared drive folder IDs",
+				"uses folder_id itself as the archive root",
 			},
 		},
 	}

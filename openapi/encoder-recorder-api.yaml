@@ -37,7 +37,8 @@ paths:
       summary: Start an Encoder/Recorder stream
       description: >
         Internal Control Panel dispatch. When worker_video_ingest is true, the
-        Encoder/Recorder allocates a job-scoped SRT listener and returns its
+        Encoder/Recorder allocates a job-scoped SRT listener for Worker JPEG
+        scene frames and returns its
         connection material only in this internal service-to-service response.
         The dispatcher must remove video_ingest before writing status, audit
         metadata, logs, or any public Control Panel response.
@@ -49,7 +50,7 @@ paths:
               $ref: "#/components/schemas/EncoderStartStreamRequest"
       responses:
         "202":
-          description: stream start accepted; optional Worker video ingest is internal-only
+          description: stream start accepted; optional Worker scene-frame ingest is internal-only
           content:
             application/json:
               schema:

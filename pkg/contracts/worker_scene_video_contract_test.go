@@ -75,7 +75,7 @@ func TestWorkerSceneVideoStartSchemaCompatibility(t *testing.T) {
 		},
 		{
 			name: "internal input mode is not caller supplied",
-			body: `{"stream_id":"stream-1","name":"Scene","input_mode":"worker_scene_srt","rtmp_url":"","worker_video_ingest":true,"worker_video_ingest_token":"job-scoped-token"}`,
+			body: `{"stream_id":"stream-1","name":"Scene","input_mode":"worker_scene_frames_srt","rtmp_url":"","worker_video_ingest":true,"worker_video_ingest_token":"job-scoped-token"}`,
 		},
 	} {
 		t.Run("encoder rejects "+test.name, func(t *testing.T) {
@@ -295,8 +295,8 @@ func TestWorkerSceneVideoSecretsAreWriteOnlyAndInternal(t *testing.T) {
 func TestWorkerSceneVideoCapabilityVocabulary(t *testing.T) {
 	schema := compileContractJSONSchema(t, "service-registration.schema.json", "encoder-output-relay-capabilities.schema.json")
 	for _, body := range []string{
-		`{"service_id":"worker-1","service_type":"worker","service_name":"Worker","public_url":"https://worker.example.test","version":"v1","capabilities":{"scene_video_srt":true}}`,
-		`{"service_id":"encoder-1","service_type":"encoder_recorder","service_name":"Encoder","public_url":"https://encoder.example.test","version":"v1","capabilities":{"worker_video_ingest_srt":true}}`,
+		`{"service_id":"worker-1","service_type":"worker","service_name":"Worker","public_url":"https://worker.example.test","version":"v1","capabilities":{"scene_frames_mjpeg_srt":true}}`,
+		`{"service_id":"encoder-1","service_type":"encoder_recorder","service_name":"Encoder","public_url":"https://encoder.example.test","version":"v1","capabilities":{"worker_frame_ingest_mjpeg_srt":true}}`,
 	} {
 		var document any
 		if err := json.Unmarshal([]byte(body), &document); err != nil {
@@ -308,9 +308,9 @@ func TestWorkerSceneVideoCapabilityVocabulary(t *testing.T) {
 	}
 
 	for _, invalid := range []string{
-		`{"service_id":"worker-1","service_type":"worker","service_name":"Worker","public_url":"https://worker.example.test","version":"v1","capabilities":{"scene_video_srt":"yes"}}`,
-		`{"service_id":"worker-1","service_type":"worker","service_name":"Worker","public_url":"https://worker.example.test","version":"v1","capabilities":{"scene_video_srt":false}}`,
-		`{"service_id":"encoder-1","service_type":"encoder_recorder","service_name":"Encoder","public_url":"https://encoder.example.test","version":"v1","capabilities":{"worker_video_ingest_srt":false}}`,
+		`{"service_id":"worker-1","service_type":"worker","service_name":"Worker","public_url":"https://worker.example.test","version":"v1","capabilities":{"scene_frames_mjpeg_srt":"yes"}}`,
+		`{"service_id":"worker-1","service_type":"worker","service_name":"Worker","public_url":"https://worker.example.test","version":"v1","capabilities":{"scene_frames_mjpeg_srt":false}}`,
+		`{"service_id":"encoder-1","service_type":"encoder_recorder","service_name":"Encoder","public_url":"https://encoder.example.test","version":"v1","capabilities":{"worker_frame_ingest_mjpeg_srt":false}}`,
 	} {
 		var document any
 		if err := json.Unmarshal([]byte(invalid), &document); err != nil {
@@ -325,7 +325,7 @@ func TestWorkerSceneVideoCapabilityVocabulary(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, want := range []string{"scene_video_srt:", "worker_video_ingest_srt:"} {
+	for _, want := range []string{"scene_frames_mjpeg_srt:", "worker_frame_ingest_mjpeg_srt:"} {
 		if !strings.Contains(string(openAPI), want) {
 			t.Fatalf("Control API service capability vocabulary is missing %q", want)
 		}
@@ -333,14 +333,14 @@ func TestWorkerSceneVideoCapabilityVocabulary(t *testing.T) {
 }
 
 func TestWorkerSceneVideoGoTypes(t *testing.T) {
-	if got := string(EncoderInputModeWorkerSceneSRT); got != "worker_scene_srt" {
+	if got := string(EncoderInputModeWorkerSceneFramesSRT); got != "worker_scene_frames_srt" {
 		t.Fatalf("worker scene input mode = %q", got)
 	}
-	if CapabilitySceneVideoSRT != "scene_video_srt" {
-		t.Fatalf("worker capability = %q", CapabilitySceneVideoSRT)
+	if CapabilitySceneFramesMJPEGSRT != "scene_frames_mjpeg_srt" {
+		t.Fatalf("worker capability = %q", CapabilitySceneFramesMJPEGSRT)
 	}
-	if CapabilityWorkerVideoIngestSRT != "worker_video_ingest_srt" {
-		t.Fatalf("encoder capability = %q", CapabilityWorkerVideoIngestSRT)
+	if CapabilityWorkerFrameIngestMJPEGSRT != "worker_frame_ingest_mjpeg_srt" {
+		t.Fatalf("encoder capability = %q", CapabilityWorkerFrameIngestMJPEGSRT)
 	}
 
 	request := WorkerStartJobRequest{

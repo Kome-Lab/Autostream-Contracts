@@ -43,7 +43,9 @@
     },
     "base_path": {
       "type": "string",
-      "default": "AutoStream"
+      "default": "",
+      "deprecated": true,
+      "description": "Legacy compatibility input. Current Encoder/Recorder ignores this value and uses folder_id itself as the archive root."
     }
   }
 }

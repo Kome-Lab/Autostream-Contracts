@@ -4448,14 +4448,24 @@ components:
           type: string
           pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
           description: Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output; never an RTMPS address or stream key.
+        scene_frames_mjpeg_srt:
+          type: boolean
+          const: true
+          description: Worker can render the complete scene as low-rate MJPEG images over the negotiated job-scoped SRT ingest without video encoding.
+        worker_frame_ingest_mjpeg_srt:
+          type: boolean
+          const: true
+          description: Encoder/Recorder can receive Worker-rendered JPEG images, hold the latest frame, and perform the only video encode and audio mux.
         scene_video_srt:
           type: boolean
           const: true
-          description: Worker can render the complete scene and publish H.264 MPEG-TS video over the negotiated job-scoped SRT ingest.
+          deprecated: true
+          description: Legacy Worker H.264 MPEG-TS capability accepted for migration reads only.
         worker_video_ingest_srt:
           type: boolean
           const: true
-          description: Encoder/Recorder can allocate a job-scoped SRT listener for Worker-rendered H.264 MPEG-TS video.
+          deprecated: true
+          description: Legacy Encoder H.264 MPEG-TS capability accepted for migration reads only.
     ServiceRegistrationRequest:
       type: object
       additionalProperties: false
@@ -5437,6 +5447,8 @@ components:
                     type: string
                   base_path:
                     type: string
+                    deprecated: true
+                    description: Ignored legacy value. folder_id is the archive root.
                   shared_drive:
                     type: boolean
                   client_id:
@@ -6139,7 +6151,10 @@ components:
         shared_drive:
           type: boolean
           description: use supportsAllDrives=true when uploading
-        base_path: {type: string}
+        base_path:
+          type: string
+          deprecated: true
+          description: Legacy value retained for compatible reads. folder_id is the archive root.
         created_at: {type: string, format: date-time}
         updated_at: {type: string, format: date-time}
     DriveDestinationWriteRequest:
@@ -6162,6 +6177,8 @@ components:
           type: boolean
         base_path:
           type: string
+          deprecated: true
+          description: Legacy compatibility input. Current Encoder/Recorder ignores this value and uses folder_id itself as the archive root.
     StartStreamRequest:
       type: object
       additionalProperties: false

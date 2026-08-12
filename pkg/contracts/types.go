@@ -24,8 +24,10 @@ const (
 )
 
 const (
-	CapabilitySceneVideoSRT        = "scene_video_srt"
-	CapabilityWorkerVideoIngestSRT = "worker_video_ingest_srt"
+	CapabilitySceneFramesMJPEGSRT        = "scene_frames_mjpeg_srt"
+	CapabilityWorkerFrameIngestMJPEGSRT  = "worker_frame_ingest_mjpeg_srt"
+	CapabilitySceneVideoSRTLegacy        = "scene_video_srt"
+	CapabilityWorkerVideoIngestSRTLegacy = "worker_video_ingest_srt"
 )
 
 type UpdateTransportMode string
@@ -980,9 +982,10 @@ type DiscordBotStartJobRequest = DiscordVoiceJob
 type EncoderInputMode string
 
 const (
-	EncoderInputModeExternal       EncoderInputMode = "external"
-	EncoderInputModeDiscordOpusRTP EncoderInputMode = "discord_opus_rtp"
-	EncoderInputModeWorkerSceneSRT EncoderInputMode = "worker_scene_srt"
+	EncoderInputModeExternal             EncoderInputMode = "external"
+	EncoderInputModeDiscordOpusRTP       EncoderInputMode = "discord_opus_rtp"
+	EncoderInputModeWorkerSceneSRTLegacy EncoderInputMode = "worker_scene_srt"
+	EncoderInputModeWorkerSceneFramesSRT EncoderInputMode = "worker_scene_frames_srt"
 )
 
 type DiscordOpusPacket struct {
@@ -1115,10 +1118,12 @@ const RelayBindingIDPattern = `^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-
 // live_api_static relay requires an OutputRelayBindingID matching
 // RelayBindingIDPattern.
 type EncoderOutputRelayCapabilities struct {
-	OutputRelayMode      EncoderOutputRelayMode `json:"output_relay_mode,omitempty"`
-	OutputRelayBindingID string                 `json:"output_relay_binding_id,omitempty"`
-	SceneVideoSRT        bool                   `json:"scene_video_srt,omitempty"`
-	WorkerVideoIngestSRT bool                   `json:"worker_video_ingest_srt,omitempty"`
+	OutputRelayMode            EncoderOutputRelayMode `json:"output_relay_mode,omitempty"`
+	OutputRelayBindingID       string                 `json:"output_relay_binding_id,omitempty"`
+	SceneFramesMJPEGSRT        bool                   `json:"scene_frames_mjpeg_srt,omitempty"`
+	WorkerFrameIngestMJPEGSRT  bool                   `json:"worker_frame_ingest_mjpeg_srt,omitempty"`
+	SceneVideoSRTLegacy        bool                   `json:"scene_video_srt,omitempty"`
+	WorkerVideoIngestSRTLegacy bool                   `json:"worker_video_ingest_srt,omitempty"`
 }
 
 // ErrorCodeYouTubeRelayStaticConfigChangedReload is returned when a fixed

@@ -74,7 +74,7 @@
               "oauth_account_id": { "type": "string" },
               "oauth_provider_id": { "type": "string" },
               "folder_id_secret_name": { "type": "string" },
-              "base_path": { "type": "string" },
+              "base_path": { "type": "string", "deprecated": true, "description": "Ignored legacy value. folder_id is the archive root." },
               "shared_drive": { "type": "boolean" },
               "client_id": { "type": "string" },
               "client_secret_secret_name": { "type": "string" },

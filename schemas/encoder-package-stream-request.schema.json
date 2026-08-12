@@ -24,7 +24,7 @@
           "type": "string",
           "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through Control Panel."
         },
-        "base_path": { "type": "string" },
+        "base_path": { "type": "string", "deprecated": true, "description": "Ignored legacy value. folder_id is the archive root." },
         "shared_drive": { "type": "boolean" },
         "client_id": {
           "type": "string",
