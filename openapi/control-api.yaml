@@ -1999,6 +1999,31 @@ paths:
           description: invalid artifact metadata or unsafe relative path
         "403":
           description: wrong service type, missing scope, or service is not assigned to the stream
+        "404":
+          description: service_or_stream_not_found, service_not_registered, or stream_not_found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: stream_artifact_store_failed; a non-transient persistence failure prevented the artifact report from being stored
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: stream_artifact_store_unavailable; a transient database connection failure prevented the artifact report from being stored and the caller may retry
+          headers:
+            Retry-After:
+              description: Number of seconds the caller should wait before retrying the artifact report.
+              schema:
+                type: integer
+                minimum: 1
+              example: 1
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /services/streams/{id}/start:
     post:
       security:
@@ -3958,6 +3983,11 @@ components:
             - missing_service_scope
             - service_type_not_allowed
             - service_token_not_registered
+            - service_or_stream_not_found
+            - service_not_registered
+            - stream_not_found
+            - stream_artifact_store_failed
+            - stream_artifact_store_unavailable
             - rate_limited
             - list_services_failed
             - app_settings_failed
@@ -4403,7 +4433,7 @@ components:
     EncoderOutputRelayCapabilities:
       type: object
       additionalProperties: true
-      description: Non-secret Encoder/Recorder capability hints for output relay routing.
+      description: Non-secret service capability hints for output relay routing and negotiated Worker scene-video transport.
       allOf:
         - if:
             required: [output_relay_mode]
@@ -4418,6 +4448,14 @@ components:
           type: string
           pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
           description: Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output; never an RTMPS address or stream key.
+        scene_video_srt:
+          type: boolean
+          const: true
+          description: Worker can render the complete scene and publish H.264 MPEG-TS video over the negotiated job-scoped SRT ingest.
+        worker_video_ingest_srt:
+          type: boolean
+          const: true
+          description: Encoder/Recorder can allocate a job-scoped SRT listener for Worker-rendered H.264 MPEG-TS video.
     ServiceRegistrationRequest:
       type: object
       additionalProperties: false

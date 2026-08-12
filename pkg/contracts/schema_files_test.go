@@ -307,8 +307,13 @@ func TestWorkerEventSchemaDocumentsDiscordChatOverlay(t *testing.T) {
 	for _, want := range []string{
 		"overlay.discord_chat",
 		"message_id",
+		"author_id",
 		"user_id",
 		"display_name",
+		"content",
+		"text",
+		"avatar_url",
+		"is_bot",
 		"text_channel_id",
 		"created_at",
 		"Discord Chat Channel ID",
@@ -317,6 +322,140 @@ func TestWorkerEventSchemaDocumentsDiscordChatOverlay(t *testing.T) {
 			t.Fatalf("worker-event.schema.json is missing Discord chat overlay marker %q", want)
 		}
 	}
+}
+
+func TestWorkerEventSchemaValidatesDiscordChatPayloadCompatibility(t *testing.T) {
+	schema := compileContractJSONSchema(t, "worker-event.schema.json")
+
+	tests := []struct {
+		name    string
+		payload map[string]any
+		valid   bool
+	}{
+		{
+			name: "canonical payload",
+			payload: map[string]any{
+				"message_id":      "message-01",
+				"author_id":       "user-01",
+				"display_name":    "Alice",
+				"content":         "hello",
+				"avatar_url":      "https://cdn.example.test/avatar.png",
+				"is_bot":          false,
+				"text_channel_id": "channel-01",
+				"created_at":      "2026-08-12T07:30:00Z",
+			},
+			valid: true,
+		},
+		{
+			name: "legacy aliases remain accepted",
+			payload: map[string]any{
+				"message_id":      "message-legacy",
+				"user_id":         "user-legacy",
+				"display_name":    "Legacy User",
+				"text":            "legacy text",
+				"text_channel_id": "channel-01",
+				"created_at":      "2026-08-12T07:30:00Z",
+				"legacy_extra":    "preserved",
+			},
+			valid: true,
+		},
+		{
+			name: "canonical and legacy aliases can coexist during migration",
+			payload: map[string]any{
+				"author_id": "user-01",
+				"user_id":   "user-01",
+				"content":   "hello",
+				"text":      "hello",
+			},
+			valid: true,
+		},
+		{
+			name:    "previously accepted empty payload remains accepted",
+			payload: map[string]any{},
+			valid:   true,
+		},
+		{
+			name: "canonical bot marker must be boolean",
+			payload: map[string]any{
+				"author_id": "bot-01",
+				"content":   "hello",
+				"is_bot":    "false",
+			},
+			valid: false,
+		},
+		{
+			name: "canonical author id must be string",
+			payload: map[string]any{
+				"author_id": 123,
+				"content":   "hello",
+			},
+			valid: false,
+		},
+		{
+			name: "canonical content must be string",
+			payload: map[string]any{
+				"author_id": "user-01",
+				"content":   123,
+			},
+			valid: false,
+		},
+		{
+			name: "canonical avatar url must be string",
+			payload: map[string]any{
+				"author_id":  "user-01",
+				"content":    "hello",
+				"avatar_url": true,
+			},
+			valid: false,
+		},
+		{
+			name: "legacy user id alias must be string",
+			payload: map[string]any{
+				"user_id": false,
+				"text":    "legacy text",
+			},
+			valid: false,
+		},
+		{
+			name: "legacy text alias must be string",
+			payload: map[string]any{
+				"user_id": "user-legacy",
+				"text":    []any{"not", "text"},
+			},
+			valid: false,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			event := map[string]any{
+				"id":        "event-01",
+				"stream_id": "stream-01",
+				"type":      "overlay.discord_chat",
+				"payload":   test.payload,
+				"timestamp": "2026-08-12T07:30:00Z",
+			}
+			err := schema.Validate(event)
+			if (err == nil) != test.valid {
+				t.Fatalf("valid=%v, validation error=%v", test.valid, err)
+			}
+		})
+	}
+
+	t.Run("other worker events keep opaque payload compatibility", func(t *testing.T) {
+		event := map[string]any{
+			"id":        "event-02",
+			"stream_id": "stream-01",
+			"type":      "overlay.participants",
+			"payload": map[string]any{
+				"producer_specific": []any{1.0, true, "value"},
+			},
+			"timestamp": "2026-08-12T07:30:00Z",
+		}
+		if err := schema.Validate(event); err != nil {
+			t.Fatalf("non-chat worker event compatibility changed: %v", err)
+		}
+	})
 }
 
 func TestControlOpenAPIDocumentsPasskeyCSRF(t *testing.T) {
@@ -1989,7 +2128,7 @@ func TestPreviewAndDiscordNotificationContracts(t *testing.T) {
 		"encoder-recorder-api.yaml": {
 			"/streams/{id}/preview/{name}:",
 			"serviceToken",
-			"six-segment rolling playlist",
+			"full active-stream playlist",
 			"must not stop either primary output",
 		},
 		"discord-bot-api.yaml": {

@@ -31,13 +31,48 @@ paths:
                     pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
                     example: v1.1.1
 
+  /streams/start:
+    post:
+      operationId: startStream
+      summary: Start an Encoder/Recorder stream
+      description: >
+        Internal Control Panel dispatch. When worker_video_ingest is true, the
+        Encoder/Recorder allocates a job-scoped SRT listener and returns its
+        connection material only in this internal service-to-service response.
+        The dispatcher must remove video_ingest before writing status, audit
+        metadata, logs, or any public Control Panel response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EncoderStartStreamRequest"
+      responses:
+        "202":
+          description: stream start accepted; optional Worker video ingest is internal-only
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncoderStartStreamResponse"
+        "400":
+          description: invalid start payload or media configuration
+        "401":
+          description: service token missing or invalid
+        "409":
+          description: stream already running or output relay state conflict
+        "500":
+          description: Encoder/Recorder could not allocate or start the stream
+        "503":
+          description: Worker video ingest is unavailable or could not allocate its encrypted SRT listener
+
   /streams/{id}/preview/{name}:
     get:
       operationId: getStreamPreviewAsset
       summary: Read an HLS preview asset
       description: >
         Service-token-protected preview source for Control Panel. Encoder Recorder creates
-        approximately two-second HLS segments and keeps a six-segment rolling playlist.
+        approximately two-second HLS segments and keeps the full active-stream playlist so
+        an authorized preview can seek back to the beginning while the stream is running.
         Preview output is isolated from the primary live output and recording; preview
         backpressure or failure must not stop either primary output.
       parameters:
@@ -92,3 +127,8 @@ components:
       type: http
       scheme: bearer
       description: Node/service token supplied by Control Panel. It must never be embedded in a browser or VLC URL.
+  schemas:
+    EncoderStartStreamRequest:
+      $ref: "../schemas/encoder-start-stream-request.schema.json"
+    EncoderStartStreamResponse:
+      $ref: "../schemas/encoder-start-stream-response.schema.json"

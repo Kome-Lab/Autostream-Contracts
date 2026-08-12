@@ -4,6 +4,39 @@
   "type": "object",
   "required": ["id", "stream_id", "type", "payload", "timestamp"],
   "additionalProperties": false,
+  "$defs": {
+    "discordChatPayload": {
+      "type": "object",
+      "description": "Discord chat overlay payload. Producers use author_id and content as the canonical fields. During the compatibility window they also emit user_id and text; consumers prefer the canonical fields and fall back to the aliases.",
+      "additionalProperties": true,
+      "properties": {
+        "message_id": { "type": "string" },
+        "author_id": {
+          "type": "string",
+          "description": "Canonical Discord author ID."
+        },
+        "user_id": {
+          "type": "string",
+          "deprecated": true,
+          "description": "Compatibility alias for author_id."
+        },
+        "display_name": { "type": "string" },
+        "content": {
+          "type": "string",
+          "description": "Canonical Discord message content."
+        },
+        "text": {
+          "type": "string",
+          "deprecated": true,
+          "description": "Compatibility alias for content."
+        },
+        "avatar_url": { "type": "string" },
+        "is_bot": { "type": "boolean" },
+        "text_channel_id": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "stream_id": { "type": "string", "minLength": 1 },
@@ -22,12 +55,27 @@
     },
     "payload": {
       "type": "object",
-      "description": "Event payload. overlay.discord_chat carries message_id, user_id, display_name, text, text_channel_id, and created_at from the stream's configured Discord Chat Channel ID.",
+      "description": "Event payload. overlay.discord_chat carries canonical author_id and content plus message_id, display_name, avatar_url, is_bot, text_channel_id, and created_at from the stream's configured Discord Chat Channel ID; user_id and text remain compatibility aliases.",
       "additionalProperties": true
     },
     "timestamp": {
       "type": "string",
       "format": "date-time"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": { "const": "overlay.discord_chat" }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "properties": {
+          "payload": { "$ref": "#/$defs/discordChatPayload" }
+        }
+      }
+    }
+  ]
 }

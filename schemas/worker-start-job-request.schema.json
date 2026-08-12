@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/worker-start-job-request.schema.json",
+  "title": "WorkerStartJobRequest",
+  "description": "Internal Control Panel to Worker job-start payload. The optional video ingest fields form one complete, job-scoped SRT scene-video configuration.",
+  "type": "object",
+  "required": ["stream_id"],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "required": ["video_ingest_url"] },
+      "then": {
+        "oneOf": [
+          {
+            "properties": {
+              "video_width": { "const": 1920 },
+              "video_height": { "const": 1080 }
+            }
+          },
+          {
+            "properties": {
+              "video_width": { "const": 1280 },
+              "video_height": { "const": 720 }
+            }
+          },
+          {
+            "properties": {
+              "video_width": { "const": 854 },
+              "video_height": { "const": 480 }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "dependentRequired": {
+    "video_ingest_url": ["encoder_profile_id", "video_width", "video_height", "video_fps", "video_ingest_passphrase", "video_ingest_pbkeylen"],
+    "video_ingest_passphrase": ["encoder_profile_id", "video_width", "video_height", "video_fps", "video_ingest_url", "video_ingest_pbkeylen"],
+    "video_ingest_pbkeylen": ["encoder_profile_id", "video_width", "video_height", "video_fps", "video_ingest_url", "video_ingest_passphrase"],
+    "video_width": ["encoder_profile_id", "video_height", "video_fps", "video_ingest_url", "video_ingest_passphrase", "video_ingest_pbkeylen"],
+    "video_height": ["encoder_profile_id", "video_width", "video_fps", "video_ingest_url", "video_ingest_passphrase", "video_ingest_pbkeylen"],
+    "video_fps": ["encoder_profile_id", "video_width", "video_height", "video_ingest_url", "video_ingest_passphrase", "video_ingest_pbkeylen"]
+  },
+  "properties": {
+    "stream_id": { "type": "string", "minLength": 1 },
+    "stream_name": { "type": "string" },
+    "encoder_recorder_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://",
+      "description": "Encoder/Recorder service endpoint used for Worker events. Runtime-only; do not expose it through public status."
+    },
+    "stream_ingest_token": {
+      "type": "string",
+      "minLength": 1,
+      "writeOnly": true,
+      "description": "Short-lived stream-scoped Worker event token. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses."
+    },
+    "overlay_profile_id": { "type": "string" },
+    "caption_profile_id": { "type": "string" },
+    "encoder_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Encoder profile whose output dimensions and frame rate define the Worker scene canvas."
+    },
+    "video_width": { "type": "integer", "enum": [1920, 1280, 854] },
+    "video_height": { "type": "integer", "enum": [1080, 720, 480] },
+    "video_fps": { "type": "integer", "minimum": 1, "maximum": 60 },
+    "video_ingest_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^srt://(?:\\[[0-9A-Fa-f:.]+\\]|[^:/?#@\\s]+):(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$",
+      "description": "Secret-free SRT listener URL returned by the Encoder/Recorder. Userinfo, query parameters, and fragments are prohibited so credentials cannot be embedded in the URL."
+    },
+    "video_ingest_passphrase": {
+      "type": "string",
+      "minLength": 32,
+      "maxLength": 79,
+      "pattern": "^[A-Za-z0-9_-]{32,79}$",
+      "writeOnly": true,
+      "description": "Per-job SRT passphrase delivered only in this internal request. It must never appear in URLs, logs, audit metadata, status, or public API responses."
+    },
+    "video_ingest_pbkeylen": {
+      "type": "integer",
+      "enum": [32],
+      "description": "SRT AES key length in bytes. Version 1 requires AES-256."
+    }
+  }
+}

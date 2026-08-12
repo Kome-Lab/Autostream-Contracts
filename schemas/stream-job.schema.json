@@ -17,7 +17,7 @@
     "overlay_profile_id": { "type": "string" },
     "archive_profile_id": { "type": "string" },
     "youtube_output_id": { "type": "string" },
-    "encoder_input_mode": { "enum": ["external", "discord_opus_rtp"] },
+    "encoder_input_mode": { "enum": ["external", "discord_opus_rtp", "worker_scene_srt"] },
     "started_at": { "type": "string", "format": "date-time" },
     "completed_at": { "type": "string", "format": "date-time" },
     "created_at": { "type": "string", "format": "date-time" },

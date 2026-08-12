@@ -5,11 +5,49 @@
   "type": "object",
   "required": ["stream_id", "name", "rtmp_url"],
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "required": ["worker_video_ingest"],
+        "properties": {
+          "worker_video_ingest": { "const": true }
+        }
+      },
+      "then": {
+        "required": ["worker_video_ingest_token", "encoder_profile_id"],
+        "not": {
+          "anyOf": [
+            { "required": ["input_url"] },
+            { "required": ["input_mode"] }
+          ]
+        }
+      }
+    },
+    {
+      "if": { "required": ["worker_video_ingest_token"] },
+      "then": {
+        "required": ["worker_video_ingest"],
+        "properties": {
+          "worker_video_ingest": { "const": true }
+        }
+      }
+    }
+  ],
   "properties": {
     "stream_id": { "type": "string", "minLength": 1 },
     "name": { "type": "string", "minLength": 1 },
     "input_url": { "type": "string" },
     "input_mode": { "enum": ["external", "discord_opus_rtp"] },
+    "worker_video_ingest": {
+      "type": "boolean",
+      "description": "Internal opt-in requesting a per-job SRT listener for the assigned Worker scene video. Existing callers omit this field."
+    },
+    "worker_video_ingest_token": {
+      "type": "string",
+      "minLength": 1,
+      "writeOnly": true,
+      "description": "Short-lived job-scoped token authorizing the Worker video ingest allocation. It is internal request data and must never appear in logs, audit metadata, process status, or public API responses."
+    },
     "rtmp_url": { "type": "string" },
     "stream_key": {
       "type": "string",
@@ -20,7 +58,8 @@
       "type": "string",
       "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through the Control Panel. This is preferred for stored YouTube outputs and YouTube Live API short-lived stream keys."
     },
-    "encoder_profile_id": { "type": "string" },
+    "encoder_profile_id": { "type": "string", "minLength": 1 },
+    "overlay_profile_id": { "type": "string" },
     "archive_profile_id": { "type": "string" },
     "youtube_runtime": {
       "description": "Non-secret YouTube lifecycle metadata prepared by Control Panel. A canonical public YouTube watch URL may be included for a prepared live_api_relay_static runtime; raw stream keys and OAuth tokens must not be included here.",

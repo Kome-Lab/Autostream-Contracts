@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.autostream.example.com/encoder-output-relay-capabilities.schema.json",
   "title": "EncoderOutputRelayCapabilities",
-  "description": "Non-secret Encoder/Recorder output relay capability hints. output_relay_mode describes routing behavior only and never carries an RTMPS URL, relay URL, or YouTube stream key. New Encoder reports use the canonical direct, legacy_stream_key, or live_api_static values. The historical static value is accepted on Control Panel capability input and registered-service reads for migration compatibility, with legacy_stream_key semantics. Unknown values must be rejected fail closed.",
+  "description": "Non-secret service capability hints. output_relay_mode describes Encoder/Recorder routing behavior only and never carries an RTMPS URL, relay URL, or YouTube stream key. scene_video_srt and worker_video_ingest_srt negotiate the Worker scene-video path. New Encoder reports use the canonical direct, legacy_stream_key, or live_api_static relay values. The historical static value is accepted on Control Panel capability input and registered-service reads for migration compatibility, with legacy_stream_key semantics. Unknown relay-mode values must be rejected fail closed.",
   "type": "object",
   "additionalProperties": true,
   "allOf": [
@@ -28,6 +28,16 @@
       "type": "string",
       "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
       "description": "Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output. It is never an RTMPS address or stream key."
+    },
+    "scene_video_srt": {
+      "type": "boolean",
+      "const": true,
+      "description": "Worker can render the complete scene and publish H.264 in MPEG-TS over the negotiated job-scoped SRT ingest."
+    },
+    "worker_video_ingest_srt": {
+      "type": "boolean",
+      "const": true,
+      "description": "Encoder/Recorder can allocate a job-scoped SRT listener for Worker-rendered H.264 MPEG-TS video."
     }
   }
 }

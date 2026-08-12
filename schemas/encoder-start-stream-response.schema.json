@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-start-stream-response.schema.json",
+  "title": "EncoderStartStreamResponse",
+  "description": "Internal Encoder/Recorder start response. video_ingest is returned only to the Control Panel dispatcher and must be removed before audit, status, or public API serialization.",
+  "type": "object",
+  "required": ["stream_id", "name", "status", "started_at_jst", "archive"],
+  "additionalProperties": false,
+  "properties": {
+    "stream_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "minLength": 1 },
+    "started_at_jst": { "type": "string", "format": "date-time" },
+    "stopped_at_jst": { "type": "string", "format": "date-time" },
+    "archive": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "error": { "type": "string" },
+    "video_ingest": {
+      "type": "object",
+      "description": "Internal service-to-service response data for the assigned Worker. Never copy this object into process status, dispatch results, audit metadata, or public Control Panel responses.",
+      "required": ["url", "passphrase", "pbkeylen"],
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^srt://(?:\\[[0-9A-Fa-f:.]+\\]|[^:/?#@\\s]+):(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$",
+          "description": "Secret-free SRT listener URL. Userinfo, query parameters, and fragments are prohibited."
+        },
+        "passphrase": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 79,
+          "pattern": "^[A-Za-z0-9_-]{32,79}$",
+          "readOnly": true,
+          "description": "Per-job SRT passphrase. It must be consumed only by the internal dispatcher and never serialized to any public response or log."
+        },
+        "pbkeylen": {
+          "type": "integer",
+          "enum": [32],
+          "description": "SRT AES key length in bytes. Version 1 requires AES-256."
+        }
+      }
+    }
+  }
+}

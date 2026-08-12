@@ -23,6 +23,11 @@ const (
 	ServiceUpdateAgent     ServiceType = "update_agent"
 )
 
+const (
+	CapabilitySceneVideoSRT        = "scene_video_srt"
+	CapabilityWorkerVideoIngestSRT = "worker_video_ingest_srt"
+)
+
 type UpdateTransportMode string
 
 const (
@@ -940,13 +945,22 @@ type WorkerEvent struct {
 }
 
 type WorkerStreamContext struct {
-	StreamID           string `json:"stream_id"`
-	StreamName         string `json:"stream_name,omitempty"`
-	EncoderRecorderURL string `json:"encoder_recorder_url,omitempty"`
-	StreamIngestToken  string `json:"stream_ingest_token,omitempty"`
-	OverlayProfileID   string `json:"overlay_profile_id,omitempty"`
-	CaptionProfileID   string `json:"caption_profile_id,omitempty"`
+	StreamID              string `json:"stream_id"`
+	StreamName            string `json:"stream_name,omitempty"`
+	EncoderRecorderURL    string `json:"encoder_recorder_url,omitempty"`
+	StreamIngestToken     string `json:"stream_ingest_token,omitempty"`
+	OverlayProfileID      string `json:"overlay_profile_id,omitempty"`
+	CaptionProfileID      string `json:"caption_profile_id,omitempty"`
+	EncoderProfileID      string `json:"encoder_profile_id,omitempty"`
+	VideoWidth            int    `json:"video_width,omitempty"`
+	VideoHeight           int    `json:"video_height,omitempty"`
+	VideoFPS              int    `json:"video_fps,omitempty"`
+	VideoIngestURL        string `json:"video_ingest_url,omitempty"`
+	VideoIngestPassphrase string `json:"video_ingest_passphrase,omitempty"`
+	VideoIngestPBKeyLen   int    `json:"video_ingest_pbkeylen,omitempty"`
 }
+
+type WorkerStartJobRequest = WorkerStreamContext
 
 type DiscordVoiceJob struct {
 	StreamID          string `json:"stream_id"`
@@ -968,6 +982,7 @@ type EncoderInputMode string
 const (
 	EncoderInputModeExternal       EncoderInputMode = "external"
 	EncoderInputModeDiscordOpusRTP EncoderInputMode = "discord_opus_rtp"
+	EncoderInputModeWorkerSceneSRT EncoderInputMode = "worker_scene_srt"
 )
 
 type DiscordOpusPacket struct {
@@ -1102,6 +1117,8 @@ const RelayBindingIDPattern = `^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-
 type EncoderOutputRelayCapabilities struct {
 	OutputRelayMode      EncoderOutputRelayMode `json:"output_relay_mode,omitempty"`
 	OutputRelayBindingID string                 `json:"output_relay_binding_id,omitempty"`
+	SceneVideoSRT        bool                   `json:"scene_video_srt,omitempty"`
+	WorkerVideoIngestSRT bool                   `json:"worker_video_ingest_srt,omitempty"`
 }
 
 // ErrorCodeYouTubeRelayStaticConfigChangedReload is returned when a fixed
@@ -1247,18 +1264,41 @@ type YouTubeRelayStaticRecoveryResolveResponse struct {
 }
 
 type EncoderStartStreamRequest struct {
-	StreamID            string               `json:"stream_id"`
-	Name                string               `json:"name"`
-	InputURL            string               `json:"input_url,omitempty"`
-	InputMode           string               `json:"input_mode,omitempty"`
-	RTMPURL             string               `json:"rtmp_url"`
-	StreamKey           string               `json:"stream_key,omitempty"`
-	StreamKeySecretName string               `json:"stream_key_secret_name,omitempty"`
-	EncoderProfileID    string               `json:"encoder_profile_id,omitempty"`
-	ArchiveProfileID    string               `json:"archive_profile_id,omitempty"`
-	YouTubeRuntime      YouTubeRuntimeConfig `json:"youtube_runtime,omitempty"`
-	ArchiveConfig       ArchiveRuntimeConfig `json:"archive_config,omitempty"`
-	DryRun              bool                 `json:"dry_run,omitempty"`
+	StreamID               string               `json:"stream_id"`
+	Name                   string               `json:"name"`
+	InputURL               string               `json:"input_url,omitempty"`
+	InputMode              string               `json:"input_mode,omitempty"`
+	WorkerVideoIngest      bool                 `json:"worker_video_ingest,omitempty"`
+	WorkerVideoIngestToken string               `json:"worker_video_ingest_token,omitempty"`
+	RTMPURL                string               `json:"rtmp_url"`
+	StreamKey              string               `json:"stream_key,omitempty"`
+	StreamKeySecretName    string               `json:"stream_key_secret_name,omitempty"`
+	EncoderProfileID       string               `json:"encoder_profile_id,omitempty"`
+	OverlayProfileID       string               `json:"overlay_profile_id,omitempty"`
+	ArchiveProfileID       string               `json:"archive_profile_id,omitempty"`
+	YouTubeRuntime         YouTubeRuntimeConfig `json:"youtube_runtime,omitempty"`
+	ArchiveConfig          ArchiveRuntimeConfig `json:"archive_config,omitempty"`
+	DryRun                 bool                 `json:"dry_run,omitempty"`
+}
+
+type EncoderVideoIngest struct {
+	URL        string `json:"url"`
+	Passphrase string `json:"passphrase"`
+	PBKeyLen   int    `json:"pbkeylen"`
+}
+
+// EncoderStartStreamResponse is an internal service-to-service response. The
+// VideoIngest field must be consumed by the dispatcher and removed before any
+// audit, status, or public API serialization.
+type EncoderStartStreamResponse struct {
+	StreamID     string              `json:"stream_id"`
+	Name         string              `json:"name"`
+	Status       string              `json:"status"`
+	StartedAtJST string              `json:"started_at_jst"`
+	StoppedAtJST string              `json:"stopped_at_jst,omitempty"`
+	Archive      map[string]string   `json:"archive"`
+	Error        string              `json:"error,omitempty"`
+	VideoIngest  *EncoderVideoIngest `json:"video_ingest,omitempty"`
 }
 
 type EncoderPackageStreamRequest struct {
