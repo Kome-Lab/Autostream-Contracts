@@ -66,6 +66,28 @@ paths:
         "503":
           description: Worker video ingest is unavailable or could not allocate its encrypted SRT listener
 
+  /streams/{id}/runtime-settings:
+    put:
+      operationId: updateStreamRuntimeSettings
+      summary: Change per-stream Encoder gain and watermark without restarting FFmpeg
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: string, minLength: 1}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EncoderRuntimeSettingsRequest"
+      responses:
+        "200": {description: settings applied to the running Encoder process}
+        "400": {description: invalid gain or watermark profile data}
+        "401": {description: service token missing or invalid}
+        "409": {description: stream is not running}
+        "502": {description: FFmpeg runtime command or watermark source update failed}
+
   /streams/{id}/preview/{name}:
     get:
       operationId: getStreamPreviewAsset
@@ -133,3 +155,5 @@ components:
       $ref: "../schemas/encoder-start-stream-request.schema.json"
     EncoderStartStreamResponse:
       $ref: "../schemas/encoder-start-stream-response.schema.json"
+    EncoderRuntimeSettingsRequest:
+      $ref: "../schemas/encoder-runtime-settings-request.schema.json"

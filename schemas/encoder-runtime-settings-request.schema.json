@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-runtime-settings-request.schema.json",
+  "title": "EncoderRuntimeSettingsRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["encoder_audio_gain_db", "overlay_profile_id"],
+  "properties": {
+    "encoder_audio_gain_db": {
+      "type": "number",
+      "minimum": -60,
+      "maximum": 24,
+      "description": "Per-stream gain applied by the final Encoder. This value may be updated while the stream is live without restarting FFmpeg."
+    },
+    "overlay_profile_id": {
+      "type": "string",
+      "description": "Selected watermark profile. Empty disables the watermark; changing this value updates the live Encoder overlay without restarting FFmpeg."
+    }
+  }
+}

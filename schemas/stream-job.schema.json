@@ -15,6 +15,7 @@
     "encoder_profile_id": { "type": "string" },
     "caption_profile_id": { "type": "string" },
     "overlay_profile_id": { "type": "string" },
+    "encoder_audio_gain_db": { "type": "number", "minimum": -60, "maximum": 24, "default": 0 },
     "archive_profile_id": { "type": "string" },
     "youtube_output_id": { "type": "string" },
     "encoder_input_mode": { "enum": ["external", "discord_opus_rtp", "worker_scene_srt", "worker_scene_frames_srt"] },

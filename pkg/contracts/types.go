@@ -1039,31 +1039,33 @@ type DiscordAudioBridgeStatus struct {
 }
 
 type StartStreamRequest struct {
-	DiscordConfigID       string `json:"discord_config_id,omitempty"`
-	DiscordGuildID        string `json:"discord_guild_id,omitempty"`
-	DiscordVoiceChannelID string `json:"discord_voice_channel_id,omitempty"`
-	DiscordTextChannelID  string `json:"discord_text_channel_id,omitempty"`
-	EncoderInputURL       string `json:"encoder_input_url,omitempty"`
-	EncoderRTMPURL        string `json:"encoder_rtmp_url,omitempty"`
-	EncoderProfileID      string `json:"encoder_profile_id,omitempty"`
-	CaptionProfileID      string `json:"caption_profile_id,omitempty"`
-	OverlayProfileID      string `json:"overlay_profile_id,omitempty"`
-	ArchiveProfileID      string `json:"archive_profile_id,omitempty"`
-	YouTubeOutputID       string `json:"youtube_output_id,omitempty"`
+	DiscordConfigID       string  `json:"discord_config_id,omitempty"`
+	DiscordGuildID        string  `json:"discord_guild_id,omitempty"`
+	DiscordVoiceChannelID string  `json:"discord_voice_channel_id,omitempty"`
+	DiscordTextChannelID  string  `json:"discord_text_channel_id,omitempty"`
+	EncoderInputURL       string  `json:"encoder_input_url,omitempty"`
+	EncoderRTMPURL        string  `json:"encoder_rtmp_url,omitempty"`
+	EncoderProfileID      string  `json:"encoder_profile_id,omitempty"`
+	CaptionProfileID      string  `json:"caption_profile_id,omitempty"`
+	OverlayProfileID      string  `json:"overlay_profile_id,omitempty"`
+	EncoderAudioGainDB    float64 `json:"encoder_audio_gain_db,omitempty"`
+	ArchiveProfileID      string  `json:"archive_profile_id,omitempty"`
+	YouTubeOutputID       string  `json:"youtube_output_id,omitempty"`
 }
 
 type StreamSettingsWriteRequest struct {
-	DiscordConfigID       string `json:"discord_config_id,omitempty"`
-	DiscordGuildID        string `json:"discord_guild_id,omitempty"`
-	DiscordVoiceChannelID string `json:"discord_voice_channel_id,omitempty"`
-	DiscordTextChannelID  string `json:"discord_text_channel_id,omitempty"`
-	AutoStartTrigger      string `json:"auto_start_trigger,omitempty"`
-	EncoderProfileID      string `json:"encoder_profile_id,omitempty"`
-	CaptionProfileID      string `json:"caption_profile_id,omitempty"`
-	OverlayProfileID      string `json:"overlay_profile_id,omitempty"`
-	ArchiveProfileID      string `json:"archive_profile_id,omitempty"`
-	YouTubeOutputID       string `json:"youtube_output_id,omitempty"`
-	EncoderInputURL       string `json:"encoder_input_url,omitempty"`
+	DiscordConfigID       string  `json:"discord_config_id,omitempty"`
+	DiscordGuildID        string  `json:"discord_guild_id,omitempty"`
+	DiscordVoiceChannelID string  `json:"discord_voice_channel_id,omitempty"`
+	DiscordTextChannelID  string  `json:"discord_text_channel_id,omitempty"`
+	AutoStartTrigger      string  `json:"auto_start_trigger,omitempty"`
+	EncoderProfileID      string  `json:"encoder_profile_id,omitempty"`
+	CaptionProfileID      string  `json:"caption_profile_id,omitempty"`
+	OverlayProfileID      string  `json:"overlay_profile_id,omitempty"`
+	EncoderAudioGainDB    float64 `json:"encoder_audio_gain_db,omitempty"`
+	ArchiveProfileID      string  `json:"archive_profile_id,omitempty"`
+	YouTubeOutputID       string  `json:"youtube_output_id,omitempty"`
+	EncoderInputURL       string  `json:"encoder_input_url,omitempty"`
 }
 
 type StreamWriteRequest struct {
@@ -1280,10 +1282,16 @@ type EncoderStartStreamRequest struct {
 	StreamKeySecretName    string               `json:"stream_key_secret_name,omitempty"`
 	EncoderProfileID       string               `json:"encoder_profile_id,omitempty"`
 	OverlayProfileID       string               `json:"overlay_profile_id,omitempty"`
+	EncoderAudioGainDB     float64              `json:"encoder_audio_gain_db,omitempty"`
 	ArchiveProfileID       string               `json:"archive_profile_id,omitempty"`
 	YouTubeRuntime         YouTubeRuntimeConfig `json:"youtube_runtime,omitempty"`
 	ArchiveConfig          ArchiveRuntimeConfig `json:"archive_config,omitempty"`
 	DryRun                 bool                 `json:"dry_run,omitempty"`
+}
+
+type EncoderRuntimeSettingsRequest struct {
+	EncoderAudioGainDB float64 `json:"encoder_audio_gain_db"`
+	OverlayProfileID   string  `json:"overlay_profile_id"`
 }
 
 type EncoderVideoIngest struct {

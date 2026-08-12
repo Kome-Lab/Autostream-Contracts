@@ -488,6 +488,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /streams/{id}/runtime-settings:
+    put:
+      summary: Persist and, when live, immediately apply Encoder gain and watermark settings
+      parameters: [{$ref: "#/components/parameters/id"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EncoderRuntimeSettingsRequest"
+      responses:
+        "200": {description: settings persisted and applied when the stream is live}
+        "400": {description: invalid gain or watermark profile}
+        "404": {description: stream not found}
+        "409": {description: stream is starting or stopping}
+        "502": {description: assigned Encoder could not apply the live settings; desired settings remain persisted}
   /streams/{id}/start-readiness:
     post:
       parameters: [{$ref: "#/components/parameters/id"}]
@@ -6205,6 +6221,11 @@ components:
           type: string
         overlay_profile_id:
           type: string
+        encoder_audio_gain_db:
+          type: number
+          minimum: -60
+          maximum: 24
+          default: 0
         archive_profile_id:
           type: string
         youtube_output_id:
@@ -6318,6 +6339,11 @@ components:
           type: string
         overlay_profile_id:
           type: string
+        encoder_audio_gain_db:
+          type: number
+          minimum: -60
+          maximum: 24
+          default: 0
         archive_profile_id:
           type: string
         youtube_output_id:
@@ -6354,12 +6380,19 @@ components:
           type: string
         overlay_profile_id:
           type: string
+        encoder_audio_gain_db:
+          type: number
+          minimum: -60
+          maximum: 24
+          default: 0
         archive_profile_id:
           type: string
         youtube_output_id:
           type: string
         encoder_input_url:
           type: string
+    EncoderRuntimeSettingsRequest:
+      $ref: "../schemas/encoder-runtime-settings-request.schema.json"
     MissingStreamAssignmentsResponse:
       type: object
       additionalProperties: false

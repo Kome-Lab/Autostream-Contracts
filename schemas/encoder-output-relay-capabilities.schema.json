@@ -39,6 +39,11 @@
       "const": true,
       "description": "Encoder/Recorder can receive Worker-rendered JPEG images, hold the latest frame, and perform the only video encode and audio mux."
     },
+    "live_encoder_runtime_settings": {
+      "type": "boolean",
+      "const": true,
+      "description": "Encoder/Recorder can change the active stream audio gain and watermark image without restarting FFmpeg or its outputs."
+    },
     "scene_video_srt": {
       "type": "boolean",
       "const": true,
