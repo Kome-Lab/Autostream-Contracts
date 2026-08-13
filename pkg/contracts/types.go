@@ -965,16 +965,20 @@ type WorkerStreamContext struct {
 type WorkerStartJobRequest = WorkerStreamContext
 
 type DiscordVoiceJob struct {
-	StreamID          string `json:"stream_id"`
-	GuildID           string `json:"guild_id"`
-	VoiceChannelID    string `json:"voice_channel_id"`
-	TextChannelID     string `json:"text_channel_id,omitempty"`
-	EncoderAudioURL   string `json:"encoder_audio_url,omitempty"`
-	CaptionAudioURL   string `json:"caption_audio_url,omitempty"`
-	CaptionAudioToken string `json:"caption_audio_token,omitempty"`
-	StreamIngestToken string `json:"stream_ingest_token,omitempty"`
-	WorkerEventsURL   string `json:"worker_events_url,omitempty"`
-	WorkerEventsToken string `json:"worker_events_token,omitempty"`
+	StreamID                    string `json:"stream_id"`
+	JobGeneration               uint64 `json:"job_generation,omitempty"`
+	GuildID                     string `json:"guild_id"`
+	VoiceChannelID              string `json:"voice_channel_id"`
+	TextChannelID               string `json:"text_channel_id,omitempty"`
+	EncoderAudioURL             string `json:"encoder_audio_url,omitempty"`
+	CaptionAudioURL             string `json:"caption_audio_url,omitempty"`
+	CaptionAudioToken           string `json:"caption_audio_token,omitempty"`
+	CaptionAudioFlushMS         int    `json:"caption_audio_flush_ms,omitempty"`
+	CaptionAudioMaxBatchPackets int    `json:"caption_audio_max_batch_packets,omitempty"`
+	UnresolvedSSRCBufferMS      int    `json:"unresolved_ssrc_buffer_ms,omitempty"`
+	StreamIngestToken           string `json:"stream_ingest_token,omitempty"`
+	WorkerEventsURL             string `json:"worker_events_url,omitempty"`
+	WorkerEventsToken           string `json:"worker_events_token,omitempty"`
 }
 
 type DiscordBotStartJobRequest = DiscordVoiceJob
@@ -989,12 +993,14 @@ const (
 )
 
 type DiscordOpusPacket struct {
-	SSRC       uint32    `json:"ssrc"`
-	UserID     string    `json:"user_id,omitempty"`
-	Sequence   uint16    `json:"sequence"`
-	Timestamp  uint32    `json:"timestamp"`
-	ReceivedAt time.Time `json:"received_at"`
-	OpusBase64 string    `json:"opus_base64"`
+	SSRC                 uint32    `json:"ssrc"`
+	UserID               string    `json:"user_id,omitempty"`
+	JobGeneration        uint64    `json:"job_generation,omitempty"`
+	ConnectionGeneration uint64    `json:"connection_generation,omitempty"`
+	Sequence             uint16    `json:"sequence"`
+	Timestamp            uint32    `json:"timestamp"`
+	ReceivedAt           time.Time `json:"received_at"`
+	OpusBase64           string    `json:"opus_base64"`
 }
 
 type DiscordOpusIngestRequest struct {
@@ -1470,14 +1476,30 @@ type ProfileWriteRequest struct {
 }
 
 type CaptionProfileConfig struct {
-	Provider         string `json:"provider"`
-	Model            string `json:"model"`
-	Language         string `json:"language"`
-	APIKeySecretName string `json:"api_key_secret_name"`
-	EndpointingMS    int    `json:"endpointing_ms"`
-	InterimResults   bool   `json:"interim_results"`
-	SmartFormat      bool   `json:"smart_format"`
-	DelayMS          int    `json:"delay_ms"`
+	Provider                    string   `json:"provider"`
+	Model                       string   `json:"model"`
+	Language                    string   `json:"language"`
+	APIKeySecretName            string   `json:"api_key_secret_name"`
+	EndpointingMS               int      `json:"endpointing_ms"`
+	UtteranceEndMS              int      `json:"utterance_end_ms"`
+	LocalFinalizeMS             int      `json:"local_finalize_ms"`
+	SpeakerIdleCloseSeconds     int      `json:"speaker_idle_close_seconds"`
+	KeepAliveIntervalSeconds    int      `json:"keepalive_interval_seconds"`
+	InterimResults              bool     `json:"interim_results"`
+	SmartFormat                 bool     `json:"smart_format"`
+	Keyterms                    []string `json:"keyterms,omitempty"`
+	MIPOptOut                   bool     `json:"mip_opt_out"`
+	ReplayBufferMaxMS           int      `json:"replay_buffer_max_ms"`
+	DelayMS                     int      `json:"delay_ms"`
+	CaptionAudioFlushMS         int      `json:"caption_audio_flush_ms"`
+	CaptionAudioMaxBatchPackets int      `json:"caption_audio_max_batch_packets"`
+	UnresolvedSSRCBufferMS      int      `json:"unresolved_ssrc_buffer_ms"`
+	ConversationMaxItems        int      `json:"conversation_max_items"`
+	ConversationReorderWindowMS int      `json:"conversation_reorder_window_ms"`
+	VoiceInterimTTLSeconds      int      `json:"voice_interim_ttl_seconds"`
+	VoiceFinalTTLSeconds        int      `json:"voice_final_ttl_seconds"`
+	ShowVoiceTranscripts        bool     `json:"show_voice_transcripts"`
+	ShowLegacyCaptionBar        bool     `json:"show_legacy_caption_bar"`
 }
 
 type SessionRefreshResponse struct {
@@ -1628,65 +1650,80 @@ type ObservabilitySignal struct {
 type MetricName string
 
 const (
-	MetricStreamStatus               MetricName = "stream.status"
-	MetricStreamStartDurationMS      MetricName = "stream.start_duration_ms"
-	MetricStreamLiveDurationSec      MetricName = "stream.live_duration_sec"
-	MetricStreamStopDurationMS       MetricName = "stream.stop_duration_ms"
-	MetricStreamRestartCount         MetricName = "stream.restart_count"
-	MetricEncoderProcessAlive        MetricName = "encoder.process_alive"
-	MetricEncoderOutputFPS           MetricName = "encoder.output_fps"
-	MetricEncoderOutputBitrateKbps   MetricName = "encoder.output_bitrate_kbps"
-	MetricEncoderDroppedFramesTotal  MetricName = "encoder.dropped_frames_total"
-	MetricEncoderEncodeLagMS         MetricName = "encoder.encode_lag_ms"
-	MetricEncoderAudioLevelDB        MetricName = "encoder.audio_level_db"
-	MetricEncoderAudioSilenceSec     MetricName = "encoder.audio_silence_sec"
-	MetricEncoderAudioClippingTotal  MetricName = "encoder.audio_clipping_total"
-	MetricEncoderRTMPReconnectCount  MetricName = "encoder.rtmp_reconnect_count"
-	MetricRecorderFileSizeBytes      MetricName = "recorder.file_size_bytes"
-	MetricRecorderWriteBitrateKbps   MetricName = "recorder.write_bitrate_kbps"
-	MetricRecorderDiskFreeBytes      MetricName = "recorder.disk_free_bytes"
-	MetricRecorderRemuxDurationMS    MetricName = "recorder.remux_duration_ms"
-	MetricSRTPacketLossPercent       MetricName = "srt.packet_loss_percent"
-	MetricSRTRTTMS                   MetricName = "srt.rtt_ms"
-	MetricSRTJitterMS                MetricName = "srt.jitter_ms"
-	MetricSRTBandwidthMbps           MetricName = "srt.bandwidth_mbps"
-	MetricRTPPacketLossPercent       MetricName = "rtp.packet_loss_percent"
-	MetricRTPJitterMS                MetricName = "rtp.jitter_ms"
-	MetricMediaInputBitrateKbps      MetricName = "media.input_bitrate_kbps"
-	MetricMediaInputTimeoutSec       MetricName = "media.input_timeout_sec"
-	MetricDiscordGatewayConnected    MetricName = "discord.gateway_connected"
-	MetricDiscordVoiceConnected      MetricName = "discord.voice_connected"
-	MetricDiscordAudioReceiving      MetricName = "discord.audio_receiving"
-	MetricDiscordAudioPacketsTotal   MetricName = "discord.audio_packets_total"
-	MetricDiscordAudioForwardedTotal MetricName = "discord.audio_forwarded_total"
-	MetricDiscordAudioForwardErrors  MetricName = "discord.audio_forward_errors_total"
-	MetricDiscordAudioLastPacketAge  MetricName = "discord.audio_last_packet_age_sec"
-	MetricDiscordAudioLastForwardAge MetricName = "discord.audio_last_forward_age_sec"
-	MetricDiscordParticipantCount    MetricName = "discord.participant_count"
-	MetricDiscordWorkerEventFailures MetricName = "discord.worker_event_publish_failures_total"
-	MetricDiscordReconnectCount      MetricName = "discord.reconnect_count"
-	MetricDiscordVoiceDisconnects    MetricName = "discord.voice_disconnect_count"
-	MetricWorkerHeartbeatAgeSec      MetricName = "worker.heartbeat_age_sec"
-	MetricWorkerOverlayEventsTotal   MetricName = "worker.overlay_events_total"
-	MetricWorkerCaptionEventsTotal   MetricName = "worker.caption_events_total"
-	MetricWorkerSceneUpdatesTotal    MetricName = "worker.scene_updates_total"
-	MetricWorkerEventSendFailures    MetricName = "worker.event_send_failures_total"
-	MetricArchiveFinalMKVExists      MetricName = "archive.final_mkv_exists"
-	MetricArchiveFinalMP4Exists      MetricName = "archive.final_mp4_exists"
-	MetricArchivePackageStatus       MetricName = "archive.package_status"
-	MetricGDriveUploadStatus         MetricName = "gdrive.upload_status"
-	MetricGDriveUploadProgress       MetricName = "gdrive.upload_progress_percent"
-	MetricGDriveUploadRetryCount     MetricName = "gdrive.upload_retry_count"
-	MetricGDriveUploadDurationSec    MetricName = "gdrive.upload_duration_sec"
-	MetricGDriveUploadFileCount      MetricName = "gdrive.upload_file_count"
-	MetricGDriveUploadFolderProof    MetricName = "gdrive.upload_folder_fingerprint_present"
-	MetricGDriveUploadFinalMP4Proof  MetricName = "gdrive.upload_final_mp4_fingerprint_present"
-	MetricGDriveUploadMetadataProof  MetricName = "gdrive.upload_metadata_fingerprint_present"
-	MetricHostCPUPercent             MetricName = "host.cpu_percent"
-	MetricHostMemoryPercent          MetricName = "host.memory_percent"
-	MetricHostDiskFreeBytes          MetricName = "host.disk_free_bytes"
-	MetricHostNetworkTxBPS           MetricName = "host.network_tx_bps"
-	MetricHostNetworkRxBPS           MetricName = "host.network_rx_bps"
+	MetricStreamStatus                      MetricName = "stream.status"
+	MetricStreamStartDurationMS             MetricName = "stream.start_duration_ms"
+	MetricStreamLiveDurationSec             MetricName = "stream.live_duration_sec"
+	MetricStreamStopDurationMS              MetricName = "stream.stop_duration_ms"
+	MetricStreamRestartCount                MetricName = "stream.restart_count"
+	MetricEncoderProcessAlive               MetricName = "encoder.process_alive"
+	MetricEncoderOutputFPS                  MetricName = "encoder.output_fps"
+	MetricEncoderOutputBitrateKbps          MetricName = "encoder.output_bitrate_kbps"
+	MetricEncoderDroppedFramesTotal         MetricName = "encoder.dropped_frames_total"
+	MetricEncoderEncodeLagMS                MetricName = "encoder.encode_lag_ms"
+	MetricEncoderAudioLevelDB               MetricName = "encoder.audio_level_db"
+	MetricEncoderAudioSilenceSec            MetricName = "encoder.audio_silence_sec"
+	MetricEncoderAudioClippingTotal         MetricName = "encoder.audio_clipping_total"
+	MetricEncoderRTMPReconnectCount         MetricName = "encoder.rtmp_reconnect_count"
+	MetricRecorderFileSizeBytes             MetricName = "recorder.file_size_bytes"
+	MetricRecorderWriteBitrateKbps          MetricName = "recorder.write_bitrate_kbps"
+	MetricRecorderDiskFreeBytes             MetricName = "recorder.disk_free_bytes"
+	MetricRecorderRemuxDurationMS           MetricName = "recorder.remux_duration_ms"
+	MetricSRTPacketLossPercent              MetricName = "srt.packet_loss_percent"
+	MetricSRTRTTMS                          MetricName = "srt.rtt_ms"
+	MetricSRTJitterMS                       MetricName = "srt.jitter_ms"
+	MetricSRTBandwidthMbps                  MetricName = "srt.bandwidth_mbps"
+	MetricRTPPacketLossPercent              MetricName = "rtp.packet_loss_percent"
+	MetricRTPJitterMS                       MetricName = "rtp.jitter_ms"
+	MetricMediaInputBitrateKbps             MetricName = "media.input_bitrate_kbps"
+	MetricMediaInputTimeoutSec              MetricName = "media.input_timeout_sec"
+	MetricDiscordGatewayConnected           MetricName = "discord.gateway_connected"
+	MetricDiscordVoiceConnected             MetricName = "discord.voice_connected"
+	MetricDiscordAudioReceiving             MetricName = "discord.audio_receiving"
+	MetricDiscordAudioPacketsTotal          MetricName = "discord.audio_packets_total"
+	MetricDiscordAudioForwardedTotal        MetricName = "discord.audio_forwarded_total"
+	MetricDiscordAudioForwardErrors         MetricName = "discord.audio_forward_errors_total"
+	MetricDiscordAudioLastPacketAge         MetricName = "discord.audio_last_packet_age_sec"
+	MetricDiscordAudioLastForwardAge        MetricName = "discord.audio_last_forward_age_sec"
+	MetricDiscordParticipantCount           MetricName = "discord.participant_count"
+	MetricDiscordWorkerEventFailures        MetricName = "discord.worker_event_publish_failures_total"
+	MetricDiscordReconnectCount             MetricName = "discord.reconnect_count"
+	MetricDiscordVoiceDisconnects           MetricName = "discord.voice_disconnect_count"
+	MetricDiscordCaptionAudioPacketsTotal   MetricName = "discord.caption_audio_packets_total"
+	MetricDiscordCaptionAudioForwardedTotal MetricName = "discord.caption_audio_forwarded_total"
+	MetricDiscordCaptionAudioForwardErrors  MetricName = "discord.caption_audio_forward_errors_total"
+	MetricDiscordCaptionAudioLastForwardAge MetricName = "discord.caption_audio_last_forward_age_sec"
+	MetricDiscordCaptionUnresolvedSSRC      MetricName = "discord.caption_unresolved_ssrc_total"
+	MetricWorkerHeartbeatAgeSec             MetricName = "worker.heartbeat_age_sec"
+	MetricWorkerOverlayEventsTotal          MetricName = "worker.overlay_events_total"
+	MetricWorkerCaptionEventsTotal          MetricName = "worker.caption_events_total"
+	MetricWorkerSceneUpdatesTotal           MetricName = "worker.scene_updates_total"
+	MetricWorkerEventSendFailures           MetricName = "worker.event_send_failures_total"
+	MetricWorkerCaptionInterimTotal         MetricName = "worker.caption_interim_total"
+	MetricWorkerCaptionFinalTotal           MetricName = "worker.caption_final_total"
+	MetricWorkerCaptionProviderErrors       MetricName = "worker.caption_provider_errors_total"
+	MetricWorkerCaptionReconnectsTotal      MetricName = "worker.caption_reconnects_total"
+	MetricWorkerCaptionFinalizeTotal        MetricName = "worker.caption_finalize_total"
+	MetricWorkerCaptionUtteranceEndTotal    MetricName = "worker.caption_utterance_end_total"
+	MetricWorkerCaptionAudioToInterimMS     MetricName = "worker.caption_audio_to_interim_ms"
+	MetricWorkerCaptionAudioToFinalMS       MetricName = "worker.caption_audio_to_final_ms"
+	MetricEncoderCaptionArchiveFinalTotal   MetricName = "encoder.caption_archive_final_total"
+	MetricEncoderCaptionArchiveDedupedTotal MetricName = "encoder.caption_archive_deduped_total"
+	MetricArchiveFinalMKVExists             MetricName = "archive.final_mkv_exists"
+	MetricArchiveFinalMP4Exists             MetricName = "archive.final_mp4_exists"
+	MetricArchivePackageStatus              MetricName = "archive.package_status"
+	MetricGDriveUploadStatus                MetricName = "gdrive.upload_status"
+	MetricGDriveUploadProgress              MetricName = "gdrive.upload_progress_percent"
+	MetricGDriveUploadRetryCount            MetricName = "gdrive.upload_retry_count"
+	MetricGDriveUploadDurationSec           MetricName = "gdrive.upload_duration_sec"
+	MetricGDriveUploadFileCount             MetricName = "gdrive.upload_file_count"
+	MetricGDriveUploadFolderProof           MetricName = "gdrive.upload_folder_fingerprint_present"
+	MetricGDriveUploadFinalMP4Proof         MetricName = "gdrive.upload_final_mp4_fingerprint_present"
+	MetricGDriveUploadMetadataProof         MetricName = "gdrive.upload_metadata_fingerprint_present"
+	MetricHostCPUPercent                    MetricName = "host.cpu_percent"
+	MetricHostMemoryPercent                 MetricName = "host.memory_percent"
+	MetricHostDiskFreeBytes                 MetricName = "host.disk_free_bytes"
+	MetricHostNetworkTxBPS                  MetricName = "host.network_tx_bps"
+	MetricHostNetworkRxBPS                  MetricName = "host.network_rx_bps"
 )
 
 type IncidentRule string
