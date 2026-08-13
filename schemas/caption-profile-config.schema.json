@@ -16,8 +16,28 @@
       "description": "Reference to the Control Panel managed secret. The raw Deepgram API key is never stored in profile JSON or returned to the frontend."
     },
     "endpointing_ms": { "type": "integer", "minimum": 10, "maximum": 5000, "default": 300 },
+    "utterance_end_ms": { "type": "integer", "minimum": 100, "maximum": 10000, "default": 1000 },
+    "local_finalize_ms": { "type": "integer", "minimum": 0, "maximum": 10000, "default": 1500 },
+    "speaker_idle_close_seconds": { "type": "integer", "minimum": 1, "maximum": 120, "default": 8 },
+    "keepalive_interval_seconds": { "type": "integer", "minimum": 1, "maximum": 60, "default": 4 },
     "interim_results": { "type": "boolean", "default": true },
     "smart_format": { "type": "boolean", "default": true },
-    "delay_ms": { "type": "integer", "minimum": 0, "maximum": 10000, "default": 800 }
+    "keyterms": {
+      "type": "array",
+      "maxItems": 20,
+      "items": { "type": "string", "minLength": 1, "maxLength": 128 }
+    },
+    "mip_opt_out": { "type": "boolean", "default": false },
+    "replay_buffer_max_ms": { "type": "integer", "minimum": 0, "maximum": 10000, "default": 2000 },
+    "delay_ms": { "type": "integer", "minimum": 0, "maximum": 10000, "default": 800 },
+    "caption_audio_flush_ms": { "type": "integer", "minimum": 10, "maximum": 1000, "default": 100 },
+    "caption_audio_max_batch_packets": { "type": "integer", "minimum": 1, "maximum": 100, "default": 5 },
+    "unresolved_ssrc_buffer_ms": { "type": "integer", "minimum": 0, "maximum": 5000, "default": 1000 },
+    "conversation_max_items": { "type": "integer", "minimum": 1, "maximum": 64, "default": 12 },
+    "conversation_reorder_window_ms": { "type": "integer", "minimum": 0, "maximum": 5000, "default": 500 },
+    "voice_interim_ttl_seconds": { "type": "integer", "minimum": 1, "maximum": 60, "default": 6 },
+    "voice_final_ttl_seconds": { "type": "integer", "minimum": 1, "maximum": 300, "default": 15 },
+    "show_voice_transcripts": { "type": "boolean", "default": true },
+    "show_legacy_caption_bar": { "type": "boolean", "default": false }
   }
 }
