@@ -22,6 +22,18 @@ contract を変更するときは、どの repository が owner かを明示し�
 
 breaking change を入れる場合は、schema だけでなく migration path、compatibility period、operator docs、external verification flow を同時に更新します。特に write-only secret field、runtime secret reference、service token scope、primary/standby assignment、provider verification record の shape は security boundary なので、既存 field の意味を曖昧に変えないでください。
 
+### Discord Opus ingest v2 migration
+
+`discord-opus-ingest.schema.json` は既存の v1 producer を受ける compatibility contract として維持します。`discord-opus-ingest-v2.schema.json` は、各 packet の `job_generation` と `connection_generation` を必須にし、停止・rearm・voice reconnect 後の古い音声を fail closed で拒否する contract です。
+
+移行順序は producer-first です。
+
+1. `autostream-discord-bot` を先に更新し、全 packet で非ゼロの両 generation を送信させます。この期間は旧 Worker が追加 field を受け取れることを compatibility window とします。
+2. Bot の status と Worker の安全な診断で両 generation が継続して送信されていることを確認します。
+3. v2 を必須化した `autostream-worker` を更新します。旧 Bot と v2 Worker の組み合わせは非対応で、欠落した generation は HTTP 400、逆行した connection generation は HTTP 409 で拒否します。
+
+運用上の compatibility floor は「v2 packet を常時送信する Discord Bot」です。Worker を先に更新しないでください。外部検証では、同一 job 内の reconnect で generation が増加し、遅延した旧 generation が新しい Deepgram connection に適用されないことを確認します。
+
 ## 検証
 
 ```powershell

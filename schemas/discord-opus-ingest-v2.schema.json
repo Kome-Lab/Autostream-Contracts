@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "DiscordOpusIngestRequest",
+  "title": "DiscordOpusIngestRequestV2",
+  "description": "Generation-fenced Discord Opus ingest contract. Producers must send both job_generation and connection_generation on every packet so a Worker can reject packets from stopped, rearmed, or superseded voice connections.",
   "type": "object",
   "required": ["stream_id", "source", "packets"],
   "additionalProperties": false,
@@ -13,7 +14,7 @@
       "maxItems": 100,
       "items": {
         "type": "object",
-        "required": ["ssrc", "sequence", "timestamp", "received_at", "opus_base64"],
+        "required": ["ssrc", "job_generation", "connection_generation", "sequence", "timestamp", "received_at", "opus_base64"],
         "additionalProperties": false,
         "properties": {
           "ssrc": { "type": "integer", "minimum": 0 },

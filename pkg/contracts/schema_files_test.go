@@ -512,6 +512,9 @@ func TestDeepgramCaptionAndSessionRefreshContracts(t *testing.T) {
 		"discord-bot-start-job-request.schema.json": {
 			"caption_audio_url", "caption_audio_token", "Short-lived stream-scoped token",
 		},
+		"discord-opus-ingest-v2.schema.json": {
+			"job_generation", "connection_generation", `"minimum": 1`,
+		},
 		"session-refresh-response.schema.json": {
 			"SessionRefreshResponse", "idle_expires_at", "absolute_expires_at", "Activity refresh never moves this timestamp",
 		},
@@ -550,6 +553,45 @@ func TestDeepgramCaptionAndSessionRefreshContracts(t *testing.T) {
 	} {
 		if !strings.Contains(string(openapi), want) {
 			t.Fatalf("control-api.yaml is missing %q", want)
+		}
+	}
+}
+
+func TestDiscordOpusIngestV2RequiresGenerationFences(t *testing.T) {
+	schema := compileContractJSONSchema(t, "discord-opus-ingest-v2.schema.json")
+	tests := []struct {
+		name  string
+		body  string
+		valid bool
+	}{
+		{
+			name:  "generation fenced packet",
+			body:  `{"stream_id":"stream-01","source":"discord","packets":[{"ssrc":42,"user_id":"user-42","job_generation":7,"connection_generation":3,"sequence":1,"timestamp":960,"received_at":"2026-08-16T08:08:01Z","opus_base64":"AQ=="}]}`,
+			valid: true,
+		},
+		{
+			name:  "missing job generation",
+			body:  `{"stream_id":"stream-01","source":"discord","packets":[{"ssrc":42,"connection_generation":3,"sequence":1,"timestamp":960,"received_at":"2026-08-16T08:08:01Z","opus_base64":"AQ=="}]}`,
+			valid: false,
+		},
+		{
+			name:  "missing connection generation",
+			body:  `{"stream_id":"stream-01","source":"discord","packets":[{"ssrc":42,"job_generation":7,"sequence":1,"timestamp":960,"received_at":"2026-08-16T08:08:01Z","opus_base64":"AQ=="}]}`,
+			valid: false,
+		},
+		{
+			name:  "zero connection generation",
+			body:  `{"stream_id":"stream-01","source":"discord","packets":[{"ssrc":42,"job_generation":7,"connection_generation":0,"sequence":1,"timestamp":960,"received_at":"2026-08-16T08:08:01Z","opus_base64":"AQ=="}]}`,
+			valid: false,
+		},
+	}
+	for _, test := range tests {
+		var payload any
+		if err := json.Unmarshal([]byte(test.body), &payload); err != nil {
+			t.Fatal(err)
+		}
+		if err := schema.Validate(payload); (err == nil) != test.valid {
+			t.Fatalf("%s valid=%t: %v", test.name, test.valid, err)
 		}
 	}
 }
