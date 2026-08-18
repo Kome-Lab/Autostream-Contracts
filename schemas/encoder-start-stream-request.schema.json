@@ -5,6 +5,9 @@
   "type": "object",
   "required": ["stream_id", "name", "rtmp_url"],
   "additionalProperties": false,
+  "dependentRequired": {
+    "archive_run_id": ["started_at"]
+  },
   "allOf": [
     {
       "if": {
@@ -35,6 +38,14 @@
   ],
   "properties": {
     "stream_id": { "type": "string", "minLength": 1 },
+    "archive_run_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "not": { "pattern": "\\.\\." },
+      "description": "Stable identifier for one broadcast/archive run. Legacy callers omit this field."
+    },
     "name": { "type": "string", "minLength": 1 },
     "input_url": { "type": "string" },
     "input_mode": { "enum": ["external", "discord_opus_rtp"] },
@@ -62,6 +73,11 @@
     "overlay_profile_id": { "type": "string" },
     "encoder_audio_gain_db": { "type": "number", "minimum": -60, "maximum": 24, "default": 0 },
     "archive_profile_id": { "type": "string" },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Archive run start time. Required when archive_run_id is present."
+    },
     "youtube_runtime": {
       "description": "Non-secret YouTube lifecycle metadata prepared by Control Panel. A canonical public YouTube watch URL may be included for a prepared live_api_relay_static runtime; raw stream keys and OAuth tokens must not be included here.",
       "$ref": "youtube-runtime-config.schema.json"

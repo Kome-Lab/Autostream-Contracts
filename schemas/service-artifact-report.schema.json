@@ -4,6 +4,10 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["service_id", "stream_id", "artifacts"],
+  "dependentRequired": {
+    "archive_run_id": ["archive_started_at"],
+    "archive_started_at": ["archive_run_id"]
+  },
   "properties": {
     "service_id": {
       "type": "string",
@@ -12,6 +16,19 @@
     "stream_id": {
       "type": "string",
       "minLength": 1
+    },
+    "archive_run_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "not": { "pattern": "\\.\\." },
+      "description": "Stable identifier for one broadcast/archive run of the stream."
+    },
+    "archive_started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start timestamp of the archive run."
     },
     "artifacts": {
       "type": "array",
@@ -35,8 +52,8 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 1024,
-            "pattern": "^final/[^/\\\\]+/[^/\\\\]+$",
-            "description": "Logical final/{stream_id}/{name} path. The server also verifies stream_id and name equality."
+            "pattern": "^final/[^/\\\\]+/(?:[^/\\\\]+/)?[^/\\\\]+$",
+            "description": "Logical legacy final/{stream_id}/{name} or run-scoped final/{stream_id}/{archive_run_id}/{name} path. The server also verifies embedded identifiers and name equality."
           },
           "size_bytes": {
             "type": "integer",

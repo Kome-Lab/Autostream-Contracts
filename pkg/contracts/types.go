@@ -921,9 +921,11 @@ type StreamArtifact struct {
 }
 
 type ServiceArtifactReport struct {
-	ServiceID string           `json:"service_id"`
-	StreamID  string           `json:"stream_id"`
-	Artifacts []StreamArtifact `json:"artifacts"`
+	ServiceID        string           `json:"service_id"`
+	StreamID         string           `json:"stream_id"`
+	ArchiveRunID     string           `json:"archive_run_id,omitempty"`
+	ArchiveStartedAt *time.Time       `json:"archive_started_at,omitempty"`
+	Artifacts        []StreamArtifact `json:"artifacts"`
 }
 
 type WorkerEventType string
@@ -963,6 +965,10 @@ type WorkerStreamContext struct {
 }
 
 type WorkerStartJobRequest = WorkerStreamContext
+
+type WorkerCaptionRuntimeSettingsRequest struct {
+	CaptionProfileID string `json:"caption_profile_id"`
+}
 
 type DiscordVoiceJob struct {
 	StreamID                    string `json:"stream_id"`
@@ -1278,6 +1284,7 @@ type YouTubeRelayStaticRecoveryResolveResponse struct {
 
 type EncoderStartStreamRequest struct {
 	StreamID               string               `json:"stream_id"`
+	ArchiveRunID           string               `json:"archive_run_id,omitempty"`
 	Name                   string               `json:"name"`
 	InputURL               string               `json:"input_url,omitempty"`
 	InputMode              string               `json:"input_mode,omitempty"`
@@ -1290,6 +1297,7 @@ type EncoderStartStreamRequest struct {
 	OverlayProfileID       string               `json:"overlay_profile_id,omitempty"`
 	EncoderAudioGainDB     float64              `json:"encoder_audio_gain_db,omitempty"`
 	ArchiveProfileID       string               `json:"archive_profile_id,omitempty"`
+	StartedAt              time.Time            `json:"started_at,omitempty"`
 	YouTubeRuntime         YouTubeRuntimeConfig `json:"youtube_runtime,omitempty"`
 	ArchiveConfig          ArchiveRuntimeConfig `json:"archive_config,omitempty"`
 	DryRun                 bool                 `json:"dry_run,omitempty"`
@@ -1322,6 +1330,7 @@ type EncoderStartStreamResponse struct {
 
 type EncoderPackageStreamRequest struct {
 	StreamID      string               `json:"stream_id"`
+	ArchiveRunID  string               `json:"archive_run_id,omitempty"`
 	Name          string               `json:"name"`
 	StartedAt     time.Time            `json:"started_at,omitempty"`
 	DryRun        bool                 `json:"dry_run,omitempty"`
@@ -1417,23 +1426,26 @@ type StartReadinessResponse struct {
 }
 
 type StreamJob struct {
-	ID               string       `json:"id"`
-	Name             string       `json:"name"`
-	Status           StreamStatus `json:"status"`
-	DiscordConfigID  string       `json:"discord_config_id,omitempty"`
-	DiscordGuildID   string       `json:"discord_guild_id,omitempty"`
-	DiscordVoiceID   string       `json:"discord_voice_channel_id,omitempty"`
-	DiscordTextID    string       `json:"discord_text_channel_id,omitempty"`
-	EncoderProfileID string       `json:"encoder_profile_id,omitempty"`
-	CaptionProfileID string       `json:"caption_profile_id,omitempty"`
-	OverlayProfileID string       `json:"overlay_profile_id,omitempty"`
-	ArchiveProfileID string       `json:"archive_profile_id,omitempty"`
-	YouTubeOutputID  string       `json:"youtube_output_id,omitempty"`
-	EncoderInputMode string       `json:"encoder_input_mode,omitempty"`
-	StartedAt        *time.Time   `json:"started_at,omitempty"`
-	CompletedAt      *time.Time   `json:"completed_at,omitempty"`
-	CreatedAt        time.Time    `json:"created_at"`
-	UpdatedAt        time.Time    `json:"updated_at"`
+	ID                string       `json:"id"`
+	Name              string       `json:"name"`
+	Status            StreamStatus `json:"status"`
+	ArchiveRunID      string       `json:"archive_run_id,omitempty"`
+	ArchiveStartedAt  *time.Time   `json:"archive_started_at,omitempty"`
+	ArchiveReportedAt *time.Time   `json:"archive_reported_at,omitempty"`
+	DiscordConfigID   string       `json:"discord_config_id,omitempty"`
+	DiscordGuildID    string       `json:"discord_guild_id,omitempty"`
+	DiscordVoiceID    string       `json:"discord_voice_channel_id,omitempty"`
+	DiscordTextID     string       `json:"discord_text_channel_id,omitempty"`
+	EncoderProfileID  string       `json:"encoder_profile_id,omitempty"`
+	CaptionProfileID  string       `json:"caption_profile_id,omitempty"`
+	OverlayProfileID  string       `json:"overlay_profile_id,omitempty"`
+	ArchiveProfileID  string       `json:"archive_profile_id,omitempty"`
+	YouTubeOutputID   string       `json:"youtube_output_id,omitempty"`
+	EncoderInputMode  string       `json:"encoder_input_mode,omitempty"`
+	StartedAt         *time.Time   `json:"started_at,omitempty"`
+	CompletedAt       *time.Time   `json:"completed_at,omitempty"`
+	CreatedAt         time.Time    `json:"created_at"`
+	UpdatedAt         time.Time    `json:"updated_at"`
 }
 
 type EncoderProfile struct {

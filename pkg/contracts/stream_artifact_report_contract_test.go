@@ -1,6 +1,7 @@
 package contracts
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -90,4 +91,47 @@ func TestControlOpenAPIStreamArtifactReportFailureResponses(t *testing.T) {
 			t.Fatalf("ErrorResponse enum is missing %q", code)
 		}
 	}
+}
+
+func TestServiceArtifactReportSchemaSupportsLegacyAndRunScopedArchives(t *testing.T) {
+	schema := compileContractJSONSchema(t, "service-artifact-report.schema.json")
+	validate := func(name, body string, wantValid bool) {
+		t.Helper()
+		t.Run(name, func(t *testing.T) {
+			var value any
+			if err := json.Unmarshal([]byte(body), &value); err != nil {
+				t.Fatal(err)
+			}
+			err := schema.Validate(value)
+			if wantValid && err != nil {
+				t.Fatalf("expected valid report, got %v", err)
+			}
+			if !wantValid && err == nil {
+				t.Fatal("expected invalid report")
+			}
+		})
+	}
+
+	validate("legacy path remains accepted", `{
+		"service_id":"enc-01","stream_id":"stream-01",
+		"artifacts":[{"kind":"archive","name":"final.mp4","relative_path":"final/stream-01/final.mp4","size_bytes":123}]
+	}`, true)
+	validate("run scoped path and metadata are accepted", `{
+		"service_id":"enc-01","stream_id":"stream-01",
+		"archive_run_id":"20260818_140629_123456789_JST",
+		"archive_started_at":"2026-08-18T05:06:29.123456789Z",
+		"artifacts":[{"kind":"archive","name":"final.mp4","relative_path":"final/stream-01/20260818_140629_123456789_JST/final.mp4","size_bytes":456}]
+	}`, true)
+	validate("run id requires start time", `{
+		"service_id":"enc-01","stream_id":"stream-01","archive_run_id":"run-01",
+		"artifacts":[{"kind":"archive","name":"final.mp4","relative_path":"final/stream-01/run-01/final.mp4","size_bytes":1}]
+	}`, false)
+	validate("start time requires run id", `{
+		"service_id":"enc-01","stream_id":"stream-01","archive_started_at":"2026-08-18T05:06:29Z",
+		"artifacts":[{"kind":"archive","name":"final.mp4","relative_path":"final/stream-01/final.mp4","size_bytes":1}]
+	}`, false)
+	validate("nested traversal is rejected", `{
+		"service_id":"enc-01","stream_id":"stream-01","archive_run_id":"run-01","archive_started_at":"2026-08-18T05:06:29Z",
+		"artifacts":[{"kind":"archive","name":"final.mp4","relative_path":"final/stream-01/run-01/extra/final.mp4","size_bytes":1}]
+	}`, false)
 }

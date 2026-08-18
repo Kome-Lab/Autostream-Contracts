@@ -5,8 +5,19 @@
   "type": "object",
   "required": ["stream_id", "name"],
   "additionalProperties": false,
+  "dependentRequired": {
+    "archive_run_id": ["started_at"]
+  },
   "properties": {
     "stream_id": { "type": "string", "minLength": 1 },
+    "archive_run_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "not": { "pattern": "\\.\\." },
+      "description": "Stable identifier for one broadcast/archive run. Legacy callers omit this field."
+    },
     "name": { "type": "string", "minLength": 1 },
     "started_at": { "type": "string", "format": "date-time" },
     "dry_run": { "type": "boolean" },

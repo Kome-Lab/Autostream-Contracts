@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/worker-caption-runtime-settings-request.schema.json",
+  "title": "WorkerCaptionRuntimeSettingsRequest",
+  "description": "Internal Control Panel to Worker request that atomically refreshes the selected caption profile for an already-running stream. The Worker resolves the current profile and runtime secret from Control Panel configuration; provider credentials are never carried in this payload.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["caption_profile_id"],
+  "properties": {
+    "caption_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Caption profile currently selected by the live stream. The Worker prepares a replacement provider session before swapping the active session."
+    }
+  }
+}
