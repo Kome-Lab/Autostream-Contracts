@@ -557,6 +557,96 @@ func TestDeepgramCaptionAndSessionRefreshContracts(t *testing.T) {
 	}
 }
 
+func TestDiscordBotStartJobRequiresPositiveJobGeneration(t *testing.T) {
+	schema := compileContractJSONSchema(t, "discord-bot-start-job-request.schema.json")
+	tests := []struct {
+		name  string
+		body  string
+		valid bool
+	}{
+		{
+			name:  "positive generation",
+			body:  `{"stream_id":"stream-01","job_generation":17,"guild_id":"guild-01","voice_channel_id":"voice-01"}`,
+			valid: true,
+		},
+		{
+			name: "missing generation",
+			body: `{"stream_id":"stream-01","guild_id":"guild-01","voice_channel_id":"voice-01"}`,
+		},
+		{
+			name: "zero generation",
+			body: `{"stream_id":"stream-01","job_generation":0,"guild_id":"guild-01","voice_channel_id":"voice-01"}`,
+		},
+		{
+			name: "negative generation",
+			body: `{"stream_id":"stream-01","job_generation":-1,"guild_id":"guild-01","voice_channel_id":"voice-01"}`,
+		},
+		{
+			name: "fractional generation",
+			body: `{"stream_id":"stream-01","job_generation":1.5,"guild_id":"guild-01","voice_channel_id":"voice-01"}`,
+		},
+		{
+			name: "string generation",
+			body: `{"stream_id":"stream-01","job_generation":"17","guild_id":"guild-01","voice_channel_id":"voice-01"}`,
+		},
+		{
+			name: "unknown property",
+			body: `{"stream_id":"stream-01","job_generation":17,"guild_id":"guild-01","voice_channel_id":"voice-01","unexpected":true}`,
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			var payload any
+			decoder := json.NewDecoder(strings.NewReader(test.body))
+			decoder.UseNumber()
+			if err := decoder.Decode(&payload); err != nil {
+				t.Fatal(err)
+			}
+			if err := schema.Validate(payload); (err == nil) != test.valid {
+				t.Fatalf("valid=%t: %v", test.valid, err)
+			}
+		})
+	}
+
+	openAPI, err := os.ReadFile(filepath.Join("..", "..", "openapi", "discord-bot-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, marker := range []string{
+		"  /jobs/start:",
+		"operationId: startDiscordBotJob",
+		`$ref: "#/components/schemas/DiscordBotStartJobRequest"`,
+		`$ref: "../schemas/discord-bot-start-job-request.schema.json"`,
+	} {
+		if !strings.Contains(string(openAPI), marker) {
+			t.Fatalf("discord-bot-api.yaml is missing start-job contract marker %q", marker)
+		}
+	}
+}
+
+func TestDiscordBotStartJobGoJSONUsesUint64Generation(t *testing.T) {
+	var maximum DiscordBotStartJobRequest
+	if err := json.Unmarshal([]byte(`{"stream_id":"stream-01","job_generation":18446744073709551615,"guild_id":"guild-01","voice_channel_id":"voice-01"}`), &maximum); err != nil {
+		t.Fatalf("decode maximum uint64 generation: %v", err)
+	}
+	if maximum.JobGeneration != 18446744073709551615 {
+		t.Fatalf("decoded job_generation=%d, want maximum uint64", maximum.JobGeneration)
+	}
+
+	var overflow DiscordBotStartJobRequest
+	if err := json.Unmarshal([]byte(`{"stream_id":"stream-01","job_generation":18446744073709551616,"guild_id":"guild-01","voice_channel_id":"voice-01"}`), &overflow); err == nil {
+		t.Fatal("Go JSON decode accepted job_generation outside the uint64 range")
+	}
+
+	encoded, err := json.Marshal(DiscordBotStartJobRequest{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(encoded), `"job_generation":0`) {
+		t.Fatalf("DiscordBotStartJobRequest omitted required job_generation: %s", encoded)
+	}
+}
+
 func TestDiscordOpusIngestV2RequiresGenerationFences(t *testing.T) {
 	schema := compileContractJSONSchema(t, "discord-opus-ingest-v2.schema.json")
 	tests := []struct {

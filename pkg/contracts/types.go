@@ -972,7 +972,7 @@ type WorkerCaptionRuntimeSettingsRequest struct {
 
 type DiscordVoiceJob struct {
 	StreamID                    string `json:"stream_id"`
-	JobGeneration               uint64 `json:"job_generation,omitempty"`
+	JobGeneration               uint64 `json:"job_generation"`
 	GuildID                     string `json:"guild_id"`
 	VoiceChannelID              string `json:"voice_channel_id"`
 	TextChannelID               string `json:"text_channel_id,omitempty"`

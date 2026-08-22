@@ -2,12 +2,17 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DiscordBotStartJobRequest",
   "type": "object",
-  "required": ["stream_id", "guild_id", "voice_channel_id"],
+  "required": ["stream_id", "job_generation", "guild_id", "voice_channel_id"],
   "additionalProperties": false,
   "properties": {
     "stream_id": {
       "type": "string",
       "minLength": 1
+    },
+    "job_generation": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Worker-issued positive uint64 generation fence for this exact stream job. Control Panel must pass it through unchanged, and consumers must reject missing, zero, or values outside the uint64 range before starting the job."
     },
     "guild_id": {
       "type": "string",

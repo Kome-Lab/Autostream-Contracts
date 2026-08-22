@@ -5,9 +5,17 @@ on:
     branches: ['**']
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: contracts-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   go:
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
@@ -16,3 +24,63 @@ jobs:
           cache-dependency-path: go.mod
       - run: go test ./...
       - run: go build ./...
+
+  openapi:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 26
+      - name: Lint Discord Bot OpenAPI
+        run: |
+          npx --yes @redocly/cli@2.39.0 lint \
+            openapi/discord-bot-api.yaml \
+            --format github-actions
+      - name: Bundle and verify Discord Bot OpenAPI
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          bundle_dir="${RUNNER_TEMP}/redocly"
+          bundle="${bundle_dir}/discord-bot-api.bundle.json"
+
+          rm -rf "${bundle_dir}"
+          mkdir -p "${bundle_dir}"
+          trap 'rm -rf "${bundle_dir}"' EXIT
+
+          npx --yes @redocly/cli@2.39.0 bundle \
+            openapi/discord-bot-api.yaml \
+            --ext json \
+            --output "${bundle}"
+
+          jq -e '
+            .components.schemas["discord-bot-start-job-request.schema"] as $schema |
+            ($schema.required | index("job_generation") != null) and
+            ($schema.properties.job_generation.type == "integer") and
+            ($schema.properties.job_generation.minimum == 1) and
+            (($schema.properties.job_generation | has("maximum")) | not)
+          ' "${bundle}" >/dev/null
+
+          grep_status=0
+
+          grep -Eq -- \
+            '18446744073709551615|18446744073709552000' \
+            "${bundle}" ||
+            grep_status=$?
+
+          case "${grep_status}" in
+            0)
+              echo "Unsafe uint64 maximum serialization found in bundled OpenAPI" >&2
+              exit 1
+              ;;
+            1)
+              ;;
+            *)
+              echo \
+                "Failed to inspect bundled OpenAPI for unsafe uint64 literals (grep exit ${grep_status})." \
+                >&2
+              exit "${grep_status}"
+              ;;
+          esac

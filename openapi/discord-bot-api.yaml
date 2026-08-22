@@ -31,6 +31,34 @@ paths:
                     pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
                     example: v1.1.1
 
+  /jobs/start:
+    post:
+      operationId: startDiscordBotJob
+      summary: Start the assigned Discord voice job
+      description: >
+        Control Panel supplies the positive Worker-issued job generation unchanged.
+        Discord Bot validates the generation before fetching runtime configuration,
+        starting the manager, or joining the voice channel.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiscordBotStartJobRequest"
+      responses:
+        "202":
+          description: Discord voice job accepted
+        "400":
+          description: Invalid JSON or a missing, zero, or otherwise invalid job generation
+        "401":
+          description: Service token missing or invalid
+        "403":
+          description: Stream is not assigned to this primary Discord Bot
+        "409":
+          description: Stream job state conflicts with the requested start
+        "502":
+          description: Runtime configuration could not be fetched
+
   /streams/{id}/notifications/youtube-live:
     post:
       operationId: notifyYouTubeLive
@@ -126,6 +154,8 @@ components:
       scheme: bearer
       description: Node/service token supplied by Control Panel.
   schemas:
+    DiscordBotStartJobRequest:
+      $ref: "../schemas/discord-bot-start-job-request.schema.json"
     YouTubeLiveNotificationRequest:
       type: object
       additionalProperties: false
