@@ -1,0 +1,3360 @@
+{
+  "format_version": 1,
+  "package_import_path": "github.com/example/autostream-contracts/pkg/contracts",
+  "package_name": "contracts",
+  "exported_identifier_count": 479,
+  "exported_method_count": 0,
+  "identifiers": [
+    {
+      "name": "AppSettingsWriteRequest",
+      "kind": "type",
+      "type": "AppSettingsWriteRequest",
+      "alias": false,
+      "underlying": "struct{AppName string \"json:\\\"app_name\\\"\"; Timezone string \"json:\\\"timezone\\\"\"; GoogleAnalyticsEnabled bool \"json:\\\"google_analytics_enabled,omitempty\\\"\"; GoogleAnalyticsMeasurementID string \"json:\\\"google_analytics_measurement_id,omitempty\\\"\"; SMTPEnabled bool \"json:\\\"smtp_enabled\\\"\"; SMTPHost string \"json:\\\"smtp_host,omitempty\\\"\"; SMTPPort int \"json:\\\"smtp_port,omitempty\\\"\"; SMTPStartTLS bool \"json:\\\"smtp_starttls\\\"\"; SMTPFrom string \"json:\\\"smtp_from,omitempty\\\"\"; SMTPUsername string \"json:\\\"smtp_username,omitempty\\\"\"; SMTPPassword string \"json:\\\"smtp_password,omitempty\\\"\"; TurnstileEnabled bool \"json:\\\"turnstile_enabled,omitempty\\\"\"; TurnstileSiteKey string \"json:\\\"turnstile_site_key,omitempty\\\"\"; TurnstileSecret string \"json:\\\"turnstile_secret,omitempty\\\"\"}"
+    },
+    {
+      "name": "ArchiveMetadata",
+      "kind": "type",
+      "type": "ArchiveMetadata",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; Name string \"json:\\\"name\\\"\"; StartedAtJST string \"json:\\\"started_at_jst\\\"\"; Archive map[string]string \"json:\\\"archive\\\"\"; Upload ArchiveUploadResult \"json:\\\"upload\\\"\"; Commands []map[string]any \"json:\\\"commands,omitempty\\\"\"; Extra map[string]any \"json:\\\"extra,omitempty\\\"\"}"
+    },
+    {
+      "name": "ArchiveRuntimeConfig",
+      "kind": "type",
+      "type": "ArchiveRuntimeConfig",
+      "alias": false,
+      "underlying": "struct{DriveDestinationID string \"json:\\\"drive_destination_id,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; AuthMode string \"json:\\\"auth_mode,omitempty\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; OAuthProviderID string \"json:\\\"oauth_provider_id,omitempty\\\"\"; FolderIDSecretName string \"json:\\\"folder_id_secret_name,omitempty\\\"\"; BasePath string \"json:\\\"base_path,omitempty\\\"\"; SharedDrive bool \"json:\\\"shared_drive,omitempty\\\"\"; ClientID string \"json:\\\"client_id,omitempty\\\"\"; ClientSecretSecretName string \"json:\\\"client_secret_secret_name,omitempty\\\"\"; RefreshTokenSecretName string \"json:\\\"refresh_token_secret_name,omitempty\\\"\"}"
+    },
+    {
+      "name": "ArchiveUploadResult",
+      "kind": "type",
+      "type": "ArchiveUploadResult",
+      "alias": false,
+      "underlying": "struct{DryRun bool \"json:\\\"dry_run\\\"\"; FolderIDConfigured bool \"json:\\\"folder_id_configured,omitempty\\\"\"; FolderIDFingerprint string \"json:\\\"folder_id_fingerprint,omitempty\\\"\"; FileCount int \"json:\\\"file_count,omitempty\\\"\"; FileFingerprints map[string]string \"json:\\\"file_fingerprints,omitempty\\\"\"; Attempts int \"json:\\\"attempts\\\"\"}"
+    },
+    {
+      "name": "AssignmentRolePrimary",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"primary\""
+    },
+    {
+      "name": "AssignmentRoleStandby",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"standby\""
+    },
+    {
+      "name": "AuditEvent",
+      "kind": "type",
+      "type": "AuditEvent",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Timestamp time.Time \"json:\\\"timestamp\\\"\"; ActorUserID string \"json:\\\"actor_user_id,omitempty\\\"\"; ActorUsername string \"json:\\\"actor_username,omitempty\\\"\"; ActorIP string \"json:\\\"actor_ip,omitempty\\\"\"; UserAgent string \"json:\\\"user_agent,omitempty\\\"\"; Action string \"json:\\\"action\\\"\"; ResourceType string \"json:\\\"resource_type\\\"\"; ResourceID string \"json:\\\"resource_id,omitempty\\\"\"; Result string \"json:\\\"result\\\"\"; Metadata map[string]any \"json:\\\"metadata,omitempty\\\"\"; RequestID string \"json:\\\"request_id\\\"\"}"
+    },
+    {
+      "name": "CapabilitySceneFramesMJPEGSRT",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"scene_frames_mjpeg_srt\""
+    },
+    {
+      "name": "CapabilitySceneVideoSRTLegacy",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"scene_video_srt\""
+    },
+    {
+      "name": "CapabilityWorkerFrameIngestMJPEGSRT",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"worker_frame_ingest_mjpeg_srt\""
+    },
+    {
+      "name": "CapabilityWorkerVideoIngestSRTLegacy",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"worker_video_ingest_srt\""
+    },
+    {
+      "name": "CaptionProfileConfig",
+      "kind": "type",
+      "type": "CaptionProfileConfig",
+      "alias": false,
+      "underlying": "struct{Provider string \"json:\\\"provider\\\"\"; Model string \"json:\\\"model\\\"\"; Language string \"json:\\\"language\\\"\"; APIKeySecretName string \"json:\\\"api_key_secret_name\\\"\"; EndpointingMS int \"json:\\\"endpointing_ms\\\"\"; UtteranceEndMS int \"json:\\\"utterance_end_ms\\\"\"; LocalFinalizeMS int \"json:\\\"local_finalize_ms\\\"\"; SpeakerIdleCloseSeconds int \"json:\\\"speaker_idle_close_seconds\\\"\"; KeepAliveIntervalSeconds int \"json:\\\"keepalive_interval_seconds\\\"\"; InterimResults bool \"json:\\\"interim_results\\\"\"; SmartFormat bool \"json:\\\"smart_format\\\"\"; Keyterms []string \"json:\\\"keyterms,omitempty\\\"\"; MIPOptOut bool \"json:\\\"mip_opt_out\\\"\"; ReplayBufferMaxMS int \"json:\\\"replay_buffer_max_ms\\\"\"; DelayMS int \"json:\\\"delay_ms\\\"\"; CaptionAudioFlushMS int \"json:\\\"caption_audio_flush_ms\\\"\"; CaptionAudioMaxBatchPackets int \"json:\\\"caption_audio_max_batch_packets\\\"\"; UnresolvedSSRCBufferMS int \"json:\\\"unresolved_ssrc_buffer_ms\\\"\"; ConversationMaxItems int \"json:\\\"conversation_max_items\\\"\"; ConversationReorderWindowMS int \"json:\\\"conversation_reorder_window_ms\\\"\"; VoiceInterimTTLSeconds int \"json:\\\"voice_interim_ttl_seconds\\\"\"; VoiceFinalTTLSeconds int \"json:\\\"voice_final_ttl_seconds\\\"\"; ShowVoiceTranscripts bool \"json:\\\"show_voice_transcripts\\\"\"; ShowLegacyCaptionBar bool \"json:\\\"show_legacy_caption_bar\\\"\"}"
+    },
+    {
+      "name": "ControlNotificationChannelCreateRequest",
+      "kind": "type",
+      "type": "ControlNotificationChannelCreateRequest",
+      "alias": true,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; Type string \"json:\\\"type\\\"\"; Enabled bool \"json:\\\"enabled\\\"\"; WebhookURL string \"json:\\\"webhook_url,omitempty\\\"\"; EmailRecipients []string \"json:\\\"email_recipients,omitempty\\\"\"; SeverityFilter []string \"json:\\\"severity_filter,omitempty\\\"\"; EventTypeFilter []string \"json:\\\"event_type_filter,omitempty\\\"\"}"
+    },
+    {
+      "name": "ControlNotificationChannelUpdateRequest",
+      "kind": "type",
+      "type": "ControlNotificationChannelUpdateRequest",
+      "alias": false,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; Type string \"json:\\\"type\\\"\"; Enabled bool \"json:\\\"enabled\\\"\"; WebhookURL string \"json:\\\"webhook_url,omitempty\\\"\"; EmailRecipients []string \"json:\\\"email_recipients,omitempty\\\"\"; SeverityFilter []string \"json:\\\"severity_filter,omitempty\\\"\"; EventTypeFilter []string \"json:\\\"event_type_filter,omitempty\\\"\"}"
+    },
+    {
+      "name": "DiagnosticReport",
+      "kind": "type",
+      "type": "DiagnosticReport",
+      "alias": false,
+      "underlying": "struct{Summary string \"json:\\\"summary\\\"\"; LikelyCause string \"json:\\\"likely_cause\\\"\"; Confidence float64 \"json:\\\"confidence\\\"\"; Evidence []string \"json:\\\"evidence\\\"\"; Impact string \"json:\\\"impact\\\"\"; RecommendedActions []string \"json:\\\"recommended_actions\\\"\"; SafeAutoCandidates []string \"json:\\\"safe_auto_remediation_candidates\\\"\"; ApprovalRequired []string \"json:\\\"actions_requiring_approval\\\"\"}"
+    },
+    {
+      "name": "DiagnosticRerunOutcome",
+      "kind": "type",
+      "type": "DiagnosticRerunOutcome",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "DiagnosticRerunOutcomeEvaluated",
+      "kind": "const",
+      "type": "DiagnosticRerunOutcome",
+      "alias": false,
+      "value": "\"evaluated\""
+    },
+    {
+      "name": "DiagnosticRerunOutcomeInconclusive",
+      "kind": "const",
+      "type": "DiagnosticRerunOutcome",
+      "alias": false,
+      "value": "\"inconclusive\""
+    },
+    {
+      "name": "DiagnosticRerunReason",
+      "kind": "type",
+      "type": "DiagnosticRerunReason",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "DiagnosticRerunReasonIncidentUpdatedDuringRerun",
+      "kind": "const",
+      "type": "DiagnosticRerunReason",
+      "alias": false,
+      "value": "\"incident_updated_during_rerun\""
+    },
+    {
+      "name": "DiagnosticRerunReasonSavedSignalMissing",
+      "kind": "const",
+      "type": "DiagnosticRerunReason",
+      "alias": false,
+      "value": "\"saved_signal_missing\""
+    },
+    {
+      "name": "DiagnosticRerunReasonSavedSignalNoLongerMatches",
+      "kind": "const",
+      "type": "DiagnosticRerunReason",
+      "alias": false,
+      "value": "\"saved_signal_no_longer_matches_rule\""
+    },
+    {
+      "name": "DiagnosticRerunReasonSavedSignalNotFound",
+      "kind": "const",
+      "type": "DiagnosticRerunReason",
+      "alias": false,
+      "value": "\"saved_signal_not_found\""
+    },
+    {
+      "name": "DiagnosticRerunResponse",
+      "kind": "type",
+      "type": "DiagnosticRerunResponse",
+      "alias": false,
+      "underlying": "struct{Incident Incident \"json:\\\"incident\\\"\"; Outcome DiagnosticRerunOutcome \"json:\\\"outcome\\\"\"; Reason DiagnosticRerunReason \"json:\\\"reason,omitempty\\\"\"}"
+    },
+    {
+      "name": "DiscordAudioBridgeStatus",
+      "kind": "type",
+      "type": "DiscordAudioBridgeStatus",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; BridgeActive bool \"json:\\\"bridge_active\\\"\"; StartedAt time.Time \"json:\\\"started_at\\\"\"; LastPacketAt time.Time \"json:\\\"last_packet_at,omitempty\\\"\"; PacketsTotal int64 \"json:\\\"packets_total\\\"\"; RTPForwardedTotal int64 \"json:\\\"rtp_forwarded\\\"\"; LastPacketAgeSec float64 \"json:\\\"last_packet_age_sec\\\"\"}"
+    },
+    {
+      "name": "DiscordBotStartJobRequest",
+      "kind": "type",
+      "type": "DiscordBotStartJobRequest",
+      "alias": true,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; GuildID string \"json:\\\"guild_id\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id\\\"\"; TextChannelID string \"json:\\\"text_channel_id,omitempty\\\"\"; EncoderAudioURL string \"json:\\\"encoder_audio_url,omitempty\\\"\"; CaptionAudioURL string \"json:\\\"caption_audio_url,omitempty\\\"\"; CaptionAudioToken string \"json:\\\"caption_audio_token,omitempty\\\"\"; CaptionAudioFlushMS int \"json:\\\"caption_audio_flush_ms,omitempty\\\"\"; CaptionAudioMaxBatchPackets int \"json:\\\"caption_audio_max_batch_packets,omitempty\\\"\"; UnresolvedSSRCBufferMS int \"json:\\\"unresolved_ssrc_buffer_ms,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; WorkerEventsURL string \"json:\\\"worker_events_url,omitempty\\\"\"; WorkerEventsToken string \"json:\\\"worker_events_token,omitempty\\\"\"}"
+    },
+    {
+      "name": "DiscordConfig",
+      "kind": "type",
+      "type": "DiscordConfig",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Name string \"json:\\\"name\\\"\"; ServiceID string \"json:\\\"service_id,omitempty\\\"\"; GuildID string \"json:\\\"guild_id,omitempty\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id,omitempty\\\"\"; TextChannelID string \"json:\\\"text_channel_id,omitempty\\\"\"; BotTokenConfigured bool \"json:\\\"bot_token_configured,omitempty\\\"\"; BotTokenFingerprint string \"json:\\\"bot_token_fingerprint,omitempty\\\"\"; CaptionEnabled bool \"json:\\\"caption_enabled,omitempty\\\"\"; STTProfileID string \"json:\\\"stt_profile_id,omitempty\\\"\"; ReconnectEnabled bool \"json:\\\"reconnect_enabled,omitempty\\\"\"; ReconnectMaxAttempts int \"json:\\\"reconnect_max_attempts,omitempty\\\"\"; ReconnectBaseDelay string \"json:\\\"reconnect_base_delay,omitempty\\\"\"; ReconnectMaxDelay string \"json:\\\"reconnect_max_delay,omitempty\\\"\"; AudioForwardEnabled bool \"json:\\\"audio_forward_enabled,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "DiscordConfigWriteRequest",
+      "kind": "type",
+      "type": "DiscordConfigWriteRequest",
+      "alias": false,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; ServiceID string \"json:\\\"service_id,omitempty\\\"\"; GuildID string \"json:\\\"guild_id,omitempty\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id,omitempty\\\"\"; TextChannelID string \"json:\\\"text_channel_id,omitempty\\\"\"; BotToken string \"json:\\\"bot_token,omitempty\\\"\"; CaptionEnabled *bool \"json:\\\"caption_enabled,omitempty\\\"\"; STTProfileID string \"json:\\\"stt_profile_id,omitempty\\\"\"; ReconnectEnabled *bool \"json:\\\"reconnect_enabled,omitempty\\\"\"; ReconnectMaxAttempts int \"json:\\\"reconnect_max_attempts,omitempty\\\"\"; ReconnectBaseDelay string \"json:\\\"reconnect_base_delay,omitempty\\\"\"; ReconnectMaxDelay string \"json:\\\"reconnect_max_delay,omitempty\\\"\"; AudioForwardEnabled *bool \"json:\\\"audio_forward_enabled,omitempty\\\"\"}"
+    },
+    {
+      "name": "DiscordOpusIngestRequest",
+      "kind": "type",
+      "type": "DiscordOpusIngestRequest",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; Source string \"json:\\\"source\\\"\"; Packets []DiscordOpusPacket \"json:\\\"packets\\\"\"}"
+    },
+    {
+      "name": "DiscordOpusIngestResponse",
+      "kind": "type",
+      "type": "DiscordOpusIngestResponse",
+      "alias": false,
+      "underlying": "struct{Accepted bool \"json:\\\"accepted\\\"\"; StreamID string \"json:\\\"stream_id\\\"\"; AcceptedCount int \"json:\\\"accepted_count\\\"\"; RTPForwarded int \"json:\\\"rtp_forwarded\\\"\"; LogsPath string \"json:\\\"logs_path,omitempty\\\"\"}"
+    },
+    {
+      "name": "DiscordOpusPacket",
+      "kind": "type",
+      "type": "DiscordOpusPacket",
+      "alias": false,
+      "underlying": "struct{SSRC uint32 \"json:\\\"ssrc\\\"\"; UserID string \"json:\\\"user_id,omitempty\\\"\"; JobGeneration uint64 \"json:\\\"job_generation,omitempty\\\"\"; ConnectionGeneration uint64 \"json:\\\"connection_generation,omitempty\\\"\"; Sequence uint16 \"json:\\\"sequence\\\"\"; Timestamp uint32 \"json:\\\"timestamp\\\"\"; ReceivedAt time.Time \"json:\\\"received_at\\\"\"; OpusBase64 string \"json:\\\"opus_base64\\\"\"}"
+    },
+    {
+      "name": "DiscordVoiceJob",
+      "kind": "type",
+      "type": "DiscordVoiceJob",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; GuildID string \"json:\\\"guild_id\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id\\\"\"; TextChannelID string \"json:\\\"text_channel_id,omitempty\\\"\"; EncoderAudioURL string \"json:\\\"encoder_audio_url,omitempty\\\"\"; CaptionAudioURL string \"json:\\\"caption_audio_url,omitempty\\\"\"; CaptionAudioToken string \"json:\\\"caption_audio_token,omitempty\\\"\"; CaptionAudioFlushMS int \"json:\\\"caption_audio_flush_ms,omitempty\\\"\"; CaptionAudioMaxBatchPackets int \"json:\\\"caption_audio_max_batch_packets,omitempty\\\"\"; UnresolvedSSRCBufferMS int \"json:\\\"unresolved_ssrc_buffer_ms,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; WorkerEventsURL string \"json:\\\"worker_events_url,omitempty\\\"\"; WorkerEventsToken string \"json:\\\"worker_events_token,omitempty\\\"\"}"
+    },
+    {
+      "name": "DriveDestination",
+      "kind": "type",
+      "type": "DriveDestination",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Name string \"json:\\\"name\\\"\"; AuthMode string \"json:\\\"auth_mode\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; FolderIDConfigured bool \"json:\\\"folder_id_configured\\\"\"; FolderIDFingerprint string \"json:\\\"folder_id_fingerprint,omitempty\\\"\"; MaskedFolderID string \"json:\\\"masked_folder_id,omitempty\\\"\"; SharedDrive bool \"json:\\\"shared_drive\\\"\"; BasePath string \"json:\\\"base_path\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "DriveDestinationWriteRequest",
+      "kind": "type",
+      "type": "DriveDestinationWriteRequest",
+      "alias": false,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; AuthMode string \"json:\\\"auth_mode\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; FolderID string \"json:\\\"folder_id,omitempty\\\"\"; SharedDrive bool \"json:\\\"shared_drive\\\"\"; BasePath string \"json:\\\"base_path\\\"\"}"
+    },
+    {
+      "name": "EncoderInputMode",
+      "kind": "type",
+      "type": "EncoderInputMode",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "EncoderInputModeDiscordOpusRTP",
+      "kind": "const",
+      "type": "EncoderInputMode",
+      "alias": false,
+      "value": "\"discord_opus_rtp\""
+    },
+    {
+      "name": "EncoderInputModeExternal",
+      "kind": "const",
+      "type": "EncoderInputMode",
+      "alias": false,
+      "value": "\"external\""
+    },
+    {
+      "name": "EncoderInputModeWorkerSceneFramesSRT",
+      "kind": "const",
+      "type": "EncoderInputMode",
+      "alias": false,
+      "value": "\"worker_scene_frames_srt\""
+    },
+    {
+      "name": "EncoderInputModeWorkerSceneSRTLegacy",
+      "kind": "const",
+      "type": "EncoderInputMode",
+      "alias": false,
+      "value": "\"worker_scene_srt\""
+    },
+    {
+      "name": "EncoderOutputRelayCapabilities",
+      "kind": "type",
+      "type": "EncoderOutputRelayCapabilities",
+      "alias": false,
+      "underlying": "struct{OutputRelayMode EncoderOutputRelayMode \"json:\\\"output_relay_mode,omitempty\\\"\"; OutputRelayBindingID string \"json:\\\"output_relay_binding_id,omitempty\\\"\"; SceneFramesMJPEGSRT bool \"json:\\\"scene_frames_mjpeg_srt,omitempty\\\"\"; WorkerFrameIngestMJPEGSRT bool \"json:\\\"worker_frame_ingest_mjpeg_srt,omitempty\\\"\"; SceneVideoSRTLegacy bool \"json:\\\"scene_video_srt,omitempty\\\"\"; WorkerVideoIngestSRTLegacy bool \"json:\\\"worker_video_ingest_srt,omitempty\\\"\"}"
+    },
+    {
+      "name": "EncoderOutputRelayMode",
+      "kind": "type",
+      "type": "EncoderOutputRelayMode",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "EncoderOutputRelayModeDirect",
+      "kind": "const",
+      "type": "EncoderOutputRelayMode",
+      "alias": false,
+      "value": "\"direct\""
+    },
+    {
+      "name": "EncoderOutputRelayModeLegacyStreamKey",
+      "kind": "const",
+      "type": "EncoderOutputRelayMode",
+      "alias": false,
+      "value": "\"legacy_stream_key\""
+    },
+    {
+      "name": "EncoderOutputRelayModeLiveAPIStatic",
+      "kind": "const",
+      "type": "EncoderOutputRelayMode",
+      "alias": false,
+      "value": "\"live_api_static\""
+    },
+    {
+      "name": "EncoderOutputRelayModeStaticLegacyAlias",
+      "kind": "const",
+      "type": "EncoderOutputRelayMode",
+      "alias": false,
+      "value": "\"static\""
+    },
+    {
+      "name": "EncoderPackageStreamRequest",
+      "kind": "type",
+      "type": "EncoderPackageStreamRequest",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; ArchiveRunID string \"json:\\\"archive_run_id,omitempty\\\"\"; Name string \"json:\\\"name\\\"\"; StartedAt time.Time \"json:\\\"started_at,omitempty\\\"\"; DryRun bool \"json:\\\"dry_run,omitempty\\\"\"; ArchiveConfig ArchiveRuntimeConfig \"json:\\\"archive_config,omitempty\\\"\"}"
+    },
+    {
+      "name": "EncoderProfile",
+      "kind": "type",
+      "type": "EncoderProfile",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Name string \"json:\\\"name\\\"\"; Width int \"json:\\\"width\\\"\"; Height int \"json:\\\"height\\\"\"; FPS int \"json:\\\"fps\\\"\"; VideoCodec string \"json:\\\"video_codec\\\"\"; AudioCodec string \"json:\\\"audio_codec\\\"\"; VideoBitrateKbps int \"json:\\\"video_bitrate_kbps\\\"\"; AudioBitrateKbps int \"json:\\\"audio_bitrate_kbps\\\"\"; AudioSampleRateHz int \"json:\\\"audio_sample_rate_hz\\\"\"; KeyframeIntervalSec int \"json:\\\"keyframe_interval_sec\\\"\"}"
+    },
+    {
+      "name": "EncoderRuntimeSettingsRequest",
+      "kind": "type",
+      "type": "EncoderRuntimeSettingsRequest",
+      "alias": false,
+      "underlying": "struct{EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id\\\"\"}"
+    },
+    {
+      "name": "EncoderStartStreamRequest",
+      "kind": "type",
+      "type": "EncoderStartStreamRequest",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; ArchiveRunID string \"json:\\\"archive_run_id,omitempty\\\"\"; Name string \"json:\\\"name\\\"\"; InputURL string \"json:\\\"input_url,omitempty\\\"\"; InputMode string \"json:\\\"input_mode,omitempty\\\"\"; WorkerVideoIngest bool \"json:\\\"worker_video_ingest,omitempty\\\"\"; WorkerVideoIngestToken string \"json:\\\"worker_video_ingest_token,omitempty\\\"\"; RTMPURL string \"json:\\\"rtmp_url\\\"\"; StreamKey string \"json:\\\"stream_key,omitempty\\\"\"; StreamKeySecretName string \"json:\\\"stream_key_secret_name,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; StartedAt time.Time \"json:\\\"started_at,omitempty\\\"\"; YouTubeRuntime YouTubeRuntimeConfig \"json:\\\"youtube_runtime,omitempty\\\"\"; ArchiveConfig ArchiveRuntimeConfig \"json:\\\"archive_config,omitempty\\\"\"; DryRun bool \"json:\\\"dry_run,omitempty\\\"\"}"
+    },
+    {
+      "name": "EncoderStartStreamResponse",
+      "kind": "type",
+      "type": "EncoderStartStreamResponse",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; Name string \"json:\\\"name\\\"\"; Status string \"json:\\\"status\\\"\"; StartedAtJST string \"json:\\\"started_at_jst\\\"\"; StoppedAtJST string \"json:\\\"stopped_at_jst,omitempty\\\"\"; Archive map[string]string \"json:\\\"archive\\\"\"; Error string \"json:\\\"error,omitempty\\\"\"; VideoIngest *EncoderVideoIngest \"json:\\\"video_ingest,omitempty\\\"\"}"
+    },
+    {
+      "name": "EncoderVideoIngest",
+      "kind": "type",
+      "type": "EncoderVideoIngest",
+      "alias": false,
+      "underlying": "struct{URL string \"json:\\\"url\\\"\"; Passphrase string \"json:\\\"passphrase\\\"\"; PBKeyLen int \"json:\\\"pbkeylen\\\"\"}"
+    },
+    {
+      "name": "ErrorCodeYouTubeLiveAPIRequiresManagedOutputRelay",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"live_api_requires_managed_output_relay\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayBindingClaimCheckFailed",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_binding_claim_check_failed\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayBindingReleasePending",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_binding_release_pending\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticCompletionRequiresCompletedStream",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_completion_requires_completed_stream\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticConfigChangedReload",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_config_changed_reload\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryBroadcastUnknown",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_recovery_broadcast_unknown\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryCompleteFailed",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_recovery_complete_failed\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryDispatchStateInvalid",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_recovery_dispatch_state_invalid\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryEncoderStopUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_recovery_encoder_stop_unavailable\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryEncoderStopUnconfirmed",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_recovery_encoder_stop_unconfirmed\""
+    },
+    {
+      "name": "ErrorResponse",
+      "kind": "type",
+      "type": "ErrorResponse",
+      "alias": false,
+      "underlying": "struct{RequestID string \"json:\\\"request_id\\\"\"; Code string \"json:\\\"code\\\"\"; Message string \"json:\\\"message\\\"\"}"
+    },
+    {
+      "name": "Heartbeat",
+      "kind": "type",
+      "type": "Heartbeat",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; NodeID string \"json:\\\"nodeId,omitempty\\\"\"; NodeIDSnake string \"json:\\\"node_id,omitempty\\\"\"; CurrentStreamID string \"json:\\\"current_stream_id,omitempty\\\"\"; Status string \"json:\\\"status\\\"\"; Version string \"json:\\\"version,omitempty\\\"\"; Commit string \"json:\\\"commit,omitempty\\\"\"; BuildDate string \"json:\\\"build_date,omitempty\\\"\"; Capabilities map[string]any \"json:\\\"capabilities,omitempty\\\"\"; Hostname string \"json:\\\"hostname,omitempty\\\"\"; OS string \"json:\\\"os,omitempty\\\"\"; Arch string \"json:\\\"arch,omitempty\\\"\"; API *NodeAgentAPI \"json:\\\"api,omitempty\\\"\"; Metrics map[string]any \"json:\\\"metrics,omitempty\\\"\"; Timestamp *time.Time \"json:\\\"timestamp,omitempty\\\"\"}"
+    },
+    {
+      "name": "HostAgentPolicyRequest",
+      "kind": "type",
+      "type": "HostAgentPolicyRequest",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; CurrentRevision int64 \"json:\\\"current_revision\\\"\"}"
+    },
+    {
+      "name": "HostAgentPolicyResponse",
+      "kind": "type",
+      "type": "HostAgentPolicyResponse",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch\\\"\"; Revision int64 \"json:\\\"revision\\\"\"; SourcePolicyRevision int64 \"json:\\\"source_policy_revision\\\"\"; LocalExecutorPolicyRevision int64 \"json:\\\"local_executor_policy_revision\\\"\"; LocalExecutorPolicySHA256 string \"json:\\\"local_executor_policy_sha256,omitempty\\\"\"; ObserveOnly bool \"json:\\\"observe_only\\\"\"; RuntimeRequirement *HostAgentRuntimeRequirement \"json:\\\"runtime_requirement,omitempty\\\"\"; SelfUpdate *HostAgentSelfUpdateDirective \"json:\\\"self_update,omitempty\\\"\"; SelfUpdateID string \"json:\\\"self_update_id,omitempty\\\"\"; SelfUpdateRevision int64 \"json:\\\"self_update_revision,omitempty\\\"\"; SelfUpdateStatus string \"json:\\\"self_update_status,omitempty\\\"\"; Targets []HostAgentPolicyTarget \"json:\\\"targets\\\"\"}"
+    },
+    {
+      "name": "HostAgentPolicyTarget",
+      "kind": "type",
+      "type": "HostAgentPolicyTarget",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; ServiceType string \"json:\\\"service_type\\\"\"; DeploymentMode string \"json:\\\"deployment_mode\\\"\"; DesiredEndpoint *ServiceEndpoint \"json:\\\"desired_endpoint,omitempty\\\"\"; AppliedEndpoint *ServiceEndpoint \"json:\\\"applied_endpoint,omitempty\\\"\"; LocalListenEndpoint *ServiceEndpoint \"json:\\\"local_listen_endpoint,omitempty\\\"\"; LocalHealthEndpoint *ServiceEndpoint \"json:\\\"local_health_endpoint,omitempty\\\"\"; AppliedConfigRevision int64 \"json:\\\"applied_config_revision,omitempty\\\"\"; AppliedConfigSHA256 string \"json:\\\"applied_config_sha256,omitempty\\\"\"}"
+    },
+    {
+      "name": "HostAgentRuntimeRequirement",
+      "kind": "type",
+      "type": "HostAgentRuntimeRequirement",
+      "alias": false,
+      "underlying": "struct{MinimumAgentVersion string \"json:\\\"minimum_agent_version\\\"\"; MinimumExecutorVersion string \"json:\\\"minimum_executor_version\\\"\"; AgentProtocolVersion int \"json:\\\"agent_protocol_version\\\"\"; ExecutorProtocolVersion int \"json:\\\"executor_protocol_version\\\"\"; MutationProtocolVersion int \"json:\\\"mutation_protocol_version\\\"\"; RecoveryProtocolVersion int \"json:\\\"recovery_protocol_version\\\"\"}"
+    },
+    {
+      "name": "HostAgentSelfUpdateDirective",
+      "kind": "type",
+      "type": "HostAgentSelfUpdateDirective",
+      "alias": false,
+      "underlying": "struct{Generation string \"json:\\\"generation\\\"\"; AgentVersion string \"json:\\\"agent_version\\\"\"; ExecutorVersion string \"json:\\\"executor_version\\\"\"; Commit string \"json:\\\"commit\\\"\"; ArtifactSHA256 string \"json:\\\"artifact_sha256\\\"\"; AgentProtocolVersion int \"json:\\\"agent_protocol_version\\\"\"; ExecutorProtocolVersion int \"json:\\\"executor_protocol_version\\\"\"; MutationProtocolVersion int \"json:\\\"mutation_protocol_version\\\"\"; RecoveryProtocolVersion int \"json:\\\"recovery_protocol_version\\\"\"; Release HostSelfUpdateReleaseBinding \"json:\\\"release\\\"\"; StagedAt time.Time \"json:\\\"staged_at\\\"\"}"
+    },
+    {
+      "name": "HostSelfUpdateGrant",
+      "kind": "type",
+      "type": "HostSelfUpdateGrant",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; SelfUpdateID string \"json:\\\"self_update_id\\\"\"; AttemptGeneration string \"json:\\\"attempt_generation\\\"\"; Operation string \"json:\\\"operation\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id\\\"\"; AgentServiceID string \"json:\\\"agent_service_id\\\"\"; ExpectedSelfUpdateRevision int64 \"json:\\\"expected_self_update_revision\\\"\"; ExpectedOwnershipEpoch int64 \"json:\\\"expected_ownership_epoch\\\"\"; ExpectedSourcePolicyRevision int64 \"json:\\\"expected_source_policy_revision\\\"\"; ExpectedProjectionRevision int64 \"json:\\\"expected_projection_revision\\\"\"; ExpectedLocalExecutorPolicyRevision int64 \"json:\\\"expected_local_executor_policy_revision\\\"\"; ExpectedLocalExecutorPolicySHA256 string \"json:\\\"expected_local_executor_policy_sha256\\\"\"; AgentVersion string \"json:\\\"agent_version\\\"\"; ExecutorVersion string \"json:\\\"executor_version\\\"\"; ReleaseCommit string \"json:\\\"release_commit\\\"\"; ArtifactSHA256 string \"json:\\\"artifact_sha256\\\"\"; AgentProtocolVersion int \"json:\\\"agent_protocol_version\\\"\"; ExecutorProtocolVersion int \"json:\\\"executor_protocol_version\\\"\"; MutationProtocolVersion int \"json:\\\"mutation_protocol_version\\\"\"; RecoveryProtocolVersion int \"json:\\\"recovery_protocol_version\\\"\"; Release HostSelfUpdateReleaseBinding \"json:\\\"release\\\"\"; DirectiveIssuedAt time.Time \"json:\\\"directive_issued_at\\\"\"; PlanSHA256 string \"json:\\\"plan_sha256\\\"\"; SessionID string \"json:\\\"session_id\\\"\"; Revision int64 \"json:\\\"revision\\\"\"; IssuedAt time.Time \"json:\\\"issued_at\\\"\"; ExpiresAt time.Time \"json:\\\"expires_at\\\"\"; ConsumedAt *time.Time \"json:\\\"consumed_at,omitempty\\\"\"; StageClaimRevision int64 \"json:\\\"stage_claim_revision,omitempty\\\"\"; StageClaimedAt *time.Time \"json:\\\"stage_claimed_at,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "HostSelfUpdateReleaseBinding",
+      "kind": "type",
+      "type": "HostSelfUpdateReleaseBinding",
+      "alias": false,
+      "underlying": "struct{Tag string \"json:\\\"tag\\\"\"; Commit string \"json:\\\"commit\\\"\"; PublishedAt time.Time \"json:\\\"published_at\\\"\"; ManifestAssetID int64 \"json:\\\"manifest_asset_id\\\"\"; ManifestAssetName string \"json:\\\"manifest_asset_name\\\"\"; ManifestSHA256 string \"json:\\\"manifest_sha256\\\"\"; ManifestChecksumAssetID int64 \"json:\\\"manifest_checksum_asset_id\\\"\"; ManifestChecksumSHA256 string \"json:\\\"manifest_checksum_sha256\\\"\"; ArchiveAssetID int64 \"json:\\\"archive_asset_id\\\"\"; ArchiveAssetName string \"json:\\\"archive_asset_name\\\"\"; ArchiveSize int64 \"json:\\\"archive_size\\\"\"; ArchiveSHA256 string \"json:\\\"archive_sha256\\\"\"; ArchiveChecksumAssetID int64 \"json:\\\"archive_checksum_asset_id\\\"\"; ArchiveChecksumSHA256 string \"json:\\\"archive_checksum_sha256\\\"\"; Arch string \"json:\\\"arch\\\"\"; AgentProtocolVersion int \"json:\\\"agent_protocol_version\\\"\"; ExecutorProtocolVersion int \"json:\\\"executor_protocol_version\\\"\"; MutationProtocolVersion int \"json:\\\"mutation_protocol_version\\\"\"; RecoveryProtocolVersion int \"json:\\\"recovery_protocol_version\\\"\"; MinimumPanelVersion string \"json:\\\"minimum_panel_version\\\"\"}"
+    },
+    {
+      "name": "Incident",
+      "kind": "type",
+      "type": "Incident",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Rule IncidentRule \"json:\\\"rule\\\"\"; Severity IncidentSeverity \"json:\\\"severity\\\"\"; Status IncidentStatus \"json:\\\"status\\\"\"; SummaryJA string \"json:\\\"summary_ja\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; StreamID string \"json:\\\"stream_id,omitempty\\\"\"; SignalID string \"json:\\\"signal_id,omitempty\\\"\"; Report DiagnosticReport \"json:\\\"diagnostic_report\\\"\"; OpenedAt time.Time \"json:\\\"opened_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"; ResolvedAt *time.Time \"json:\\\"resolved_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "IncidentAcknowledged",
+      "kind": "const",
+      "type": "IncidentStatus",
+      "alias": false,
+      "value": "\"acknowledged\""
+    },
+    {
+      "name": "IncidentIgnored",
+      "kind": "const",
+      "type": "IncidentStatus",
+      "alias": false,
+      "value": "\"ignored\""
+    },
+    {
+      "name": "IncidentInvestigating",
+      "kind": "const",
+      "type": "IncidentStatus",
+      "alias": false,
+      "value": "\"investigating\""
+    },
+    {
+      "name": "IncidentMitigated",
+      "kind": "const",
+      "type": "IncidentStatus",
+      "alias": false,
+      "value": "\"mitigated\""
+    },
+    {
+      "name": "IncidentOpen",
+      "kind": "const",
+      "type": "IncidentStatus",
+      "alias": false,
+      "value": "\"open\""
+    },
+    {
+      "name": "IncidentResolved",
+      "kind": "const",
+      "type": "IncidentStatus",
+      "alias": false,
+      "value": "\"resolved\""
+    },
+    {
+      "name": "IncidentRule",
+      "kind": "type",
+      "type": "IncidentRule",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "IncidentSeverity",
+      "kind": "type",
+      "type": "IncidentSeverity",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "IncidentStatus",
+      "kind": "type",
+      "type": "IncidentStatus",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "KnownStartReadinessIssueCodes",
+      "kind": "var",
+      "type": "[]string",
+      "alias": false
+    },
+    {
+      "name": "ManagedAppSettings",
+      "kind": "type",
+      "type": "ManagedAppSettings",
+      "alias": false,
+      "underlying": "struct{AppName string \"json:\\\"app_name\\\"\"; Timezone string \"json:\\\"timezone\\\"\"; GoogleAnalyticsEnabled bool \"json:\\\"google_analytics_enabled,omitempty\\\"\"; GoogleAnalyticsMeasurementID string \"json:\\\"google_analytics_measurement_id,omitempty\\\"\"; SMTPEnabled bool \"json:\\\"smtp_enabled\\\"\"; SMTPHost string \"json:\\\"smtp_host,omitempty\\\"\"; SMTPPort int \"json:\\\"smtp_port,omitempty\\\"\"; SMTPStartTLS bool \"json:\\\"smtp_starttls\\\"\"; SMTPFrom string \"json:\\\"smtp_from,omitempty\\\"\"; SMTPUsername string \"json:\\\"smtp_username,omitempty\\\"\"; SMTPPasswordConfigured bool \"json:\\\"smtp_password_configured,omitempty\\\"\"; TurnstileEnabled bool \"json:\\\"turnstile_enabled,omitempty\\\"\"; TurnstileSiteKey string \"json:\\\"turnstile_site_key,omitempty\\\"\"; TurnstileConfigured bool \"json:\\\"turnstile_configured,omitempty\\\"\"; UpdatedAt string \"json:\\\"updated_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "MetricArchiveFinalMKVExists",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"archive.final_mkv_exists\""
+    },
+    {
+      "name": "MetricArchiveFinalMP4Exists",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"archive.final_mp4_exists\""
+    },
+    {
+      "name": "MetricArchivePackageStatus",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"archive.package_status\""
+    },
+    {
+      "name": "MetricDiscordAudioForwardErrors",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.audio_forward_errors_total\""
+    },
+    {
+      "name": "MetricDiscordAudioForwardedTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.audio_forwarded_total\""
+    },
+    {
+      "name": "MetricDiscordAudioLastForwardAge",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.audio_last_forward_age_sec\""
+    },
+    {
+      "name": "MetricDiscordAudioLastPacketAge",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.audio_last_packet_age_sec\""
+    },
+    {
+      "name": "MetricDiscordAudioPacketsTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.audio_packets_total\""
+    },
+    {
+      "name": "MetricDiscordAudioReceiving",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.audio_receiving\""
+    },
+    {
+      "name": "MetricDiscordCaptionAudioForwardErrors",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.caption_audio_forward_errors_total\""
+    },
+    {
+      "name": "MetricDiscordCaptionAudioForwardedTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.caption_audio_forwarded_total\""
+    },
+    {
+      "name": "MetricDiscordCaptionAudioLastForwardAge",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.caption_audio_last_forward_age_sec\""
+    },
+    {
+      "name": "MetricDiscordCaptionAudioPacketsTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.caption_audio_packets_total\""
+    },
+    {
+      "name": "MetricDiscordCaptionUnresolvedSSRC",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.caption_unresolved_ssrc_total\""
+    },
+    {
+      "name": "MetricDiscordGatewayConnected",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.gateway_connected\""
+    },
+    {
+      "name": "MetricDiscordParticipantCount",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.participant_count\""
+    },
+    {
+      "name": "MetricDiscordReconnectCount",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.reconnect_count\""
+    },
+    {
+      "name": "MetricDiscordVoiceConnected",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.voice_connected\""
+    },
+    {
+      "name": "MetricDiscordVoiceDisconnects",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.voice_disconnect_count\""
+    },
+    {
+      "name": "MetricDiscordWorkerEventFailures",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"discord.worker_event_publish_failures_total\""
+    },
+    {
+      "name": "MetricEncoderAudioClippingTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.audio_clipping_total\""
+    },
+    {
+      "name": "MetricEncoderAudioLevelDB",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.audio_level_db\""
+    },
+    {
+      "name": "MetricEncoderAudioSilenceSec",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.audio_silence_sec\""
+    },
+    {
+      "name": "MetricEncoderCaptionArchiveDedupedTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.caption_archive_deduped_total\""
+    },
+    {
+      "name": "MetricEncoderCaptionArchiveFinalTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.caption_archive_final_total\""
+    },
+    {
+      "name": "MetricEncoderDroppedFramesTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.dropped_frames_total\""
+    },
+    {
+      "name": "MetricEncoderEncodeLagMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.encode_lag_ms\""
+    },
+    {
+      "name": "MetricEncoderOutputBitrateKbps",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.output_bitrate_kbps\""
+    },
+    {
+      "name": "MetricEncoderOutputFPS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.output_fps\""
+    },
+    {
+      "name": "MetricEncoderProcessAlive",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.process_alive\""
+    },
+    {
+      "name": "MetricEncoderRTMPReconnectCount",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"encoder.rtmp_reconnect_count\""
+    },
+    {
+      "name": "MetricGDriveUploadDurationSec",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"gdrive.upload_duration_sec\""
+    },
+    {
+      "name": "MetricGDriveUploadFileCount",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"gdrive.upload_file_count\""
+    },
+    {
+      "name": "MetricGDriveUploadFinalMP4Proof",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"gdrive.upload_final_mp4_fingerprint_present\""
+    },
+    {
+      "name": "MetricGDriveUploadFolderProof",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"gdrive.upload_folder_fingerprint_present\""
+    },
+    {
+      "name": "MetricGDriveUploadMetadataProof",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"gdrive.upload_metadata_fingerprint_present\""
+    },
+    {
+      "name": "MetricGDriveUploadProgress",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"gdrive.upload_progress_percent\""
+    },
+    {
+      "name": "MetricGDriveUploadRetryCount",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"gdrive.upload_retry_count\""
+    },
+    {
+      "name": "MetricGDriveUploadStatus",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"gdrive.upload_status\""
+    },
+    {
+      "name": "MetricHostCPUPercent",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"host.cpu_percent\""
+    },
+    {
+      "name": "MetricHostDiskFreeBytes",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"host.disk_free_bytes\""
+    },
+    {
+      "name": "MetricHostMemoryPercent",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"host.memory_percent\""
+    },
+    {
+      "name": "MetricHostNetworkRxBPS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"host.network_rx_bps\""
+    },
+    {
+      "name": "MetricHostNetworkTxBPS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"host.network_tx_bps\""
+    },
+    {
+      "name": "MetricMediaInputBitrateKbps",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"media.input_bitrate_kbps\""
+    },
+    {
+      "name": "MetricMediaInputTimeoutSec",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"media.input_timeout_sec\""
+    },
+    {
+      "name": "MetricName",
+      "kind": "type",
+      "type": "MetricName",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "MetricRTPJitterMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"rtp.jitter_ms\""
+    },
+    {
+      "name": "MetricRTPPacketLossPercent",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"rtp.packet_loss_percent\""
+    },
+    {
+      "name": "MetricRecorderDiskFreeBytes",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"recorder.disk_free_bytes\""
+    },
+    {
+      "name": "MetricRecorderFileSizeBytes",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"recorder.file_size_bytes\""
+    },
+    {
+      "name": "MetricRecorderRemuxDurationMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"recorder.remux_duration_ms\""
+    },
+    {
+      "name": "MetricRecorderWriteBitrateKbps",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"recorder.write_bitrate_kbps\""
+    },
+    {
+      "name": "MetricSRTBandwidthMbps",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"srt.bandwidth_mbps\""
+    },
+    {
+      "name": "MetricSRTJitterMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"srt.jitter_ms\""
+    },
+    {
+      "name": "MetricSRTPacketLossPercent",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"srt.packet_loss_percent\""
+    },
+    {
+      "name": "MetricSRTRTTMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"srt.rtt_ms\""
+    },
+    {
+      "name": "MetricStreamLiveDurationSec",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"stream.live_duration_sec\""
+    },
+    {
+      "name": "MetricStreamRestartCount",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"stream.restart_count\""
+    },
+    {
+      "name": "MetricStreamStartDurationMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"stream.start_duration_ms\""
+    },
+    {
+      "name": "MetricStreamStatus",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"stream.status\""
+    },
+    {
+      "name": "MetricStreamStopDurationMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"stream.stop_duration_ms\""
+    },
+    {
+      "name": "MetricWorkerCaptionAudioToFinalMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_audio_to_final_ms\""
+    },
+    {
+      "name": "MetricWorkerCaptionAudioToInterimMS",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_audio_to_interim_ms\""
+    },
+    {
+      "name": "MetricWorkerCaptionEventsTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_events_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionFinalTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_final_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionFinalizeTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_finalize_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionInterimTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_interim_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionProviderErrors",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_provider_errors_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionReconnectsTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_reconnects_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionUtteranceEndTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.caption_utterance_end_total\""
+    },
+    {
+      "name": "MetricWorkerEventSendFailures",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.event_send_failures_total\""
+    },
+    {
+      "name": "MetricWorkerHeartbeatAgeSec",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.heartbeat_age_sec\""
+    },
+    {
+      "name": "MetricWorkerOverlayEventsTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.overlay_events_total\""
+    },
+    {
+      "name": "MetricWorkerSceneUpdatesTotal",
+      "kind": "const",
+      "type": "MetricName",
+      "alias": false,
+      "value": "\"worker.scene_updates_total\""
+    },
+    {
+      "name": "MissingStreamAssignmentsResponse",
+      "kind": "type",
+      "type": "MissingStreamAssignmentsResponse",
+      "alias": false,
+      "underlying": "struct{Code string \"json:\\\"code\\\"\"; MissingServiceTypes []string \"json:\\\"missing_service_types\\\"\"}"
+    },
+    {
+      "name": "NodeAgentAPI",
+      "kind": "type",
+      "type": "NodeAgentAPI",
+      "alias": false,
+      "underlying": "struct{Host string \"json:\\\"host\\\"\"; Port int \"json:\\\"port\\\"\"; SSLEnabled bool \"json:\\\"sslEnabled\\\"\"}"
+    },
+    {
+      "name": "NotificationAdminAudit",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"admin.audit\""
+    },
+    {
+      "name": "NotificationArchiveUploadCompleted",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"archive.upload.completed\""
+    },
+    {
+      "name": "NotificationArchiveUploadFailed",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"archive.upload.failed\""
+    },
+    {
+      "name": "NotificationChannel",
+      "kind": "type",
+      "type": "NotificationChannel",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Name string \"json:\\\"name\\\"\"; Type string \"json:\\\"type\\\"\"; Enabled bool \"json:\\\"enabled\\\"\"; UsesGlobalSMTP bool \"json:\\\"uses_global_smtp\\\"\"; MaskedWebhookURL string \"json:\\\"masked_webhook_url,omitempty\\\"\"; SMTPPasswordConfigured bool \"json:\\\"smtp_password_configured,omitempty\\\"\"; MaskedEmailTarget string \"json:\\\"masked_email_target,omitempty\\\"\"; SeverityFilter []string \"json:\\\"severity_filter,omitempty\\\"\"; EventTypeFilter []string \"json:\\\"event_type_filter,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "NotificationChannelWriteRequest",
+      "kind": "type",
+      "type": "NotificationChannelWriteRequest",
+      "alias": false,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; Type string \"json:\\\"type\\\"\"; Enabled bool \"json:\\\"enabled\\\"\"; WebhookURL string \"json:\\\"webhook_url,omitempty\\\"\"; EmailRecipients []string \"json:\\\"email_recipients,omitempty\\\"\"; UsesGlobalSMTP *bool \"json:\\\"uses_global_smtp,omitempty\\\"\"; SMTPHost string \"json:\\\"smtp_host,omitempty\\\"\"; SMTPPort int \"json:\\\"smtp_port,omitempty\\\"\"; SMTPTLS bool \"json:\\\"smtp_tls,omitempty\\\"\"; SMTPFrom string \"json:\\\"smtp_from,omitempty\\\"\"; SMTPUsername string \"json:\\\"smtp_username,omitempty\\\"\"; SMTPPassword string \"json:\\\"smtp_password,omitempty\\\"\"; SeverityFilter []string \"json:\\\"severity_filter,omitempty\\\"\"; EventTypeFilter []string \"json:\\\"event_type_filter,omitempty\\\"\"}"
+    },
+    {
+      "name": "NotificationDelivery",
+      "kind": "type",
+      "type": "NotificationDelivery",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; EventType NotificationEventType \"json:\\\"event_type\\\"\"; Channel string \"json:\\\"channel\\\"\"; Target string \"json:\\\"target\\\"\"; IncidentID string \"json:\\\"incident_id,omitempty\\\"\"; Status string \"json:\\\"status\\\"\"; Error string \"json:\\\"error,omitempty\\\"\"; Metadata map[string]any \"json:\\\"metadata,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"}"
+    },
+    {
+      "name": "NotificationDeliveryResult",
+      "kind": "type",
+      "type": "NotificationDeliveryResult",
+      "alias": false,
+      "underlying": "struct{EventType NotificationEventType \"json:\\\"event_type\\\"\"; Channel string \"json:\\\"channel\\\"\"; Target string \"json:\\\"target\\\"\"; Status string \"json:\\\"status\\\"\"; Error string \"json:\\\"error,omitempty\\\"\"}"
+    },
+    {
+      "name": "NotificationDiagnosticCreated",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"diagnostic.created\""
+    },
+    {
+      "name": "NotificationEventType",
+      "kind": "type",
+      "type": "NotificationEventType",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "NotificationEventWriteRequest",
+      "kind": "type",
+      "type": "NotificationEventWriteRequest",
+      "alias": false,
+      "underlying": "struct{EventType NotificationEventType \"json:\\\"event_type\\\"\"; Severity string \"json:\\\"severity,omitempty\\\"\"; Status string \"json:\\\"status,omitempty\\\"\"; Action string \"json:\\\"action\\\"\"; ServiceID string \"json:\\\"service_id,omitempty\\\"\"; ResourceType string \"json:\\\"resource_type,omitempty\\\"\"; ResourceID string \"json:\\\"resource_id,omitempty\\\"\"; ActorUsername string \"json:\\\"actor_username,omitempty\\\"\"; Summary string \"json:\\\"summary,omitempty\\\"\"; Details string \"json:\\\"details,omitempty\\\"\"; Timestamp string \"json:\\\"timestamp,omitempty\\\"\"}"
+    },
+    {
+      "name": "NotificationIncidentOpened",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"incident.opened\""
+    },
+    {
+      "name": "NotificationIncidentResolved",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"incident.resolved\""
+    },
+    {
+      "name": "NotificationIncidentUpdated",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"incident.updated\""
+    },
+    {
+      "name": "NotificationRemediationExecuted",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"remediation.executed\""
+    },
+    {
+      "name": "NotificationRemediationPendingApproval",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"remediation.pending_approval\""
+    },
+    {
+      "name": "NotificationServiceOffline",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"service.offline\""
+    },
+    {
+      "name": "NotificationServiceRecovered",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"service.recovered\""
+    },
+    {
+      "name": "NotificationStreamCompleted",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"stream.completed\""
+    },
+    {
+      "name": "NotificationStreamError",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"stream.error\""
+    },
+    {
+      "name": "NotificationStreamFailed",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"stream.failed\""
+    },
+    {
+      "name": "NotificationStreamLive",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"stream.live\""
+    },
+    {
+      "name": "NotificationStreamStarted",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"stream.started\""
+    },
+    {
+      "name": "NotificationStreamWarning",
+      "kind": "const",
+      "type": "NotificationEventType",
+      "alias": false,
+      "value": "\"stream.warning\""
+    },
+    {
+      "name": "OAuthAccount",
+      "kind": "type",
+      "type": "OAuthAccount",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; ProviderID string \"json:\\\"provider_id\\\"\"; ProviderType string \"json:\\\"provider_type\\\"\"; ProviderName string \"json:\\\"provider_name,omitempty\\\"\"; AccountLabel string \"json:\\\"account_label\\\"\"; AccountPurpose OAuthAccountPurpose \"json:\\\"account_purpose\\\"\"; DisplayName string \"json:\\\"display_name,omitempty\\\"\"; Subject string \"json:\\\"subject,omitempty\\\"\"; Email string \"json:\\\"email,omitempty\\\"\"; Scopes []string \"json:\\\"scopes\\\"\"; RefreshTokenConfigured bool \"json:\\\"refresh_token_configured\\\"\"; TokenFingerprint string \"json:\\\"token_fingerprint,omitempty\\\"\"; RefreshTokenUpdatedAt string \"json:\\\"refresh_token_updated_at,omitempty\\\"\"; AccessTokenRefreshedAt string \"json:\\\"access_token_refreshed_at,omitempty\\\"\"; AccessTokenRefreshAttemptedAt string \"json:\\\"access_token_refresh_attempted_at,omitempty\\\"\"; AccessTokenRefreshFailedAt string \"json:\\\"access_token_refresh_failed_at,omitempty\\\"\"; AccessTokenRefreshFailureCode string \"json:\\\"access_token_refresh_failure_code,omitempty\\\"\"; AccessTokenRefreshRelinkRequired bool \"json:\\\"access_token_refresh_relink_required\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "OAuthAccountConnectionCallbackRequest",
+      "kind": "type",
+      "type": "OAuthAccountConnectionCallbackRequest",
+      "alias": false,
+      "underlying": "struct{ProviderID string \"json:\\\"provider_id,omitempty\\\"\"; State string \"json:\\\"state\\\"\"; Code string \"json:\\\"code\\\"\"; AccountLabel string \"json:\\\"account_label,omitempty\\\"\"}"
+    },
+    {
+      "name": "OAuthAccountConnectionStartRequest",
+      "kind": "type",
+      "type": "OAuthAccountConnectionStartRequest",
+      "alias": false,
+      "underlying": "struct{ProviderID string \"json:\\\"provider_id,omitempty\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; AccountLabel string \"json:\\\"account_label,omitempty\\\"\"; AccountPurpose string \"json:\\\"account_purpose,omitempty\\\"\"; RedirectAfter string \"json:\\\"redirect_after,omitempty\\\"\"}"
+    },
+    {
+      "name": "OAuthAccountConnectionStartResponse",
+      "kind": "type",
+      "type": "OAuthAccountConnectionStartResponse",
+      "alias": false,
+      "underlying": "struct{Provider OAuthLoginProvider \"json:\\\"provider\\\"\"; AuthorizationURL string \"json:\\\"authorization_url\\\"\"; State string \"json:\\\"state\\\"\"; Nonce string \"json:\\\"nonce\\\"\"; ExpiresAt time.Time \"json:\\\"expires_at\\\"\"; AccountLabel string \"json:\\\"account_label\\\"\"; AccountPurpose OAuthAccountPurpose \"json:\\\"account_purpose\\\"\"; Relink bool \"json:\\\"relink\\\"\"; Scopes []string \"json:\\\"scopes\\\"\"}"
+    },
+    {
+      "name": "OAuthAccountPurpose",
+      "kind": "type",
+      "type": "OAuthAccountPurpose",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "OAuthAccountPurposeDrive",
+      "kind": "const",
+      "type": "OAuthAccountPurpose",
+      "alias": false,
+      "value": "\"drive\""
+    },
+    {
+      "name": "OAuthAccountPurposeDriveYouTube",
+      "kind": "const",
+      "type": "OAuthAccountPurpose",
+      "alias": false,
+      "value": "\"drive_youtube\""
+    },
+    {
+      "name": "OAuthAccountPurposeUnknown",
+      "kind": "const",
+      "type": "OAuthAccountPurpose",
+      "alias": false,
+      "value": "\"unknown\""
+    },
+    {
+      "name": "OAuthAccountPurposeYouTube",
+      "kind": "const",
+      "type": "OAuthAccountPurpose",
+      "alias": false,
+      "value": "\"youtube\""
+    },
+    {
+      "name": "OAuthAccountWriteRequest",
+      "kind": "type",
+      "type": "OAuthAccountWriteRequest",
+      "alias": false,
+      "underlying": "struct{ProviderID string \"json:\\\"provider_id\\\"\"; ProviderType string \"json:\\\"provider_type\\\"\"; AccountLabel string \"json:\\\"account_label\\\"\"; Subject string \"json:\\\"subject,omitempty\\\"\"; Email string \"json:\\\"email,omitempty\\\"\"; Scopes []string \"json:\\\"scopes,omitempty\\\"\"; RefreshToken string \"json:\\\"refresh_token,omitempty\\\"\"}"
+    },
+    {
+      "name": "OAuthLoginCallbackRequest",
+      "kind": "type",
+      "type": "OAuthLoginCallbackRequest",
+      "alias": false,
+      "underlying": "struct{ProviderID string \"json:\\\"provider_id,omitempty\\\"\"; State string \"json:\\\"state\\\"\"; Code string \"json:\\\"code\\\"\"}"
+    },
+    {
+      "name": "OAuthLoginProvider",
+      "kind": "type",
+      "type": "OAuthLoginProvider",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; ProviderType string \"json:\\\"provider_type\\\"\"; Name string \"json:\\\"name\\\"\"; Scopes []string \"json:\\\"scopes\\\"\"; RedirectURI string \"json:\\\"redirect_uri\\\"\"}"
+    },
+    {
+      "name": "OAuthLoginStartRequest",
+      "kind": "type",
+      "type": "OAuthLoginStartRequest",
+      "alias": false,
+      "underlying": "struct{RedirectAfter string \"json:\\\"redirect_after,omitempty\\\"\"}"
+    },
+    {
+      "name": "OAuthLoginStartResponse",
+      "kind": "type",
+      "type": "OAuthLoginStartResponse",
+      "alias": false,
+      "underlying": "struct{Provider OAuthLoginProvider \"json:\\\"provider\\\"\"; AuthorizationURL string \"json:\\\"authorization_url\\\"\"; State string \"json:\\\"state\\\"\"; Nonce string \"json:\\\"nonce\\\"\"; ExpiresAt time.Time \"json:\\\"expires_at\\\"\"}"
+    },
+    {
+      "name": "OAuthProvider",
+      "kind": "type",
+      "type": "OAuthProvider",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; ProviderType string \"json:\\\"provider_type\\\"\"; Name string \"json:\\\"name\\\"\"; Enabled bool \"json:\\\"enabled\\\"\"; ClientID string \"json:\\\"client_id\\\"\"; ClientSecretConfigured bool \"json:\\\"client_secret_configured\\\"\"; Scopes []string \"json:\\\"scopes\\\"\"; AllowedDomains []string \"json:\\\"allowed_domains\\\"\"; AutoProvision bool \"json:\\\"auto_provision\\\"\"; DefaultRoleIDs []string \"json:\\\"default_role_ids,omitempty\\\"\"; RedirectURI string \"json:\\\"redirect_uri\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "OAuthProviderWriteRequest",
+      "kind": "type",
+      "type": "OAuthProviderWriteRequest",
+      "alias": false,
+      "underlying": "struct{ProviderType string \"json:\\\"provider_type\\\"\"; Name string \"json:\\\"name\\\"\"; Enabled bool \"json:\\\"enabled\\\"\"; ClientID string \"json:\\\"client_id\\\"\"; ClientSecret string \"json:\\\"client_secret,omitempty\\\"\"; Scopes []string \"json:\\\"scopes,omitempty\\\"\"; AllowedDomains []string \"json:\\\"allowed_domains,omitempty\\\"\"; AutoProvision bool \"json:\\\"auto_provision,omitempty\\\"\"; DefaultRoleIDs []string \"json:\\\"default_role_ids,omitempty\\\"\"; RedirectURI string \"json:\\\"redirect_uri\\\"\"}"
+    },
+    {
+      "name": "OAuthUserLink",
+      "kind": "type",
+      "type": "OAuthUserLink",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; UserID string \"json:\\\"user_id\\\"\"; ProviderID string \"json:\\\"provider_id\\\"\"; ProviderType string \"json:\\\"provider_type\\\"\"; Subject string \"json:\\\"subject\\\"\"; Email string \"json:\\\"email,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "OAuthUserLinkWriteRequest",
+      "kind": "type",
+      "type": "OAuthUserLinkWriteRequest",
+      "alias": false,
+      "underlying": "struct{ProviderID string \"json:\\\"provider_id\\\"\"; ProviderType string \"json:\\\"provider_type,omitempty\\\"\"; Subject string \"json:\\\"subject\\\"\"; Email string \"json:\\\"email,omitempty\\\"\"}"
+    },
+    {
+      "name": "ObservabilitySignal",
+      "kind": "type",
+      "type": "ObservabilitySignal",
+      "alias": false,
+      "underlying": "struct{Type SignalType \"json:\\\"type\\\"\"; Name string \"json:\\\"name\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; ServiceType ServiceType \"json:\\\"service_type\\\"\"; StreamID string \"json:\\\"stream_id,omitempty\\\"\"; Status string \"json:\\\"status,omitempty\\\"\"; Value *float64 \"json:\\\"value,omitempty\\\"\"; Metrics map[string]float64 \"json:\\\"metrics,omitempty\\\"\"; Attributes map[string]any \"json:\\\"attributes,omitempty\\\"\"; Timestamp time.Time \"json:\\\"timestamp\\\"\"}"
+    },
+    {
+      "name": "PasskeyAuthenticatorSelection",
+      "kind": "type",
+      "type": "PasskeyAuthenticatorSelection",
+      "alias": false,
+      "underlying": "struct{ResidentKey string \"json:\\\"residentKey\\\"\"; UserVerification string \"json:\\\"userVerification\\\"\"}"
+    },
+    {
+      "name": "PasskeyCreationOptions",
+      "kind": "type",
+      "type": "PasskeyCreationOptions",
+      "alias": false,
+      "underlying": "struct{Challenge string \"json:\\\"challenge\\\"\"; RP PasskeyRelyingParty \"json:\\\"rp\\\"\"; User PasskeyUser \"json:\\\"user\\\"\"; PubKeyCredParams []PasskeyCredentialParameter \"json:\\\"pubKeyCredParams\\\"\"; Timeout int \"json:\\\"timeout\\\"\"; Attestation string \"json:\\\"attestation\\\"\"; AuthenticatorSelection PasskeyAuthenticatorSelection \"json:\\\"authenticatorSelection\\\"\"}"
+    },
+    {
+      "name": "PasskeyCredential",
+      "kind": "type",
+      "type": "PasskeyCredential",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; UserID string \"json:\\\"user_id\\\"\"; Name string \"json:\\\"name\\\"\"; CredentialIDHash string \"json:\\\"credential_id_hash\\\"\"; SignCount uint32 \"json:\\\"sign_count\\\"\"; Transports []string \"json:\\\"transports,omitempty\\\"\"; AAGUID string \"json:\\\"aaguid,omitempty\\\"\"; BackupEligible bool \"json:\\\"backup_eligible,omitempty\\\"\"; BackedUp bool \"json:\\\"backed_up,omitempty\\\"\"; CreatedAt string \"json:\\\"created_at,omitempty\\\"\"; UpdatedAt string \"json:\\\"updated_at,omitempty\\\"\"; LastUsedAt string \"json:\\\"last_used_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "PasskeyCredentialParameter",
+      "kind": "type",
+      "type": "PasskeyCredentialParameter",
+      "alias": false,
+      "underlying": "struct{Type string \"json:\\\"type\\\"\"; Alg int \"json:\\\"alg\\\"\"}"
+    },
+    {
+      "name": "PasskeyLoginFinishRequest",
+      "kind": "type",
+      "type": "PasskeyLoginFinishRequest",
+      "alias": false,
+      "underlying": "struct{ChallengeToken string \"json:\\\"challenge_token\\\"\"; Credential map[string]any \"json:\\\"credential\\\"\"}"
+    },
+    {
+      "name": "PasskeyLoginStartRequest",
+      "kind": "type",
+      "type": "PasskeyLoginStartRequest",
+      "alias": false,
+      "underlying": "struct{Username string \"json:\\\"username,omitempty\\\"\"}"
+    },
+    {
+      "name": "PasskeyLoginStartResponse",
+      "kind": "type",
+      "type": "PasskeyLoginStartResponse",
+      "alias": false,
+      "underlying": "struct{ChallengeToken string \"json:\\\"challenge_token\\\"\"; ExpiresAt string \"json:\\\"expires_at\\\"\"; PublicKey map[string]any \"json:\\\"public_key\\\"\"}"
+    },
+    {
+      "name": "PasskeyRegistrationFinishRequest",
+      "kind": "type",
+      "type": "PasskeyRegistrationFinishRequest",
+      "alias": false,
+      "underlying": "struct{RegistrationToken string \"json:\\\"registration_token\\\"\"; Name string \"json:\\\"name,omitempty\\\"\"; Credential map[string]any \"json:\\\"credential\\\"\"}"
+    },
+    {
+      "name": "PasskeyRegistrationStartRequest",
+      "kind": "type",
+      "type": "PasskeyRegistrationStartRequest",
+      "alias": false,
+      "underlying": "struct{DisplayName string \"json:\\\"display_name,omitempty\\\"\"}"
+    },
+    {
+      "name": "PasskeyRegistrationStartResponse",
+      "kind": "type",
+      "type": "PasskeyRegistrationStartResponse",
+      "alias": false,
+      "underlying": "struct{RegistrationToken string \"json:\\\"registration_token\\\"\"; ExpiresAt string \"json:\\\"expires_at\\\"\"; PublicKey PasskeyCreationOptions \"json:\\\"public_key\\\"\"}"
+    },
+    {
+      "name": "PasskeyRelyingParty",
+      "kind": "type",
+      "type": "PasskeyRelyingParty",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Name string \"json:\\\"name\\\"\"}"
+    },
+    {
+      "name": "PasskeyUser",
+      "kind": "type",
+      "type": "PasskeyUser",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Name string \"json:\\\"name\\\"\"; DisplayName string \"json:\\\"displayName\\\"\"}"
+    },
+    {
+      "name": "PermissionExists",
+      "kind": "func",
+      "type": "func(p string) bool",
+      "alias": false
+    },
+    {
+      "name": "Permissions",
+      "kind": "var",
+      "type": "[]string",
+      "alias": false
+    },
+    {
+      "name": "Profile",
+      "kind": "type",
+      "type": "Profile",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Kind ProfileKind \"json:\\\"kind\\\"\"; Name string \"json:\\\"name\\\"\"; Config map[string]any \"json:\\\"config\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "ProfileArchive",
+      "kind": "const",
+      "type": "ProfileKind",
+      "alias": false,
+      "value": "\"archive\""
+    },
+    {
+      "name": "ProfileCaption",
+      "kind": "const",
+      "type": "ProfileKind",
+      "alias": false,
+      "value": "\"caption\""
+    },
+    {
+      "name": "ProfileDiscordConfig",
+      "kind": "const",
+      "type": "ProfileKind",
+      "alias": false,
+      "value": "\"discord_config\""
+    },
+    {
+      "name": "ProfileEncoder",
+      "kind": "const",
+      "type": "ProfileKind",
+      "alias": false,
+      "value": "\"encoder\""
+    },
+    {
+      "name": "ProfileKind",
+      "kind": "type",
+      "type": "ProfileKind",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "ProfileOverlay",
+      "kind": "const",
+      "type": "ProfileKind",
+      "alias": false,
+      "value": "\"overlay\""
+    },
+    {
+      "name": "ProfileWriteRequest",
+      "kind": "type",
+      "type": "ProfileWriteRequest",
+      "alias": false,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; Config map[string]any \"json:\\\"config\\\"\"}"
+    },
+    {
+      "name": "ProfileYouTubeOutput",
+      "kind": "const",
+      "type": "ProfileKind",
+      "alias": false,
+      "value": "\"youtube_output\""
+    },
+    {
+      "name": "PublicAppSettings",
+      "kind": "type",
+      "type": "PublicAppSettings",
+      "alias": false,
+      "underlying": "struct{AppName string \"json:\\\"app_name\\\"\"; Timezone string \"json:\\\"timezone\\\"\"; TurnstileEnabled bool \"json:\\\"turnstile_enabled,omitempty\\\"\"; TurnstileSiteKey string \"json:\\\"turnstile_site_key,omitempty\\\"\"; TurnstileConfigured bool \"json:\\\"turnstile_configured,omitempty\\\"\"; GoogleAnalyticsEnabled bool \"json:\\\"google_analytics_enabled,omitempty\\\"\"; GoogleAnalyticsMeasurementID string \"json:\\\"google_analytics_measurement_id,omitempty\\\"\"; UpdatedAt string \"json:\\\"updated_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "ReadinessIssue",
+      "kind": "type",
+      "type": "ReadinessIssue",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id,omitempty\\\"\"; ServiceType string \"json:\\\"service_type,omitempty\\\"\"; Code string \"json:\\\"code\\\"\"; Message string \"json:\\\"message\\\"\"}"
+    },
+    {
+      "name": "ReadinessIssueArchiveProfileInvalidConfig",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"archive_profile_invalid_config\""
+    },
+    {
+      "name": "ReadinessIssueArchiveProfileNotFound",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"archive_profile_not_found\""
+    },
+    {
+      "name": "ReadinessIssueDiscordAudioCaptureUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"discord_audio_capture_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueDiscordAudioForwardUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"discord_audio_forward_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueDiscordConfigInvalid",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"discord_config_invalid\""
+    },
+    {
+      "name": "ReadinessIssueDiscordConfigNotFound",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"discord_config_not_found\""
+    },
+    {
+      "name": "ReadinessIssueDiscordConfigRequired",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"discord_config_required\""
+    },
+    {
+      "name": "ReadinessIssueDiscordConfigServiceMismatch",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"discord_config_service_mismatch\""
+    },
+    {
+      "name": "ReadinessIssueDriveDestinationNotFound",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"drive_destination_not_found\""
+    },
+    {
+      "name": "ReadinessIssueDriveDestinationUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"drive_destination_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueDriveOAuthAccountUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"drive_oauth_account_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueEncoderPublicURLBlocked",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"encoder_public_url_blocked\""
+    },
+    {
+      "name": "ReadinessIssueEncoderPublicURLInvalid",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"encoder_public_url_invalid\""
+    },
+    {
+      "name": "ReadinessIssueEncoderPublicURLMissing",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"encoder_public_url_missing\""
+    },
+    {
+      "name": "ReadinessIssueMissingStreamAssignment",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"missing_stream_assignment\""
+    },
+    {
+      "name": "ReadinessIssueServiceCallTokenMissing",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"service_call_token_missing\""
+    },
+    {
+      "name": "ReadinessIssueServiceHeartbeatStale",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"service_heartbeat_stale\""
+    },
+    {
+      "name": "ReadinessIssueServiceOffline",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"service_offline\""
+    },
+    {
+      "name": "ReadinessIssueServicePublicURLBlocked",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"service_public_url_blocked\""
+    },
+    {
+      "name": "ReadinessIssueServicePublicURLInvalid",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"service_public_url_invalid\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeLiveAPIUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_live_api_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeOAuthAccountUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_oauth_account_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeOutputInvalidConfig",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_output_invalid_config\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeOutputNotFound",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_output_not_found\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayBindingInUse",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_binding_in_use\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayBindingStoreUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_binding_store_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayStaticBindingUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_binding_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayStaticRecoveryRequired",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_recovery_required\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayStaticUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_relay_static_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeStreamKeyUnavailable",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"youtube_stream_key_unavailable\""
+    },
+    {
+      "name": "RegisteredService",
+      "kind": "type",
+      "type": "RegisteredService",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; ServiceType ServiceType \"json:\\\"service_type\\\"\"; ServiceName string \"json:\\\"service_name\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode,omitempty\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id,omitempty\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch,omitempty\\\"\"; PublicURL string \"json:\\\"public_url,omitempty\\\"\"; DesiredEndpoint *ServiceEndpoint \"json:\\\"desired_endpoint,omitempty\\\"\"; AppliedEndpoint *ServiceEndpoint \"json:\\\"applied_endpoint,omitempty\\\"\"; ReportedEndpoint *ServiceEndpoint \"json:\\\"reported_endpoint,omitempty\\\"\"; EndpointRevision int64 \"json:\\\"endpoint_revision,omitempty\\\"\"; EndpointStatus string \"json:\\\"endpoint_status,omitempty\\\"\"; AppliedConfigRevision int64 \"json:\\\"applied_config_revision,omitempty\\\"\"; AppliedConfigSHA256 string \"json:\\\"applied_config_sha256,omitempty\\\"\"; Version string \"json:\\\"version\\\"\"; Status ServiceStatus \"json:\\\"status\\\"\"; AssignmentRole string \"json:\\\"assignment_role,omitempty\\\"\"; LastHeartbeatAt *time.Time \"json:\\\"last_heartbeat_at,omitempty\\\"\"; HealthStatus string \"json:\\\"health_status,omitempty\\\"\"; HeartbeatStale bool \"json:\\\"heartbeat_stale,omitempty\\\"\"; HeartbeatAgeSec *int64 \"json:\\\"heartbeat_age_sec,omitempty\\\"\"; CurrentStreamID string \"json:\\\"current_stream_id,omitempty\\\"\"; Capabilities map[string]any \"json:\\\"capabilities\\\"\"; ReportedCapabilities map[string]any \"json:\\\"reported_capabilities,omitempty\\\"\"; TokenID string \"json:\\\"-\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "RelayBindingIDPattern",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$\""
+    },
+    {
+      "name": "ReleaseArtifact",
+      "kind": "type",
+      "type": "ReleaseArtifact",
+      "alias": false,
+      "underlying": "struct{OS string \"json:\\\"os\\\"\"; Arch string \"json:\\\"arch\\\"\"; Name string \"json:\\\"name\\\"\"; Size int64 \"json:\\\"size\\\"\"; SHA256 string \"json:\\\"sha256\\\"\"}"
+    },
+    {
+      "name": "ReleaseChannel",
+      "kind": "type",
+      "type": "ReleaseChannel",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "ReleaseChannelDocker",
+      "kind": "const",
+      "type": "ReleaseChannel",
+      "alias": false,
+      "value": "\"docker\""
+    },
+    {
+      "name": "ReleaseChannelHost",
+      "kind": "const",
+      "type": "ReleaseChannel",
+      "alias": false,
+      "value": "\"host\""
+    },
+    {
+      "name": "ReleaseManifest",
+      "kind": "type",
+      "type": "ReleaseManifest",
+      "alias": false,
+      "underlying": "struct{SchemaVersion int \"json:\\\"schema_version\\\"\"; ReleaseID string \"json:\\\"release_id\\\"\"; Channel ReleaseChannel \"json:\\\"channel\\\"\"; PublishedAt time.Time \"json:\\\"published_at\\\"\"; BundleVersion string \"json:\\\"bundle_version,omitempty\\\"\"; GeneratedAt *time.Time \"json:\\\"generated_at,omitempty\\\"\"; MinimumAgentVersion string \"json:\\\"minimum_agent_version\\\"\"; Components []ReleaseManifestComponent \"json:\\\"components\\\"\"}"
+    },
+    {
+      "name": "ReleaseManifestComponent",
+      "kind": "type",
+      "type": "ReleaseManifestComponent",
+      "alias": false,
+      "underlying": "struct{Service string \"json:\\\"service\\\"\"; SourceVersion string \"json:\\\"source_version\\\"\"; Commit string \"json:\\\"commit,omitempty\\\"\"; Image string \"json:\\\"image,omitempty\\\"\"; ManifestDigest string \"json:\\\"manifest_digest,omitempty\\\"\"; Artifacts []ReleaseArtifact \"json:\\\"artifacts,omitempty\\\"\"; PlatformDigests map[string]string \"json:\\\"platform_digests,omitempty\\\"\"; RollbackCompatible bool \"json:\\\"rollback_compatible\\\"\"; DatabaseSchema string \"json:\\\"database_schema\\\"\"}"
+    },
+    {
+      "name": "RemediationAction",
+      "kind": "type",
+      "type": "RemediationAction",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; IncidentID string \"json:\\\"incident_id\\\"\"; Action string \"json:\\\"action\\\"\"; Mode RemediationMode \"json:\\\"mode\\\"\"; Status string \"json:\\\"status\\\"\"; SafeAuto bool \"json:\\\"safe_auto\\\"\"; RequiresApproval bool \"json:\\\"requires_approval\\\"\"; Result string \"json:\\\"result,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"; ExecutedAt *time.Time \"json:\\\"executed_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "RemediationDisabled",
+      "kind": "const",
+      "type": "RemediationMode",
+      "alias": false,
+      "value": "\"disabled\""
+    },
+    {
+      "name": "RemediationManualApproval",
+      "kind": "const",
+      "type": "RemediationMode",
+      "alias": false,
+      "value": "\"manual_approval\""
+    },
+    {
+      "name": "RemediationMode",
+      "kind": "type",
+      "type": "RemediationMode",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "RemediationSafeAuto",
+      "kind": "const",
+      "type": "RemediationMode",
+      "alias": false,
+      "value": "\"safe_auto\""
+    },
+    {
+      "name": "RemediationSuggestOnly",
+      "kind": "const",
+      "type": "RemediationMode",
+      "alias": false,
+      "value": "\"suggest_only\""
+    },
+    {
+      "name": "RuleArchivePackageFailed",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"archive_package_failed\""
+    },
+    {
+      "name": "RuleArchiveRemuxSlow",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"archive_remux_slow\""
+    },
+    {
+      "name": "RuleAudioClipping",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"audio_clipping\""
+    },
+    {
+      "name": "RuleAudioSilence",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"audio_silence\""
+    },
+    {
+      "name": "RuleDiscordAudioForwardFailed",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"discord_audio_forward_failed\""
+    },
+    {
+      "name": "RuleDiscordAudioNotReceiving",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"discord_audio_not_receiving\""
+    },
+    {
+      "name": "RuleDiscordReconnectLoop",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"discord_reconnect_loop\""
+    },
+    {
+      "name": "RuleDiscordVoiceDisconnected",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"discord_voice_disconnected\""
+    },
+    {
+      "name": "RuleDiskLow",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"disk_low\""
+    },
+    {
+      "name": "RuleEncoderBitrateLow",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"encoder_bitrate_low\""
+    },
+    {
+      "name": "RuleEncoderDroppedFrames",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"encoder_dropped_frames_high\""
+    },
+    {
+      "name": "RuleEncoderLowFPS",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"encoder_low_fps\""
+    },
+    {
+      "name": "RuleEncoderProcessExited",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"encoder_process_exited\""
+    },
+    {
+      "name": "RuleGDriveUploadFailed",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"gdrive_upload_failed\""
+    },
+    {
+      "name": "RuleGDriveUploadRetryHigh",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"gdrive_upload_retry_high\""
+    },
+    {
+      "name": "RuleHeartbeatTimeout",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"heartbeat_timeout\""
+    },
+    {
+      "name": "RuleHighPacketLoss",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"high_packet_loss\""
+    },
+    {
+      "name": "RuleMediaInputTimeout",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"media_input_timeout\""
+    },
+    {
+      "name": "RuleRTMPSReconnectLoop",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"rtmps_reconnect_loop\""
+    },
+    {
+      "name": "RuleRecorderNotWriting",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"recorder_not_writing\""
+    },
+    {
+      "name": "RuleStreamStartTimeout",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"stream_start_timeout\""
+    },
+    {
+      "name": "RuleStreamStopTimeout",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"stream_stop_timeout\""
+    },
+    {
+      "name": "RuleUnexpectedStopped",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"unexpected_stopped\""
+    },
+    {
+      "name": "RuleWorkerEventSendFailed",
+      "kind": "const",
+      "type": "IncidentRule",
+      "alias": false,
+      "value": "\"worker_event_send_failed\""
+    },
+    {
+      "name": "ScopeDiscordStatusWrite",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"discord.status.write\""
+    },
+    {
+      "name": "ScopeEncoderStatusWrite",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"encoder.status.write\""
+    },
+    {
+      "name": "ScopeNotificationsEmailSend",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"notifications.email.send\""
+    },
+    {
+      "name": "ScopeObservabilityIngest",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"observability.ingest\""
+    },
+    {
+      "name": "ScopeRemediationExecute",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"remediation.execute\""
+    },
+    {
+      "name": "ScopeServiceConfigRead",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"service.config.read\""
+    },
+    {
+      "name": "ScopeServiceHeartbeat",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"service.heartbeat\""
+    },
+    {
+      "name": "ScopeServiceLogsWrite",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"service.logs.write\""
+    },
+    {
+      "name": "ScopeServiceRegister",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"service.register\""
+    },
+    {
+      "name": "ScopeServiceSecretResolve",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"service.secret.resolve\""
+    },
+    {
+      "name": "ScopeServiceStatusWrite",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"service.status.write\""
+    },
+    {
+      "name": "ScopeStreamsStart",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"streams.start\""
+    },
+    {
+      "name": "ScopeStreamsStop",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"streams.stop\""
+    },
+    {
+      "name": "ScopeUpdatesAuthorize",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"updates.authorize\""
+    },
+    {
+      "name": "ScopeUpdatesClaim",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"updates.claim\""
+    },
+    {
+      "name": "ScopeUpdatesReport",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"updates.report\""
+    },
+    {
+      "name": "ScopeWorkerEventsWrite",
+      "kind": "const",
+      "type": "ServiceScope",
+      "alias": false,
+      "value": "\"worker.events.write\""
+    },
+    {
+      "name": "SecretStatus",
+      "kind": "type",
+      "type": "SecretStatus",
+      "alias": false,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; Configured bool \"json:\\\"configured\\\"\"; Fingerprint string \"json:\\\"fingerprint,omitempty\\\"\"; UpdatedAt string \"json:\\\"updated_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "SecretUpdateRequest",
+      "kind": "type",
+      "type": "SecretUpdateRequest",
+      "alias": false,
+      "underlying": "struct{Value string \"json:\\\"value\\\"\"}"
+    },
+    {
+      "name": "SecuritySettings",
+      "kind": "type",
+      "type": "SecuritySettings",
+      "alias": false,
+      "underlying": "struct{PasswordMinLength int \"json:\\\"password_min_length\\\"\"; PasswordHash string \"json:\\\"password_hash\\\"\"; LoginLockoutThreshold int \"json:\\\"login_lockout_threshold\\\"\"; SessionIdleTimeoutMin int \"json:\\\"session_idle_timeout_min\\\"\"; SessionAbsoluteLifetimeH int \"json:\\\"session_absolute_lifetime_h\\\"\"; RememberMeEnabled bool \"json:\\\"remember_me_enabled\\\"\"; MFAMode string \"json:\\\"mfa_mode\\\"\"; MFARequiredRoles []string \"json:\\\"mfa_required_roles,omitempty\\\"\"; MFASupportedMethods []string \"json:\\\"mfa_supported_methods,omitempty\\\"\"; PasskeyStatus string \"json:\\\"passkey_status,omitempty\\\"\"; UpdatedAt string \"json:\\\"updated_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceArtifactReport",
+      "kind": "type",
+      "type": "ServiceArtifactReport",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; StreamID string \"json:\\\"stream_id\\\"\"; ArchiveRunID string \"json:\\\"archive_run_id,omitempty\\\"\"; ArchiveStartedAt *time.Time \"json:\\\"archive_started_at,omitempty\\\"\"; Artifacts []StreamArtifact \"json:\\\"artifacts\\\"\"}"
+    },
+    {
+      "name": "ServiceAssignmentWriteRequest",
+      "kind": "type",
+      "type": "ServiceAssignmentWriteRequest",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; AssignmentRole string \"json:\\\"assignment_role,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceDiscordBot",
+      "kind": "const",
+      "type": "ServiceType",
+      "alias": false,
+      "value": "\"discord_bot\""
+    },
+    {
+      "name": "ServiceEncoderRecorder",
+      "kind": "const",
+      "type": "ServiceType",
+      "alias": false,
+      "value": "\"encoder_recorder\""
+    },
+    {
+      "name": "ServiceEndpoint",
+      "kind": "type",
+      "type": "ServiceEndpoint",
+      "alias": false,
+      "underlying": "struct{Host string \"json:\\\"host\\\"\"; Port int \"json:\\\"port\\\"\"; SSLEnabled bool \"json:\\\"ssl_enabled\\\"\"; PublicURL string \"json:\\\"public_url\\\"\"}"
+    },
+    {
+      "name": "ServiceNotificationEmailRequest",
+      "kind": "type",
+      "type": "ServiceNotificationEmailRequest",
+      "alias": false,
+      "underlying": "struct{Recipients []string \"json:\\\"recipients\\\"\"; Subject string \"json:\\\"subject\\\"\"; Text string \"json:\\\"text\\\"\"; HTML string \"json:\\\"html,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceNotificationEmailResponse",
+      "kind": "type",
+      "type": "ServiceNotificationEmailResponse",
+      "alias": false,
+      "underlying": "struct{Status string \"json:\\\"status\\\"\"; RecipientCount int \"json:\\\"recipient_count\\\"\"}"
+    },
+    {
+      "name": "ServiceNotificationError",
+      "kind": "type",
+      "type": "ServiceNotificationError",
+      "alias": false,
+      "underlying": "struct{Code string \"json:\\\"code\\\"\"; Message string \"json:\\\"message\\\"\"; Retryable bool \"json:\\\"retryable\\\"\"}"
+    },
+    {
+      "name": "ServiceObservability",
+      "kind": "const",
+      "type": "ServiceType",
+      "alias": false,
+      "value": "\"observability\""
+    },
+    {
+      "name": "ServicePreflightCheck",
+      "kind": "type",
+      "type": "ServicePreflightCheck",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Status string \"json:\\\"status\\\"\"; Severity string \"json:\\\"severity\\\"\"; Message string \"json:\\\"message\\\"\"}"
+    },
+    {
+      "name": "ServicePreflightResponse",
+      "kind": "type",
+      "type": "ServicePreflightResponse",
+      "alias": false,
+      "underlying": "struct{CheckedAt time.Time \"json:\\\"checked_at\\\"\"; Ready bool \"json:\\\"ready\\\"\"; Checks []ServicePreflightCheck \"json:\\\"checks\\\"\"; Summary map[string]any \"json:\\\"summary,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceRegistration",
+      "kind": "type",
+      "type": "ServiceRegistration",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; ServiceType ServiceType \"json:\\\"service_type\\\"\"; ServiceName string \"json:\\\"service_name\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode,omitempty\\\"\"; Description string \"json:\\\"description,omitempty\\\"\"; Host string \"json:\\\"host,omitempty\\\"\"; Port int \"json:\\\"port,omitempty\\\"\"; SSLEnabled bool \"json:\\\"ssl_enabled\\\"\"; PublicURL string \"json:\\\"public_url,omitempty\\\"\"; Version string \"json:\\\"version\\\"\"; Commit string \"json:\\\"commit,omitempty\\\"\"; BuildDate string \"json:\\\"build_date,omitempty\\\"\"; Capabilities map[string]any \"json:\\\"capabilities\\\"\"; Hostname string \"json:\\\"hostname,omitempty\\\"\"; OS string \"json:\\\"os,omitempty\\\"\"; Arch string \"json:\\\"arch,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceRemediationExecuteRequest",
+      "kind": "type",
+      "type": "ServiceRemediationExecuteRequest",
+      "alias": false,
+      "underlying": "struct{ActionID string \"json:\\\"action_id\\\"\"; Action string \"json:\\\"action\\\"\"; IncidentID string \"json:\\\"incident_id\\\"\"; StreamID string \"json:\\\"stream_id\\\"\"}"
+    },
+    {
+      "name": "ServiceRuntimeArchiveConfig",
+      "kind": "type",
+      "type": "ServiceRuntimeArchiveConfig",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; AssignmentRole string \"json:\\\"assignment_role\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id\\\"\"; Ready bool \"json:\\\"ready\\\"\"; ReadinessCode string \"json:\\\"readiness_code,omitempty\\\"\"; ReadinessMessage string \"json:\\\"readiness_message,omitempty\\\"\"; ArchiveConfig map[string]any \"json:\\\"archive_config,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceRuntimeConfig",
+      "kind": "type",
+      "type": "ServiceRuntimeConfig",
+      "alias": false,
+      "underlying": "struct{Service RegisteredService \"json:\\\"service\\\"\"; Assignments []StreamServiceAssignment \"json:\\\"assignments\\\"\"; Profiles map[ProfileKind][]Profile \"json:\\\"profiles\\\"\"; StreamDiscordConfigs []ServiceRuntimeDiscordConfig \"json:\\\"stream_discord_configs,omitempty\\\"\"; StreamArchiveConfigs []ServiceRuntimeArchiveConfig \"json:\\\"stream_archive_configs,omitempty\\\"\"; StreamYouTubeConfigs []ServiceRuntimeYouTubeConfig \"json:\\\"stream_youtube_configs,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceRuntimeDiscordConfig",
+      "kind": "type",
+      "type": "ServiceRuntimeDiscordConfig",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; AssignmentRole string \"json:\\\"assignment_role\\\"\"; DiscordConfigID string \"json:\\\"discord_config_id\\\"\"; GuildID string \"json:\\\"guild_id\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id\\\"\"; TextChannelID string \"json:\\\"text_channel_id,omitempty\\\"\"; AutoStartTrigger string \"json:\\\"auto_start_trigger,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceRuntimeSecretResolveRequest",
+      "kind": "type",
+      "type": "ServiceRuntimeSecretResolveRequest",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; StreamID string \"json:\\\"stream_id,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; SecretName string \"json:\\\"secret_name\\\"\"}"
+    },
+    {
+      "name": "ServiceRuntimeSecretResolveResponse",
+      "kind": "type",
+      "type": "ServiceRuntimeSecretResolveResponse",
+      "alias": false,
+      "underlying": "struct{SecretName string \"json:\\\"secret_name\\\"\"; Value string \"json:\\\"value\\\"\"; ExpiresInSec int \"json:\\\"expires_in_sec\\\"\"}"
+    },
+    {
+      "name": "ServiceRuntimeYouTubeConfig",
+      "kind": "type",
+      "type": "ServiceRuntimeYouTubeConfig",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; AssignmentRole string \"json:\\\"assignment_role\\\"\"; YouTubeOutputID string \"json:\\\"youtube_output_id\\\"\"; Ready bool \"json:\\\"ready\\\"\"; ReadinessCode string \"json:\\\"readiness_code,omitempty\\\"\"; ReadinessMessage string \"json:\\\"readiness_message,omitempty\\\"\"; YouTubeConfig map[string]any \"json:\\\"youtube_config,omitempty\\\"\"; ActiveRuntime map[string]any \"json:\\\"active_runtime,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceScope",
+      "kind": "type",
+      "type": "ServiceScope",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "ServiceStatus",
+      "kind": "type",
+      "type": "ServiceStatus",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "ServiceStatusAssigned",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"assigned\""
+    },
+    {
+      "name": "ServiceStatusDegraded",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"degraded\""
+    },
+    {
+      "name": "ServiceStatusOffline",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"offline\""
+    },
+    {
+      "name": "ServiceStatusOnline",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"online\""
+    },
+    {
+      "name": "ServiceStatusPending",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"pending\""
+    },
+    {
+      "name": "ServiceStatusRegistered",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"registered\""
+    },
+    {
+      "name": "ServiceStatusRestartRequested",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"restart_requested\""
+    },
+    {
+      "name": "ServiceStatusUnknown",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"unknown\""
+    },
+    {
+      "name": "ServiceStatusUpdating",
+      "kind": "const",
+      "type": "ServiceStatus",
+      "alias": false,
+      "value": "\"updating\""
+    },
+    {
+      "name": "ServiceStreamEvent",
+      "kind": "type",
+      "type": "ServiceStreamEvent",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; StreamID string \"json:\\\"stream_id\\\"\"; EventType string \"json:\\\"event_type\\\"\"; Payload map[string]any \"json:\\\"payload\\\"\"}"
+    },
+    {
+      "name": "ServiceToken",
+      "kind": "type",
+      "type": "ServiceToken",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; ServiceType ServiceType \"json:\\\"service_type\\\"\"; Scopes []string \"json:\\\"scopes\\\"\"; RevokedAt *time.Time \"json:\\\"revoked_at,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; Token string \"json:\\\"token,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceTokenCreateRequest",
+      "kind": "type",
+      "type": "ServiceTokenCreateRequest",
+      "alias": false,
+      "underlying": "struct{ServiceType ServiceType \"json:\\\"service_type\\\"\"; Scopes []ServiceScope \"json:\\\"scopes\\\"\"; ServiceID string \"json:\\\"service_id,omitempty\\\"\"; ServiceName string \"json:\\\"service_name,omitempty\\\"\"; PublicURL string \"json:\\\"public_url,omitempty\\\"\"; Version string \"json:\\\"version,omitempty\\\"\"; Capabilities map[string]any \"json:\\\"capabilities,omitempty\\\"\"}"
+    },
+    {
+      "name": "ServiceType",
+      "kind": "type",
+      "type": "ServiceType",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "ServiceUpdateAgent",
+      "kind": "const",
+      "type": "ServiceType",
+      "alias": false,
+      "value": "\"update_agent\""
+    },
+    {
+      "name": "ServiceWorker",
+      "kind": "const",
+      "type": "ServiceType",
+      "alias": false,
+      "value": "\"worker\""
+    },
+    {
+      "name": "SessionRefreshResponse",
+      "kind": "type",
+      "type": "SessionRefreshResponse",
+      "alias": false,
+      "underlying": "struct{Status string \"json:\\\"status\\\"\"; IdleExpiresAt time.Time \"json:\\\"idle_expires_at\\\"\"; AbsoluteExpiresAt time.Time \"json:\\\"absolute_expires_at\\\"\"}"
+    },
+    {
+      "name": "SeverityCritical",
+      "kind": "const",
+      "type": "IncidentSeverity",
+      "alias": false,
+      "value": "\"critical\""
+    },
+    {
+      "name": "SeverityError",
+      "kind": "const",
+      "type": "IncidentSeverity",
+      "alias": false,
+      "value": "\"error\""
+    },
+    {
+      "name": "SeverityInfo",
+      "kind": "const",
+      "type": "IncidentSeverity",
+      "alias": false,
+      "value": "\"info\""
+    },
+    {
+      "name": "SeverityWarning",
+      "kind": "const",
+      "type": "IncidentSeverity",
+      "alias": false,
+      "value": "\"warning\""
+    },
+    {
+      "name": "SignalDiagnosticReport",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"diagnostic_report\""
+    },
+    {
+      "name": "SignalError",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"error\""
+    },
+    {
+      "name": "SignalEvent",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"event\""
+    },
+    {
+      "name": "SignalHeartbeat",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"heartbeat\""
+    },
+    {
+      "name": "SignalIncident",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"incident\""
+    },
+    {
+      "name": "SignalLog",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"log\""
+    },
+    {
+      "name": "SignalMetric",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"metric\""
+    },
+    {
+      "name": "SignalNotificationEvent",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"notification_event\""
+    },
+    {
+      "name": "SignalRemediationAction",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"remediation_action\""
+    },
+    {
+      "name": "SignalType",
+      "kind": "type",
+      "type": "SignalType",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SignalWarning",
+      "kind": "const",
+      "type": "SignalType",
+      "alias": false,
+      "value": "\"warning\""
+    },
+    {
+      "name": "StartReadinessResponse",
+      "kind": "type",
+      "type": "StartReadinessResponse",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; Ready bool \"json:\\\"ready\\\"\"; MissingServiceTypes []string \"json:\\\"missing_service_types\\\"\"; Issues []ReadinessIssue \"json:\\\"issues\\\"\"; AssignedServiceCount int \"json:\\\"assigned_service_count\\\"\"; PrimaryServiceCount int \"json:\\\"primary_service_count\\\"\"; Assignments []RegisteredService \"json:\\\"assignments,omitempty\\\"\"}"
+    },
+    {
+      "name": "StartStreamRequest",
+      "kind": "type",
+      "type": "StartStreamRequest",
+      "alias": false,
+      "underlying": "struct{DiscordConfigID string \"json:\\\"discord_config_id,omitempty\\\"\"; DiscordGuildID string \"json:\\\"discord_guild_id,omitempty\\\"\"; DiscordVoiceChannelID string \"json:\\\"discord_voice_channel_id,omitempty\\\"\"; DiscordTextChannelID string \"json:\\\"discord_text_channel_id,omitempty\\\"\"; EncoderInputURL string \"json:\\\"encoder_input_url,omitempty\\\"\"; EncoderRTMPURL string \"json:\\\"encoder_rtmp_url,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; YouTubeOutputID string \"json:\\\"youtube_output_id,omitempty\\\"\"}"
+    },
+    {
+      "name": "StreamArtifact",
+      "kind": "type",
+      "type": "StreamArtifact",
+      "alias": false,
+      "underlying": "struct{Kind string \"json:\\\"kind\\\"\"; Name string \"json:\\\"name\\\"\"; RelativePath string \"json:\\\"relative_path\\\"\"; SizeBytes int64 \"json:\\\"size_bytes\\\"\"}"
+    },
+    {
+      "name": "StreamCompleted",
+      "kind": "const",
+      "type": "StreamStatus",
+      "alias": false,
+      "value": "\"completed\""
+    },
+    {
+      "name": "StreamCreated",
+      "kind": "const",
+      "type": "StreamStatus",
+      "alias": false,
+      "value": "\"created\""
+    },
+    {
+      "name": "StreamFailed",
+      "kind": "const",
+      "type": "StreamStatus",
+      "alias": false,
+      "value": "\"failed\""
+    },
+    {
+      "name": "StreamJob",
+      "kind": "type",
+      "type": "StreamJob",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Name string \"json:\\\"name\\\"\"; Status StreamStatus \"json:\\\"status\\\"\"; ArchiveRunID string \"json:\\\"archive_run_id,omitempty\\\"\"; ArchiveStartedAt *time.Time \"json:\\\"archive_started_at,omitempty\\\"\"; ArchiveReportedAt *time.Time \"json:\\\"archive_reported_at,omitempty\\\"\"; DiscordConfigID string \"json:\\\"discord_config_id,omitempty\\\"\"; DiscordGuildID string \"json:\\\"discord_guild_id,omitempty\\\"\"; DiscordVoiceID string \"json:\\\"discord_voice_channel_id,omitempty\\\"\"; DiscordTextID string \"json:\\\"discord_text_channel_id,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; YouTubeOutputID string \"json:\\\"youtube_output_id,omitempty\\\"\"; EncoderInputMode string \"json:\\\"encoder_input_mode,omitempty\\\"\"; StartedAt *time.Time \"json:\\\"started_at,omitempty\\\"\"; CompletedAt *time.Time \"json:\\\"completed_at,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "StreamLive",
+      "kind": "const",
+      "type": "StreamStatus",
+      "alias": false,
+      "value": "\"live\""
+    },
+    {
+      "name": "StreamPreviewLink",
+      "kind": "type",
+      "type": "StreamPreviewLink",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; URL string \"json:\\\"url\\\"\"; ExpiresAt time.Time \"json:\\\"expires_at\\\"\"}"
+    },
+    {
+      "name": "StreamServiceAssignment",
+      "kind": "type",
+      "type": "StreamServiceAssignment",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; ServiceType ServiceType \"json:\\\"service_type\\\"\"; AssignmentRole string \"json:\\\"assignment_role\\\"\"; AssignedAt time.Time \"json:\\\"assigned_at\\\"\"}"
+    },
+    {
+      "name": "StreamSettingsWriteRequest",
+      "kind": "type",
+      "type": "StreamSettingsWriteRequest",
+      "alias": false,
+      "underlying": "struct{DiscordConfigID string \"json:\\\"discord_config_id,omitempty\\\"\"; DiscordGuildID string \"json:\\\"discord_guild_id,omitempty\\\"\"; DiscordVoiceChannelID string \"json:\\\"discord_voice_channel_id,omitempty\\\"\"; DiscordTextChannelID string \"json:\\\"discord_text_channel_id,omitempty\\\"\"; AutoStartTrigger string \"json:\\\"auto_start_trigger,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; YouTubeOutputID string \"json:\\\"youtube_output_id,omitempty\\\"\"; EncoderInputURL string \"json:\\\"encoder_input_url,omitempty\\\"\"}"
+    },
+    {
+      "name": "StreamStarting",
+      "kind": "const",
+      "type": "StreamStatus",
+      "alias": false,
+      "value": "\"starting\""
+    },
+    {
+      "name": "StreamStatus",
+      "kind": "type",
+      "type": "StreamStatus",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "StreamStopping",
+      "kind": "const",
+      "type": "StreamStatus",
+      "alias": false,
+      "value": "\"stopping\""
+    },
+    {
+      "name": "StreamWriteRequest",
+      "kind": "type",
+      "type": "StreamWriteRequest",
+      "alias": false,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; StreamSettingsWriteRequest}"
+    },
+    {
+      "name": "SystemUpdateAgentStatus",
+      "kind": "type",
+      "type": "SystemUpdateAgentStatus",
+      "alias": false,
+      "underlying": "struct{UpdaterID string \"json:\\\"updater_id\\\"\"; Name string \"json:\\\"name\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode,omitempty\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id,omitempty\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch,omitempty\\\"\"; Status string \"json:\\\"status\\\"\"; Online bool \"json:\\\"online\\\"\"; Version string \"json:\\\"version\\\"\"; LastHeartbeatAt *time.Time \"json:\\\"last_heartbeat_at,omitempty\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision,omitempty\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision,omitempty\\\"\"; PolicyStatus string \"json:\\\"policy_status,omitempty\\\"\"; PolicyErrorCode string \"json:\\\"policy_error_code,omitempty\\\"\"; SSHClientPublicKeys map[string]string \"json:\\\"ssh_client_public_keys,omitempty\\\"\"; SSHClientKeyFingerprints map[string]string \"json:\\\"ssh_client_key_fingerprints,omitempty\\\"\"; BootstrapEncryptionPublicKey string \"json:\\\"bootstrap_encryption_public_key,omitempty\\\"\"; BootstrapEncryptionKeyFingerprint string \"json:\\\"bootstrap_encryption_key_fingerprint,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdateCanceled",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"canceled\""
+    },
+    {
+      "name": "SystemUpdateClaimed",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"claimed\""
+    },
+    {
+      "name": "SystemUpdateCreateRequest",
+      "kind": "type",
+      "type": "SystemUpdateCreateRequest",
+      "alias": false,
+      "underlying": "struct{Operation SystemUpdateOperation \"json:\\\"operation,omitempty\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; Strategy SystemUpdateStrategy \"json:\\\"strategy,omitempty\\\"\"; NewPort int \"json:\\\"new_port,omitempty\\\"\"; NewAdvertisedPort int \"json:\\\"new_advertised_port,omitempty\\\"\"; NewPublishedPort int \"json:\\\"new_published_port,omitempty\\\"\"; NewContainerPort int \"json:\\\"new_container_port,omitempty\\\"\"; ExpectedEndpointRevision int64 \"json:\\\"expected_endpoint_revision,omitempty\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"}"
+    },
+    {
+      "name": "SystemUpdateDeploymentDocker",
+      "kind": "const",
+      "type": "SystemUpdateDeploymentMode",
+      "alias": false,
+      "value": "\"docker\""
+    },
+    {
+      "name": "SystemUpdateDeploymentMode",
+      "kind": "type",
+      "type": "SystemUpdateDeploymentMode",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdateDeploymentSystemd",
+      "kind": "const",
+      "type": "SystemUpdateDeploymentMode",
+      "alias": false,
+      "value": "\"systemd\""
+    },
+    {
+      "name": "SystemUpdateDockerPortReconfiguration",
+      "kind": "type",
+      "type": "SystemUpdateDockerPortReconfiguration",
+      "alias": false,
+      "underlying": "struct{PublishedHostIP string \"json:\\\"published_host_ip,omitempty\\\"\"; OldPublishedPort int \"json:\\\"old_published_port,omitempty\\\"\"; NewPublishedPort int \"json:\\\"new_published_port,omitempty\\\"\"; OldContainerPort int \"json:\\\"old_container_port,omitempty\\\"\"; NewContainerPort int \"json:\\\"new_container_port,omitempty\\\"\"; OldHealthPort int \"json:\\\"old_health_port,omitempty\\\"\"; NewHealthPort int \"json:\\\"new_health_port,omitempty\\\"\"; ApprovedComposeConfigSHA256 string \"json:\\\"approved_compose_config_sha256,omitempty\\\"\"; ApprovedComposeRevision int64 \"json:\\\"approved_compose_revision,omitempty\\\"\"; ExpectedVersionEnvSHA256 string \"json:\\\"expected_version_env_sha256,omitempty\\\"\"; ExpectedContainerID string \"json:\\\"expected_container_id,omitempty\\\"\"; ExpectedImageID string \"json:\\\"expected_image_id,omitempty\\\"\"; ExpectedRepositoryDigest string \"json:\\\"expected_repository_digest,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdateDownloading",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"downloading\""
+    },
+    {
+      "name": "SystemUpdateFailed",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"failed\""
+    },
+    {
+      "name": "SystemUpdateHealthChecking",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"health_checking\""
+    },
+    {
+      "name": "SystemUpdateHostStatus",
+      "kind": "type",
+      "type": "SystemUpdateHostStatus",
+      "alias": false,
+      "underlying": "struct{HostID string \"json:\\\"host_id\\\"\"; Name string \"json:\\\"name\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; Reachability SystemUpdateReachability \"json:\\\"reachability\\\"\"; ReachabilityCheckedAt *time.Time \"json:\\\"reachability_checked_at,omitempty\\\"\"; ReachabilityCode string \"json:\\\"reachability_code,omitempty\\\"\"; SSHClientPublicKey string \"json:\\\"ssh_client_public_key,omitempty\\\"\"; SSHClientKeyFingerprint string \"json:\\\"ssh_client_key_fingerprint,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdateInstalling",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"installing\""
+    },
+    {
+      "name": "SystemUpdateJob",
+      "kind": "type",
+      "type": "SystemUpdateJob",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; TargetType SystemUpdateTargetType \"json:\\\"target_type\\\"\"; ExecutionHostID string \"json:\\\"host_id\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode,omitempty\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch,omitempty\\\"\"; PolicyRevision int64 \"json:\\\"policy_revision,omitempty\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; CurrentVersion string \"json:\\\"current_version\\\"\"; TargetVersion string \"json:\\\"target_version\\\"\"; Strategy SystemUpdateStrategy \"json:\\\"strategy\\\"\"; Status SystemUpdateStatus \"json:\\\"status\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; UpdaterID string \"json:\\\"updater_id,omitempty\\\"\"; RequestedBy string \"json:\\\"requested_by,omitempty\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; LeaseExpiresAt *time.Time \"json:\\\"lease_expires_at,omitempty\\\"\"; Sequence int64 \"json:\\\"sequence\\\"\"; Progress int \"json:\\\"progress\\\"\"; Code string \"json:\\\"code,omitempty\\\"\"; Message string \"json:\\\"message,omitempty\\\"\"; ArtifactDigest string \"json:\\\"artifact_digest,omitempty\\\"\"; PreviousDigest string \"json:\\\"previous_digest,omitempty\\\"\"; Operation SystemUpdateOperation \"json:\\\"operation,omitempty\\\"\"; PortReconfigure *SystemUpdatePortReconfiguration \"json:\\\"port_reconfigure,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"; ClaimedAt *time.Time \"json:\\\"claimed_at,omitempty\\\"\"; CompletedAt *time.Time \"json:\\\"completed_at,omitempty\\\"\"; CanceledAt *time.Time \"json:\\\"canceled_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdateMaintenance",
+      "kind": "const",
+      "type": "SystemUpdateStrategy",
+      "alias": false,
+      "value": "\"maintenance\""
+    },
+    {
+      "name": "SystemUpdateMutationApply",
+      "kind": "const",
+      "type": "SystemUpdateMutationOperation",
+      "alias": false,
+      "value": "\"apply\""
+    },
+    {
+      "name": "SystemUpdateMutationOperation",
+      "kind": "type",
+      "type": "SystemUpdateMutationOperation",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdateMutationPortReconfigure",
+      "kind": "const",
+      "type": "SystemUpdateMutationOperation",
+      "alias": false,
+      "value": "\"port_reconfigure\""
+    },
+    {
+      "name": "SystemUpdateMutationPortReconfigureReconcile",
+      "kind": "const",
+      "type": "SystemUpdateMutationOperation",
+      "alias": false,
+      "value": "\"port_reconfigure_reconcile\""
+    },
+    {
+      "name": "SystemUpdateMutationReconcile",
+      "kind": "const",
+      "type": "SystemUpdateMutationOperation",
+      "alias": false,
+      "value": "\"reconcile\""
+    },
+    {
+      "name": "SystemUpdateOperation",
+      "kind": "type",
+      "type": "SystemUpdateOperation",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdateOperationPortReconfigure",
+      "kind": "const",
+      "type": "SystemUpdateOperation",
+      "alias": false,
+      "value": "\"port_reconfigure\""
+    },
+    {
+      "name": "SystemUpdateOperationSoftwareUpdate",
+      "kind": "const",
+      "type": "SystemUpdateOperation",
+      "alias": false,
+      "value": "\"software_update\""
+    },
+    {
+      "name": "SystemUpdatePortMapping",
+      "kind": "type",
+      "type": "SystemUpdatePortMapping",
+      "alias": false,
+      "underlying": "struct{Mode SystemUpdateDeploymentMode \"json:\\\"mode\\\"\"; State SystemUpdatePortMappingState \"json:\\\"state\\\"\"; AdvertisedPort int \"json:\\\"advertised_port,omitempty\\\"\"; PublishedPort int \"json:\\\"published_port,omitempty\\\"\"; ContainerPort int \"json:\\\"container_port,omitempty\\\"\"; HealthPort int \"json:\\\"health_port,omitempty\\\"\"; ConfigRevision int64 \"json:\\\"config_revision,omitempty\\\"\"; PublishedHostIP string \"json:\\\"published_host_ip,omitempty\\\"\"; ReportedAt *time.Time \"json:\\\"reported_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortMappingApplied",
+      "kind": "const",
+      "type": "SystemUpdatePortMappingState",
+      "alias": false,
+      "value": "\"applied\""
+    },
+    {
+      "name": "SystemUpdatePortMappingDrifted",
+      "kind": "const",
+      "type": "SystemUpdatePortMappingState",
+      "alias": false,
+      "value": "\"drifted\""
+    },
+    {
+      "name": "SystemUpdatePortMappingState",
+      "kind": "type",
+      "type": "SystemUpdatePortMappingState",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdatePortMappingUnavailable",
+      "kind": "const",
+      "type": "SystemUpdatePortMappingState",
+      "alias": false,
+      "value": "\"unavailable\""
+    },
+    {
+      "name": "SystemUpdatePortProtocol",
+      "kind": "type",
+      "type": "SystemUpdatePortProtocol",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdatePortProtocolTCP",
+      "kind": "const",
+      "type": "SystemUpdatePortProtocol",
+      "alias": false,
+      "value": "\"tcp\""
+    },
+    {
+      "name": "SystemUpdatePortReconfiguration",
+      "kind": "type",
+      "type": "SystemUpdatePortReconfiguration",
+      "alias": false,
+      "underlying": "struct{NetworkNamespace string \"json:\\\"network_namespace,omitempty\\\"\"; Protocol SystemUpdatePortProtocol \"json:\\\"protocol,omitempty\\\"\"; OldPort int \"json:\\\"old_port,omitempty\\\"\"; NewPort int \"json:\\\"new_port,omitempty\\\"\"; ExpectedEndpointRevision int64 \"json:\\\"expected_endpoint_revision,omitempty\\\"\"; TargetEndpointRevision int64 \"json:\\\"target_endpoint_revision,omitempty\\\"\"; ExpectedConfigRevision int64 \"json:\\\"expected_config_revision,omitempty\\\"\"; TargetConfigRevision int64 \"json:\\\"target_config_revision,omitempty\\\"\"; ExpectedConfigSHA256 string \"json:\\\"expected_config_sha256,omitempty\\\"\"; TargetConfigSHA256 string \"json:\\\"target_config_sha256,omitempty\\\"\"; ExpectedSourcePolicyRevision int64 \"json:\\\"expected_source_policy_revision,omitempty\\\"\"; ExpectedUpdaterPolicyRevision int64 \"json:\\\"expected_updater_policy_revision,omitempty\\\"\"; ExpectedExecutorPolicyRevision int64 \"json:\\\"expected_executor_policy_revision,omitempty\\\"\"; ExpectedExecutorPolicySHA256 string \"json:\\\"expected_executor_policy_sha256,omitempty\\\"\"; PortPlanSHA256 string \"json:\\\"port_plan_sha256,omitempty\\\"\"; Docker *SystemUpdateDockerPortReconfiguration \"json:\\\"docker,omitempty\\\"\"; Result SystemUpdatePortReconfigurationResult \"json:\\\"result,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationApplied",
+      "kind": "const",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "alias": false,
+      "value": "\"applied\""
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationResult",
+      "kind": "type",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationRollbackFailed",
+      "kind": "const",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "alias": false,
+      "value": "\"rollback_failed\""
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationRolledBack",
+      "kind": "const",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "alias": false,
+      "value": "\"rolled_back\""
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationUnchanged",
+      "kind": "const",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "alias": false,
+      "value": "\"unchanged\""
+    },
+    {
+      "name": "SystemUpdatePullOwnershipActivateRequest",
+      "kind": "type",
+      "type": "SystemUpdatePullOwnershipActivateRequest",
+      "alias": false,
+      "underlying": "struct{ExpectedExecutionHostID string \"json:\\\"expected_execution_host_id\\\"\"; ExpectedOwnershipEpoch int64 \"json:\\\"expected_ownership_epoch\\\"\"; ExpectedSourcePolicyRevision int64 \"json:\\\"expected_source_policy_revision\\\"\"; ExpectedProjectionRevision int64 \"json:\\\"expected_projection_revision\\\"\"; ExpectedLocalExecutorPolicyRevision int64 \"json:\\\"expected_local_executor_policy_revision\\\"\"; ExpectedLocalExecutorPolicySHA256 string \"json:\\\"expected_local_executor_policy_sha256\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePullOwnershipActivateResponse",
+      "kind": "type",
+      "type": "SystemUpdatePullOwnershipActivateResponse",
+      "alias": false,
+      "underlying": "struct{UpdaterID string \"json:\\\"updater_id\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode\\\"\"; AgentServiceID string \"json:\\\"agent_service_id\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch\\\"\"; SourcePolicyRevision int64 \"json:\\\"source_policy_revision\\\"\"; ProjectionRevision int64 \"json:\\\"projection_revision\\\"\"; LocalExecutorPolicyRevision int64 \"json:\\\"local_executor_policy_revision\\\"\"; LocalExecutorPolicySHA256 string \"json:\\\"local_executor_policy_sha256\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePullOwnershipDeactivateRequest",
+      "kind": "type",
+      "type": "SystemUpdatePullOwnershipDeactivateRequest",
+      "alias": false,
+      "underlying": "struct{ExpectedExecutionHostID string \"json:\\\"expected_execution_host_id\\\"\"; ExpectedOwnershipEpoch int64 \"json:\\\"expected_ownership_epoch\\\"\"; ExpectedSourcePolicyRevision int64 \"json:\\\"expected_source_policy_revision\\\"\"; ExpectedProjectionRevision int64 \"json:\\\"expected_projection_revision\\\"\"; ExpectedLocalExecutorPolicyRevision int64 \"json:\\\"expected_local_executor_policy_revision\\\"\"; ExpectedLocalExecutorPolicySHA256 string \"json:\\\"expected_local_executor_policy_sha256\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePullOwnershipDeactivateResponse",
+      "kind": "type",
+      "type": "SystemUpdatePullOwnershipDeactivateResponse",
+      "alias": false,
+      "underlying": "struct{UpdaterID string \"json:\\\"updater_id\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode\\\"\"; AgentServiceID string \"json:\\\"agent_service_id\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch\\\"\"; AgentOwnershipEpoch int64 \"json:\\\"agent_ownership_epoch\\\"\"; SourcePolicyRevision int64 \"json:\\\"source_policy_revision\\\"\"; ProjectionRevision int64 \"json:\\\"projection_revision\\\"\"; LocalExecutorPolicyRevision int64 \"json:\\\"local_executor_policy_revision\\\"\"; LocalExecutorPolicySHA256 string \"json:\\\"local_executor_policy_sha256\\\"\"}"
+    },
+    {
+      "name": "SystemUpdateQueued",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"queued\""
+    },
+    {
+      "name": "SystemUpdateReachability",
+      "kind": "type",
+      "type": "SystemUpdateReachability",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdateReachable",
+      "kind": "const",
+      "type": "SystemUpdateReachability",
+      "alias": false,
+      "value": "\"reachable\""
+    },
+    {
+      "name": "SystemUpdateReconciling",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"reconciling\""
+    },
+    {
+      "name": "SystemUpdateRolledBack",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"rolled_back\""
+    },
+    {
+      "name": "SystemUpdateRollingBack",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"rolling_back\""
+    },
+    {
+      "name": "SystemUpdateStaging",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"staging\""
+    },
+    {
+      "name": "SystemUpdateStarting",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"starting\""
+    },
+    {
+      "name": "SystemUpdateStatus",
+      "kind": "type",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdateStopping",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"stopping\""
+    },
+    {
+      "name": "SystemUpdateStrategy",
+      "kind": "type",
+      "type": "SystemUpdateStrategy",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdateSucceeded",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"succeeded\""
+    },
+    {
+      "name": "SystemUpdateTarget",
+      "kind": "type",
+      "type": "SystemUpdateTarget",
+      "alias": false,
+      "underlying": "struct{TargetID string \"json:\\\"target_id\\\"\"; TargetType SystemUpdateTargetType \"json:\\\"target_type\\\"\"; Name string \"json:\\\"name\\\"\"; HostID string \"json:\\\"host_id,omitempty\\\"\"; CurrentVersion string \"json:\\\"current_version,omitempty\\\"\"; LatestVersion string \"json:\\\"latest_version,omitempty\\\"\"; UpdateAvailable bool \"json:\\\"update_available\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode,omitempty\\\"\"; UpdaterID string \"json:\\\"updater_id,omitempty\\\"\"; UpdaterOnline bool \"json:\\\"updater_online\\\"\"; Eligible bool \"json:\\\"eligible\\\"\"; BlockedReason string \"json:\\\"blocked_reason,omitempty\\\"\"; EligibleOperations []SystemUpdateOperation \"json:\\\"eligible_operations,omitempty\\\"\"; OperationBlockedReasons map[string]string \"json:\\\"operation_blocked_reasons,omitempty\\\"\"; Busy bool \"json:\\\"busy\\\"\"; CurrentStreamID string \"json:\\\"current_stream_id,omitempty\\\"\"; UpdateCheckSource string \"json:\\\"update_check_source,omitempty\\\"\"; UpdateCheckError string \"json:\\\"update_check_error,omitempty\\\"\"; PortMapping *SystemUpdatePortMapping \"json:\\\"port_mapping,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdateTargetControlPanel",
+      "kind": "const",
+      "type": "SystemUpdateTargetType",
+      "alias": false,
+      "value": "\"control_panel\""
+    },
+    {
+      "name": "SystemUpdateTargetDiscordBot",
+      "kind": "const",
+      "type": "SystemUpdateTargetType",
+      "alias": false,
+      "value": "\"discord_bot\""
+    },
+    {
+      "name": "SystemUpdateTargetEncoderRecorder",
+      "kind": "const",
+      "type": "SystemUpdateTargetType",
+      "alias": false,
+      "value": "\"encoder_recorder\""
+    },
+    {
+      "name": "SystemUpdateTargetObservability",
+      "kind": "const",
+      "type": "SystemUpdateTargetType",
+      "alias": false,
+      "value": "\"observability\""
+    },
+    {
+      "name": "SystemUpdateTargetType",
+      "kind": "type",
+      "type": "SystemUpdateTargetType",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdateTargetWorker",
+      "kind": "const",
+      "type": "SystemUpdateTargetType",
+      "alias": false,
+      "value": "\"worker\""
+    },
+    {
+      "name": "SystemUpdateUnknown",
+      "kind": "const",
+      "type": "SystemUpdateReachability",
+      "alias": false,
+      "value": "\"unknown\""
+    },
+    {
+      "name": "SystemUpdateUnreachable",
+      "kind": "const",
+      "type": "SystemUpdateReachability",
+      "alias": false,
+      "value": "\"unreachable\""
+    },
+    {
+      "name": "SystemUpdateVerifying",
+      "kind": "const",
+      "type": "SystemUpdateStatus",
+      "alias": false,
+      "value": "\"verifying\""
+    },
+    {
+      "name": "SystemUpdateWhenIdle",
+      "kind": "const",
+      "type": "SystemUpdateStrategy",
+      "alias": false,
+      "value": "\"when_idle\""
+    },
+    {
+      "name": "SystemUpdatesResponse",
+      "kind": "type",
+      "type": "SystemUpdatesResponse",
+      "alias": false,
+      "underlying": "struct{Updaters []SystemUpdateAgentStatus \"json:\\\"updaters\\\"\"; Hosts []SystemUpdateHostStatus \"json:\\\"hosts\\\"\"; Targets []SystemUpdateTarget \"json:\\\"targets\\\"\"; Jobs []SystemUpdateJob \"json:\\\"jobs\\\"\"}"
+    },
+    {
+      "name": "UpdateAgentAuthorizeRequest",
+      "kind": "type",
+      "type": "UpdateAgentAuthorizeRequest",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; LeaseToken string \"json:\\\"lease_token\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; ExecutionHostID string \"json:\\\"host_id,omitempty\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; TargetVersion string \"json:\\\"target_version\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"}"
+    },
+    {
+      "name": "UpdateAgentClaimRequest",
+      "kind": "type",
+      "type": "UpdateAgentClaimRequest",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; HostID string \"json:\\\"host_id,omitempty\\\"\"; ActiveJobID string \"json:\\\"active_job_id,omitempty\\\"\"}"
+    },
+    {
+      "name": "UpdateAgentClaimResponse",
+      "kind": "type",
+      "type": "UpdateAgentClaimResponse",
+      "alias": false,
+      "underlying": "struct{Job SystemUpdateJob \"json:\\\"job\\\"\"; LeaseToken string \"json:\\\"lease_token\\\"\"; LeaseExpiresAt time.Time \"json:\\\"lease_expires_at\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; ReportSequence int64 \"json:\\\"report_sequence\\\"\"; RecoveryRequired bool \"json:\\\"recovery_required\\\"\"; LastStatus SystemUpdateStatus \"json:\\\"last_status\\\"\"}"
+    },
+    {
+      "name": "UpdateAgentClearActiveJobResponse",
+      "kind": "type",
+      "type": "UpdateAgentClearActiveJobResponse",
+      "alias": false,
+      "underlying": "struct{ClearActiveJobID bool \"json:\\\"clear_active_job_id\\\"\"}"
+    },
+    {
+      "name": "UpdateAgentMutationGrantConsumeRequest",
+      "kind": "type",
+      "type": "UpdateAgentMutationGrantConsumeRequest",
+      "alias": false,
+      "underlying": "struct{LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; ExecutionHostID string \"json:\\\"host_id\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode,omitempty\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch,omitempty\\\"\"; PolicyRevision int64 \"json:\\\"policy_revision,omitempty\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; ServiceType SystemUpdateTargetType \"json:\\\"service_type,omitempty\\\"\"; TargetVersion string \"json:\\\"target_version\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; JobOperation SystemUpdateOperation \"json:\\\"job_operation,omitempty\\\"\"; Operation SystemUpdateMutationOperation \"json:\\\"operation\\\"\"; PlanSHA256 string \"json:\\\"plan_sha256\\\"\"; SessionID string \"json:\\\"session_id\\\"\"; PortReconfigure *SystemUpdatePortReconfiguration \"json:\\\"port_reconfigure,omitempty\\\"\"}"
+    },
+    {
+      "name": "UpdateAgentMutationGrantIssueRequest",
+      "kind": "type",
+      "type": "UpdateAgentMutationGrantIssueRequest",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; LeaseToken string \"json:\\\"lease_token\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; ExecutionHostID string \"json:\\\"host_id\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode,omitempty\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch,omitempty\\\"\"; PolicyRevision int64 \"json:\\\"policy_revision,omitempty\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; ServiceType SystemUpdateTargetType \"json:\\\"service_type,omitempty\\\"\"; TargetVersion string \"json:\\\"target_version\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; JobOperation SystemUpdateOperation \"json:\\\"job_operation,omitempty\\\"\"; Operation SystemUpdateMutationOperation \"json:\\\"operation\\\"\"; PlanSHA256 string \"json:\\\"plan_sha256\\\"\"; SessionID string \"json:\\\"session_id\\\"\"; PortReconfigure *SystemUpdatePortReconfiguration \"json:\\\"port_reconfigure,omitempty\\\"\"}"
+    },
+    {
+      "name": "UpdateAgentMutationGrantIssueResponse",
+      "kind": "type",
+      "type": "UpdateAgentMutationGrantIssueResponse",
+      "alias": false,
+      "underlying": "struct{GrantToken string \"json:\\\"grant_token\\\"\"; ExpiresAt time.Time \"json:\\\"expires_at\\\"\"}"
+    },
+    {
+      "name": "UpdateAgentReportRequest",
+      "kind": "type",
+      "type": "UpdateAgentReportRequest",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; LeaseToken string \"json:\\\"lease_token\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; Sequence int64 \"json:\\\"sequence\\\"\"; Status SystemUpdateStatus \"json:\\\"status\\\"\"; Progress int \"json:\\\"progress,omitempty\\\"\"; Code string \"json:\\\"code,omitempty\\\"\"; Message string \"json:\\\"message,omitempty\\\"\"; ArtifactDigest string \"json:\\\"artifact_digest,omitempty\\\"\"; PreviousDigest string \"json:\\\"previous_digest,omitempty\\\"\"; PortReconfigure *SystemUpdatePortReconfiguration \"json:\\\"port_reconfigure,omitempty\\\"\"}"
+    },
+    {
+      "name": "UpdateTransportMode",
+      "kind": "type",
+      "type": "UpdateTransportMode",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "UpdateTransportPullV2",
+      "kind": "const",
+      "type": "UpdateTransportMode",
+      "alias": false,
+      "value": "\"pull_v2\""
+    },
+    {
+      "name": "UpdateTransportSSHV1",
+      "kind": "const",
+      "type": "UpdateTransportMode",
+      "alias": false,
+      "value": "\"ssh_v1\""
+    },
+    {
+      "name": "WorkerCaptionRuntimeSettingsRequest",
+      "kind": "type",
+      "type": "WorkerCaptionRuntimeSettingsRequest",
+      "alias": false,
+      "underlying": "struct{CaptionProfileID string \"json:\\\"caption_profile_id\\\"\"}"
+    },
+    {
+      "name": "WorkerEvent",
+      "kind": "type",
+      "type": "WorkerEvent",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; StreamID string \"json:\\\"stream_id\\\"\"; ServiceID string \"json:\\\"service_id,omitempty\\\"\"; Type WorkerEventType \"json:\\\"type\\\"\"; Payload map[string]any \"json:\\\"payload\\\"\"; Timestamp time.Time \"json:\\\"timestamp\\\"\"}"
+    },
+    {
+      "name": "WorkerEventActiveSpeaker",
+      "kind": "const",
+      "type": "WorkerEventType",
+      "alias": false,
+      "value": "\"overlay.active_speaker\""
+    },
+    {
+      "name": "WorkerEventCaptionFinal",
+      "kind": "const",
+      "type": "WorkerEventType",
+      "alias": false,
+      "value": "\"caption.final\""
+    },
+    {
+      "name": "WorkerEventCaptionTelop",
+      "kind": "const",
+      "type": "WorkerEventType",
+      "alias": false,
+      "value": "\"caption.telop\""
+    },
+    {
+      "name": "WorkerEventCurrentTime",
+      "kind": "const",
+      "type": "WorkerEventType",
+      "alias": false,
+      "value": "\"overlay.current_time\""
+    },
+    {
+      "name": "WorkerEventDiscordChat",
+      "kind": "const",
+      "type": "WorkerEventType",
+      "alias": false,
+      "value": "\"overlay.discord_chat\""
+    },
+    {
+      "name": "WorkerEventParticipants",
+      "kind": "const",
+      "type": "WorkerEventType",
+      "alias": false,
+      "value": "\"overlay.participants\""
+    },
+    {
+      "name": "WorkerEventType",
+      "kind": "type",
+      "type": "WorkerEventType",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "WorkerStartJobRequest",
+      "kind": "type",
+      "type": "WorkerStartJobRequest",
+      "alias": true,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; StreamName string \"json:\\\"stream_name,omitempty\\\"\"; EncoderRecorderURL string \"json:\\\"encoder_recorder_url,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; VideoWidth int \"json:\\\"video_width,omitempty\\\"\"; VideoHeight int \"json:\\\"video_height,omitempty\\\"\"; VideoFPS int \"json:\\\"video_fps,omitempty\\\"\"; VideoIngestURL string \"json:\\\"video_ingest_url,omitempty\\\"\"; VideoIngestPassphrase string \"json:\\\"video_ingest_passphrase,omitempty\\\"\"; VideoIngestPBKeyLen int \"json:\\\"video_ingest_pbkeylen,omitempty\\\"\"}"
+    },
+    {
+      "name": "WorkerStreamContext",
+      "kind": "type",
+      "type": "WorkerStreamContext",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; StreamName string \"json:\\\"stream_name,omitempty\\\"\"; EncoderRecorderURL string \"json:\\\"encoder_recorder_url,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; VideoWidth int \"json:\\\"video_width,omitempty\\\"\"; VideoHeight int \"json:\\\"video_height,omitempty\\\"\"; VideoFPS int \"json:\\\"video_fps,omitempty\\\"\"; VideoIngestURL string \"json:\\\"video_ingest_url,omitempty\\\"\"; VideoIngestPassphrase string \"json:\\\"video_ingest_passphrase,omitempty\\\"\"; VideoIngestPBKeyLen int \"json:\\\"video_ingest_pbkeylen,omitempty\\\"\"}"
+    },
+    {
+      "name": "YouTubeLiveNotificationRequest",
+      "kind": "type",
+      "type": "YouTubeLiveNotificationRequest",
+      "alias": false,
+      "underlying": "struct{EventID string \"json:\\\"event_id\\\"\"; WatchURL string \"json:\\\"watch_url\\\"\"}"
+    },
+    {
+      "name": "YouTubeLiveNotificationResponse",
+      "kind": "type",
+      "type": "YouTubeLiveNotificationResponse",
+      "alias": false,
+      "underlying": "struct{Status string \"json:\\\"status\\\"\"; MessageID string \"json:\\\"message_id\\\"\"; AlreadySent bool \"json:\\\"already_sent\\\"\"}"
+    },
+    {
+      "name": "YouTubeOutput",
+      "kind": "type",
+      "type": "YouTubeOutput",
+      "alias": false,
+      "underlying": "struct{ID string \"json:\\\"id\\\"\"; Name string \"json:\\\"name\\\"\"; Mode YouTubeOutputMode \"json:\\\"mode\\\"\"; RTMPURL string \"json:\\\"rtmp_url,omitempty\\\"\"; StreamKeyConfigured bool \"json:\\\"stream_key_configured,omitempty\\\"\"; StreamKeyFingerprint string \"json:\\\"stream_key_fingerprint,omitempty\\\"\"; WatchURL string \"json:\\\"watch_url,omitempty\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; RelayBindingID string \"json:\\\"relay_binding_id,omitempty\\\"\"; ReusableLiveStreamID string \"json:\\\"reusable_live_stream_id,omitempty\\\"\"; BroadcastTitleTemplate string \"json:\\\"broadcast_title_template,omitempty\\\"\"; BroadcastDescription string \"json:\\\"broadcast_description,omitempty\\\"\"; PrivacyStatus string \"json:\\\"privacy_status,omitempty\\\"\"; LatencyPreference string \"json:\\\"latency_preference,omitempty\\\"\"; EnableAutoStart bool \"json:\\\"enable_auto_start,omitempty\\\"\"; EnableAutoStop bool \"json:\\\"enable_auto_stop,omitempty\\\"\"; CompleteOnStop bool \"json:\\\"complete_on_stop\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"}"
+    },
+    {
+      "name": "YouTubeOutputMode",
+      "kind": "type",
+      "type": "YouTubeOutputMode",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "YouTubeOutputModeLiveAPI",
+      "kind": "const",
+      "type": "YouTubeOutputMode",
+      "alias": false,
+      "value": "\"live_api\""
+    },
+    {
+      "name": "YouTubeOutputModeLiveAPIDryRun",
+      "kind": "const",
+      "type": "YouTubeOutputMode",
+      "alias": false,
+      "value": "\"live_api_dry_run\""
+    },
+    {
+      "name": "YouTubeOutputModeLiveAPIRelayStatic",
+      "kind": "const",
+      "type": "YouTubeOutputMode",
+      "alias": false,
+      "value": "\"live_api_relay_static\""
+    },
+    {
+      "name": "YouTubeOutputModeStreamKey",
+      "kind": "const",
+      "type": "YouTubeOutputMode",
+      "alias": false,
+      "value": "\"stream_key\""
+    },
+    {
+      "name": "YouTubeOutputWriteRequest",
+      "kind": "type",
+      "type": "YouTubeOutputWriteRequest",
+      "alias": false,
+      "underlying": "struct{Name string \"json:\\\"name\\\"\"; Mode YouTubeOutputMode \"json:\\\"mode\\\"\"; RTMPURL string \"json:\\\"rtmp_url,omitempty\\\"\"; StreamKey string \"json:\\\"stream_key,omitempty\\\"\"; WatchURL string \"json:\\\"watch_url,omitempty\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; RelayBindingID string \"json:\\\"relay_binding_id,omitempty\\\"\"; ReusableLiveStreamID string \"json:\\\"reusable_live_stream_id,omitempty\\\"\"; BroadcastTitleTemplate string \"json:\\\"broadcast_title_template,omitempty\\\"\"; BroadcastDescription string \"json:\\\"broadcast_description,omitempty\\\"\"; PrivacyStatus string \"json:\\\"privacy_status,omitempty\\\"\"; LatencyPreference string \"json:\\\"latency_preference,omitempty\\\"\"; EnableAutoStart *bool \"json:\\\"enable_auto_start,omitempty\\\"\"; EnableAutoStop *bool \"json:\\\"enable_auto_stop,omitempty\\\"\"; CompleteOnStop *bool \"json:\\\"complete_on_stop,omitempty\\\"\"}"
+    },
+    {
+      "name": "YouTubeRelayStaticRecoveryResolveRequest",
+      "kind": "type",
+      "type": "YouTubeRelayStaticRecoveryResolveRequest",
+      "alias": false,
+      "underlying": "struct{ConfirmExternalCleanup bool \"json:\\\"confirm_external_cleanup\\\"\"}"
+    },
+    {
+      "name": "YouTubeRelayStaticRecoveryResolveResponse",
+      "kind": "type",
+      "type": "YouTubeRelayStaticRecoveryResolveResponse",
+      "alias": false,
+      "underlying": "struct{Resolved bool \"json:\\\"resolved\\\"\"; Cleanup string \"json:\\\"cleanup\\\"\"; RelayBindingID string \"json:\\\"relay_binding_id\\\"\"}"
+    },
+    {
+      "name": "YouTubeRuntimeConfig",
+      "kind": "type",
+      "type": "YouTubeRuntimeConfig",
+      "alias": false,
+      "underlying": "struct{Mode YouTubeOutputMode \"json:\\\"mode\\\"\"; OutputID string \"json:\\\"output_id,omitempty\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; BroadcastID string \"json:\\\"broadcast_id,omitempty\\\"\"; LiveStreamID string \"json:\\\"live_stream_id,omitempty\\\"\"; RelayBindingID string \"json:\\\"relay_binding_id,omitempty\\\"\"; ReusableLiveStreamID string \"json:\\\"reusable_live_stream_id,omitempty\\\"\"; StreamKeySecretName string \"json:\\\"stream_key_secret_name,omitempty\\\"\"; WatchURL string \"json:\\\"watch_url,omitempty\\\"\"; DryRun bool \"json:\\\"dry_run,omitempty\\\"\"; CompleteOnStop bool \"json:\\\"complete_on_stop,omitempty\\\"\"; CompleteRetryCount int \"json:\\\"complete_retry_count,omitempty\\\"\"; CompleteNextRetryAt string \"json:\\\"complete_next_retry_at,omitempty\\\"\"; CompleteLastError string \"json:\\\"complete_last_error,omitempty\\\"\"}"
+    }
+  ],
+  "methods": null
+}

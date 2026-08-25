@@ -1,0 +1,1771 @@
+{
+  "format_version": 1,
+  "constant_count": 302,
+  "constants": [
+    {
+      "name": "AssignmentRolePrimary",
+      "type": "untyped string",
+      "value": "\"primary\""
+    },
+    {
+      "name": "AssignmentRoleStandby",
+      "type": "untyped string",
+      "value": "\"standby\""
+    },
+    {
+      "name": "CapabilitySceneFramesMJPEGSRT",
+      "type": "untyped string",
+      "value": "\"scene_frames_mjpeg_srt\""
+    },
+    {
+      "name": "CapabilitySceneVideoSRTLegacy",
+      "type": "untyped string",
+      "value": "\"scene_video_srt\""
+    },
+    {
+      "name": "CapabilityWorkerFrameIngestMJPEGSRT",
+      "type": "untyped string",
+      "value": "\"worker_frame_ingest_mjpeg_srt\""
+    },
+    {
+      "name": "CapabilityWorkerVideoIngestSRTLegacy",
+      "type": "untyped string",
+      "value": "\"worker_video_ingest_srt\""
+    },
+    {
+      "name": "DiagnosticRerunOutcomeEvaluated",
+      "type": "DiagnosticRerunOutcome",
+      "enum_type": "DiagnosticRerunOutcome",
+      "value": "\"evaluated\""
+    },
+    {
+      "name": "DiagnosticRerunOutcomeInconclusive",
+      "type": "DiagnosticRerunOutcome",
+      "enum_type": "DiagnosticRerunOutcome",
+      "value": "\"inconclusive\""
+    },
+    {
+      "name": "DiagnosticRerunReasonIncidentUpdatedDuringRerun",
+      "type": "DiagnosticRerunReason",
+      "enum_type": "DiagnosticRerunReason",
+      "value": "\"incident_updated_during_rerun\""
+    },
+    {
+      "name": "DiagnosticRerunReasonSavedSignalMissing",
+      "type": "DiagnosticRerunReason",
+      "enum_type": "DiagnosticRerunReason",
+      "value": "\"saved_signal_missing\""
+    },
+    {
+      "name": "DiagnosticRerunReasonSavedSignalNoLongerMatches",
+      "type": "DiagnosticRerunReason",
+      "enum_type": "DiagnosticRerunReason",
+      "value": "\"saved_signal_no_longer_matches_rule\""
+    },
+    {
+      "name": "DiagnosticRerunReasonSavedSignalNotFound",
+      "type": "DiagnosticRerunReason",
+      "enum_type": "DiagnosticRerunReason",
+      "value": "\"saved_signal_not_found\""
+    },
+    {
+      "name": "EncoderInputModeDiscordOpusRTP",
+      "type": "EncoderInputMode",
+      "enum_type": "EncoderInputMode",
+      "value": "\"discord_opus_rtp\""
+    },
+    {
+      "name": "EncoderInputModeExternal",
+      "type": "EncoderInputMode",
+      "enum_type": "EncoderInputMode",
+      "value": "\"external\""
+    },
+    {
+      "name": "EncoderInputModeWorkerSceneFramesSRT",
+      "type": "EncoderInputMode",
+      "enum_type": "EncoderInputMode",
+      "value": "\"worker_scene_frames_srt\""
+    },
+    {
+      "name": "EncoderInputModeWorkerSceneSRTLegacy",
+      "type": "EncoderInputMode",
+      "enum_type": "EncoderInputMode",
+      "value": "\"worker_scene_srt\""
+    },
+    {
+      "name": "EncoderOutputRelayModeDirect",
+      "type": "EncoderOutputRelayMode",
+      "enum_type": "EncoderOutputRelayMode",
+      "value": "\"direct\""
+    },
+    {
+      "name": "EncoderOutputRelayModeLegacyStreamKey",
+      "type": "EncoderOutputRelayMode",
+      "enum_type": "EncoderOutputRelayMode",
+      "value": "\"legacy_stream_key\""
+    },
+    {
+      "name": "EncoderOutputRelayModeLiveAPIStatic",
+      "type": "EncoderOutputRelayMode",
+      "enum_type": "EncoderOutputRelayMode",
+      "value": "\"live_api_static\""
+    },
+    {
+      "name": "EncoderOutputRelayModeStaticLegacyAlias",
+      "type": "EncoderOutputRelayMode",
+      "enum_type": "EncoderOutputRelayMode",
+      "value": "\"static\""
+    },
+    {
+      "name": "ErrorCodeYouTubeLiveAPIRequiresManagedOutputRelay",
+      "type": "untyped string",
+      "value": "\"live_api_requires_managed_output_relay\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayBindingClaimCheckFailed",
+      "type": "untyped string",
+      "value": "\"youtube_relay_binding_claim_check_failed\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayBindingReleasePending",
+      "type": "untyped string",
+      "value": "\"youtube_relay_binding_release_pending\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticCompletionRequiresCompletedStream",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_completion_requires_completed_stream\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticConfigChangedReload",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_config_changed_reload\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryBroadcastUnknown",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_recovery_broadcast_unknown\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryCompleteFailed",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_recovery_complete_failed\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryDispatchStateInvalid",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_recovery_dispatch_state_invalid\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryEncoderStopUnavailable",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_recovery_encoder_stop_unavailable\""
+    },
+    {
+      "name": "ErrorCodeYouTubeRelayStaticRecoveryEncoderStopUnconfirmed",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_recovery_encoder_stop_unconfirmed\""
+    },
+    {
+      "name": "IncidentAcknowledged",
+      "type": "IncidentStatus",
+      "enum_type": "IncidentStatus",
+      "value": "\"acknowledged\""
+    },
+    {
+      "name": "IncidentIgnored",
+      "type": "IncidentStatus",
+      "enum_type": "IncidentStatus",
+      "value": "\"ignored\""
+    },
+    {
+      "name": "IncidentInvestigating",
+      "type": "IncidentStatus",
+      "enum_type": "IncidentStatus",
+      "value": "\"investigating\""
+    },
+    {
+      "name": "IncidentMitigated",
+      "type": "IncidentStatus",
+      "enum_type": "IncidentStatus",
+      "value": "\"mitigated\""
+    },
+    {
+      "name": "IncidentOpen",
+      "type": "IncidentStatus",
+      "enum_type": "IncidentStatus",
+      "value": "\"open\""
+    },
+    {
+      "name": "IncidentResolved",
+      "type": "IncidentStatus",
+      "enum_type": "IncidentStatus",
+      "value": "\"resolved\""
+    },
+    {
+      "name": "MetricArchiveFinalMKVExists",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"archive.final_mkv_exists\""
+    },
+    {
+      "name": "MetricArchiveFinalMP4Exists",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"archive.final_mp4_exists\""
+    },
+    {
+      "name": "MetricArchivePackageStatus",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"archive.package_status\""
+    },
+    {
+      "name": "MetricDiscordAudioForwardErrors",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.audio_forward_errors_total\""
+    },
+    {
+      "name": "MetricDiscordAudioForwardedTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.audio_forwarded_total\""
+    },
+    {
+      "name": "MetricDiscordAudioLastForwardAge",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.audio_last_forward_age_sec\""
+    },
+    {
+      "name": "MetricDiscordAudioLastPacketAge",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.audio_last_packet_age_sec\""
+    },
+    {
+      "name": "MetricDiscordAudioPacketsTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.audio_packets_total\""
+    },
+    {
+      "name": "MetricDiscordAudioReceiving",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.audio_receiving\""
+    },
+    {
+      "name": "MetricDiscordCaptionAudioForwardErrors",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.caption_audio_forward_errors_total\""
+    },
+    {
+      "name": "MetricDiscordCaptionAudioForwardedTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.caption_audio_forwarded_total\""
+    },
+    {
+      "name": "MetricDiscordCaptionAudioLastForwardAge",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.caption_audio_last_forward_age_sec\""
+    },
+    {
+      "name": "MetricDiscordCaptionAudioPacketsTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.caption_audio_packets_total\""
+    },
+    {
+      "name": "MetricDiscordCaptionUnresolvedSSRC",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.caption_unresolved_ssrc_total\""
+    },
+    {
+      "name": "MetricDiscordGatewayConnected",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.gateway_connected\""
+    },
+    {
+      "name": "MetricDiscordParticipantCount",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.participant_count\""
+    },
+    {
+      "name": "MetricDiscordReconnectCount",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.reconnect_count\""
+    },
+    {
+      "name": "MetricDiscordVoiceConnected",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.voice_connected\""
+    },
+    {
+      "name": "MetricDiscordVoiceDisconnects",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.voice_disconnect_count\""
+    },
+    {
+      "name": "MetricDiscordWorkerEventFailures",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"discord.worker_event_publish_failures_total\""
+    },
+    {
+      "name": "MetricEncoderAudioClippingTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.audio_clipping_total\""
+    },
+    {
+      "name": "MetricEncoderAudioLevelDB",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.audio_level_db\""
+    },
+    {
+      "name": "MetricEncoderAudioSilenceSec",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.audio_silence_sec\""
+    },
+    {
+      "name": "MetricEncoderCaptionArchiveDedupedTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.caption_archive_deduped_total\""
+    },
+    {
+      "name": "MetricEncoderCaptionArchiveFinalTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.caption_archive_final_total\""
+    },
+    {
+      "name": "MetricEncoderDroppedFramesTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.dropped_frames_total\""
+    },
+    {
+      "name": "MetricEncoderEncodeLagMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.encode_lag_ms\""
+    },
+    {
+      "name": "MetricEncoderOutputBitrateKbps",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.output_bitrate_kbps\""
+    },
+    {
+      "name": "MetricEncoderOutputFPS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.output_fps\""
+    },
+    {
+      "name": "MetricEncoderProcessAlive",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.process_alive\""
+    },
+    {
+      "name": "MetricEncoderRTMPReconnectCount",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"encoder.rtmp_reconnect_count\""
+    },
+    {
+      "name": "MetricGDriveUploadDurationSec",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"gdrive.upload_duration_sec\""
+    },
+    {
+      "name": "MetricGDriveUploadFileCount",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"gdrive.upload_file_count\""
+    },
+    {
+      "name": "MetricGDriveUploadFinalMP4Proof",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"gdrive.upload_final_mp4_fingerprint_present\""
+    },
+    {
+      "name": "MetricGDriveUploadFolderProof",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"gdrive.upload_folder_fingerprint_present\""
+    },
+    {
+      "name": "MetricGDriveUploadMetadataProof",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"gdrive.upload_metadata_fingerprint_present\""
+    },
+    {
+      "name": "MetricGDriveUploadProgress",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"gdrive.upload_progress_percent\""
+    },
+    {
+      "name": "MetricGDriveUploadRetryCount",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"gdrive.upload_retry_count\""
+    },
+    {
+      "name": "MetricGDriveUploadStatus",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"gdrive.upload_status\""
+    },
+    {
+      "name": "MetricHostCPUPercent",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"host.cpu_percent\""
+    },
+    {
+      "name": "MetricHostDiskFreeBytes",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"host.disk_free_bytes\""
+    },
+    {
+      "name": "MetricHostMemoryPercent",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"host.memory_percent\""
+    },
+    {
+      "name": "MetricHostNetworkRxBPS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"host.network_rx_bps\""
+    },
+    {
+      "name": "MetricHostNetworkTxBPS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"host.network_tx_bps\""
+    },
+    {
+      "name": "MetricMediaInputBitrateKbps",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"media.input_bitrate_kbps\""
+    },
+    {
+      "name": "MetricMediaInputTimeoutSec",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"media.input_timeout_sec\""
+    },
+    {
+      "name": "MetricRTPJitterMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"rtp.jitter_ms\""
+    },
+    {
+      "name": "MetricRTPPacketLossPercent",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"rtp.packet_loss_percent\""
+    },
+    {
+      "name": "MetricRecorderDiskFreeBytes",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"recorder.disk_free_bytes\""
+    },
+    {
+      "name": "MetricRecorderFileSizeBytes",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"recorder.file_size_bytes\""
+    },
+    {
+      "name": "MetricRecorderRemuxDurationMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"recorder.remux_duration_ms\""
+    },
+    {
+      "name": "MetricRecorderWriteBitrateKbps",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"recorder.write_bitrate_kbps\""
+    },
+    {
+      "name": "MetricSRTBandwidthMbps",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"srt.bandwidth_mbps\""
+    },
+    {
+      "name": "MetricSRTJitterMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"srt.jitter_ms\""
+    },
+    {
+      "name": "MetricSRTPacketLossPercent",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"srt.packet_loss_percent\""
+    },
+    {
+      "name": "MetricSRTRTTMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"srt.rtt_ms\""
+    },
+    {
+      "name": "MetricStreamLiveDurationSec",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"stream.live_duration_sec\""
+    },
+    {
+      "name": "MetricStreamRestartCount",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"stream.restart_count\""
+    },
+    {
+      "name": "MetricStreamStartDurationMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"stream.start_duration_ms\""
+    },
+    {
+      "name": "MetricStreamStatus",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"stream.status\""
+    },
+    {
+      "name": "MetricStreamStopDurationMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"stream.stop_duration_ms\""
+    },
+    {
+      "name": "MetricWorkerCaptionAudioToFinalMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_audio_to_final_ms\""
+    },
+    {
+      "name": "MetricWorkerCaptionAudioToInterimMS",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_audio_to_interim_ms\""
+    },
+    {
+      "name": "MetricWorkerCaptionEventsTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_events_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionFinalTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_final_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionFinalizeTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_finalize_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionInterimTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_interim_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionProviderErrors",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_provider_errors_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionReconnectsTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_reconnects_total\""
+    },
+    {
+      "name": "MetricWorkerCaptionUtteranceEndTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.caption_utterance_end_total\""
+    },
+    {
+      "name": "MetricWorkerEventSendFailures",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.event_send_failures_total\""
+    },
+    {
+      "name": "MetricWorkerHeartbeatAgeSec",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.heartbeat_age_sec\""
+    },
+    {
+      "name": "MetricWorkerOverlayEventsTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.overlay_events_total\""
+    },
+    {
+      "name": "MetricWorkerSceneUpdatesTotal",
+      "type": "MetricName",
+      "enum_type": "MetricName",
+      "value": "\"worker.scene_updates_total\""
+    },
+    {
+      "name": "NotificationAdminAudit",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"admin.audit\""
+    },
+    {
+      "name": "NotificationArchiveUploadCompleted",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"archive.upload.completed\""
+    },
+    {
+      "name": "NotificationArchiveUploadFailed",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"archive.upload.failed\""
+    },
+    {
+      "name": "NotificationDiagnosticCreated",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"diagnostic.created\""
+    },
+    {
+      "name": "NotificationIncidentOpened",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"incident.opened\""
+    },
+    {
+      "name": "NotificationIncidentResolved",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"incident.resolved\""
+    },
+    {
+      "name": "NotificationIncidentUpdated",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"incident.updated\""
+    },
+    {
+      "name": "NotificationRemediationExecuted",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"remediation.executed\""
+    },
+    {
+      "name": "NotificationRemediationPendingApproval",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"remediation.pending_approval\""
+    },
+    {
+      "name": "NotificationServiceOffline",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"service.offline\""
+    },
+    {
+      "name": "NotificationServiceRecovered",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"service.recovered\""
+    },
+    {
+      "name": "NotificationStreamCompleted",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"stream.completed\""
+    },
+    {
+      "name": "NotificationStreamError",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"stream.error\""
+    },
+    {
+      "name": "NotificationStreamFailed",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"stream.failed\""
+    },
+    {
+      "name": "NotificationStreamLive",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"stream.live\""
+    },
+    {
+      "name": "NotificationStreamStarted",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"stream.started\""
+    },
+    {
+      "name": "NotificationStreamWarning",
+      "type": "NotificationEventType",
+      "enum_type": "NotificationEventType",
+      "value": "\"stream.warning\""
+    },
+    {
+      "name": "OAuthAccountPurposeDrive",
+      "type": "OAuthAccountPurpose",
+      "enum_type": "OAuthAccountPurpose",
+      "value": "\"drive\""
+    },
+    {
+      "name": "OAuthAccountPurposeDriveYouTube",
+      "type": "OAuthAccountPurpose",
+      "enum_type": "OAuthAccountPurpose",
+      "value": "\"drive_youtube\""
+    },
+    {
+      "name": "OAuthAccountPurposeUnknown",
+      "type": "OAuthAccountPurpose",
+      "enum_type": "OAuthAccountPurpose",
+      "value": "\"unknown\""
+    },
+    {
+      "name": "OAuthAccountPurposeYouTube",
+      "type": "OAuthAccountPurpose",
+      "enum_type": "OAuthAccountPurpose",
+      "value": "\"youtube\""
+    },
+    {
+      "name": "ProfileArchive",
+      "type": "ProfileKind",
+      "enum_type": "ProfileKind",
+      "value": "\"archive\""
+    },
+    {
+      "name": "ProfileCaption",
+      "type": "ProfileKind",
+      "enum_type": "ProfileKind",
+      "value": "\"caption\""
+    },
+    {
+      "name": "ProfileDiscordConfig",
+      "type": "ProfileKind",
+      "enum_type": "ProfileKind",
+      "value": "\"discord_config\""
+    },
+    {
+      "name": "ProfileEncoder",
+      "type": "ProfileKind",
+      "enum_type": "ProfileKind",
+      "value": "\"encoder\""
+    },
+    {
+      "name": "ProfileOverlay",
+      "type": "ProfileKind",
+      "enum_type": "ProfileKind",
+      "value": "\"overlay\""
+    },
+    {
+      "name": "ProfileYouTubeOutput",
+      "type": "ProfileKind",
+      "enum_type": "ProfileKind",
+      "value": "\"youtube_output\""
+    },
+    {
+      "name": "ReadinessIssueArchiveProfileInvalidConfig",
+      "type": "untyped string",
+      "value": "\"archive_profile_invalid_config\""
+    },
+    {
+      "name": "ReadinessIssueArchiveProfileNotFound",
+      "type": "untyped string",
+      "value": "\"archive_profile_not_found\""
+    },
+    {
+      "name": "ReadinessIssueDiscordAudioCaptureUnavailable",
+      "type": "untyped string",
+      "value": "\"discord_audio_capture_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueDiscordAudioForwardUnavailable",
+      "type": "untyped string",
+      "value": "\"discord_audio_forward_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueDiscordConfigInvalid",
+      "type": "untyped string",
+      "value": "\"discord_config_invalid\""
+    },
+    {
+      "name": "ReadinessIssueDiscordConfigNotFound",
+      "type": "untyped string",
+      "value": "\"discord_config_not_found\""
+    },
+    {
+      "name": "ReadinessIssueDiscordConfigRequired",
+      "type": "untyped string",
+      "value": "\"discord_config_required\""
+    },
+    {
+      "name": "ReadinessIssueDiscordConfigServiceMismatch",
+      "type": "untyped string",
+      "value": "\"discord_config_service_mismatch\""
+    },
+    {
+      "name": "ReadinessIssueDriveDestinationNotFound",
+      "type": "untyped string",
+      "value": "\"drive_destination_not_found\""
+    },
+    {
+      "name": "ReadinessIssueDriveDestinationUnavailable",
+      "type": "untyped string",
+      "value": "\"drive_destination_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueDriveOAuthAccountUnavailable",
+      "type": "untyped string",
+      "value": "\"drive_oauth_account_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueEncoderPublicURLBlocked",
+      "type": "untyped string",
+      "value": "\"encoder_public_url_blocked\""
+    },
+    {
+      "name": "ReadinessIssueEncoderPublicURLInvalid",
+      "type": "untyped string",
+      "value": "\"encoder_public_url_invalid\""
+    },
+    {
+      "name": "ReadinessIssueEncoderPublicURLMissing",
+      "type": "untyped string",
+      "value": "\"encoder_public_url_missing\""
+    },
+    {
+      "name": "ReadinessIssueMissingStreamAssignment",
+      "type": "untyped string",
+      "value": "\"missing_stream_assignment\""
+    },
+    {
+      "name": "ReadinessIssueServiceCallTokenMissing",
+      "type": "untyped string",
+      "value": "\"service_call_token_missing\""
+    },
+    {
+      "name": "ReadinessIssueServiceHeartbeatStale",
+      "type": "untyped string",
+      "value": "\"service_heartbeat_stale\""
+    },
+    {
+      "name": "ReadinessIssueServiceOffline",
+      "type": "untyped string",
+      "value": "\"service_offline\""
+    },
+    {
+      "name": "ReadinessIssueServicePublicURLBlocked",
+      "type": "untyped string",
+      "value": "\"service_public_url_blocked\""
+    },
+    {
+      "name": "ReadinessIssueServicePublicURLInvalid",
+      "type": "untyped string",
+      "value": "\"service_public_url_invalid\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeLiveAPIUnavailable",
+      "type": "untyped string",
+      "value": "\"youtube_live_api_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeOAuthAccountUnavailable",
+      "type": "untyped string",
+      "value": "\"youtube_oauth_account_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeOutputInvalidConfig",
+      "type": "untyped string",
+      "value": "\"youtube_output_invalid_config\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeOutputNotFound",
+      "type": "untyped string",
+      "value": "\"youtube_output_not_found\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayBindingInUse",
+      "type": "untyped string",
+      "value": "\"youtube_relay_binding_in_use\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayBindingStoreUnavailable",
+      "type": "untyped string",
+      "value": "\"youtube_relay_binding_store_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayStaticBindingUnavailable",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_binding_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayStaticRecoveryRequired",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_recovery_required\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeRelayStaticUnavailable",
+      "type": "untyped string",
+      "value": "\"youtube_relay_static_unavailable\""
+    },
+    {
+      "name": "ReadinessIssueYouTubeStreamKeyUnavailable",
+      "type": "untyped string",
+      "value": "\"youtube_stream_key_unavailable\""
+    },
+    {
+      "name": "RelayBindingIDPattern",
+      "type": "untyped string",
+      "value": "\"^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$\""
+    },
+    {
+      "name": "ReleaseChannelDocker",
+      "type": "ReleaseChannel",
+      "enum_type": "ReleaseChannel",
+      "value": "\"docker\""
+    },
+    {
+      "name": "ReleaseChannelHost",
+      "type": "ReleaseChannel",
+      "enum_type": "ReleaseChannel",
+      "value": "\"host\""
+    },
+    {
+      "name": "RemediationDisabled",
+      "type": "RemediationMode",
+      "enum_type": "RemediationMode",
+      "value": "\"disabled\""
+    },
+    {
+      "name": "RemediationManualApproval",
+      "type": "RemediationMode",
+      "enum_type": "RemediationMode",
+      "value": "\"manual_approval\""
+    },
+    {
+      "name": "RemediationSafeAuto",
+      "type": "RemediationMode",
+      "enum_type": "RemediationMode",
+      "value": "\"safe_auto\""
+    },
+    {
+      "name": "RemediationSuggestOnly",
+      "type": "RemediationMode",
+      "enum_type": "RemediationMode",
+      "value": "\"suggest_only\""
+    },
+    {
+      "name": "RuleArchivePackageFailed",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"archive_package_failed\""
+    },
+    {
+      "name": "RuleArchiveRemuxSlow",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"archive_remux_slow\""
+    },
+    {
+      "name": "RuleAudioClipping",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"audio_clipping\""
+    },
+    {
+      "name": "RuleAudioSilence",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"audio_silence\""
+    },
+    {
+      "name": "RuleDiscordAudioForwardFailed",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"discord_audio_forward_failed\""
+    },
+    {
+      "name": "RuleDiscordAudioNotReceiving",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"discord_audio_not_receiving\""
+    },
+    {
+      "name": "RuleDiscordReconnectLoop",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"discord_reconnect_loop\""
+    },
+    {
+      "name": "RuleDiscordVoiceDisconnected",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"discord_voice_disconnected\""
+    },
+    {
+      "name": "RuleDiskLow",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"disk_low\""
+    },
+    {
+      "name": "RuleEncoderBitrateLow",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"encoder_bitrate_low\""
+    },
+    {
+      "name": "RuleEncoderDroppedFrames",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"encoder_dropped_frames_high\""
+    },
+    {
+      "name": "RuleEncoderLowFPS",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"encoder_low_fps\""
+    },
+    {
+      "name": "RuleEncoderProcessExited",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"encoder_process_exited\""
+    },
+    {
+      "name": "RuleGDriveUploadFailed",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"gdrive_upload_failed\""
+    },
+    {
+      "name": "RuleGDriveUploadRetryHigh",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"gdrive_upload_retry_high\""
+    },
+    {
+      "name": "RuleHeartbeatTimeout",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"heartbeat_timeout\""
+    },
+    {
+      "name": "RuleHighPacketLoss",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"high_packet_loss\""
+    },
+    {
+      "name": "RuleMediaInputTimeout",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"media_input_timeout\""
+    },
+    {
+      "name": "RuleRTMPSReconnectLoop",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"rtmps_reconnect_loop\""
+    },
+    {
+      "name": "RuleRecorderNotWriting",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"recorder_not_writing\""
+    },
+    {
+      "name": "RuleStreamStartTimeout",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"stream_start_timeout\""
+    },
+    {
+      "name": "RuleStreamStopTimeout",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"stream_stop_timeout\""
+    },
+    {
+      "name": "RuleUnexpectedStopped",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"unexpected_stopped\""
+    },
+    {
+      "name": "RuleWorkerEventSendFailed",
+      "type": "IncidentRule",
+      "enum_type": "IncidentRule",
+      "value": "\"worker_event_send_failed\""
+    },
+    {
+      "name": "ScopeDiscordStatusWrite",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"discord.status.write\""
+    },
+    {
+      "name": "ScopeEncoderStatusWrite",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"encoder.status.write\""
+    },
+    {
+      "name": "ScopeNotificationsEmailSend",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"notifications.email.send\""
+    },
+    {
+      "name": "ScopeObservabilityIngest",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"observability.ingest\""
+    },
+    {
+      "name": "ScopeRemediationExecute",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"remediation.execute\""
+    },
+    {
+      "name": "ScopeServiceConfigRead",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"service.config.read\""
+    },
+    {
+      "name": "ScopeServiceHeartbeat",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"service.heartbeat\""
+    },
+    {
+      "name": "ScopeServiceLogsWrite",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"service.logs.write\""
+    },
+    {
+      "name": "ScopeServiceRegister",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"service.register\""
+    },
+    {
+      "name": "ScopeServiceSecretResolve",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"service.secret.resolve\""
+    },
+    {
+      "name": "ScopeServiceStatusWrite",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"service.status.write\""
+    },
+    {
+      "name": "ScopeStreamsStart",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"streams.start\""
+    },
+    {
+      "name": "ScopeStreamsStop",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"streams.stop\""
+    },
+    {
+      "name": "ScopeUpdatesAuthorize",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"updates.authorize\""
+    },
+    {
+      "name": "ScopeUpdatesClaim",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"updates.claim\""
+    },
+    {
+      "name": "ScopeUpdatesReport",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"updates.report\""
+    },
+    {
+      "name": "ScopeWorkerEventsWrite",
+      "type": "ServiceScope",
+      "enum_type": "ServiceScope",
+      "value": "\"worker.events.write\""
+    },
+    {
+      "name": "ServiceDiscordBot",
+      "type": "ServiceType",
+      "enum_type": "ServiceType",
+      "value": "\"discord_bot\""
+    },
+    {
+      "name": "ServiceEncoderRecorder",
+      "type": "ServiceType",
+      "enum_type": "ServiceType",
+      "value": "\"encoder_recorder\""
+    },
+    {
+      "name": "ServiceObservability",
+      "type": "ServiceType",
+      "enum_type": "ServiceType",
+      "value": "\"observability\""
+    },
+    {
+      "name": "ServiceStatusAssigned",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"assigned\""
+    },
+    {
+      "name": "ServiceStatusDegraded",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"degraded\""
+    },
+    {
+      "name": "ServiceStatusOffline",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"offline\""
+    },
+    {
+      "name": "ServiceStatusOnline",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"online\""
+    },
+    {
+      "name": "ServiceStatusPending",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"pending\""
+    },
+    {
+      "name": "ServiceStatusRegistered",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"registered\""
+    },
+    {
+      "name": "ServiceStatusRestartRequested",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"restart_requested\""
+    },
+    {
+      "name": "ServiceStatusUnknown",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"unknown\""
+    },
+    {
+      "name": "ServiceStatusUpdating",
+      "type": "ServiceStatus",
+      "enum_type": "ServiceStatus",
+      "value": "\"updating\""
+    },
+    {
+      "name": "ServiceUpdateAgent",
+      "type": "ServiceType",
+      "enum_type": "ServiceType",
+      "value": "\"update_agent\""
+    },
+    {
+      "name": "ServiceWorker",
+      "type": "ServiceType",
+      "enum_type": "ServiceType",
+      "value": "\"worker\""
+    },
+    {
+      "name": "SeverityCritical",
+      "type": "IncidentSeverity",
+      "enum_type": "IncidentSeverity",
+      "value": "\"critical\""
+    },
+    {
+      "name": "SeverityError",
+      "type": "IncidentSeverity",
+      "enum_type": "IncidentSeverity",
+      "value": "\"error\""
+    },
+    {
+      "name": "SeverityInfo",
+      "type": "IncidentSeverity",
+      "enum_type": "IncidentSeverity",
+      "value": "\"info\""
+    },
+    {
+      "name": "SeverityWarning",
+      "type": "IncidentSeverity",
+      "enum_type": "IncidentSeverity",
+      "value": "\"warning\""
+    },
+    {
+      "name": "SignalDiagnosticReport",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"diagnostic_report\""
+    },
+    {
+      "name": "SignalError",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"error\""
+    },
+    {
+      "name": "SignalEvent",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"event\""
+    },
+    {
+      "name": "SignalHeartbeat",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"heartbeat\""
+    },
+    {
+      "name": "SignalIncident",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"incident\""
+    },
+    {
+      "name": "SignalLog",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"log\""
+    },
+    {
+      "name": "SignalMetric",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"metric\""
+    },
+    {
+      "name": "SignalNotificationEvent",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"notification_event\""
+    },
+    {
+      "name": "SignalRemediationAction",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"remediation_action\""
+    },
+    {
+      "name": "SignalWarning",
+      "type": "SignalType",
+      "enum_type": "SignalType",
+      "value": "\"warning\""
+    },
+    {
+      "name": "StreamCompleted",
+      "type": "StreamStatus",
+      "enum_type": "StreamStatus",
+      "value": "\"completed\""
+    },
+    {
+      "name": "StreamCreated",
+      "type": "StreamStatus",
+      "enum_type": "StreamStatus",
+      "value": "\"created\""
+    },
+    {
+      "name": "StreamFailed",
+      "type": "StreamStatus",
+      "enum_type": "StreamStatus",
+      "value": "\"failed\""
+    },
+    {
+      "name": "StreamLive",
+      "type": "StreamStatus",
+      "enum_type": "StreamStatus",
+      "value": "\"live\""
+    },
+    {
+      "name": "StreamStarting",
+      "type": "StreamStatus",
+      "enum_type": "StreamStatus",
+      "value": "\"starting\""
+    },
+    {
+      "name": "StreamStopping",
+      "type": "StreamStatus",
+      "enum_type": "StreamStatus",
+      "value": "\"stopping\""
+    },
+    {
+      "name": "SystemUpdateCanceled",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"canceled\""
+    },
+    {
+      "name": "SystemUpdateClaimed",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"claimed\""
+    },
+    {
+      "name": "SystemUpdateDeploymentDocker",
+      "type": "SystemUpdateDeploymentMode",
+      "enum_type": "SystemUpdateDeploymentMode",
+      "value": "\"docker\""
+    },
+    {
+      "name": "SystemUpdateDeploymentSystemd",
+      "type": "SystemUpdateDeploymentMode",
+      "enum_type": "SystemUpdateDeploymentMode",
+      "value": "\"systemd\""
+    },
+    {
+      "name": "SystemUpdateDownloading",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"downloading\""
+    },
+    {
+      "name": "SystemUpdateFailed",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"failed\""
+    },
+    {
+      "name": "SystemUpdateHealthChecking",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"health_checking\""
+    },
+    {
+      "name": "SystemUpdateInstalling",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"installing\""
+    },
+    {
+      "name": "SystemUpdateMaintenance",
+      "type": "SystemUpdateStrategy",
+      "enum_type": "SystemUpdateStrategy",
+      "value": "\"maintenance\""
+    },
+    {
+      "name": "SystemUpdateMutationApply",
+      "type": "SystemUpdateMutationOperation",
+      "enum_type": "SystemUpdateMutationOperation",
+      "value": "\"apply\""
+    },
+    {
+      "name": "SystemUpdateMutationPortReconfigure",
+      "type": "SystemUpdateMutationOperation",
+      "enum_type": "SystemUpdateMutationOperation",
+      "value": "\"port_reconfigure\""
+    },
+    {
+      "name": "SystemUpdateMutationPortReconfigureReconcile",
+      "type": "SystemUpdateMutationOperation",
+      "enum_type": "SystemUpdateMutationOperation",
+      "value": "\"port_reconfigure_reconcile\""
+    },
+    {
+      "name": "SystemUpdateMutationReconcile",
+      "type": "SystemUpdateMutationOperation",
+      "enum_type": "SystemUpdateMutationOperation",
+      "value": "\"reconcile\""
+    },
+    {
+      "name": "SystemUpdateOperationPortReconfigure",
+      "type": "SystemUpdateOperation",
+      "enum_type": "SystemUpdateOperation",
+      "value": "\"port_reconfigure\""
+    },
+    {
+      "name": "SystemUpdateOperationSoftwareUpdate",
+      "type": "SystemUpdateOperation",
+      "enum_type": "SystemUpdateOperation",
+      "value": "\"software_update\""
+    },
+    {
+      "name": "SystemUpdatePortMappingApplied",
+      "type": "SystemUpdatePortMappingState",
+      "enum_type": "SystemUpdatePortMappingState",
+      "value": "\"applied\""
+    },
+    {
+      "name": "SystemUpdatePortMappingDrifted",
+      "type": "SystemUpdatePortMappingState",
+      "enum_type": "SystemUpdatePortMappingState",
+      "value": "\"drifted\""
+    },
+    {
+      "name": "SystemUpdatePortMappingUnavailable",
+      "type": "SystemUpdatePortMappingState",
+      "enum_type": "SystemUpdatePortMappingState",
+      "value": "\"unavailable\""
+    },
+    {
+      "name": "SystemUpdatePortProtocolTCP",
+      "type": "SystemUpdatePortProtocol",
+      "enum_type": "SystemUpdatePortProtocol",
+      "value": "\"tcp\""
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationApplied",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "enum_type": "SystemUpdatePortReconfigurationResult",
+      "value": "\"applied\""
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationRollbackFailed",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "enum_type": "SystemUpdatePortReconfigurationResult",
+      "value": "\"rollback_failed\""
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationRolledBack",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "enum_type": "SystemUpdatePortReconfigurationResult",
+      "value": "\"rolled_back\""
+    },
+    {
+      "name": "SystemUpdatePortReconfigurationUnchanged",
+      "type": "SystemUpdatePortReconfigurationResult",
+      "enum_type": "SystemUpdatePortReconfigurationResult",
+      "value": "\"unchanged\""
+    },
+    {
+      "name": "SystemUpdateQueued",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"queued\""
+    },
+    {
+      "name": "SystemUpdateReachable",
+      "type": "SystemUpdateReachability",
+      "enum_type": "SystemUpdateReachability",
+      "value": "\"reachable\""
+    },
+    {
+      "name": "SystemUpdateReconciling",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"reconciling\""
+    },
+    {
+      "name": "SystemUpdateRolledBack",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"rolled_back\""
+    },
+    {
+      "name": "SystemUpdateRollingBack",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"rolling_back\""
+    },
+    {
+      "name": "SystemUpdateStaging",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"staging\""
+    },
+    {
+      "name": "SystemUpdateStarting",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"starting\""
+    },
+    {
+      "name": "SystemUpdateStopping",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"stopping\""
+    },
+    {
+      "name": "SystemUpdateSucceeded",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"succeeded\""
+    },
+    {
+      "name": "SystemUpdateTargetControlPanel",
+      "type": "SystemUpdateTargetType",
+      "enum_type": "SystemUpdateTargetType",
+      "value": "\"control_panel\""
+    },
+    {
+      "name": "SystemUpdateTargetDiscordBot",
+      "type": "SystemUpdateTargetType",
+      "enum_type": "SystemUpdateTargetType",
+      "value": "\"discord_bot\""
+    },
+    {
+      "name": "SystemUpdateTargetEncoderRecorder",
+      "type": "SystemUpdateTargetType",
+      "enum_type": "SystemUpdateTargetType",
+      "value": "\"encoder_recorder\""
+    },
+    {
+      "name": "SystemUpdateTargetObservability",
+      "type": "SystemUpdateTargetType",
+      "enum_type": "SystemUpdateTargetType",
+      "value": "\"observability\""
+    },
+    {
+      "name": "SystemUpdateTargetWorker",
+      "type": "SystemUpdateTargetType",
+      "enum_type": "SystemUpdateTargetType",
+      "value": "\"worker\""
+    },
+    {
+      "name": "SystemUpdateUnknown",
+      "type": "SystemUpdateReachability",
+      "enum_type": "SystemUpdateReachability",
+      "value": "\"unknown\""
+    },
+    {
+      "name": "SystemUpdateUnreachable",
+      "type": "SystemUpdateReachability",
+      "enum_type": "SystemUpdateReachability",
+      "value": "\"unreachable\""
+    },
+    {
+      "name": "SystemUpdateVerifying",
+      "type": "SystemUpdateStatus",
+      "enum_type": "SystemUpdateStatus",
+      "value": "\"verifying\""
+    },
+    {
+      "name": "SystemUpdateWhenIdle",
+      "type": "SystemUpdateStrategy",
+      "enum_type": "SystemUpdateStrategy",
+      "value": "\"when_idle\""
+    },
+    {
+      "name": "UpdateTransportPullV2",
+      "type": "UpdateTransportMode",
+      "enum_type": "UpdateTransportMode",
+      "value": "\"pull_v2\""
+    },
+    {
+      "name": "UpdateTransportSSHV1",
+      "type": "UpdateTransportMode",
+      "enum_type": "UpdateTransportMode",
+      "value": "\"ssh_v1\""
+    },
+    {
+      "name": "WorkerEventActiveSpeaker",
+      "type": "WorkerEventType",
+      "enum_type": "WorkerEventType",
+      "value": "\"overlay.active_speaker\""
+    },
+    {
+      "name": "WorkerEventCaptionFinal",
+      "type": "WorkerEventType",
+      "enum_type": "WorkerEventType",
+      "value": "\"caption.final\""
+    },
+    {
+      "name": "WorkerEventCaptionTelop",
+      "type": "WorkerEventType",
+      "enum_type": "WorkerEventType",
+      "value": "\"caption.telop\""
+    },
+    {
+      "name": "WorkerEventCurrentTime",
+      "type": "WorkerEventType",
+      "enum_type": "WorkerEventType",
+      "value": "\"overlay.current_time\""
+    },
+    {
+      "name": "WorkerEventDiscordChat",
+      "type": "WorkerEventType",
+      "enum_type": "WorkerEventType",
+      "value": "\"overlay.discord_chat\""
+    },
+    {
+      "name": "WorkerEventParticipants",
+      "type": "WorkerEventType",
+      "enum_type": "WorkerEventType",
+      "value": "\"overlay.participants\""
+    },
+    {
+      "name": "YouTubeOutputModeLiveAPI",
+      "type": "YouTubeOutputMode",
+      "enum_type": "YouTubeOutputMode",
+      "value": "\"live_api\""
+    },
+    {
+      "name": "YouTubeOutputModeLiveAPIDryRun",
+      "type": "YouTubeOutputMode",
+      "enum_type": "YouTubeOutputMode",
+      "value": "\"live_api_dry_run\""
+    },
+    {
+      "name": "YouTubeOutputModeLiveAPIRelayStatic",
+      "type": "YouTubeOutputMode",
+      "enum_type": "YouTubeOutputMode",
+      "value": "\"live_api_relay_static\""
+    },
+    {
+      "name": "YouTubeOutputModeStreamKey",
+      "type": "YouTubeOutputMode",
+      "enum_type": "YouTubeOutputMode",
+      "value": "\"stream_key\""
+    }
+  ]
+}

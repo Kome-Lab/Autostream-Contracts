@@ -1,0 +1,680 @@
+{
+  "components": {
+    "schemas": {
+      "EncoderRuntimeSettingsRequest": {
+        "$ref": "#/components/schemas/encoder-runtime-settings-request.schema"
+      },
+      "EncoderStartStreamRequest": {
+        "$ref": "#/components/schemas/encoder-start-stream-request.schema"
+      },
+      "EncoderStartStreamResponse": {
+        "$ref": "#/components/schemas/encoder-start-stream-response.schema"
+      },
+      "encoder-runtime-settings-request.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-runtime-settings-request.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "encoder_audio_gain_db": {
+            "description": "Per-stream gain applied by the final Encoder. This value may be updated while the stream is live without restarting FFmpeg.",
+            "maximum": 24,
+            "minimum": -60,
+            "type": "number"
+          },
+          "overlay_profile_id": {
+            "description": "Selected watermark profile. Empty disables the watermark; changing this value updates the live Encoder overlay without restarting FFmpeg.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "encoder_audio_gain_db",
+          "overlay_profile_id"
+        ],
+        "title": "EncoderRuntimeSettingsRequest",
+        "type": "object"
+      },
+      "encoder-start-stream-request.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-start-stream-request.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "worker_video_ingest": {
+                  "const": true
+                }
+              },
+              "required": [
+                "worker_video_ingest"
+              ]
+            },
+            "then": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "input_url"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "input_mode"
+                    ]
+                  }
+                ]
+              },
+              "required": [
+                "worker_video_ingest_token",
+                "encoder_profile_id"
+              ]
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "worker_video_ingest_token"
+              ]
+            },
+            "then": {
+              "properties": {
+                "worker_video_ingest": {
+                  "const": true
+                }
+              },
+              "required": [
+                "worker_video_ingest"
+              ]
+            }
+          }
+        ],
+        "dependentRequired": {
+          "archive_run_id": [
+            "started_at"
+          ]
+        },
+        "properties": {
+          "archive_config": {
+            "additionalProperties": false,
+            "properties": {
+              "archive_profile_id": {
+                "type": "string"
+              },
+              "auth_mode": {
+                "enum": [
+                  "oauth2"
+                ]
+              },
+              "base_path": {
+                "deprecated": true,
+                "description": "Ignored legacy value. folder_id is the archive root.",
+                "type": "string"
+              },
+              "client_id": {
+                "description": "OAuth client ID for Encoder/Recorder token refresh.",
+                "type": "string"
+              },
+              "client_secret_secret_name": {
+                "description": "Runtime secret reference for the OAuth client secret.",
+                "type": "string"
+              },
+              "drive_destination_id": {
+                "type": "string"
+              },
+              "folder_id_secret_name": {
+                "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through Control Panel.",
+                "type": "string"
+              },
+              "oauth_account_id": {
+                "type": "string"
+              },
+              "oauth_provider_id": {
+                "type": "string"
+              },
+              "refresh_token_secret_name": {
+                "description": "Runtime secret reference for the OAuth refresh token.",
+                "type": "string"
+              },
+              "shared_drive": {
+                "type": "boolean"
+              }
+            },
+            "type": "object"
+          },
+          "archive_profile_id": {
+            "type": "string"
+          },
+          "archive_run_id": {
+            "description": "Stable identifier for one broadcast/archive run. Legacy callers omit this field.",
+            "maxLength": 128,
+            "minLength": 1,
+            "not": {
+              "pattern": "\\.\\."
+            },
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+            "type": "string"
+          },
+          "dry_run": {
+            "type": "boolean"
+          },
+          "encoder_audio_gain_db": {
+            "default": 0,
+            "maximum": 24,
+            "minimum": -60,
+            "type": "number"
+          },
+          "encoder_profile_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "input_mode": {
+            "enum": [
+              "external",
+              "discord_opus_rtp"
+            ]
+          },
+          "input_url": {
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "overlay_profile_id": {
+            "type": "string"
+          },
+          "rtmp_url": {
+            "type": "string"
+          },
+          "started_at": {
+            "description": "Archive run start time. Required when archive_run_id is present.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "stream_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "stream_key": {
+            "description": "Deprecated backward-compatible raw runtime secret. Production Control Panel-managed YouTube outputs, including live_api_dry_run, must send stream_key_secret_name instead.",
+            "type": "string",
+            "writeOnly": true
+          },
+          "stream_key_secret_name": {
+            "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through the Control Panel. This is preferred for stored YouTube outputs and YouTube Live API short-lived stream keys.",
+            "type": "string"
+          },
+          "worker_video_ingest": {
+            "description": "Internal opt-in requesting a per-job SRT listener for the assigned Worker scene video. Existing callers omit this field.",
+            "type": "boolean"
+          },
+          "worker_video_ingest_token": {
+            "description": "Short-lived job-scoped token authorizing the Worker video ingest allocation. It is internal request data and must never appear in logs, audit metadata, process status, or public API responses.",
+            "minLength": 1,
+            "type": "string",
+            "writeOnly": true
+          },
+          "youtube_runtime": {
+            "$ref": "#/components/schemas/youtube-runtime-config.schema",
+            "description": "Non-secret YouTube lifecycle metadata prepared by Control Panel. A canonical public YouTube watch URL may be included for a prepared live_api_relay_static runtime; raw stream keys and OAuth tokens must not be included here."
+          }
+        },
+        "required": [
+          "stream_id",
+          "name",
+          "rtmp_url"
+        ],
+        "title": "EncoderStartStreamRequest",
+        "type": "object"
+      },
+      "encoder-start-stream-response.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-start-stream-response.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "description": "Internal Encoder/Recorder start response. video_ingest is returned only to the Control Panel dispatcher and must be removed before audit, status, or public API serialization.",
+        "properties": {
+          "archive": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "error": {
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "started_at_jst": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "stopped_at_jst": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "stream_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "video_ingest": {
+            "additionalProperties": false,
+            "description": "Internal service-to-service response data for the assigned Worker. Never copy this object into process status, dispatch results, audit metadata, or public Control Panel responses.",
+            "properties": {
+              "passphrase": {
+                "description": "Per-job SRT passphrase. It must be consumed only by the internal dispatcher and never serialized to any public response or log.",
+                "maxLength": 79,
+                "minLength": 32,
+                "pattern": "^[A-Za-z0-9_-]{32,79}$",
+                "readOnly": true,
+                "type": "string"
+              },
+              "pbkeylen": {
+                "description": "SRT AES key length in bytes. Version 1 requires AES-256.",
+                "enum": [
+                  32
+                ],
+                "type": "integer"
+              },
+              "url": {
+                "description": "Secret-free SRT listener URL. Userinfo, query parameters, and fragments are prohibited.",
+                "format": "uri",
+                "pattern": "^srt://(?:\\[[0-9A-Fa-f:.]+\\]|[^:/?#@\\s]+):(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "passphrase",
+              "pbkeylen"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "stream_id",
+          "name",
+          "status",
+          "started_at_jst",
+          "archive"
+        ],
+        "title": "EncoderStartStreamResponse",
+        "type": "object"
+      },
+      "youtube-runtime-config.schema": {
+        "$id": "https://schemas.autostream.example.com/youtube-runtime-config.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "mode": {
+                  "const": "live_api_relay_static"
+                }
+              },
+              "required": [
+                "mode"
+              ]
+            },
+            "then": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "rtmp_url"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "stream_key_secret_name"
+                    ]
+                  }
+                ]
+              },
+              "properties": {
+                "broadcast_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "complete_on_stop": {
+                  "const": true
+                },
+                "live_stream_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "oauth_account_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "output_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "relay_binding_id": {
+                  "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                  "type": "string"
+                },
+                "reusable_live_stream_id": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "mode",
+                "output_id",
+                "oauth_account_id",
+                "relay_binding_id",
+                "reusable_live_stream_id",
+                "broadcast_id",
+                "live_stream_id",
+                "complete_on_stop"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "broadcast_id": {
+            "type": "string"
+          },
+          "complete_last_error": {
+            "description": "Safe error code from the latest YouTube Live API complete failure. Raw OAuth or stream key material must not be included.",
+            "type": "string"
+          },
+          "complete_next_retry_at": {
+            "description": "Next automatic YouTube Live API complete retry time, when a retained runtime is waiting for retry.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "complete_on_stop": {
+            "description": "When true, Control Panel completes the YouTube Live broadcast during normal stream stop. Manual retry and cleanup may force completion.",
+            "type": "boolean"
+          },
+          "complete_retry_count": {
+            "description": "Number of failed YouTube Live API complete attempts retained for automatic backoff retry.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "dry_run": {
+            "type": "boolean"
+          },
+          "live_stream_id": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "stream_key",
+              "live_api_dry_run",
+              "live_api",
+              "live_api_relay_static"
+            ],
+            "type": "string"
+          },
+          "oauth_account_id": {
+            "type": "string"
+          },
+          "output_id": {
+            "type": "string"
+          },
+          "relay_binding_id": {
+            "description": "Non-secret fixed relay binding identity for live_api_relay_static.",
+            "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "reusable_live_stream_id": {
+            "description": "Non-secret reusable YouTube LiveStream identity for live_api_relay_static. No ingestion address or stream key is present.",
+            "type": "string"
+          },
+          "rtmp_url": {
+            "description": "Prepared RTMPS ingest URL for recovering an active YouTube Live API runtime. Stream key material must remain in stream_key_secret_name.",
+            "pattern": "^rtmps://",
+            "type": "string"
+          },
+          "stream_key_secret_name": {
+            "description": "Short-lived runtime secret reference for YouTube Live API stream key. The raw key must not be included in this object.",
+            "type": "string"
+          },
+          "watch_url": {
+            "description": "Canonical public watch URL. Live API modes derive it from broadcast_id; live_api_relay_static runtime may carry it. stream_key mode uses the configured output watch_url.",
+            "format": "uri",
+            "pattern": "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode"
+        ],
+        "title": "YouTubeRuntimeConfig",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "serviceToken": {
+        "description": "Node/service token supplied by Control Panel. It must never be embedded in a browser or VLC URL.",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "title": "AutoStream Encoder Recorder API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/streams/start": {
+      "post": {
+        "description": "Internal Control Panel dispatch. When worker_video_ingest is true, the Encoder/Recorder allocates a job-scoped SRT listener for Worker JPEG scene frames and returns its connection material only in this internal service-to-service response. The dispatcher must remove video_ingest before writing status, audit metadata, logs, or any public Control Panel response.\n",
+        "operationId": "startStream",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/encoder-start-stream-request.schema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encoder-start-stream-response.schema"
+                }
+              }
+            },
+            "description": "stream start accepted; optional Worker scene-frame ingest is internal-only"
+          },
+          "400": {
+            "description": "invalid start payload or media configuration"
+          },
+          "401": {
+            "description": "service token missing or invalid"
+          },
+          "409": {
+            "description": "stream already running or output relay state conflict"
+          },
+          "500": {
+            "description": "Encoder/Recorder could not allocate or start the stream"
+          },
+          "503": {
+            "description": "Worker video ingest is unavailable or could not allocate its encrypted SRT listener"
+          }
+        },
+        "summary": "Start an Encoder/Recorder stream"
+      }
+    },
+    "/streams/{id}/preview/{name}": {
+      "get": {
+        "description": "Service-token-protected preview source for Control Panel. Encoder Recorder creates approximately two-second HLS segments and keeps the full active-stream playlist so an authorized preview can seek back to the beginning while the stream is running. Preview output is isolated from the primary live output and recording; preview backpressure or failure must not stop either primary output.\n",
+        "operationId": "getStreamPreviewAsset",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "pattern": "^(index\\.m3u8|segment-[0-9]{6}\\.ts)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.apple.mpegurl": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "video/mp2t": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "HLS playlist or complete MPEG-TS segment",
+            "headers": {
+              "Cache-Control": {
+                "description": "no-store for playlists; private, max-age=30 for segments",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "description": "Authorization",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "206": {
+            "content": {
+              "video/mp2t": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "MPEG-TS byte range"
+          },
+          "400": {
+            "description": "invalid stream path, asset name, symlink, or file identity"
+          },
+          "401": {
+            "description": "service token missing or invalid"
+          },
+          "404": {
+            "description": "preview asset is not ready"
+          }
+        },
+        "summary": "Read an HLS preview asset"
+      }
+    },
+    "/streams/{id}/runtime-settings": {
+      "put": {
+        "operationId": "updateStreamRuntimeSettings",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/encoder-runtime-settings-request.schema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "settings applied to the running Encoder process"
+          },
+          "400": {
+            "description": "invalid gain or watermark profile data"
+          },
+          "401": {
+            "description": "service token missing or invalid"
+          },
+          "409": {
+            "description": "stream is not running"
+          },
+          "502": {
+            "description": "FFmpeg runtime command or watermark source update failed"
+          }
+        },
+        "summary": "Change per-stream Encoder gain and watermark without restarting FFmpeg"
+      }
+    },
+    "/updater/version": {
+      "get": {
+        "description": "Unauthenticated endpoint for the host-local update helper. Deployments must keep this path on loopback or block it at the public reverse proxy. The value comes from the running binary and never from SERVICE_VERSION.\n",
+        "operationId": "getUpdaterVersion",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "version": {
+                      "example": "v1.1.1",
+                      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "version"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "embedded release version"
+          }
+        },
+        "security": [],
+        "summary": "Read the running binary's embedded release version"
+      }
+    }
+  },
+  "security": [
+    {
+      "serviceToken": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://encoder.internal.example.com"
+    }
+  ]
+}

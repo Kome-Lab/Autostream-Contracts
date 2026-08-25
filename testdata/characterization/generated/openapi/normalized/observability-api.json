@@ -1,0 +1,1259 @@
+{
+  "components": {
+    "parameters": {
+      "id": {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "DiagnosticRerunResponse": {
+        "$ref": "#/components/schemas/diagnostic-rerun-response.schema"
+      },
+      "NotificationChannel": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "event_type_filter": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "masked_email_target": {
+            "description": "Raw email recipients and SMTP settings are never returned as unmasked response fields.",
+            "type": "string"
+          },
+          "masked_webhook_url": {
+            "description": "Raw webhook URL is never returned.",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "severity_filter": {
+            "items": {
+              "enum": [
+                "info",
+                "warning",
+                "error",
+                "critical"
+              ]
+            },
+            "type": "array"
+          },
+          "smtp_password_configured": {
+            "deprecated": true,
+            "description": "Deprecated direct-Observability SMTP compatibility status. False for global-SMTP channels.",
+            "type": "boolean"
+          },
+          "type": {
+            "enum": [
+              "discord",
+              "slack",
+              "generic",
+              "email"
+            ]
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "uses_global_smtp": {
+            "description": "Whether this email channel delegates delivery to the Control Panel service relay using globally managed application SMTP settings. This reveals no SMTP credentials.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "enabled",
+          "uses_global_smtp",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object"
+      },
+      "NotificationChannelCreateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NotificationChannelWriteRequest"
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "email"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "email_recipients": {}
+              },
+              "required": [
+                "email_recipients"
+              ]
+            }
+          }
+        ]
+      },
+      "NotificationChannelWriteRequest": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "uses_global_smtp": {
+                  "const": true
+                }
+              },
+              "required": [
+                "uses_global_smtp"
+              ]
+            },
+            "then": {
+              "not": {
+                "anyOf": [
+                  {
+                    "properties": {
+                      "smtp_host": {}
+                    },
+                    "required": [
+                      "smtp_host"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "smtp_port": {}
+                    },
+                    "required": [
+                      "smtp_port"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "smtp_tls": {}
+                    },
+                    "required": [
+                      "smtp_tls"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "smtp_from": {}
+                    },
+                    "required": [
+                      "smtp_from"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "smtp_username": {}
+                    },
+                    "required": [
+                      "smtp_username"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "smtp_password": {}
+                    },
+                    "required": [
+                      "smtp_password"
+                    ]
+                  }
+                ]
+              },
+              "properties": {
+                "type": {
+                  "const": "email"
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "email_recipients": {
+            "description": "Required for email-channel creation. On update, omission preserves the existing masked recipient set; when supplied, the array must be non-empty.",
+            "items": {
+              "description": "Bare mailbox address only; display names and CR/LF are rejected.",
+              "format": "email",
+              "maxLength": 320,
+              "pattern": "^[^\\r\\n]+$",
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "event_type_filter": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          },
+          "severity_filter": {
+            "items": {
+              "enum": [
+                "info",
+                "warning",
+                "error",
+                "critical"
+              ]
+            },
+            "type": "array"
+          },
+          "smtp_from": {
+            "deprecated": true,
+            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
+            "format": "email",
+            "type": "string"
+          },
+          "smtp_host": {
+            "deprecated": true,
+            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
+            "type": "string"
+          },
+          "smtp_password": {
+            "deprecated": true,
+            "description": "Deprecated write-only direct-Observability SMTP password. Do not supply when uses_global_smtp is true; it is never returned raw.",
+            "type": "string",
+            "writeOnly": true
+          },
+          "smtp_port": {
+            "deprecated": true,
+            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "smtp_tls": {
+            "deprecated": true,
+            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
+            "type": "boolean"
+          },
+          "smtp_username": {
+            "deprecated": true,
+            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "discord",
+              "slack",
+              "generic",
+              "email"
+            ]
+          },
+          "uses_global_smtp": {
+            "description": "True delegates delivery to the Control Panel service relay and globally managed application SMTP settings; false selects deprecated direct-Observability SMTP compatibility. On update, omission preserves the existing mode.",
+            "type": "boolean"
+          },
+          "webhook_url": {
+            "description": "Write-only secret. Only http/https absolute URLs are accepted.",
+            "format": "uri",
+            "pattern": "^https?://",
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "enabled"
+        ],
+        "type": "object"
+      },
+      "NotificationDeliveryResult": {
+        "additionalProperties": false,
+        "properties": {
+          "channel": {
+            "enum": [
+              "discord",
+              "slack",
+              "generic",
+              "email"
+            ],
+            "type": "string"
+          },
+          "error": {
+            "description": "Optional sanitized error. Raw provider responses, target URLs, credentials, and tokens are never returned.",
+            "maxLength": 512,
+            "pattern": "^[^\\u0000-\\u001F\\u007F]*$",
+            "type": "string"
+          },
+          "event_type": {
+            "enum": [
+              "stream.started",
+              "stream.live",
+              "stream.completed",
+              "stream.failed",
+              "stream.warning",
+              "stream.error",
+              "incident.opened",
+              "incident.updated",
+              "incident.resolved",
+              "diagnostic.created",
+              "remediation.pending_approval",
+              "remediation.executed",
+              "archive.upload.completed",
+              "archive.upload.failed",
+              "service.offline",
+              "service.recovered",
+              "admin.audit"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "success",
+              "failure"
+            ],
+            "type": "string"
+          },
+          "target": {
+            "description": "Masked delivery target only. Raw webhook URLs and email recipient addresses are never returned.",
+            "maxLength": 512,
+            "minLength": 1,
+            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "event_type",
+          "channel",
+          "target",
+          "status"
+        ],
+        "type": "object"
+      },
+      "NotificationEventWriteRequest": {
+        "additionalProperties": false,
+        "description": "Secret-free administrative notification event with structured source and detail fields. metadata and all other unknown properties are rejected. Raw credentials, tokens, webhook URLs, passwords, and authorization values are prohibited in every field.",
+        "properties": {
+          "action": {
+            "description": "Required stable dotted ASCII identifier; raw values are prohibited.",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)*$",
+            "type": "string"
+          },
+          "actor_username": {
+            "description": "Display-safe non-secret actor name; control characters are prohibited.",
+            "maxLength": 80,
+            "minLength": 1,
+            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+            "type": "string"
+          },
+          "details": {
+            "description": "Optional display-safe diagnostic or operation details. Raw secrets, URLs carrying credentials, and control characters are prohibited.",
+            "maxLength": 3000,
+            "minLength": 1,
+            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+            "type": "string"
+          },
+          "event_type": {
+            "const": "admin.audit",
+            "type": "string"
+          },
+          "resource_id": {
+            "description": "Non-secret opaque resource identifier. URLs, credentials, tokens, and control characters are prohibited.",
+            "maxLength": 160,
+            "minLength": 1,
+            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+            "type": "string"
+          },
+          "resource_type": {
+            "description": "Non-secret resource type identifier.",
+            "maxLength": 80,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "service_id": {
+            "description": "Source service identifier. When omitted, the producer is treated as control-panel; the receiving Observability service is never inferred as the source.",
+            "maxLength": 160,
+            "minLength": 1,
+            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+            "type": "string"
+          },
+          "severity": {
+            "default": "info",
+            "enum": [
+              "info",
+              "warning",
+              "error",
+              "critical"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "description": "Short non-secret status identifier. Defaults to recorded when omitted.",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "summary": {
+            "description": "Short display-safe summary. Raw secrets, URLs carrying credentials, and control characters are prohibited.",
+            "maxLength": 240,
+            "minLength": 1,
+            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Optional source event time. It is context only and not an outbox or idempotency identifier.",
+            "format": "date-time",
+            "maxLength": 40,
+            "type": "string"
+          }
+        },
+        "required": [
+          "event_type",
+          "action"
+        ],
+        "type": "object"
+      },
+      "ObservabilitySignal": {
+        "properties": {
+          "attributes": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object"
+          },
+          "name": {
+            "type": "string"
+          },
+          "service_id": {
+            "type": "string"
+          },
+          "service_type": {
+            "enum": [
+              "discord_bot",
+              "encoder_recorder",
+              "worker",
+              "observability"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "stream_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "heartbeat",
+              "metric",
+              "log",
+              "event",
+              "warning",
+              "error",
+              "incident",
+              "diagnostic_report",
+              "remediation_action",
+              "notification_event"
+            ]
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "service_id",
+          "service_type"
+        ],
+        "type": "object"
+      },
+      "RemediationDispatchContext": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "retry_gdrive_upload",
+              "retry_package_remux"
+            ]
+          },
+          "action_id": {
+            "type": "string"
+          },
+          "action_status": {
+            "type": "string"
+          },
+          "executable": {
+            "type": "boolean"
+          },
+          "incident_id": {
+            "type": "string"
+          },
+          "incident_status": {
+            "type": "string"
+          },
+          "stream_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "action_id",
+          "action",
+          "action_status",
+          "incident_id",
+          "incident_status",
+          "stream_id",
+          "executable"
+        ],
+        "type": "object"
+      },
+      "diagnostic-rerun-response.schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "evaluated"
+                }
+              }
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "reason"
+                ]
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "inconclusive"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        ],
+        "description": "Result of re-evaluating one incident from its already persisted signal. It never changes the incident lifecycle or executes remediation.",
+        "properties": {
+          "incident": {
+            "$ref": "#/components/schemas/incident.schema"
+          },
+          "outcome": {
+            "enum": [
+              "evaluated",
+              "inconclusive"
+            ]
+          },
+          "reason": {
+            "enum": [
+              "saved_signal_missing",
+              "saved_signal_not_found",
+              "saved_signal_no_longer_matches_rule",
+              "incident_updated_during_rerun"
+            ]
+          }
+        },
+        "required": [
+          "incident",
+          "outcome"
+        ],
+        "title": "DiagnosticRerunResponse",
+        "type": "object"
+      },
+      "diagnostic_report": {
+        "additionalProperties": true,
+        "properties": {
+          "actions_requiring_approval": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "confidence": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "evidence": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "impact": {
+            "type": "string"
+          },
+          "likely_cause": {
+            "type": "string"
+          },
+          "recommended_actions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "safe_auto_remediation_candidates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary",
+          "likely_cause",
+          "confidence",
+          "evidence",
+          "impact",
+          "recommended_actions"
+        ],
+        "type": "object"
+      },
+      "incident.schema": {
+        "$defs": {
+          "diagnostic_report": {
+            "additionalProperties": true,
+            "properties": {
+              "actions_requiring_approval": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "confidence": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              },
+              "evidence": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "impact": {
+                "type": "string"
+              },
+              "likely_cause": {
+                "type": "string"
+              },
+              "recommended_actions": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "safe_auto_remediation_candidates": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "summary": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "summary",
+              "likely_cause",
+              "confidence",
+              "evidence",
+              "impact",
+              "recommended_actions"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "diagnostic_report": {
+            "$ref": "#/components/schemas/diagnostic_report"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "opened_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "resolved_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "rule": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "service_id": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "info",
+              "warning",
+              "error",
+              "critical"
+            ]
+          },
+          "signal_id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "open",
+              "acknowledged",
+              "investigating",
+              "mitigated",
+              "resolved",
+              "ignored"
+            ]
+          },
+          "stream_id": {
+            "type": "string"
+          },
+          "summary_ja": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "rule",
+          "severity",
+          "status",
+          "summary_ja",
+          "service_id",
+          "diagnostic_report",
+          "opened_at",
+          "updated_at"
+        ],
+        "title": "Incident",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "bearerToken": {
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "title": "AutoStream Observability API",
+    "version": "0.2.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/diagnostics": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "diagnostic reports"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "healthy"
+          }
+        },
+        "security": []
+      }
+    },
+    "/heartbeat": {
+      "post": {
+        "responses": {
+          "202": {
+            "description": "heartbeat accepted"
+          }
+        }
+      }
+    },
+    "/incidents": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "incidents"
+          }
+        }
+      }
+    },
+    "/incidents/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "incident detail"
+          }
+        }
+      }
+    },
+    "/incidents/{id}/acknowledge": {
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "incident acknowledged"
+          }
+        }
+      }
+    },
+    "/incidents/{id}/diagnostics/rerun": {
+      "post": {
+        "description": "Re-evaluates the diagnostic report from the incident's already persisted signal. Requires diagnostics.run and never changes incident lifecycle, executes remediation, or sends notifications.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/diagnostic-rerun-response.schema"
+                }
+              }
+            },
+            "description": "diagnostic report re-evaluated or safely left inconclusive"
+          },
+          "401": {
+            "description": "missing or invalid bearer token"
+          },
+          "403": {
+            "description": "missing diagnostics.run scope"
+          },
+          "404": {
+            "description": "incident not found"
+          },
+          "500": {
+            "description": "persisted incident, signal, or diagnostic report update failed"
+          }
+        }
+      }
+    },
+    "/incidents/{id}/resolve": {
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "incident resolved"
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "latest metric snapshots"
+          }
+        }
+      }
+    },
+    "/notification-channels": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationChannel"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "notification channels without raw webhook URLs"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationChannelCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationChannel"
+                }
+              }
+            },
+            "description": "notification channel created"
+          },
+          "400": {
+            "description": "invalid notification channel or webhook URL"
+          }
+        }
+      }
+    },
+    "/notification-channels/{id}": {
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "notification channel deleted"
+          }
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationChannel"
+                }
+              }
+            },
+            "description": "notification channel detail without raw webhook URL"
+          }
+        }
+      },
+      "put": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationChannelWriteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationChannel"
+                }
+              }
+            },
+            "description": "notification channel updated"
+          },
+          "400": {
+            "description": "invalid notification channel or webhook URL"
+          }
+        }
+      }
+    },
+    "/notification-channels/{id}/test": {
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationDeliveryResult"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "test notification attempted"
+          }
+        }
+      }
+    },
+    "/notification-deliveries": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "notification delivery history with masked targets"
+          }
+        }
+      }
+    },
+    "/notification-events": {
+      "post": {
+        "description": "Accepts either the configured Control Panel service bearer or an administrator bearer authorized for notifications.manage. The request contains only structured, secret-free notification context; unknown fields are rejected. Raw tokens, credentials, webhook URLs, passwords, authorization values, or other secrets must never be supplied. event_id and outbox/idempotency semantics are not part of this endpoint.",
+        "operationId": "createNotificationEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationEventWriteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationDeliveryResult"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "delivery attempts completed; targets and errors are masked or sanitized"
+          },
+          "400": {
+            "description": "bad_request, event_type_required, or invalid_notification_event; metadata and other unknown fields are rejected"
+          },
+          "401": {
+            "description": "invalid_service_token"
+          },
+          "403": {
+            "description": "missing_admin_scope"
+          },
+          "429": {
+            "description": "rate_limited"
+          },
+          "503": {
+            "description": "rate_limit_unavailable"
+          }
+        },
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "summary": "Deliver a secret-free administrative notification event"
+      }
+    },
+    "/remediation-actions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "remediation actions"
+          }
+        }
+      }
+    },
+    "/remediation-actions/{id}/approve": {
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "remediation action approved"
+          }
+        }
+      }
+    },
+    "/remediation-actions/{id}/dispatch-context": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemediationDispatchContext"
+                }
+              }
+            },
+            "description": "verified remediation action / incident / stream context for Control Panel dispatch"
+          },
+          "404": {
+            "description": "remediation action not found"
+          },
+          "409": {
+            "description": "incident context missing, stream context missing, or action is not executable"
+          }
+        }
+      }
+    },
+    "/remediation-actions/{id}/execute": {
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "safe or approved remediation action recorded"
+          },
+          "403": {
+            "description": "dangerous or unapproved action blocked"
+          }
+        }
+      }
+    },
+    "/signals": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "recent signals"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObservabilitySignal"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "signal accepted; incidents may be returned"
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "service status"
+          }
+        },
+        "security": []
+      }
+    },
+    "/updater/version": {
+      "get": {
+        "description": "Unauthenticated endpoint for the host-local update helper. Deployments must keep this path on loopback or block it at the public reverse proxy. The value comes from the running binary and never from SERVICE_VERSION.\n",
+        "operationId": "getUpdaterVersion",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "version": {
+                      "example": "v1.1.1",
+                      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "version"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "embedded release version"
+          }
+        },
+        "security": [],
+        "summary": "Read the running binary's embedded release version"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerToken": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://observability.example.com"
+    }
+  ]
+}

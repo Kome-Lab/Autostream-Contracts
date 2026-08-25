@@ -1,0 +1,15 @@
+{
+  "format_version": 1,
+  "classification": "RAW_SOURCE_AUTHORITY",
+  "readme_contract_authority": "The repository README declares autostream-contracts to be the source of truth for service-to-service contracts.",
+  "release_artifact": {
+    "includes_raw_openapi_directory": true,
+    "includes_redocly_bundles": false,
+    "includes_schema_directory": true,
+    "includes_readme": true
+  },
+  "relative_ref_layout_dependency_possible": true,
+  "external_consumers_verified": false,
+  "authority_changed_by_characterization_task": false,
+  "openapi_source_split_authorized": false
+}

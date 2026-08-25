@@ -1,0 +1,173 @@
+{
+  "format_version": 1,
+  "contracts_head": "0d670fa51204a950f97dc1d68c101a518d1dd2b0",
+  "method": {
+    "module_import": "Exact repository-wide search for github.com/example/autostream-contracts, excluding Git metadata, vendored trees, and dependency directories.",
+    "same_name_dto": "Production Go type declarations whose exported name also exists in package contracts. These are compatibility candidates, not proof of byte-for-byte copies.",
+    "raw_json_key": "Intersection of production Go json tag names with package contracts json tag names.",
+    "path_and_codegen": "Repository-wide search for contracts OpenAPI/Schema paths, generated-client markers, and contracts release artifact names."
+  },
+  "repositories": [
+    {
+      "repository": "autostream-control-panel",
+      "head": "9b0e8ba0dea6a618362954fe579d0323745f3c55",
+      "module": "github.com/example/autostream-control-panel",
+      "contracts_module_import_count": 0,
+      "same_name_dto_candidate_count": 28,
+      "same_name_dto_candidates": [
+        { "name": "AuditEvent", "path": "internal/store/auth.go" },
+        { "name": "DriveDestination", "path": "internal/store/integrations.go" },
+        { "name": "HostAgentPolicyRequest", "path": "internal/updateagent/host_pull_panel.go" },
+        { "name": "HostAgentPolicyTarget", "path": "internal/updateagent/host_pull_panel.go" },
+        { "name": "NodeAgentAPI", "path": "internal/store/services.go" },
+        { "name": "OAuthAccount", "path": "internal/store/integrations.go" },
+        { "name": "OAuthProvider", "path": "internal/store/integrations.go" },
+        { "name": "OAuthUserLink", "path": "internal/store/oauth_login.go" },
+        { "name": "PasskeyCredential", "path": "internal/store/auth.go" },
+        { "name": "Profile", "path": "internal/store/profiles.go" },
+        { "name": "ProfileKind", "path": "internal/store/profiles.go" },
+        { "name": "ReadinessIssue", "path": "internal/servicecall/client.go" },
+        { "name": "RegisteredService", "path": "internal/store/services.go" },
+        { "name": "SecretStatus", "path": "internal/store/security_settings.go" },
+        { "name": "SecuritySettings", "path": "internal/store/security_settings.go" },
+        { "name": "ServiceEndpoint", "path": "internal/store/services.go" },
+        { "name": "ServicePreflightCheck", "path": "internal/servicecall/client.go" },
+        { "name": "ServiceRegistration", "path": "internal/store/services.go" },
+        { "name": "ServiceStreamEvent", "path": "internal/store/services.go" },
+        { "name": "ServiceToken", "path": "internal/store/services.go" },
+        { "name": "StreamArtifact", "path": "internal/store/streams.go" },
+        { "name": "StreamServiceAssignment", "path": "internal/store/services.go" },
+        { "name": "SystemUpdateDockerPortReconfiguration", "path": "internal/store/system_update_port_reconfiguration.go" },
+        { "name": "SystemUpdateJob", "path": "internal/store/system_updates.go" },
+        { "name": "SystemUpdatePortProtocol", "path": "internal/store/system_update_port_reconfiguration.go" },
+        { "name": "SystemUpdatePortReconfiguration", "path": "internal/store/system_update_port_reconfiguration.go" },
+        { "name": "SystemUpdatePortReconfigurationResult", "path": "internal/store/system_update_port_reconfiguration.go" },
+        { "name": "WorkerEvent", "path": "internal/servicecall/client.go" }
+      ],
+      "shared_production_json_tag_count": 418,
+      "representative_raw_json_keys": [
+        "job_generation",
+        "ownership_epoch",
+        "source_policy_revision",
+        "stream_archive_configs",
+        "target_config_sha256"
+      ],
+      "runtime_schema_path_dependencies": [],
+      "runtime_openapi_path_dependencies": [],
+      "documentation_path_dependencies": [
+        "../autostream-contracts/openapi/control-api.yaml",
+        "../autostream-contracts/schemas/system-update-*.schema.json",
+        "../autostream-contracts/schemas/*"
+      ],
+      "generated_client_markers": [],
+      "contracts_release_artifact_path_dependencies": []
+    },
+    {
+      "repository": "autostream-discord-bot",
+      "head": "604806a1aa3ec7276b30823fd88d1a92e2bf369a",
+      "module": "github.com/example/autostream-discord-bot",
+      "contracts_module_import_count": 0,
+      "same_name_dto_candidate_count": 3,
+      "same_name_dto_candidates": [
+        { "name": "Heartbeat", "path": "internal/control/client.go" },
+        { "name": "RegisteredService", "path": "internal/control/client.go" },
+        { "name": "StreamServiceAssignment", "path": "internal/control/client.go" }
+      ],
+      "shared_production_json_tag_count": 102,
+      "representative_raw_json_keys": [
+        "caption_audio_token",
+        "connection_generation",
+        "job_generation",
+        "stream_ingest_token",
+        "worker_events_token"
+      ],
+      "runtime_schema_path_dependencies": [],
+      "runtime_openapi_path_dependencies": [],
+      "documentation_path_dependencies": [],
+      "generated_client_markers": [],
+      "contracts_release_artifact_path_dependencies": []
+    },
+    {
+      "repository": "autostream-worker",
+      "head": "0633f928109b1b4983b58ae09211c643e3886bea",
+      "module": "github.com/example/autostream-worker",
+      "contracts_module_import_count": 0,
+      "same_name_dto_candidate_count": 3,
+      "same_name_dto_candidates": [
+        { "name": "Heartbeat", "path": "internal/control/client.go" },
+        { "name": "RegisteredService", "path": "internal/control/client.go" },
+        { "name": "StreamServiceAssignment", "path": "internal/control/client.go" }
+      ],
+      "shared_production_json_tag_count": 65,
+      "representative_raw_json_keys": [
+        "connection_generation",
+        "job_generation",
+        "stream_ingest_token",
+        "video_ingest_passphrase",
+        "video_ingest_url"
+      ],
+      "runtime_schema_path_dependencies": [],
+      "runtime_openapi_path_dependencies": [],
+      "documentation_path_dependencies": [],
+      "generated_client_markers": [],
+      "contracts_release_artifact_path_dependencies": []
+    },
+    {
+      "repository": "autostream-encoder-recorder",
+      "head": "2d753277363773642d4fe52bbefe2f0c71e9d95b",
+      "module": "github.com/example/autostream-encoder-recorder",
+      "contracts_module_import_count": 0,
+      "same_name_dto_candidate_count": 5,
+      "same_name_dto_candidates": [
+        { "name": "EncoderProfile", "path": "internal/ffmpeg/command.go" },
+        { "name": "Heartbeat", "path": "internal/control/client.go" },
+        { "name": "RegisteredService", "path": "internal/control/client.go" },
+        { "name": "StreamJob", "path": "internal/lifecycle/manager.go" },
+        { "name": "StreamServiceAssignment", "path": "internal/control/client.go" }
+      ],
+      "shared_production_json_tag_count": 119,
+      "representative_raw_json_keys": [
+        "archive_run_id",
+        "job_generation",
+        "video_ingest",
+        "worker_video_ingest",
+        "worker_video_ingest_token"
+      ],
+      "runtime_schema_path_dependencies": [],
+      "runtime_openapi_path_dependencies": [],
+      "documentation_path_dependencies": [],
+      "generated_client_markers": [],
+      "contracts_release_artifact_path_dependencies": []
+    },
+    {
+      "repository": "autostream-observability",
+      "head": "2a3cca58d77340b9fef6d003d2d2ce2ab0d13d7a",
+      "module": "github.com/example/autostream-observability",
+      "contracts_module_import_count": 0,
+      "same_name_dto_candidate_count": 6,
+      "same_name_dto_candidates": [
+        { "name": "Heartbeat", "path": "internal/control/client.go" },
+        { "name": "Incident", "path": "internal/detection/rules.go" },
+        { "name": "Incident", "path": "internal/store/types.go" },
+        { "name": "NotificationChannel", "path": "internal/store/types.go" },
+        { "name": "NotificationDelivery", "path": "internal/store/types.go" },
+        { "name": "RemediationAction", "path": "internal/store/types.go" }
+      ],
+      "shared_production_json_tag_count": 79,
+      "representative_raw_json_keys": [
+        "diagnostic_report",
+        "incident_id",
+        "masked_webhook_url",
+        "recommended_actions",
+        "severity"
+      ],
+      "runtime_schema_path_dependencies": [],
+      "runtime_openapi_path_dependencies": [],
+      "documentation_path_dependencies": [],
+      "generated_client_markers": [],
+      "contracts_release_artifact_path_dependencies": []
+    }
+  ],
+  "workspace_external_consumer_absence_proven": false,
+  "caveat": "No dependency found in these five checkouts does not prove that consumers outside this workspace do not exist."
+}

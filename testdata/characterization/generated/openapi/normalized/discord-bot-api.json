@@ -1,0 +1,369 @@
+{
+  "components": {
+    "schemas": {
+      "DiscordBotStartJobRequest": {
+        "$ref": "#/components/schemas/discord-bot-start-job-request.schema"
+      },
+      "ServiceNotificationError": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "retryable"
+        ],
+        "type": "object"
+      },
+      "YouTubeLiveNotificationRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "event_id": {
+            "description": "Idempotency key. Reusing it with a different stream or URL is a conflict.",
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "watch_url": {
+            "description": "Canonical YouTube watch URL without credentials, fragment, or a non-default port.",
+            "format": "uri",
+            "maxLength": 1900,
+            "pattern": "^https://www\\.youtube\\.com/watch\\?v=[A-Za-z0-9_-]{6,32}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "event_id",
+          "watch_url"
+        ],
+        "type": "object"
+      },
+      "YouTubeLiveNotificationResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "already_sent": {
+            "type": "boolean"
+          },
+          "message_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "const": "sent",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "message_id",
+          "already_sent"
+        ],
+        "type": "object"
+      },
+      "discord-bot-start-job-request.schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "caption_audio_token": {
+            "description": "Short-lived stream-scoped token authorizing Discord Opus ingest at the selected Worker. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses.",
+            "type": "string"
+          },
+          "caption_audio_url": {
+            "description": "Optional caption/STT audio ingest endpoint. Treat as runtime-only and do not expose it in public status or logs.",
+            "format": "uri",
+            "type": "string"
+          },
+          "encoder_audio_url": {
+            "description": "Encoder/Recorder audio ingest endpoint. Treat as runtime-only and do not expose it in public status or logs.",
+            "format": "uri",
+            "type": "string"
+          },
+          "guild_id": {
+            "description": "Resolved Discord guild ID. It may come from the selected Discord Config default or the stream-specific override.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "job_generation": {
+            "description": "Worker-issued positive uint64 generation fence for this exact stream job. Control Panel must pass it through unchanged, and consumers must reject missing, zero, or values outside the uint64 range before starting the job.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "stream_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "stream_ingest_token": {
+            "description": "Short-lived stream-scoped ingest token issued by Control Panel. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses.",
+            "type": "string"
+          },
+          "text_channel_id": {
+            "description": "Optional resolved Discord text channel ID for participant/speaker/caption related notifications.",
+            "type": "string"
+          },
+          "voice_channel_id": {
+            "description": "Resolved Discord voice channel ID. It may come from the selected Discord Config default or the stream-specific override.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "worker_events_token": {
+            "description": "Short-lived stream-scoped token for Discord Bot to publish participant, active speaker, and chat events to the selected Worker. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses.",
+            "type": "string"
+          },
+          "worker_events_url": {
+            "description": "Worker event endpoint selected by this stream's Worker assignment. Treat as runtime-only and do not expose it in public status or logs.",
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stream_id",
+          "job_generation",
+          "guild_id",
+          "voice_channel_id"
+        ],
+        "title": "DiscordBotStartJobRequest",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "serviceToken": {
+        "description": "Node/service token supplied by Control Panel.",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "title": "AutoStream Discord Bot API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/jobs/start": {
+      "post": {
+        "description": "Control Panel supplies the positive Worker-issued job generation unchanged. Discord Bot validates the generation before fetching runtime configuration, starting the manager, or joining the voice channel.\n",
+        "operationId": "startDiscordBotJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/discord-bot-start-job-request.schema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Discord voice job accepted"
+          },
+          "400": {
+            "description": "Invalid JSON or a missing, zero, or otherwise invalid job generation"
+          },
+          "401": {
+            "description": "Service token missing or invalid"
+          },
+          "403": {
+            "description": "Stream is not assigned to this primary Discord Bot"
+          },
+          "409": {
+            "description": "Stream job state conflicts with the requested start"
+          },
+          "502": {
+            "description": "Runtime configuration could not be fetched"
+          }
+        },
+        "summary": "Start the assigned Discord voice job"
+      }
+    },
+    "/streams/{id}/notifications/youtube-live": {
+      "post": {
+        "description": "The authenticated primary Discord Bot re-fetches runtime config, verifies its primary assignment, the active live job, and the configured text channel, then sends a fixed message with mentions disabled. event_id provides in-process idempotency. The request never accepts a channel ID from Control Panel.\n",
+        "operationId": "notifyYouTubeLive",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/YouTubeLiveNotificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YouTubeLiveNotificationResponse"
+                }
+              }
+            },
+            "description": "message sent or an existing completed receipt reused"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "invalid JSON, event ID, stream ID, or YouTube watch URL"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "service token missing or invalid"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "service is not the primary Discord Bot or Discord denied channel access"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "runtime config, active live job, channel binding, or event ID conflicts"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "Discord channel was not found"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "Discord rate limit; Control Panel may retry",
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "locally invalid Discord request"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "Discord or runtime config upstream failure; Control Panel may retry"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceNotificationError"
+                }
+              }
+            },
+            "description": "runtime config or idempotency capacity unavailable; Control Panel may retry"
+          }
+        },
+        "summary": "Publish the active YouTube watch URL to Discord"
+      }
+    },
+    "/updater/version": {
+      "get": {
+        "description": "Unauthenticated endpoint for the host-local update helper. Deployments must keep this path on loopback or block it at the public reverse proxy. The value comes from the running binary and never from SERVICE_VERSION.\n",
+        "operationId": "getUpdaterVersion",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "version": {
+                      "example": "v1.1.1",
+                      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "version"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "embedded release version"
+          }
+        },
+        "security": [],
+        "summary": "Read the running binary's embedded release version"
+      }
+    }
+  },
+  "security": [
+    {
+      "serviceToken": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://discord-bot.internal.example.com"
+    }
+  ]
+}

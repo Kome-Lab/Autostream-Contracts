@@ -1,0 +1,3107 @@
+{
+  "format_version": 1,
+  "schema_count": 112,
+  "supported_drafts": [
+    "https://json-schema.org/draft/2020-12/schema"
+  ],
+  "supported_extension_keywords": [
+    "deprecated",
+    "readOnly",
+    "writeOnly",
+    "x-*"
+  ],
+  "documents": [
+    {
+      "path": "schemas/app-settings-manage.schema.json",
+      "id": "https://schemas.autostream.example.com/app-settings-manage.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "a106718f8712f2f2724f9145837e93f19196987da041bd4c32f5a530047bfd09",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/app-settings-public.schema.json",
+      "id": "https://schemas.autostream.example.com/app-settings-public.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "6b37dde988a08b9663ef71b73ed5b697922b5bc4c03061852aeba1ef17951b59",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/app-settings-write.schema.json",
+      "id": "https://schemas.autostream.example.com/app-settings-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "5f4827fb7107a69f220dedd801d559f57f09c4dce56102b586e062ecd50a20a8",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/archive-metadata.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "0d203c29f571689a917d80da76dfa7997b68325ddf7ee291597ce5196096cb7e",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "items",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/caption-profile-config.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "4caebe5fe8dfa3a0788e151ba7606c05c76972d531debfa7d5fc344240588c6e",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "const",
+        "default",
+        "description",
+        "enum",
+        "items",
+        "maxItems",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/control-notification-channel-create.schema.json",
+      "id": "https://schemas.autostream.example.com/control-notification-channel-create.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "9c9d60793cf407e6d14c7ce4d97b88252d5a2a46455ca8e11c64158479132fb7",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "allOf",
+        "const",
+        "description",
+        "if",
+        "not",
+        "properties",
+        "required",
+        "then",
+        "title"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/allOf/0/$ref",
+          "value": "control-notification-channel-update.schema.json",
+          "target": "schemas/control-notification-channel-update.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/control-notification-channel-update.schema.json",
+      "id": "https://schemas.autostream.example.com/control-notification-channel-update.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "ef40fbb6fb658c10993dd885713c0398b2cbb7a7969b019342b59d20ebc1d240",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "maxItems",
+        "maxLength",
+        "minItems",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "uniqueItems",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/diagnostic-rerun-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "2e8d4d8ad5f0fdcc430b93333a02dd0bea1ee9cd5c28da2a8f0bcd0654082cf9",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "enum",
+        "if",
+        "not",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/incident/$ref",
+          "value": "incident.schema.json",
+          "target": "schemas/incident.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/discord-audio-bridge-status.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "a11454076469cd1659eacd08bbbd74c78345fc792a7769be130ecd98bfa25267",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "format",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/discord-bot-start-job-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "98d3da3560c3bb607ab7441524434a13d60d078e3d0382a5e956b02ae9ac2bdf",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/discord-config-write.schema.json",
+      "id": "https://schemas.autostream.example.com/discord-config-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "947c1b22d032af6729f08d5fc1a845b97ddf6410803d635e94ff64eea47d596f",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/discord-config.schema.json",
+      "id": "https://schemas.autostream.example.com/discord-config.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "cf2ebd00f218d19f98d2cbf69de15632a27bf5d295ef29374ceb2634a46df349",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "format",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/discord-opus-ingest-v2.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "d109711afd8132a649ebe43281ae20efde7fc9c2fcd6fcdaef4a934215b6fb73",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "items",
+        "maxItems",
+        "maximum",
+        "minItems",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/discord-opus-ingest.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "02354bce4717fde2bbd2c51837b7e8808eee22e24cf8bf3fa05263b203a19185",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "format",
+        "items",
+        "maxItems",
+        "maximum",
+        "minItems",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/drive-destination-write.schema.json",
+      "id": "https://schemas.autostream.example.com/drive-destination-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "30c1c3da1ddc73ecd2f57087a869a3c756560130cfb71bb89e205c3a6cf1f3ad",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "default",
+        "deprecated",
+        "description",
+        "enum",
+        "if",
+        "minLength",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/drive-destination.schema.json",
+      "id": "https://schemas.autostream.example.com/drive-destination.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "dabf2b937ce928b228ae4f2181f6f476ccc4e86287da047e0ddcd3c4fd601985",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "deprecated",
+        "description",
+        "enum",
+        "format",
+        "properties",
+        "required",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-output-relay-capabilities.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-output-relay-capabilities.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "247cb6d0a7a13d9dd6bea8e18b6ef738dc52cd7ccdf45fe54c8742394064bcbd",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "deprecated",
+        "description",
+        "enum",
+        "if",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-package-stream-request.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-package-stream-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "0435f530dd843558318f3c52ee590170cb0a05d08f4cf1606cc87287d7994a5c",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "dependentRequired",
+        "deprecated",
+        "description",
+        "enum",
+        "format",
+        "maxLength",
+        "minLength",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-runtime-settings-request.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-runtime-settings-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "8bb5d3126c49d855b671efb556b6e3022e125eef7353388a723d1dd669155819",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maximum",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-start-stream-request.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-start-stream-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "4cf37d3b83a6944d8d0190169624bf49049017bc7523cb9adcaae8eb4d819f2e",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "default",
+        "dependentRequired",
+        "deprecated",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/youtube_runtime/$ref",
+          "value": "youtube-runtime-config.schema.json",
+          "target": "schemas/youtube-runtime-config.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-start-stream-response.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-start-stream-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "6d11910c9565fd901d505b1dce16079266b3aa1720af94e14cc8fe75835903ab",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "readOnly",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/external-e2e-config.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "4d7e4caf76376fb9f04a0b8b253581072b3e41ce2f7a98eae439d2b3e70e7c58",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "items",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/confirmations/$ref",
+          "value": "#/$defs/confirmations",
+          "target": "schemas/external-e2e-config.schema.json",
+          "fragment": "/$defs/confirmations"
+        },
+        {
+          "pointer": "/properties/readiness/$ref",
+          "value": "#/$defs/readiness",
+          "target": "schemas/external-e2e-config.schema.json",
+          "fragment": "/$defs/readiness"
+        },
+        {
+          "pointer": "/properties/runtime_config/$ref",
+          "value": "#/$defs/runtimeConfig",
+          "target": "schemas/external-e2e-config.schema.json",
+          "fragment": "/$defs/runtimeConfig"
+        },
+        {
+          "pointer": "/properties/service_assignments/$ref",
+          "value": "#/$defs/serviceAssignments",
+          "target": "schemas/external-e2e-config.schema.json",
+          "fragment": "/$defs/serviceAssignments"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/heartbeat.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "da3887b614f04d9e1b0bbfec664fd0105986f6b708b340c36e5c0432a5a49755",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "enum",
+        "format",
+        "maximum",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/capabilities/$ref",
+          "value": "encoder-output-relay-capabilities.schema.json",
+          "target": "schemas/encoder-output-relay-capabilities.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-agent-policy-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "52850a70e7116b3c87e70b7fd5b6b030b1d069ca8de2825ec25cc4cd333456ec",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-agent-policy-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "4c652ad05bce60368172214d1b6a9a46c2a09fe5e03cb119d299bf5e7ce7cf0c",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "else",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "uniqueItems"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$defs/selfUpdateDirective/$ref",
+          "value": "host-agent-self-update-directive.schema.json",
+          "target": "schemas/host-agent-self-update-directive.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/$defs/target/properties/applied_endpoint/$ref",
+          "value": "#/$defs/serviceEndpoint",
+          "target": "schemas/host-agent-policy-response.schema.json",
+          "fragment": "/$defs/serviceEndpoint"
+        },
+        {
+          "pointer": "/$defs/target/properties/desired_endpoint/$ref",
+          "value": "#/$defs/serviceEndpoint",
+          "target": "schemas/host-agent-policy-response.schema.json",
+          "fragment": "/$defs/serviceEndpoint"
+        },
+        {
+          "pointer": "/$defs/target/properties/local_health_endpoint/$ref",
+          "value": "#/$defs/serviceEndpoint",
+          "target": "schemas/host-agent-policy-response.schema.json",
+          "fragment": "/$defs/serviceEndpoint"
+        },
+        {
+          "pointer": "/$defs/target/properties/local_listen_endpoint/$ref",
+          "value": "#/$defs/serviceEndpoint",
+          "target": "schemas/host-agent-policy-response.schema.json",
+          "fragment": "/$defs/serviceEndpoint"
+        },
+        {
+          "pointer": "/properties/runtime_requirement/$ref",
+          "value": "#/$defs/runtimeRequirement",
+          "target": "schemas/host-agent-policy-response.schema.json",
+          "fragment": "/$defs/runtimeRequirement"
+        },
+        {
+          "pointer": "/properties/self_update/$ref",
+          "value": "#/$defs/selfUpdateDirective",
+          "target": "schemas/host-agent-policy-response.schema.json",
+          "fragment": "/$defs/selfUpdateDirective"
+        },
+        {
+          "pointer": "/properties/targets/items/$ref",
+          "value": "#/$defs/target",
+          "target": "schemas/host-agent-policy-response.schema.json",
+          "fragment": "/$defs/target"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-agent-self-update-directive.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "267d96f0be3d713d7b533b82a4f2d578641f87ab27eb27342c9f9285cd2e86c5",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "format",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/release/$ref",
+          "value": "host-self-update-release-binding.schema.json",
+          "target": "schemas/host-self-update-release-binding.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-cancel-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "6b8a264aa83cd3b50c1be5caee4b6e7c3e449e9298637d5f4138f504f0895aad",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-create-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "97ff367c146bcc12988d22399f83892e48cba07d0d268b2686d483dbd01a954f",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-grant-consume-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "7b182772ef597ceb075dac5cc65ca411807a7f38268cb2ca970c976d72ac7e71",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "description",
+        "maxLength",
+        "minLength",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/binding/allOf/0/$ref",
+          "value": "host-self-update-grant.schema.json",
+          "target": "schemas/host-self-update-grant.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-grant-consume-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "e759194353fe06a476efcd5f310e124fad964392287b2622ec5a3839de44a80f",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "description",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/grant/allOf/0/$ref",
+          "value": "host-self-update-grant.schema.json",
+          "target": "schemas/host-self-update-grant.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-grant-issue-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "61f3c423e853e92df9fd2094bffe60aeb1fe59a0aa06f1033a7a928710217ba2",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-grant-issue-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "55811aafd6bed654f921df0c4e882fce6745c8ec4f797cc2d5017b8a788a4fc9",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "else",
+        "if",
+        "maxLength",
+        "minLength",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/grant/allOf/0/$ref",
+          "value": "host-self-update-grant.schema.json",
+          "target": "schemas/host-self-update-grant.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-grant.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "a45ec28cd7df7f5a2eb6a36735b8a40d8e407596f676827d5a7fb595f74a26f0",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "else",
+        "enum",
+        "format",
+        "if",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/release/$ref",
+          "value": "host-self-update-release-binding.schema.json",
+          "target": "schemas/host-self-update-release-binding.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-list-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "b2ba4aab060da64dac947d80bde91b56410fc51cb17aff2f9a3e227d6af8c8db",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "items",
+        "maxItems",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/self_updates/items/$ref",
+          "value": "host-self-update.schema.json",
+          "target": "schemas/host-self-update.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-release-binding.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "f66c877730adcf46ca928f3ac18f85ab522a300e3fc8758413a39cb765f37a82",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-release.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "467f624bbe54e4e4a68abf7c3433846e74122b1d273f8385de0edd00dd3c36c4",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update-retry-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "452e11a7a6fdfde1384c83f640766564e33a4d3ed39f5f41d0dab0f88eda4ec3",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/host-self-update.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "2ee43f3ddbcc8fd092073aad0a868dcaaf86e279f3c9b4fd468255637982c803",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/release/$ref",
+          "value": "host-self-update-release.schema.json",
+          "target": "schemas/host-self-update-release.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/incident.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "2ad37a8c8d19b806a55097eb1abecccce3d9411950c998d6ec550b8b1e12c246",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "enum",
+        "format",
+        "items",
+        "maximum",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/diagnostic_report/$ref",
+          "value": "#/$defs/diagnostic_report",
+          "target": "schemas/incident.schema.json",
+          "fragment": "/$defs/diagnostic_report"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/notification-channel-create.schema.json",
+      "id": "https://schemas.autostream.example.com/notification-channel-create.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "c9673075fce7a9aa84b29f16bf630d29cb8ee726c231408bec761c9263eb5fe9",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "allOf",
+        "const",
+        "if",
+        "properties",
+        "required",
+        "then",
+        "title"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/allOf/0/$ref",
+          "value": "notification-channel-write.schema.json",
+          "target": "schemas/notification-channel-write.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/notification-channel-write.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "8e5ae98d4dd0fcf5636eac6dc248832fa0f9d788fe035f51c571639586085419",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "deprecated",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "maxItems",
+        "maxLength",
+        "maximum",
+        "minItems",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "uniqueItems",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/notification-channel.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "6ba4ddf0f850949dedd98616a2b6453bc36632273b68fc9df76cf278cc9a9e9d",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "deprecated",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "uniqueItems"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/notification-delivery-result.schema.json",
+      "id": "https://schemas.autostream.example.com/notification-delivery-result.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "d8e4b575bde3d57360dbd6fbf877dfcce9d6f43e55f4dd865f1a182a9d170075",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/notification-event-write.schema.json",
+      "id": "https://schemas.autostream.example.com/notification-event-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "4918d3ea5a905c23b7d0f95759dbda0fbc62ac72e7a2f6de9d076aa89aa62cc0",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "default",
+        "description",
+        "enum",
+        "format",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-account-connection-callback.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-account-connection-callback.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "4272dddf5d3cfd78eaa0fd06d7c9a65b0be3bf4a0eb7487a6ca8188c6885a153",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-account-connection-start-response.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-account-connection-start-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "627d1d4e4292e9387acc3bd5c467957d6b5e430283d7c9129cb664e37a900a47",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/provider/$ref",
+          "value": "oauth-login-provider.schema.json",
+          "target": "schemas/oauth-login-provider.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-account-connection-start.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-account-connection-start.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "a8ddb12d2680d6eceb9e37d74046b4dd89f5dc73713d0dc54e8e7f53b519e4d2",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "anyOf",
+        "description",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-account-write.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-account-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "e30e00946a26c59ba51f0105c01c9d3b1e0c495d971ec8b9788c36cca994e73b",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "deprecated",
+        "description",
+        "enum",
+        "items",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-account.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-account.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "c3d479412942f47725b7a8007fa360aac78da38641f48cf75a6fa13c11834dc2",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "properties",
+        "required",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-login-callback-request.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-login-callback-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "cb88646882735101467ac8cd28ccad1cdf30fb040e543aeaf2f7914978226913",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-login-provider.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-login-provider.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "6e14d66bb4d15b2f214c7070f1ad566aabb3a4ed32cb51019661c90f853ae9fa",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "uniqueItems"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-login-start-request.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-login-start-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "055a03f6d2b671b8659890798698f61ba2b68eac53f504a7c8b6c67a7686aa64",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "properties",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-login-start-response.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-login-start-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "92286bfb49256010dffe4bf3e9ebd156c88309eb7304b3b5da31243f22b5f15b",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/provider/$ref",
+          "value": "oauth-login-provider.schema.json",
+          "target": "schemas/oauth-login-provider.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-provider-write.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-provider-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "721bc26becf236dba0e89e9e8b81c56efe4a3f7613b82bef7b1b06c54a784176",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "uniqueItems",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-provider.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-provider.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "791f2d9d22cd8ae3a869e4ed764810e49df65998c1d3e32c1ad86167c5703b41",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "properties",
+        "required",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-user-link-write.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-user-link-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "da63f2a0179a76cd0329375ee832b38f4b2ed09e737b78a31b6d3a1d55e531a4",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/oauth-user-link.schema.json",
+      "id": "https://schemas.autostream.example.com/oauth-user-link.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "76c6a9416ac799c123a12320f737f2b9d7d4775c99975fc70fb0429a3c0e7117",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/observability-signal.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "e8d54c945cc72545a80647066101763199dc50a1bbd76e56086b5262674f143c",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "enum",
+        "format",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/passkey-credential.schema.json",
+      "id": "https://schemas.autostream.example.com/passkey-credential.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "0f394fe68a63825a0d9465b535e9ee160b65e4113d7874e8337a9413f44375a3",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "items",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/passkey-registration-start.schema.json",
+      "id": "https://autostream.example.com/schemas/passkey-registration-start.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "2d24352a4a2571552ea5d3e3bbe56afdc6f5562495de11e503fcc39772330d27",
+      "keywords": [
+        "$id",
+        "$schema",
+        "const",
+        "description",
+        "format",
+        "items",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/profile.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "cac76069c6587a8f7c8fb3833939af27027a7290fbe48acbfb0570cd78275084",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/registered-service.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "a276045c28a524d7d8c98990284e3bcb748d715556a3485fceebea7c4897373c",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "default",
+        "description",
+        "else",
+        "enum",
+        "format",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/applied_endpoint/$ref",
+          "value": "#/$defs/serviceEndpoint",
+          "target": "schemas/registered-service.schema.json",
+          "fragment": "/$defs/serviceEndpoint"
+        },
+        {
+          "pointer": "/properties/capabilities/$ref",
+          "value": "encoder-output-relay-capabilities.schema.json",
+          "target": "schemas/encoder-output-relay-capabilities.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/desired_endpoint/$ref",
+          "value": "#/$defs/serviceEndpoint",
+          "target": "schemas/registered-service.schema.json",
+          "fragment": "/$defs/serviceEndpoint"
+        },
+        {
+          "pointer": "/properties/reported_capabilities/$ref",
+          "value": "encoder-output-relay-capabilities.schema.json",
+          "target": "schemas/encoder-output-relay-capabilities.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/reported_endpoint/$ref",
+          "value": "#/$defs/serviceEndpoint",
+          "target": "schemas/registered-service.schema.json",
+          "fragment": "/$defs/serviceEndpoint"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/release-manifest.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "f78d0079ad9f533d005e1faf3561c011de365a317f48cc9c620f8cdc9d408061",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "contains",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "maxContains",
+        "maxItems",
+        "maximum",
+        "minContains",
+        "minItems",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/remediation-action.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "776207177c99e3e2e535b27b5b8ba71ba3f0eaa17f2d56c9739aef6a32fda0e3",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "enum",
+        "format",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/secret-status.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "b21e79fa110bb1b800b86988fee153a6f7124b8c67127b30f8baf145b572858b",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/security-settings.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "64786335c21b4aa6d5379dd298d2ff41507d2553fc07a9930bd287ab2b845852",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "minLength",
+        "minimum",
+        "properties",
+        "readOnly",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-artifact-report.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "6a4666e1766693715f956893010247a82ded28599a1aa301c34bab5d2500b857",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "dependentRequired",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "maxItems",
+        "maxLength",
+        "minItems",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-assignment-write.schema.json",
+      "id": "https://schemas.autostream.example.com/service-assignment-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "0c87da373d14ba9c0018863af910417ac975dfd88f3fed466c7b22052a6eec24",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "default",
+        "description",
+        "enum",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-assignment.schema.json",
+      "id": "https://schemas.autostream.example.com/service-assignment.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "dc50c5f63e89c171b8ce2ad7480ccf312a8ef7df7e86bd1cbc55bf5a501ac79e",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-notification-email-request.schema.json",
+      "id": "https://schemas.autostream.example.com/service-notification-email-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "8cbf4eda41c68b39403ea37c7dff7061524a22807aa6366132e9bc953569826a",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "items",
+        "maxItems",
+        "maxLength",
+        "minItems",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "uniqueItems"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-notification-email-response.schema.json",
+      "id": "https://schemas.autostream.example.com/service-notification-email-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "56199a37719a229d2c362189a0e8a9ffefadaf3a09e0d88be9b39f02e49fa932",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "maximum",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-notification-error.schema.json",
+      "id": "https://schemas.autostream.example.com/service-notification-error.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "bb56ca74ac2e0637c9f321ade94b71b3311c9e66d2ccbe67e1e94710f6c8d8c0",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-registration.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "76940c29d823d68c9394ad59cee549719476bc19b4e33c07e11e84d1b03639df",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "default",
+        "description",
+        "else",
+        "enum",
+        "format",
+        "if",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/capabilities/$ref",
+          "value": "encoder-output-relay-capabilities.schema.json",
+          "target": "schemas/encoder-output-relay-capabilities.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-runtime-config.schema.json",
+      "id": "https://schemas.autostream.example.com/service-runtime-config.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "02cca60529d43b1cdafc085469269585386bdf5b04723ab1f49374894c85b8c5",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "deprecated",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "minLength",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/assignments/items/$ref",
+          "value": "service-assignment.schema.json",
+          "target": "schemas/service-assignment.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/profiles/additionalProperties/items/$ref",
+          "value": "profile.schema.json",
+          "target": "schemas/profile.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/service/$ref",
+          "value": "registered-service.schema.json",
+          "target": "schemas/registered-service.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-runtime-secret-resolve-request.schema.json",
+      "id": "https://schemas.autostream.example.com/service-runtime-secret-resolve-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "6b6077c79877b3e2bef3899d7a36a9f4e242109822ef0b7a0ffabeb288659bd8",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maxLength",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-runtime-secret-resolve-response.schema.json",
+      "id": "https://schemas.autostream.example.com/service-runtime-secret-resolve-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "97e93a126e56d924c18eff970698d1138722001c61a8b62ac5bc1c0dd6ac0ffb",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-stream-event.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "77f15f7072fb29c05d186d038a7499fc5b88965b82415c226605b285f048611e",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-token-create-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "011015f33c4968d30b0ed0f6d55d8f0640a675e2430d10ad68b54a241f5237c3",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "uniqueItems"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/capabilities/$ref",
+          "value": "encoder-output-relay-capabilities.schema.json",
+          "target": "schemas/encoder-output-relay-capabilities.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/service-token.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "4ddde4ed0374987dd1c3e205a8b7f10be553ee0df8a7e453c3a2ce92731d6f85",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "uniqueItems"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/session-refresh-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "76e0d5682eb190c8675a64f11d3f1c72c1b5590b60b7babf0606f8d34994fec7",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "format",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/start-readiness-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "5ed88c227a5430812ea83f5079071d7241e1aaab33a4d30df1586ce5a4b9262c",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$defs/registeredService/properties/capabilities/$ref",
+          "value": "encoder-output-relay-capabilities.schema.json",
+          "target": "schemas/encoder-output-relay-capabilities.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/assignments/items/$ref",
+          "value": "#/$defs/registeredService",
+          "target": "schemas/start-readiness-response.schema.json",
+          "fragment": "/$defs/registeredService"
+        },
+        {
+          "pointer": "/properties/issues/items/$ref",
+          "value": "#/$defs/readinessIssue",
+          "target": "schemas/start-readiness-response.schema.json",
+          "fragment": "/$defs/readinessIssue"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/stream-job.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "b508f0cfa359423f8c15be50cf55964aa23b65a4d589e5895dee65a50dc52f98",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "default",
+        "description",
+        "enum",
+        "format",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/stream-preview-link.schema.json",
+      "id": "https://schemas.autostream.example.com/stream-preview-link.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "bb6a5f9eaa8bbc610b044ec4e59a912ac4e6fb19f89f0728566985ca4fe3fe99",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/stream-settings-write.schema.json",
+      "id": "https://schemas.autostream.example.com/stream-settings-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "6082fd48139d606e230739af37e9d5193a07a4ab94069dda8c8f02d499d84dfd",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "default",
+        "description",
+        "enum",
+        "maximum",
+        "minimum",
+        "properties",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/stream-write.schema.json",
+      "id": "https://schemas.autostream.example.com/stream-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "3a1b6e68b1f907f45d2fc97c1173a3f1d2c8a0ce78deb4d1636cf64484ea4e82",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "default",
+        "description",
+        "enum",
+        "maximum",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-agent-status.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "f7d5cdc06e548682a9ea3aa815f02f74a817c6975612bd180ee439358ae3dc05",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "enum",
+        "format",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "propertyNames",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-create-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "a74a54f88076a01a32f085fd124014a586f44592663b7b053464a75f5097af93",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "default",
+        "else",
+        "enum",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-host-status.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "12b0166fa79c95e3dfea94ab411871edd6865adfd9b159f9f16099d9fcaf1f41",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "enum",
+        "format",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-job.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "119d3d402278d12905c69e99c6bfd3b5d562b71177766c5329b719bd10d94ea5",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "default",
+        "description",
+        "else",
+        "enum",
+        "format",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$defs/portReconfigurationPlan/properties/docker/$ref",
+          "value": "#/$defs/dockerPortReconfiguration",
+          "target": "schemas/system-update-job.schema.json",
+          "fragment": "/$defs/dockerPortReconfiguration"
+        },
+        {
+          "pointer": "/properties/port_reconfigure/$ref",
+          "value": "#/$defs/portReconfigurationPlan",
+          "target": "schemas/system-update-job.schema.json",
+          "fragment": "/$defs/portReconfigurationPlan"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-pull-ownership-activate-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "adfe50adb708d21d503bc0efa91eb4c28a631c0628d20932d3afe5b1da079ddf",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maximum",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-pull-ownership-activate-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "bd967eb4b07302fed9f8980906218f699d874cbea81d48f5b1ff74d810b49817",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-pull-ownership-deactivate-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "bcd72f6b44bddcd79802bd6fcbdb08ee5aac1f2a2200cbc7115370c73daa95c0",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maximum",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-pull-ownership-deactivate-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "fe756793422d2f4bfc29f38d2bce17d3977e3d05ec80a86d9fac68babd22af1f",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-target.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "19246e4f5083d19c2375a381f6689e890c1f108fa82249662f9b90f9e86167af",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "uniqueItems"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/port_mapping/$ref",
+          "value": "#/$defs/portMapping",
+          "target": "schemas/system-update-target.schema.json",
+          "fragment": "/$defs/portMapping"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-updates-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "413c66d573aa5ddf61807da1aa6c3cdd58f4fa4989ed8cb3507412a6bb8826d2",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "items",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/hosts/items/$ref",
+          "value": "system-update-host-status.schema.json",
+          "target": "schemas/system-update-host-status.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/jobs/items/$ref",
+          "value": "system-update-job.schema.json",
+          "target": "schemas/system-update-job.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/targets/items/$ref",
+          "value": "system-update-target.schema.json",
+          "target": "schemas/system-update-target.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/updaters/items/$ref",
+          "value": "system-update-agent-status.schema.json",
+          "target": "schemas/system-update-agent-status.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/update-agent-authorize-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "9ba4f44f3d1c7f9407748ca8950556ebf99e0f4b84005b9813a0de074d68ce2b",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/update-agent-claim-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "dde55fe5a69080e27c81d0f5312932d5113d2571c297313b14e8d729074d422e",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/update-agent-claim-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "9ce13fdcee0085cd92c998a61b1341ef8aaca69248d40d73206f421b70defd83",
+      "keywords": [
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "minLength",
+        "minimum",
+        "oneOf",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/oneOf/0/properties/job/$ref",
+          "value": "system-update-job.schema.json",
+          "target": "schemas/system-update-job.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "9df2eb61a5f8c703e5db08dcb7f469b40c330a23700d7c3ee20c8bee1841ca9e",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "else",
+        "enum",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$defs/portReconfigurationPlan/properties/docker/$ref",
+          "value": "#/$defs/dockerPortReconfiguration",
+          "target": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+          "fragment": "/$defs/dockerPortReconfiguration"
+        },
+        {
+          "pointer": "/properties/port_reconfigure/$ref",
+          "value": "#/$defs/portReconfigurationPlan",
+          "target": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+          "fragment": "/$defs/portReconfigurationPlan"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "ee86c9453a1f78c8d77c41b1529f05949202d244cbaba8f4f46c7f2bf78b7acf",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "else",
+        "enum",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$defs/portReconfigurationPlan/properties/docker/$ref",
+          "value": "#/$defs/dockerPortReconfiguration",
+          "target": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+          "fragment": "/$defs/dockerPortReconfiguration"
+        },
+        {
+          "pointer": "/properties/port_reconfigure/$ref",
+          "value": "#/$defs/portReconfigurationPlan",
+          "target": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+          "fragment": "/$defs/portReconfigurationPlan"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/update-agent-mutation-grant-issue-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "7e55c4a7c80b0d9dd7e34257606bf63237375d0d33b4080c87cabc31adae0142",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/update-agent-report-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "60c404c763697651abf4558a05d3afcda19a39ee5d9e235c4f2a9b55b5740bf6",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "enum",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/worker-caption-runtime-settings-request.schema.json",
+      "id": "https://schemas.autostream.example.com/worker-caption-runtime-settings-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "a9456e7acc0e061e01536fabc3c338be208349cd6497d95e885d369fa89ce710",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maxLength",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/worker-event.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "065248787d391a985250ff9ecfb7a523c134b414dfa8e094f04485490b80ef38",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "deprecated",
+        "description",
+        "examples",
+        "format",
+        "if",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/allOf/0/then/properties/payload/$ref",
+          "value": "#/$defs/discordChatPayload",
+          "target": "schemas/worker-event.schema.json",
+          "fragment": "/$defs/discordChatPayload"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/worker-start-job-request.schema.json",
+      "id": "https://schemas.autostream.example.com/worker-start-job-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "772e0885ad8da34c43cbf357f70598ea8150d25637389939fb6b9b009293b8ff",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "dependentRequired",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/youtube-live-notification-request.schema.json",
+      "id": "https://schemas.autostream.example.com/youtube-live-notification-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "17b07d67704b0c3a52e1d41f1e8e0841595b44739dcb1f50c3f190ca5759ac1d",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "maxLength",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/youtube-live-notification-response.schema.json",
+      "id": "https://schemas.autostream.example.com/youtube-live-notification-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "76dde529989e098bcb3d09695cff05e3495af323383be8f32a78460dfe867e01",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/youtube-output-write.schema.json",
+      "id": "https://schemas.autostream.example.com/youtube-output-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "ce8a6824e6c0d0a878b69aa39992692be677b9f9e54d903b440db0900acad8fd",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "minLength",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "writeOnly"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/youtube-output.schema.json",
+      "id": "https://schemas.autostream.example.com/youtube-output.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "a1c4fe30aa7b87453ca46a817f9c688bae275e5b12cd7e967f0e561c6a9176c9",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/youtube-relay-static-recovery-resolve-request.schema.json",
+      "id": "https://schemas.autostream.example.com/youtube-relay-static-recovery-resolve-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "f79b96ead9f026041f9d3e58e6dce50865bd9b13972982628900d3db7b60ae39",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/youtube-relay-static-recovery-resolve-response.schema.json",
+      "id": "https://schemas.autostream.example.com/youtube-relay-static-recovery-resolve-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "de1f0f936e6c0b800f91c99ae4b9ac6febc90e71de4464240dcd74f7123412dd",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "enum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/youtube-runtime-config.schema.json",
+      "id": "https://schemas.autostream.example.com/youtube-runtime-config.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "463891d1caef060912e748a467edd4c3a8f88a4e9c8968a6073c4130c2d38b2e",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    }
+  ],
+  "duplicate_ids": null,
+  "invalid_ids": null,
+  "unsupported_drafts": null,
+  "unsupported_keywords": null,
+  "missing_refs": null,
+  "external_network_refs": null,
+  "compile_errors": null
+}

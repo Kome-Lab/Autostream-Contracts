@@ -1,0 +1,6006 @@
+{
+  "format_version": 1,
+  "struct_count": 143,
+  "structs": [
+    {
+      "name": "AppSettingsWriteRequest",
+      "wire_json": "{\"app_name\":\"\",\"timezone\":\"\",\"smtp_enabled\":false,\"smtp_starttls\":false}",
+      "wire_sha256": "67806b01c54a910ffda14d23b120aa9f57833fef0aa47128cb98d8ed013ae93f",
+      "shape": {
+        "fields": [
+          {
+            "name": "app_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "smtp_enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "smtp_starttls",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "timezone",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ArchiveMetadata",
+      "wire_json": "{\"stream_id\":\"\",\"name\":\"\",\"started_at_jst\":\"\",\"archive\":null,\"upload\":{\"dry_run\":false,\"attempts\":0}}",
+      "wire_sha256": "b3845d30fe9d376a32ce620ed0068770d55b51765b1b45107326125654f0d66d",
+      "shape": {
+        "fields": [
+          {
+            "name": "archive",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "started_at_jst",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "upload",
+            "shape": {
+              "fields": [
+                {
+                  "name": "attempts",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "dry_run",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ArchiveRuntimeConfig",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ArchiveUploadResult",
+      "wire_json": "{\"dry_run\":false,\"attempts\":0}",
+      "wire_sha256": "0a65e244229229e8c9bbe1c0c1cf7eca66cb231c22842e84517435be2a43daf7",
+      "shape": {
+        "fields": [
+          {
+            "name": "attempts",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "dry_run",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "AuditEvent",
+      "wire_json": "{\"id\":\"\",\"timestamp\":\"0001-01-01T00:00:00Z\",\"action\":\"\",\"resource_type\":\"\",\"result\":\"\",\"request_id\":\"\"}",
+      "wire_sha256": "4c932ad16add8ccade65a68ab5ae8a1cca79ce3620371955f32b786cab141381",
+      "shape": {
+        "fields": [
+          {
+            "name": "action",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "request_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "resource_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "result",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "CaptionProfileConfig",
+      "wire_json": "{\"provider\":\"\",\"model\":\"\",\"language\":\"\",\"api_key_secret_name\":\"\",\"endpointing_ms\":0,\"utterance_end_ms\":0,\"local_finalize_ms\":0,\"speaker_idle_close_seconds\":0,\"keepalive_interval_seconds\":0,\"interim_results\":false,\"smart_format\":false,\"mip_opt_out\":false,\"replay_buffer_max_ms\":0,\"delay_ms\":0,\"caption_audio_flush_ms\":0,\"caption_audio_max_batch_packets\":0,\"unresolved_ssrc_buffer_ms\":0,\"conversation_max_items\":0,\"conversation_reorder_window_ms\":0,\"voice_interim_ttl_seconds\":0,\"voice_final_ttl_seconds\":0,\"show_voice_transcripts\":false,\"show_legacy_caption_bar\":false}",
+      "wire_sha256": "9e17a9e51f27dd1f976347d221bb6c3c895770332d945bccbc355025f9b8ff5c",
+      "shape": {
+        "fields": [
+          {
+            "name": "api_key_secret_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "caption_audio_flush_ms",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "caption_audio_max_batch_packets",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "conversation_max_items",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "conversation_reorder_window_ms",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "delay_ms",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "endpointing_ms",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "interim_results",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "keepalive_interval_seconds",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "language",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "local_finalize_ms",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "mip_opt_out",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "model",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "replay_buffer_max_ms",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "show_legacy_caption_bar",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "show_voice_transcripts",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "smart_format",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "speaker_idle_close_seconds",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "unresolved_ssrc_buffer_ms",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "utterance_end_ms",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "voice_final_ttl_seconds",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "voice_interim_ttl_seconds",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ControlNotificationChannelCreateRequest",
+      "wire_json": "{\"name\":\"\",\"type\":\"\",\"enabled\":false}",
+      "wire_sha256": "453f49422ae2f01fed1bca35bfe0f6d1ff5ff07535b9db9f4f20826fabd4d094",
+      "shape": {
+        "fields": [
+          {
+            "name": "enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ControlNotificationChannelUpdateRequest",
+      "wire_json": "{\"name\":\"\",\"type\":\"\",\"enabled\":false}",
+      "wire_sha256": "453f49422ae2f01fed1bca35bfe0f6d1ff5ff07535b9db9f4f20826fabd4d094",
+      "shape": {
+        "fields": [
+          {
+            "name": "enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiagnosticReport",
+      "wire_json": "{\"summary\":\"\",\"likely_cause\":\"\",\"confidence\":0,\"evidence\":null,\"impact\":\"\",\"recommended_actions\":null,\"safe_auto_remediation_candidates\":null,\"actions_requiring_approval\":null}",
+      "wire_sha256": "7c463fbf0d6c7b83d60029c4a6b28e297082181024ad7974d414f75871521fb6",
+      "shape": {
+        "fields": [
+          {
+            "name": "actions_requiring_approval",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "confidence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "evidence",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "impact",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "likely_cause",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "recommended_actions",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "safe_auto_remediation_candidates",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "summary",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiagnosticRerunResponse",
+      "wire_json": "{\"incident\":{\"id\":\"\",\"rule\":\"\",\"severity\":\"\",\"status\":\"\",\"summary_ja\":\"\",\"service_id\":\"\",\"diagnostic_report\":{\"summary\":\"\",\"likely_cause\":\"\",\"confidence\":0,\"evidence\":null,\"impact\":\"\",\"recommended_actions\":null,\"safe_auto_remediation_candidates\":null,\"actions_requiring_approval\":null},\"opened_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"},\"outcome\":\"\"}",
+      "wire_sha256": "4f29d7d2c1dbf103e9e9aceae3e214d5d0f83dbd5237b72fcb105669b674dffe",
+      "shape": {
+        "fields": [
+          {
+            "name": "incident",
+            "shape": {
+              "fields": [
+                {
+                  "name": "diagnostic_report",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "actions_requiring_approval",
+                        "shape": {
+                          "kind": "null"
+                        }
+                      },
+                      {
+                        "name": "confidence",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "evidence",
+                        "shape": {
+                          "kind": "null"
+                        }
+                      },
+                      {
+                        "name": "impact",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "likely_cause",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "recommended_actions",
+                        "shape": {
+                          "kind": "null"
+                        }
+                      },
+                      {
+                        "name": "safe_auto_remediation_candidates",
+                        "shape": {
+                          "kind": "null"
+                        }
+                      },
+                      {
+                        "name": "summary",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "opened_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "rule",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "severity",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "status",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "summary_ja",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "updated_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "outcome",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordAudioBridgeStatus",
+      "wire_json": "{\"stream_id\":\"\",\"bridge_active\":false,\"started_at\":\"0001-01-01T00:00:00Z\",\"last_packet_at\":\"0001-01-01T00:00:00Z\",\"packets_total\":0,\"rtp_forwarded\":0,\"last_packet_age_sec\":0}",
+      "wire_sha256": "46c422084a79d4dcfbf218266622e7f6a678e030a7d4016e84bee53d11d32d93",
+      "shape": {
+        "fields": [
+          {
+            "name": "bridge_active",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "last_packet_age_sec",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "last_packet_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "packets_total",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "rtp_forwarded",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "started_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordBotStartJobRequest",
+      "wire_json": "{\"stream_id\":\"\",\"job_generation\":0,\"guild_id\":\"\",\"voice_channel_id\":\"\"}",
+      "wire_sha256": "3fc5a3e2cdfb30a0265fbaefdacf4e39db153d817782e8bf0991ba3547d6cd78",
+      "shape": {
+        "fields": [
+          {
+            "name": "guild_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "voice_channel_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordConfig",
+      "wire_json": "{\"id\":\"\",\"name\":\"\",\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "42745f3c5f411ccde710fc80b98f7e195570c8e7469df193f47dcaa58867a0ce",
+      "shape": {
+        "fields": [
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordConfigWriteRequest",
+      "wire_json": "{\"name\":\"\"}",
+      "wire_sha256": "1390696a77e5d6f4375e9b36450c26bb67e99662fcd31b71cecd8ceda332040e",
+      "shape": {
+        "fields": [
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordOpusIngestRequest",
+      "wire_json": "{\"stream_id\":\"\",\"source\":\"\",\"packets\":null}",
+      "wire_sha256": "4e8d7c2c28022c7adcd27c6413bc984e10b399cb3bd25c0c9c5e53b672d8ec03",
+      "shape": {
+        "fields": [
+          {
+            "name": "packets",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "source",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordOpusIngestResponse",
+      "wire_json": "{\"accepted\":false,\"stream_id\":\"\",\"accepted_count\":0,\"rtp_forwarded\":0}",
+      "wire_sha256": "0854b78d211e51dd44f4eca8483abf6e4bb0c15567119ed2a86346278e8c3aba",
+      "shape": {
+        "fields": [
+          {
+            "name": "accepted",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "accepted_count",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "rtp_forwarded",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordOpusPacket",
+      "wire_json": "{\"ssrc\":0,\"sequence\":0,\"timestamp\":0,\"received_at\":\"0001-01-01T00:00:00Z\",\"opus_base64\":\"\"}",
+      "wire_sha256": "b70fafeb8d787cf7ed204374fb0940ae200ef3604e0f8fc9d957ca81b741045f",
+      "shape": {
+        "fields": [
+          {
+            "name": "opus_base64",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "received_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "sequence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "ssrc",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "timestamp",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordVoiceJob",
+      "wire_json": "{\"stream_id\":\"\",\"job_generation\":0,\"guild_id\":\"\",\"voice_channel_id\":\"\"}",
+      "wire_sha256": "3fc5a3e2cdfb30a0265fbaefdacf4e39db153d817782e8bf0991ba3547d6cd78",
+      "shape": {
+        "fields": [
+          {
+            "name": "guild_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "voice_channel_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DriveDestination",
+      "wire_json": "{\"id\":\"\",\"name\":\"\",\"auth_mode\":\"\",\"folder_id_configured\":false,\"shared_drive\":false,\"base_path\":\"\",\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "ed013b77c04fd95d8ca9b8d54eb027a0396db1b9d095e96612665ad7fec1bc81",
+      "shape": {
+        "fields": [
+          {
+            "name": "auth_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "base_path",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "folder_id_configured",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "shared_drive",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DriveDestinationWriteRequest",
+      "wire_json": "{\"name\":\"\",\"auth_mode\":\"\",\"shared_drive\":false,\"base_path\":\"\"}",
+      "wire_sha256": "8c2c1800ccb9cbcd87db971ce4d6ad2e0d67e75ed5d6c1f3a0c52ff49a2201e3",
+      "shape": {
+        "fields": [
+          {
+            "name": "auth_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "base_path",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "shared_drive",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderOutputRelayCapabilities",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderPackageStreamRequest",
+      "wire_json": "{\"stream_id\":\"\",\"name\":\"\",\"started_at\":\"0001-01-01T00:00:00Z\",\"archive_config\":{}}",
+      "wire_sha256": "1fbda26b00ec907fd4c3125f11b7d2adc68c427e2b2492469f5990813ef2e33c",
+      "shape": {
+        "fields": [
+          {
+            "name": "archive_config",
+            "shape": {
+              "fields": [],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "started_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderProfile",
+      "wire_json": "{\"id\":\"\",\"name\":\"\",\"width\":0,\"height\":0,\"fps\":0,\"video_codec\":\"\",\"audio_codec\":\"\",\"video_bitrate_kbps\":0,\"audio_bitrate_kbps\":0,\"audio_sample_rate_hz\":0,\"keyframe_interval_sec\":0}",
+      "wire_sha256": "360012e06b1c9bc7688a09053d764f44c130d798dab26d6fcd43122a17f8f078",
+      "shape": {
+        "fields": [
+          {
+            "name": "audio_bitrate_kbps",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "audio_codec",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "audio_sample_rate_hz",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "fps",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "height",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "keyframe_interval_sec",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "video_bitrate_kbps",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "video_codec",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "width",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderRuntimeSettingsRequest",
+      "wire_json": "{\"encoder_audio_gain_db\":0,\"overlay_profile_id\":\"\"}",
+      "wire_sha256": "14a3237f7f536250f2e647dcdfe747cd4c40d215853b45695d7783768ee8cdc4",
+      "shape": {
+        "fields": [
+          {
+            "name": "encoder_audio_gain_db",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "overlay_profile_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderStartStreamRequest",
+      "wire_json": "{\"stream_id\":\"\",\"name\":\"\",\"rtmp_url\":\"\",\"started_at\":\"0001-01-01T00:00:00Z\",\"youtube_runtime\":{\"mode\":\"\"},\"archive_config\":{}}",
+      "wire_sha256": "e11944024b9f0ab98075b1c6d11d827a9706f15b4abc600008e759eef86d05f3",
+      "shape": {
+        "fields": [
+          {
+            "name": "archive_config",
+            "shape": {
+              "fields": [],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "rtmp_url",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "started_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "youtube_runtime",
+            "shape": {
+              "fields": [
+                {
+                  "name": "mode",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderStartStreamResponse",
+      "wire_json": "{\"stream_id\":\"\",\"name\":\"\",\"status\":\"\",\"started_at_jst\":\"\",\"archive\":null}",
+      "wire_sha256": "212624257af6ad5ec4be5d1cfb47159aae98be38b78ee738bbf6a2d5dd0a715e",
+      "shape": {
+        "fields": [
+          {
+            "name": "archive",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "started_at_jst",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderVideoIngest",
+      "wire_json": "{\"url\":\"\",\"passphrase\":\"\",\"pbkeylen\":0}",
+      "wire_sha256": "22eadabf666c7c254288479a29fd6045daf4c38e4fc963e6ab20ee2091e0e5f1",
+      "shape": {
+        "fields": [
+          {
+            "name": "passphrase",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "pbkeylen",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "url",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ErrorResponse",
+      "wire_json": "{\"request_id\":\"\",\"code\":\"\",\"message\":\"\"}",
+      "wire_sha256": "48d45e8382bd946634d7e32472cd755f7950ae09e8507c7ad86138cfb0ddc94a",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "message",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "request_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "Heartbeat",
+      "wire_json": "{\"service_id\":\"\",\"status\":\"\"}",
+      "wire_sha256": "5cb69f1fba9fa6112383fe167c11f758c0ca16219d91e360497fbc6af3d8c72d",
+      "shape": {
+        "fields": [
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "HostAgentPolicyRequest",
+      "wire_json": "{\"service_id\":\"\",\"current_revision\":0}",
+      "wire_sha256": "31865c8a20a33938d8fbfd055d1ffb084a97ac7eddaf3e526701685e97358b2a",
+      "shape": {
+        "fields": [
+          {
+            "name": "current_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "HostAgentPolicyResponse",
+      "wire_json": "{\"service_id\":\"\",\"transport_mode\":\"\",\"execution_host_id\":\"\",\"ownership_epoch\":0,\"revision\":0,\"source_policy_revision\":0,\"local_executor_policy_revision\":0,\"observe_only\":false,\"targets\":null}",
+      "wire_sha256": "dd2fdd9cea2288dc0122d71e6e95f503cdc9f1c9196a356b06b54b59b26cc807",
+      "shape": {
+        "fields": [
+          {
+            "name": "execution_host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "local_executor_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "observe_only",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "source_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "targets",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "transport_mode",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "HostAgentPolicyTarget",
+      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"}",
+      "wire_sha256": "b24c3acfa5f598e8118038f3f93b8a0ce5511c3aa1af9e173b93f810cb43108c",
+      "shape": {
+        "fields": [
+          {
+            "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "HostAgentRuntimeRequirement",
+      "wire_json": "{\"minimum_agent_version\":\"\",\"minimum_executor_version\":\"\",\"agent_protocol_version\":0,\"executor_protocol_version\":0,\"mutation_protocol_version\":0,\"recovery_protocol_version\":0}",
+      "wire_sha256": "d7f1005a810f97c2e52d57496d54023172b6b873c89c9fed9296271efa1dcbaa",
+      "shape": {
+        "fields": [
+          {
+            "name": "agent_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "executor_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "minimum_agent_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "minimum_executor_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "mutation_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "recovery_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "HostAgentSelfUpdateDirective",
+      "wire_json": "{\"generation\":\"\",\"agent_version\":\"\",\"executor_version\":\"\",\"commit\":\"\",\"artifact_sha256\":\"\",\"agent_protocol_version\":0,\"executor_protocol_version\":0,\"mutation_protocol_version\":0,\"recovery_protocol_version\":0,\"release\":{\"tag\":\"\",\"commit\":\"\",\"published_at\":\"0001-01-01T00:00:00Z\",\"manifest_asset_id\":0,\"manifest_asset_name\":\"\",\"manifest_sha256\":\"\",\"manifest_checksum_asset_id\":0,\"manifest_checksum_sha256\":\"\",\"archive_asset_id\":0,\"archive_asset_name\":\"\",\"archive_size\":0,\"archive_sha256\":\"\",\"archive_checksum_asset_id\":0,\"archive_checksum_sha256\":\"\",\"arch\":\"\",\"agent_protocol_version\":0,\"executor_protocol_version\":0,\"mutation_protocol_version\":0,\"recovery_protocol_version\":0,\"minimum_panel_version\":\"\"},\"staged_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "c86e1609b7a76c601748840e697affa6a94df73150a4cd0b40cefbe25500d373",
+      "shape": {
+        "fields": [
+          {
+            "name": "agent_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "agent_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "artifact_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "commit",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "executor_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "executor_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "generation",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "mutation_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "recovery_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "release",
+            "shape": {
+              "fields": [
+                {
+                  "name": "agent_protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "arch",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "archive_asset_id",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "archive_asset_name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "archive_checksum_asset_id",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "archive_checksum_sha256",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "archive_sha256",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "archive_size",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "commit",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "executor_protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "manifest_asset_id",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "manifest_asset_name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "manifest_checksum_asset_id",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "manifest_checksum_sha256",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "manifest_sha256",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "minimum_panel_version",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "mutation_protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "published_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "recovery_protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "tag",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "staged_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "HostSelfUpdateGrant",
+      "wire_json": "{\"id\":\"\",\"self_update_id\":\"\",\"attempt_generation\":\"\",\"operation\":\"\",\"execution_host_id\":\"\",\"agent_service_id\":\"\",\"expected_self_update_revision\":0,\"expected_ownership_epoch\":0,\"expected_source_policy_revision\":0,\"expected_projection_revision\":0,\"expected_local_executor_policy_revision\":0,\"expected_local_executor_policy_sha256\":\"\",\"agent_version\":\"\",\"executor_version\":\"\",\"release_commit\":\"\",\"artifact_sha256\":\"\",\"agent_protocol_version\":0,\"executor_protocol_version\":0,\"mutation_protocol_version\":0,\"recovery_protocol_version\":0,\"release\":{\"tag\":\"\",\"commit\":\"\",\"published_at\":\"0001-01-01T00:00:00Z\",\"manifest_asset_id\":0,\"manifest_asset_name\":\"\",\"manifest_sha256\":\"\",\"manifest_checksum_asset_id\":0,\"manifest_checksum_sha256\":\"\",\"archive_asset_id\":0,\"archive_asset_name\":\"\",\"archive_size\":0,\"archive_sha256\":\"\",\"archive_checksum_asset_id\":0,\"archive_checksum_sha256\":\"\",\"arch\":\"\",\"agent_protocol_version\":0,\"executor_protocol_version\":0,\"mutation_protocol_version\":0,\"recovery_protocol_version\":0,\"minimum_panel_version\":\"\"},\"directive_issued_at\":\"0001-01-01T00:00:00Z\",\"plan_sha256\":\"\",\"session_id\":\"\",\"revision\":0,\"issued_at\":\"0001-01-01T00:00:00Z\",\"expires_at\":\"0001-01-01T00:00:00Z\",\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "5212b64c2aeaf37f9c83d577680740fd0c7465d5ee52dea8696334773f35cd9e",
+      "shape": {
+        "fields": [
+          {
+            "name": "agent_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "agent_service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "agent_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "artifact_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "attempt_generation",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "directive_issued_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "execution_host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "executor_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "executor_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_local_executor_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_local_executor_policy_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_projection_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_self_update_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_source_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "issued_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "mutation_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "operation",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "plan_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "recovery_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "release",
+            "shape": {
+              "fields": [
+                {
+                  "name": "agent_protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "arch",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "archive_asset_id",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "archive_asset_name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "archive_checksum_asset_id",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "archive_checksum_sha256",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "archive_sha256",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "archive_size",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "commit",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "executor_protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "manifest_asset_id",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "manifest_asset_name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "manifest_checksum_asset_id",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "manifest_checksum_sha256",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "manifest_sha256",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "minimum_panel_version",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "mutation_protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "published_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "recovery_protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "tag",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "release_commit",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "self_update_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "session_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "HostSelfUpdateReleaseBinding",
+      "wire_json": "{\"tag\":\"\",\"commit\":\"\",\"published_at\":\"0001-01-01T00:00:00Z\",\"manifest_asset_id\":0,\"manifest_asset_name\":\"\",\"manifest_sha256\":\"\",\"manifest_checksum_asset_id\":0,\"manifest_checksum_sha256\":\"\",\"archive_asset_id\":0,\"archive_asset_name\":\"\",\"archive_size\":0,\"archive_sha256\":\"\",\"archive_checksum_asset_id\":0,\"archive_checksum_sha256\":\"\",\"arch\":\"\",\"agent_protocol_version\":0,\"executor_protocol_version\":0,\"mutation_protocol_version\":0,\"recovery_protocol_version\":0,\"minimum_panel_version\":\"\"}",
+      "wire_sha256": "c9aed8fc577cb60d5874bfdd0e5a21c0ebfcabcb951e14e2861f01cce246db86",
+      "shape": {
+        "fields": [
+          {
+            "name": "agent_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "arch",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "archive_asset_id",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "archive_asset_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "archive_checksum_asset_id",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "archive_checksum_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "archive_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "archive_size",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "commit",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "executor_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "manifest_asset_id",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "manifest_asset_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "manifest_checksum_asset_id",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "manifest_checksum_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "manifest_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "minimum_panel_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "mutation_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "published_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "recovery_protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "tag",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "Incident",
+      "wire_json": "{\"id\":\"\",\"rule\":\"\",\"severity\":\"\",\"status\":\"\",\"summary_ja\":\"\",\"service_id\":\"\",\"diagnostic_report\":{\"summary\":\"\",\"likely_cause\":\"\",\"confidence\":0,\"evidence\":null,\"impact\":\"\",\"recommended_actions\":null,\"safe_auto_remediation_candidates\":null,\"actions_requiring_approval\":null},\"opened_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "86229b5c3d10734751c2fb804efef9bd1b23a518d5ed42b42dddae19363d32ef",
+      "shape": {
+        "fields": [
+          {
+            "name": "diagnostic_report",
+            "shape": {
+              "fields": [
+                {
+                  "name": "actions_requiring_approval",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "confidence",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "evidence",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "impact",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "likely_cause",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "recommended_actions",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "safe_auto_remediation_candidates",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "summary",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "opened_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "rule",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "severity",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "summary_ja",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ManagedAppSettings",
+      "wire_json": "{\"app_name\":\"\",\"timezone\":\"\",\"smtp_enabled\":false,\"smtp_starttls\":false}",
+      "wire_sha256": "67806b01c54a910ffda14d23b120aa9f57833fef0aa47128cb98d8ed013ae93f",
+      "shape": {
+        "fields": [
+          {
+            "name": "app_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "smtp_enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "smtp_starttls",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "timezone",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "MissingStreamAssignmentsResponse",
+      "wire_json": "{\"code\":\"\",\"missing_service_types\":null}",
+      "wire_sha256": "da67b399c88aa20d7a84c724e936bb44289bbd5cbb873eafec88ae3319455dc3",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "missing_service_types",
+            "shape": {
+              "kind": "null"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "NodeAgentAPI",
+      "wire_json": "{\"host\":\"\",\"port\":0,\"sslEnabled\":false}",
+      "wire_sha256": "018313324b65c8a96e088e0aa8a17187a66ac590cf512cf00fbf2c59b0e71383",
+      "shape": {
+        "fields": [
+          {
+            "name": "host",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "sslEnabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "NotificationChannel",
+      "wire_json": "{\"id\":\"\",\"name\":\"\",\"type\":\"\",\"enabled\":false,\"uses_global_smtp\":false,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "397b7863be67239158bb3ba68723eac018293b81b79222164f7fc8eec5dd8c7c",
+      "shape": {
+        "fields": [
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "uses_global_smtp",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "NotificationChannelWriteRequest",
+      "wire_json": "{\"name\":\"\",\"type\":\"\",\"enabled\":false}",
+      "wire_sha256": "453f49422ae2f01fed1bca35bfe0f6d1ff5ff07535b9db9f4f20826fabd4d094",
+      "shape": {
+        "fields": [
+          {
+            "name": "enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "NotificationDelivery",
+      "wire_json": "{\"id\":\"\",\"event_type\":\"\",\"channel\":\"\",\"target\":\"\",\"status\":\"\",\"created_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "4878c2fa45c553ee432444c664b72c5865c621616aa3b85b479f08251715e89d",
+      "shape": {
+        "fields": [
+          {
+            "name": "channel",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "event_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "NotificationDeliveryResult",
+      "wire_json": "{\"event_type\":\"\",\"channel\":\"\",\"target\":\"\",\"status\":\"\"}",
+      "wire_sha256": "2bf7f9229f9bcf1e2487ffb7111994b3b00cced7082f3e71b178b9346cdc1327",
+      "shape": {
+        "fields": [
+          {
+            "name": "channel",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "event_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "NotificationEventWriteRequest",
+      "wire_json": "{\"event_type\":\"\",\"action\":\"\"}",
+      "wire_sha256": "f0f66bc1be737a90a4a0564d16ff5c753bd38935a8b2247d4c72be3fa96911a9",
+      "shape": {
+        "fields": [
+          {
+            "name": "action",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "event_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthAccount",
+      "wire_json": "{\"id\":\"\",\"provider_id\":\"\",\"provider_type\":\"\",\"account_label\":\"\",\"account_purpose\":\"\",\"scopes\":null,\"refresh_token_configured\":false,\"access_token_refresh_relink_required\":false,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "8ce3369f0367b2ca85769582be8eeb008b6e689f9323a6c8f7d864fd739e97bf",
+      "shape": {
+        "fields": [
+          {
+            "name": "access_token_refresh_relink_required",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "account_label",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "account_purpose",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "refresh_token_configured",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "scopes",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthAccountConnectionCallbackRequest",
+      "wire_json": "{\"state\":\"\",\"code\":\"\"}",
+      "wire_sha256": "ad922ca0a53a5b427493926f10945c0d40fee6254b7f6aa557cd67e13510e42a",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "state",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthAccountConnectionStartRequest",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthAccountConnectionStartResponse",
+      "wire_json": "{\"provider\":{\"id\":\"\",\"provider_type\":\"\",\"name\":\"\",\"scopes\":null,\"redirect_uri\":\"\"},\"authorization_url\":\"\",\"state\":\"\",\"nonce\":\"\",\"expires_at\":\"0001-01-01T00:00:00Z\",\"account_label\":\"\",\"account_purpose\":\"\",\"relink\":false,\"scopes\":null}",
+      "wire_sha256": "a4b9a8ec3394f297f59c5ff440f872d5556902e7d58ad96963bedbcd8d4f2765",
+      "shape": {
+        "fields": [
+          {
+            "name": "account_label",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "account_purpose",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "authorization_url",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "nonce",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "shape": {
+              "fields": [
+                {
+                  "name": "id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "provider_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "redirect_uri",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "scopes",
+                  "shape": {
+                    "kind": "null"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "relink",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "scopes",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "state",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthAccountWriteRequest",
+      "wire_json": "{\"provider_id\":\"\",\"provider_type\":\"\",\"account_label\":\"\"}",
+      "wire_sha256": "896d00df51e24f0791a4e42cbb3e78199e3e1be0dd78403343c0990cc255747d",
+      "shape": {
+        "fields": [
+          {
+            "name": "account_label",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthLoginCallbackRequest",
+      "wire_json": "{\"state\":\"\",\"code\":\"\"}",
+      "wire_sha256": "ad922ca0a53a5b427493926f10945c0d40fee6254b7f6aa557cd67e13510e42a",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "state",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthLoginProvider",
+      "wire_json": "{\"id\":\"\",\"provider_type\":\"\",\"name\":\"\",\"scopes\":null,\"redirect_uri\":\"\"}",
+      "wire_sha256": "b0e1715cb4922d04096de82512a996867386986c013655bfb5285d140a0f4809",
+      "shape": {
+        "fields": [
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "redirect_uri",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "scopes",
+            "shape": {
+              "kind": "null"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthLoginStartRequest",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthLoginStartResponse",
+      "wire_json": "{\"provider\":{\"id\":\"\",\"provider_type\":\"\",\"name\":\"\",\"scopes\":null,\"redirect_uri\":\"\"},\"authorization_url\":\"\",\"state\":\"\",\"nonce\":\"\",\"expires_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "f9d7404e2f9bc3879c49634df8f29948f6e59942c561f5ddd431e2fbf571a1fe",
+      "shape": {
+        "fields": [
+          {
+            "name": "authorization_url",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "nonce",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "shape": {
+              "fields": [
+                {
+                  "name": "id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "provider_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "redirect_uri",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "scopes",
+                  "shape": {
+                    "kind": "null"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "state",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthProvider",
+      "wire_json": "{\"id\":\"\",\"provider_type\":\"\",\"name\":\"\",\"enabled\":false,\"client_id\":\"\",\"client_secret_configured\":false,\"scopes\":null,\"allowed_domains\":null,\"auto_provision\":false,\"redirect_uri\":\"\",\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "35615de77fe8dacf198009ed0faaa7074d06b34e8a404a2d697c3c8788b2b607",
+      "shape": {
+        "fields": [
+          {
+            "name": "allowed_domains",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "auto_provision",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "client_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "client_secret_configured",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "redirect_uri",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "scopes",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthProviderWriteRequest",
+      "wire_json": "{\"provider_type\":\"\",\"name\":\"\",\"enabled\":false,\"client_id\":\"\",\"redirect_uri\":\"\"}",
+      "wire_sha256": "af0dc1eb314d8f76bfba01e9932cda08b1fc5b255cad26672bcfe11821fac2d5",
+      "shape": {
+        "fields": [
+          {
+            "name": "client_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "redirect_uri",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthUserLink",
+      "wire_json": "{\"id\":\"\",\"user_id\":\"\",\"provider_id\":\"\",\"provider_type\":\"\",\"subject\":\"\",\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "c5b5bd2ee09d3eb08d12369885dd8be09f8926bab95c0799fff4cc1b9c1d30af",
+      "shape": {
+        "fields": [
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "provider_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "subject",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "OAuthUserLinkWriteRequest",
+      "wire_json": "{\"provider_id\":\"\",\"subject\":\"\"}",
+      "wire_sha256": "55f751f2b56305a0f3d876aca6c1e3add6d9565c79079fcc672fa0d180c049f2",
+      "shape": {
+        "fields": [
+          {
+            "name": "provider_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "subject",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ObservabilitySignal",
+      "wire_json": "{\"type\":\"\",\"name\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"timestamp\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "29319d3698dcd360db2df810dab5e4e05e2c48ffadd89b082ea367e38d53744d",
+      "shape": {
+        "fields": [
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyAuthenticatorSelection",
+      "wire_json": "{\"residentKey\":\"\",\"userVerification\":\"\"}",
+      "wire_sha256": "d9d4d14ced16efe7057cfa8cff64c2920b8e8ec95cd84dd7c498b0b3c981432e",
+      "shape": {
+        "fields": [
+          {
+            "name": "residentKey",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "userVerification",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyCreationOptions",
+      "wire_json": "{\"challenge\":\"\",\"rp\":{\"id\":\"\",\"name\":\"\"},\"user\":{\"id\":\"\",\"name\":\"\",\"displayName\":\"\"},\"pubKeyCredParams\":null,\"timeout\":0,\"attestation\":\"\",\"authenticatorSelection\":{\"residentKey\":\"\",\"userVerification\":\"\"}}",
+      "wire_sha256": "7bf22fadf8217d2494634c772149370266f1e6732d72587cb2c03c3d4daf52c1",
+      "shape": {
+        "fields": [
+          {
+            "name": "attestation",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "authenticatorSelection",
+            "shape": {
+              "fields": [
+                {
+                  "name": "residentKey",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "userVerification",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "challenge",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "pubKeyCredParams",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "rp",
+            "shape": {
+              "fields": [
+                {
+                  "name": "id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "timeout",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "user",
+            "shape": {
+              "fields": [
+                {
+                  "name": "displayName",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyCredential",
+      "wire_json": "{\"id\":\"\",\"user_id\":\"\",\"name\":\"\",\"credential_id_hash\":\"\",\"sign_count\":0}",
+      "wire_sha256": "26e536e6e28ce2b0a6599368dca293489dcaa785e93a162222cb31cfe29aefbf",
+      "shape": {
+        "fields": [
+          {
+            "name": "credential_id_hash",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "sign_count",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "user_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyCredentialParameter",
+      "wire_json": "{\"type\":\"\",\"alg\":0}",
+      "wire_sha256": "43af073c77d8b130b517b77682bda61ea4b44778224b1f6f34d5f9c35372af2d",
+      "shape": {
+        "fields": [
+          {
+            "name": "alg",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyLoginFinishRequest",
+      "wire_json": "{\"challenge_token\":\"\",\"credential\":null}",
+      "wire_sha256": "bd18b4bfe841ed2cb839c8f9f2b9aea7f6489fcd699011e23cf553c52cab0894",
+      "shape": {
+        "fields": [
+          {
+            "name": "challenge_token",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "credential",
+            "shape": {
+              "kind": "null"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyLoginStartRequest",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyLoginStartResponse",
+      "wire_json": "{\"challenge_token\":\"\",\"expires_at\":\"\",\"public_key\":null}",
+      "wire_sha256": "4051c4c2c51f67ffd19d74f586ad155d23987add49a92aa04591b9edc03acbbc",
+      "shape": {
+        "fields": [
+          {
+            "name": "challenge_token",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "public_key",
+            "shape": {
+              "kind": "null"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyRegistrationFinishRequest",
+      "wire_json": "{\"registration_token\":\"\",\"credential\":null}",
+      "wire_sha256": "05dbc1d19c1d3601ce9826acb8b59838fac1005d37d93bd87bc246305e1ddb25",
+      "shape": {
+        "fields": [
+          {
+            "name": "credential",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "registration_token",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyRegistrationStartRequest",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyRegistrationStartResponse",
+      "wire_json": "{\"registration_token\":\"\",\"expires_at\":\"\",\"public_key\":{\"challenge\":\"\",\"rp\":{\"id\":\"\",\"name\":\"\"},\"user\":{\"id\":\"\",\"name\":\"\",\"displayName\":\"\"},\"pubKeyCredParams\":null,\"timeout\":0,\"attestation\":\"\",\"authenticatorSelection\":{\"residentKey\":\"\",\"userVerification\":\"\"}}}",
+      "wire_sha256": "69375cb6ee07ea76fdbc10866e1a90b176dc60ab05ba4604318928e5ec9b0602",
+      "shape": {
+        "fields": [
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "public_key",
+            "shape": {
+              "fields": [
+                {
+                  "name": "attestation",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "authenticatorSelection",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "residentKey",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "userVerification",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "challenge",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "pubKeyCredParams",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "rp",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "name",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "timeout",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "user",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "displayName",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "name",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "registration_token",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyRelyingParty",
+      "wire_json": "{\"id\":\"\",\"name\":\"\"}",
+      "wire_sha256": "681c3bf74bba1d178c2743dd668026b580e0eb52fa47837692befd72d0340b99",
+      "shape": {
+        "fields": [
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PasskeyUser",
+      "wire_json": "{\"id\":\"\",\"name\":\"\",\"displayName\":\"\"}",
+      "wire_sha256": "2baf8d2e08132424628f8586dc957aca3dc993e420c862133f08c70d7d0f5a02",
+      "shape": {
+        "fields": [
+          {
+            "name": "displayName",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "Profile",
+      "wire_json": "{\"id\":\"\",\"kind\":\"\",\"name\":\"\",\"config\":null,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "705393a2eeb85858db1b67a7c231a9dc6f54176ca10f68322557e28d1354818a",
+      "shape": {
+        "fields": [
+          {
+            "name": "config",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "kind",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ProfileWriteRequest",
+      "wire_json": "{\"name\":\"\",\"config\":null}",
+      "wire_sha256": "9dab0ecc6eccb43c22fd8897b3022e75b4c4604222557903430dcdf9fa9a81be",
+      "shape": {
+        "fields": [
+          {
+            "name": "config",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PublicAppSettings",
+      "wire_json": "{\"app_name\":\"\",\"timezone\":\"\"}",
+      "wire_sha256": "2010148a91ef5662fae24ebbbe797daab8557238b741380e2ad9c6f4b3721520",
+      "shape": {
+        "fields": [
+          {
+            "name": "app_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "timezone",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ReadinessIssue",
+      "wire_json": "{\"code\":\"\",\"message\":\"\"}",
+      "wire_sha256": "672717d111003fc44031ac00dd94999c2e2774fec6ad3a9c8b3e5cb6d96260ff",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "message",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RegisteredService",
+      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\",\"service_name\":\"\",\"version\":\"\",\"status\":\"\",\"capabilities\":null,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "f67a8b4049a8336a8da187c4168bc58b3ceb79be726e2ec2d7d973ff7409f298",
+      "shape": {
+        "fields": [
+          {
+            "name": "capabilities",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ReleaseArtifact",
+      "wire_json": "{\"os\":\"\",\"arch\":\"\",\"name\":\"\",\"size\":0,\"sha256\":\"\"}",
+      "wire_sha256": "bf289b56c0299777f20151e4c331100b80f0233cecb0f73a466690cfe5a512ef",
+      "shape": {
+        "fields": [
+          {
+            "name": "arch",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "os",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "size",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ReleaseManifest",
+      "wire_json": "{\"schema_version\":0,\"release_id\":\"\",\"channel\":\"\",\"published_at\":\"0001-01-01T00:00:00Z\",\"minimum_agent_version\":\"\",\"components\":null}",
+      "wire_sha256": "4356e068f2b72916f757dfbb98a50f9e26e56481e5ecbfa29b51c110bb064156",
+      "shape": {
+        "fields": [
+          {
+            "name": "channel",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "components",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "minimum_agent_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "published_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "release_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "schema_version",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ReleaseManifestComponent",
+      "wire_json": "{\"service\":\"\",\"source_version\":\"\",\"rollback_compatible\":false,\"database_schema\":\"\"}",
+      "wire_sha256": "e6e96e38abbe3e41bb0e1c4590713019f8d7932958a14ba6cd1e757da426a691",
+      "shape": {
+        "fields": [
+          {
+            "name": "database_schema",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "rollback_compatible",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "service",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "source_version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationAction",
+      "wire_json": "{\"id\":\"\",\"incident_id\":\"\",\"action\":\"\",\"mode\":\"\",\"status\":\"\",\"safe_auto\":false,\"requires_approval\":false,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "222a369389c7a9fb864cc6a3b90d6e178e5eaa1b21fa5d7e514e2250bf8d6e5d",
+      "shape": {
+        "fields": [
+          {
+            "name": "action",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "incident_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "requires_approval",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "safe_auto",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SecretStatus",
+      "wire_json": "{\"name\":\"\",\"configured\":false}",
+      "wire_sha256": "d7efbf060a19c06b8f7d1e892edfaa2a411fbaabbbf6b28ba48e596ebd5c7615",
+      "shape": {
+        "fields": [
+          {
+            "name": "configured",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SecretUpdateRequest",
+      "wire_json": "{\"value\":\"\"}",
+      "wire_sha256": "cff59dd7cecf22f44150801f1a7ddb443f12f5fae632f1307c159bc5873fb90f",
+      "shape": {
+        "fields": [
+          {
+            "name": "value",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SecuritySettings",
+      "wire_json": "{\"password_min_length\":0,\"password_hash\":\"\",\"login_lockout_threshold\":0,\"session_idle_timeout_min\":0,\"session_absolute_lifetime_h\":0,\"remember_me_enabled\":false,\"mfa_mode\":\"\"}",
+      "wire_sha256": "0d08e1ef80e60b9805a4e45037611271216f00383a2d70fb1a50213a142376b9",
+      "shape": {
+        "fields": [
+          {
+            "name": "login_lockout_threshold",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "mfa_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "password_hash",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "password_min_length",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "remember_me_enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "session_absolute_lifetime_h",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "session_idle_timeout_min",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceArtifactReport",
+      "wire_json": "{\"service_id\":\"\",\"stream_id\":\"\",\"artifacts\":null}",
+      "wire_sha256": "2afe0158b956b9ee10410c77ed09263f2d00354145d0cff1668a0930e8088945",
+      "shape": {
+        "fields": [
+          {
+            "name": "artifacts",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceAssignmentWriteRequest",
+      "wire_json": "{\"stream_id\":\"\"}",
+      "wire_sha256": "18ed26c12112412b3bffa032f734f6c4d21fafb3af3ccc88a9fb636ecd279a51",
+      "shape": {
+        "fields": [
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceEndpoint",
+      "wire_json": "{\"host\":\"\",\"port\":0,\"ssl_enabled\":false,\"public_url\":\"\"}",
+      "wire_sha256": "88a1e47391c85223ffc5907d557a1da0c9bb327c66d22dda0be8e351728dbc6f",
+      "shape": {
+        "fields": [
+          {
+            "name": "host",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "public_url",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ssl_enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceNotificationEmailRequest",
+      "wire_json": "{\"recipients\":null,\"subject\":\"\",\"text\":\"\"}",
+      "wire_sha256": "9e80dd7d59cd388037612563c480410f211817dfcc560c984a61ce98acb86334",
+      "shape": {
+        "fields": [
+          {
+            "name": "recipients",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "subject",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "text",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceNotificationEmailResponse",
+      "wire_json": "{\"status\":\"\",\"recipient_count\":0}",
+      "wire_sha256": "8da3797ef49decaa11bac881c6e623b8b64bd1800689b94240ec365aafba7919",
+      "shape": {
+        "fields": [
+          {
+            "name": "recipient_count",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceNotificationError",
+      "wire_json": "{\"code\":\"\",\"message\":\"\",\"retryable\":false}",
+      "wire_sha256": "46ba4f959bef76f94b16fef00b6d9ef8e31f74c54143e39b6906410ded3a5707",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "message",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "retryable",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServicePreflightCheck",
+      "wire_json": "{\"id\":\"\",\"status\":\"\",\"severity\":\"\",\"message\":\"\"}",
+      "wire_sha256": "b9261315d6126ccf6e59cc17e07a2d42b12f53dff015ac21b5babb671c793e0c",
+      "shape": {
+        "fields": [
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "message",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "severity",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServicePreflightResponse",
+      "wire_json": "{\"checked_at\":\"0001-01-01T00:00:00Z\",\"ready\":false,\"checks\":null}",
+      "wire_sha256": "28d6bf1f475df3250e1fddc60b266f6a4801bcaffc83becc2f2f883c16e3d5f0",
+      "shape": {
+        "fields": [
+          {
+            "name": "checked_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "checks",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "ready",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceRegistration",
+      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\",\"service_name\":\"\",\"ssl_enabled\":false,\"version\":\"\",\"capabilities\":null}",
+      "wire_sha256": "972cfa7e3fe8aaa4bf7c57b70dd0c8faf1b9f4f183fa5659ad3c191bda3ac2ec",
+      "shape": {
+        "fields": [
+          {
+            "name": "capabilities",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ssl_enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceRemediationExecuteRequest",
+      "wire_json": "{\"action_id\":\"\",\"action\":\"\",\"incident_id\":\"\",\"stream_id\":\"\"}",
+      "wire_sha256": "333b306f71060e8f6924abc10e2fa09f96a683a948249073007d4aa1271b2dde",
+      "shape": {
+        "fields": [
+          {
+            "name": "action",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "action_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "incident_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceRuntimeArchiveConfig",
+      "wire_json": "{\"stream_id\":\"\",\"assignment_role\":\"\",\"archive_profile_id\":\"\",\"ready\":false}",
+      "wire_sha256": "b325247278ecbe560b02dd9628832d9640412b93b093ffc5770d62ad34e95174",
+      "shape": {
+        "fields": [
+          {
+            "name": "archive_profile_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "assignment_role",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ready",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceRuntimeConfig",
+      "wire_json": "{\"service\":{\"service_id\":\"\",\"service_type\":\"\",\"service_name\":\"\",\"version\":\"\",\"status\":\"\",\"capabilities\":null,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"},\"assignments\":null,\"profiles\":null}",
+      "wire_sha256": "af10825a73987bc72c3ee5d3681c61fa06fdad79a6ad7589ab8a6403f788fd4c",
+      "shape": {
+        "fields": [
+          {
+            "name": "assignments",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "profiles",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "service",
+            "shape": {
+              "fields": [
+                {
+                  "name": "capabilities",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "created_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "status",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "updated_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "version",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceRuntimeDiscordConfig",
+      "wire_json": "{\"stream_id\":\"\",\"assignment_role\":\"\",\"discord_config_id\":\"\",\"guild_id\":\"\",\"voice_channel_id\":\"\"}",
+      "wire_sha256": "90354e6355ccdec427089600210f41a2ccab34552b6a4ba0ab2b90153e15a5cd",
+      "shape": {
+        "fields": [
+          {
+            "name": "assignment_role",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "discord_config_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "guild_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "voice_channel_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceRuntimeSecretResolveRequest",
+      "wire_json": "{\"service_id\":\"\",\"secret_name\":\"\"}",
+      "wire_sha256": "fd630771d626b40067b67babb498f38c68418317999b3415e3e5fe84605edd56",
+      "shape": {
+        "fields": [
+          {
+            "name": "secret_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceRuntimeSecretResolveResponse",
+      "wire_json": "{\"secret_name\":\"\",\"value\":\"\",\"expires_in_sec\":0}",
+      "wire_sha256": "d79095f1af8f1b791763cd8fbe12ae19567bb36b3b64ed3b4dcb08d6170c7fa0",
+      "shape": {
+        "fields": [
+          {
+            "name": "expires_in_sec",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "secret_name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "value",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceRuntimeYouTubeConfig",
+      "wire_json": "{\"stream_id\":\"\",\"assignment_role\":\"\",\"youtube_output_id\":\"\",\"ready\":false}",
+      "wire_sha256": "a10f88cb39a00cb43a6fa213a43e7cee023c102cae9ceb65414b523dce0edbbc",
+      "shape": {
+        "fields": [
+          {
+            "name": "assignment_role",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ready",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "youtube_output_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceStreamEvent",
+      "wire_json": "{\"service_id\":\"\",\"stream_id\":\"\",\"event_type\":\"\",\"payload\":null}",
+      "wire_sha256": "1c6a1cd0f3ee431a984c6963a8aed89c56ca91157d103008314b3f8c3f58cfa9",
+      "shape": {
+        "fields": [
+          {
+            "name": "event_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "payload",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceToken",
+      "wire_json": "{\"id\":\"\",\"service_type\":\"\",\"scopes\":null,\"created_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "e6051a09e439a571cc9ab71893d61deffadc24e771a5aef9ab7a9c292035a82b",
+      "shape": {
+        "fields": [
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "scopes",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ServiceTokenCreateRequest",
+      "wire_json": "{\"service_type\":\"\",\"scopes\":null}",
+      "wire_sha256": "1b34a7cbd01074ea22341b448d5275020b1f0f8240e398ffa9899ee3a1271b2a",
+      "shape": {
+        "fields": [
+          {
+            "name": "scopes",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SessionRefreshResponse",
+      "wire_json": "{\"status\":\"\",\"idle_expires_at\":\"0001-01-01T00:00:00Z\",\"absolute_expires_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "c0ce8e7c9193125fe98942ce0f10a84c9228d41d3ab95d120bca81a0d2c121c6",
+      "shape": {
+        "fields": [
+          {
+            "name": "absolute_expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "idle_expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "StartReadinessResponse",
+      "wire_json": "{\"stream_id\":\"\",\"ready\":false,\"missing_service_types\":null,\"issues\":null,\"assigned_service_count\":0,\"primary_service_count\":0}",
+      "wire_sha256": "3b555644823e11f39acf1ff565431b708d5a9d2f145f8b2685f36d2b37c1b51e",
+      "shape": {
+        "fields": [
+          {
+            "name": "assigned_service_count",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "issues",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "missing_service_types",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "primary_service_count",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "ready",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "StartStreamRequest",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "StreamArtifact",
+      "wire_json": "{\"kind\":\"\",\"name\":\"\",\"relative_path\":\"\",\"size_bytes\":0}",
+      "wire_sha256": "434f2310d6402df193961fc40a03e0b9e566678c1e9a570f47263918652e92fe",
+      "shape": {
+        "fields": [
+          {
+            "name": "kind",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "relative_path",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "size_bytes",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "StreamJob",
+      "wire_json": "{\"id\":\"\",\"name\":\"\",\"status\":\"\",\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "242d645467dfb3e729998da9cee0d2578216e33a3e8843b2acd8059ae9e218c2",
+      "shape": {
+        "fields": [
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "StreamPreviewLink",
+      "wire_json": "{\"stream_id\":\"\",\"url\":\"\",\"expires_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "e2faeac1c03b5d9cfa5480a2e8eaf0b43976bde2f37b8e2c1a7ae5afad8e9415",
+      "shape": {
+        "fields": [
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "url",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "StreamServiceAssignment",
+      "wire_json": "{\"stream_id\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"assignment_role\":\"\",\"assigned_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "8ed8735e058ed5e4c9814dac2b1ccc38a5c2626fdae0275f56fc0e801420df7d",
+      "shape": {
+        "fields": [
+          {
+            "name": "assigned_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "assignment_role",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "StreamSettingsWriteRequest",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "StreamWriteRequest",
+      "wire_json": "{\"name\":\"\"}",
+      "wire_sha256": "1390696a77e5d6f4375e9b36450c26bb67e99662fcd31b71cecd8ceda332040e",
+      "shape": {
+        "fields": [
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdateAgentStatus",
+      "wire_json": "{\"updater_id\":\"\",\"name\":\"\",\"status\":\"\",\"online\":false,\"version\":\"\"}",
+      "wire_sha256": "134ae001ec7307c2aef2f711b93a2064f88b64cc07a0ecbc34280ffbce0ac050",
+      "shape": {
+        "fields": [
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "online",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdateCreateRequest",
+      "wire_json": "{\"target_id\":\"\",\"idempotency_key\":\"\"}",
+      "wire_sha256": "3fbd898e3095dc3cc9ce2cef0c375c24f54200afdd8bcf6695712b96dda3410e",
+      "shape": {
+        "fields": [
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdateDockerPortReconfiguration",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdateHostStatus",
+      "wire_json": "{\"host_id\":\"\",\"name\":\"\",\"updater_id\":\"\",\"reachability\":\"\"}",
+      "wire_sha256": "394a29aeaaf1fd50ffd4561da1af279bd3801bbb20e7d1408236d460998b6b5d",
+      "shape": {
+        "fields": [
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "reachability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdateJob",
+      "wire_json": "{\"id\":\"\",\"target_id\":\"\",\"target_type\":\"\",\"host_id\":\"\",\"deployment_mode\":\"\",\"current_version\":\"\",\"target_version\":\"\",\"strategy\":\"\",\"status\":\"\",\"idempotency_key\":\"\",\"lease_generation\":0,\"sequence\":0,\"progress\":0,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "bfb0bea9e709cd832b6361e9e64e3a83a2951a045e61d48df2a31e8b1696c104",
+      "shape": {
+        "fields": [
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "current_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "progress",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "sequence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "strategy",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortMapping",
+      "wire_json": "{\"mode\":\"\",\"state\":\"\"}",
+      "wire_sha256": "b98f1fb164520319a4c2fa14168441b1f25f4c4a2601f8195566ec641a3f6488",
+      "shape": {
+        "fields": [
+          {
+            "name": "mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "state",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortReconfiguration",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePullOwnershipActivateRequest",
+      "wire_json": "{\"expected_execution_host_id\":\"\",\"expected_ownership_epoch\":0,\"expected_source_policy_revision\":0,\"expected_projection_revision\":0,\"expected_local_executor_policy_revision\":0,\"expected_local_executor_policy_sha256\":\"\"}",
+      "wire_sha256": "be92c02e39ff030c433e5ee70931a326ec57652a876aa3c37f5baab03ac624ad",
+      "shape": {
+        "fields": [
+          {
+            "name": "expected_execution_host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_local_executor_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_local_executor_policy_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_projection_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_source_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePullOwnershipActivateResponse",
+      "wire_json": "{\"updater_id\":\"\",\"execution_host_id\":\"\",\"transport_mode\":\"\",\"agent_service_id\":\"\",\"ownership_epoch\":0,\"source_policy_revision\":0,\"projection_revision\":0,\"local_executor_policy_revision\":0,\"local_executor_policy_sha256\":\"\"}",
+      "wire_sha256": "1950d2dbbc7b8eb08805a3414422def4e340427cdba72cdc7940304b218ac69b",
+      "shape": {
+        "fields": [
+          {
+            "name": "agent_service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "execution_host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "local_executor_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "local_executor_policy_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "projection_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "source_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "transport_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePullOwnershipDeactivateRequest",
+      "wire_json": "{\"expected_execution_host_id\":\"\",\"expected_ownership_epoch\":0,\"expected_source_policy_revision\":0,\"expected_projection_revision\":0,\"expected_local_executor_policy_revision\":0,\"expected_local_executor_policy_sha256\":\"\"}",
+      "wire_sha256": "be92c02e39ff030c433e5ee70931a326ec57652a876aa3c37f5baab03ac624ad",
+      "shape": {
+        "fields": [
+          {
+            "name": "expected_execution_host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_local_executor_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_local_executor_policy_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_projection_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_source_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePullOwnershipDeactivateResponse",
+      "wire_json": "{\"updater_id\":\"\",\"execution_host_id\":\"\",\"transport_mode\":\"\",\"agent_service_id\":\"\",\"ownership_epoch\":0,\"agent_ownership_epoch\":0,\"source_policy_revision\":0,\"projection_revision\":0,\"local_executor_policy_revision\":0,\"local_executor_policy_sha256\":\"\"}",
+      "wire_sha256": "7efd528a64f52494cd5ff0e4d3f51184ebd1e4486768c608df250f241b8a6c58",
+      "shape": {
+        "fields": [
+          {
+            "name": "agent_ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "agent_service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "execution_host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "local_executor_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "local_executor_policy_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "projection_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "source_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "transport_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdateTarget",
+      "wire_json": "{\"target_id\":\"\",\"target_type\":\"\",\"name\":\"\",\"update_available\":false,\"updater_online\":false,\"eligible\":false,\"busy\":false}",
+      "wire_sha256": "1a4391d122da7887c0961ed08fd51edb0666d5e2d80ddc1534f27859ef86395d",
+      "shape": {
+        "fields": [
+          {
+            "name": "busy",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "eligible",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "update_available",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "updater_online",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatesResponse",
+      "wire_json": "{\"updaters\":null,\"hosts\":null,\"targets\":null,\"jobs\":null}",
+      "wire_sha256": "08a03f681942b44d055043771ff3fca5e454715c6bc492b9d857aab7ba4849d9",
+      "shape": {
+        "fields": [
+          {
+            "name": "hosts",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "jobs",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "targets",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "updaters",
+            "shape": {
+              "kind": "null"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdateAgentAuthorizeRequest",
+      "wire_json": "{\"service_id\":\"\",\"lease_token\":\"\",\"lease_generation\":0,\"target_id\":\"\",\"target_version\":\"\",\"deployment_mode\":\"\"}",
+      "wire_sha256": "e970fe242cd06fc8432343996b3e967f1bbc0df7bfb90d7afb9c8d0e84aec869",
+      "shape": {
+        "fields": [
+          {
+            "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "lease_token",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdateAgentClaimRequest",
+      "wire_json": "{\"service_id\":\"\"}",
+      "wire_sha256": "1bcd5d4d95b5161987cc3bf582854ff70dc0a79240912613a8700a2cca4cffd9",
+      "shape": {
+        "fields": [
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdateAgentClaimResponse",
+      "wire_json": "{\"job\":{\"id\":\"\",\"target_id\":\"\",\"target_type\":\"\",\"host_id\":\"\",\"deployment_mode\":\"\",\"current_version\":\"\",\"target_version\":\"\",\"strategy\":\"\",\"status\":\"\",\"idempotency_key\":\"\",\"lease_generation\":0,\"sequence\":0,\"progress\":0,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"},\"lease_token\":\"\",\"lease_expires_at\":\"0001-01-01T00:00:00Z\",\"lease_generation\":0,\"report_sequence\":0,\"recovery_required\":false,\"last_status\":\"\"}",
+      "wire_sha256": "22775b57991bd7c9e3a680efc9d0a7c19c89f5314ea4a1daa503042e9175aa3a",
+      "shape": {
+        "fields": [
+          {
+            "name": "job",
+            "shape": {
+              "fields": [
+                {
+                  "name": "created_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "current_version",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "deployment_mode",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "host_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "idempotency_key",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "lease_generation",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "progress",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "sequence",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "status",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "strategy",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "target_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "target_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "target_version",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "updated_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "last_status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "lease_expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "lease_token",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "recovery_required",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "report_sequence",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdateAgentClearActiveJobResponse",
+      "wire_json": "{\"clear_active_job_id\":false}",
+      "wire_sha256": "1e6401e28ad0be60d09c55f4439e5fe655e34418fd2d365b5f91a95e5b88452f",
+      "shape": {
+        "fields": [
+          {
+            "name": "clear_active_job_id",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdateAgentMutationGrantConsumeRequest",
+      "wire_json": "{\"lease_generation\":0,\"host_id\":\"\",\"target_id\":\"\",\"target_version\":\"\",\"deployment_mode\":\"\",\"operation\":\"\",\"plan_sha256\":\"\",\"session_id\":\"\"}",
+      "wire_sha256": "0a36a58886bfed522abbf351dac10ebdc30b2b4eceb8ef846e43b4296be134de",
+      "shape": {
+        "fields": [
+          {
+            "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "operation",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "plan_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "session_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdateAgentMutationGrantIssueRequest",
+      "wire_json": "{\"service_id\":\"\",\"lease_token\":\"\",\"lease_generation\":0,\"host_id\":\"\",\"target_id\":\"\",\"target_version\":\"\",\"deployment_mode\":\"\",\"operation\":\"\",\"plan_sha256\":\"\",\"session_id\":\"\"}",
+      "wire_sha256": "8f0b857399b6150fbe95d88be166f3572c654c12fa43af15474fc36d37e41df9",
+      "shape": {
+        "fields": [
+          {
+            "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "lease_token",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "operation",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "plan_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "session_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdateAgentMutationGrantIssueResponse",
+      "wire_json": "{\"grant_token\":\"\",\"expires_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "0377f41801cdf7f013e89df8916085692ccbafe06d9d2da5da8688e0af0027e5",
+      "shape": {
+        "fields": [
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "grant_token",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdateAgentReportRequest",
+      "wire_json": "{\"service_id\":\"\",\"lease_token\":\"\",\"lease_generation\":0,\"sequence\":0,\"status\":\"\"}",
+      "wire_sha256": "c4d76d88f4d39df99afe793d3d8197468ba02880c8cbfa20351da0305acfca74",
+      "shape": {
+        "fields": [
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "lease_token",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "sequence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "WorkerCaptionRuntimeSettingsRequest",
+      "wire_json": "{\"caption_profile_id\":\"\"}",
+      "wire_sha256": "43c823608dbd1817a5d181410776b8755074addb09c52ddefa923bfb1c659f82",
+      "shape": {
+        "fields": [
+          {
+            "name": "caption_profile_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "WorkerEvent",
+      "wire_json": "{\"id\":\"\",\"stream_id\":\"\",\"type\":\"\",\"payload\":null,\"timestamp\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "2ba397e85ef70b88feaa0580953739496d26ad7683e06a63385691c9164d397b",
+      "shape": {
+        "fields": [
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "payload",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "timestamp",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "WorkerStartJobRequest",
+      "wire_json": "{\"stream_id\":\"\"}",
+      "wire_sha256": "18ed26c12112412b3bffa032f734f6c4d21fafb3af3ccc88a9fb636ecd279a51",
+      "shape": {
+        "fields": [
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "WorkerStreamContext",
+      "wire_json": "{\"stream_id\":\"\"}",
+      "wire_sha256": "18ed26c12112412b3bffa032f734f6c4d21fafb3af3ccc88a9fb636ecd279a51",
+      "shape": {
+        "fields": [
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "YouTubeLiveNotificationRequest",
+      "wire_json": "{\"event_id\":\"\",\"watch_url\":\"\"}",
+      "wire_sha256": "8afce248bd07f50f297341e7f312654869434b5d944d96e94e9fc163e7a0fe75",
+      "shape": {
+        "fields": [
+          {
+            "name": "event_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "watch_url",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "YouTubeLiveNotificationResponse",
+      "wire_json": "{\"status\":\"\",\"message_id\":\"\",\"already_sent\":false}",
+      "wire_sha256": "26b9e22cbedb7efd161fec49972fb11756ffce15688ca1f47027d4eb32d278c9",
+      "shape": {
+        "fields": [
+          {
+            "name": "already_sent",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "message_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "YouTubeOutput",
+      "wire_json": "{\"id\":\"\",\"name\":\"\",\"mode\":\"\",\"complete_on_stop\":false,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "378f4bb7ff5b5da82ba9d35d2d50074b96c47da987d1884c1998bbb78b8ff740",
+      "shape": {
+        "fields": [
+          {
+            "name": "complete_on_stop",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "created_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "YouTubeOutputWriteRequest",
+      "wire_json": "{\"name\":\"\",\"mode\":\"\"}",
+      "wire_sha256": "ac117299499c708f074255800b26c446209da35988d791a53865a7546f176a01",
+      "shape": {
+        "fields": [
+          {
+            "name": "mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "YouTubeRelayStaticRecoveryResolveRequest",
+      "wire_json": "{\"confirm_external_cleanup\":false}",
+      "wire_sha256": "d498a10b0e6594ff192ac6ada15391bf71070c1aac02f7c8d2dea9f8c7f7a87a",
+      "shape": {
+        "fields": [
+          {
+            "name": "confirm_external_cleanup",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "YouTubeRelayStaticRecoveryResolveResponse",
+      "wire_json": "{\"resolved\":false,\"cleanup\":\"\",\"relay_binding_id\":\"\"}",
+      "wire_sha256": "74144900340fd8fe5219f2a6917630ec8c778a0ae154045b99f8f2c9079eff59",
+      "shape": {
+        "fields": [
+          {
+            "name": "cleanup",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "relay_binding_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "resolved",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "YouTubeRuntimeConfig",
+      "wire_json": "{\"mode\":\"\"}",
+      "wire_sha256": "f38d8d7346d3b73371fbb8b07b77f1a696d0ec47f93b9ad84d6f4b95c945e9f5",
+      "shape": {
+        "fields": [
+          {
+            "name": "mode",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    }
+  ]
+}

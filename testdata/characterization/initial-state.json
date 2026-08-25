@@ -1,0 +1,44 @@
+{
+  "format_version": 1,
+  "repository": "autostream-contracts",
+  "branch": "main",
+  "head": "0d670fa51204a950f97dc1d68c101a518d1dd2b0",
+  "expected_base_head": "0d670fa51204a950f97dc1d68c101a518d1dd2b0",
+  "expected_base_matched": true,
+  "starting_worktree_clean": true,
+  "schema_file_count": 112,
+  "schema_id_count": 52,
+  "schema_ref_count": 136,
+  "openapi_entrypoint_count": 4,
+  "openapi_entrypoints": [
+    "openapi/control-api.yaml",
+    "openapi/discord-bot-api.yaml",
+    "openapi/encoder-recorder-api.yaml",
+    "openapi/observability-api.yaml"
+  ],
+  "exported_package_identifier_count": 479,
+  "exported_identifier_kind_counts": {
+    "const": 302,
+    "func": 1,
+    "type": 174,
+    "var": 2
+  },
+  "prior_report_exported_identifier_count": 479,
+  "prior_report_difference": null,
+  "exported_struct_shaped_type_count": 143,
+  "types_go_loc": 2153,
+  "package_graph": {
+    "package_count": 1,
+    "packages": [
+      {
+        "import_path": "github.com/example/autostream-contracts/pkg/contracts",
+        "module_local_imports": [],
+        "dependency_errors": 0
+      }
+    ],
+    "import_cycle": false
+  },
+  "go_version": "go1.26.5 windows/amd64",
+  "redocly_version": "2.39.0",
+  "node_version": "v26.5.0"
+}

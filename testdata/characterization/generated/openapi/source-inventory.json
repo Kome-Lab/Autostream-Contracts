@@ -1,0 +1,2271 @@
+{
+  "entrypoint_count": 4,
+  "entrypoints": [
+    "openapi/control-api.yaml",
+    "openapi/discord-bot-api.yaml",
+    "openapi/encoder-recorder-api.yaml",
+    "openapi/observability-api.yaml"
+  ],
+  "external_network_refs": [],
+  "format_version": 1,
+  "missing_local_refs": [],
+  "refs": [
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/auditAction"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/auditAction"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/auditActionGroup"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/auditActionGroup"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/auditQuery"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/auditQuery"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/auditResult"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/auditResult"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/limit"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/limit"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/notificationId"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/previewAssetName"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/previewAssetName"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/delete"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/delete"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/delete"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/delete"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/get"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/get"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/get"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/get"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/put"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/put"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/itemProfile/put"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/listCreateProfile/get"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/listCreateProfile/get"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/listCreateProfile/get"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/listCreateProfile/get"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/listCreateProfile/post"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/listCreateProfile/post"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/listCreateProfile/post"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/pathItems/listCreateProfile/post"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/AppSettingsWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ControlNotificationChannelCreateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ControlNotificationChannelUpdateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ControlNotificationChannelUpdateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiagnosticRerunResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordConfig"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordConfig"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordConfig"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordConfig"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordConfigWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordConfigWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordYouTubeLiveNotification"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordYouTubeLiveNotificationRecoveryRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordYouTubeLiveNotificationResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DiscordYouTubeLiveNotificationResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DriveDestination"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DriveDestinationWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/DriveDestinationWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/EncoderOutputRelayCapabilities"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/EncoderOutputRelayCapabilities"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/EncoderOutputRelayCapabilities"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/EncoderOutputRelayCapabilities"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/EncoderOutputRelayCapabilities"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/EncoderOutputRelayMode"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/EncoderRuntimeSettingsRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ErrorResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ExternalE2EConfigResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/Heartbeat"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostAgentPolicyRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostAgentPolicyResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostAgentPolicyTarget"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostAgentRuntimeRequirement"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostAgentSelfUpdateDirective"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdate"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdate"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdate"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdate"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateCancelRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateCreateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateGrantConsumeRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateGrantConsumeResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateGrantIssueRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateGrantIssueResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateListResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateRelease"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/HostSelfUpdateRetryRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ManagedAppSettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ManagedAppSettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/MissingStreamAssignmentsResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/MissingStreamAssignmentsResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/MissingStreamAssignmentsResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/NotificationChannel"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/NotificationChannel"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/NotificationChannel"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/NotificationChannel"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/NotificationDeliveryResult"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthAccount"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthAccount"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthAccount"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthAccountConnectionCallbackRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthAccountConnectionStartRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthAccountConnectionStartResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthAccountLabelUpdateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthAccountWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthLoginCallbackRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthLoginProvider"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthLoginProvider"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthLoginStartRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthLoginStartResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthProvider"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthProviderWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthProviderWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthUserLink"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/OAuthUserLinkWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PasskeyCredential"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PasskeyCredential"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PasskeyLoginFinishRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PasskeyLoginStartRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PasskeyLoginStartResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PasskeyRegistrationFinishRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PasskeyRegistrationStartResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/Profile"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PublicAppSettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ReadinessIssue"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/RegisteredService"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/RegisteredService"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/RegisteredService"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/RegisteredService"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/RegisteredService"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SecuritySettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SecuritySettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SecuritySettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceArtifactReport"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceAssignmentWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceAssignmentWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceEndpoint"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceEndpoint"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceEndpoint"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceEndpoint"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceEndpoint"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceEndpoint"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceEndpoint"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationEmailRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationEmailResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceObservabilitySignal"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceRegistrationRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceRemediationExecuteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceRuntimeConfig"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceRuntimeSecretResolveRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceRuntimeSecretResolveResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ServiceTokenCreateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SessionRefreshResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StartReadinessResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StartStreamRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StartStreamRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamArtifact"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamPreviewLink"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamServiceAssignment"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamSettingsWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateAgentStatus"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateCreateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateDockerPortReconfiguration"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateDockerPortReconfiguration"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateHostStatus"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateJob"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateJob"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateJob"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateJob"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateJob"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatePortMapping"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatePortMutationGrantBinding"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatePortMutationGrantBinding"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatePortReconfiguration"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatePullOwnershipActivateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatePullOwnershipActivateResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatePullOwnershipDeactivateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatePullOwnershipDeactivateResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdateTarget"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemUpdatesResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdateAgentClaimRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdateAgentClaimResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdateAgentClearActiveJobResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdateAgentLeaseClaimResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdateAgentMutationGrantConsumeRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdateAgentMutationGrantIssueRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdateAgentMutationGrantIssueResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdateAgentReportRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/User"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/User"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/User"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/User"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UserCreateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UserUpdateRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/YouTubeOutput"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/YouTubeOutput"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/YouTubeOutput"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/YouTubeOutput"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/YouTubeOutputWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/YouTubeOutputWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/YouTubeRelayStaticRecoveryResolveRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/YouTubeRelayStaticRecoveryResolveResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/diagnostic-rerun-response.schema.json",
+      "value": "../schemas/diagnostic-rerun-response.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/encoder-runtime-settings-request.schema.json",
+      "value": "../schemas/encoder-runtime-settings-request.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/host-agent-self-update-directive.schema.json",
+      "value": "../schemas/host-agent-self-update-directive.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/host-self-update-grant-consume-request.schema.json",
+      "value": "../schemas/host-self-update-grant-consume-request.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/host-self-update-grant-consume-response.schema.json",
+      "value": "../schemas/host-self-update-grant-consume-response.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/host-self-update-grant-issue-response.schema.json",
+      "value": "../schemas/host-self-update-grant-issue-response.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/host-self-update-grant.schema.json",
+      "value": "../schemas/host-self-update-grant.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/host-self-update-release-binding.schema.json",
+      "value": "../schemas/host-self-update-release-binding.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/oauth-account-connection-start-response.schema.json",
+      "value": "../schemas/oauth-account-connection-start-response.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/youtube-relay-static-recovery-resolve-request.schema.json",
+      "value": "../schemas/youtube-relay-static-recovery-resolve-request.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/youtube-relay-static-recovery-resolve-response.schema.json",
+      "value": "../schemas/youtube-relay-static-recovery-resolve-response.schema.json"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/DiscordBotStartJobRequest"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/ServiceNotificationError"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/YouTubeLiveNotificationRequest"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "openapi/discord-bot-api.yaml",
+      "value": "#/components/schemas/YouTubeLiveNotificationResponse"
+    },
+    {
+      "source": "openapi/discord-bot-api.yaml",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "../schemas/discord-bot-start-job-request.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderRuntimeSettingsRequest"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderStartStreamRequest"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderStartStreamResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-runtime-settings-request.schema.json",
+      "value": "../schemas/encoder-runtime-settings-request.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-stream-request.schema.json",
+      "value": "../schemas/encoder-start-stream-request.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-stream-response.schema.json",
+      "value": "../schemas/encoder-start-stream-response.schema.json"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/DiagnosticRerunResponse"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationChannel"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationChannel"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationChannel"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationChannel"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationChannelCreateRequest"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationChannelWriteRequest"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationChannelWriteRequest"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationDeliveryResult"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationDeliveryResult"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/NotificationEventWriteRequest"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/ObservabilitySignal"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "openapi/observability-api.yaml",
+      "value": "#/components/schemas/RemediationDispatchContext"
+    },
+    {
+      "source": "openapi/observability-api.yaml",
+      "target": "schemas/diagnostic-rerun-response.schema.json",
+      "value": "../schemas/diagnostic-rerun-response.schema.json"
+    },
+    {
+      "source": "schemas/diagnostic-rerun-response.schema.json",
+      "target": "schemas/incident.schema.json",
+      "value": "incident.schema.json"
+    },
+    {
+      "source": "schemas/encoder-start-stream-request.schema.json",
+      "target": "schemas/youtube-runtime-config.schema.json",
+      "value": "youtube-runtime-config.schema.json"
+    },
+    {
+      "source": "schemas/host-agent-self-update-directive.schema.json",
+      "target": "schemas/host-self-update-release-binding.schema.json",
+      "value": "host-self-update-release-binding.schema.json"
+    },
+    {
+      "source": "schemas/host-self-update-grant-consume-request.schema.json",
+      "target": "schemas/host-self-update-grant.schema.json",
+      "value": "host-self-update-grant.schema.json"
+    },
+    {
+      "source": "schemas/host-self-update-grant-consume-response.schema.json",
+      "target": "schemas/host-self-update-grant.schema.json",
+      "value": "host-self-update-grant.schema.json"
+    },
+    {
+      "source": "schemas/host-self-update-grant-issue-response.schema.json",
+      "target": "schemas/host-self-update-grant.schema.json",
+      "value": "host-self-update-grant.schema.json"
+    },
+    {
+      "source": "schemas/host-self-update-grant.schema.json",
+      "target": "schemas/host-self-update-release-binding.schema.json",
+      "value": "host-self-update-release-binding.schema.json"
+    },
+    {
+      "source": "schemas/incident.schema.json",
+      "target": "schemas/incident.schema.json",
+      "value": "#/$defs/diagnostic_report"
+    },
+    {
+      "source": "schemas/oauth-account-connection-start-response.schema.json",
+      "target": "schemas/oauth-login-provider.schema.json",
+      "value": "oauth-login-provider.schema.json"
+    }
+  ],
+  "source_file_count": 21,
+  "source_files": [
+    {
+      "normalized_source_sha256": "d57218e91e177f1b2ecb70d3c5097876dec1b8a62c68841f08dcc70c59f2e914",
+      "path": "openapi/control-api.yaml"
+    },
+    {
+      "normalized_source_sha256": "adca362bebf431bd2c720fbf1e6f9925cd8d0e85519dcbaf4398f9bc98f5366c",
+      "path": "openapi/discord-bot-api.yaml"
+    },
+    {
+      "normalized_source_sha256": "88f009e4d63ae29434be28e617f645bb5fd79c25e8b3d9d413723dbb06ff31cb",
+      "path": "openapi/encoder-recorder-api.yaml"
+    },
+    {
+      "normalized_source_sha256": "bdc42db52887d79e9250a482be655fbf4b7b6100afad6571269faa75c5c8f04b",
+      "path": "openapi/observability-api.yaml"
+    },
+    {
+      "normalized_source_sha256": "c526a9d7e921d782353344208ed87bfae898832111b4ec9c828dad9a4d7eca1d",
+      "path": "schemas/diagnostic-rerun-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "a44c198a20e7c7956ab2344333637806a64305826f612632d5683b665c483134",
+      "path": "schemas/discord-bot-start-job-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "3a5fb1db46a5b4a93946f0cf16ca0ae4618534a284a8b2daf325fcb7b7a14453",
+      "path": "schemas/encoder-runtime-settings-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "fd1d5cbd7bed8146e8c3a66f23e9ca46b8306a79906de02dbdc0d0055d145029",
+      "path": "schemas/encoder-start-stream-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "d3513e2258ee7c544a71991e314067396d3bca0b3000d46c2e239f965a77c74f",
+      "path": "schemas/encoder-start-stream-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "13d60b15034095f967e55837bab9546bb72666942fde4d8affa1a48ced00fdcc",
+      "path": "schemas/host-agent-self-update-directive.schema.json"
+    },
+    {
+      "normalized_source_sha256": "bf2767132bfe11b27420bf6f0b616157068515d977f37736384c600790458d19",
+      "path": "schemas/host-self-update-grant-consume-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "bf52dbe203146ed5f0da3a9b002fbe578c22e28b013946b2fe62f1bcae7b8dc0",
+      "path": "schemas/host-self-update-grant-consume-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "684cc1913c1a38be11124bce8bba366740cafeeefaf88c35a293d19c1941962b",
+      "path": "schemas/host-self-update-grant-issue-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "8e4d0b104a4beb0fd6e6621ddf285053c02062735645cf38285363c88f401b5a",
+      "path": "schemas/host-self-update-grant.schema.json"
+    },
+    {
+      "normalized_source_sha256": "69fe27d8d9e13e39f46a1455c939d1f5318dbde5d04a677dc66ddaa4312b971f",
+      "path": "schemas/host-self-update-release-binding.schema.json"
+    },
+    {
+      "normalized_source_sha256": "1fbb1d743dcf109ce081988497fe647914b6de91b20a174f2882250f76ec4804",
+      "path": "schemas/incident.schema.json"
+    },
+    {
+      "normalized_source_sha256": "aad18d65f7e389dd273e2e98ef18a9703fff83ac625a22909e2e2613c84a6b7d",
+      "path": "schemas/oauth-account-connection-start-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "729166fd936f673bd30fb65a4c5fd3a2ecf200328828189b3b911fe21f9aacb6",
+      "path": "schemas/oauth-login-provider.schema.json"
+    },
+    {
+      "normalized_source_sha256": "b753ae827b516f3df85860710af6e87786f3afc6cdc3640fba7591595420637c",
+      "path": "schemas/youtube-relay-static-recovery-resolve-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "6bc3ca22313da94e2ef0e27a2dddb2db4ccd212f7e85bf54d0530754db80d1b9",
+      "path": "schemas/youtube-relay-static-recovery-resolve-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "cb23a535fe8a7438929fd6fb79368eeab7699c078e4ad6f1a7d8d3b3c5a07991",
+      "path": "schemas/youtube-runtime-config.schema.json"
+    }
+  ]
+}

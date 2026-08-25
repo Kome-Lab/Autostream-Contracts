@@ -1,0 +1,30 @@
+{
+  "apis": [
+    {
+      "api": "openapi/control-api.yaml",
+      "normalized_file": "openapi/normalized/control-api.json",
+      "normalized_sha256": "bf7a7d10fbb3679d8060c2237a4e80702fcfe17076ad649d0e7df14b6154d334",
+      "ref_layout_independent_sha256": "bed89313c5b417e6165c9b6419401457ba6ddf9fb5b043a585c2385164e3929b"
+    },
+    {
+      "api": "openapi/discord-bot-api.yaml",
+      "normalized_file": "openapi/normalized/discord-bot-api.json",
+      "normalized_sha256": "139337c2eeaab67a9f680c93dbe5ea025ae9ebd8d22cbcee732d08ca14803a86",
+      "ref_layout_independent_sha256": "54a7c7013180dcdf0152dccf8ac9ba8b6c36e87b803648d8a931fa765077c37e"
+    },
+    {
+      "api": "openapi/encoder-recorder-api.yaml",
+      "normalized_file": "openapi/normalized/encoder-recorder-api.json",
+      "normalized_sha256": "921c5b1d2084ccdee4e97d85314581610ec1323e6e874c40803eaa3630a1d684",
+      "ref_layout_independent_sha256": "b5cfd55cdb2b21bc488048f8085474734bd27f8e4963f3116cb4319910ba6a5b"
+    },
+    {
+      "api": "openapi/observability-api.yaml",
+      "normalized_file": "openapi/normalized/observability-api.json",
+      "normalized_sha256": "b6089a3e9b58f4b173b666f7a094c3d5e6275caaa80f86ac7614fd4435a2acdf",
+      "ref_layout_independent_sha256": "ac5efca91638b44560f057cca51460cb20ce2ffb1fe080427b78e9aaf8b95455"
+    }
+  ],
+  "format_version": 1,
+  "redocly_version": "2.39.0"
+}
