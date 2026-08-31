@@ -10,26 +10,74 @@ paths:
   /updater/version:
     get:
       operationId: getUpdaterVersion
-      summary: Read the running binary's embedded release version
+      summary: Read the Discord Bot application runtime identity
       description: >
-        Unauthenticated endpoint for the host-local update helper. Deployments must
-        keep this path on loopback or block it at the public reverse proxy. The value
-        comes from the running binary and never from SERVICE_VERSION.
+        Historical route name retained without introducing a /v2 URI prefix. This is
+        an application-owned runtime identity probe consumed by the Local Executor
+        during update verification; it is not Updater health. The current source has
+        no explicit route-level no-store behavior. A later consumer implementation
+        must emit the exact Cache-Control no-store response declared here.
+      x-autostream-semantic-name: application_runtime_identity_probe
+      x-autostream-current-source-cache-control: no_explicit_route_level_no_store
+      x-autostream-v2-target-cache-control: no-store
       security: []
       responses:
         "200":
-          description: embedded release version
+          description: Discord Bot runtime identity
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
           content:
             application/json:
               schema:
                 type: object
                 additionalProperties: false
-                required: [version]
+                required: [version, service_id, service_type, config_revision]
+                allOf:
+                  - required: [version]
                 properties:
                   version:
                     type: string
                     pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
-                    example: v1.1.1
+                    example: v2.0.0
+                  service_id:
+                    type: string
+                    minLength: 1
+                    maxLength: 128
+                    pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'
+                  service_type: {type: string, const: discord_bot}
+                  config_revision: {type: integer, minimum: 1}
+        "503":
+          description: Discord Bot runtime identity is unavailable; the response is safe and contains no raw configuration
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [code, message]
+                properties:
+                  code: {type: string, enum: [application_probe_unavailable, application_probe_identity_invalid, application_probe_revision_unknown]}
+                  message: {type: string, maxLength: 240}
+        "405":
+          description: method not allowed
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [code, message]
+                properties:
+                  code: {type: string, const: method_not_allowed}
+                  message: {type: string, maxLength: 240}
 
   /jobs/start:
     post:

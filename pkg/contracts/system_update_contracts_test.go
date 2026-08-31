@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -189,24 +190,18 @@ func TestSystemUpdatePublicSchemasMatchControlPanelWireShape(t *testing.T) {
 		t.Fatal("job code constraints differ from Control Panel validation")
 	}
 
-	openAPIBody, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	openAPI := string(openAPIBody)
-	start := strings.Index(openAPI, "    SystemUpdateJob:")
-	end := strings.Index(openAPI, "    SystemUpdateAgentStatus:")
-	if start < 0 || end <= start {
-		t.Fatal("control OpenAPI is missing the SystemUpdateJob component")
-	}
-	jobComponent := openAPI[start:end]
-	for _, field := range []string{"updater_id:", "host_id:"} {
-		if !strings.Contains(jobComponent, field) {
+	control := readNormalizedOpenAPICharacterization(t, "control-api.json")
+	components := requireCharacterizationMap(t, control, "components")
+	schemas := requireCharacterizationMap(t, components, "schemas")
+	jobComponent := resolveCharacterizationSchema(t, control, schemas["SystemUpdateJob"])
+	jobProperties := requireCharacterizationMap(t, jobComponent, "properties")
+	for _, field := range []string{"updater_id", "host_id"} {
+		if _, ok := jobProperties[field]; !ok {
 			t.Fatalf("control OpenAPI job is missing %s", field)
 		}
 	}
-	for _, hidden := range []string{"agent_service_id:", "execution_host_id:", "requested_by_user_id:"} {
-		if strings.Contains(jobComponent, hidden) {
+	for _, hidden := range []string{"agent_service_id", "execution_host_id", "requested_by_user_id"} {
+		if _, ok := jobProperties[hidden]; ok {
 			t.Fatalf("control OpenAPI job exposes internal field %q", hidden)
 		}
 	}
@@ -690,24 +685,37 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 		})
 	}
 
-	openAPI, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
-	if err != nil {
-		t.Fatal(err)
+	control := readNormalizedOpenAPICharacterization(t, "control-api.json")
+	paths := requireCharacterizationMap(t, control, "paths")
+	operation := requireCharacterizationMap(t,
+		requireCharacterizationMap(t, paths, "/system-updates"), "get")
+	responses := requireCharacterizationMap(t, operation, "responses")
+	success := resolveCharacterizationSchema(t, control, responses["200"])
+	content := requireCharacterizationMap(t, success, "content")
+	jsonContent := requireCharacterizationMap(t, content, "application/json")
+	responseSchema := resolveCharacterizationSchema(t, control, jsonContent["schema"])
+	components := requireCharacterizationMap(t, control, "components")
+	schemas := requireCharacterizationMap(t, components, "schemas")
+	responseComponent := resolveCharacterizationSchema(t, control, schemas["SystemUpdatesResponse"])
+	if !reflect.DeepEqual(responseSchema, responseComponent) {
+		t.Fatal("GET /system-updates does not use the canonical SystemUpdatesResponse component")
 	}
-	for _, marker := range []string{
-		"SystemUpdateAgentStatus:", "SystemUpdateHostStatus:", "required: [updaters, hosts, targets, jobs]",
-		"enum: [reachable, unreachable, unknown]", "reachability_checked_at:", "reachability_code:",
-		"required: [updater_id, name, status, online, version]",
-		"transport_mode: {enum: [ssh_v1, pull_v2]}", "execution_host_id:", "ownership_epoch:",
-		"desired_revision:", "applied_revision:", "policy_status: {enum: [applied, pending, failed]}",
-		"policy_error_code:", "ssh_client_public_keys:", "ssh_client_key_fingerprints:",
-		"bootstrap_encryption_public_key:", "bootstrap_encryption_key_fingerprint:",
-		"ssh_client_public_key:", "ssh_client_key_fingerprint:",
-		`pattern: "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$"`,
-		`pattern: "^B[A-Za-z0-9_-]{86}$"`, `pattern: "^SHA256:[A-Za-z0-9+/]{43}$"`,
+	assertExactCharacterizationProperties(t, responseSchema, []string{"updaters", "hosts", "targets", "jobs"})
+	responseProperties := requireCharacterizationMap(t, responseSchema, "properties")
+	for property, componentName := range map[string]string{
+		"updaters": "SystemUpdateAgentStatus",
+		"hosts":    "SystemUpdateHostStatus",
+		"targets":  "SystemUpdateTarget",
+		"jobs":     "SystemUpdateJob",
 	} {
-		if !strings.Contains(string(openAPI), marker) {
-			t.Fatalf("control OpenAPI is missing inventory-host marker %q", marker)
+		arraySchema := requireCharacterizationMap(t, responseProperties, property)
+		if arraySchema["type"] != "array" {
+			t.Fatalf("GET /system-updates %s is %v, want array", property, arraySchema["type"])
+		}
+		itemSchema := resolveCharacterizationSchema(t, control, arraySchema["items"])
+		componentSchema := resolveCharacterizationSchema(t, control, schemas[componentName])
+		if !reflect.DeepEqual(itemSchema, componentSchema) {
+			t.Fatalf("GET /system-updates %s does not use %s", property, componentName)
 		}
 	}
 }

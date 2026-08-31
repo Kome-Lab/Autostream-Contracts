@@ -637,7 +637,7 @@
     },
     "/updater/version": {
       "get": {
-        "description": "Unauthenticated endpoint for the host-local update helper. Deployments must keep this path on loopback or block it at the public reverse proxy. The value comes from the running binary and never from SERVICE_VERSION.\n",
+        "description": "Historical route name retained without introducing a /v2 URI prefix. This is an application-owned runtime identity probe consumed by the Local Executor during update verification; it is not Updater health. The current source has no explicit route-level no-store behavior. A later consumer implementation must emit the exact Cache-Control no-store response declared here.\n",
         "operationId": "getUpdaterVersion",
         "responses": {
           "200": {
@@ -645,25 +645,133 @@
               "application/json": {
                 "schema": {
                   "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "required": [
+                        "version"
+                      ]
+                    }
+                  ],
                   "properties": {
+                    "config_revision": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "service_id": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                      "type": "string"
+                    },
+                    "service_type": {
+                      "const": "encoder_recorder",
+                      "type": "string"
+                    },
                     "version": {
-                      "example": "v1.1.1",
+                      "example": "v2.0.0",
                       "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
                       "type": "string"
                     }
                   },
                   "required": [
-                    "version"
+                    "version",
+                    "service_id",
+                    "service_type",
+                    "config_revision"
                   ],
                   "type": "object"
                 }
               }
             },
-            "description": "embedded release version"
+            "description": "Encoder Recorder runtime identity",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "const": "method_not_allowed",
+                      "type": "string"
+                    },
+                    "message": {
+                      "maxLength": 240,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "method not allowed",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "application_probe_unavailable",
+                        "application_probe_identity_invalid",
+                        "application_probe_revision_unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "message": {
+                      "maxLength": 240,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Encoder Recorder runtime identity is unavailable; the response is safe and contains no raw configuration",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "security": [],
-        "summary": "Read the running binary's embedded release version"
+        "summary": "Read the Encoder Recorder application runtime identity",
+        "x-autostream-current-source-cache-control": "no_explicit_route_level_no_store",
+        "x-autostream-semantic-name": "application_runtime_identity_probe",
+        "x-autostream-v2-target-cache-control": "no-store"
       }
     }
   },

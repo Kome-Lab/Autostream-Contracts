@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "constant_count": 302,
+  "constant_count": 331,
   "constants": [
     {
       "name": "AssignmentRolePrimary",
@@ -976,6 +976,84 @@
       "value": "\"host\""
     },
     {
+      "name": "RemediationActionClearStaleWarning",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"clear_stale_warning\""
+    },
+    {
+      "name": "RemediationActionHostBootstrap",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"host.bootstrap\""
+    },
+    {
+      "name": "RemediationActionHostDocker",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"host.docker\""
+    },
+    {
+      "name": "RemediationActionHostPort",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"host.port\""
+    },
+    {
+      "name": "RemediationActionHostSelfUpdate",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"host.self_update\""
+    },
+    {
+      "name": "RemediationActionHostSystemd",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"host.systemd\""
+    },
+    {
+      "name": "RemediationActionHostUpdate",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"host.update\""
+    },
+    {
+      "name": "RemediationActionRefreshServiceStatus",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"refresh_service_status\""
+    },
+    {
+      "name": "RemediationActionRerunDiagnostics",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"rerun_diagnostics\""
+    },
+    {
+      "name": "RemediationActionRetryGDriveUpload",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"application.retry_gdrive_upload\""
+    },
+    {
+      "name": "RemediationActionRetryPackageRemux",
+      "type": "RemediationActionType",
+      "enum_type": "RemediationActionType",
+      "value": "\"application.retry_package_remux\""
+    },
+    {
+      "name": "RemediationAuthorityTargetApplication",
+      "type": "RemediationExecutionAuthority",
+      "enum_type": "RemediationExecutionAuthority",
+      "value": "\"target_application\""
+    },
+    {
+      "name": "RemediationAuthorityUpdater",
+      "type": "RemediationExecutionAuthority",
+      "enum_type": "RemediationExecutionAuthority",
+      "value": "\"updater\""
+    },
+    {
       "name": "RemediationDisabled",
       "type": "RemediationMode",
       "enum_type": "RemediationMode",
@@ -988,10 +1066,46 @@
       "value": "\"manual_approval\""
     },
     {
+      "name": "RemediationResultAmbiguous",
+      "type": "RemediationResult",
+      "enum_type": "RemediationResult",
+      "value": "\"ambiguous\""
+    },
+    {
+      "name": "RemediationResultFailed",
+      "type": "RemediationResult",
+      "enum_type": "RemediationResult",
+      "value": "\"failed\""
+    },
+    {
+      "name": "RemediationResultRolledBack",
+      "type": "RemediationResult",
+      "enum_type": "RemediationResult",
+      "value": "\"rolled_back\""
+    },
+    {
+      "name": "RemediationResultSucceeded",
+      "type": "RemediationResult",
+      "enum_type": "RemediationResult",
+      "value": "\"succeeded\""
+    },
+    {
       "name": "RemediationSafeAuto",
       "type": "RemediationMode",
       "enum_type": "RemediationMode",
       "value": "\"safe_auto\""
+    },
+    {
+      "name": "RemediationScopeApplicationLocal",
+      "type": "RemediationExecutionScope",
+      "enum_type": "RemediationExecutionScope",
+      "value": "\"application_local\""
+    },
+    {
+      "name": "RemediationScopeHostSystem",
+      "type": "RemediationExecutionScope",
+      "enum_type": "RemediationExecutionScope",
+      "value": "\"host_system\""
     },
     {
       "name": "RemediationSuggestOnly",
@@ -1706,6 +1820,66 @@
       "type": "UpdateTransportMode",
       "enum_type": "UpdateTransportMode",
       "value": "\"ssh_v1\""
+    },
+    {
+      "name": "UpdaterCapabilityBootstrap",
+      "type": "UpdaterCapability",
+      "enum_type": "UpdaterCapability",
+      "value": "\"host.bootstrap\""
+    },
+    {
+      "name": "UpdaterCapabilityDocker",
+      "type": "UpdaterCapability",
+      "enum_type": "UpdaterCapability",
+      "value": "\"host.docker\""
+    },
+    {
+      "name": "UpdaterCapabilityPort",
+      "type": "UpdaterCapability",
+      "enum_type": "UpdaterCapability",
+      "value": "\"host.port\""
+    },
+    {
+      "name": "UpdaterCapabilitySelfUpdate",
+      "type": "UpdaterCapability",
+      "enum_type": "UpdaterCapability",
+      "value": "\"host.self_update\""
+    },
+    {
+      "name": "UpdaterCapabilitySystemd",
+      "type": "UpdaterCapability",
+      "enum_type": "UpdaterCapability",
+      "value": "\"host.systemd\""
+    },
+    {
+      "name": "UpdaterCapabilityUpdate",
+      "type": "UpdaterCapability",
+      "enum_type": "UpdaterCapability",
+      "value": "\"host.update\""
+    },
+    {
+      "name": "UpdaterOutcomeAmbiguous",
+      "type": "UpdaterOutcome",
+      "enum_type": "UpdaterOutcome",
+      "value": "\"ambiguous\""
+    },
+    {
+      "name": "UpdaterOutcomeFailed",
+      "type": "UpdaterOutcome",
+      "enum_type": "UpdaterOutcome",
+      "value": "\"failed\""
+    },
+    {
+      "name": "UpdaterOutcomeRolledBack",
+      "type": "UpdaterOutcome",
+      "enum_type": "UpdaterOutcome",
+      "value": "\"rolled_back\""
+    },
+    {
+      "name": "UpdaterOutcomeSucceeded",
+      "type": "UpdaterOutcome",
+      "enum_type": "UpdaterOutcome",
+      "value": "\"succeeded\""
     },
     {
       "name": "WorkerEventActiveSpeaker",

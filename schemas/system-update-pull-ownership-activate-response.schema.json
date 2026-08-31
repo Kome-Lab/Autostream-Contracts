@@ -2,6 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SystemUpdatePullOwnershipActivateResponse",
   "description": "Server-owned pull_v2 ownership and policy fences returned after atomic activation. The response contains no credential or secret.",
+  "x-autostream-contract-major": 2,
+  "x-autostream-v2-transition-compatibility": {
+    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
+    "removal_wave": "Execution Bundle 8",
+    "final_state": "absent"
+  },
   "type": "object",
   "required": [
     "updater_id",
@@ -15,7 +21,29 @@
     "local_executor_policy_sha256"
   ],
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "required": ["protocol_version"] },
+      "then": {
+        "required": [
+          "protocol_version", "idempotency_key", "desired_revision", "applied_revision",
+          "fence", "capability"
+        ]
+      }
+    }
+  ],
   "properties": {
+    "protocol_version": { "const": 2 },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "desired_revision": { "type": "integer", "minimum": 1 },
+    "applied_revision": { "type": "integer", "minimum": 1 },
+    "fence": { "type": "integer", "minimum": 1 },
+    "capability": { "const": "host.update" },
     "updater_id": {
       "type": "string",
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"

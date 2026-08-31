@@ -2,6 +2,18 @@ openapi: 3.1.0
 info:
   title: AutoStream Observability API
   version: 0.2.0
+x-autostream-remediation-authority:
+  role: detect_propose_evidence
+  proposal_destination: control_panel
+  evidence_destination: control_panel
+  local_execution_scope: enumerated_observability_local_transitions_only
+  may_mint_cross_service_grant: false
+  may_execute_host_runtime: false
+  may_call_updater_directly: false
+  may_use_shared_control_panel_database_credentials: false
+  denied_actions: [delete_archives, rotate_credentials, change_roles, stop_live_stream, recreate_youtube_broadcast, revoke_service_tokens]
+  proposal_schema: {$ref: '#/components/schemas/RemediationProposal'}
+  local_transition_schema: {$ref: '#/components/schemas/ObservabilityLocalRemediationTransition'}
 servers:
   - url: https://observability.example.com
 security:
@@ -16,26 +28,74 @@ paths:
   /updater/version:
     get:
       operationId: getUpdaterVersion
-      summary: Read the running binary's embedded release version
+      summary: Read the Observability application runtime identity
       description: >
-        Unauthenticated endpoint for the host-local update helper. Deployments must
-        keep this path on loopback or block it at the public reverse proxy. The value
-        comes from the running binary and never from SERVICE_VERSION.
+        Historical route name retained without introducing a /v2 URI prefix. This is
+        an application-owned runtime identity probe consumed by the Local Executor
+        during update verification; it is not Updater health. The current source has
+        no explicit route-level no-store behavior. A later consumer implementation
+        must emit the exact Cache-Control no-store response declared here.
+      x-autostream-semantic-name: application_runtime_identity_probe
+      x-autostream-current-source-cache-control: no_explicit_route_level_no_store
+      x-autostream-v2-target-cache-control: no-store
       security: []
       responses:
         "200":
-          description: embedded release version
+          description: Observability runtime identity
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
           content:
             application/json:
               schema:
                 type: object
                 additionalProperties: false
-                required: [version]
+                required: [version, service_id, service_type, config_revision]
+                allOf:
+                  - required: [version]
                 properties:
                   version:
                     type: string
                     pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
-                    example: v1.1.1
+                    example: v2.0.0
+                  service_id:
+                    type: string
+                    minLength: 1
+                    maxLength: 128
+                    pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'
+                  service_type: {type: string, const: observability}
+                  config_revision: {type: integer, minimum: 1}
+        "503":
+          description: Observability runtime identity is unavailable; the response is safe and contains no raw configuration
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [code, message]
+                properties:
+                  code: {type: string, enum: [application_probe_unavailable, application_probe_identity_invalid, application_probe_revision_unknown]}
+                  message: {type: string, maxLength: 240}
+        "405":
+          description: method not allowed
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [code, message]
+                properties:
+                  code: {type: string, const: method_not_allowed}
+                  message: {type: string, maxLength: 240}
 
   /status:
     get:
@@ -269,6 +329,96 @@ components:
       schema:
         type: string
   schemas:
+    RemediationProposalEvidence:
+      type: object
+      additionalProperties: false
+      required: [evidence_code, observed_at, observed_revision]
+      properties:
+        evidence_code:
+          type: string
+          enum: [incident_detected, diagnostic_confirmed, retry_eligible, host_symptom_confirmed]
+        observed_at: {type: string, format: date-time}
+        observed_revision: {type: integer, format: int64, minimum: 1}
+        evidence_digest: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      description: Bounded secret-safe evidence. Raw logs, payloads, credentials, configuration, and command output are prohibited.
+    RemediationProposal:
+      type: object
+      additionalProperties: false
+      required:
+        - proposal_id
+        - incident_id
+        - detector
+        - target
+        - action_type
+        - proposal_revision
+        - required_capability
+        - evidence
+        - audit_correlation_id
+        - observed_at
+        - control_panel_authorization_required
+      properties:
+        proposal_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+        incident_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+        detector:
+          type: object
+          additionalProperties: false
+          required: [service_id, service_type]
+          properties:
+            service_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+            service_type: {type: string, const: observability}
+        target:
+          type: object
+          additionalProperties: false
+          required: [service_id, service_type]
+          properties:
+            service_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+            service_type: {type: string, enum: [control_panel, worker, encoder_recorder, discord_bot, observability]}
+            host_id: {type: string, minLength: 1, maxLength: 191, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$'}
+        action_type:
+          type: string
+          enum: [host.systemd, host.docker, host.update, host.bootstrap, host.port, host.self_update, application.retry_gdrive_upload, application.retry_package_remux]
+        proposal_revision: {type: integer, format: int64, minimum: 1}
+        required_capability:
+          type: string
+          enum: [host.systemd, host.docker, host.update, host.bootstrap, host.port, host.self_update, application.retry_gdrive_upload, application.retry_package_remux]
+        evidence:
+          type: array
+          minItems: 1
+          maxItems: 32
+          items: {$ref: '#/components/schemas/RemediationProposalEvidence'}
+        audit_correlation_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+        observed_at: {type: string, format: date-time}
+        control_panel_authorization_required: {type: boolean, const: true}
+      allOf:
+        - if: {properties: {action_type: {const: host.systemd}}, required: [action_type]}
+          then: {properties: {target: {required: [host_id]}, required_capability: {const: host.systemd}}}
+        - if: {properties: {action_type: {const: host.docker}}, required: [action_type]}
+          then: {properties: {target: {required: [host_id]}, required_capability: {const: host.docker}}}
+        - if: {properties: {action_type: {const: host.update}}, required: [action_type]}
+          then: {properties: {target: {required: [host_id]}, required_capability: {const: host.update}}}
+        - if: {properties: {action_type: {const: host.bootstrap}}, required: [action_type]}
+          then: {properties: {target: {required: [host_id]}, required_capability: {const: host.bootstrap}}}
+        - if: {properties: {action_type: {const: host.port}}, required: [action_type]}
+          then: {properties: {target: {required: [host_id]}, required_capability: {const: host.port}}}
+        - if: {properties: {action_type: {const: host.self_update}}, required: [action_type]}
+          then: {properties: {target: {required: [host_id]}, required_capability: {const: host.self_update}}}
+        - if: {properties: {action_type: {const: application.retry_gdrive_upload}}, required: [action_type]}
+          then: {properties: {target: {properties: {service_type: {const: encoder_recorder}}}, required_capability: {const: application.retry_gdrive_upload}}}
+        - if: {properties: {action_type: {const: application.retry_package_remux}}, required: [action_type]}
+          then: {properties: {target: {properties: {service_type: {const: encoder_recorder}}}, required_capability: {const: application.retry_package_remux}}}
+      description: Observability may detect and propose only. This object is not a grant and cannot name an executor, mint authority, or invoke Updater directly.
+    ObservabilityLocalRemediationTransition:
+      type: object
+      additionalProperties: false
+      required: [action_id, action_type, expected_revision, fence, idempotency_key, audit_correlation_id]
+      properties:
+        action_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+        action_type: {type: string, enum: [refresh_service_status, rerun_diagnostics, clear_stale_warning]}
+        expected_revision: {type: integer, format: int64, minimum: 1}
+        fence: {type: integer, format: int64, minimum: 1}
+        idempotency_key: {type: string, minLength: 1, maxLength: 128, pattern: '^[^\u0000-\u001F\u007F]+$'}
+        audit_correlation_id: {type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+      description: The complete enumerated Observability-local execution scope. Host and cross-service actions are not representable.
     ObservabilitySignal:
       type: object
       required: [type, name, service_id, service_type]

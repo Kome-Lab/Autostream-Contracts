@@ -210,7 +210,168 @@ const (
 	SystemUpdateCanceled       SystemUpdateStatus = "canceled"
 )
 
+type UpdaterCapability string
+
+const (
+	UpdaterCapabilitySystemd    UpdaterCapability = "host.systemd"
+	UpdaterCapabilityDocker     UpdaterCapability = "host.docker"
+	UpdaterCapabilityUpdate     UpdaterCapability = "host.update"
+	UpdaterCapabilityBootstrap  UpdaterCapability = "host.bootstrap"
+	UpdaterCapabilityPort       UpdaterCapability = "host.port"
+	UpdaterCapabilitySelfUpdate UpdaterCapability = "host.self_update"
+)
+
+type UpdaterOutcome string
+
+const (
+	UpdaterOutcomeSucceeded  UpdaterOutcome = "succeeded"
+	UpdaterOutcomeFailed     UpdaterOutcome = "failed"
+	UpdaterOutcomeRolledBack UpdaterOutcome = "rolled_back"
+	UpdaterOutcomeAmbiguous  UpdaterOutcome = "ambiguous"
+)
+
+type V2UpdaterSafeError struct {
+	Code               string `json:"code"`
+	Message            string `json:"message"`
+	Retryable          bool   `json:"retryable"`
+	AuditCorrelationID string `json:"audit_correlation_id,omitempty"`
+}
+
+type ApplicationRuntimeIdentityProbe struct {
+	Version        string                 `json:"version"`
+	ServiceID      string                 `json:"service_id"`
+	ServiceType    SystemUpdateTargetType `json:"service_type"`
+	ConfigRevision int64                  `json:"config_revision"`
+}
+
+type UpdaterHealth struct {
+	Status        string `json:"status"`
+	Revision      int64  `json:"revision"`
+	SafeErrorCode string `json:"safe_error_code,omitempty"`
+}
+
+type UpdaterTargetIdentity struct {
+	ServiceID              string                     `json:"service_id"`
+	ServiceType            SystemUpdateTargetType     `json:"service_type"`
+	DeploymentMode         SystemUpdateDeploymentMode `json:"deployment_mode"`
+	ExpectedConfigRevision int64                      `json:"expected_config_revision,omitempty"`
+}
+
+type UpdaterCommandIssuer struct {
+	ServiceID      string `json:"service_id"`
+	ServiceType    string `json:"service_type"`
+	Authentication string `json:"authentication"`
+	Permission     string `json:"permission"`
+}
+
+type UpdaterMutationAuthorization struct {
+	AuthorizationID         string                `json:"authorization_id"`
+	NonceID                 string                `json:"nonce_id"`
+	JobID                   string                `json:"job_id"`
+	UpdaterID               string                `json:"updater_id"`
+	HostID                  string                `json:"host_id"`
+	ActionType              UpdaterCapability     `json:"action_type"`
+	Target                  UpdaterTargetIdentity `json:"target"`
+	CanonicalArgumentDigest string                `json:"canonical_argument_digest"`
+	DesiredRevision         int64                 `json:"desired_revision"`
+	Fence                   int64                 `json:"fence"`
+	ExpiresAt               time.Time             `json:"expires_at"`
+	RequiredCapability      UpdaterCapability     `json:"required_capability"`
+	OneTime                 bool                  `json:"one_time"`
+}
+
+type UpdaterCommandEnvelope struct {
+	ProtocolVersion        int                          `json:"protocol_version"`
+	CommandID              string                       `json:"command_id"`
+	Issuer                 UpdaterCommandIssuer         `json:"issuer"`
+	IdempotencyKey         string                       `json:"idempotency_key"`
+	CanonicalPayloadDigest string                       `json:"canonical_payload_digest"`
+	MutationAuthorization  UpdaterMutationAuthorization `json:"mutation_authorization"`
+	AuditCorrelationID     string                       `json:"audit_correlation_id"`
+}
+
+type UpdaterLeaseEnvelope struct {
+	ProtocolVersion int                    `json:"protocol_version"`
+	LeaseID         string                 `json:"lease_id"`
+	LeaseGeneration int64                  `json:"lease_generation"`
+	Command         UpdaterCommandEnvelope `json:"command"`
+}
+
+type UpdaterEvidence struct {
+	EvidenceCode     string    `json:"evidence_code"`
+	ObservedAt       time.Time `json:"observed_at"`
+	ObservedRevision int64     `json:"observed_revision"`
+	ArtifactDigest   string    `json:"artifact_digest,omitempty"`
+}
+
+type UpdaterProgressEnvelope struct {
+	ProtocolVersion    int       `json:"protocol_version"`
+	CommandID          string    `json:"command_id"`
+	JobID              string    `json:"job_id"`
+	UpdaterID          string    `json:"updater_id"`
+	HostID             string    `json:"host_id"`
+	Sequence           int64     `json:"sequence"`
+	Phase              string    `json:"phase"`
+	Progress           int       `json:"progress"`
+	DesiredRevision    int64     `json:"desired_revision"`
+	Fence              int64     `json:"fence"`
+	AuditCorrelationID string    `json:"audit_correlation_id"`
+	ObservedAt         time.Time `json:"observed_at"`
+}
+
+type UpdaterResultEnvelope struct {
+	ProtocolVersion        int                 `json:"protocol_version"`
+	CommandID              string              `json:"command_id"`
+	JobID                  string              `json:"job_id"`
+	UpdaterID              string              `json:"updater_id"`
+	HostID                 string              `json:"host_id"`
+	IdempotencyKey         string              `json:"idempotency_key"`
+	CanonicalPayloadDigest string              `json:"canonical_payload_digest"`
+	AuthorizationID        string              `json:"authorization_id"`
+	DesiredRevision        int64               `json:"desired_revision"`
+	AppliedRevision        int64               `json:"applied_revision,omitempty"`
+	Fence                  int64               `json:"fence"`
+	Outcome                UpdaterOutcome      `json:"outcome"`
+	Status                 SystemUpdateStatus  `json:"status"`
+	AutomaticResendAllowed bool                `json:"automatic_resend_allowed"`
+	AuditCorrelationID     string              `json:"audit_correlation_id"`
+	Evidence               []UpdaterEvidence   `json:"evidence"`
+	SafeError              *V2UpdaterSafeError `json:"safe_error,omitempty"`
+}
+
+type UpdaterHeartbeat struct {
+	ProtocolVersion int                 `json:"protocol_version"`
+	UpdaterID       string              `json:"updater_id"`
+	HostID          string              `json:"host_id"`
+	ServiceID       string              `json:"service_id"`
+	Authentication  string              `json:"authentication"`
+	Sequence        int64               `json:"sequence"`
+	Capabilities    []UpdaterCapability `json:"capabilities"`
+	DesiredRevision int64               `json:"desired_revision"`
+	AppliedRevision int64               `json:"applied_revision"`
+	Fence           int64               `json:"fence"`
+	Status          string              `json:"status"`
+	ObservedAt      time.Time           `json:"observed_at"`
+	SafeError       *V2UpdaterSafeError `json:"safe_error,omitempty"`
+}
+
+type UpdaterLocalJournalBoundary struct {
+	JournalID              string    `json:"journal_id"`
+	UpdaterID              string    `json:"updater_id"`
+	HostID                 string    `json:"host_id"`
+	CommandID              string    `json:"command_id"`
+	AuthorizationID        string    `json:"authorization_id"`
+	IdempotencyKey         string    `json:"idempotency_key"`
+	CanonicalPayloadDigest string    `json:"canonical_payload_digest"`
+	DesiredRevision        int64     `json:"desired_revision"`
+	Fence                  int64     `json:"fence"`
+	Phase                  string    `json:"phase"`
+	RecoveryState          string    `json:"recovery_state"`
+	RecordedAt             time.Time `json:"recorded_at"`
+}
+
 type SystemUpdateCreateRequest struct {
+	ProtocolVersion          int                   `json:"protocol_version,omitempty"`
 	Operation                SystemUpdateOperation `json:"operation,omitempty"`
 	TargetID                 string                `json:"target_id"`
 	Strategy                 SystemUpdateStrategy  `json:"strategy,omitempty"`
@@ -220,18 +381,32 @@ type SystemUpdateCreateRequest struct {
 	NewContainerPort         int                   `json:"new_container_port,omitempty"`
 	ExpectedEndpointRevision int64                 `json:"expected_endpoint_revision,omitempty"`
 	IdempotencyKey           string                `json:"idempotency_key"`
+	DesiredRevision          int64                 `json:"desired_revision,omitempty"`
+	Fence                    int64                 `json:"fence,omitempty"`
+	RequiredCapability       UpdaterCapability     `json:"required_capability,omitempty"`
 }
 
 type SystemUpdatePullOwnershipActivateRequest struct {
-	ExpectedExecutionHostID             string `json:"expected_execution_host_id"`
-	ExpectedOwnershipEpoch              int64  `json:"expected_ownership_epoch"`
-	ExpectedSourcePolicyRevision        int64  `json:"expected_source_policy_revision"`
-	ExpectedProjectionRevision          int64  `json:"expected_projection_revision"`
-	ExpectedLocalExecutorPolicyRevision int64  `json:"expected_local_executor_policy_revision"`
-	ExpectedLocalExecutorPolicySHA256   string `json:"expected_local_executor_policy_sha256"`
+	ProtocolVersion                     int               `json:"protocol_version,omitempty"`
+	IdempotencyKey                      string            `json:"idempotency_key,omitempty"`
+	DesiredRevision                     int64             `json:"desired_revision,omitempty"`
+	Fence                               int64             `json:"fence,omitempty"`
+	RequiredCapability                  UpdaterCapability `json:"required_capability,omitempty"`
+	ExpectedExecutionHostID             string            `json:"expected_execution_host_id"`
+	ExpectedOwnershipEpoch              int64             `json:"expected_ownership_epoch"`
+	ExpectedSourcePolicyRevision        int64             `json:"expected_source_policy_revision"`
+	ExpectedProjectionRevision          int64             `json:"expected_projection_revision"`
+	ExpectedLocalExecutorPolicyRevision int64             `json:"expected_local_executor_policy_revision"`
+	ExpectedLocalExecutorPolicySHA256   string            `json:"expected_local_executor_policy_sha256"`
 }
 
 type SystemUpdatePullOwnershipActivateResponse struct {
+	ProtocolVersion             int                 `json:"protocol_version,omitempty"`
+	IdempotencyKey              string              `json:"idempotency_key,omitempty"`
+	DesiredRevision             int64               `json:"desired_revision,omitempty"`
+	AppliedRevision             int64               `json:"applied_revision,omitempty"`
+	Fence                       int64               `json:"fence,omitempty"`
+	Capability                  UpdaterCapability   `json:"capability,omitempty"`
 	UpdaterID                   string              `json:"updater_id"`
 	ExecutionHostID             string              `json:"execution_host_id"`
 	TransportMode               UpdateTransportMode `json:"transport_mode"`
@@ -247,18 +422,29 @@ type SystemUpdatePullOwnershipActivateResponse struct {
 // compare-and-swap request. The previous ssh_v1 owner is deliberately absent:
 // the server restores only the owner it preserved during activation.
 type SystemUpdatePullOwnershipDeactivateRequest struct {
-	ExpectedExecutionHostID             string `json:"expected_execution_host_id"`
-	ExpectedOwnershipEpoch              int64  `json:"expected_ownership_epoch"`
-	ExpectedSourcePolicyRevision        int64  `json:"expected_source_policy_revision"`
-	ExpectedProjectionRevision          int64  `json:"expected_projection_revision"`
-	ExpectedLocalExecutorPolicyRevision int64  `json:"expected_local_executor_policy_revision"`
-	ExpectedLocalExecutorPolicySHA256   string `json:"expected_local_executor_policy_sha256"`
+	ProtocolVersion                     int               `json:"protocol_version,omitempty"`
+	IdempotencyKey                      string            `json:"idempotency_key,omitempty"`
+	DesiredRevision                     int64             `json:"desired_revision,omitempty"`
+	Fence                               int64             `json:"fence,omitempty"`
+	RequiredCapability                  UpdaterCapability `json:"required_capability,omitempty"`
+	ExpectedExecutionHostID             string            `json:"expected_execution_host_id"`
+	ExpectedOwnershipEpoch              int64             `json:"expected_ownership_epoch"`
+	ExpectedSourcePolicyRevision        int64             `json:"expected_source_policy_revision"`
+	ExpectedProjectionRevision          int64             `json:"expected_projection_revision"`
+	ExpectedLocalExecutorPolicyRevision int64             `json:"expected_local_executor_policy_revision"`
+	ExpectedLocalExecutorPolicySHA256   string            `json:"expected_local_executor_policy_sha256"`
 }
 
 // SystemUpdatePullOwnershipDeactivateResponse reports the restored ssh_v1
 // execution-host owner and the pull agent's observer epoch. It contains no
 // credential and does not expose a client-selectable legacy owner field.
 type SystemUpdatePullOwnershipDeactivateResponse struct {
+	ProtocolVersion             int                 `json:"protocol_version,omitempty"`
+	IdempotencyKey              string              `json:"idempotency_key,omitempty"`
+	DesiredRevision             int64               `json:"desired_revision,omitempty"`
+	AppliedRevision             int64               `json:"applied_revision,omitempty"`
+	Fence                       int64               `json:"fence,omitempty"`
+	Capability                  UpdaterCapability   `json:"capability,omitempty"`
 	UpdaterID                   string              `json:"updater_id"`
 	ExecutionHostID             string              `json:"execution_host_id"`
 	TransportMode               UpdateTransportMode `json:"transport_mode"`
@@ -284,58 +470,75 @@ type SystemUpdatePortMapping struct {
 }
 
 type SystemUpdateTarget struct {
-	TargetID                string                     `json:"target_id"`
-	TargetType              SystemUpdateTargetType     `json:"target_type"`
-	Name                    string                     `json:"name"`
-	HostID                  string                     `json:"host_id,omitempty"`
-	CurrentVersion          string                     `json:"current_version,omitempty"`
-	LatestVersion           string                     `json:"latest_version,omitempty"`
-	UpdateAvailable         bool                       `json:"update_available"`
-	DeploymentMode          SystemUpdateDeploymentMode `json:"deployment_mode,omitempty"`
-	UpdaterID               string                     `json:"updater_id,omitempty"`
-	UpdaterOnline           bool                       `json:"updater_online"`
-	Eligible                bool                       `json:"eligible"`
-	BlockedReason           string                     `json:"blocked_reason,omitempty"`
-	EligibleOperations      []SystemUpdateOperation    `json:"eligible_operations,omitempty"`
-	OperationBlockedReasons map[string]string          `json:"operation_blocked_reasons,omitempty"`
-	Busy                    bool                       `json:"busy"`
-	CurrentStreamID         string                     `json:"current_stream_id,omitempty"`
-	UpdateCheckSource       string                     `json:"update_check_source,omitempty"`
-	UpdateCheckError        string                     `json:"update_check_error,omitempty"`
-	PortMapping             *SystemUpdatePortMapping   `json:"port_mapping,omitempty"`
+	ProtocolVersion         int                              `json:"protocol_version,omitempty"`
+	TargetID                string                           `json:"target_id"`
+	TargetType              SystemUpdateTargetType           `json:"target_type"`
+	Name                    string                           `json:"name"`
+	HostID                  string                           `json:"host_id,omitempty"`
+	CurrentVersion          string                           `json:"current_version,omitempty"`
+	LatestVersion           string                           `json:"latest_version,omitempty"`
+	UpdateAvailable         bool                             `json:"update_available"`
+	DeploymentMode          SystemUpdateDeploymentMode       `json:"deployment_mode,omitempty"`
+	UpdaterID               string                           `json:"updater_id,omitempty"`
+	UpdaterOnline           bool                             `json:"updater_online"`
+	Capabilities            []UpdaterCapability              `json:"capabilities,omitempty"`
+	DesiredRevision         int64                            `json:"desired_revision,omitempty"`
+	AppliedRevision         int64                            `json:"applied_revision,omitempty"`
+	Fence                   int64                            `json:"fence,omitempty"`
+	UpdaterHealth           *UpdaterHealth                   `json:"updater_health,omitempty"`
+	ApplicationProbe        *ApplicationRuntimeIdentityProbe `json:"application_probe,omitempty"`
+	Eligible                bool                             `json:"eligible"`
+	BlockedReason           string                           `json:"blocked_reason,omitempty"`
+	EligibleOperations      []SystemUpdateOperation          `json:"eligible_operations,omitempty"`
+	OperationBlockedReasons map[string]string                `json:"operation_blocked_reasons,omitempty"`
+	Busy                    bool                             `json:"busy"`
+	CurrentStreamID         string                           `json:"current_stream_id,omitempty"`
+	UpdateCheckSource       string                           `json:"update_check_source,omitempty"`
+	UpdateCheckError        string                           `json:"update_check_error,omitempty"`
+	SafeError               *V2UpdaterSafeError              `json:"safe_error,omitempty"`
+	PortMapping             *SystemUpdatePortMapping         `json:"port_mapping,omitempty"`
 }
 
 type SystemUpdateJob struct {
-	ID              string                           `json:"id"`
-	TargetID        string                           `json:"target_id"`
-	TargetType      SystemUpdateTargetType           `json:"target_type"`
-	ExecutionHostID string                           `json:"host_id"`
-	TransportMode   UpdateTransportMode              `json:"transport_mode,omitempty"`
-	OwnershipEpoch  int64                            `json:"ownership_epoch,omitempty"`
-	PolicyRevision  int64                            `json:"policy_revision,omitempty"`
-	DeploymentMode  SystemUpdateDeploymentMode       `json:"deployment_mode"`
-	CurrentVersion  string                           `json:"current_version"`
-	TargetVersion   string                           `json:"target_version"`
-	Strategy        SystemUpdateStrategy             `json:"strategy"`
-	Status          SystemUpdateStatus               `json:"status"`
-	IdempotencyKey  string                           `json:"idempotency_key"`
-	UpdaterID       string                           `json:"updater_id,omitempty"`
-	RequestedBy     string                           `json:"requested_by,omitempty"`
-	LeaseGeneration int64                            `json:"lease_generation"`
-	LeaseExpiresAt  *time.Time                       `json:"lease_expires_at,omitempty"`
-	Sequence        int64                            `json:"sequence"`
-	Progress        int                              `json:"progress"`
-	Code            string                           `json:"code,omitempty"`
-	Message         string                           `json:"message,omitempty"`
-	ArtifactDigest  string                           `json:"artifact_digest,omitempty"`
-	PreviousDigest  string                           `json:"previous_digest,omitempty"`
-	Operation       SystemUpdateOperation            `json:"operation,omitempty"`
-	PortReconfigure *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
-	CreatedAt       time.Time                        `json:"created_at"`
-	UpdatedAt       time.Time                        `json:"updated_at"`
-	ClaimedAt       *time.Time                       `json:"claimed_at,omitempty"`
-	CompletedAt     *time.Time                       `json:"completed_at,omitempty"`
-	CanceledAt      *time.Time                       `json:"canceled_at,omitempty"`
+	ProtocolVersion        int                              `json:"protocol_version,omitempty"`
+	ID                     string                           `json:"id"`
+	TargetID               string                           `json:"target_id"`
+	TargetType             SystemUpdateTargetType           `json:"target_type"`
+	ExecutionHostID        string                           `json:"host_id"`
+	TransportMode          UpdateTransportMode              `json:"transport_mode,omitempty"`
+	OwnershipEpoch         int64                            `json:"ownership_epoch,omitempty"`
+	PolicyRevision         int64                            `json:"policy_revision,omitempty"`
+	DeploymentMode         SystemUpdateDeploymentMode       `json:"deployment_mode"`
+	CurrentVersion         string                           `json:"current_version"`
+	TargetVersion          string                           `json:"target_version"`
+	Strategy               SystemUpdateStrategy             `json:"strategy"`
+	Status                 SystemUpdateStatus               `json:"status"`
+	IdempotencyKey         string                           `json:"idempotency_key"`
+	UpdaterID              string                           `json:"updater_id,omitempty"`
+	AuthorizationID        string                           `json:"authorization_id,omitempty"`
+	CanonicalPayloadDigest string                           `json:"canonical_payload_digest,omitempty"`
+	DesiredRevision        int64                            `json:"desired_revision,omitempty"`
+	Fence                  int64                            `json:"fence,omitempty"`
+	Outcome                string                           `json:"outcome,omitempty"`
+	RequiredCapability     UpdaterCapability                `json:"required_capability,omitempty"`
+	AutomaticResendAllowed *bool                            `json:"automatic_resend_allowed,omitempty"`
+	SafeError              *V2UpdaterSafeError              `json:"safe_error,omitempty"`
+	RequestedBy            string                           `json:"requested_by,omitempty"`
+	LeaseGeneration        int64                            `json:"lease_generation"`
+	LeaseExpiresAt         *time.Time                       `json:"lease_expires_at,omitempty"`
+	Sequence               int64                            `json:"sequence"`
+	Progress               int                              `json:"progress"`
+	Code                   string                           `json:"code,omitempty"`
+	Message                string                           `json:"message,omitempty"`
+	ArtifactDigest         string                           `json:"artifact_digest,omitempty"`
+	PreviousDigest         string                           `json:"previous_digest,omitempty"`
+	Operation              SystemUpdateOperation            `json:"operation,omitempty"`
+	PortReconfigure        *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
+	CreatedAt              time.Time                        `json:"created_at"`
+	UpdatedAt              time.Time                        `json:"updated_at"`
+	ClaimedAt              *time.Time                       `json:"claimed_at,omitempty"`
+	CompletedAt            *time.Time                       `json:"completed_at,omitempty"`
+	CanceledAt             *time.Time                       `json:"canceled_at,omitempty"`
 }
 
 type SystemUpdatesResponse struct {
@@ -346,7 +549,11 @@ type SystemUpdatesResponse struct {
 }
 
 type SystemUpdateAgentStatus struct {
+	ProtocolVersion                   int                 `json:"protocol_version,omitempty"`
 	UpdaterID                         string              `json:"updater_id"`
+	HostID                            string              `json:"host_id,omitempty"`
+	ServiceID                         string              `json:"service_id,omitempty"`
+	Authentication                    string              `json:"authentication,omitempty"`
 	Name                              string              `json:"name"`
 	TransportMode                     UpdateTransportMode `json:"transport_mode,omitempty"`
 	ExecutionHostID                   string              `json:"execution_host_id,omitempty"`
@@ -355,8 +562,11 @@ type SystemUpdateAgentStatus struct {
 	Online                            bool                `json:"online"`
 	Version                           string              `json:"version"`
 	LastHeartbeatAt                   *time.Time          `json:"last_heartbeat_at,omitempty"`
+	HeartbeatSequence                 int64               `json:"heartbeat_sequence,omitempty"`
+	Capabilities                      []UpdaterCapability `json:"capabilities,omitempty"`
 	DesiredRevision                   int64               `json:"desired_revision,omitempty"`
 	AppliedRevision                   int64               `json:"applied_revision,omitempty"`
+	Fence                             int64               `json:"fence,omitempty"`
 	PolicyStatus                      string              `json:"policy_status,omitempty"`
 	PolicyErrorCode                   string              `json:"policy_error_code,omitempty"`
 	SSHClientPublicKeys               map[string]string   `json:"ssh_client_public_keys,omitempty"`
@@ -366,14 +576,17 @@ type SystemUpdateAgentStatus struct {
 }
 
 type SystemUpdateHostStatus struct {
-	HostID                  string                   `json:"host_id"`
-	Name                    string                   `json:"name"`
-	UpdaterID               string                   `json:"updater_id"`
-	Reachability            SystemUpdateReachability `json:"reachability"`
-	ReachabilityCheckedAt   *time.Time               `json:"reachability_checked_at,omitempty"`
-	ReachabilityCode        string                   `json:"reachability_code,omitempty"`
-	SSHClientPublicKey      string                   `json:"ssh_client_public_key,omitempty"`
-	SSHClientKeyFingerprint string                   `json:"ssh_client_key_fingerprint,omitempty"`
+	ProtocolVersion         int                              `json:"protocol_version,omitempty"`
+	HostID                  string                           `json:"host_id"`
+	Name                    string                           `json:"name"`
+	UpdaterID               string                           `json:"updater_id"`
+	Reachability            SystemUpdateReachability         `json:"reachability"`
+	ReachabilityCheckedAt   *time.Time                       `json:"reachability_checked_at,omitempty"`
+	ReachabilityCode        string                           `json:"reachability_code,omitempty"`
+	UpdaterHealth           *UpdaterHealth                   `json:"updater_health,omitempty"`
+	ApplicationProbe        *ApplicationRuntimeIdentityProbe `json:"application_probe,omitempty"`
+	SSHClientPublicKey      string                           `json:"ssh_client_public_key,omitempty"`
+	SSHClientKeyFingerprint string                           `json:"ssh_client_key_fingerprint,omitempty"`
 }
 
 type UpdateAgentClaimRequest struct {
@@ -1858,6 +2071,147 @@ type RemediationAction struct {
 	CreatedAt        time.Time       `json:"created_at"`
 	UpdatedAt        time.Time       `json:"updated_at"`
 	ExecutedAt       *time.Time      `json:"executed_at,omitempty"`
+}
+
+// RemediationExecutionAuthority identifies the only two principals that may
+// execute an authorized remediation. Observability deliberately has no value.
+type RemediationExecutionAuthority string
+
+const (
+	RemediationAuthorityUpdater           RemediationExecutionAuthority = "updater"
+	RemediationAuthorityTargetApplication RemediationExecutionAuthority = "target_application"
+)
+
+type RemediationExecutionScope string
+
+const (
+	RemediationScopeHostSystem       RemediationExecutionScope = "host_system"
+	RemediationScopeApplicationLocal RemediationExecutionScope = "application_local"
+)
+
+type RemediationActionType string
+
+const (
+	RemediationActionHostSystemd          RemediationActionType = "host.systemd"
+	RemediationActionHostDocker           RemediationActionType = "host.docker"
+	RemediationActionHostUpdate           RemediationActionType = "host.update"
+	RemediationActionHostBootstrap        RemediationActionType = "host.bootstrap"
+	RemediationActionHostPort             RemediationActionType = "host.port"
+	RemediationActionHostSelfUpdate       RemediationActionType = "host.self_update"
+	RemediationActionRetryGDriveUpload    RemediationActionType = "application.retry_gdrive_upload"
+	RemediationActionRetryPackageRemux    RemediationActionType = "application.retry_package_remux"
+	RemediationActionRefreshServiceStatus RemediationActionType = "refresh_service_status"
+	RemediationActionRerunDiagnostics     RemediationActionType = "rerun_diagnostics"
+	RemediationActionClearStaleWarning    RemediationActionType = "clear_stale_warning"
+)
+
+type RemediationResult string
+
+const (
+	RemediationResultSucceeded  RemediationResult = "succeeded"
+	RemediationResultFailed     RemediationResult = "failed"
+	RemediationResultRolledBack RemediationResult = "rolled_back"
+	RemediationResultAmbiguous  RemediationResult = "ambiguous"
+)
+
+type RemediationExecutorIdentity struct {
+	ServiceID      string                        `json:"service_id,omitempty"`
+	Authority      RemediationExecutionAuthority `json:"authority"`
+	ExecutionScope RemediationExecutionScope     `json:"execution_scope"`
+}
+
+type RemediationTargetIdentity struct {
+	ServiceID   string                 `json:"service_id"`
+	ServiceType SystemUpdateTargetType `json:"service_type"`
+	HostID      string                 `json:"host_id,omitempty"`
+	IncidentID  string                 `json:"incident_id,omitempty"`
+}
+
+type RemediationDetectorIdentity struct {
+	ServiceID   string      `json:"service_id"`
+	ServiceType ServiceType `json:"service_type"`
+}
+
+type RemediationRequestOrigin struct {
+	OriginType  string                 `json:"origin_type"`
+	PrincipalID string                 `json:"principal_id"`
+	ServiceID   string                 `json:"service_id,omitempty"`
+	ServiceType SystemUpdateTargetType `json:"service_type,omitempty"`
+	Permission  string                 `json:"permission"`
+}
+
+// RemediationEvidence is deliberately bounded and secret-safe. Callers must
+// not place raw logs, payloads, credentials, configuration, or command output
+// into any field.
+type RemediationEvidence struct {
+	EvidenceCode     string    `json:"evidence_code"`
+	ObservedAt       time.Time `json:"observed_at"`
+	ObservedRevision int64     `json:"observed_revision"`
+	EvidenceDigest   string    `json:"evidence_digest,omitempty"`
+}
+
+// RemediationProposal is Observability's non-executable proposal. Control
+// Panel authorization is always required before any cross-service execution.
+type RemediationProposal struct {
+	ProposalID                        string                      `json:"proposal_id"`
+	IncidentID                        string                      `json:"incident_id"`
+	Detector                          RemediationDetectorIdentity `json:"detector"`
+	Target                            RemediationTargetIdentity   `json:"target"`
+	ActionType                        RemediationActionType       `json:"action_type"`
+	ProposalRevision                  int64                       `json:"proposal_revision"`
+	RequiredCapability                RemediationActionType       `json:"required_capability"`
+	Evidence                          []RemediationEvidence       `json:"evidence"`
+	AuditCorrelationID                string                      `json:"audit_correlation_id"`
+	ObservedAt                        time.Time                   `json:"observed_at"`
+	ControlPanelAuthorizationRequired bool                        `json:"control_panel_authorization_required"`
+}
+
+// RemediationGrant is the bounded authority minted and audited by Control
+// Panel. It cannot represent arbitrary shell, credentials, or an Observability
+// executor.
+type RemediationGrant struct {
+	AuthorizationID         string                      `json:"authorization_id"`
+	AuthorizationNonceID    string                      `json:"authorization_nonce_id"`
+	ProposalID              string                      `json:"proposal_id"`
+	RequestOrigin           RemediationRequestOrigin    `json:"request_origin"`
+	Executor                RemediationExecutorIdentity `json:"executor"`
+	Target                  RemediationTargetIdentity   `json:"target"`
+	ActionType              RemediationActionType       `json:"action_type"`
+	IdempotencyKey          string                      `json:"idempotency_key"`
+	CanonicalArgumentDigest string                      `json:"canonical_argument_digest"`
+	DesiredRevision         int64                       `json:"desired_revision"`
+	Fence                   int64                       `json:"fence"`
+	ExpiresAt               time.Time                   `json:"expires_at"`
+	Capability              RemediationActionType       `json:"capability"`
+	OneTime                 bool                        `json:"one_time"`
+	AuditCorrelationID      string                      `json:"audit_correlation_id"`
+}
+
+type RemediationSafeError struct {
+	Code               string `json:"code"`
+	Message            string `json:"message"`
+	Retryable          bool   `json:"retryable"`
+	AuditCorrelationID string `json:"audit_correlation_id,omitempty"`
+}
+
+type RemediationResultEvidence struct {
+	AuthorizationID         string                      `json:"authorization_id"`
+	ProposalID              string                      `json:"proposal_id"`
+	Executor                RemediationExecutorIdentity `json:"executor"`
+	Target                  RemediationTargetIdentity   `json:"target"`
+	ActionType              RemediationActionType       `json:"action_type"`
+	IdempotencyKey          string                      `json:"idempotency_key"`
+	CanonicalArgumentDigest string                      `json:"canonical_argument_digest"`
+	DesiredRevision         int64                       `json:"desired_revision"`
+	AppliedRevision         int64                       `json:"applied_revision,omitempty"`
+	Fence                   int64                       `json:"fence"`
+	Result                  RemediationResult           `json:"result"`
+	ReconciliationRequired  bool                        `json:"reconciliation_required"`
+	AutomaticResendAllowed  bool                        `json:"automatic_resend_allowed"`
+	Evidence                []RemediationEvidence       `json:"evidence"`
+	SafeError               *RemediationSafeError       `json:"safe_error,omitempty"`
+	AuditCorrelationID      string                      `json:"audit_correlation_id"`
+	CompletedAt             time.Time                   `json:"completed_at"`
 }
 
 type NotificationEventType string

@@ -4,41 +4,67 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"testing"
 )
 
-func TestUpdaterVersionEndpointContractIsUnauthenticatedAndMinimal(t *testing.T) {
-	for _, file := range []string{
-		"control-api.yaml",
-		"observability-api.yaml",
-		"encoder-recorder-api.yaml",
-		"discord-bot-api.yaml",
+func TestUpdaterVersionEndpointContractIsUnauthenticatedAndStrict(t *testing.T) {
+	for _, test := range []struct {
+		file        string
+		serviceType string
+	}{
+		{file: "control-api.yaml", serviceType: "control_panel"},
+		{file: "observability-api.yaml", serviceType: "observability"},
+		{file: "encoder-recorder-api.yaml", serviceType: "encoder_recorder"},
+		{file: "discord-bot-api.yaml", serviceType: "discord_bot"},
 	} {
-		body, err := os.ReadFile(filepath.Join("..", "..", "openapi", file))
-		if err != nil {
-			t.Fatalf("read %s: %v", file, err)
+		file := test.file
+		bundleName := strings.TrimSuffix(file, ".yaml") + ".json"
+		bundle := readNormalizedOpenAPICharacterization(t, bundleName)
+		paths := requireCharacterizationMap(t, bundle, "paths")
+		pathItem := requireCharacterizationMap(t, paths, "/updater/version")
+		operation := requireCharacterizationMap(t, pathItem, "get")
+		if operation["operationId"] != "getUpdaterVersion" {
+			t.Fatalf("%s updater version operationId=%v", file, operation["operationId"])
 		}
-		raw := string(body)
-		const pathMarker = "  /updater/version:\n"
-		start := strings.Index(raw, pathMarker)
-		if start < 0 {
-			t.Fatalf("%s is missing %s", file, strings.TrimSpace(pathMarker))
+		security, ok := operation["security"].([]any)
+		if !ok || len(security) != 0 {
+			t.Fatalf("%s updater version security=%v, want an explicit empty requirement", file, operation["security"])
 		}
-		section := raw[start+len(pathMarker):]
-		if end := strings.Index(section, "\n  /"); end >= 0 {
-			section = section[:end]
+		responses := requireCharacterizationMap(t, operation, "responses")
+		success := resolveCharacterizationSchema(t, bundle, responses["200"])
+		content := requireCharacterizationMap(t, success, "content")
+		jsonContent := requireCharacterizationMap(t, content, "application/json")
+		responseSchema := resolveCharacterizationSchema(t, bundle, jsonContent["schema"])
+		if responseSchema["additionalProperties"] != false {
+			t.Fatalf("%s updater version response permits unknown fields", file)
 		}
-		for _, want := range []string{
-			"operationId: getUpdaterVersion",
-			"security: []",
-			"additionalProperties: false",
-			"required: [version]",
-			"pattern: '^v[0-9]+\\.[0-9]+\\.[0-9]+",
-		} {
-			if !strings.Contains(section, want) {
-				t.Fatalf("%s updater version contract is missing %q", file, want)
+		required := requireCharacterizationStringSet(t, responseSchema, "required")
+		for _, field := range []string{"version", "service_id", "service_type", "config_revision"} {
+			if _, ok := required[field]; !ok {
+				t.Fatalf("%s updater version required=%v, missing %s", file, required, field)
 			}
+		}
+		properties := requireCharacterizationMap(t, responseSchema, "properties")
+		if len(required) != 4 || len(properties) != 4 {
+			t.Fatalf("%s updater version required=%v properties=%v, want the exact application probe", file, required, properties)
+		}
+		version := requireCharacterizationMap(t, properties, "version")
+		pattern, ok := version["pattern"].(string)
+		if !ok {
+			t.Fatalf("%s updater version pattern=%v", file, version["pattern"])
+		}
+		compiled, err := regexp.Compile(pattern)
+		if err != nil {
+			t.Fatalf("%s updater version pattern does not compile: %v", file, err)
+		}
+		if !compiled.MatchString("v1.2.3") || compiled.MatchString("1.2.3") || compiled.MatchString("v1.2") {
+			t.Fatalf("%s updater version pattern does not enforce a v-prefixed semantic version: %q", file, pattern)
+		}
+		serviceType := requireCharacterizationMap(t, properties, "service_type")
+		if serviceType["const"] != test.serviceType {
+			t.Fatalf("%s updater version service_type=%v, want %s", file, serviceType["const"], test.serviceType)
 		}
 	}
 }

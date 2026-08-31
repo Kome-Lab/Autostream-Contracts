@@ -70,18 +70,1532 @@
         ],
         "type": "object"
       },
+      "appliedCoverState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "active"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "revision"
+                    ]
+                  }
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "known"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            "then": {
+              "required": [
+                "active",
+                "revision"
+              ]
+            }
+          },
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "variant_id"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                },
+                "state": {
+                  "const": "known"
+                }
+              },
+              "required": [
+                "state",
+                "active"
+              ]
+            },
+            "then": {
+              "required": [
+                "variant_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "state": {
+            "enum": [
+              "known",
+              "unknown"
+            ]
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "type": "object"
+      },
+      "desiredCoverState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "variant_id"
+                ]
+              },
+              "properties": {
+                "source": {
+                  "const": "none"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              },
+              "required": [
+                "active"
+              ]
+            },
+            "then": {
+              "properties": {
+                "source": {
+                  "enum": [
+                    "preset",
+                    "upload"
+                  ]
+                }
+              },
+              "required": [
+                "variant_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "source": {
+            "enum": [
+              "none",
+              "preset",
+              "upload"
+            ]
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "active",
+          "revision",
+          "source"
+        ],
+        "type": "object"
+      },
       "discord-bot-start-job-request.schema": {
+        "$defs": {
+          "appliedCoverState": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "active"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "revision"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "state": {
+                      "const": "known"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "active",
+                    "revision"
+                  ]
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "variant_id"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "active": {
+                      "const": true
+                    },
+                    "state": {
+                      "const": "known"
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "active"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "variant_id"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "state": {
+                "enum": [
+                  "known",
+                  "unknown"
+                ]
+              },
+              "variant_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "state"
+            ],
+            "type": "object"
+          },
+          "desiredCoverState": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "variant_id"
+                    ]
+                  },
+                  "properties": {
+                    "source": {
+                      "const": "none"
+                    }
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "active": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "active"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "source": {
+                      "enum": [
+                        "preset",
+                        "upload"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "variant_id"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "source": {
+                "enum": [
+                  "none",
+                  "preset",
+                  "upload"
+                ]
+              },
+              "variant_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "active",
+              "revision",
+              "source"
+            ],
+            "type": "object"
+          },
+          "discordTargetSelection": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "preset_id"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "mode": {
+                      "const": "preset"
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "preset_id"
+                  ]
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "manual_target"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "mode": {
+                      "const": "manual"
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "manual_target"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "manual_target": {
+                "$ref": "#/components/schemas/resolvedDiscordTarget"
+              },
+              "mode": {
+                "enum": [
+                  "inherit",
+                  "preset",
+                  "manual"
+                ]
+              },
+              "preset_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "mode"
+            ],
+            "type": "object"
+          },
+          "discordTargetSnapshot": {
+            "additionalProperties": false,
+            "description": "Bot-facing resolved snapshot. Preset IDs, inheritance metadata, and manual selection inputs are deliberately absent.",
+            "properties": {
+              "resolved": {
+                "$ref": "#/components/schemas/resolvedDiscordTarget"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "revision",
+              "resolved"
+            ],
+            "type": "object"
+          },
+          "discordTargetStoredSnapshot": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "preset_id"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "preset_revision"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "mode": {
+                      "const": "preset"
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "preset_id",
+                    "preset_revision"
+                  ]
+                }
+              }
+            ],
+            "description": "Control Panel-owned immutable stream snapshot. Preset edits do not mutate this record without an explicit revisioned action.",
+            "properties": {
+              "mode": {
+                "enum": [
+                  "inherit",
+                  "preset",
+                  "manual"
+                ]
+              },
+              "preset_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              },
+              "preset_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "resolved": {
+                "$ref": "#/components/schemas/resolvedDiscordTarget"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "mode",
+              "revision",
+              "resolved"
+            ],
+            "type": "object"
+          },
+          "knownAppliedCoverState": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "variant_id"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "active": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "active"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "variant_id"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "state": {
+                "const": "known"
+              },
+              "variant_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "state",
+              "active",
+              "revision"
+            ],
+            "type": "object"
+          },
+          "layerState": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "variant_id"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "enabled"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "variant_id"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "variant_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "enabled",
+              "revision"
+            ],
+            "type": "object"
+          },
+          "mediaAssetDescriptor": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "error"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "error"
+                  ]
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "aspect_ratio_error_ppm"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "opaque"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "usage": {
+                      "const": "video_cover"
+                    }
+                  },
+                  "required": [
+                    "usage"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "opaque": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "aspect_ratio_error_ppm",
+                    "opaque"
+                  ]
+                }
+              }
+            ],
+            "description": "Static PNG, JPEG, or WebP metadata only. SVG, GIF, animation, filesystem paths, URLs, and Base64 payloads are not representable.",
+            "properties": {
+              "animated": {
+                "const": false
+              },
+              "aspect_ratio_error_ppm": {
+                "maximum": 1000,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "asset_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              },
+              "byte_size": {
+                "maximum": 20971520,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "error": {
+                "$ref": "#/components/schemas/safeError"
+              },
+              "height": {
+                "maximum": 8192,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "media_type": {
+                "enum": [
+                  "image/png",
+                  "image/jpeg",
+                  "image/webp"
+                ]
+              },
+              "opaque": {
+                "type": "boolean"
+              },
+              "pixel_count": {
+                "description": "The producer must verify this equals decoded width multiplied by height before declaring readiness.",
+                "maximum": 40000000,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "readiness": {
+                "$ref": "#/components/schemas/readiness"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "sha256": {
+                "description": "Public integrity digest only; never an authentication credential.",
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "usage": {
+                "enum": [
+                  "scene_background",
+                  "video_cover"
+                ]
+              },
+              "variant_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              },
+              "width": {
+                "maximum": 8192,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "asset_id",
+              "variant_id",
+              "usage",
+              "media_type",
+              "width",
+              "height",
+              "byte_size",
+              "pixel_count",
+              "animated",
+              "sha256",
+              "revision",
+              "readiness"
+            ],
+            "type": "object"
+          },
+          "readiness": {
+            "enum": [
+              "ready",
+              "not_ready",
+              "unknown"
+            ]
+          },
+          "resolvedDiscordTarget": {
+            "additionalProperties": false,
+            "properties": {
+              "guild_id": {
+                "pattern": "^[0-9]{1,32}$",
+                "type": "string"
+              },
+              "text_channel_id": {
+                "pattern": "^[0-9]{1,32}$",
+                "type": "string"
+              },
+              "voice_channel_id": {
+                "pattern": "^[0-9]{1,32}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "guild_id",
+              "text_channel_id",
+              "voice_channel_id"
+            ],
+            "type": "object"
+          },
+          "safeError": {
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "enum": [
+                  "invalid_theme_id",
+                  "media_asset_format_unsupported",
+                  "media_asset_too_large",
+                  "media_asset_decode_failed",
+                  "media_asset_aspect_ratio_invalid",
+                  "media_asset_variant_processing",
+                  "media_asset_variant_failed",
+                  "discord_target_invalid",
+                  "preset_not_found",
+                  "preset_revision_conflict",
+                  "stale_job_generation",
+                  "stale_cover_revision",
+                  "revision_payload_conflict",
+                  "capability_required"
+                ]
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ],
+            "type": "object"
+          },
+          "sceneAppearance": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "background"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "background_mode": {
+                      "const": "image"
+                    }
+                  },
+                  "required": [
+                    "background_mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "background"
+                  ]
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "custom_title"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "header_title_mode": {
+                      "const": "custom"
+                    }
+                  },
+                  "required": [
+                    "header_title_mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "custom_title"
+                  ]
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "error"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "error"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "background_mode": {
+                      "const": "image"
+                    },
+                    "readiness": {
+                      "const": "ready"
+                    }
+                  },
+                  "required": [
+                    "readiness",
+                    "background_mode"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "background": {
+                      "properties": {
+                        "readiness": {
+                          "const": "ready"
+                        }
+                      },
+                      "required": [
+                        "readiness"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "background": {
+                      "properties": {
+                        "readiness": {
+                          "enum": [
+                            "not_ready",
+                            "unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "readiness"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "background"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "background": {
+                "$ref": "#/components/schemas/mediaAssetDescriptor",
+                "properties": {
+                  "usage": {
+                    "const": "scene_background"
+                  }
+                }
+              },
+              "background_mode": {
+                "enum": [
+                  "default",
+                  "image"
+                ]
+              },
+              "capability": {
+                "const": "scene_appearance_v1"
+              },
+              "custom_title": {
+                "maxLength": 80,
+                "minLength": 1,
+                "pattern": "^[^\\r\\n]+$",
+                "type": "string"
+              },
+              "error": {
+                "$ref": "#/components/schemas/safeError"
+              },
+              "generation": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "header_title_mode": {
+                "enum": [
+                  "default",
+                  "custom"
+                ]
+              },
+              "readiness": {
+                "$ref": "#/components/schemas/readiness"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "generation",
+              "revision",
+              "capability",
+              "readiness",
+              "background_mode",
+              "header_title_mode"
+            ],
+            "type": "object"
+          },
+          "themePreference": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "error"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "color_mode": {
+                "enum": [
+                  "system",
+                  "light",
+                  "dark"
+                ]
+              },
+              "error": {
+                "$ref": "#/components/schemas/safeError"
+              },
+              "readiness": {
+                "$ref": "#/components/schemas/readiness"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "theme_id": {
+                "enum": [
+                  "autostream",
+                  "slate",
+                  "ocean",
+                  "cyan",
+                  "indigo",
+                  "violet",
+                  "magenta",
+                  "rose",
+                  "crimson",
+                  "amber",
+                  "emerald",
+                  "monochrome"
+                ]
+              }
+            },
+            "required": [
+              "theme_id",
+              "color_mode",
+              "revision",
+              "readiness"
+            ],
+            "type": "object"
+          },
+          "themePreferenceWrite": {
+            "additionalProperties": false,
+            "description": "Authenticated self-update CAS input. Revision mismatch is revision_conflict; admin reset uses the existing users.update authority.",
+            "properties": {
+              "color_mode": {
+                "enum": [
+                  "system",
+                  "light",
+                  "dark"
+                ]
+              },
+              "expected_revision": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "theme_id": {
+                "enum": [
+                  "autostream",
+                  "slate",
+                  "ocean",
+                  "cyan",
+                  "indigo",
+                  "violet",
+                  "magenta",
+                  "rose",
+                  "crimson",
+                  "amber",
+                  "emerald",
+                  "monochrome"
+                ]
+              }
+            },
+            "required": [
+              "theme_id",
+              "color_mode",
+              "expected_revision"
+            ],
+            "type": "object"
+          },
+          "videoCoverRuntimeState": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "error"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "error"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "applied": {
+                      "properties": {
+                        "state": {
+                          "const": "unknown"
+                        }
+                      },
+                      "required": [
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "applied"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "last_good_applied",
+                    "error"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "const": "ready"
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "applied": {
+                      "properties": {
+                        "state": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "state"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "cover_asset"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "desired": {
+                      "properties": {
+                        "active": {
+                          "const": true
+                        }
+                      },
+                      "required": [
+                        "active"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "desired"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "cover_asset"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "applied": {
+                "$ref": "#/components/schemas/appliedCoverState"
+              },
+              "capability": {
+                "const": "live_video_cover_v1"
+              },
+              "cover": {
+                "$ref": "#/components/schemas/layerState"
+              },
+              "cover_asset": {
+                "$ref": "#/components/schemas/mediaAssetDescriptor",
+                "properties": {
+                  "usage": {
+                    "const": "video_cover"
+                  }
+                }
+              },
+              "desired": {
+                "$ref": "#/components/schemas/desiredCoverState"
+              },
+              "error": {
+                "$ref": "#/components/schemas/safeError"
+              },
+              "generation": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "job_generation": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "last_good_applied": {
+                "$ref": "#/components/schemas/knownAppliedCoverState"
+              },
+              "no_automatic_resend": {
+                "const": true,
+                "description": "Unknown or ambiguous applied state requires an explicit operator resend with a new revision."
+              },
+              "pipeline": {
+                "$ref": "#/components/schemas/visualPipelineInvariant"
+              },
+              "readiness": {
+                "$ref": "#/components/schemas/readiness"
+              },
+              "watermark": {
+                "$ref": "#/components/schemas/layerState"
+              }
+            },
+            "required": [
+              "job_generation",
+              "generation",
+              "capability",
+              "readiness",
+              "desired",
+              "applied",
+              "cover",
+              "watermark",
+              "pipeline",
+              "no_automatic_resend"
+            ],
+            "type": "object"
+          },
+          "videoCoverStateRequest": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "hide_confirmed"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "active": {
+                      "const": false
+                    }
+                  },
+                  "required": [
+                    "active"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "hide_confirmed"
+                  ]
+                }
+              }
+            ],
+            "description": "Revisioned public Cover state CAS. Ambiguous results are reconciled through state read and never automatically resent.",
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "expected_job_generation": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "hide_confirmed": {
+                "const": true
+              },
+              "idempotency_key": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "active",
+              "expected_job_generation",
+              "expected_revision",
+              "idempotency_key"
+            ],
+            "type": "object"
+          },
+          "visualPipelineInvariant": {
+            "additionalProperties": false,
+            "properties": {
+              "audio_continuity": {
+                "additionalProperties": false,
+                "properties": {
+                  "graph_rebuild": {
+                    "const": 0
+                  },
+                  "intentional_mute_insertion": {
+                    "const": 0
+                  },
+                  "process_restart": {
+                    "const": 0
+                  },
+                  "reconnect": {
+                    "const": 0
+                  },
+                  "sequence_loss": {
+                    "const": 0
+                  },
+                  "timestamp_discontinuity": {
+                    "const": 0
+                  }
+                },
+                "required": [
+                  "process_restart",
+                  "graph_rebuild",
+                  "reconnect",
+                  "sequence_loss",
+                  "timestamp_discontinuity",
+                  "intentional_mute_insertion"
+                ],
+                "type": "object"
+              },
+              "cover_watermark_independent": {
+                "const": true
+              },
+              "layers": {
+                "items": false,
+                "maxItems": 5,
+                "minItems": 5,
+                "prefixItems": [
+                  {
+                    "const": "base_or_worker_scene"
+                  },
+                  {
+                    "const": "video_cover"
+                  },
+                  {
+                    "const": "watermark"
+                  },
+                  {
+                    "const": "video_encode"
+                  },
+                  {
+                    "const": "tee_live_archive_preview"
+                  }
+                ],
+                "type": "array"
+              },
+              "output_parity": {
+                "items": false,
+                "maxItems": 3,
+                "minItems": 3,
+                "prefixItems": [
+                  {
+                    "const": "live"
+                  },
+                  {
+                    "const": "archive"
+                  },
+                  {
+                    "const": "preview"
+                  }
+                ],
+                "type": "array"
+              },
+              "watermark_topmost": {
+                "const": true
+              }
+            },
+            "required": [
+              "layers",
+              "watermark_topmost",
+              "cover_watermark_independent",
+              "output_parity",
+              "audio_continuity"
+            ],
+            "type": "object"
+          }
+        },
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "discord_target"
+                ]
+              },
+              "required": [
+                "guild_id",
+                "voice_channel_id"
+              ]
+            },
+            "if": {
+              "required": [
+                "schema_version"
+              ]
+            },
+            "then": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "guild_id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "text_channel_id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "voice_channel_id"
+                    ]
+                  }
+                ]
+              },
+              "required": [
+                "schema_version",
+                "discord_target"
+              ]
+            }
+          }
+        ],
+        "description": "AutoStream v2 Discord Bot start envelope. Discord target IDs are delivered only as one server-resolved snapshot; the Bot never reads preset resources or accepts legacy flat target fields.",
         "properties": {
           "caption_audio_token": {
             "description": "Short-lived stream-scoped token authorizing Discord Opus ingest at the selected Worker. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses.",
-            "type": "string"
+            "minLength": 1,
+            "type": "string",
+            "writeOnly": true
           },
           "caption_audio_url": {
             "description": "Optional caption/STT audio ingest endpoint. Treat as runtime-only and do not expose it in public status or logs.",
             "format": "uri",
             "type": "string"
+          },
+          "discord_target": {
+            "$ref": "#/components/schemas/discordTargetSnapshot"
           },
           "encoder_audio_url": {
             "description": "Encoder/Recorder audio ingest endpoint. Treat as runtime-only and do not expose it in public status or logs.",
@@ -89,7 +1603,7 @@
             "type": "string"
           },
           "guild_id": {
-            "description": "Resolved Discord guild ID. It may come from the selected Discord Config default or the stream-specific override.",
+            "description": "Temporary legacy adapter field removed in Execution Bundle 8. v2 payloads cannot include it.",
             "minLength": 1,
             "type": "string"
           },
@@ -98,26 +1612,34 @@
             "minimum": 1,
             "type": "integer"
           },
+          "schema_version": {
+            "const": 2
+          },
           "stream_id": {
             "minLength": 1,
             "type": "string"
           },
           "stream_ingest_token": {
             "description": "Short-lived stream-scoped ingest token issued by Control Panel. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses.",
-            "type": "string"
+            "minLength": 1,
+            "type": "string",
+            "writeOnly": true
           },
           "text_channel_id": {
-            "description": "Optional resolved Discord text channel ID for participant/speaker/caption related notifications.",
+            "description": "Temporary legacy adapter field removed in Execution Bundle 8. v2 payloads cannot include it.",
+            "minLength": 1,
             "type": "string"
           },
           "voice_channel_id": {
-            "description": "Resolved Discord voice channel ID. It may come from the selected Discord Config default or the stream-specific override.",
+            "description": "Temporary legacy adapter field removed in Execution Bundle 8. v2 payloads cannot include it.",
             "minLength": 1,
             "type": "string"
           },
           "worker_events_token": {
             "description": "Short-lived stream-scoped token for Discord Bot to publish participant, active speaker, and chat events to the selected Worker. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses.",
-            "type": "string"
+            "minLength": 1,
+            "type": "string",
+            "writeOnly": true
           },
           "worker_events_url": {
             "description": "Worker event endpoint selected by this stream's Worker assignment. Treat as runtime-only and do not expose it in public status or logs.",
@@ -127,11 +1649,1166 @@
         },
         "required": [
           "stream_id",
-          "job_generation",
-          "guild_id",
-          "voice_channel_id"
+          "job_generation"
         ],
         "title": "DiscordBotStartJobRequest",
+        "type": "object",
+        "x-autostream-contract-major": 2,
+        "x-autostream-v2-transition-compatibility": {
+          "final_state": "absent",
+          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
+          "removal_wave": "Execution Bundle 8"
+        },
+        "x-autostream-visual-contract-catalog": {
+          "discord_target_selection": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "preset_id"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "mode": {
+                      "const": "preset"
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "preset_id"
+                  ]
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "manual_target"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "mode": {
+                      "const": "manual"
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "manual_target"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "manual_target": {
+                "$ref": "#/components/schemas/resolvedDiscordTarget"
+              },
+              "mode": {
+                "enum": [
+                  "inherit",
+                  "preset",
+                  "manual"
+                ]
+              },
+              "preset_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "mode"
+            ],
+            "type": "object"
+          },
+          "discord_target_stored_snapshot": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "preset_id"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "preset_revision"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "mode": {
+                      "const": "preset"
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "preset_id",
+                    "preset_revision"
+                  ]
+                }
+              }
+            ],
+            "description": "Control Panel-owned immutable stream snapshot. Preset edits do not mutate this record without an explicit revisioned action.",
+            "properties": {
+              "mode": {
+                "enum": [
+                  "inherit",
+                  "preset",
+                  "manual"
+                ]
+              },
+              "preset_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              },
+              "preset_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "resolved": {
+                "$ref": "#/components/schemas/resolvedDiscordTarget"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "mode",
+              "revision",
+              "resolved"
+            ],
+            "type": "object"
+          },
+          "scene_appearance": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "background"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "background_mode": {
+                      "const": "image"
+                    }
+                  },
+                  "required": [
+                    "background_mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "background"
+                  ]
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "custom_title"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "header_title_mode": {
+                      "const": "custom"
+                    }
+                  },
+                  "required": [
+                    "header_title_mode"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "custom_title"
+                  ]
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "error"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "error"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "background_mode": {
+                      "const": "image"
+                    },
+                    "readiness": {
+                      "const": "ready"
+                    }
+                  },
+                  "required": [
+                    "readiness",
+                    "background_mode"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "background": {
+                      "properties": {
+                        "readiness": {
+                          "const": "ready"
+                        }
+                      },
+                      "required": [
+                        "readiness"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "background": {
+                      "properties": {
+                        "readiness": {
+                          "enum": [
+                            "not_ready",
+                            "unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "readiness"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "background"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "background": {
+                "$ref": "#/components/schemas/mediaAssetDescriptor",
+                "properties": {
+                  "usage": {
+                    "const": "scene_background"
+                  }
+                }
+              },
+              "background_mode": {
+                "enum": [
+                  "default",
+                  "image"
+                ]
+              },
+              "capability": {
+                "const": "scene_appearance_v1"
+              },
+              "custom_title": {
+                "maxLength": 80,
+                "minLength": 1,
+                "pattern": "^[^\\r\\n]+$",
+                "type": "string"
+              },
+              "error": {
+                "$ref": "#/components/schemas/safeError"
+              },
+              "generation": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "header_title_mode": {
+                "enum": [
+                  "default",
+                  "custom"
+                ]
+              },
+              "readiness": {
+                "$ref": "#/components/schemas/readiness"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "generation",
+              "revision",
+              "capability",
+              "readiness",
+              "background_mode",
+              "header_title_mode"
+            ],
+            "type": "object"
+          },
+          "theme_preference": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "error"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "color_mode": {
+                "enum": [
+                  "system",
+                  "light",
+                  "dark"
+                ]
+              },
+              "error": {
+                "$ref": "#/components/schemas/safeError"
+              },
+              "readiness": {
+                "$ref": "#/components/schemas/readiness"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "theme_id": {
+                "enum": [
+                  "autostream",
+                  "slate",
+                  "ocean",
+                  "cyan",
+                  "indigo",
+                  "violet",
+                  "magenta",
+                  "rose",
+                  "crimson",
+                  "amber",
+                  "emerald",
+                  "monochrome"
+                ]
+              }
+            },
+            "required": [
+              "theme_id",
+              "color_mode",
+              "revision",
+              "readiness"
+            ],
+            "type": "object"
+          },
+          "theme_preference_write": {
+            "additionalProperties": false,
+            "description": "Authenticated self-update CAS input. Revision mismatch is revision_conflict; admin reset uses the existing users.update authority.",
+            "properties": {
+              "color_mode": {
+                "enum": [
+                  "system",
+                  "light",
+                  "dark"
+                ]
+              },
+              "expected_revision": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "theme_id": {
+                "enum": [
+                  "autostream",
+                  "slate",
+                  "ocean",
+                  "cyan",
+                  "indigo",
+                  "violet",
+                  "magenta",
+                  "rose",
+                  "crimson",
+                  "amber",
+                  "emerald",
+                  "monochrome"
+                ]
+              }
+            },
+            "required": [
+              "theme_id",
+              "color_mode",
+              "expected_revision"
+            ],
+            "type": "object"
+          },
+          "video_cover_runtime_state": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "error"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "error"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "applied": {
+                      "properties": {
+                        "state": {
+                          "const": "unknown"
+                        }
+                      },
+                      "required": [
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "applied"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "readiness": {
+                      "enum": [
+                        "not_ready",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "last_good_applied",
+                    "error"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "readiness": {
+                      "const": "ready"
+                    }
+                  },
+                  "required": [
+                    "readiness"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "applied": {
+                      "properties": {
+                        "state": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "state"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "cover_asset"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "desired": {
+                      "properties": {
+                        "active": {
+                          "const": true
+                        }
+                      },
+                      "required": [
+                        "active"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "desired"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "cover_asset"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "applied": {
+                "$ref": "#/components/schemas/appliedCoverState"
+              },
+              "capability": {
+                "const": "live_video_cover_v1"
+              },
+              "cover": {
+                "$ref": "#/components/schemas/layerState"
+              },
+              "cover_asset": {
+                "$ref": "#/components/schemas/mediaAssetDescriptor",
+                "properties": {
+                  "usage": {
+                    "const": "video_cover"
+                  }
+                }
+              },
+              "desired": {
+                "$ref": "#/components/schemas/desiredCoverState"
+              },
+              "error": {
+                "$ref": "#/components/schemas/safeError"
+              },
+              "generation": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "job_generation": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "last_good_applied": {
+                "$ref": "#/components/schemas/knownAppliedCoverState"
+              },
+              "no_automatic_resend": {
+                "const": true,
+                "description": "Unknown or ambiguous applied state requires an explicit operator resend with a new revision."
+              },
+              "pipeline": {
+                "$ref": "#/components/schemas/visualPipelineInvariant"
+              },
+              "readiness": {
+                "$ref": "#/components/schemas/readiness"
+              },
+              "watermark": {
+                "$ref": "#/components/schemas/layerState"
+              }
+            },
+            "required": [
+              "job_generation",
+              "generation",
+              "capability",
+              "readiness",
+              "desired",
+              "applied",
+              "cover",
+              "watermark",
+              "pipeline",
+              "no_automatic_resend"
+            ],
+            "type": "object"
+          },
+          "video_cover_state_request": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "else": {
+                  "not": {
+                    "required": [
+                      "hide_confirmed"
+                    ]
+                  }
+                },
+                "if": {
+                  "properties": {
+                    "active": {
+                      "const": false
+                    }
+                  },
+                  "required": [
+                    "active"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "hide_confirmed"
+                  ]
+                }
+              }
+            ],
+            "description": "Revisioned public Cover state CAS. Ambiguous results are reconciled through state read and never automatically resent.",
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "expected_job_generation": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "hide_confirmed": {
+                "const": true
+              },
+              "idempotency_key": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "active",
+              "expected_job_generation",
+              "expected_revision",
+              "idempotency_key"
+            ],
+            "type": "object"
+          }
+        },
+        "x-autostream-visual-contract-definitions": [
+          "themePreference",
+          "themePreferenceWrite",
+          "mediaAssetDescriptor",
+          "sceneAppearance",
+          "discordTargetSelection",
+          "discordTargetStoredSnapshot",
+          "discordTargetSnapshot",
+          "videoCoverRuntimeState",
+          "videoCoverStateRequest",
+          "visualPipelineInvariant"
+        ]
+      },
+      "discordTargetSnapshot": {
+        "additionalProperties": false,
+        "description": "Bot-facing resolved snapshot. Preset IDs, inheritance metadata, and manual selection inputs are deliberately absent.",
+        "properties": {
+          "resolved": {
+            "$ref": "#/components/schemas/resolvedDiscordTarget"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "revision",
+          "resolved"
+        ],
+        "type": "object"
+      },
+      "knownAppliedCoverState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "variant_id"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              },
+              "required": [
+                "active"
+              ]
+            },
+            "then": {
+              "required": [
+                "variant_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "state": {
+            "const": "known"
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state",
+          "active",
+          "revision"
+        ],
+        "type": "object"
+      },
+      "layerState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "variant_id"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "enabled": {
+                  "const": true
+                }
+              },
+              "required": [
+                "enabled"
+              ]
+            },
+            "then": {
+              "required": [
+                "variant_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "enabled",
+          "revision"
+        ],
+        "type": "object"
+      },
+      "mediaAssetDescriptor": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "error"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "readiness": {
+                  "enum": [
+                    "not_ready",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "readiness"
+              ]
+            },
+            "then": {
+              "required": [
+                "error"
+              ]
+            }
+          },
+          {
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "aspect_ratio_error_ppm"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "opaque"
+                    ]
+                  }
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "usage": {
+                  "const": "video_cover"
+                }
+              },
+              "required": [
+                "usage"
+              ]
+            },
+            "then": {
+              "properties": {
+                "opaque": {
+                  "const": true
+                }
+              },
+              "required": [
+                "aspect_ratio_error_ppm",
+                "opaque"
+              ]
+            }
+          }
+        ],
+        "description": "Static PNG, JPEG, or WebP metadata only. SVG, GIF, animation, filesystem paths, URLs, and Base64 payloads are not representable.",
+        "properties": {
+          "animated": {
+            "const": false
+          },
+          "aspect_ratio_error_ppm": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "asset_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "byte_size": {
+            "maximum": 20971520,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "error": {
+            "$ref": "#/components/schemas/safeError"
+          },
+          "height": {
+            "maximum": 8192,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "media_type": {
+            "enum": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ]
+          },
+          "opaque": {
+            "type": "boolean"
+          },
+          "pixel_count": {
+            "description": "The producer must verify this equals decoded width multiplied by height before declaring readiness.",
+            "maximum": 40000000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "readiness": {
+            "$ref": "#/components/schemas/readiness"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "sha256": {
+            "description": "Public integrity digest only; never an authentication credential.",
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "usage": {
+            "enum": [
+              "scene_background",
+              "video_cover"
+            ]
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "width": {
+            "maximum": 8192,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "asset_id",
+          "variant_id",
+          "usage",
+          "media_type",
+          "width",
+          "height",
+          "byte_size",
+          "pixel_count",
+          "animated",
+          "sha256",
+          "revision",
+          "readiness"
+        ],
+        "type": "object"
+      },
+      "readiness": {
+        "enum": [
+          "ready",
+          "not_ready",
+          "unknown"
+        ]
+      },
+      "resolvedDiscordTarget": {
+        "additionalProperties": false,
+        "properties": {
+          "guild_id": {
+            "pattern": "^[0-9]{1,32}$",
+            "type": "string"
+          },
+          "text_channel_id": {
+            "pattern": "^[0-9]{1,32}$",
+            "type": "string"
+          },
+          "voice_channel_id": {
+            "pattern": "^[0-9]{1,32}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "guild_id",
+          "text_channel_id",
+          "voice_channel_id"
+        ],
+        "type": "object"
+      },
+      "safeError": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "invalid_theme_id",
+              "media_asset_format_unsupported",
+              "media_asset_too_large",
+              "media_asset_decode_failed",
+              "media_asset_aspect_ratio_invalid",
+              "media_asset_variant_processing",
+              "media_asset_variant_failed",
+              "discord_target_invalid",
+              "preset_not_found",
+              "preset_revision_conflict",
+              "stale_job_generation",
+              "stale_cover_revision",
+              "revision_payload_conflict",
+              "capability_required"
+            ]
+          },
+          "request_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "type": "object"
+      },
+      "visualPipelineInvariant": {
+        "additionalProperties": false,
+        "properties": {
+          "audio_continuity": {
+            "additionalProperties": false,
+            "properties": {
+              "graph_rebuild": {
+                "const": 0
+              },
+              "intentional_mute_insertion": {
+                "const": 0
+              },
+              "process_restart": {
+                "const": 0
+              },
+              "reconnect": {
+                "const": 0
+              },
+              "sequence_loss": {
+                "const": 0
+              },
+              "timestamp_discontinuity": {
+                "const": 0
+              }
+            },
+            "required": [
+              "process_restart",
+              "graph_rebuild",
+              "reconnect",
+              "sequence_loss",
+              "timestamp_discontinuity",
+              "intentional_mute_insertion"
+            ],
+            "type": "object"
+          },
+          "cover_watermark_independent": {
+            "const": true
+          },
+          "layers": {
+            "items": false,
+            "maxItems": 5,
+            "minItems": 5,
+            "prefixItems": [
+              {
+                "const": "base_or_worker_scene"
+              },
+              {
+                "const": "video_cover"
+              },
+              {
+                "const": "watermark"
+              },
+              {
+                "const": "video_encode"
+              },
+              {
+                "const": "tee_live_archive_preview"
+              }
+            ],
+            "type": "array"
+          },
+          "output_parity": {
+            "items": false,
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "const": "live"
+              },
+              {
+                "const": "archive"
+              },
+              {
+                "const": "preview"
+              }
+            ],
+            "type": "array"
+          },
+          "watermark_topmost": {
+            "const": true
+          }
+        },
+        "required": [
+          "layers",
+          "watermark_topmost",
+          "cover_watermark_independent",
+          "output_parity",
+          "audio_continuity"
+        ],
         "type": "object"
       }
     },
@@ -326,7 +3003,7 @@
     },
     "/updater/version": {
       "get": {
-        "description": "Unauthenticated endpoint for the host-local update helper. Deployments must keep this path on loopback or block it at the public reverse proxy. The value comes from the running binary and never from SERVICE_VERSION.\n",
+        "description": "Historical route name retained without introducing a /v2 URI prefix. This is an application-owned runtime identity probe consumed by the Local Executor during update verification; it is not Updater health. The current source has no explicit route-level no-store behavior. A later consumer implementation must emit the exact Cache-Control no-store response declared here.\n",
         "operationId": "getUpdaterVersion",
         "responses": {
           "200": {
@@ -334,25 +3011,133 @@
               "application/json": {
                 "schema": {
                   "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "required": [
+                        "version"
+                      ]
+                    }
+                  ],
                   "properties": {
+                    "config_revision": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "service_id": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                      "type": "string"
+                    },
+                    "service_type": {
+                      "const": "discord_bot",
+                      "type": "string"
+                    },
                     "version": {
-                      "example": "v1.1.1",
+                      "example": "v2.0.0",
                       "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
                       "type": "string"
                     }
                   },
                   "required": [
-                    "version"
+                    "version",
+                    "service_id",
+                    "service_type",
+                    "config_revision"
                   ],
                   "type": "object"
                 }
               }
             },
-            "description": "embedded release version"
+            "description": "Discord Bot runtime identity",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "const": "method_not_allowed",
+                      "type": "string"
+                    },
+                    "message": {
+                      "maxLength": 240,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "method not allowed",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "application_probe_unavailable",
+                        "application_probe_identity_invalid",
+                        "application_probe_revision_unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "message": {
+                      "maxLength": 240,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Discord Bot runtime identity is unavailable; the response is safe and contains no raw configuration",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "security": [],
-        "summary": "Read the running binary's embedded release version"
+        "summary": "Read the Discord Bot application runtime identity",
+        "x-autostream-current-source-cache-control": "no_explicit_route_level_no_store",
+        "x-autostream-semantic-name": "application_runtime_identity_probe",
+        "x-autostream-v2-target-cache-control": "no-store"
       }
     }
   },

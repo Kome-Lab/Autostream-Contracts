@@ -1,6 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "System Update Job",
+  "description": "Control Panel job projection. protocol_version 2 is pull-only, capability-bound, revision-fenced, and represents ambiguous execution outcomes explicitly.",
+  "x-autostream-contract-major": 2,
+  "x-autostream-v2-transition-compatibility": {
+    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
+    "removal_wave": "Execution Bundle 8",
+    "final_state": "absent"
+  },
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -72,6 +79,34 @@
         "docker": { "$ref": "#/$defs/dockerPortReconfiguration" },
         "result": {
           "enum": ["applied", "rolled_back", "unchanged", "rollback_failed"]
+        }
+      }
+    },
+    "systemUpdateJobSafeError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "retryable"],
+      "properties": {
+        "code": {
+          "enum": [
+            "protocol_version_unsupported", "issuer_authentication_failed", "updater_identity_mismatch",
+            "authorization_expired", "authorization_replayed", "idempotency_payload_conflict",
+            "capability_missing", "revision_conflict", "stale_fence", "command_expired",
+            "outcome_ambiguous", "local_journal_unavailable", "execution_failed"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240,
+          "pattern": "^[^\\r\\n\\t]*$"
+        },
+        "retryable": { "type": "boolean" },
+        "audit_correlation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
         }
       }
     }
@@ -175,6 +210,91 @@
           }
         ]
       }
+    },
+    {
+      "if": { "required": ["protocol_version"] },
+      "then": {
+        "required": [
+          "protocol_version", "transport_mode", "updater_id", "desired_revision",
+          "fence", "outcome", "required_capability", "authorization_id",
+          "canonical_payload_digest", "automatic_resend_allowed"
+        ],
+        "properties": {
+          "transport_mode": { "const": "pull_v2" },
+          "lease_generation": { "minimum": 1 },
+          "fence": { "minimum": 1 }
+        },
+        "oneOf": [
+          {
+            "required": ["operation"],
+            "properties": {
+              "operation": { "const": "port_reconfigure" },
+              "required_capability": { "const": "host.port" }
+            }
+          },
+          {
+            "required": ["operation"],
+            "properties": {
+              "operation": { "const": "software_update" },
+              "required_capability": { "const": "host.update" }
+            }
+          },
+          {
+            "not": { "required": ["operation"] },
+            "properties": { "required_capability": { "const": "host.update" } }
+          }
+        ],
+        "not": {
+          "anyOf": [
+            { "required": ["code"] },
+            { "required": ["message"] }
+          ]
+        }
+      }
+    },
+    {
+      "if": { "required": ["protocol_version"] },
+      "then": {
+        "oneOf": [
+          {
+            "properties": {
+              "outcome": { "const": "pending" },
+              "status": {
+                "enum": [
+                  "queued", "claimed", "downloading", "verifying", "staging", "stopping",
+                  "installing", "starting", "health_checking", "rolling_back"
+                ]
+              }
+            },
+            "not": { "required": ["safe_error"] }
+          },
+          {
+            "properties": { "outcome": { "const": "succeeded" }, "status": { "const": "succeeded" } },
+            "not": { "required": ["safe_error"] }
+          },
+          {
+            "properties": { "outcome": { "const": "rolled_back" }, "status": { "const": "rolled_back" } }
+          },
+          {
+            "properties": { "outcome": { "const": "canceled" }, "status": { "const": "canceled" } }
+          },
+          {
+            "properties": { "outcome": { "const": "failed" }, "status": { "const": "failed" } },
+            "required": ["safe_error"]
+          },
+          {
+            "properties": {
+              "outcome": { "const": "ambiguous" },
+              "status": { "const": "reconciling" },
+              "safe_error": {
+                "required": ["code"],
+                "properties": { "code": { "const": "outcome_ambiguous" } }
+              }
+            },
+            "required": ["safe_error"]
+          }
+        ]
+      }
     }
   ],
   "required": [
@@ -183,6 +303,7 @@
     "lease_generation", "sequence", "progress", "created_at", "updated_at"
   ],
   "properties": {
+    "protocol_version": { "const": 2 },
     "operation": {
       "enum": ["software_update", "port_reconfigure"],
       "default": "software_update"
@@ -226,6 +347,19 @@
     "artifact_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "previous_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "updater_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "authorization_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "canonical_payload_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "automatic_resend_allowed": { "const": false },
+    "desired_revision": { "type": "integer", "minimum": 1 },
+    "fence": { "type": "integer", "minimum": 1 },
+    "outcome": { "enum": ["pending", "succeeded", "failed", "rolled_back", "canceled", "ambiguous"] },
+    "required_capability": {
+      "enum": [
+        "host.systemd", "host.docker", "host.update", "host.bootstrap",
+        "host.port", "host.self_update"
+      ]
+    },
+    "safe_error": { "$ref": "#/$defs/systemUpdateJobSafeError" },
     "requested_by": { "type": "string" },
     "lease_generation": { "type": "integer", "minimum": 0 },
     "lease_expires_at": { "type": "string", "format": "date-time" },

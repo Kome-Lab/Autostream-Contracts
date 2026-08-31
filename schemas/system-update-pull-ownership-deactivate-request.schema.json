@@ -2,6 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SystemUpdatePullOwnershipDeactivateRequest",
   "description": "Administrative compare-and-swap request that returns one active pull_v2 Host Agent to observer mode and restores the server-preserved ssh_v1 owner. Every expected value is required; a replacement owner, transport, epoch, credential, or grant cannot be supplied by the client.",
+  "x-autostream-contract-major": 2,
+  "x-autostream-v2-transition-compatibility": {
+    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
+    "removal_wave": "Execution Bundle 8",
+    "final_state": "absent",
+    "purpose": "whole_release_rollback_only"
+  },
   "type": "object",
   "required": [
     "expected_execution_host_id",
@@ -12,7 +19,25 @@
     "expected_local_executor_policy_sha256"
   ],
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "required": ["protocol_version"] },
+      "then": {
+        "required": ["protocol_version", "idempotency_key", "desired_revision", "fence", "required_capability"]
+      }
+    }
+  ],
   "properties": {
+    "protocol_version": { "const": 2 },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "desired_revision": { "type": "integer", "minimum": 1 },
+    "fence": { "type": "integer", "minimum": 1 },
+    "required_capability": { "const": "host.update" },
     "expected_execution_host_id": {
       "type": "string",
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"

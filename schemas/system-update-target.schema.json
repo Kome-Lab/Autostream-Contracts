@@ -1,6 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "System Update Target",
+  "description": "Control Panel target projection. protocol_version 2 requires capability, revision/fence, Updater health, and a distinct application-owned identity probe.",
+  "x-autostream-contract-major": 2,
+  "x-autostream-v2-transition-compatibility": {
+    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
+    "removal_wave": "Execution Bundle 8",
+    "final_state": "absent"
+  },
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -33,10 +40,101 @@
         "published_host_ip": { "const": "127.0.0.1" },
         "reported_at": { "type": "string", "format": "date-time" }
       }
+    },
+    "updaterHealth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "revision"],
+      "properties": {
+        "status": { "enum": ["ready", "not_ready", "unknown"] },
+        "revision": { "type": "integer", "minimum": 1 },
+        "safe_error_code": {
+          "enum": ["updater_unreachable", "capability_missing", "revision_mismatch", "fence_stale"]
+        }
+      }
+    },
+    "systemUpdateTargetApplicationProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "service_id", "service_type", "config_revision"],
+      "properties": {
+        "version": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "service_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "service_type": {
+          "enum": ["control_panel", "worker", "encoder_recorder", "discord_bot", "observability"]
+        },
+        "config_revision": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "systemUpdateTargetSafeError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "retryable"],
+      "properties": {
+        "code": {
+          "enum": [
+            "updater_unreachable", "capability_missing", "revision_conflict", "stale_fence",
+            "application_probe_unavailable", "application_probe_identity_invalid",
+            "application_probe_revision_unknown", "update_check_failed"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240,
+          "pattern": "^[^\\r\\n\\t]*$"
+        },
+        "retryable": { "type": "boolean" },
+        "audit_correlation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        }
+      },
+      "description": "Bounded public diagnostics only. Tokens, credentials, paths, configuration, stdout, and stderr are not representable fields."
     }
   },
+  "allOf": [
+    {
+      "if": { "required": ["protocol_version"] },
+      "then": {
+        "required": [
+          "protocol_version", "host_id", "updater_id", "capabilities", "desired_revision",
+          "applied_revision", "fence", "updater_health", "application_probe"
+        ],
+        "not": { "required": ["update_check_error"] }
+      }
+    },
+    {
+      "if": {
+        "required": ["protocol_version", "updater_health"],
+        "properties": {
+          "updater_health": {
+            "required": ["status"],
+            "properties": { "status": { "enum": ["not_ready", "unknown"] } }
+          }
+        }
+      },
+      "then": { "required": ["safe_error"] }
+    },
+    {
+      "if": {
+        "required": ["protocol_version", "safe_error"]
+      },
+      "then": {
+        "not": { "required": ["update_check_error"] }
+      }
+    }
+  ],
   "required": ["target_id", "target_type", "name", "update_available", "updater_online", "eligible", "busy"],
   "properties": {
+    "protocol_version": { "const": 2 },
     "target_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "target_type": {
       "enum": ["control_panel", "discord_bot", "encoder_recorder", "observability", "worker"]
@@ -54,6 +152,22 @@
     "deployment_mode": { "enum": ["systemd", "docker"] },
     "updater_id": { "type": "string", "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "updater_online": { "type": "boolean" },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "host.systemd", "host.docker", "host.update", "host.bootstrap",
+          "host.port", "host.self_update"
+        ]
+      }
+    },
+    "desired_revision": { "type": "integer", "minimum": 1 },
+    "applied_revision": { "type": "integer", "minimum": 0 },
+    "fence": { "type": "integer", "minimum": 1 },
+    "updater_health": { "$ref": "#/$defs/updaterHealth" },
+    "application_probe": { "$ref": "#/$defs/systemUpdateTargetApplicationProbe" },
     "current_stream_id": { "type": "string" },
     "eligible": { "type": "boolean" },
     "blocked_reason": { "type": "string" },
@@ -75,6 +189,7 @@
     "busy": { "type": "boolean" },
     "update_check_source": { "type": "string" },
     "update_check_error": { "type": "string" },
+    "safe_error": { "$ref": "#/$defs/systemUpdateTargetSafeError" },
     "port_mapping": { "$ref": "#/$defs/portMapping" }
   }
 }

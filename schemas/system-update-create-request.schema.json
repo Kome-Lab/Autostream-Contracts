@@ -1,6 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "System Update Create Request",
+  "description": "Control Panel orchestration intent. protocol_version 2 carries only typed revision-fenced intent and never accepts host execution details.",
+  "x-autostream-contract-major": 2,
+  "x-autostream-v2-transition-compatibility": {
+    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
+    "removal_wave": "Execution Bundle 8",
+    "final_state": "absent"
+  },
   "type": "object",
   "additionalProperties": false,
   "required": ["target_id", "idempotency_key"],
@@ -44,9 +51,38 @@
           ]
         }
       }
+    },
+    {
+      "if": { "required": ["protocol_version"] },
+      "then": {
+        "required": ["protocol_version", "desired_revision", "fence", "required_capability"],
+        "oneOf": [
+          {
+            "required": ["operation"],
+            "properties": {
+              "operation": { "const": "port_reconfigure" },
+              "required_capability": { "const": "host.port" }
+            }
+          },
+          {
+            "required": ["operation"],
+            "properties": {
+              "operation": { "const": "software_update" },
+              "required_capability": { "const": "host.update" }
+            }
+          },
+          {
+            "not": { "required": ["operation"] },
+            "properties": {
+              "required_capability": { "const": "host.update" }
+            }
+          }
+        ]
+      }
     }
   ],
   "properties": {
+    "protocol_version": { "const": 2 },
     "operation": {
       "enum": ["software_update", "port_reconfigure"],
       "default": "software_update"
@@ -87,6 +123,14 @@
       "minLength": 1,
       "maxLength": 128,
       "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "desired_revision": { "type": "integer", "minimum": 1 },
+    "fence": { "type": "integer", "minimum": 1 },
+    "required_capability": {
+      "enum": [
+        "host.systemd", "host.docker", "host.update", "host.bootstrap",
+        "host.port", "host.self_update"
+      ]
     }
   }
 }

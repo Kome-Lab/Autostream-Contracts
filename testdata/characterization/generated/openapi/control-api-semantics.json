@@ -10,7 +10,7 @@
   "duplicate_operation_ids": [],
   "explicit_security_count": 29,
   "inherited_security_count": 150,
-  "inline_schema_count": 20,
+  "inline_schema_count": 25,
   "method_counts": {
     "delete": 18,
     "get": 62,
@@ -21,7 +21,7 @@
     "put": 17,
     "trace": 0
   },
-  "normalized_bundle_sha256": "bf7a7d10fbb3679d8060c2237a4e80702fcfe17076ad649d0e7df14b6154d334",
+  "normalized_bundle_sha256": "a18dfeaba2f1e07d2e8a13878009b10eb34caf2b5eacda8ca2df70a38aec1385",
   "openapi_version": "3.1.0",
   "operation_count": 179,
   "operation_id_count": 14,
@@ -53,6 +53,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -109,6 +123,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -133,6 +161,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -194,6 +236,20 @@
             }
           ],
           "status": "404"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -227,6 +283,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -260,6 +330,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -284,6 +368,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -308,6 +406,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -341,6 +453,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -365,6 +491,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -389,6 +529,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -413,6 +567,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -433,6 +601,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -457,6 +639,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -481,6 +677,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -505,6 +715,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -529,6 +753,20 @@
           "content_types": [],
           "schemas": [],
           "status": "202"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -553,6 +791,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -592,6 +844,20 @@
           "content_types": [],
           "schemas": [],
           "status": "403"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -621,6 +887,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -659,6 +939,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -692,6 +986,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -740,6 +1048,20 @@
           "content_types": [],
           "schemas": [],
           "status": "403"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -782,6 +1104,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -829,6 +1165,20 @@
           "content_types": [],
           "schemas": [],
           "status": "401"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -871,6 +1221,20 @@
             }
           ],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -900,6 +1264,20 @@
           "content_types": [],
           "schemas": [],
           "status": "404"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -924,6 +1302,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -962,6 +1354,20 @@
           "content_types": [],
           "schemas": [],
           "status": "401"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -995,6 +1401,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1037,6 +1457,20 @@
             }
           ],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1061,6 +1495,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1094,6 +1542,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1136,6 +1598,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1189,6 +1665,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1222,6 +1712,20 @@
           "content_types": [],
           "schemas": [],
           "status": "403"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1246,6 +1750,20 @@
           "content_types": [],
           "schemas": [],
           "status": "303"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1329,6 +1847,20 @@
           "status": "409"
         },
         {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
           "content_types": [],
           "schemas": [],
           "status": "500"
@@ -1401,6 +1933,20 @@
           "status": "409"
         },
         {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
           "content_types": [],
           "schemas": [],
           "status": "500"
@@ -1433,6 +1979,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1457,6 +2017,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1495,6 +2069,20 @@
           "content_types": [],
           "schemas": [],
           "status": "403"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1528,6 +2116,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1561,6 +2163,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1590,6 +2206,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1614,6 +2244,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1647,6 +2291,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1671,6 +2329,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1695,6 +2367,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1719,6 +2405,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1774,6 +2474,20 @@
           "status": "404"
         },
         {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
           "content_types": [],
           "schemas": [],
           "status": "429"
@@ -1811,6 +2525,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1835,6 +2563,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1868,6 +2610,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1917,6 +2673,20 @@
           "status": "400"
         },
         {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
           "content_types": [],
           "schemas": [],
           "status": "429"
@@ -1954,6 +2724,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -1987,6 +2771,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2036,6 +2834,20 @@
           "status": "400"
         },
         {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
           "content_types": [],
           "schemas": [],
           "status": "429"
@@ -2082,6 +2894,20 @@
             }
           ],
           "status": "202"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2106,6 +2932,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2130,6 +2970,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2154,6 +3008,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2178,6 +3046,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2202,6 +3084,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2226,6 +3122,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2250,6 +3160,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2274,6 +3198,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2298,6 +3236,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2322,6 +3274,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2346,6 +3312,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2370,6 +3350,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2394,6 +3388,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2418,6 +3426,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2442,6 +3464,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [
@@ -2480,6 +3516,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2504,6 +3554,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2528,6 +3592,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2552,6 +3630,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2576,6 +3668,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2600,6 +3706,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2624,6 +3744,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2648,6 +3782,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2672,6 +3820,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2696,6 +3858,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2720,6 +3896,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2744,6 +3934,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2768,6 +3972,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2792,6 +4010,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2816,6 +4048,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2840,6 +4086,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2864,6 +4124,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2897,6 +4171,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2939,6 +4227,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2963,6 +4265,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -2985,10 +4301,10 @@
       ],
       "request_schemas": [
         {
-          "kind": "ref",
-          "name": "Heartbeat",
-          "ref": "#/components/schemas/Heartbeat",
-          "resolved_sha256": "2a9dff990c950051975aab580aa29ec6c667ddc27da164f11fc3720b3aa57326"
+          "kind": "inline",
+          "name": "",
+          "resolved_sha256": "84fadc34458ec037f85411ae4c35e0773ed033d1d1e3377f456adf753ca9e840",
+          "type": ""
         }
       ],
       "responses": [
@@ -2996,6 +4312,20 @@
           "content_types": [],
           "schemas": [],
           "status": "202"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3099,6 +4429,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3165,6 +4509,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3277,6 +4635,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3383,6 +4755,20 @@
           "schemas": [
             {
               "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
               "name": "ErrorResponse",
               "ref": "#/components/schemas/ErrorResponse",
               "resolved_sha256": "07c300ce7804f1fe48e4085f3f0afd5ba9573110ddca16f031fc017f8db99f17"
@@ -3481,6 +4867,20 @@
           "status": "403"
         },
         {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
           "content_types": [],
           "schemas": [],
           "status": "502"
@@ -3540,6 +4940,20 @@
             }
           ],
           "status": "400"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3588,6 +5002,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3635,6 +5063,20 @@
             }
           ],
           "status": "403"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3719,6 +5161,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3784,6 +5240,20 @@
           "schemas": [
             {
               "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
               "name": "ErrorResponse",
               "ref": "#/components/schemas/ErrorResponse",
               "resolved_sha256": "07c300ce7804f1fe48e4085f3f0afd5ba9573110ddca16f031fc017f8db99f17"
@@ -3828,6 +5298,20 @@
           "content_types": [],
           "schemas": [],
           "status": "202"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3867,6 +5351,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3911,6 +5409,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3946,10 +5458,10 @@
           ],
           "schemas": [
             {
-              "kind": "ref",
-              "name": "UpdateAgentClaimResponse",
-              "ref": "#/components/schemas/UpdateAgentClaimResponse",
-              "resolved_sha256": "821845b24f8c4a7ebafef744a1ed5f8b5826c26924e9b269e49ebf7a8fafa5aa"
+              "kind": "inline",
+              "name": "",
+              "resolved_sha256": "3e531737fc8bae29436c26da461b132bb64dc352657798a06b3bfae1382fd6c8",
+              "type": ""
             }
           ],
           "status": "200"
@@ -3963,6 +5475,20 @@
           "content_types": [],
           "schemas": [],
           "status": "403"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -3997,6 +5523,20 @@
           "content_types": [],
           "schemas": [],
           "status": "410"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -4064,6 +5604,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -4112,6 +5666,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -4134,10 +5702,10 @@
       ],
       "request_schemas": [
         {
-          "kind": "ref",
-          "name": "UpdateAgentReportRequest",
-          "ref": "#/components/schemas/UpdateAgentReportRequest",
-          "resolved_sha256": "ee43089a109d8586a6669051ba3956656b25eec07d854e860572ef2e6d879a50"
+          "kind": "inline",
+          "name": "",
+          "resolved_sha256": "22f4349ff59edbde97a27a7c3a056c4fec48fd9a76a315db03dc7e763df17513",
+          "type": ""
         }
       ],
       "responses": [
@@ -4148,9 +5716,9 @@
           "schemas": [
             {
               "kind": "ref",
-              "name": "SystemUpdateJob",
-              "ref": "#/components/schemas/SystemUpdateJob",
-              "resolved_sha256": "2b0c6928153ef4bb63e241904f5cbf567eee4b8e2932240b1be7a23b8f5117c2"
+              "name": "system-update-job.schema",
+              "ref": "#/components/schemas/system-update-job.schema",
+              "resolved_sha256": "588b23ba34c95e0ea8b1d0a607720128c56cb8159939e872b640d827eabbe907"
             }
           ],
           "status": "200"
@@ -4159,6 +5727,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -4197,6 +5779,20 @@
             }
           ],
           "status": "404"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4239,6 +5835,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4263,6 +5873,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4292,6 +5916,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -4339,6 +5977,20 @@
           "content_types": [],
           "schemas": [],
           "status": "400"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4377,6 +6029,20 @@
           "content_types": [],
           "schemas": [],
           "status": "403"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4397,6 +6063,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -4436,6 +6116,20 @@
           "content_types": [],
           "schemas": [],
           "status": "410"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [],
@@ -4492,6 +6186,20 @@
           "content_types": [],
           "schemas": [],
           "status": "410"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "explicit",
@@ -4516,6 +6224,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4549,6 +6271,20 @@
           "content_types": [],
           "schemas": [],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4614,6 +6350,20 @@
           "schemas": [
             {
               "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
               "name": "ErrorResponse",
               "ref": "#/components/schemas/ErrorResponse",
               "resolved_sha256": "07c300ce7804f1fe48e4085f3f0afd5ba9573110ddca16f031fc017f8db99f17"
@@ -4644,6 +6394,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4668,6 +6432,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4697,6 +6475,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4726,6 +6518,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4769,6 +6575,20 @@
           "content_types": [],
           "schemas": [],
           "status": "404"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4793,6 +6613,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4817,6 +6651,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -4855,6 +6703,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [],
@@ -4917,6 +6779,20 @@
           "status": "409"
         },
         {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
           "content_types": [],
           "schemas": [],
           "status": "502"
@@ -4958,6 +6834,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5006,6 +6896,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [],
@@ -5071,6 +6975,20 @@
           "schemas": [
             {
               "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
               "name": "ErrorResponse",
               "ref": "#/components/schemas/ErrorResponse",
               "resolved_sha256": "07c300ce7804f1fe48e4085f3f0afd5ba9573110ddca16f031fc017f8db99f17"
@@ -5124,6 +7042,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5166,6 +7098,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5204,6 +7150,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5233,6 +7193,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5262,6 +7236,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5314,6 +7302,20 @@
             }
           ],
           "status": "404"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [
@@ -5439,6 +7441,20 @@
           "schemas": [
             {
               "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
               "name": "ErrorResponse",
               "ref": "#/components/schemas/ErrorResponse",
               "resolved_sha256": "07c300ce7804f1fe48e4085f3f0afd5ba9573110ddca16f031fc017f8db99f17"
@@ -5497,6 +7513,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [],
@@ -5608,6 +7638,20 @@
           "schemas": [
             {
               "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
               "name": "ErrorResponse",
               "ref": "#/components/schemas/ErrorResponse",
               "resolved_sha256": "07c300ce7804f1fe48e4085f3f0afd5ba9573110ddca16f031fc017f8db99f17"
@@ -5671,10 +7715,24 @@
               "kind": "ref",
               "name": "SystemUpdatesResponse",
               "ref": "#/components/schemas/SystemUpdatesResponse",
-              "resolved_sha256": "57a0f8bbc29e11e678fa1cf709c961e41b0c3c7219d6a4ed2bb877a58da82b12"
+              "resolved_sha256": "bf1556813979e7176ab48f3ec89562e5dbab1ca0c6e952ad53845aae88193651"
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5698,9 +7756,9 @@
       "request_schemas": [
         {
           "kind": "ref",
-          "name": "SystemUpdateCreateRequest",
-          "ref": "#/components/schemas/SystemUpdateCreateRequest",
-          "resolved_sha256": "aca3f90aacf9db8f3697ab877d07399fe0d265dd3b1b256e892b8e504c255a65"
+          "name": "system-update-create-request.schema",
+          "ref": "#/components/schemas/system-update-create-request.schema",
+          "resolved_sha256": "2845a007bc5cb0b300ea7a29be7d7b993c241abfdcf1c94e9e1ba8bc354a558d"
         }
       ],
       "responses": [
@@ -5711,9 +7769,9 @@
           "schemas": [
             {
               "kind": "ref",
-              "name": "SystemUpdateJob",
-              "ref": "#/components/schemas/SystemUpdateJob",
-              "resolved_sha256": "2b0c6928153ef4bb63e241904f5cbf567eee4b8e2932240b1be7a23b8f5117c2"
+              "name": "system-update-job.schema",
+              "ref": "#/components/schemas/system-update-job.schema",
+              "resolved_sha256": "588b23ba34c95e0ea8b1d0a607720128c56cb8159939e872b640d827eabbe907"
             }
           ],
           "status": "202"
@@ -5722,6 +7780,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5755,6 +7827,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5839,6 +7925,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -5923,6 +8023,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6007,6 +8121,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6030,9 +8158,9 @@
       "request_schemas": [
         {
           "kind": "ref",
-          "name": "SystemUpdatePullOwnershipActivateRequest",
-          "ref": "#/components/schemas/SystemUpdatePullOwnershipActivateRequest",
-          "resolved_sha256": "c00e6179d83a0b64bc0bd2635e44cb573f28c47b2c8ea737be577b9c29cc41ff"
+          "name": "system-update-pull-ownership-activate-request.schema",
+          "ref": "#/components/schemas/system-update-pull-ownership-activate-request.schema",
+          "resolved_sha256": "d73a31570e0f5e34c7d1700c5535208d19c7cad403badb6346cf2b7c28ba1c5a"
         }
       ],
       "responses": [
@@ -6043,9 +8171,9 @@
           "schemas": [
             {
               "kind": "ref",
-              "name": "SystemUpdatePullOwnershipActivateResponse",
-              "ref": "#/components/schemas/SystemUpdatePullOwnershipActivateResponse",
-              "resolved_sha256": "f585500490969ae0a5fe8ca5be2a6a8ede302d9b5eb4241b83130a9e5841ee08"
+              "name": "system-update-pull-ownership-activate-response.schema",
+              "ref": "#/components/schemas/system-update-pull-ownership-activate-response.schema",
+              "resolved_sha256": "9e16b2d6f3a01e0c85e5e1d4ac3ef0ef780afcae957f1730822b2561ec3e48fa"
             }
           ],
           "status": "200"
@@ -6105,6 +8233,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [
@@ -6142,9 +8284,9 @@
       "request_schemas": [
         {
           "kind": "ref",
-          "name": "SystemUpdatePullOwnershipDeactivateRequest",
-          "ref": "#/components/schemas/SystemUpdatePullOwnershipDeactivateRequest",
-          "resolved_sha256": "e7627455ff40a3eebeecc82a0e9e1b1ef00c41f077b6c947de3d7a5ae34b0650"
+          "name": "system-update-pull-ownership-deactivate-request.schema",
+          "ref": "#/components/schemas/system-update-pull-ownership-deactivate-request.schema",
+          "resolved_sha256": "b19a9640c5eb93d9b11bd2fa295bb13a3a02f2a4868d00157dfc89e4d2e00262"
         }
       ],
       "responses": [
@@ -6155,9 +8297,9 @@
           "schemas": [
             {
               "kind": "ref",
-              "name": "SystemUpdatePullOwnershipDeactivateResponse",
-              "ref": "#/components/schemas/SystemUpdatePullOwnershipDeactivateResponse",
-              "resolved_sha256": "a65a0e3083067a2c4c691ceb9821e2dd57687c59e7bb5ae6fc48b75339810dfa"
+              "name": "system-update-pull-ownership-deactivate-response.schema",
+              "ref": "#/components/schemas/system-update-pull-ownership-deactivate-response.schema",
+              "resolved_sha256": "80ae7dfacd295b1fe51e0e72876c10705c2e41eda4aec0fe2acd2503908bb672"
             }
           ],
           "status": "200"
@@ -6217,6 +8359,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [
@@ -6258,9 +8414,9 @@
           "schemas": [
             {
               "kind": "ref",
-              "name": "SystemUpdateJob",
-              "ref": "#/components/schemas/SystemUpdateJob",
-              "resolved_sha256": "2b0c6928153ef4bb63e241904f5cbf567eee4b8e2932240b1be7a23b8f5117c2"
+              "name": "system-update-job.schema",
+              "ref": "#/components/schemas/system-update-job.schema",
+              "resolved_sha256": "588b23ba34c95e0ea8b1d0a607720128c56cb8159939e872b640d827eabbe907"
             }
           ],
           "status": "200"
@@ -6269,6 +8425,20 @@
           "content_types": [],
           "schemas": [],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6293,11 +8463,53 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "6186ab1d64960db858aecf9ffef6953253c9766d1b2476bb8a382eb2f6085352",
+              "resolved_sha256": "4cf17f19028c073271f915db7dccb14d983657cf83f7b6b2bd2eb783c76503ae",
               "type": "object"
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "inline",
+              "name": "",
+              "resolved_sha256": "7b958a20882079dc78a2e8c37c65594b3700a722fd04341061d9b120b401e32e",
+              "type": "object"
+            }
+          ],
+          "status": "405"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "inline",
+              "name": "",
+              "resolved_sha256": "b007e83846cef0ac0feebef2431ec5fedf5cd60db8b4302a8b21c456e14a1cd3",
+              "type": "object"
+            }
+          ],
+          "status": "500"
         }
       ],
       "security_source": "explicit",
@@ -6331,6 +8543,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6373,6 +8599,20 @@
             }
           ],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6406,6 +8646,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6448,6 +8702,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6472,6 +8740,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6496,6 +8778,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6520,6 +8816,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6553,6 +8863,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6595,6 +8919,20 @@
             }
           ],
           "status": "403"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6619,6 +8957,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6643,6 +8995,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6667,6 +9033,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6691,6 +9071,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6715,6 +9109,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6757,6 +9165,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6781,6 +9203,20 @@
           "content_types": [],
           "schemas": [],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6805,6 +9241,20 @@
           "content_types": [],
           "schemas": [],
           "status": "202"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6838,6 +9288,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6880,6 +9344,20 @@
             }
           ],
           "status": "201"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -6918,6 +9396,20 @@
             }
           ],
           "status": "409"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         },
         {
           "content_types": [
@@ -6965,6 +9457,20 @@
             }
           ],
           "status": "200"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
         }
       ],
       "security_source": "inherited",
@@ -7029,6 +9535,20 @@
           "schemas": [
             {
               "kind": "ref",
+              "name": "V2ContractError",
+              "ref": "#/components/schemas/V2ContractError",
+              "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+            }
+          ],
+          "status": "426"
+        },
+        {
+          "content_types": [
+            "application/json"
+          ],
+          "schemas": [
+            {
+              "kind": "ref",
               "name": "ErrorResponse",
               "ref": "#/components/schemas/ErrorResponse",
               "resolved_sha256": "07c300ce7804f1fe48e4085f3f0afd5ba9573110ddca16f031fc017f8db99f17"
@@ -7046,572 +9566,7 @@
     {
       "method": "get",
       "operation_id": "",
-      "path": "/api-tokens"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/api-tokens/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/archive/destinations"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/archive/destinations"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/archive/destinations/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/archive/destinations/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/archive/destinations/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/audit-logs"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/audit-logs/export"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/change-password"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/login"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/logout"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/auth/me"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/mfa/disable"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/mfa/enroll"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/mfa/verify"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/auth/oauth/providers"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/oauth/{id}/start"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/auth/passkeys"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/passkeys/login/start"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/passkeys/register/start"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/auth/recovery-codes/regenerate"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/discord/configs"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/discord/configs"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/discord/configs/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/discord/configs/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/discord/configs/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
       "path": "/health"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/integrations/oauth-accounts"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/integrations/oauth-accounts/callback"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/integrations/oauth-accounts/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/integrations/oauth-providers"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/integrations/oauth-providers"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/integrations/oauth-providers/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/integrations/oauth-providers/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/observability/diagnostics"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/observability/incidents"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/observability/incidents/{id}/acknowledge"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/observability/incidents/{id}/resolve"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/observability/metrics"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/observability/notification-channels"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/observability/notification-channels/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/observability/notification-channels/{id}"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/observability/notification-channels/{id}/test"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/observability/notification-deliveries"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/observability/remediation-actions"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/observability/remediation-actions/{id}/approve"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/observability/remediation-actions/{id}/execute"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/permissions"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/profiles/archive"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/profiles/archive"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/profiles/archive/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/profiles/archive/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/profiles/archive/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/profiles/caption"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/profiles/caption"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/profiles/caption/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/profiles/caption/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/profiles/caption/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/profiles/encoder"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/profiles/encoder"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/profiles/encoder/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/profiles/encoder/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/profiles/encoder/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/profiles/overlay"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/profiles/overlay"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/profiles/overlay/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/profiles/overlay/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/profiles/overlay/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/roles"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/roles"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/roles/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/roles/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/roles/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/secrets/status"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/secrets/{name}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/security/settings"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/security/settings"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/service-health"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/services/heartbeat"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/services/stream-events"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/services/{id}/assign"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/services/{id}/assignment"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/settings/app"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/setup/first-admin"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/streams"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/streams"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/streams/{id}"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/streams/{id}/artifacts"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/streams/{id}/logs"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/streams/{id}/mark-failed"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/streams/{id}/start-readiness"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/system-updates"
-    },
-    {
-      "method": "get",
-      "operation_id": "listHostSelfUpdates",
-      "path": "/system-updates/host-self-updates"
-    },
-    {
-      "method": "get",
-      "operation_id": "getUpdaterVersion",
-      "path": "/updater/version"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/users"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/users"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/users/{id}"
-    },
-    {
-      "method": "put",
-      "operation_id": "",
-      "path": "/users/{id}"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/users/{id}/disable"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/users/{id}/force-password-change"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/users/{id}/lock"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/users/{id}/oauth-links"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/users/{id}/oauth-links/{link_id}"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/users/{id}/reset-password"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/users/{id}/unlock"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/workers"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/workers/{id}"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/workers/{id}/assign"
-    },
-    {
-      "method": "delete",
-      "operation_id": "",
-      "path": "/workers/{id}/assignment"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/workers/{id}/restart"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/youtube/outputs"
-    },
-    {
-      "method": "post",
-      "operation_id": "",
-      "path": "/youtube/outputs"
-    },
-    {
-      "method": "get",
-      "operation_id": "",
-      "path": "/youtube/outputs/{id}"
     }
   ],
   "operations_without_responses": [],
@@ -7678,7 +9633,7 @@
       "path": "/setup/first-admin"
     }
   ],
-  "ref_layout_independent_sha256": "bed89313c5b417e6165c9b6419401457ba6ddf9fb5b043a585c2385164e3929b",
+  "ref_layout_independent_sha256": "68646cfc09aad14396bfe4fdb82ff18e64ba397180d17d86de2b4bcb98bb7252",
   "request_body_count": 55,
   "response_status_distribution": {
     "200": 137,
@@ -7690,14 +9645,16 @@
     "401": 14,
     "403": 30,
     "404": 25,
+    "405": 1,
     "409": 40,
     "410": 3,
+    "426": 178,
     "429": 4,
-    "500": 13,
+    "500": 14,
     "502": 11,
     "503": 11
   },
-  "schema_count": 129,
+  "schema_count": 168,
   "security_scheme_count": 2,
   "title": "AutoStream Control API",
   "unauthenticated_operation_count": 11,

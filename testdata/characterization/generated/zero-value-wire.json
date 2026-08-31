@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 143,
+  "struct_count": 165,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -28,6 +28,40 @@
           },
           {
             "name": "timezone",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ApplicationRuntimeIdentityProbe",
+      "wire_json": "{\"version\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"config_revision\":0}",
+      "wire_sha256": "0aa371b88cfed9b41594094b2bd28be41933085ea0cf1ab3d213ef6fc633386c",
+      "shape": {
+        "fields": [
+          {
+            "name": "config_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "version",
             "shape": {
               "kind": "string"
             }
@@ -3813,6 +3847,536 @@
       }
     },
     {
+      "name": "RemediationDetectorIdentity",
+      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\"}",
+      "wire_sha256": "7e277d77b950bed20bf13ceb009f7bdabec73e1c3e039d69edfae4e6d9c4afae",
+      "shape": {
+        "fields": [
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationEvidence",
+      "wire_json": "{\"evidence_code\":\"\",\"observed_at\":\"0001-01-01T00:00:00Z\",\"observed_revision\":0}",
+      "wire_sha256": "52d7cce28cf45c458a8d9aca2a9b08eda7004cc56f4ec85e251cf10ca3bdb384",
+      "shape": {
+        "fields": [
+          {
+            "name": "evidence_code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "observed_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "observed_revision",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationExecutorIdentity",
+      "wire_json": "{\"authority\":\"\",\"execution_scope\":\"\"}",
+      "wire_sha256": "531d9bf7dd66995494881ff49a6c722458161fc03afea32a7636d7a67bd93b1b",
+      "shape": {
+        "fields": [
+          {
+            "name": "authority",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "execution_scope",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationGrant",
+      "wire_json": "{\"authorization_id\":\"\",\"authorization_nonce_id\":\"\",\"proposal_id\":\"\",\"request_origin\":{\"origin_type\":\"\",\"principal_id\":\"\",\"permission\":\"\"},\"executor\":{\"authority\":\"\",\"execution_scope\":\"\"},\"target\":{\"service_id\":\"\",\"service_type\":\"\"},\"action_type\":\"\",\"idempotency_key\":\"\",\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"capability\":\"\",\"one_time\":false,\"audit_correlation_id\":\"\"}",
+      "wire_sha256": "eb19c814a1c2dba0e37cf6cd072f2a8f51049f85416beb98fdb750558d7fcc57",
+      "shape": {
+        "fields": [
+          {
+            "name": "action_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "audit_correlation_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "authorization_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "authorization_nonce_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "canonical_argument_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "capability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "executor",
+            "shape": {
+              "fields": [
+                {
+                  "name": "authority",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "execution_scope",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "one_time",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "proposal_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "request_origin",
+            "shape": {
+              "fields": [
+                {
+                  "name": "origin_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "permission",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "principal_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "target",
+            "shape": {
+              "fields": [
+                {
+                  "name": "service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationProposal",
+      "wire_json": "{\"proposal_id\":\"\",\"incident_id\":\"\",\"detector\":{\"service_id\":\"\",\"service_type\":\"\"},\"target\":{\"service_id\":\"\",\"service_type\":\"\"},\"action_type\":\"\",\"proposal_revision\":0,\"required_capability\":\"\",\"evidence\":null,\"audit_correlation_id\":\"\",\"observed_at\":\"0001-01-01T00:00:00Z\",\"control_panel_authorization_required\":false}",
+      "wire_sha256": "458f016dff85a85ec550e569c2bf2b6c3115897d37a1d5d4f7f9c2e7c698b771",
+      "shape": {
+        "fields": [
+          {
+            "name": "action_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "audit_correlation_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "control_panel_authorization_required",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "detector",
+            "shape": {
+              "fields": [
+                {
+                  "name": "service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "evidence",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "incident_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "observed_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "proposal_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "proposal_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "required_capability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target",
+            "shape": {
+              "fields": [
+                {
+                  "name": "service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationRequestOrigin",
+      "wire_json": "{\"origin_type\":\"\",\"principal_id\":\"\",\"permission\":\"\"}",
+      "wire_sha256": "21a05892ed17f6370613527df2fe346d0064dd7fc4f38294feb789f31e46ec36",
+      "shape": {
+        "fields": [
+          {
+            "name": "origin_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "permission",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "principal_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationResultEvidence",
+      "wire_json": "{\"authorization_id\":\"\",\"proposal_id\":\"\",\"executor\":{\"authority\":\"\",\"execution_scope\":\"\"},\"target\":{\"service_id\":\"\",\"service_type\":\"\"},\"action_type\":\"\",\"idempotency_key\":\"\",\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"result\":\"\",\"reconciliation_required\":false,\"automatic_resend_allowed\":false,\"evidence\":null,\"audit_correlation_id\":\"\",\"completed_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "3cf5ebcee5014d5caa72f012397bc8edaec679d3ae8f7b5c0d7b0e4e4656992b",
+      "shape": {
+        "fields": [
+          {
+            "name": "action_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "audit_correlation_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "authorization_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "automatic_resend_allowed",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "canonical_argument_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "completed_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "evidence",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "executor",
+            "shape": {
+              "fields": [
+                {
+                  "name": "authority",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "execution_scope",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "proposal_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "reconciliation_required",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "result",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target",
+            "shape": {
+              "fields": [
+                {
+                  "name": "service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationSafeError",
+      "wire_json": "{\"code\":\"\",\"message\":\"\",\"retryable\":false}",
+      "wire_sha256": "46ba4f959bef76f94b16fef00b6d9ef8e31f74c54143e39b6906410ded3a5707",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "message",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "retryable",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "RemediationTargetIdentity",
+      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\"}",
+      "wire_sha256": "7e277d77b950bed20bf13ceb009f7bdabec73e1c3e039d69edfae4e6d9c4afae",
+      "shape": {
+        "fields": [
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "SecretStatus",
       "wire_json": "{\"name\":\"\",\"configured\":false}",
       "wire_sha256": "d7efbf060a19c06b8f7d1e892edfaa2a411fbaabbbf6b28ba48e596ebd5c7615",
@@ -5730,6 +6294,982 @@
             "name": "status",
             "shape": {
               "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterCommandEnvelope",
+      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"audit_correlation_id\":\"\"}",
+      "wire_sha256": "a729c2f087ad09d35b221a29c36b06993265ac5604614f08bf33685b5ed019df",
+      "shape": {
+        "fields": [
+          {
+            "name": "audit_correlation_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "canonical_payload_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "command_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "issuer",
+            "shape": {
+              "fields": [
+                {
+                  "name": "authentication",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "permission",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "mutation_authorization",
+            "shape": {
+              "fields": [
+                {
+                  "name": "action_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "authorization_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "canonical_argument_digest",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "desired_revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "expires_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "fence",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "host_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "job_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "nonce_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "one_time",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "required_capability",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "target",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "deployment_mode",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "service_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "service_type",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "updater_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterCommandIssuer",
+      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"}",
+      "wire_sha256": "4f2237691624b382175c130d8cb7682d54e6b2805831c57b3ebdcdd27f5832c8",
+      "shape": {
+        "fields": [
+          {
+            "name": "authentication",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "permission",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterEvidence",
+      "wire_json": "{\"evidence_code\":\"\",\"observed_at\":\"0001-01-01T00:00:00Z\",\"observed_revision\":0}",
+      "wire_sha256": "52d7cce28cf45c458a8d9aca2a9b08eda7004cc56f4ec85e251cf10ca3bdb384",
+      "shape": {
+        "fields": [
+          {
+            "name": "evidence_code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "observed_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "observed_revision",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterHealth",
+      "wire_json": "{\"status\":\"\",\"revision\":0}",
+      "wire_sha256": "b4309d75fa3ff31ba9b23ba2bdb3348216a430b98ed061052d8618ca506e3e37",
+      "shape": {
+        "fields": [
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterHeartbeat",
+      "wire_json": "{\"protocol_version\":0,\"updater_id\":\"\",\"host_id\":\"\",\"service_id\":\"\",\"authentication\":\"\",\"sequence\":0,\"capabilities\":null,\"desired_revision\":0,\"applied_revision\":0,\"fence\":0,\"status\":\"\",\"observed_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "bb1fc9b36a6545c6cf4520cae8f675493a64942844935bda983da34160c9827b",
+      "shape": {
+        "fields": [
+          {
+            "name": "applied_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "authentication",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "capabilities",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "observed_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "sequence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterLeaseEnvelope",
+      "wire_json": "{\"protocol_version\":0,\"lease_id\":\"\",\"lease_generation\":0,\"command\":{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"audit_correlation_id\":\"\"}}",
+      "wire_sha256": "0db9d3c99efa501639f9ef32bad6174c4059932fc5e5e30f2358e439563edd74",
+      "shape": {
+        "fields": [
+          {
+            "name": "command",
+            "shape": {
+              "fields": [
+                {
+                  "name": "audit_correlation_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "canonical_payload_digest",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "command_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "idempotency_key",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "issuer",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "authentication",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "permission",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "service_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "service_type",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "mutation_authorization",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "action_type",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "authorization_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "canonical_argument_digest",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "desired_revision",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "expires_at",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "fence",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "host_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "job_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "nonce_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "one_time",
+                        "shape": {
+                          "kind": "boolean"
+                        }
+                      },
+                      {
+                        "name": "required_capability",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "target",
+                        "shape": {
+                          "fields": [
+                            {
+                              "name": "deployment_mode",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "service_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "service_type",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            }
+                          ],
+                          "kind": "object"
+                        }
+                      },
+                      {
+                        "name": "updater_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "lease_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterLocalJournalBoundary",
+      "wire_json": "{\"journal_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"command_id\":\"\",\"authorization_id\":\"\",\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"phase\":\"\",\"recovery_state\":\"\",\"recorded_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "ee692cea46abe8114b6efb668d03f4b40b6126c653adb8f8563d5b171b7ace64",
+      "shape": {
+        "fields": [
+          {
+            "name": "authorization_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "canonical_payload_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "command_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "journal_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "phase",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "recorded_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "recovery_state",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterMutationAuthorization",
+      "wire_json": "{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false}",
+      "wire_sha256": "0c828fdc9c39330747b5b7c179d5213895aaed62b221561c44b077c743c323e4",
+      "shape": {
+        "fields": [
+          {
+            "name": "action_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "authorization_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "canonical_argument_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "nonce_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "one_time",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "required_capability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target",
+            "shape": {
+              "fields": [
+                {
+                  "name": "deployment_mode",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "service_type",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterProgressEnvelope",
+      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"sequence\":0,\"phase\":\"\",\"progress\":0,\"desired_revision\":0,\"fence\":0,\"audit_correlation_id\":\"\",\"observed_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "0f2ce8bdcfcf8dd98f7d2f0137335578ffe23963e94c61c1263fa7e122177429",
+      "shape": {
+        "fields": [
+          {
+            "name": "audit_correlation_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "command_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "observed_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "phase",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "progress",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "sequence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterResultEnvelope",
+      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"authorization_id\":\"\",\"desired_revision\":0,\"fence\":0,\"outcome\":\"\",\"status\":\"\",\"automatic_resend_allowed\":false,\"audit_correlation_id\":\"\",\"evidence\":null}",
+      "wire_sha256": "338b53877fc5cb27913cae61a16dac76c4e299ea7a3ca910eaf22778d13329c6",
+      "shape": {
+        "fields": [
+          {
+            "name": "audit_correlation_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "authorization_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "automatic_resend_allowed",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "canonical_payload_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "command_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "evidence",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "outcome",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterTargetIdentity",
+      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"}",
+      "wire_sha256": "b24c3acfa5f598e8118038f3f93b8a0ce5511c3aa1af9e173b93f810cb43108c",
+      "shape": {
+        "fields": [
+          {
+            "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "V2UpdaterSafeError",
+      "wire_json": "{\"code\":\"\",\"message\":\"\",\"retryable\":false}",
+      "wire_sha256": "46ba4f959bef76f94b16fef00b6d9ef8e31f74c54143e39b6906410ded3a5707",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "message",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "retryable",
+            "shape": {
+              "kind": "boolean"
             }
           }
         ],

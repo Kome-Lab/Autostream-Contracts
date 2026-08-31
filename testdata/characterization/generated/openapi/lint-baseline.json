@@ -3,7 +3,7 @@
     {
       "api": "openapi/control-api.yaml",
       "error_count": 156,
-      "finding_count": 566,
+      "finding_count": 561,
       "findings": [
         {
           "category": "openapi_lint",
@@ -1903,11 +1903,35 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "023629a43faad0302e170fb21d47c8e02d8fd0903c64f00d78131a33d205e795",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/not/anyOf/2/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "02a21f79933af7563bd9c61329674da757d878638a84153d7482aaab67c7cf3e",
           "locations": [
             {
               "pointer": "#/components/schemas/ServiceRuntimeConfig/properties/stream_youtube_configs/items/properties/active_runtime/allOf/0/then/not/anyOf/0/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "06a7d285fc2fbdfed7953bca3240b117fd647e8156f43533bd271d9e7e4f25d1",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/then/required/2",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -1927,11 +1951,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "08405e0c0d25fa982b1e0ce0437c49d4092f37bb08c3d93c9e175ea3d5802258",
+          "fingerprint": "0828c72177902cf2f0db9c3c5963396ed1a239b731e1c7d27cd88bb15b7494b5",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/oneOf/0/not/anyOf/1/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/oneOf/0/not/anyOf/2/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -1975,11 +1999,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "0cae0e3efb781242821ab22f487a793a4b30e45016964d7b945f7573cf1f9154",
+          "fingerprint": "0ba67d15d6d72ee91b76e35df053dad4be4b811ed5fe678217cf5027ae9198bb",
           "locations": [
             {
-              "pointer": "#/components/schemas/RegisteredService/allOf/1/then/not/anyOf/5/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -1987,10 +2011,22 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "0cbb001db75fd25a86221955ddfb86630110b50de9c07973b3c3e56f1f9fe55a",
+          "fingerprint": "0c16ad9536a8676658da541697b11838787dc736120eb97fcab91499e0061b94",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/oneOf/1/required/2",
+              "pointer": "#/allOf/0/then/not/anyOf/0/required/0",
+              "source": "schemas/system-update-host-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "0cae0e3efb781242821ab22f487a793a4b30e45016964d7b945f7573cf1f9154",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RegisteredService/allOf/1/then/not/anyOf/5/required/0",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -2004,6 +2040,30 @@
             {
               "pointer": "#/components/schemas/UpdateAgentMutationGrantIssueRequest/allOf/0/then/oneOf/0/properties/port_reconfigure/not/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "0e51417cd506c1745dcb3dc615d7eebd89ebb238b4c9798fcf648be41178c353",
+          "locations": [
+            {
+              "pointer": "#/$defs/portMapping/allOf/0/then/required/5",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "0f586a4ec1ea766af55df005aef3ce96145625eba09a0a407475fb07f7543ca2",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/oneOf/1/required/1",
+              "source": "schemas/system-update-create-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2035,6 +2095,90 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "11db13ba2ba37e14d9c7cdc1690ba20d26956d71687789e4532c737704703df5",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/oneOf/1/required/2",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "11e7a361bccc9ea46c35cdaed8c4e2633b8f8b99e06643ce34226f92e4477ae9",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/6",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "148743ec240d79dbb0c8c18d46d8abe0addf1680e96d1a6b38ed240460fbcaa0",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/not/anyOf/1/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "15be716fa7ef225781f9abafc849417e03f6a53e6ebc3f14090a979a388cdc6e",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/8",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "16202c049f8f464d34d75b25a6fe0a0d067ffd50c2a1a72aa093e6117991d9fe",
+          "locations": [
+            {
+              "pointer": "#/allOf/1/then/required/1",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "17928e1be00eaec51873e92b478bc90d25c820399755be9749fcf8c217e27262",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/7",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "185c7bcd37e3284e9e24392c9303f148f5642b04af4074af17317335dd5b7062",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "1877d4390e7ba69d74ae4c9cba7a739f72a2b5b39858dc226016f40d1a3d8d93",
           "locations": [
             {
@@ -2059,11 +2203,35 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "190ff1dda0868e8f369862f26b5659ee04cf42c93969e13d436e963efa023fec",
+          "fingerprint": "19367b9669d9f701efb04ff9a954a750db64d22e17558af4ee0b644bb4e81f4a",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateJob/allOf/2/if/properties/port_reconfigure/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/oneOf/0/properties/port_reconfigure/not/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "1b48fb4d02ffee2c4c1792d8300751e8bdc2ec490bf44b2b390c1bb9074d2b19",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/not/anyOf/3/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "1d3d1d94990979624fa83990f2327f7ca2ee6bc4ca8e6c6343d11ad744e21b9d",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/then/required/3",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2083,11 +2251,23 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "1ed2d31ec5a876a299f6caab3fe4606b8f5ddd4d98d76f22a079e5f3f81d5309",
+          "fingerprint": "1ea8abb2ef0e7ab2dcb11e1a5f4bc7c0f3d8db9871b63ed4a425329b3c6cdc71",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/required/1",
+              "pointer": "#/components/schemas/RemediationRequestOrigin/allOf/0/then/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "1ec40954efc0f60a6e2073f217d641fef6f522a70d8a1f827e716342bfdd58d4",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/oneOf/1/properties/port_reconfigure/required/0",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2100,6 +2280,42 @@
             {
               "pointer": "#/components/schemas/HostAgentPolicyResponse/allOf/2/else/not/anyOf/0/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "20930a96603ccb0f4702aa41730db1b8fb7346978f220b2e2b617e989ab1ea31",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/not/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "21ea237b704379c9d549e090e471c7d19b3924ad05d5d7f6c6e25415b18f2528",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/2",
+              "source": "schemas/system-update-host-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "222de83ed601ff865f713c882f3e89500177321973300e2b169fd490a1d32264",
+          "locations": [
+            {
+              "pointer": "#/allOf/4/then/oneOf/0/not/required/0",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2131,6 +2347,30 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "2466ffa4e58e93bfdf5aaa239d90239df7f3083f58127dd77fe2a25b34c86ac3",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/system-update-host-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "252b1b7bf4f024b6eaf78b3fe01e7a4dab1c32d2bc258b62eba4aa34bce46215",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/not/anyOf/0/required/0",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "2594aebeae9396f8384eb2fb729fe3defd277f815fdcbe11a9959ec6fd24bc4b",
           "locations": [
             {
@@ -2155,11 +2395,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "2d84d4d5c6f8ec830d9562e9d9a9d65cf941b828762f5bfb15b80ae7522d0917",
+          "fingerprint": "2c7ac7889ed57c2a5a229008d0f1e3e7e08f67b224dc8da075f7665990c63b83",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/else/not/anyOf/3/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/required/6",
+              "source": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2167,11 +2407,23 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "2ef134abe82d73df1d0bcbe7179b34816067d9f017c491c82e45c377a75b265d",
+          "fingerprint": "2c97f61fca26d6af7b65f059c48a7896c396bf7fa7e3d94d01f268ded457150c",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/oneOf/1/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/required/2",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "2d770c7f6e53af2f34dae7612d1400f67334d526cd994160781bc8f86cb7c5a1",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/system-update-pull-ownership-activate-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2203,10 +2455,58 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "35df2ea131415988c8bfd70c4d9eee85e8f20e24826e6d0ba1596d577ef67072",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3b96859ca84eb430f20227a65af7ef52687a786e63f4643d5f7484addd61cf05",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/then/required/8",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3c9e5449a5318eb55221bf5875b0f341b792cd9c0860d4d449a5180ff8f1b604",
+          "locations": [
+            {
+              "pointer": "#/allOf/4/if/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "3f377beb75f3ac0583f054e05f8d437af164df1202c15208f28eb27e43504e2e",
           "locations": [
             {
               "pointer": "#/components/schemas/SystemUpdatePortMapping/allOf/0/then/required/0",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3ff322d1e2ebefb2da6ec2aa57c19013cb24e5bf2106e5467cad0ad3311cddc2",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationRequestOrigin/allOf/0/else/not/anyOf/0/required/0",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -2239,11 +2539,47 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "43ca62edf99d46f5691c526c71cfe8d0d875638bebd10ba6798b4f3807717258",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/4",
+              "source": "schemas/system-update-pull-ownership-deactivate-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "443a904a1d9ad69b617a1a3aad57cef4369d3a883360e11728f15e8a7bf032d0",
           "locations": [
             {
               "pointer": "#/components/schemas/ServiceRuntimeConfig/properties/stream_youtube_configs/items/properties/youtube_config/allOf/0/then/not/anyOf/1/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "45a6b51f3a9fbe1c5c649d607071dc37884fd25e331278b9550e636bfb2923a6",
+          "locations": [
+            {
+              "pointer": "#/allOf/1/then/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "461f1eabb65954684925f426d959e5f9af95f072ffd360529c68857a69765b99",
+          "locations": [
+            {
+              "pointer": "#/$defs/portMapping/allOf/0/then/required/0",
+              "source": "schemas/system-update-target.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2299,6 +2635,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "4e6679a669585fe6820f1f839b851db8de9c3edfc3851a28e964cf27653689e8",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/2",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "4fff6bc776d6fcc5260fac7975ad7c3bfe39e8b1cd980b850836a736dc3563dc",
           "locations": [
             {
@@ -2311,10 +2659,58 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "5016ed34a11031ae9638010d8f10c141de88037cde09441a19c506d8f17d938b",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/then/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5090d621385a2be6ea0e209bcbd899ce66604c13d5c149edb0410203fdfb9bfc",
+          "locations": [
+            {
+              "pointer": "#/allOf/1/then/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "509d51f12ac00f153007659ad9ba02580bb9f23c9db5afbab176a53a52e8918c",
+          "locations": [
+            {
+              "pointer": "#/$defs/portMapping/allOf/0/then/required/3",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "5167d000e3da2f010f2e1a7c969228e1fe886f1996ed887b05c826d5a60ad675",
           "locations": [
             {
               "pointer": "#/components/schemas/RegisteredService/allOf/1/else/required/0",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "517dee80e49a243daf2a9fc532dc31a76695af3e7e79d1ba99890a2778366ebf",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationExecutorIdentity/allOf/0/then/required/0",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -2335,6 +2731,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "55b2c617944115c14cb30e7ba8faeb043b66a347da457dd32b52390e340dcd5f",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/not/anyOf/1/required/0",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "5624e8e24f5293c8cf9b66b02075b16f11cf2329c1810ba2e7a87ed265e0c8fd",
           "locations": [
             {
@@ -2347,11 +2755,107 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "585cc3a5e6b5607365a8500ee3aea39653555b15cf77d0ab7637c199274b00c1",
+          "fingerprint": "58304d3e2761a522ac6a77bb79a9ce5ec6e4ca3c1e9641f3d004b4ff88004eed",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/oneOf/0/not/anyOf/0/required/0",
+              "pointer": "#/components/schemas/UpdaterResultEnvelope/allOf/0/oneOf/0/not/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "586b5f933b82999f719d1662efe37b1f62f11cdfbb2620096fdebe118706cb41",
+          "locations": [
+            {
+              "pointer": "#/allOf/1/then/required/2",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5b712188eed07c567874232c15935e57330969dcf5fcb8b994d784e5c0764b15",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationRequestOrigin/allOf/0/else/not/anyOf/1/required/0",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5d6f8fb660d215768bca448ca0c2f64ed30c8bfe299b517a074f433ccde166a2",
+          "locations": [
+            {
+              "pointer": "#/allOf/2/if/required/0",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5e84737c555d3da8b5f4cf9ef6f5ecf73f2137032051204ae73cc353a3330e95",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/10",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5edbf28cb3b848436ae9cb4ccea1b3ea71c7951076aaf169a3929c3651f9aa94",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/8",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5f97e9b3891b4628dd0530810243a8152d2aa590eda37380c5947074a855c6a4",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationExecutorIdentity/allOf/1/then/not/required/0",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5ff28f3ad21a5eff5b3e3963b271f18fce6bd75abb8b464cedba5c81e1892424",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/3",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "6026b953fda3ee20a1c3683821449c3414978d81784bb9cdcafd7c7c86cff11d",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/7",
+              "source": "schemas/system-update-agent-status.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2383,6 +2887,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "62daa08c2d42d4f2b6fcce8cd4e7785664674dd2d8a832bc80841bd469166f64",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "62f8304e02589b7c1bbad93f5a9e4371012761bf64a4c2e941e7c7781ae0be60",
           "locations": [
             {
@@ -2395,11 +2911,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "6352820c3d94106162f2a693efed1ad2310960f38b7a27a668287d9f85265343",
+          "fingerprint": "634f301ff14ba007ce743d61e7ed1eca5c1e31c9474d2963a10aed6b4e0b99b7",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/required/3",
+              "source": "schemas/system-update-pull-ownership-activate-response.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2431,10 +2947,10 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "652439c5fc743e09e269caf9b60eb074a9b377ff9b6e836a6f3d1222b8c5bb98",
+          "fingerprint": "65887bcaffffc44a05a35f0237fd367d4349d1b0434f54a5a01549364fcb59a9",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/else/required/0",
+              "pointer": "#/components/schemas/RegisteredService/allOf/1/then/not/anyOf/9/required/0",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -2443,11 +2959,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "65887bcaffffc44a05a35f0237fd367d4349d1b0434f54a5a01549364fcb59a9",
+          "fingerprint": "67886bd68fcfa563a381d2a38ea5e6a780b8e5150278aa08e0d80556005185b1",
           "locations": [
             {
-              "pointer": "#/components/schemas/RegisteredService/allOf/1/then/not/anyOf/9/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/required/2",
+              "source": "schemas/system-update-pull-ownership-deactivate-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2491,11 +3007,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "6d0def6ec17b0cfc4aefc04455ae116eb79bfd0ea24d282ea24b8e615a9e2af0",
+          "fingerprint": "68c78d6b26a967b72c7b5f524ab11c47ac6415f51707b5d5a60dc9bfd1682010",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/else/not/anyOf/2/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/2/if/required/1",
+              "source": "schemas/system-update-target.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2503,11 +3019,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "6ee74d66109958f277fc22927e7d513d6bfe9d49354102ae7b6fce2fc8371e3f",
+          "fingerprint": "68e01a5a8eb4e8feaf5619ac0962489e9b19e059f2dfc06e294d160295714286",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/oneOf/0/not/anyOf/2/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/system-update-agent-status.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2551,11 +3067,59 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "785740cde9d2633b0bcc4c4ab5ffe6450bea7ca00f056a7ddb9a1642b8818eeb",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/oneOf/0/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "7b0a6aec029c0145225fab18d84889f528cc678b74fd7f2025a4a9fe58d03aa6",
           "locations": [
             {
               "pointer": "#/components/schemas/YouTubeOutputWriteRequest/oneOf/2/not/anyOf/2/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "7dc3ca2e6ebb64da5f4f3a4422dc6e80d2c8a8abacdf268f1af8e2358a0bfb68",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/system-update-pull-ownership-deactivate-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "7e127ae21a0d8e2f96cf4967dd7d8a502bab4bf6a12efbe06b9bb7db9b2b0a62",
+          "locations": [
+            {
+              "pointer": "#/allOf/1/then/required/0",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "7ee827676e7e6af863c92d9fa88e29a933f2587611ac7386efcac97432e75f45",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/system-update-pull-ownership-deactivate-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2575,11 +3139,59 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "83048e793e953b55966dbf778caa01bba4824e28fda0b5e140db54339f7bed93",
+          "fingerprint": "7fcb19dfcb045c6de30a91eebb29ed14fa007dc3663fca664697adaebde1701b",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateJob/allOf/1/then/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/3/then/not/anyOf/1/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "8093b73a8a16c35531104d6694058cef149967cac15525235afe35929d4f3efa",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "81e55eedd0aaaf5401c4ef6f198d23d4e511679d36de4d5abd42ba9de46083ae",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/not/required/0",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "848407c73edcb3c41fb8db7ee50f7b7788470b169df1fc1e95f50853541c601a",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/system-update-pull-ownership-deactivate-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "8494fa218bbd7dae4992b9aa733472f804935a041de159324bd5231c0c53bc5f",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/if/required/0",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2611,11 +3223,47 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "8aa3c66251e95e47cbb6e9d2623e7c094c334eadc13e0e86c78cc39c8bab3973",
+          "fingerprint": "85e200758b3f893393dbd88f86b7e9cd3172385099acc4260455baecd12effa9",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/not/required/0",
+              "pointer": "#/allOf/0/then/required/5",
+              "source": "schemas/system-update-pull-ownership-activate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "863cefb237387296009fb20c35edc0b81960bd3bce136ef70f0d2c2296c7f275",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationRequestOrigin/allOf/0/then/required/1",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "883f73c248106ec0963ec461a3f4513628bea22b635f4bede59c97a31998d50e",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/4",
+              "source": "schemas/system-update-pull-ownership-activate-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "8b8fe1cc698b4607146506e5ab15d254b5a44e86e32c39b3c84c8a260fa80d2e",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/system-update-target.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2647,6 +3295,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "8d2db17c000dd4958117684104d3a5e307d0ff757d13a7b4e14250b38d8de2d4",
+          "locations": [
+            {
+              "pointer": "#/allOf/2/then/not/required/0",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "8d45459f4ea85dbdf575f39fb194a876b4b60aa5e989927f2fc02fdd49f9acff",
           "locations": [
             {
@@ -2664,6 +3324,18 @@
             {
               "pointer": "#/components/schemas/UpdateAgentMutationGrantConsumeRequest/allOf/0/then/oneOf/0/properties/port_reconfigure/not/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "8e5e5aa498eeaf18481e0d9fec08109ac9f19e775cd6113cc58b236798502f5c",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/2",
+              "source": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2707,6 +3379,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "95c9b1ed1e4a7e14ada1fe02b2651e81ce1bd7eb50bd793520acc2eb1108bc26",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/2",
+              "source": "schemas/system-update-pull-ownership-activate-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "962a47dbbcfa24bbcfdb3d5491b606cc4eec4c3a0a7f2ce2a5659e58768521ce",
           "locations": [
             {
@@ -2731,11 +3415,35 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "97b01e2d1a2f9aa7c1756c8551980c5faee46dc5af967bc3b4102a5d8b1fd811",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "97e6a21a8b3ffecf6faa5f65501251f2106f299426b14e170383e080fd2f1588",
           "locations": [
             {
               "pointer": "#/components/schemas/HostAgentPolicyResponse/allOf/2/then/required/1",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "98b95e115c984514404f4bf1c16997692a78459460e8664595b724e11d680c4e",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/oneOf/1/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2755,11 +3463,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "9b30ef40ae7c8c9c8e03a6b17c5b4fb589c373799e46c436b0d2d4ae413ac0ab",
+          "fingerprint": "99b4e9098943e24182b107860400432d16cacbd6107a3683de292626d20c3233",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateJob/allOf/0/then/oneOf/1/properties/port_reconfigure/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/else/not/anyOf/4/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2772,6 +3480,42 @@
             {
               "pointer": "#/components/schemas/ControlNotificationChannelCreateRequest/allOf/1/not/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "9be7d93aa8706575274f4684e2115fc50629a1f0603f6cead039e6459b7e910b",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/system-update-host-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "9c0f26518c29d9cc73aead38a723837189ff7378df41006639713f51d30489e7",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/then/required/7",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "9c328250dafd189b5f44fc685cc8e97c83d009d47ce053831d61d44d1e52662d",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/then/required/5",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2815,18 +3559,6 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "a06a779ae7af00e29d5dc760feeeec8b368c7059ad8e50bcd2ac20a74b5947eb",
-          "locations": [
-            {
-              "pointer": "#/components/schemas/SystemUpdateJob/allOf/0/then/oneOf/0/properties/port_reconfigure/not/required/0",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "no-required-schema-properties-undefined",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
           "fingerprint": "a201aa7d512dd64917c93531d23602ba9b363123902c995617ac59c929b796bc",
           "locations": [
             {
@@ -2839,11 +3571,107 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "a4926d3a684e29437cc51c293d147082cd0fa2f7c21f2d81f0309d9a2654aa92",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/oneOf/1/not/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "a5302e2ab2debace6d0cc5d68bb468ec1e40b9658d847c41e7326d55f071ea36",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/not/anyOf/1/required/0",
+              "source": "schemas/system-update-host-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "a754860baa31f619f7f86f7fd2aa236cbbeb095316475a15f0ec0cfab1a7e279",
+          "locations": [
+            {
+              "pointer": "#/allOf/4/then/oneOf/1/not/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "a7e0dcc2dedcb40cff185d4544cff270a8260e5096d1e72cae032b7db2e81c8b",
           "locations": [
             {
               "pointer": "#/components/schemas/HostAgentPolicyResponse/allOf/3/if/anyOf/1/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "a7ebc31301ffb984169baa775c3cdb3cbb357fa439a321aa0c8facfa91cd747e",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/system-update-pull-ownership-activate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "a94d1e28b5d0cd17b0b1f542970ec4a163349c65a6381c67e4c4def2b7791738",
+          "locations": [
+            {
+              "pointer": "#/allOf/1/if/required/0",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "a954cc30d9d4135feb5092490bd3d62f243c38a4b3affa75c67fcdf36635c44d",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/not/anyOf/0/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "ab746d2f88f8487c2ab6a13187fe5aac863257aa0883740a63cc3a6658b0ce81",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "ac410e5089e0d3b148247b2605a3c75eb3b3e637cbaca68caa5c23275a3b716f",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2887,11 +3715,47 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "b0f8e0ac4e1a8ba4d3fdcbacef01d2f32f73beeaa28f3d65e26051704e1aecb1",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/2",
+              "source": "schemas/system-update-pull-ownership-activate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "b559c37f16354c2986a5dca97c773f3a3660f6725666e8f5b106fa4d54c27ee9",
           "locations": [
             {
               "pointer": "#/allOf/0/then/required/1",
               "source": "schemas/host-self-update-grant.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b5be24e12490dbf92dcfa5ed09229187198cb30a6fe2b5520f89e18b7fdd554c",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/UpdaterResultEnvelope/allOf/0/oneOf/2/required/0",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b71b291a83211e48414265c3189c42089485d92ec68c1a34e6044342a327f412",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/system-update-pull-ownership-activate-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2923,11 +3787,35 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "b9ef96d2fd2aebf5cff4aa2c24f1e5002ecfcefc51b8b421885c9a549a1326f1",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/then/oneOf/2/not/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "b9f43cb12616eccd937f7ce177e251d4865679f7a45f744cb4bf1313adf4fcf1",
           "locations": [
             {
               "pointer": "#/components/schemas/HostAgentPolicyResponse/allOf/3/then/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "ba47eeb00707a09186e5e8a81a54316e6fcaed2bfbd837f38728a0466cb13a12",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -2947,10 +3835,94 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "be9543800233dbb19dce063a8dacbce5f9e799aaa825aff43c40fee752efaa80",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/4",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "bff0ad914acb0ee09a53ed64b51c9f0d93cb601fc08ddc0d7cd99d0ad86dc4f4",
+          "locations": [
+            {
+              "pointer": "#/$defs/portMapping/allOf/0/then/required/1",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c046f6b0f201d1d6f87dfb42a17c5488cc9b3cf8e52c90c2368a2c4de7289378",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/not/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "c0a99583a920fe52751dbaacd55232c756d50914ba9ec3228e9bec4693dea2d0",
           "locations": [
             {
               "pointer": "#/components/schemas/YouTubeOutput/allOf/0/then/not/anyOf/0/required/0",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c1a6cbf557d22305f4cfde42e838deba6674b83a20a23b6a4acea77c7e3229fe",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/6",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c34b64756f3d901049638d4fac75239f1e4c28f7f11f8f15c06fb13522ac4aaf",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/3",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c3f52401a2106b08ca1ea09b06b529c5f25ba0643b3dd89a452ce1eaecf12c3d",
+          "locations": [
+            {
+              "pointer": "#/allOf/2/if/properties/port_reconfigure/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c6a22559128ea60a8111e09f48d1d82d0dda378ad3a790758e7ed637cb800064",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/V2CapabilityNegotiation/allOf/1/then/required/0",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -2983,23 +3955,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "cee31e665e7930f5b3cfb2a064f1debac42db7a530b5cb9f95c1c7710bf39d51",
+          "fingerprint": "c88322531a1ff6bac358451f60424450b9a7752732264dae587ba27f22e797fb",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateJob/allOf/0/else/not/required/0",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "no-required-schema-properties-undefined",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "cf0c8539c61e704222b1becb0060ba688b09751e61d52c4b87fbf5fcd92def4e",
-          "locations": [
-            {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/oneOf/0/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/required/2",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3019,11 +3979,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "d50f4caf7934e25076ca9acc0dd64f1fb23c30e255ea044a3f1b5b2f3b998f97",
+          "fingerprint": "d21e78bd327e2f742397d463aa06ecd8919aa4b758e1afcbb757d18a82cc1038",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/oneOf/1/not/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/4/then/oneOf/4/required/0",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3031,11 +3991,59 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "d80e9e44ff76de8cfaba2bb2f44cdfc46c9606e655755fd39e6c52bee11457a0",
+          "fingerprint": "d2b1cac9b77c62b6918c84d84e733f3c39a472b2dcdd444811b0ab1974191b4e",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateJob/allOf/0/then/required/2",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/system-update-agent-status.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d43bc004437fae339a36d0b0e209400e20239ecd6265981a6ece379e750961f6",
+          "locations": [
+            {
+              "pointer": "#/allOf/3/then/not/anyOf/0/required/0",
+              "source": "schemas/system-update-job.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d66ab6e63fc034fd64a24860b68c95a4f10b21e8b4088814d7431088c4f6aa0f",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/4",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d745b93f904d8a905bb3a0221aca0024120b7ec3a6af69d051a7c63fe276072d",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/4",
+              "source": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d74db87fe198b8b0bf22fda2c05ca47390ac1772d5b99ce4ad4e3364bd0a89b8",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/oneOf/0/not/anyOf/0/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3055,6 +4063,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "da5853e5b10bd3487d560eff6c98fc5f0e49d033d4285769b1e93b3328eee8b4",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/4",
+              "source": "schemas/system-update-pull-ownership-activate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "da673cc94905c03f840f4fcc6db48599b501cabaa8c39a961375331699244dc4",
           "locations": [
             {
@@ -3067,11 +4087,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "dd3064e1b8bf1f7be7f3130d976960c0db892299b7d9778d2518c440065cb901",
+          "fingerprint": "da877e38abea069b7f0ccd7df13f855b2608a6e40d8aaf24287ca61dbad8d2bd",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/else/not/anyOf/1/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/required/9",
+              "source": "schemas/system-update-agent-status.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3079,11 +4099,35 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "dd97a6489efe6cae2134e6d6fb2ea4d4897fb75610de7d709f70cfe9e99bb79f",
+          "fingerprint": "dbcde0a3aa9952d5955a4c1142a58ec4311906a3a5397a5519172f7317e0e6ea",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/else/not/anyOf/0/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/0/then/required/3",
+              "source": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "dc680998c2a6b1be42ed84eb19ae1e14535e94cb88bcb8e6c4d37c95795e2c44",
+          "locations": [
+            {
+              "pointer": "#/allOf/1/then/oneOf/2/not/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "dd5e117f2a2902d130199e7fceae9cb5a3c979875e898804894dfa4dd6592bd6",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/system-update-host-status.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3096,6 +4140,42 @@
             {
               "pointer": "#/components/schemas/YouTubeOutput/allOf/0/then/not/anyOf/1/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "de1f24c721d0cb54d855db058b691b928535dd7e85a9ce7e2743e0fea90a568e",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/3",
+              "source": "schemas/system-update-pull-ownership-activate-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "df161861c840a9acce3b3a007a04bc728751c4e269346846e1003a46487f7d43",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/system-update-pull-ownership-activate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "df683f963adc1c01239de926cbbb41340a8e748093d85cfbaae01aa12abe93d1",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/oneOf/0/not/anyOf/1/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3127,11 +4207,71 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "e3a3d2b081a4e09a0551d93c4fd29930febfb32fe5a676935cf533b8fb9c0157",
+          "locations": [
+            {
+              "pointer": "#/$defs/portMapping/allOf/0/then/required/6",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "e5fcbe9b16d94ff38c4ccc03385d50aba7eb09e0beeb99f3fdb48759cc9a4fdd",
           "locations": [
             {
               "pointer": "#/components/schemas/HostAgentPolicyResponse/allOf/2/then/required/0",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e6405df2c740fe11a432b9a79d2fe934d24abd0fab121acdc09370e111e5dc95",
+          "locations": [
+            {
+              "pointer": "#/$defs/portMapping/allOf/0/then/required/4",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e8031d873e622b65c7602f00c0d412d69dc90d3272be8f46130f676817f1cade",
+          "locations": [
+            {
+              "pointer": "#/allOf/1/if/required/0",
+              "source": "schemas/system-update-create-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e819cb290a3dc5b1d8c4aab85660bfe678aee2cc535f53ccce92aaffacb1a771",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationGrant/allOf/0/then/properties/target/required/0",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e8cf3d86e783d06690bb3b217a54f33fb1113998f49ef74602783f0c79cde2ed",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/5",
+              "source": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3151,11 +4291,11 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "ea637e933dd0dad876808c85eaedf7af0d1e6822e6309711e1245fa500126cd6",
+          "fingerprint": "ea62713b2bf683f37842449ccbc0b24ea1998e235d5b88136183344aff0b4996",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/else/not/anyOf/4/required/0",
-              "source": "openapi/control-api.yaml"
+              "pointer": "#/allOf/3/then/required/9",
+              "source": "schemas/system-update-job.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3175,11 +4315,59 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "efc7dfb98bd052249302eb9445d11a8ee140783dd23109463d3ad24f015eefe5",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/system-update-pull-ownership-activate-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f02a8140ea16ea216d6f75a9c39eaf8747945bc891316781674486aad82292b3",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/3",
+              "source": "schemas/system-update-pull-ownership-deactivate-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f02ad599ed9c129fb0ac50a00bb8a8f37e584825021b081775960cbb71e81fd5",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/system-update-pull-ownership-activate-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "f1419d56302112374d272a49a0f956f8850c7bc82e89e9a496b04911ec68882c",
           "locations": [
             {
               "pointer": "#/components/schemas/HostAgentPolicyResponse/allOf/2/then/required/2",
               "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f4275924853c02a5dfec9385c18da85380fbb711f950f9f4d68e7750a0d8df03",
+          "locations": [
+            {
+              "pointer": "#/$defs/portMapping/allOf/0/then/required/2",
+              "source": "schemas/system-update-target.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3211,10 +4399,10 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "f63575cf824e52c7c43279c922961ebe7f01df4f60b465539cbb772bcbecbb7e",
+          "fingerprint": "f5f718d0359a80b5e378577af0444c87ede4b6af7e4e704488686028bcea78fb",
           "locations": [
             {
-              "pointer": "#/components/schemas/SystemUpdateCreateRequest/allOf/0/then/oneOf/1/required/1",
+              "pointer": "#/components/schemas/RemediationResultEvidence/allOf/1/then/properties/target/required/0",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -3247,11 +4435,35 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "f9d1847a8b21e0d0210cb74144beb713394e1b9c345bc24e75e5c1d28268b97b",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/5",
+              "source": "schemas/system-update-target.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "fbbca7f8cf15c78b52148b657b2c2798b886bb3df77d465454ce43e7e9f5ea88",
           "locations": [
             {
               "pointer": "#/allOf/0/else/not/required/0",
               "source": "schemas/host-self-update-grant-issue-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "fbfc52a62c07faa635ae46956773036ea608cbeb00aed8c044c8953b3fd6d84a",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/11",
+              "source": "schemas/system-update-agent-status.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -3319,10 +4531,82 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "14b9a46077820998e8beafeb826f666b2de676fec3d17f0445fae8b9b243f9c9",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/SystemUpdatePortReconfiguration",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "1e20111d2fe08183f0f05b2d4ea2b55e26053aeff522209d7aa70a68f581c1fe",
           "locations": [
             {
               "pointer": "#/components/schemas/YouTubeRuntimeConfig",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "2ab8cba54deddabb6865a085dd3d53475b5f371cdf8f3a1b830e14623786aea4",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationGrant",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "391df592188f64f6e68077aa26e2433589d357ea594682c75670410b6e52b896",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/UpdaterLocalJournalBoundary",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "661d189a6cf3d9d967dc6a53d2f72cebbece75505badb30f539ea4297efcc471",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/V2CapabilityNegotiation",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "7fe7fd4d6186b354e0f8999529c88cb4b70a271a5e7a73c11f16764be292ed99",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/SystemUpdatePortMapping",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b72c9abc832a1896bbcc332753a5df1c5078c0db6a201768abdabae79756bbff",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationResultEvidence",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -3391,1366 +4675,10 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "053d5842ad1dbf8b88900629c548257aba18aaa95e4dab9d076f43be3aa7b558",
-          "locations": [
-            {
-              "pointer": "#/paths/~1integrations~1oauth-accounts/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "0839e528d6f5d1d5ac3e29ba47f59253071ac8648462486adf931dd14f74a476",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}~1oauth-links/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "0d7988bd4642fd8a35474bb0247bd00b40e9108d4a1a6513ef4c0e3238b811ba",
-          "locations": [
-            {
-              "pointer": "#/paths/~1youtube~1outputs~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "0f40da78de2e6305e0865c8c7a63d4ff35ed4f6687654de8c244dc8ded9fcd44",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1change-password/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "0f9d825fbbc58b54bb0056a44dabf88c2876e0846844896010597e1bcf154718",
-          "locations": [
-            {
-              "pointer": "#/paths/~1youtube~1outputs/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "192e1ec564cd24de8652f80eba6a1bde7a668b85ff2401cd9f8438eebcff0c2f",
-          "locations": [
-            {
-              "pointer": "#/paths/~1integrations~1oauth-providers/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "1a9eb3d5f410adceb02ff8713a225f25d22aac221066c01037349c88e03f6651",
-          "locations": [
-            {
-              "pointer": "#/paths/~1services~1{id}~1assignment/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "1c5fe72ea805b115caac87d95c388a2d3be0abc9afd659e0491fbdad9485c6ac",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1remediation-actions/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "1ccbc5a2d09c8b61ef6476ecba5cec2668182d39fbc5e4db1972ee56dc7f27e2",
-          "locations": [
-            {
-              "pointer": "#/paths/~1roles/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "1cf4711739c949cba8812e547af4404c61d1ce66fd5fac7de687ac4ecf05c83e",
-          "locations": [
-            {
-              "pointer": "#/paths/~1security~1settings/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "1d297e2b5f66a45464a8b6acd5da93e2bf4aa9511e04aef491ac7a53ad17adee",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1logout/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
           "fingerprint": "1e762dd90720077f867a107a205af361ac0b42d2dbbcc5d89072ec7c6a1a255a",
           "locations": [
             {
               "pointer": "#/paths/~1health/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "1f50de23f945b4110d907ffc82efa424b4ef1ccce4c84c0f771577a767ac3bba",
-          "locations": [
-            {
-              "pointer": "#/paths/~1discord~1configs~1{id}/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "2014b757e0375532320e6ab640e7e98e731a263c872b6ff3536b802492782255",
-          "locations": [
-            {
-              "pointer": "#/paths/~1workers~1{id}~1restart/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "26a794b73a058d2ff79a22e10ed06c003bf57114021739ca41492b7bad4a59d6",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "26a794b73a058d2ff79a22e10ed06c003bf57114021739ca41492b7bad4a59d6",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "26a794b73a058d2ff79a22e10ed06c003bf57114021739ca41492b7bad4a59d6",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "26a794b73a058d2ff79a22e10ed06c003bf57114021739ca41492b7bad4a59d6",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "2ee2f0eaca4e938d8fb8e4e341b1ea32f7fc7ad9de560543f9a1cfb4a50180eb",
-          "locations": [
-            {
-              "pointer": "#/paths/~1permissions/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "396e02667f30145da183a79271068abb1b4c9f737443f06a4837cc5c9bccbea3",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1oauth~1{id}~1start/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "3cd64ddb08f14dc57a9d58b36cb09815159b303d0dbd3db4f7fbbdb2294ec392",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}~1lock/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "3e09e5f41f214d0b1114f318c1a6b03c541ea4f8bb27587b206eee5c6a20c43e",
-          "locations": [
-            {
-              "pointer": "#/paths/~1archive~1destinations~1{id}/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "3e5dbeb7b537a2ea1bb1fc09c1b517da80580cfd749e27240ee530be30203548",
-          "locations": [
-            {
-              "pointer": "#/paths/~1streams~1{id}~1artifacts/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "3ff3ebc533c8f013cb6a58fdd04003a0545e9897bf60914dd8db1b5ec5fc83fc",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1notification-channels~1{id}~1test/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "4252662e8a8105b5e330ad5e1728b41949c6bb78d4dc2e6c764b369b716a418d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1incidents~1{id}~1acknowledge/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "428836463fe493af7df56ad0273189098f015bdb74118db3b4a093f861693701",
-          "locations": [
-            {
-              "pointer": "#/paths/~1secrets~1status/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "4412879171dd27105f8181ff3f3403b29106f2ed19d79c2549f0b7ca4bd9600e",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1passkeys~1register~1start/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "442fe362adef9d47e341b92eae83c2075330e6bb0d8674835d6aeae5626ad4b0",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "455c935ff1d0748961e5f1bbd545bd9c7c00272053180c9228ec1cff2c565bb1",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1notification-deliveries/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "4840bc52d720644f642132fce4c4e6aaec88b14e5f1300c3bd1bc86b1ded5f6f",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "498864ca63c775bd9dfe3383d9c2dc1343a3e6a307c2ea88311af4992e9ab5a8",
-          "locations": [
-            {
-              "pointer": "#/paths/~1services~1{id}~1assign/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "4bd7ca151507262a7481d12702623edf4841239538cdf953ad61594149fd9dfe",
-          "locations": [
-            {
-              "pointer": "#/paths/~1service-health/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "4cea535d1480ad3eb46b7ec817eed2bca89fc2485a2ce6dc59217f1ac6f507cd",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1metrics/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "514eab5afc0c5ea4d81e416f39610eea76e2617d84149a1e70cb858a665cb496",
-          "locations": [
-            {
-              "pointer": "#/paths/~1workers/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "52b18a1a1ea41a69856702b137b29ee1f4e6ae1deeeede4b63e53b832b8065fc",
-          "locations": [
-            {
-              "pointer": "#/paths/~1archive~1destinations/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "555c9233db94d3096398dfba22e06e72369680695ee637374374b47d75001f88",
-          "locations": [
-            {
-              "pointer": "#/paths/~1roles~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "560d81d1f55702b549b47bcb3dc54a241d1ead5437c399f8448a3b758077ba94",
-          "locations": [
-            {
-              "pointer": "#/paths/~1updater~1version/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "59a002694449f7a4c39deb077b386297c6099cd2aaae4482f5c7d0ee9a93e749",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1passkeys~1login~1start/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "5a26228f377edf45bb90ac74178f774d84cbc0f72fff682a1116f2318f7c9aae",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}~1disable/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "5a60c50b48e1b0139bf7caa09214f58f8cc3c28c308b1b9ac8f2ef39a844e8e7",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}~1force-password-change/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "5ab418136cc499352ab77c8b3168792de77af51806c09dc50fac97b5a84258c0",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1mfa~1enroll/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "61effa19a1e397e93ca8992ee792a41be8e89cf993d62deef5ff6fd52ba8f524",
-          "locations": [
-            {
-              "pointer": "#/paths/~1roles~1{id}/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "6608db5f44e0f149afe9dd519ab5e493118291d5cee19b42ab24de92a5fcb74f",
-          "locations": [
-            {
-              "pointer": "#/paths/~1audit-logs/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "661460f6bef19b623d72c8b0c88e5e0997f30a18d04c5304e27b095865a70fd2",
-          "locations": [
-            {
-              "pointer": "#/paths/~1discord~1configs/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "6a4c121cfd6491490d6f1c58856e7c39a12d6d2d81520eaffb3b0e29d6e9fb0e",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1mfa~1disable/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "6b772f0ad21d9676b31f2e6fd3ff6f3dbaa610a541b2934eac6bf77399b7db7f",
-          "locations": [
-            {
-              "pointer": "#/paths/~1secrets~1{name}/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "6c5c120d9c485cdc637201daac5ea4bed5d419e008209d1b8344da3804e5824d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1login/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "6df06e62b66510861f568e7162a93d18ec6b10a8010e869cea703b107dae9e17",
-          "locations": [
-            {
-              "pointer": "#/paths/~1streams/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "6ecba3769025fce76bb72bbcc8284ab6cfba5040e5ea8791056941dd83084ce3",
-          "locations": [
-            {
-              "pointer": "#/paths/~1workers~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "704fd91915f0b72a88f7caa3d4157a533974749e5603c7059d84119185283900",
-          "locations": [
-            {
-              "pointer": "#/paths/~1roles~1{id}/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "7269cb30e2d1c318bc24164eb1d9fb286598a31ee9b67880d48377c2fe84c96a",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1remediation-actions~1{id}~1execute/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "73dba014c934ead2d607c2482ddaa3736a74a6c19420b825f3adab0007a4d0da",
-          "locations": [
-            {
-              "pointer": "#/paths/~1services~1stream-events/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "748e0da1ba4633db61340e0255b6b878f97b73222d9182aa04a239dfc392837d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1notification-channels/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "75aa2813f09088de06f0c36054c5d4757a53bc0bc450954f6e88e370680aa1a0",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}~1oauth-links~1{link_id}/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "75e39671dbdc21fe0b709ed0485e7f48a55e78fa3418e295f3cb3f596d01f78d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1integrations~1oauth-accounts~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "7712e9b966c71dad12198aea4b1bfc8b407e55ab2163120e1efb2ce031e0549d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1integrations~1oauth-providers~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "7bef314bc2136592b8ed312de05e710644b683329f22060e11a08d6f13370b42",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "7f1cd18dbef011cbd38ea3105b57779366ff62fce84f50c8480ae6acfadba1d5",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1passkeys/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "805d573d1156a0134567505a2634a05cd34ec5ec31504daa405a23e78c29db8c",
-          "locations": [
-            {
-              "pointer": "#/paths/~1streams/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "80f110622c1b4281cdfdabcd0a832be54a3231810ad9f0b106b3ca15ffb648c2",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1oauth~1providers/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "82e4b81a533ee20f5fc07141ed9d6d440e6e6b5997e7ae5a878a60fb767c20ae",
-          "locations": [
-            {
-              "pointer": "#/paths/~1security~1settings/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "8d8649c410e5279e98c19fc85152f62ba67f511342c2d506287f44a46b6c6f1a",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1remediation-actions~1{id}~1approve/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "8d9c0fac044ea2d82c0d7084fda2f7a2cca3d86fd3703f72a2dcc65bc7ec2156",
-          "locations": [
-            {
-              "pointer": "#/paths/~1discord~1configs~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "91a54cb42466006c345a6c32053aa6cc564cfece36010e929ccd4db4c7fa5747",
-          "locations": [
-            {
-              "pointer": "#/paths/~1api-tokens/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "9380a688858ec4269765920280dde8c6235faaa7f3a9aec2fda345ea7675822f",
-          "locations": [
-            {
-              "pointer": "#/paths/~1audit-logs~1export/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "949534060d23c284130624f8ddde4c07c7a6c2b5a9532dade1c465d7191a1b2d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1workers~1{id}~1assignment/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "9a6209d000a98ff674fb22dfc7026ff031659c4291529651c4e5cd787d01f63d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1settings~1app/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "9a762ad859b38f2e21567134fa6badb1811d28da6bccd68c8c26dafd78dac488",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1recovery-codes~1regenerate/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "9adf9ec34d1fea8dd4a1e4121fd13744e42d55632e723d59ea8999870d0bbae2",
-          "locations": [
-            {
-              "pointer": "#/paths/~1services~1heartbeat/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "a3ba75c46599d42be2129b05c178568ac47821426d6006010e9309552c835ba0",
-          "locations": [
-            {
-              "pointer": "#/paths/~1streams~1{id}~1start-readiness/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "a5fc4fa6ce812561b14606d9fef2afe540c97a57d5290e93e2e97f01542373b3",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "a8a862a73a48186bb852837edcec6a51b1117b8e84ad034f5e5116f8e6fda33a",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "a8a862a73a48186bb852837edcec6a51b1117b8e84ad034f5e5116f8e6fda33a",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "a8a862a73a48186bb852837edcec6a51b1117b8e84ad034f5e5116f8e6fda33a",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "a8a862a73a48186bb852837edcec6a51b1117b8e84ad034f5e5116f8e6fda33a",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "ad46df90d770762c89ff759814edd06dccdca9d60c4a90c55e4fc7b3e86f6840",
-          "locations": [
-            {
-              "pointer": "#/paths/~1discord~1configs~1{id}/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "ae8e2fd7edc1d3636dd843f57d920c0c70ccdd42fe21794dddcee0c0d04ea7bf",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1me/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "b191877602cb799add717a69e307cb72ea3a731682ac8acf8f2e5bdb33fa3995",
-          "locations": [
-            {
-              "pointer": "#/paths/~1api-tokens~1{id}/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "b39697a6fdb2a393e7bf88a0ae7f2649a09c3cdbdd7a5cfc2b144079b713222f",
-          "locations": [
-            {
-              "pointer": "#/paths/~1roles/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "ba377064ad8c4e3572376774647b81ca29dfe1cdbe89f2130df3ede50f1acb7d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1notification-channels~1{id}/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "ba607249d49b03412437c9a730e49ef4a8dbba862cdec066e5ab5b8365ddc862",
-          "locations": [
-            {
-              "pointer": "#/paths/~1youtube~1outputs/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "bc09e900180d977c9fa3f4fc02617684bc9a9be11e3ded54bc6169e72760c8eb",
-          "locations": [
-            {
-              "pointer": "#/paths/~1archive~1destinations~1{id}/delete/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c039218fbd67304dc249b8cceb8ced6ad16a046ba16afee04169febd68f6147a",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1notification-channels~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c35ab66e0aea31569e54edab7f1864801650c1b9bcd1de56eaf88b9d6e156fe8",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1incidents~1{id}~1resolve/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c38c39ddf1bf2a0fc6209a2d37b2120fc3c86ccb3dcc78a9602cab3a2d9c22c1",
-          "locations": [
-            {
-              "pointer": "#/paths/~1profiles~1caption~1{id}/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c4c74d564afe37ba1a0f6eb32ef4163fd0a0c05cd2fb6af6adacc3a0598b3903",
-          "locations": [
-            {
-              "pointer": "#/paths/~1setup~1first-admin/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c7ad2a0bf12d693459b9cd3fbaef1f4bf690f65052fee1a135a93b7cf95249f5",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}~1unlock/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c8875b1b8bdfe9aa8a357f4133b05bcd23c549c849d610b455bcf00f79c5c983",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/listCreateProfile/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c8875b1b8bdfe9aa8a357f4133b05bcd23c549c849d610b455bcf00f79c5c983",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/listCreateProfile/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c8875b1b8bdfe9aa8a357f4133b05bcd23c549c849d610b455bcf00f79c5c983",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/listCreateProfile/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "c8875b1b8bdfe9aa8a357f4133b05bcd23c549c849d610b455bcf00f79c5c983",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/listCreateProfile/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "cb95ba2c37c2189e8bd0b1157fbbacadda5cd2d5b6c359254faf567f1c432410",
-          "locations": [
-            {
-              "pointer": "#/paths/~1archive~1destinations/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "d8d8f6a3eab1f4eb173b04795cb1da29fb5a938af22f49a3b15c75ede10bdb22",
-          "locations": [
-            {
-              "pointer": "#/paths/~1streams~1{id}~1logs/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "db22a8776584d2aaa35e1fc7a7d4f59ae41d9dc8ab395acc67feda7eaa19a8d8",
-          "locations": [
-            {
-              "pointer": "#/paths/~1integrations~1oauth-providers/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "dbb562df16445e1a8735574ce6be79dcdbaa2b937da1d1a2c00d5e37c1f5bc22",
-          "locations": [
-            {
-              "pointer": "#/paths/~1integrations~1oauth-providers~1{id}/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "e2833c248488aaececfbeb0b7ec4d8a66477b0a45a55af6e2af2d26c2e277aa1",
-          "locations": [
-            {
-              "pointer": "#/paths/~1workers~1{id}~1assign/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "e45a3f9103dcc2525a882a9f2079129e466887d416ff5247c432bf0b3e33936a",
-          "locations": [
-            {
-              "pointer": "#/paths/~1system-updates~1host-self-updates/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "e53c492a7fdcb60be5f275386351cb692cc5ade6b32125ef744ad38459ab9155",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/listCreateProfile/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "e53c492a7fdcb60be5f275386351cb692cc5ade6b32125ef744ad38459ab9155",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/listCreateProfile/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "e53c492a7fdcb60be5f275386351cb692cc5ade6b32125ef744ad38459ab9155",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/listCreateProfile/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "e53c492a7fdcb60be5f275386351cb692cc5ade6b32125ef744ad38459ab9155",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/listCreateProfile/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "e711bd9cbe6e60e13c1e77afb7ca18e6060a318f99d418a6f344693760f11839",
-          "locations": [
-            {
-              "pointer": "#/paths/~1system-updates/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "e8145ff1879c8b0beba669186cd558bdf94442c48e66b270567fb45260da1629",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1diagnostics/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "edf3a7d82cdb307a4a96ca8f038984db7ab93a766bfed288b82af14440ce2653",
-          "locations": [
-            {
-              "pointer": "#/paths/~1streams~1{id}~1mark-failed/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "f67c7f202f860322dd8889aace2bd5b7ce7363e7beaec8c17e7604d4c633ac50",
-          "locations": [
-            {
-              "pointer": "#/paths/~1integrations~1oauth-accounts~1callback/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "f7fcfdfddca2e68a73cb5df6779662fc8b34ec8d7acca870288f489d99de80d7",
-          "locations": [
-            {
-              "pointer": "#/paths/~1archive~1destinations~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "f95246c0db88f0642485b5b1458e05cdf15c899000a19f59a276426ac1127218",
-          "locations": [
-            {
-              "pointer": "#/paths/~1users~1{id}~1reset-password/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "fbe909824d9785b924abf45f36535cddd5a23d991409358203d9b25910d1d0cb",
-          "locations": [
-            {
-              "pointer": "#/paths/~1discord~1configs/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "fceda36a9cf5352f8323eed2683cae01fa9a621c3b681966d430b513ec80d361",
-          "locations": [
-            {
-              "pointer": "#/paths/~1auth~1mfa~1verify/post/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "fd33cb4d471f6262f3b5caad634daf7af7ae8c08633827c6dd986662c172ce77",
-          "locations": [
-            {
-              "pointer": "#/paths/~1streams~1{id}/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "fe3ab8c3d63201ee57265185503dac1a7b4702faeefd10346ef70497e6cf2873",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "fe3ab8c3d63201ee57265185503dac1a7b4702faeefd10346ef70497e6cf2873",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "fe3ab8c3d63201ee57265185503dac1a7b4702faeefd10346ef70497e6cf2873",
-          "locations": [
-            {
-              "pointer": "#/components/pathItems/itemProfile/put/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "ff0638c179e95e0ada95c35d69ed9c4c75f66238fb272bf5dfbcb1b8bf8447f5",
-          "locations": [
-            {
-              "pointer": "#/paths/~1observability~1incidents/get/responses",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -5135,6 +5063,18 @@
           "locations": [
             {
               "pointer": "#/paths/~1auth~1oauth~1providers/get/operationId",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "operation-operationId",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "2cb1849e1be9a69f5601ef7c6425ae1eb4c6d8dc454715a4a345e5f2ac9f7291",
+          "locations": [
+            {
+              "pointer": "#/components/pathItems/WorkerApplicationRuntimeIdentityProbe/get/operationId",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -6799,12 +6739,12 @@
         }
       ],
       "lint_exit_code": 1,
-      "warning_count": 410
+      "warning_count": 405
     },
     {
       "api": "openapi/discord-bot-api.yaml",
       "error_count": 0,
-      "finding_count": 3,
+      "finding_count": 60,
       "findings": [
         {
           "category": "openapi_lint",
@@ -6816,6 +6756,618 @@
             }
           ],
           "rule_id": "info-license",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "09875b6b402ab226f72f4d9334fa939cbc64c6c201c364fc5d3337d08b3a028f",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/not/anyOf/2/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "0f51d78ae23468ac434bc8eda7ddfc0a8159234a4eaf0bb14ee02a7fa3adad69",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "11a95b5f2a228a8282bdba19a16e8dd5a6ac9b802af410292f8dc97647ea21e5",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/not/anyOf/0/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "144e6ef82a639a3da71858a84309857265e04dc4b7c5880c714db1b4c347fa8a",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "1ff785d256c8e3bca7af311b92a4d54479ba8ce1e601d0db7155d43480a15402",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "25778deb1a2a49757394360d031a86041493ecd80e9e75013f5a0ad3fe04780f",
+          "locations": [
+            {
+              "pointer": "#/$defs/sceneAppearance/allOf/2/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "299b317fc30759ae55ac15b18118e6c3fe8a0de87c70ee0bd9d2c546079695d1",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "2e8e7f1b34385a895df7fab77d332b07e2a0900bc723f7ed2c8ba74a1cf5fa9c",
+          "locations": [
+            {
+              "pointer": "#/$defs/sceneAppearance/allOf/1/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "2f3dc006877931e9b7fb53f1d164f657cf13396d8ffe6f4bc96d0b5752f1f4f3",
+          "locations": [
+            {
+              "pointer": "#/$defs/knownAppliedCoverState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3d617e46744e7934f62788c787858dd2efff6f3f6a51ba6eeed686fede050f70",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/0/else/not/anyOf/0/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3dbb53b7a9d5a1a586ee4aa070f16abbf3b8b8860c726a5edf01926e70c5a873",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetSelection/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "44463a9cd81559f7ff04b67fd99d124f6f1e6334c09aac17d2c3964d8a7d7d3a",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverStateRequest/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "4628151302c39627006038d9c70e1c01436c5febafd3ee6e11e60163327aa0e4",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/1/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "49b050fa7ecb8cfce69bcc994e8200adeb8749e98282a1f239dfad6b4390e813",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/0/then/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "4da01bef819b0f0d9aa55a0e33801d08dc3a2ce183b948d74138b2149c63c273",
+          "locations": [
+            {
+              "pointer": "#/$defs/themePreference/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "509eae43c4690263a844842a4e01fe2583fda7b6c8946955b0c9d8921f12b036",
+          "locations": [
+            {
+              "pointer": "#/$defs/desiredCoverState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "53e004357ffe209966d8b1712e7268229250b1a9a80491e82e7f3757755851e4",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5a6a83682b00eef521b5de1f8df9923a202412fa5e04fca18473cf4c02fefc6a",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetSelection/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "666601c8106036de479f1c3002750ca16180d83b637892318c57c2c3f2ccf1d4",
+          "locations": [
+            {
+              "pointer": "#/$defs/knownAppliedCoverState/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "6e63a628e9a54e7b7d14f545369a076300db4bde749ecd26089e852183f4a557",
+          "locations": [
+            {
+              "pointer": "#/$defs/sceneAppearance/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "71fdf465edbe87c2a40fce00cf96eb1b9ad371c62e17e43c931dbe68b41aca30",
+          "locations": [
+            {
+              "pointer": "#/$defs/layerState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "761f17d10db2f3e717a22230a340aafcc7de9c3ec1f98b10cc2fba5a123a58b7",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/1/then/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "7c2f03a306b2f3aa6cb7b57b10fac38754c52d1817d9c13cb8e8e8f69ab94c32",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/1/else/not/anyOf/0/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "8c73a0b06eca53b43d2548ba4a2b925f490a4528222664b18a99a6e5a92794ef",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetStoredSnapshot/allOf/0/else/not/anyOf/1/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "8f0f0634bf4c2904acf3c866032e214ddfde05b9381b740d6cfd23c3b09f7396",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/0/else/not/anyOf/1/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "9072bb6b2d9a10c627c1c9501daeb1162f9b2d2e6f69b496e238792eb392ed9d",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/3/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "909b8173d5e0bba390ce677d24a36ab7089c62e6dc041c1f93f85a98a69f975e",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "91826faf909fbf39e91dae0433fed91d0fc090099b1e04f503bd8e23fe8f1da5",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetSelection/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "930dcc56365945a98c47873d1f3b5160e56c38f91dee82613b0547fe87effa47",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "9b8753a6a3e5536c6341d88b04d5064832c639400d743845713d40e36ab1e8a9",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "a4281366760d636a47d64c90e173f80f7fdb738182e080c1ab15ced463fcc182",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetSelection/allOf/1/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "a63a627383f64d17622087a07a1fe91a5896bf084032cd154c11b827e340c1fe",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetStoredSnapshot/allOf/0/then/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "afb9ced73334df8cabf70342ea1a3db0c6a21c6fe303b858391873d9e3f993b6",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b1ea9b9b3a4196f1966f82e12f9e859df65361f66ebec7b741db8d921caac2e0",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetStoredSnapshot/allOf/0/else/not/anyOf/0/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b3ca88b86438b281b7796c82e402e94be44d751f158d35323be3b14d2b03259f",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b3fe0103dd03e67cfbb6de5bc48ffd79cdf75c17209c19e92cafd448a71e8a53",
+          "locations": [
+            {
+              "pointer": "#/$defs/sceneAppearance/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b7efa80b56d46b2adc83cd240bc27b98f2b46ea2f0d3cbca9471e0575513f0db",
+          "locations": [
+            {
+              "pointer": "#/$defs/sceneAppearance/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "bb317a1c62fe3dd7c5f3ed2c067640fa3e8db866c06d58310b555e9e65fb6fc2",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/1/else/not/anyOf/1/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "be6d7ef93e86b53425da1938c652df0e13c1d88b52710ef08d42183748cf1176",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverStateRequest/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "bfce5c2e4014220d8be5e34f26bfb2e13fb6973d1c9372179cc4480b717508da",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c9090194da119d1183c068d90306abe7fcaacfa6c6b659530d07f1a6619aa525",
+          "locations": [
+            {
+              "pointer": "#/$defs/sceneAppearance/allOf/2/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "cceda48495ebac069d32cfc15638c10169fde39a088e3c78d7ace435f01c43bf",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "cd379d4fad1d087086234ffcb4628ba1cd2776cee4ad5ab78d3fca6fd6cfb80e",
+          "locations": [
+            {
+              "pointer": "#/$defs/sceneAppearance/allOf/4/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d3c4ee25c5ab5fcaaedc0ce299381000a2dd386aeb99dbf9df4c6e1d1a6604fd",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d60d8cf5f80b12674eccdc54539e252bbf2c6ceb161beda3342ee973b9f9f13a",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetStoredSnapshot/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d644307b0f2d898b69a1b4ca0e6c85602ccb58cdfef6ae1aeffe5194995379f0",
+          "locations": [
+            {
+              "pointer": "#/$defs/themePreference/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "ecb7772821259363d63c6c2ab62f509af54863a478dacbbfc95171ce1b56a019",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/3/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f072b46a2508db4298dc20ddf39df36755496bcf922d49cfda2c86457e3c4d48",
+          "locations": [
+            {
+              "pointer": "#/$defs/layerState/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f17194151e1c04c7e383af60b60e12ac08425160e91037dc70c651f1bbcf1a88",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f3c14b8800a5ef701f85786d693d402138e8b3fd8583ac19e71714fadb58368f",
+          "locations": [
+            {
+              "pointer": "#/allOf/0/then/not/anyOf/1/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f4f5cded339370e484702cb2bcd5f57c5e4068bf72c2f888330ef0f6ed9886a6",
+          "locations": [
+            {
+              "pointer": "#/$defs/desiredCoverState/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
           "severity": "warn"
         },
         {
@@ -6832,24 +7384,96 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "db0fb0878d98bbd677d32539ec70f85e30b47e421328a164564f2f9272537297",
+          "fingerprint": "0a96b1768d3c08f8d4749c33e8b3344e2df840c4ed701eafa8e4ded16adee5ed",
           "locations": [
             {
-              "pointer": "#/paths/~1updater~1version/get/responses",
-              "source": "openapi/discord-bot-api.yaml"
+              "pointer": "#/$defs/sceneAppearance",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
-          "rule_id": "operation-4xx-response",
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "124fab9b62b17be9b7a6293aa055b5212b52195425aeadffe07682df843b65a1",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetStoredSnapshot",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3cbdef1a8af91fa0b658f78b112f062d752988effe4eeceb935f3279b9694384",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3e85c317824e6e0307d021182a066d947ab1e6e794062965089e0427731a372d",
+          "locations": [
+            {
+              "pointer": "#/$defs/themePreferenceWrite",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "416ed94907f54f1e28ef8353c23771d8c89face1dceae1835a470b4b092d585e",
+          "locations": [
+            {
+              "pointer": "#/$defs/discordTargetSelection",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "505bc0850202f7b65947df6d4b18b2a06618e0f36f0ec1abcfff586cca1e4d07",
+          "locations": [
+            {
+              "pointer": "#/$defs/themePreference",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5bd75fdca10e575580d8a1172d01c7d089669b0233febee2cbee9e9e63b6026f",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverStateRequest",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-unused-components",
           "severity": "warn"
         }
       ],
       "lint_exit_code": 0,
-      "warning_count": 3
+      "warning_count": 60
     },
     {
       "api": "openapi/encoder-recorder-api.yaml",
       "error_count": 0,
-      "finding_count": 11,
+      "finding_count": 10,
       "findings": [
         {
           "category": "openapi_lint",
@@ -6970,27 +7594,15 @@
           ],
           "rule_id": "no-server-example.com",
           "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "698caa383bb06bca508f7421bf98b7cf01c9dad85f70b7a5bb09595be6980c03",
-          "locations": [
-            {
-              "pointer": "#/paths/~1updater~1version/get/responses",
-              "source": "openapi/encoder-recorder-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
         }
       ],
       "lint_exit_code": 0,
-      "warning_count": 11
+      "warning_count": 10
     },
     {
       "api": "openapi/observability-api.yaml",
       "error_count": 23,
-      "finding_count": 69,
+      "finding_count": 76,
       "findings": [
         {
           "category": "openapi_lint",
@@ -7294,11 +7906,83 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "1d19615e8a3cc02046658ab91e95a4ac773d72a3ed684fc2d163ff9ae90a988b",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationProposal/allOf/2/then/properties/target/required/0",
+              "source": "openapi/observability-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "224173d8fada116892a2a932b137a01d39359e9745ecf266826decab22daef83",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationProposal/allOf/0/then/properties/target/required/0",
+              "source": "openapi/observability-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "5b00f9d7d5a7afc4f626c6d4d48c2977e099b3f5a67da3174dff2a74a827a500",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationProposal/allOf/4/then/properties/target/required/0",
+              "source": "openapi/observability-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "72822b908ab332a54281df9391a30a0c5a9f836337838a84e4150b26b0cd3fe4",
           "locations": [
             {
               "pointer": "#/allOf/0/then/not/required/0",
               "source": "schemas/diagnostic-rerun-response.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "789d411dd7767a87636d5521d276958ab387948945a9668b035feeb2cbf04fe1",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationProposal/allOf/3/then/properties/target/required/0",
+              "source": "openapi/observability-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e60112ad3ac5d74e87587bd113ba41b935919b7874ded7350fb3040dae0c3703",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationProposal/allOf/5/then/properties/target/required/0",
+              "source": "openapi/observability-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f4e60bcdd9d17c59f89c0acacf679a3b5614f38839bf97e2b3ba8ec4a1359784",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationProposal/allOf/1/then/properties/target/required/0",
+              "source": "openapi/observability-api.yaml"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -7314,6 +7998,30 @@
             }
           ],
           "rule_id": "no-server-example.com",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "082e81a0386cfd3fbb4181c271956dd7d1d620db7d9967d8958596e526f14401",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/RemediationProposal",
+              "source": "openapi/observability-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "eb74cf9bb3367b612a9f941197a532dbc0447f8ddd30692aa1893e9a8eff10d3",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/ObservabilityLocalRemediationTransition",
+              "source": "openapi/observability-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
           "severity": "warn"
         },
         {
@@ -7478,18 +8186,6 @@
           "locations": [
             {
               "pointer": "#/paths/~1remediation-actions/get/responses",
-              "source": "openapi/observability-api.yaml"
-            }
-          ],
-          "rule_id": "operation-4xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "d625eca3d45128d26805d14de7b7890bcd5313452da073afb2052357fdfe2281",
-          "locations": [
-            {
-              "pointer": "#/paths/~1updater~1version/get/responses",
               "source": "openapi/observability-api.yaml"
             }
           ],
@@ -7822,7 +8518,7 @@
         }
       ],
       "lint_exit_code": 1,
-      "warning_count": 46
+      "warning_count": 53
     }
   ],
   "format_version": 1,

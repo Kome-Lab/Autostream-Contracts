@@ -1,10 +1,65 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "System Update Host Status",
+  "description": "Host readiness projection. Updater health and the target application's runtime identity probe are independent evidence and may not substitute for one another.",
+  "x-autostream-contract-major": 2,
+  "x-autostream-v2-transition-compatibility": {
+    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
+    "removal_wave": "Execution Bundle 8",
+    "final_state": "absent"
+  },
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "updaterHealth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "revision"],
+      "properties": {
+        "status": { "enum": ["ready", "not_ready", "unknown"] },
+        "revision": { "type": "integer", "minimum": 1 },
+        "safe_error_code": {
+          "enum": ["updater_unreachable", "capability_missing", "revision_mismatch", "fence_stale"]
+        }
+      }
+    },
+    "applicationProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "version", "service_id", "service_type", "config_revision"],
+      "properties": {
+        "status": { "enum": ["ready", "not_ready", "unknown"] },
+        "version": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "service_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "service_type": {
+          "enum": ["control_panel", "worker", "encoder_recorder", "discord_bot", "observability"]
+        },
+        "config_revision": { "type": "integer", "minimum": 1 }
+      }
+    }
+  },
   "required": ["host_id", "name", "updater_id", "reachability"],
+  "allOf": [
+    {
+      "if": { "required": ["protocol_version"] },
+      "then": {
+        "required": ["protocol_version", "updater_health", "application_probe"],
+        "not": {
+          "anyOf": [
+            { "required": ["ssh_client_public_key"] },
+            { "required": ["ssh_client_key_fingerprint"] }
+          ]
+        }
+      }
+    }
+  ],
   "properties": {
+    "protocol_version": { "const": 2 },
     "host_id": {
       "type": "string",
       "minLength": 1,
@@ -25,6 +80,8 @@
       "maxLength": 128,
       "pattern": "^[a-z0-9_.-]+$"
     },
+    "updater_health": { "$ref": "#/$defs/updaterHealth" },
+    "application_probe": { "$ref": "#/$defs/applicationProbe" },
     "ssh_client_public_key": {
       "type": "string",
       "maxLength": 80,

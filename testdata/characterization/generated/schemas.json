@@ -252,21 +252,165 @@
       "path": "schemas/discord-bot-start-job-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "98d3da3560c3bb607ab7441524434a13d60d078e3d0382a5e956b02ae9ac2bdf",
+      "normalized_sha256": "9ac70964cfe8f2899b0d093ca04705d1ec704b607f545a05b67945d3ececa3fb",
       "keywords": [
+        "$defs",
+        "$ref",
         "$schema",
         "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
         "description",
+        "else",
+        "enum",
         "format",
+        "if",
+        "items",
+        "maxItems",
+        "maxLength",
+        "maximum",
+        "minItems",
         "minLength",
         "minimum",
+        "not",
+        "pattern",
+        "prefixItems",
         "properties",
         "required",
+        "then",
         "title",
-        "type"
+        "type",
+        "writeOnly"
       ],
-      "extension_keywords": [],
-      "refs": null,
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility",
+        "x-autostream-visual-contract-catalog",
+        "x-autostream-visual-contract-definitions"
+      ],
+      "refs": [
+        {
+          "pointer": "/$defs/discordTargetSelection/properties/manual_target/$ref",
+          "value": "#/$defs/resolvedDiscordTarget",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/resolvedDiscordTarget"
+        },
+        {
+          "pointer": "/$defs/discordTargetSnapshot/properties/resolved/$ref",
+          "value": "#/$defs/resolvedDiscordTarget",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/resolvedDiscordTarget"
+        },
+        {
+          "pointer": "/$defs/discordTargetStoredSnapshot/properties/resolved/$ref",
+          "value": "#/$defs/resolvedDiscordTarget",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/resolvedDiscordTarget"
+        },
+        {
+          "pointer": "/$defs/mediaAssetDescriptor/properties/error/$ref",
+          "value": "#/$defs/safeError",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/safeError"
+        },
+        {
+          "pointer": "/$defs/mediaAssetDescriptor/properties/readiness/$ref",
+          "value": "#/$defs/readiness",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/readiness"
+        },
+        {
+          "pointer": "/$defs/sceneAppearance/properties/background/$ref",
+          "value": "#/$defs/mediaAssetDescriptor",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/mediaAssetDescriptor"
+        },
+        {
+          "pointer": "/$defs/sceneAppearance/properties/error/$ref",
+          "value": "#/$defs/safeError",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/safeError"
+        },
+        {
+          "pointer": "/$defs/sceneAppearance/properties/readiness/$ref",
+          "value": "#/$defs/readiness",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/readiness"
+        },
+        {
+          "pointer": "/$defs/themePreference/properties/error/$ref",
+          "value": "#/$defs/safeError",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/safeError"
+        },
+        {
+          "pointer": "/$defs/themePreference/properties/readiness/$ref",
+          "value": "#/$defs/readiness",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/readiness"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/applied/$ref",
+          "value": "#/$defs/appliedCoverState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/appliedCoverState"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/cover/$ref",
+          "value": "#/$defs/layerState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/layerState"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/cover_asset/$ref",
+          "value": "#/$defs/mediaAssetDescriptor",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/mediaAssetDescriptor"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/desired/$ref",
+          "value": "#/$defs/desiredCoverState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/desiredCoverState"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/error/$ref",
+          "value": "#/$defs/safeError",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/safeError"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/last_good_applied/$ref",
+          "value": "#/$defs/knownAppliedCoverState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/knownAppliedCoverState"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/pipeline/$ref",
+          "value": "#/$defs/visualPipelineInvariant",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/visualPipelineInvariant"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/readiness/$ref",
+          "value": "#/$defs/readiness",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/readiness"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/watermark/$ref",
+          "value": "#/$defs/layerState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/layerState"
+        },
+        {
+          "pointer": "/properties/discord_target/$ref",
+          "value": "#/$defs/discordTargetSnapshot",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/discordTargetSnapshot"
+        }
+      ],
       "compiled": true
     },
     {
@@ -2320,23 +2464,36 @@
       "path": "schemas/system-update-agent-status.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "f7d5cdc06e548682a9ea3aa815f02f74a817c6975612bd180ee439358ae3dc05",
+      "normalized_sha256": "b1e042d0e65863b49fe82fa4797fd2d5ca34bf72eb6d929ff2b091b8606b4be9",
       "keywords": [
         "$schema",
         "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
         "enum",
         "format",
+        "if",
+        "items",
         "maxLength",
+        "minItems",
         "minLength",
         "minimum",
+        "not",
         "pattern",
         "properties",
         "propertyNames",
         "required",
+        "then",
         "title",
-        "type"
+        "type",
+        "uniqueItems"
       ],
-      "extension_keywords": [],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
       "refs": null,
       "compiled": true
     },
@@ -2344,7 +2501,7 @@
       "path": "schemas/system-update-create-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "a74a54f88076a01a32f085fd124014a586f44592663b7b053464a75f5097af93",
+      "normalized_sha256": "2845a007bc5cb0b300ea7a29be7d7b993c241abfdcf1c94e9e1ba8bc354a558d",
       "keywords": [
         "$schema",
         "additionalProperties",
@@ -2352,6 +2509,7 @@
         "anyOf",
         "const",
         "default",
+        "description",
         "else",
         "enum",
         "if",
@@ -2368,7 +2526,10 @@
         "title",
         "type"
       ],
-      "extension_keywords": [],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
       "refs": null,
       "compiled": true
     },
@@ -2376,35 +2537,62 @@
       "path": "schemas/system-update-host-status.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "12b0166fa79c95e3dfea94ab411871edd6865adfd9b159f9f16099d9fcaf1f41",
-      "keywords": [
-        "$schema",
-        "additionalProperties",
-        "enum",
-        "format",
-        "maxLength",
-        "minLength",
-        "pattern",
-        "properties",
-        "required",
-        "title",
-        "type"
-      ],
-      "extension_keywords": [],
-      "refs": null,
-      "compiled": true
-    },
-    {
-      "path": "schemas/system-update-job.schema.json",
-      "id": "",
-      "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "119d3d402278d12905c69e99c6bfd3b5d562b71177766c5329b719bd10d94ea5",
+      "normalized_sha256": "864c85510d09c44461404e12eef16640992852078e66a4ae30d951f45fe0593a",
       "keywords": [
         "$defs",
         "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
+      "refs": [
+        {
+          "pointer": "/properties/application_probe/$ref",
+          "value": "#/$defs/applicationProbe",
+          "target": "schemas/system-update-host-status.schema.json",
+          "fragment": "/$defs/applicationProbe"
+        },
+        {
+          "pointer": "/properties/updater_health/$ref",
+          "value": "#/$defs/updaterHealth",
+          "target": "schemas/system-update-host-status.schema.json",
+          "fragment": "/$defs/updaterHealth"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-job.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "b1a33945f1ca12d8d2c0ab6f15a8b121e8d1285412396177b626558a7dcb112e",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
         "const",
         "default",
         "description",
@@ -2425,7 +2613,10 @@
         "title",
         "type"
       ],
-      "extension_keywords": [],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
       "refs": [
         {
           "pointer": "/$defs/portReconfigurationPlan/properties/docker/$ref",
@@ -2438,6 +2629,12 @@
           "value": "#/$defs/portReconfigurationPlan",
           "target": "schemas/system-update-job.schema.json",
           "fragment": "/$defs/portReconfigurationPlan"
+        },
+        {
+          "pointer": "/properties/safe_error/$ref",
+          "value": "#/$defs/systemUpdateJobSafeError",
+          "target": "schemas/system-update-job.schema.json",
+          "fragment": "/$defs/systemUpdateJobSafeError"
         }
       ],
       "compiled": true
@@ -2446,102 +2643,14 @@
       "path": "schemas/system-update-pull-ownership-activate-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "adfe50adb708d21d503bc0efa91eb4c28a631c0628d20932d3afe5b1da079ddf",
+      "normalized_sha256": "d8dd84b5106185ba0bea2e14f32fe7f8a9ac759caee975597dc56712ee8a532d",
       "keywords": [
-        "$schema",
-        "additionalProperties",
-        "description",
-        "maximum",
-        "minimum",
-        "pattern",
-        "properties",
-        "required",
-        "title",
-        "type"
-      ],
-      "extension_keywords": [],
-      "refs": null,
-      "compiled": true
-    },
-    {
-      "path": "schemas/system-update-pull-ownership-activate-response.schema.json",
-      "id": "",
-      "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "bd967eb4b07302fed9f8980906218f699d874cbea81d48f5b1ff74d810b49817",
-      "keywords": [
-        "$schema",
-        "additionalProperties",
-        "const",
-        "description",
-        "minimum",
-        "pattern",
-        "properties",
-        "required",
-        "title",
-        "type"
-      ],
-      "extension_keywords": [],
-      "refs": null,
-      "compiled": true
-    },
-    {
-      "path": "schemas/system-update-pull-ownership-deactivate-request.schema.json",
-      "id": "",
-      "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "bcd72f6b44bddcd79802bd6fcbdb08ee5aac1f2a2200cbc7115370c73daa95c0",
-      "keywords": [
-        "$schema",
-        "additionalProperties",
-        "description",
-        "maximum",
-        "minimum",
-        "pattern",
-        "properties",
-        "required",
-        "title",
-        "type"
-      ],
-      "extension_keywords": [],
-      "refs": null,
-      "compiled": true
-    },
-    {
-      "path": "schemas/system-update-pull-ownership-deactivate-response.schema.json",
-      "id": "",
-      "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "fe756793422d2f4bfc29f38d2bce17d3977e3d05ec80a86d9fac68babd22af1f",
-      "keywords": [
-        "$schema",
-        "additionalProperties",
-        "const",
-        "description",
-        "minimum",
-        "pattern",
-        "properties",
-        "required",
-        "title",
-        "type"
-      ],
-      "extension_keywords": [],
-      "refs": null,
-      "compiled": true
-    },
-    {
-      "path": "schemas/system-update-target.schema.json",
-      "id": "",
-      "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "19246e4f5083d19c2375a381f6689e890c1f108fa82249662f9b90f9e86167af",
-      "keywords": [
-        "$defs",
-        "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
         "const",
-        "enum",
-        "format",
+        "description",
         "if",
-        "items",
         "maxLength",
         "maximum",
         "minLength",
@@ -2551,16 +2660,162 @@
         "required",
         "then",
         "title",
+        "type"
+      ],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-pull-ownership-activate-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "9e16b2d6f3a01e0c85e5e1d4ac3ef0ef780afcae957f1730822b2561ec3e48fa",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "if",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-pull-ownership-deactivate-request.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "9a566163ef4824d01778433ac1d467417f1b6e4ad4c22b296275541cf11dd63e",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-pull-ownership-deactivate-response.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "80ae7dfacd295b1fe51e0e72876c10705c2e41eda4aec0fe2acd2503908bb672",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "if",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-target.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "46a8680d3e4fbd00e98a1ae1a2d23fe7341eb859cf83f5deacae6f97925a00da",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "maxLength",
+        "maximum",
+        "minItems",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
         "type",
         "uniqueItems"
       ],
-      "extension_keywords": [],
+      "extension_keywords": [
+        "x-autostream-contract-major",
+        "x-autostream-v2-transition-compatibility"
+      ],
       "refs": [
+        {
+          "pointer": "/properties/application_probe/$ref",
+          "value": "#/$defs/systemUpdateTargetApplicationProbe",
+          "target": "schemas/system-update-target.schema.json",
+          "fragment": "/$defs/systemUpdateTargetApplicationProbe"
+        },
         {
           "pointer": "/properties/port_mapping/$ref",
           "value": "#/$defs/portMapping",
           "target": "schemas/system-update-target.schema.json",
           "fragment": "/$defs/portMapping"
+        },
+        {
+          "pointer": "/properties/safe_error/$ref",
+          "value": "#/$defs/systemUpdateTargetSafeError",
+          "target": "schemas/system-update-target.schema.json",
+          "fragment": "/$defs/systemUpdateTargetSafeError"
+        },
+        {
+          "pointer": "/properties/updater_health/$ref",
+          "value": "#/$defs/updaterHealth",
+          "target": "schemas/system-update-target.schema.json",
+          "fragment": "/$defs/updaterHealth"
         }
       ],
       "compiled": true

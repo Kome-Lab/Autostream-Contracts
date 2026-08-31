@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 143,
+  "struct_count": 165,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -159,6 +159,56 @@
           "json_name": "turnstile_secret",
           "json_ignored": false,
           "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "ApplicationRuntimeIdentityProbe",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Version",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"version\"",
+          "json_name": "version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ServiceType",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateTargetType",
+          "struct_tag": "json:\"service_type\"",
+          "json_name": "service_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ConfigRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"config_revision\"",
+          "json_name": "config_revision",
+          "json_ignored": false,
+          "omitempty": false
         }
       ]
     },
@@ -7875,6 +7925,775 @@
       ]
     },
     {
+      "name": "RemediationDetectorIdentity",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ServiceType",
+          "exported": true,
+          "embedded": false,
+          "type": "ServiceType",
+          "struct_tag": "json:\"service_type\"",
+          "json_name": "service_type",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "RemediationEvidence",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "EvidenceCode",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"evidence_code\"",
+          "json_name": "evidence_code",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ObservedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"observed_at\"",
+          "json_name": "observed_at",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ObservedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"observed_revision\"",
+          "json_name": "observed_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "EvidenceDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"evidence_digest,omitempty\"",
+          "json_name": "evidence_digest",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "RemediationExecutorIdentity",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id,omitempty\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "Authority",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationExecutionAuthority",
+          "struct_tag": "json:\"authority\"",
+          "json_name": "authority",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ExecutionScope",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationExecutionScope",
+          "struct_tag": "json:\"execution_scope\"",
+          "json_name": "execution_scope",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "RemediationGrant",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "AuthorizationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authorization_id\"",
+          "json_name": "authorization_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "AuthorizationNonceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authorization_nonce_id\"",
+          "json_name": "authorization_nonce_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ProposalID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"proposal_id\"",
+          "json_name": "proposal_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "RequestOrigin",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationRequestOrigin",
+          "struct_tag": "json:\"request_origin\"",
+          "json_name": "request_origin",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "Executor",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationExecutorIdentity",
+          "struct_tag": "json:\"executor\"",
+          "json_name": "executor",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Target",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationTargetIdentity",
+          "struct_tag": "json:\"target\"",
+          "json_name": "target",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "ActionType",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationActionType",
+          "struct_tag": "json:\"action_type\"",
+          "json_name": "action_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "CanonicalArgumentDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"canonical_argument_digest\"",
+          "json_name": "canonical_argument_digest",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "ExpiresAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"expires_at\"",
+          "json_name": "expires_at",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 12,
+          "name": "Capability",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationActionType",
+          "struct_tag": "json:\"capability\"",
+          "json_name": "capability",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 13,
+          "name": "OneTime",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"one_time\"",
+          "json_name": "one_time",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 14,
+          "name": "AuditCorrelationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"audit_correlation_id\"",
+          "json_name": "audit_correlation_id",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "RemediationProposal",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ProposalID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"proposal_id\"",
+          "json_name": "proposal_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "IncidentID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"incident_id\"",
+          "json_name": "incident_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Detector",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationDetectorIdentity",
+          "struct_tag": "json:\"detector\"",
+          "json_name": "detector",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Target",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationTargetIdentity",
+          "struct_tag": "json:\"target\"",
+          "json_name": "target",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "ActionType",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationActionType",
+          "struct_tag": "json:\"action_type\"",
+          "json_name": "action_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "ProposalRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"proposal_revision\"",
+          "json_name": "proposal_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "RequiredCapability",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationActionType",
+          "struct_tag": "json:\"required_capability\"",
+          "json_name": "required_capability",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "Evidence",
+          "exported": true,
+          "embedded": false,
+          "type": "[]RemediationEvidence",
+          "struct_tag": "json:\"evidence\"",
+          "json_name": "evidence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "AuditCorrelationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"audit_correlation_id\"",
+          "json_name": "audit_correlation_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "ObservedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"observed_at\"",
+          "json_name": "observed_at",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "ControlPanelAuthorizationRequired",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"control_panel_authorization_required\"",
+          "json_name": "control_panel_authorization_required",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "RemediationRequestOrigin",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "OriginType",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"origin_type\"",
+          "json_name": "origin_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "PrincipalID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"principal_id\"",
+          "json_name": "principal_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id,omitempty\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "ServiceType",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateTargetType",
+          "struct_tag": "json:\"service_type,omitempty\"",
+          "json_name": "service_type",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "Permission",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"permission\"",
+          "json_name": "permission",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "RemediationResultEvidence",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "AuthorizationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authorization_id\"",
+          "json_name": "authorization_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ProposalID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"proposal_id\"",
+          "json_name": "proposal_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Executor",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationExecutorIdentity",
+          "struct_tag": "json:\"executor\"",
+          "json_name": "executor",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Target",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationTargetIdentity",
+          "struct_tag": "json:\"target\"",
+          "json_name": "target",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "ActionType",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationActionType",
+          "struct_tag": "json:\"action_type\"",
+          "json_name": "action_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "CanonicalArgumentDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"canonical_argument_digest\"",
+          "json_name": "canonical_argument_digest",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "AppliedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_revision,omitempty\"",
+          "json_name": "applied_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 9,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "Result",
+          "exported": true,
+          "embedded": false,
+          "type": "RemediationResult",
+          "struct_tag": "json:\"result\"",
+          "json_name": "result",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "ReconciliationRequired",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"reconciliation_required\"",
+          "json_name": "reconciliation_required",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 12,
+          "name": "AutomaticResendAllowed",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"automatic_resend_allowed\"",
+          "json_name": "automatic_resend_allowed",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 13,
+          "name": "Evidence",
+          "exported": true,
+          "embedded": false,
+          "type": "[]RemediationEvidence",
+          "struct_tag": "json:\"evidence\"",
+          "json_name": "evidence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 14,
+          "name": "SafeError",
+          "exported": true,
+          "embedded": false,
+          "type": "*RemediationSafeError",
+          "struct_tag": "json:\"safe_error,omitempty\"",
+          "json_name": "safe_error",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 15,
+          "name": "AuditCorrelationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"audit_correlation_id\"",
+          "json_name": "audit_correlation_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 16,
+          "name": "CompletedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"completed_at\"",
+          "json_name": "completed_at",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "RemediationSafeError",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Code",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"code\"",
+          "json_name": "code",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Message",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"message\"",
+          "json_name": "message",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Retryable",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"retryable\"",
+          "json_name": "retryable",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "AuditCorrelationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"audit_correlation_id,omitempty\"",
+          "json_name": "audit_correlation_id",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "RemediationTargetIdentity",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ServiceType",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateTargetType",
+          "struct_tag": "json:\"service_type\"",
+          "json_name": "service_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id,omitempty\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "IncidentID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"incident_id,omitempty\"",
+          "json_name": "incident_id",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
       "name": "SecretStatus",
       "alias": false,
       "fields": [
@@ -10090,6 +10909,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "UpdaterID",
           "exported": true,
           "embedded": false,
@@ -10100,7 +10930,40 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id,omitempty\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id,omitempty\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "Authentication",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authentication,omitempty\"",
+          "json_name": "authentication",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
           "name": "Name",
           "exported": true,
           "embedded": false,
@@ -10111,7 +10974,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 6,
           "name": "TransportMode",
           "exported": true,
           "embedded": false,
@@ -10122,7 +10985,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 7,
           "name": "ExecutionHostID",
           "exported": true,
           "embedded": false,
@@ -10133,7 +10996,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 8,
           "name": "OwnershipEpoch",
           "exported": true,
           "embedded": false,
@@ -10144,7 +11007,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 9,
           "name": "Status",
           "exported": true,
           "embedded": false,
@@ -10155,7 +11018,7 @@
           "omitempty": false
         },
         {
-          "index": 6,
+          "index": 10,
           "name": "Online",
           "exported": true,
           "embedded": false,
@@ -10166,7 +11029,7 @@
           "omitempty": false
         },
         {
-          "index": 7,
+          "index": 11,
           "name": "Version",
           "exported": true,
           "embedded": false,
@@ -10177,7 +11040,7 @@
           "omitempty": false
         },
         {
-          "index": 8,
+          "index": 12,
           "name": "LastHeartbeatAt",
           "exported": true,
           "embedded": false,
@@ -10188,7 +11051,29 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 13,
+          "name": "HeartbeatSequence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"heartbeat_sequence,omitempty\"",
+          "json_name": "heartbeat_sequence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 14,
+          "name": "Capabilities",
+          "exported": true,
+          "embedded": false,
+          "type": "[]UpdaterCapability",
+          "struct_tag": "json:\"capabilities,omitempty\"",
+          "json_name": "capabilities",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 15,
           "name": "DesiredRevision",
           "exported": true,
           "embedded": false,
@@ -10199,7 +11084,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 16,
           "name": "AppliedRevision",
           "exported": true,
           "embedded": false,
@@ -10210,7 +11095,18 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 17,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence,omitempty\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 18,
           "name": "PolicyStatus",
           "exported": true,
           "embedded": false,
@@ -10221,7 +11117,7 @@
           "omitempty": true
         },
         {
-          "index": 12,
+          "index": 19,
           "name": "PolicyErrorCode",
           "exported": true,
           "embedded": false,
@@ -10232,7 +11128,7 @@
           "omitempty": true
         },
         {
-          "index": 13,
+          "index": 20,
           "name": "SSHClientPublicKeys",
           "exported": true,
           "embedded": false,
@@ -10243,7 +11139,7 @@
           "omitempty": true
         },
         {
-          "index": 14,
+          "index": 21,
           "name": "SSHClientKeyFingerprints",
           "exported": true,
           "embedded": false,
@@ -10254,7 +11150,7 @@
           "omitempty": true
         },
         {
-          "index": 15,
+          "index": 22,
           "name": "BootstrapEncryptionPublicKey",
           "exported": true,
           "embedded": false,
@@ -10265,7 +11161,7 @@
           "omitempty": true
         },
         {
-          "index": 16,
+          "index": 23,
           "name": "BootstrapEncryptionKeyFingerprint",
           "exported": true,
           "embedded": false,
@@ -10283,6 +11179,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "Operation",
           "exported": true,
           "embedded": false,
@@ -10293,7 +11200,7 @@
           "omitempty": true
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "TargetID",
           "exported": true,
           "embedded": false,
@@ -10304,7 +11211,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "Strategy",
           "exported": true,
           "embedded": false,
@@ -10315,7 +11222,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "NewPort",
           "exported": true,
           "embedded": false,
@@ -10326,7 +11233,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "NewAdvertisedPort",
           "exported": true,
           "embedded": false,
@@ -10337,7 +11244,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 6,
           "name": "NewPublishedPort",
           "exported": true,
           "embedded": false,
@@ -10348,7 +11255,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 7,
           "name": "NewContainerPort",
           "exported": true,
           "embedded": false,
@@ -10359,7 +11266,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "ExpectedEndpointRevision",
           "exported": true,
           "embedded": false,
@@ -10370,7 +11277,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "IdempotencyKey",
           "exported": true,
           "embedded": false,
@@ -10379,6 +11286,39 @@
           "json_name": "idempotency_key",
           "json_ignored": false,
           "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision,omitempty\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 11,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence,omitempty\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 12,
+          "name": "RequiredCapability",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"required_capability,omitempty\"",
+          "json_name": "required_capability",
+          "json_ignored": false,
+          "omitempty": true
         }
       ]
     },
@@ -10537,6 +11477,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "HostID",
           "exported": true,
           "embedded": false,
@@ -10547,7 +11498,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "Name",
           "exported": true,
           "embedded": false,
@@ -10558,7 +11509,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "UpdaterID",
           "exported": true,
           "embedded": false,
@@ -10569,7 +11520,7 @@
           "omitempty": false
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "Reachability",
           "exported": true,
           "embedded": false,
@@ -10580,7 +11531,7 @@
           "omitempty": false
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "ReachabilityCheckedAt",
           "exported": true,
           "embedded": false,
@@ -10591,7 +11542,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 6,
           "name": "ReachabilityCode",
           "exported": true,
           "embedded": false,
@@ -10602,7 +11553,29 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 7,
+          "name": "UpdaterHealth",
+          "exported": true,
+          "embedded": false,
+          "type": "*UpdaterHealth",
+          "struct_tag": "json:\"updater_health,omitempty\"",
+          "json_name": "updater_health",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 8,
+          "name": "ApplicationProbe",
+          "exported": true,
+          "embedded": false,
+          "type": "*ApplicationRuntimeIdentityProbe",
+          "struct_tag": "json:\"application_probe,omitempty\"",
+          "json_name": "application_probe",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 9,
           "name": "SSHClientPublicKey",
           "exported": true,
           "embedded": false,
@@ -10613,7 +11586,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 10,
           "name": "SSHClientKeyFingerprint",
           "exported": true,
           "embedded": false,
@@ -10631,6 +11604,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "ID",
           "exported": true,
           "embedded": false,
@@ -10641,7 +11625,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "TargetID",
           "exported": true,
           "embedded": false,
@@ -10652,7 +11636,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "TargetType",
           "exported": true,
           "embedded": false,
@@ -10663,7 +11647,7 @@
           "omitempty": false
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "ExecutionHostID",
           "exported": true,
           "embedded": false,
@@ -10674,7 +11658,7 @@
           "omitempty": false
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "TransportMode",
           "exported": true,
           "embedded": false,
@@ -10685,7 +11669,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 6,
           "name": "OwnershipEpoch",
           "exported": true,
           "embedded": false,
@@ -10696,7 +11680,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 7,
           "name": "PolicyRevision",
           "exported": true,
           "embedded": false,
@@ -10707,7 +11691,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "DeploymentMode",
           "exported": true,
           "embedded": false,
@@ -10718,7 +11702,7 @@
           "omitempty": false
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "CurrentVersion",
           "exported": true,
           "embedded": false,
@@ -10729,7 +11713,7 @@
           "omitempty": false
         },
         {
-          "index": 9,
+          "index": 10,
           "name": "TargetVersion",
           "exported": true,
           "embedded": false,
@@ -10740,7 +11724,7 @@
           "omitempty": false
         },
         {
-          "index": 10,
+          "index": 11,
           "name": "Strategy",
           "exported": true,
           "embedded": false,
@@ -10751,7 +11735,7 @@
           "omitempty": false
         },
         {
-          "index": 11,
+          "index": 12,
           "name": "Status",
           "exported": true,
           "embedded": false,
@@ -10762,7 +11746,7 @@
           "omitempty": false
         },
         {
-          "index": 12,
+          "index": 13,
           "name": "IdempotencyKey",
           "exported": true,
           "embedded": false,
@@ -10773,7 +11757,7 @@
           "omitempty": false
         },
         {
-          "index": 13,
+          "index": 14,
           "name": "UpdaterID",
           "exported": true,
           "embedded": false,
@@ -10784,7 +11768,95 @@
           "omitempty": true
         },
         {
-          "index": 14,
+          "index": 15,
+          "name": "AuthorizationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authorization_id,omitempty\"",
+          "json_name": "authorization_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 16,
+          "name": "CanonicalPayloadDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"canonical_payload_digest,omitempty\"",
+          "json_name": "canonical_payload_digest",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 17,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision,omitempty\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 18,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence,omitempty\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 19,
+          "name": "Outcome",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"outcome,omitempty\"",
+          "json_name": "outcome",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 20,
+          "name": "RequiredCapability",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"required_capability,omitempty\"",
+          "json_name": "required_capability",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 21,
+          "name": "AutomaticResendAllowed",
+          "exported": true,
+          "embedded": false,
+          "type": "*bool",
+          "struct_tag": "json:\"automatic_resend_allowed,omitempty\"",
+          "json_name": "automatic_resend_allowed",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 22,
+          "name": "SafeError",
+          "exported": true,
+          "embedded": false,
+          "type": "*V2UpdaterSafeError",
+          "struct_tag": "json:\"safe_error,omitempty\"",
+          "json_name": "safe_error",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 23,
           "name": "RequestedBy",
           "exported": true,
           "embedded": false,
@@ -10795,7 +11867,7 @@
           "omitempty": true
         },
         {
-          "index": 15,
+          "index": 24,
           "name": "LeaseGeneration",
           "exported": true,
           "embedded": false,
@@ -10806,7 +11878,7 @@
           "omitempty": false
         },
         {
-          "index": 16,
+          "index": 25,
           "name": "LeaseExpiresAt",
           "exported": true,
           "embedded": false,
@@ -10817,7 +11889,7 @@
           "omitempty": true
         },
         {
-          "index": 17,
+          "index": 26,
           "name": "Sequence",
           "exported": true,
           "embedded": false,
@@ -10828,7 +11900,7 @@
           "omitempty": false
         },
         {
-          "index": 18,
+          "index": 27,
           "name": "Progress",
           "exported": true,
           "embedded": false,
@@ -10839,7 +11911,7 @@
           "omitempty": false
         },
         {
-          "index": 19,
+          "index": 28,
           "name": "Code",
           "exported": true,
           "embedded": false,
@@ -10850,7 +11922,7 @@
           "omitempty": true
         },
         {
-          "index": 20,
+          "index": 29,
           "name": "Message",
           "exported": true,
           "embedded": false,
@@ -10861,7 +11933,7 @@
           "omitempty": true
         },
         {
-          "index": 21,
+          "index": 30,
           "name": "ArtifactDigest",
           "exported": true,
           "embedded": false,
@@ -10872,7 +11944,7 @@
           "omitempty": true
         },
         {
-          "index": 22,
+          "index": 31,
           "name": "PreviousDigest",
           "exported": true,
           "embedded": false,
@@ -10883,7 +11955,7 @@
           "omitempty": true
         },
         {
-          "index": 23,
+          "index": 32,
           "name": "Operation",
           "exported": true,
           "embedded": false,
@@ -10894,7 +11966,7 @@
           "omitempty": true
         },
         {
-          "index": 24,
+          "index": 33,
           "name": "PortReconfigure",
           "exported": true,
           "embedded": false,
@@ -10905,7 +11977,7 @@
           "omitempty": true
         },
         {
-          "index": 25,
+          "index": 34,
           "name": "CreatedAt",
           "exported": true,
           "embedded": false,
@@ -10916,7 +11988,7 @@
           "omitempty": false
         },
         {
-          "index": 26,
+          "index": 35,
           "name": "UpdatedAt",
           "exported": true,
           "embedded": false,
@@ -10927,7 +11999,7 @@
           "omitempty": false
         },
         {
-          "index": 27,
+          "index": 36,
           "name": "ClaimedAt",
           "exported": true,
           "embedded": false,
@@ -10938,7 +12010,7 @@
           "omitempty": true
         },
         {
-          "index": 28,
+          "index": 37,
           "name": "CompletedAt",
           "exported": true,
           "embedded": false,
@@ -10949,7 +12021,7 @@
           "omitempty": true
         },
         {
-          "index": 29,
+          "index": 38,
           "name": "CanceledAt",
           "exported": true,
           "embedded": false,
@@ -11265,6 +12337,61 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key,omitempty\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision,omitempty\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence,omitempty\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "RequiredCapability",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"required_capability,omitempty\"",
+          "json_name": "required_capability",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
           "name": "ExpectedExecutionHostID",
           "exported": true,
           "embedded": false,
@@ -11275,7 +12402,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 6,
           "name": "ExpectedOwnershipEpoch",
           "exported": true,
           "embedded": false,
@@ -11286,7 +12413,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 7,
           "name": "ExpectedSourcePolicyRevision",
           "exported": true,
           "embedded": false,
@@ -11297,7 +12424,7 @@
           "omitempty": false
         },
         {
-          "index": 3,
+          "index": 8,
           "name": "ExpectedProjectionRevision",
           "exported": true,
           "embedded": false,
@@ -11308,7 +12435,7 @@
           "omitempty": false
         },
         {
-          "index": 4,
+          "index": 9,
           "name": "ExpectedLocalExecutorPolicyRevision",
           "exported": true,
           "embedded": false,
@@ -11319,7 +12446,7 @@
           "omitempty": false
         },
         {
-          "index": 5,
+          "index": 10,
           "name": "ExpectedLocalExecutorPolicySHA256",
           "exported": true,
           "embedded": false,
@@ -11337,6 +12464,72 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key,omitempty\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision,omitempty\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "AppliedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_revision,omitempty\"",
+          "json_name": "applied_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence,omitempty\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "Capability",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"capability,omitempty\"",
+          "json_name": "capability",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
           "name": "UpdaterID",
           "exported": true,
           "embedded": false,
@@ -11347,7 +12540,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 7,
           "name": "ExecutionHostID",
           "exported": true,
           "embedded": false,
@@ -11358,7 +12551,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 8,
           "name": "TransportMode",
           "exported": true,
           "embedded": false,
@@ -11369,7 +12562,7 @@
           "omitempty": false
         },
         {
-          "index": 3,
+          "index": 9,
           "name": "AgentServiceID",
           "exported": true,
           "embedded": false,
@@ -11380,7 +12573,7 @@
           "omitempty": false
         },
         {
-          "index": 4,
+          "index": 10,
           "name": "OwnershipEpoch",
           "exported": true,
           "embedded": false,
@@ -11391,7 +12584,7 @@
           "omitempty": false
         },
         {
-          "index": 5,
+          "index": 11,
           "name": "SourcePolicyRevision",
           "exported": true,
           "embedded": false,
@@ -11402,7 +12595,7 @@
           "omitempty": false
         },
         {
-          "index": 6,
+          "index": 12,
           "name": "ProjectionRevision",
           "exported": true,
           "embedded": false,
@@ -11413,7 +12606,7 @@
           "omitempty": false
         },
         {
-          "index": 7,
+          "index": 13,
           "name": "LocalExecutorPolicyRevision",
           "exported": true,
           "embedded": false,
@@ -11424,7 +12617,7 @@
           "omitempty": false
         },
         {
-          "index": 8,
+          "index": 14,
           "name": "LocalExecutorPolicySHA256",
           "exported": true,
           "embedded": false,
@@ -11442,6 +12635,61 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key,omitempty\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision,omitempty\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence,omitempty\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "RequiredCapability",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"required_capability,omitempty\"",
+          "json_name": "required_capability",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
           "name": "ExpectedExecutionHostID",
           "exported": true,
           "embedded": false,
@@ -11452,7 +12700,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 6,
           "name": "ExpectedOwnershipEpoch",
           "exported": true,
           "embedded": false,
@@ -11463,7 +12711,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 7,
           "name": "ExpectedSourcePolicyRevision",
           "exported": true,
           "embedded": false,
@@ -11474,7 +12722,7 @@
           "omitempty": false
         },
         {
-          "index": 3,
+          "index": 8,
           "name": "ExpectedProjectionRevision",
           "exported": true,
           "embedded": false,
@@ -11485,7 +12733,7 @@
           "omitempty": false
         },
         {
-          "index": 4,
+          "index": 9,
           "name": "ExpectedLocalExecutorPolicyRevision",
           "exported": true,
           "embedded": false,
@@ -11496,7 +12744,7 @@
           "omitempty": false
         },
         {
-          "index": 5,
+          "index": 10,
           "name": "ExpectedLocalExecutorPolicySHA256",
           "exported": true,
           "embedded": false,
@@ -11514,6 +12762,72 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key,omitempty\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision,omitempty\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "AppliedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_revision,omitempty\"",
+          "json_name": "applied_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence,omitempty\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "Capability",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"capability,omitempty\"",
+          "json_name": "capability",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
           "name": "UpdaterID",
           "exported": true,
           "embedded": false,
@@ -11524,7 +12838,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 7,
           "name": "ExecutionHostID",
           "exported": true,
           "embedded": false,
@@ -11535,7 +12849,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 8,
           "name": "TransportMode",
           "exported": true,
           "embedded": false,
@@ -11546,7 +12860,7 @@
           "omitempty": false
         },
         {
-          "index": 3,
+          "index": 9,
           "name": "AgentServiceID",
           "exported": true,
           "embedded": false,
@@ -11557,7 +12871,7 @@
           "omitempty": false
         },
         {
-          "index": 4,
+          "index": 10,
           "name": "OwnershipEpoch",
           "exported": true,
           "embedded": false,
@@ -11568,7 +12882,7 @@
           "omitempty": false
         },
         {
-          "index": 5,
+          "index": 11,
           "name": "AgentOwnershipEpoch",
           "exported": true,
           "embedded": false,
@@ -11579,7 +12893,7 @@
           "omitempty": false
         },
         {
-          "index": 6,
+          "index": 12,
           "name": "SourcePolicyRevision",
           "exported": true,
           "embedded": false,
@@ -11590,7 +12904,7 @@
           "omitempty": false
         },
         {
-          "index": 7,
+          "index": 13,
           "name": "ProjectionRevision",
           "exported": true,
           "embedded": false,
@@ -11601,7 +12915,7 @@
           "omitempty": false
         },
         {
-          "index": 8,
+          "index": 14,
           "name": "LocalExecutorPolicyRevision",
           "exported": true,
           "embedded": false,
@@ -11612,7 +12926,7 @@
           "omitempty": false
         },
         {
-          "index": 9,
+          "index": 15,
           "name": "LocalExecutorPolicySHA256",
           "exported": true,
           "embedded": false,
@@ -11630,6 +12944,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version,omitempty\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "TargetID",
           "exported": true,
           "embedded": false,
@@ -11640,7 +12965,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "TargetType",
           "exported": true,
           "embedded": false,
@@ -11651,7 +12976,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "Name",
           "exported": true,
           "embedded": false,
@@ -11662,7 +12987,7 @@
           "omitempty": false
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "HostID",
           "exported": true,
           "embedded": false,
@@ -11673,7 +12998,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "CurrentVersion",
           "exported": true,
           "embedded": false,
@@ -11684,7 +13009,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 6,
           "name": "LatestVersion",
           "exported": true,
           "embedded": false,
@@ -11695,7 +13020,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 7,
           "name": "UpdateAvailable",
           "exported": true,
           "embedded": false,
@@ -11706,7 +13031,7 @@
           "omitempty": false
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "DeploymentMode",
           "exported": true,
           "embedded": false,
@@ -11717,7 +13042,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "UpdaterID",
           "exported": true,
           "embedded": false,
@@ -11728,7 +13053,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 10,
           "name": "UpdaterOnline",
           "exported": true,
           "embedded": false,
@@ -11739,7 +13064,73 @@
           "omitempty": false
         },
         {
-          "index": 10,
+          "index": 11,
+          "name": "Capabilities",
+          "exported": true,
+          "embedded": false,
+          "type": "[]UpdaterCapability",
+          "struct_tag": "json:\"capabilities,omitempty\"",
+          "json_name": "capabilities",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 12,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision,omitempty\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 13,
+          "name": "AppliedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_revision,omitempty\"",
+          "json_name": "applied_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 14,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence,omitempty\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 15,
+          "name": "UpdaterHealth",
+          "exported": true,
+          "embedded": false,
+          "type": "*UpdaterHealth",
+          "struct_tag": "json:\"updater_health,omitempty\"",
+          "json_name": "updater_health",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 16,
+          "name": "ApplicationProbe",
+          "exported": true,
+          "embedded": false,
+          "type": "*ApplicationRuntimeIdentityProbe",
+          "struct_tag": "json:\"application_probe,omitempty\"",
+          "json_name": "application_probe",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 17,
           "name": "Eligible",
           "exported": true,
           "embedded": false,
@@ -11750,7 +13141,7 @@
           "omitempty": false
         },
         {
-          "index": 11,
+          "index": 18,
           "name": "BlockedReason",
           "exported": true,
           "embedded": false,
@@ -11761,7 +13152,7 @@
           "omitempty": true
         },
         {
-          "index": 12,
+          "index": 19,
           "name": "EligibleOperations",
           "exported": true,
           "embedded": false,
@@ -11772,7 +13163,7 @@
           "omitempty": true
         },
         {
-          "index": 13,
+          "index": 20,
           "name": "OperationBlockedReasons",
           "exported": true,
           "embedded": false,
@@ -11783,7 +13174,7 @@
           "omitempty": true
         },
         {
-          "index": 14,
+          "index": 21,
           "name": "Busy",
           "exported": true,
           "embedded": false,
@@ -11794,7 +13185,7 @@
           "omitempty": false
         },
         {
-          "index": 15,
+          "index": 22,
           "name": "CurrentStreamID",
           "exported": true,
           "embedded": false,
@@ -11805,7 +13196,7 @@
           "omitempty": true
         },
         {
-          "index": 16,
+          "index": 23,
           "name": "UpdateCheckSource",
           "exported": true,
           "embedded": false,
@@ -11816,7 +13207,7 @@
           "omitempty": true
         },
         {
-          "index": 17,
+          "index": 24,
           "name": "UpdateCheckError",
           "exported": true,
           "embedded": false,
@@ -11827,7 +13218,18 @@
           "omitempty": true
         },
         {
-          "index": 18,
+          "index": 25,
+          "name": "SafeError",
+          "exported": true,
+          "embedded": false,
+          "type": "*V2UpdaterSafeError",
+          "struct_tag": "json:\"safe_error,omitempty\"",
+          "json_name": "safe_error",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 26,
           "name": "PortMapping",
           "exported": true,
           "embedded": false,
@@ -12603,6 +14005,1145 @@
           "type": "*SystemUpdatePortReconfiguration",
           "struct_tag": "json:\"port_reconfigure,omitempty\"",
           "json_name": "port_reconfigure",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "UpdaterCommandEnvelope",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "CommandID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"command_id\"",
+          "json_name": "command_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Issuer",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCommandIssuer",
+          "struct_tag": "json:\"issuer\"",
+          "json_name": "issuer",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "CanonicalPayloadDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"canonical_payload_digest\"",
+          "json_name": "canonical_payload_digest",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "MutationAuthorization",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterMutationAuthorization",
+          "struct_tag": "json:\"mutation_authorization\"",
+          "json_name": "mutation_authorization",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "AuditCorrelationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"audit_correlation_id\"",
+          "json_name": "audit_correlation_id",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterCommandIssuer",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ServiceType",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_type\"",
+          "json_name": "service_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Authentication",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authentication\"",
+          "json_name": "authentication",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Permission",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"permission\"",
+          "json_name": "permission",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterEvidence",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "EvidenceCode",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"evidence_code\"",
+          "json_name": "evidence_code",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ObservedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"observed_at\"",
+          "json_name": "observed_at",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ObservedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"observed_revision\"",
+          "json_name": "observed_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ArtifactDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"artifact_digest,omitempty\"",
+          "json_name": "artifact_digest",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "UpdaterHealth",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Status",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"status\"",
+          "json_name": "status",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "SafeErrorCode",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"safe_error_code,omitempty\"",
+          "json_name": "safe_error_code",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "UpdaterHeartbeat",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "UpdaterID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"updater_id\"",
+          "json_name": "updater_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "Authentication",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authentication\"",
+          "json_name": "authentication",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Sequence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"sequence\"",
+          "json_name": "sequence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "Capabilities",
+          "exported": true,
+          "embedded": false,
+          "type": "[]UpdaterCapability",
+          "struct_tag": "json:\"capabilities\"",
+          "json_name": "capabilities",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "AppliedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_revision\"",
+          "json_name": "applied_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "Status",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"status\"",
+          "json_name": "status",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "ObservedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"observed_at\"",
+          "json_name": "observed_at",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 12,
+          "name": "SafeError",
+          "exported": true,
+          "embedded": false,
+          "type": "*V2UpdaterSafeError",
+          "struct_tag": "json:\"safe_error,omitempty\"",
+          "json_name": "safe_error",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "UpdaterLeaseEnvelope",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "LeaseID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"lease_id\"",
+          "json_name": "lease_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "LeaseGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"lease_generation\"",
+          "json_name": "lease_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Command",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCommandEnvelope",
+          "struct_tag": "json:\"command\"",
+          "json_name": "command",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterLocalJournalBoundary",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "JournalID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"journal_id\"",
+          "json_name": "journal_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "UpdaterID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"updater_id\"",
+          "json_name": "updater_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "CommandID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"command_id\"",
+          "json_name": "command_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "AuthorizationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authorization_id\"",
+          "json_name": "authorization_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "CanonicalPayloadDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"canonical_payload_digest\"",
+          "json_name": "canonical_payload_digest",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "Phase",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"phase\"",
+          "json_name": "phase",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "RecoveryState",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"recovery_state\"",
+          "json_name": "recovery_state",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "RecordedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"recorded_at\"",
+          "json_name": "recorded_at",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterMutationAuthorization",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "AuthorizationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authorization_id\"",
+          "json_name": "authorization_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "NonceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"nonce_id\"",
+          "json_name": "nonce_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "JobID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"job_id\"",
+          "json_name": "job_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "UpdaterID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"updater_id\"",
+          "json_name": "updater_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "ActionType",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"action_type\"",
+          "json_name": "action_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "Target",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterTargetIdentity",
+          "struct_tag": "json:\"target\"",
+          "json_name": "target",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "CanonicalArgumentDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"canonical_argument_digest\"",
+          "json_name": "canonical_argument_digest",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "ExpiresAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"expires_at\"",
+          "json_name": "expires_at",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "RequiredCapability",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"required_capability\"",
+          "json_name": "required_capability",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 12,
+          "name": "OneTime",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"one_time\"",
+          "json_name": "one_time",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterProgressEnvelope",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "CommandID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"command_id\"",
+          "json_name": "command_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "JobID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"job_id\"",
+          "json_name": "job_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "UpdaterID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"updater_id\"",
+          "json_name": "updater_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Sequence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"sequence\"",
+          "json_name": "sequence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "Phase",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"phase\"",
+          "json_name": "phase",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "Progress",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"progress\"",
+          "json_name": "progress",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "AuditCorrelationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"audit_correlation_id\"",
+          "json_name": "audit_correlation_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "ObservedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"observed_at\"",
+          "json_name": "observed_at",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterResultEnvelope",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "CommandID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"command_id\"",
+          "json_name": "command_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "JobID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"job_id\"",
+          "json_name": "job_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "UpdaterID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"updater_id\"",
+          "json_name": "updater_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "CanonicalPayloadDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"canonical_payload_digest\"",
+          "json_name": "canonical_payload_digest",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "AuthorizationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"authorization_id\"",
+          "json_name": "authorization_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "AppliedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_revision,omitempty\"",
+          "json_name": "applied_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 10,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "Outcome",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterOutcome",
+          "struct_tag": "json:\"outcome\"",
+          "json_name": "outcome",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 12,
+          "name": "Status",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateStatus",
+          "struct_tag": "json:\"status\"",
+          "json_name": "status",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 13,
+          "name": "AutomaticResendAllowed",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"automatic_resend_allowed\"",
+          "json_name": "automatic_resend_allowed",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 14,
+          "name": "AuditCorrelationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"audit_correlation_id\"",
+          "json_name": "audit_correlation_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 15,
+          "name": "Evidence",
+          "exported": true,
+          "embedded": false,
+          "type": "[]UpdaterEvidence",
+          "struct_tag": "json:\"evidence\"",
+          "json_name": "evidence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 16,
+          "name": "SafeError",
+          "exported": true,
+          "embedded": false,
+          "type": "*V2UpdaterSafeError",
+          "struct_tag": "json:\"safe_error,omitempty\"",
+          "json_name": "safe_error",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "UpdaterTargetIdentity",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ServiceType",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateTargetType",
+          "struct_tag": "json:\"service_type\"",
+          "json_name": "service_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "DeploymentMode",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateDeploymentMode",
+          "struct_tag": "json:\"deployment_mode\"",
+          "json_name": "deployment_mode",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ExpectedConfigRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"expected_config_revision,omitempty\"",
+          "json_name": "expected_config_revision",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "V2UpdaterSafeError",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Code",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"code\"",
+          "json_name": "code",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Message",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"message\"",
+          "json_name": "message",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Retryable",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"retryable\"",
+          "json_name": "retryable",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "AuditCorrelationID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"audit_correlation_id,omitempty\"",
+          "json_name": "audit_correlation_id",
           "json_ignored": false,
           "omitempty": true
         }

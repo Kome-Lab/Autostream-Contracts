@@ -124,6 +124,319 @@ func TestJSONSchemaCharacterization(t *testing.T) {
 	t.Logf("parsed, resolved, and compiled %d JSON Schemas without external loading", manifest.SchemaCount)
 }
 
+func TestV2VisualPresetSchemasAndInvariants(t *testing.T) {
+	const schemaName = "discord-bot-start-job-request.schema.json"
+	root := compileContractJSONSchema(t, schemaName)
+	validStart := map[string]any{
+		"schema_version": 2,
+		"stream_id":      "stream-1",
+		"job_generation": 7,
+		"discord_target": map[string]any{
+			"revision": 9,
+			"resolved": map[string]any{
+				"guild_id":         "123456789012345678",
+				"text_channel_id":  "223456789012345678",
+				"voice_channel_id": "323456789012345678",
+			},
+		},
+	}
+	assertV2SchemaFixture(t, root, validStart, true)
+	withOldFlatField := cloneV2Fixture(t, validStart)
+	withOldFlatField["guild_id"] = "123456789012345678"
+	assertV2SchemaFixture(t, root, withOldFlatField, false)
+	withUnknown := cloneV2Fixture(t, validStart)
+	withUnknown["shared_database_credentials"] = "forbidden"
+	assertV2SchemaFixture(t, root, withUnknown, false)
+	botPresetLeak := cloneV2Fixture(t, validStart)
+	botPresetLeak["discord_target"].(map[string]any)["preset_id"] = "preset-1"
+	assertV2SchemaFixture(t, root, botPresetLeak, false)
+
+	selection := compileV2SchemaFragment(t, schemaName, "discordTargetSelection")
+	assertV2SchemaFixture(t, selection, map[string]any{
+		"mode": "preset", "preset_id": "preset-1",
+	}, true)
+	assertV2SchemaFixture(t, selection, map[string]any{
+		"mode": "preset", "preset_id": "preset-1", "preset_revision": 3,
+	}, false)
+	storedTarget := compileV2SchemaFragment(t, schemaName, "discordTargetStoredSnapshot")
+	assertV2SchemaFixture(t, storedTarget, map[string]any{
+		"mode": "preset", "preset_id": "preset-1", "preset_revision": 3, "revision": 9,
+		"resolved": map[string]any{
+			"guild_id": "123456789012345678", "text_channel_id": "223456789012345678",
+			"voice_channel_id": "323456789012345678",
+		},
+	}, true)
+
+	theme := compileV2SchemaFragment(t, schemaName, "themePreference")
+	assertV2SchemaFixture(t, theme, map[string]any{
+		"theme_id": "autostream", "color_mode": "system", "revision": 1, "readiness": "ready",
+	}, true)
+	assertV2SchemaFixture(t, theme, map[string]any{
+		"theme_id": "unlisted", "color_mode": "system", "revision": 1, "readiness": "ready",
+	}, false)
+	themeWrite := compileV2SchemaFragment(t, schemaName, "themePreferenceWrite")
+	assertV2SchemaFixture(t, themeWrite, map[string]any{
+		"theme_id": "autostream", "color_mode": "dark", "expected_revision": 4,
+	}, true)
+
+	asset := compileV2SchemaFragment(t, schemaName, "mediaAssetDescriptor")
+	validAsset := map[string]any{
+		"asset_id": "asset-1", "variant_id": "variant-1", "usage": "scene_background", "media_type": "image/png",
+		"width": 1920, "height": 1080, "byte_size": 2_000_000, "pixel_count": 2_073_600,
+		"animated": false, "sha256": strings.Repeat("a", 64),
+		"revision": 2, "readiness": "ready",
+	}
+	assertV2SchemaFixture(t, asset, validAsset, true)
+	assetWithPath := cloneV2Fixture(t, validAsset)
+	assetWithPath["filesystem_path"] = "C:/secret"
+	assertV2SchemaFixture(t, asset, assetWithPath, false)
+	assetTooLarge := cloneV2Fixture(t, validAsset)
+	assetTooLarge["byte_size"] = 20_971_521
+	assertV2SchemaFixture(t, asset, assetTooLarge, false)
+	animatedAsset := cloneV2Fixture(t, validAsset)
+	animatedAsset["animated"] = true
+	assertV2SchemaFixture(t, asset, animatedAsset, false)
+	coverAsset := cloneV2Fixture(t, validAsset)
+	coverAsset["usage"] = "video_cover"
+	coverAsset["aspect_ratio_error_ppm"] = 500
+	coverAsset["opaque"] = true
+	assertV2SchemaFixture(t, asset, coverAsset, true)
+	badCoverAspect := cloneV2Fixture(t, coverAsset)
+	badCoverAspect["aspect_ratio_error_ppm"] = 1001
+	assertV2SchemaFixture(t, asset, badCoverAspect, false)
+
+	scene := compileV2SchemaFragment(t, schemaName, "sceneAppearance")
+	assertV2SchemaFixture(t, scene, map[string]any{
+		"generation": 4, "revision": 5, "capability": "scene_appearance_v1", "readiness": "ready",
+		"background_mode": "image", "background": validAsset,
+		"header_title_mode": "custom", "custom_title": "配信タイトル",
+	}, true)
+	assertV2SchemaFixture(t, scene, map[string]any{
+		"generation": 4, "revision": 5, "capability": "scene_appearance_v1", "readiness": "ready",
+		"background_mode": "image", "header_title_mode": "default",
+	}, false)
+	notReadyBackground := cloneV2Fixture(t, validAsset)
+	notReadyBackground["readiness"] = "not_ready"
+	notReadyBackground["error"] = map[string]any{"code": "revision_payload_conflict"}
+	assertV2SchemaFixture(t, scene, map[string]any{
+		"generation": 4, "revision": 5, "capability": "scene_appearance_v1", "readiness": "ready",
+		"background_mode": "image", "background": notReadyBackground, "header_title_mode": "default",
+	}, false)
+
+	pipeline := compileV2SchemaFragment(t, schemaName, "visualPipelineInvariant")
+	validPipeline := v2VisualPipelineFixture()
+	assertV2SchemaFixture(t, pipeline, validPipeline, true)
+	coverAboveWatermark := cloneV2Fixture(t, validPipeline)
+	coverAboveWatermark["layers"] = []any{
+		"base_or_worker_scene", "watermark", "video_cover", "video_encode", "tee_live_archive_preview",
+	}
+	assertV2SchemaFixture(t, pipeline, coverAboveWatermark, false)
+	missingAudioContinuity := cloneV2Fixture(t, validPipeline)
+	delete(missingAudioContinuity, "audio_continuity")
+	assertV2SchemaFixture(t, pipeline, missingAudioContinuity, false)
+
+	cover := compileV2SchemaFragment(t, schemaName, "videoCoverRuntimeState")
+	assertV2SchemaFixture(t, cover, map[string]any{
+		"job_generation": 11, "generation": 4, "capability": "live_video_cover_v1", "readiness": "ready",
+		"desired":     map[string]any{"active": true, "revision": 7, "source": "upload", "variant_id": "variant-1"},
+		"applied":     map[string]any{"state": "known", "active": true, "revision": 7, "variant_id": "variant-1"},
+		"cover":       map[string]any{"enabled": true, "revision": 7, "variant_id": "variant-1"},
+		"cover_asset": coverAsset,
+		"watermark":   map[string]any{"enabled": true, "revision": 3, "variant_id": "watermark-1"},
+		"pipeline":    validPipeline, "no_automatic_resend": true,
+	}, true)
+	unknownApplied := map[string]any{
+		"job_generation": 11, "generation": 5, "capability": "live_video_cover_v1", "readiness": "unknown",
+		"desired":           map[string]any{"active": true, "revision": 8, "source": "upload", "variant_id": "variant-1"},
+		"applied":           map[string]any{"state": "unknown"},
+		"last_good_applied": map[string]any{"state": "known", "active": true, "revision": 7, "variant_id": "variant-1"},
+		"cover":             map[string]any{"enabled": true, "revision": 8, "variant_id": "variant-1"},
+		"cover_asset":       coverAsset,
+		"watermark":         map[string]any{"enabled": true, "revision": 3, "variant_id": "watermark-1"},
+		"pipeline":          validPipeline, "no_automatic_resend": true,
+		"error": map[string]any{"code": "revision_payload_conflict", "request_id": "request-1"},
+	}
+	assertV2SchemaFixture(t, cover, unknownApplied, true)
+	missingLastGood := cloneV2Fixture(t, unknownApplied)
+	delete(missingLastGood, "last_good_applied")
+	assertV2SchemaFixture(t, cover, missingLastGood, false)
+	unknownLastGood := cloneV2Fixture(t, unknownApplied)
+	unknownLastGood["last_good_applied"] = map[string]any{"state": "unknown"}
+	assertV2SchemaFixture(t, cover, unknownLastGood, false)
+	readyUnknownApplied := cloneV2Fixture(t, unknownApplied)
+	readyUnknownApplied["readiness"] = "ready"
+	delete(readyUnknownApplied, "error")
+	assertV2SchemaFixture(t, cover, readyUnknownApplied, false)
+	autoResend := cloneV2Fixture(t, unknownApplied)
+	autoResend["no_automatic_resend"] = false
+	assertV2SchemaFixture(t, cover, autoResend, false)
+	coverRequest := compileV2SchemaFragment(t, schemaName, "videoCoverStateRequest")
+	assertV2SchemaFixture(t, coverRequest, map[string]any{
+		"active": true, "expected_job_generation": 11, "expected_revision": 7, "idempotency_key": "idem-1",
+	}, true)
+	assertV2SchemaFixture(t, coverRequest, map[string]any{
+		"active": false, "expected_job_generation": 11, "expected_revision": 7, "idempotency_key": "idem-2",
+	}, false)
+	assertV2SchemaFixture(t, coverRequest, map[string]any{
+		"active": false, "expected_job_generation": 11, "expected_revision": 7, "idempotency_key": "idem-2",
+		"hide_confirmed": true,
+	}, true)
+}
+
+func TestV2UpdaterSchemasFailClosed(t *testing.T) {
+	agent := compileContractJSONSchema(t, "system-update-agent-status.schema.json")
+	validAgent := map[string]any{
+		"protocol_version":   2,
+		"updater_id":         "updater-1",
+		"host_id":            "host-1",
+		"service_id":         "updater-service-1",
+		"authentication":     "assignment_bound_rotating_service_identity",
+		"name":               "Updater host-1",
+		"transport_mode":     "pull_v2",
+		"status":             "online",
+		"online":             true,
+		"version":            "v2.0.0",
+		"heartbeat_sequence": 8,
+		"capabilities":       []any{"host.systemd", "host.update", "host.self_update"},
+		"desired_revision":   12,
+		"applied_revision":   11,
+		"fence":              4,
+	}
+	assertV2SchemaFixture(t, agent, validAgent, true)
+	protocolOne := cloneV2Fixture(t, validAgent)
+	protocolOne["protocol_version"] = 1
+	assertV2SchemaFixture(t, agent, protocolOne, false)
+	arbitraryShell := cloneV2Fixture(t, validAgent)
+	arbitraryShell["shell"] = "powershell"
+	assertV2SchemaFixture(t, agent, arbitraryShell, false)
+	sharedDB := cloneV2Fixture(t, validAgent)
+	sharedDB["database_credentials"] = "forbidden"
+	assertV2SchemaFixture(t, agent, sharedDB, false)
+
+	job := compileContractJSONSchema(t, "system-update-job.schema.json")
+	validJob := map[string]any{
+		"protocol_version": 2, "id": "job-1", "target_id": "service-1", "target_type": "worker",
+		"host_id": "host-1", "transport_mode": "pull_v2", "deployment_mode": "systemd",
+		"current_version": "v1.9.40", "target_version": "v2.0.0", "strategy": "maintenance",
+		"status": "reconciling", "outcome": "ambiguous", "idempotency_key": "idem-1",
+		"updater_id": "updater-1", "desired_revision": 12, "lease_generation": 3, "fence": 3,
+		"required_capability": "host.update", "ownership_epoch": 2, "policy_revision": 5,
+		"authorization_id": "authorization-1", "canonical_payload_digest": "sha256:" + strings.Repeat("b", 64),
+		"automatic_resend_allowed": false,
+		"safe_error": map[string]any{
+			"code": "outcome_ambiguous", "message": "execution outcome requires reconciliation", "retryable": false,
+		},
+		"sequence": 4, "progress": 70, "created_at": "2026-08-31T00:00:00Z",
+		"updated_at": "2026-08-31T00:01:00Z",
+	}
+	assertV2SchemaFixture(t, job, validJob, true)
+	wrongTransport := cloneV2Fixture(t, validJob)
+	wrongTransport["transport_mode"] = "ssh_v1"
+	assertV2SchemaFixture(t, job, wrongTransport, false)
+	wrongCapability := cloneV2Fixture(t, validJob)
+	wrongCapability["required_capability"] = "host.port"
+	assertV2SchemaFixture(t, job, wrongCapability, false)
+	contradictoryTerminal := cloneV2Fixture(t, validJob)
+	contradictoryTerminal["outcome"] = "succeeded"
+	contradictoryTerminal["status"] = "failed"
+	delete(contradictoryTerminal, "safe_error")
+	assertV2SchemaFixture(t, job, contradictoryTerminal, false)
+	rawLegacyMessage := cloneV2Fixture(t, validJob)
+	rawLegacyMessage["message"] = "Authorization: Bearer forbidden; stderr=C:/private/config"
+	assertV2SchemaFixture(t, job, rawLegacyMessage, false)
+
+	host := compileContractJSONSchema(t, "system-update-host-status.schema.json")
+	validHost := map[string]any{
+		"protocol_version": 2, "host_id": "host-1", "name": "host-1", "updater_id": "updater-1",
+		"reachability": "reachable", "updater_health": map[string]any{"status": "ready", "revision": 5},
+		"application_probe": map[string]any{
+			"status": "ready", "version": "v2.0.0", "service_id": "worker-1",
+			"service_type": "worker", "config_revision": 9,
+		},
+	}
+	assertV2SchemaFixture(t, host, validHost, true)
+	healthSubstituted := cloneV2Fixture(t, validHost)
+	delete(healthSubstituted, "application_probe")
+	assertV2SchemaFixture(t, host, healthSubstituted, false)
+
+	target := compileContractJSONSchema(t, "system-update-target.schema.json")
+	validTarget := map[string]any{
+		"protocol_version": 2, "target_id": "worker-1", "target_type": "worker", "name": "Worker",
+		"host_id": "host-1", "update_available": true, "deployment_mode": "systemd",
+		"updater_id": "updater-1", "updater_online": true, "capabilities": []any{"host.update"},
+		"desired_revision": 12, "applied_revision": 11, "fence": 4,
+		"updater_health": map[string]any{"status": "ready", "revision": 11},
+		"application_probe": map[string]any{
+			"version": "v2.0.0", "service_id": "worker-1", "service_type": "worker", "config_revision": 11,
+		},
+		"eligible": true, "busy": false,
+	}
+	assertV2SchemaFixture(t, target, validTarget, true)
+	unsafeLegacyDiagnostic := cloneV2Fixture(t, validTarget)
+	unsafeLegacyDiagnostic["update_check_error"] = "Authorization: Bearer forbidden; stderr=C:/private/config"
+	assertV2SchemaFixture(t, target, unsafeLegacyDiagnostic, false)
+}
+
+func compileV2SchemaFragment(t *testing.T, name, fragment string) *jsonschema.Schema {
+	t.Helper()
+	body, err := os.ReadFile(filepath.Join("..", "..", "schemas", name))
+	if err != nil {
+		t.Fatal(err)
+	}
+	document, err := jsonschema.UnmarshalJSON(bytes.NewReader(body))
+	if err != nil {
+		t.Fatalf("%s: %v", name, err)
+	}
+	compiler := jsonschema.NewCompiler()
+	compiler.AssertFormat()
+	if err := compiler.AddResource(name, document); err != nil {
+		t.Fatalf("%s: %v", name, err)
+	}
+	compiled, err := compiler.Compile(name + "#/$defs/" + fragment)
+	if err != nil {
+		t.Fatalf("compile %s#/$defs/%s: %v", name, fragment, err)
+	}
+	return compiled
+}
+
+func assertV2SchemaFixture(t *testing.T, schema *jsonschema.Schema, fixture any, wantValid bool) {
+	t.Helper()
+	err := schema.Validate(fixture)
+	if (err == nil) != wantValid {
+		t.Fatalf("schema validity=%v, want %v: %v; fixture=%v", err == nil, wantValid, err, fixture)
+	}
+}
+
+func cloneV2Fixture(t *testing.T, fixture map[string]any) map[string]any {
+	t.Helper()
+	body, err := json.Marshal(fixture)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var clone map[string]any
+	decoder := json.NewDecoder(bytes.NewReader(body))
+	decoder.UseNumber()
+	if err := decoder.Decode(&clone); err != nil {
+		t.Fatal(err)
+	}
+	return clone
+}
+
+func v2VisualPipelineFixture() map[string]any {
+	return map[string]any{
+		"layers": []any{
+			"base_or_worker_scene", "video_cover", "watermark", "video_encode", "tee_live_archive_preview",
+		},
+		"watermark_topmost":           true,
+		"cover_watermark_independent": true,
+		"output_parity":               []any{"live", "archive", "preview"},
+		"audio_continuity": map[string]any{
+			"process_restart": 0, "graph_rebuild": 0, "reconnect": 0, "sequence_loss": 0,
+			"timestamp_discontinuity": 0, "intentional_mute_insertion": 0,
+		},
+	}
+}
+
 func buildSchemaCharacterizationManifest(t *testing.T) schemaCharacterizationManifest {
 	t.Helper()
 

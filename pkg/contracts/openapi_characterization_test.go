@@ -13,6 +13,8 @@ import (
 	"sort"
 	"strings"
 	"testing"
+
+	"github.com/santhosh-tekuri/jsonschema/v6"
 )
 
 const pinnedRedoclyVersion = "2.39.0"
@@ -131,6 +133,795 @@ func TestCharacterizationReportsAreMachineReadable(t *testing.T) {
 	if !ok || len(repositories) != 5 || consumers["workspace_external_consumer_absence_proven"] != false {
 		t.Fatalf("invalid consumer characterization: %v", consumers)
 	}
+}
+
+func TestV2CleanBreakContractPolicy(t *testing.T) {
+	bundle := readNormalizedOpenAPICharacterization(t, "control-api.json")
+	policy := requireCharacterizationMap(t, bundle, "x-autostream-contract-policy")
+
+	if fmt.Sprint(policy["contract_major"]) != "2" || policy["final_state"] != "v2_only" {
+		t.Fatalf("clean-break major/final state=%v, want major 2 and v2_only", policy)
+	}
+	if fmt.Sprint(policy["unsupported_contract_major_status"]) != "426" ||
+		fmt.Sprint(policy["invalid_payload_status"]) != "400" {
+		t.Fatalf("clean-break major/payload status behavior drifted: %v", policy)
+	}
+	supportedMajors, ok := policy["supported_contract_majors"].([]any)
+	if !ok || len(supportedMajors) != 1 || fmt.Sprint(supportedMajors[0]) != "2" {
+		t.Fatalf("supported contract majors=%v, want only 2", supportedMajors)
+	}
+	if policy["uri_strategy"] != "preserve_existing_paths_no_v2_prefix" ||
+		policy["unknown_field_behavior"] != "reject_fail_closed" ||
+		policy["unknown_capability_behavior"] != "non_ready" {
+		t.Fatalf("clean-break fail-closed policy drifted: %v", policy)
+	}
+	if policy["request_header"] != "X-AutoStream-Contract-Major" ||
+		policy["response_header"] != "X-AutoStream-Contract-Major" ||
+		policy["request_header_value"] != "2" || policy["response_header_value"] != "2" {
+		t.Fatalf("contract-major header authority drifted: %v", policy)
+	}
+
+	errors := requireCharacterizationStringSet(t, policy, "stable_error_codes")
+	for _, code := range []string{
+		"contract_major_unsupported", "protocol_version_unsupported", "request_schema_invalid",
+		"revision_conflict", "stale_generation", "stale_fence", "semantic_validation_failed",
+	} {
+		if _, ok := errors[code]; !ok {
+			t.Fatalf("clean-break stable errors omit %q: %v", code, policy["stable_error_codes"])
+		}
+	}
+	compatibility := requireCharacterizationMap(t, policy, "temporary_compatibility")
+	if compatibility["owner"] != "V2-COMPAT-EOL-CONTRACTS-001" ||
+		compatibility["removal_wave"] != "Execution Bundle 8" ||
+		compatibility["final_state"] != "absent" {
+		t.Fatalf("temporary compatibility metadata drifted: %v", compatibility)
+	}
+
+	components := requireCharacterizationMap(t, bundle, "components")
+	schemas := requireCharacterizationMap(t, components, "schemas")
+	for _, name := range []string{"V2ContractError", "V2CapabilityNegotiation"} {
+		if _, ok := schemas[name]; !ok {
+			t.Fatalf("control API is missing clean-break component %s", name)
+		}
+	}
+
+	paths := requireCharacterizationMap(t, bundle, "paths")
+	methods := map[string]struct{}{
+		"get": {}, "put": {}, "post": {}, "delete": {}, "options": {}, "head": {}, "patch": {}, "trace": {},
+	}
+	for pathName, rawPathItem := range paths {
+		pathItem := resolveCharacterizationSchema(t, bundle, rawPathItem)
+		if pathName == "/health" {
+			health := resolveCharacterizationSchema(t, bundle, pathItem["get"])
+			if health["x-autostream-contract-major-exempt"] != "health_non_json" {
+				t.Fatalf("health exception is not exact: %v", health)
+			}
+			continue
+		}
+		parameters, ok := pathItem["parameters"].([]any)
+		if !ok {
+			t.Fatalf("%s has no standard contract-major path parameter", pathName)
+		}
+		headerFound := false
+		for _, rawParameter := range parameters {
+			parameter := resolveCharacterizationSchema(t, bundle, rawParameter)
+			if parameter["name"] == "X-AutoStream-Contract-Major" && parameter["in"] == "header" && parameter["required"] == true {
+				schema := requireCharacterizationMap(t, parameter, "schema")
+				headerFound = schema["const"] == "2"
+			}
+		}
+		if !headerFound {
+			t.Fatalf("%s does not require exact contract major 2", pathName)
+		}
+		for method, rawOperation := range pathItem {
+			if _, ok := methods[method]; !ok {
+				continue
+			}
+			operation := resolveCharacterizationSchema(t, bundle, rawOperation)
+			responses := requireCharacterizationMap(t, operation, "responses")
+			if _, ok := responses["426"]; !ok {
+				t.Fatalf("%s %s omits typed 426", method, pathName)
+			}
+			for status, rawResponse := range responses {
+				response := resolveCharacterizationSchema(t, bundle, rawResponse)
+				headers := requireCharacterizationMap(t, response, "headers")
+				rawHeader, ok := headers["X-AutoStream-Contract-Major"]
+				if !ok {
+					t.Fatalf("%s %s response %s does not echo contract major", method, pathName, status)
+				}
+				header := resolveCharacterizationSchema(t, bundle, rawHeader)
+				if requireCharacterizationMap(t, header, "schema")["const"] != "2" {
+					t.Fatalf("%s %s response %s contract major is not exact 2", method, pathName, status)
+				}
+			}
+		}
+	}
+}
+
+func TestApplicationRuntimeIdentityProbeContract(t *testing.T) {
+	tests := []struct {
+		bundle      string
+		serviceType string
+		errorStatus string
+	}{
+		{bundle: "control-api.json", serviceType: "control_panel", errorStatus: "500"},
+		{bundle: "discord-bot-api.json", serviceType: "discord_bot", errorStatus: "503"},
+		{bundle: "encoder-recorder-api.json", serviceType: "encoder_recorder", errorStatus: "503"},
+		{bundle: "observability-api.json", serviceType: "observability", errorStatus: "503"},
+	}
+	for _, test := range tests {
+		t.Run(test.serviceType, func(t *testing.T) {
+			bundle := readNormalizedOpenAPICharacterization(t, test.bundle)
+			paths := requireCharacterizationMap(t, bundle, "paths")
+			pathItem := requireCharacterizationMap(t, paths, "/updater/version")
+			operation := requireCharacterizationMap(t, pathItem, "get")
+			if operation["x-autostream-semantic-name"] != "application_runtime_identity_probe" ||
+				operation["x-autostream-current-source-cache-control"] != "no_explicit_route_level_no_store" ||
+				operation["x-autostream-v2-target-cache-control"] != "no-store" {
+				t.Fatalf("application probe current/target distinction drifted: %v", operation)
+			}
+			responses := requireCharacterizationMap(t, operation, "responses")
+			for _, status := range []string{"200", test.errorStatus, "405"} {
+				response := resolveCharacterizationSchema(t, bundle, responses[status])
+				headers := requireCharacterizationMap(t, response, "headers")
+				cache := resolveCharacterizationSchema(t, bundle, headers["Cache-Control"])
+				cacheSchema := requireCharacterizationMap(t, cache, "schema")
+				if cacheSchema["const"] != "no-store" {
+					t.Fatalf("%s %s Cache-Control=%v, want exact no-store", test.serviceType, status, cacheSchema)
+				}
+			}
+			success := resolveCharacterizationSchema(t, bundle, responses["200"])
+			content := requireCharacterizationMap(t, success, "content")
+			jsonContent := requireCharacterizationMap(t, content, "application/json")
+			probe := resolveCharacterizationSchema(t, bundle, jsonContent["schema"])
+			assertExactCharacterizationProperties(t, probe,
+				[]string{"version", "service_id", "service_type", "config_revision"})
+			properties := requireCharacterizationMap(t, probe, "properties")
+			serviceType := requireCharacterizationMap(t, properties, "service_type")
+			if serviceType["const"] != test.serviceType {
+				t.Fatalf("%s probe service_type=%v", test.serviceType, serviceType)
+			}
+		})
+	}
+
+	control := readNormalizedOpenAPICharacterization(t, "control-api.json")
+	components := requireCharacterizationMap(t, control, "components")
+	schemas := requireCharacterizationMap(t, components, "schemas")
+	worker := resolveCharacterizationSchema(t, control, schemas["WorkerApplicationRuntimeIdentityProbe"])
+	assertExactCharacterizationProperties(t, worker,
+		[]string{"version", "service_id", "service_type", "config_revision"})
+	workerProperties := requireCharacterizationMap(t, worker, "properties")
+	if requireCharacterizationMap(t, workerProperties, "service_type")["const"] != "worker" {
+		t.Fatalf("Worker application probe is not independently frozen: %v", worker)
+	}
+	if _, exists := workerProperties["updater_id"]; exists {
+		t.Fatal("Updater health identity must not substitute for the Worker application probe")
+	}
+	pathItems := requireCharacterizationMap(t, components, "pathItems")
+	workerPath := resolveCharacterizationSchema(t, control, pathItems["WorkerApplicationRuntimeIdentityProbe"])
+	workerOperation := resolveCharacterizationSchema(t, control, workerPath["get"])
+	if workerOperation["x-autostream-current-source-cache-control"] != "no_explicit_route_level_no_store" ||
+		workerOperation["x-autostream-v2-target-cache-control"] != "no-store" {
+		t.Fatalf("Worker current/target cache contract drifted: %v", workerOperation)
+	}
+	workerResponses := requireCharacterizationMap(t, workerOperation, "responses")
+	for _, status := range []string{"200", "503", "405"} {
+		response := resolveCharacterizationSchema(t, control, workerResponses[status])
+		headers := requireCharacterizationMap(t, response, "headers")
+		cache := resolveCharacterizationSchema(t, control, headers["Cache-Control"])
+		if requireCharacterizationMap(t, cache, "schema")["const"] != "no-store" {
+			t.Fatalf("Worker %s response lacks exact no-store", status)
+		}
+	}
+}
+
+func TestV2UpdaterProtocolAndRemediationAuthority(t *testing.T) {
+	control := readNormalizedOpenAPICharacterization(t, "control-api.json")
+	components := requireCharacterizationMap(t, control, "components")
+	schemas := requireCharacterizationMap(t, components, "schemas")
+
+	command := resolveCharacterizationSchema(t, control, schemas["UpdaterCommandEnvelope"])
+	assertCharacterizationRequired(t, command,
+		"protocol_version", "command_id", "idempotency_key", "issuer", "canonical_payload_digest",
+		"mutation_authorization", "audit_correlation_id")
+	commandProperties := requireCharacterizationMap(t, command, "properties")
+	if fmt.Sprint(requireCharacterizationMap(t, commandProperties, "protocol_version")["const"]) != "2" {
+		t.Fatalf("Updater command is not protocol major 2: %v", commandProperties["protocol_version"])
+	}
+	for _, forbidden := range []string{"shell", "command", "argv", "environment", "database_credentials", "credentials", "token", "stdout", "stderr"} {
+		if _, exists := commandProperties[forbidden]; exists {
+			t.Fatalf("Updater command exposes forbidden arbitrary/secret field %q", forbidden)
+		}
+	}
+	authorization := resolveCharacterizationSchema(t, control, schemas["UpdaterMutationAuthorization"])
+	assertCharacterizationRequired(t, authorization,
+		"authorization_id", "nonce_id", "job_id", "updater_id", "host_id", "action_type", "target",
+		"canonical_argument_digest", "desired_revision", "fence", "expires_at", "required_capability", "one_time")
+	authorizationProperties := requireCharacterizationMap(t, authorization, "properties")
+	actionType := requireCharacterizationMap(t, authorizationProperties, "action_type")
+	actions := characterizationStringSlice(t, actionType["enum"])
+	if !reflect.DeepEqual(actions, []string{
+		"host.systemd", "host.docker", "host.update", "host.bootstrap", "host.port", "host.self_update",
+	}) {
+		t.Fatalf("Updater command allowlist=%v", actions)
+	}
+
+	result := resolveCharacterizationSchema(t, control, schemas["UpdaterResultEnvelope"])
+	assertCharacterizationRequired(t, result,
+		"protocol_version", "command_id", "job_id", "updater_id", "host_id", "idempotency_key",
+		"canonical_payload_digest", "authorization_id", "desired_revision", "fence", "outcome", "status",
+		"automatic_resend_allowed", "audit_correlation_id", "evidence")
+	resultProperties := requireCharacterizationMap(t, result, "properties")
+	outcomeSchema := requireCharacterizationMap(t, resultProperties, "outcome")
+	outcomes := requireCharacterizationStringSet(t, outcomeSchema, "enum")
+	if _, ok := outcomes["ambiguous"]; !ok {
+		t.Fatalf("Updater result omits ambiguous outcome: %v", resultProperties["outcome"])
+	}
+	for _, name := range []string{"UpdaterLeaseEnvelope", "UpdaterProgressEnvelope", "UpdaterHeartbeat", "UpdaterSafeError", "UpdaterLocalJournalBoundary"} {
+		if _, exists := schemas[name]; !exists {
+			t.Fatalf("control API is missing Updater component %s", name)
+		}
+	}
+	lease := resolveCharacterizationSchema(t, control, schemas["UpdaterLeaseEnvelope"])
+	assertExactCharacterizationProperties(t, lease, []string{"protocol_version", "lease_id", "lease_generation", "command"})
+
+	authority := requireCharacterizationMap(t, control, "x-autostream-remediation-authority")
+	if authority["authorization_orchestration_audit"] != "control_panel" ||
+		authority["host_system_execution"] != "updater" ||
+		authority["observability_role"] != "detect_propose_evidence" {
+		t.Fatalf("remediation authority drifted: %v", authority)
+	}
+	grant := resolveCharacterizationSchema(t, control, schemas["RemediationGrant"])
+	assertCharacterizationRequired(t, grant,
+		"authorization_id", "authorization_nonce_id", "proposal_id", "request_origin", "executor", "target",
+		"action_type", "idempotency_key", "canonical_argument_digest", "desired_revision", "fence",
+		"expires_at", "capability", "one_time", "audit_correlation_id")
+	grantProperties := requireCharacterizationMap(t, grant, "properties")
+	for _, forbidden := range []string{"shell", "command", "argv", "token", "credentials", "database_credentials"} {
+		if _, exists := grantProperties[forbidden]; exists {
+			t.Fatalf("remediation grant exposes forbidden field %q", forbidden)
+		}
+	}
+
+	observability := readNormalizedOpenAPICharacterization(t, "observability-api.json")
+	observabilityAuthority := requireCharacterizationMap(t, observability, "x-autostream-remediation-authority")
+	if observabilityAuthority["may_mint_cross_service_grant"] != false ||
+		observabilityAuthority["may_execute_host_runtime"] != false ||
+		observabilityAuthority["may_call_updater_directly"] != false {
+		t.Fatalf("Observability gained remediation execution authority: %v", observabilityAuthority)
+	}
+}
+
+func TestV2UpdaterCrossPlaneAuthority(t *testing.T) {
+	create := compileNormalizedOpenAPISchema(t, "control-api.json",
+		"/paths/~1system-updates/post/requestBody/content/application~1json/schema")
+	validCreate := map[string]any{
+		"protocol_version": 2, "operation": "software_update", "target_id": "worker-1",
+		"strategy": "maintenance", "idempotency_key": "idem-1", "desired_revision": 12,
+		"fence": 4, "required_capability": "host.update",
+	}
+	assertV2SchemaFixture(t, create, validCreate, true)
+	wrongCapability := cloneV2Fixture(t, validCreate)
+	wrongCapability["required_capability"] = "host.port"
+	assertV2SchemaFixture(t, create, wrongCapability, false)
+
+	control := readNormalizedOpenAPICharacterization(t, "control-api.json")
+	paths := requireCharacterizationMap(t, control, "paths")
+	heartbeat := resolveCharacterizationSchema(t, control,
+		requireCharacterizationMap(t, requireCharacterizationMap(t, paths, "/services/heartbeat"), "post"))
+	claim := resolveCharacterizationSchema(t, control,
+		requireCharacterizationMap(t, requireCharacterizationMap(t, paths, "/services/update-jobs/claim"), "post"))
+	report := resolveCharacterizationSchema(t, control,
+		requireCharacterizationMap(t, requireCharacterizationMap(t, paths, "/services/update-jobs/{id}/report"), "post"))
+	for name, value := range map[string]any{"heartbeat": heartbeat, "claim": claim, "report": report} {
+		encoded, err := json.Marshal(value)
+		if err != nil {
+			t.Fatal(err)
+		}
+		text := string(encoded)
+		for _, required := range map[string][]string{
+			"heartbeat": {"UpdaterHeartbeat"},
+			"claim":     {"UpdaterLeaseEnvelope"},
+			"report":    {"UpdaterProgressEnvelope", "UpdaterResultEnvelope"},
+		}[name] {
+			if !strings.Contains(text, required) {
+				t.Fatalf("%s endpoint does not expose %s: %s", name, required, text)
+			}
+		}
+	}
+
+	assertGoJSONFields(t, reflect.TypeOf(SystemUpdateCreateRequest{}),
+		"protocol_version", "desired_revision", "fence", "required_capability")
+	assertGoJSONFields(t, reflect.TypeOf(SystemUpdateTarget{}),
+		"protocol_version", "capabilities", "desired_revision", "applied_revision", "fence",
+		"updater_health", "application_probe", "safe_error")
+	assertGoJSONFields(t, reflect.TypeOf(SystemUpdateJob{}),
+		"protocol_version", "authorization_id", "canonical_payload_digest", "desired_revision", "fence",
+		"outcome", "required_capability", "automatic_resend_allowed", "safe_error")
+	assertGoJSONFields(t, reflect.TypeOf(SystemUpdateAgentStatus{}),
+		"protocol_version", "host_id", "service_id", "authentication", "heartbeat_sequence", "capabilities", "fence")
+	assertGoJSONFields(t, reflect.TypeOf(SystemUpdateHostStatus{}),
+		"protocol_version", "updater_health", "application_probe")
+	assertGoJSONFields(t, reflect.TypeOf(UpdaterCommandEnvelope{}),
+		"protocol_version", "command_id", "issuer", "idempotency_key", "canonical_payload_digest",
+		"mutation_authorization", "audit_correlation_id")
+	heartbeatSchema := resolveCharacterizationSchema(t, control,
+		requireCharacterizationMap(t, requireCharacterizationMap(t, control, "components"), "schemas")["UpdaterHeartbeat"])
+	assertExactGoJSONSchemaParity(t, reflect.TypeOf(UpdaterHeartbeat{}), heartbeatSchema)
+}
+
+func TestV2CoreContractNegativeSensitivity(t *testing.T) {
+	contractError := compileNormalizedOpenAPISchema(t, "control-api.json", "/components/schemas/V2ContractError")
+	assertV2SchemaFixture(t, contractError, map[string]any{
+		"contract_major": 2, "code": "contract_major_unsupported",
+		"message": "supported contract major is 2", "retryable": false, "expected_major": 2,
+	}, true)
+	assertV2SchemaFixture(t, contractError, map[string]any{
+		"contract_major": 1, "code": "contract_major_unsupported",
+		"message": "supported contract major is 2", "retryable": false, "expected_major": 2,
+	}, false)
+
+	capability := compileNormalizedOpenAPISchema(t, "control-api.json", "/components/schemas/V2CapabilityNegotiation")
+	readyCapability := map[string]any{
+		"protocol_version": 2, "contract_major": 2,
+		"capabilities":         []any{map[string]any{"name": "host.update", "required": true, "supported": true}},
+		"unknown_capabilities": []any{}, "readiness": "ready", "revision": 3,
+	}
+	assertV2SchemaFixture(t, capability, readyCapability, true)
+	unknownCapability := map[string]any{
+		"protocol_version": 2, "contract_major": 2,
+		"capabilities":         []any{map[string]any{"name": "future.capability", "required": true, "supported": false}},
+		"unknown_capabilities": []any{"future.capability"}, "readiness": "not_ready", "revision": 3,
+		"safe_error": map[string]any{
+			"contract_major": 2, "code": "semantic_validation_failed",
+			"message": "required capability is unknown", "retryable": false,
+		},
+	}
+	assertV2SchemaFixture(t, capability, unknownCapability, true)
+	unknownMarkedReady := cloneV2Fixture(t, unknownCapability)
+	unknownMarkedReady["readiness"] = "ready"
+	delete(unknownMarkedReady, "safe_error")
+	assertV2SchemaFixture(t, capability, unknownMarkedReady, false)
+
+	command := compileNormalizedOpenAPISchema(t, "control-api.json", "/components/schemas/UpdaterCommandEnvelope")
+	validCommand := map[string]any{
+		"protocol_version": 2, "command_id": "command-1", "idempotency_key": "idem-1",
+		"issuer": map[string]any{
+			"service_id": "control-panel-1", "service_type": "control_panel",
+			"authentication": "assignment_bound_rotating_service_identity", "permission": "updates.authorize",
+		},
+		"canonical_payload_digest": "sha256:" + strings.Repeat("a", 64),
+		"audit_correlation_id":     "audit-1",
+		"mutation_authorization": map[string]any{
+			"authorization_id": "authorization-1", "nonce_id": "nonce-12345678901234567890",
+			"job_id": "job-1", "updater_id": "updater-1", "host_id": "host-1", "action_type": "host.update",
+			"target": map[string]any{
+				"service_id": "worker-1", "service_type": "worker", "deployment_mode": "systemd",
+				"expected_config_revision": 8,
+			},
+			"canonical_argument_digest": "sha256:" + strings.Repeat("b", 64),
+			"desired_revision":          9, "fence": 4, "expires_at": "2026-08-31T01:00:00Z",
+			"required_capability": "host.update", "one_time": true,
+		},
+	}
+	assertV2SchemaFixture(t, command, validCommand, true)
+	for name, mutate := range map[string]func(map[string]any){
+		"unsupported_protocol": func(value map[string]any) { value["protocol_version"] = 1 },
+		"arbitrary_shell":      func(value map[string]any) { value["shell"] = "powershell" },
+		"shared_database":      func(value map[string]any) { value["database_credentials"] = "forbidden" },
+		"missing_fence": func(value map[string]any) {
+			delete(value["mutation_authorization"].(map[string]any), "fence")
+		},
+		"missing_identity": func(value map[string]any) {
+			authorization := value["mutation_authorization"].(map[string]any)
+			delete(authorization["target"].(map[string]any), "service_id")
+		},
+		"mismatched_capability": func(value map[string]any) {
+			value["mutation_authorization"].(map[string]any)["required_capability"] = "host.port"
+		},
+		"transplanted_host": func(value map[string]any) {
+			delete(value["mutation_authorization"].(map[string]any), "host_id")
+		},
+	} {
+		t.Run("updater_command_"+name, func(t *testing.T) {
+			fixture := cloneV2Fixture(t, validCommand)
+			mutate(fixture)
+			assertV2SchemaFixture(t, command, fixture, false)
+		})
+	}
+
+	result := compileNormalizedOpenAPISchema(t, "control-api.json", "/components/schemas/UpdaterResultEnvelope")
+	validResult := map[string]any{
+		"protocol_version": 2, "command_id": "command-1", "job_id": "job-1",
+		"updater_id": "updater-1", "host_id": "host-1", "idempotency_key": "idem-1",
+		"canonical_payload_digest": "sha256:" + strings.Repeat("a", 64), "authorization_id": "authorization-1",
+		"desired_revision": 9, "applied_revision": 8, "fence": 4,
+		"outcome": "ambiguous", "status": "reconciling", "automatic_resend_allowed": false,
+		"audit_correlation_id": "audit-1",
+		"safe_error": map[string]any{
+			"code": "outcome_ambiguous", "message": "execution outcome requires reconciliation", "retryable": false,
+		},
+		"evidence": []any{map[string]any{
+			"evidence_code": "outcome_ambiguous", "observed_at": "2026-08-31T00:30:00Z", "observed_revision": 8,
+		}},
+	}
+	assertV2SchemaFixture(t, result, validResult, true)
+	ambiguousReportedSucceeded := cloneV2Fixture(t, validResult)
+	ambiguousReportedSucceeded["status"] = "succeeded"
+	assertV2SchemaFixture(t, result, ambiguousReportedSucceeded, false)
+	resultWithRawOutput := cloneV2Fixture(t, validResult)
+	resultWithRawOutput["evidence"].([]any)[0].(map[string]any)["stdout"] = "raw output"
+	assertV2SchemaFixture(t, result, resultWithRawOutput, false)
+	contradictoryTerminal := cloneV2Fixture(t, validResult)
+	contradictoryTerminal["outcome"] = "succeeded"
+	contradictoryTerminal["status"] = "failed"
+	delete(contradictoryTerminal, "safe_error")
+	assertV2SchemaFixture(t, result, contradictoryTerminal, false)
+	failedWithoutSafeError := cloneV2Fixture(t, validResult)
+	failedWithoutSafeError["outcome"] = "failed"
+	failedWithoutSafeError["status"] = "failed"
+	delete(failedWithoutSafeError, "safe_error")
+	assertV2SchemaFixture(t, result, failedWithoutSafeError, false)
+
+	lease := compileNormalizedOpenAPISchema(t, "control-api.json", "/components/schemas/UpdaterLeaseEnvelope")
+	validLease := map[string]any{
+		"protocol_version": 2, "lease_id": "lease-1", "lease_generation": 3,
+		"command": validCommand,
+	}
+	assertV2SchemaFixture(t, lease, validLease, true)
+	staleLease := cloneV2Fixture(t, validLease)
+	staleLease["lease_generation"] = 0
+	assertV2SchemaFixture(t, lease, staleLease, false)
+
+	progress := compileNormalizedOpenAPISchema(t, "control-api.json", "/components/schemas/UpdaterProgressEnvelope")
+	validProgress := map[string]any{
+		"protocol_version": 2, "command_id": "command-1", "job_id": "job-1",
+		"updater_id": "updater-1", "host_id": "host-1", "sequence": 2,
+		"phase": "executing", "progress": 50, "desired_revision": 9, "fence": 4,
+		"audit_correlation_id": "audit-1", "observed_at": "2026-08-31T00:30:00Z",
+	}
+	assertV2SchemaFixture(t, progress, validProgress, true)
+	progressWithLog := cloneV2Fixture(t, validProgress)
+	progressWithLog["raw_log"] = "forbidden"
+	assertV2SchemaFixture(t, progress, progressWithLog, false)
+
+	grant := compileNormalizedOpenAPISchema(t, "control-api.json", "/components/schemas/RemediationGrant")
+	validGrant := map[string]any{
+		"authorization_id": "authorization-1", "authorization_nonce_id": "nonce-12345678901234567890",
+		"proposal_id": "proposal-1",
+		"request_origin": map[string]any{
+			"origin_type": "service", "principal_id": "observability-1", "service_id": "observability-1",
+			"service_type": "observability", "permission": "remediation.execute",
+		},
+		"executor": map[string]any{
+			"service_id": "updater-1", "authority": "updater", "execution_scope": "host_system",
+		},
+		"target":      map[string]any{"service_id": "worker-1", "service_type": "worker", "host_id": "host-1"},
+		"action_type": "host.update", "idempotency_key": "idem-1",
+		"canonical_argument_digest": "sha256:" + strings.Repeat("c", 64), "desired_revision": 9,
+		"fence": 4, "expires_at": "2026-08-31T01:00:00Z", "capability": "host.update",
+		"one_time": true, "audit_correlation_id": "audit-1",
+	}
+	assertV2SchemaFixture(t, grant, validGrant, true)
+	observabilityExecutor := cloneV2Fixture(t, validGrant)
+	observabilityExecutor["executor"].(map[string]any)["authority"] = "observability"
+	assertV2SchemaFixture(t, grant, observabilityExecutor, false)
+	grantWithCredential := cloneV2Fixture(t, validGrant)
+	grantWithCredential["credentials"] = "forbidden"
+	assertV2SchemaFixture(t, grant, grantWithCredential, false)
+	wrongPermission := cloneV2Fixture(t, validGrant)
+	wrongPermission["request_origin"].(map[string]any)["permission"] = "updates.authorize"
+	assertV2SchemaFixture(t, grant, wrongPermission, false)
+	mismatchedGrantCapability := cloneV2Fixture(t, validGrant)
+	mismatchedGrantCapability["capability"] = "host.port"
+	assertV2SchemaFixture(t, grant, mismatchedGrantCapability, false)
+	applicationGrant := cloneV2Fixture(t, validGrant)
+	applicationGrant["action_type"] = "application.retry_package_remux"
+	applicationGrant["capability"] = "application.retry_package_remux"
+	applicationGrant["executor"] = map[string]any{
+		"authority": "target_application", "execution_scope": "application_local",
+	}
+	applicationGrant["target"] = map[string]any{
+		"service_id": "encoder-1", "service_type": "encoder_recorder", "incident_id": "incident-1",
+	}
+	assertV2SchemaFixture(t, grant, applicationGrant, true)
+	contradictoryApplicationExecutor := cloneV2Fixture(t, applicationGrant)
+	contradictoryApplicationExecutor["executor"].(map[string]any)["service_id"] = "worker-1"
+	assertV2SchemaFixture(t, grant, contradictoryApplicationExecutor, false)
+	wrongApplicationTarget := cloneV2Fixture(t, applicationGrant)
+	wrongApplicationTarget["target"].(map[string]any)["service_type"] = "worker"
+	assertV2SchemaFixture(t, grant, wrongApplicationTarget, false)
+	hostWithApplicationExecutor := cloneV2Fixture(t, validGrant)
+	hostWithApplicationExecutor["executor"] = applicationGrant["executor"]
+	assertV2SchemaFixture(t, grant, hostWithApplicationExecutor, false)
+
+	remediationResult := compileNormalizedOpenAPISchema(t, "control-api.json", "/components/schemas/RemediationResultEvidence")
+	validRemediationResult := map[string]any{
+		"authorization_id": "authorization-1", "proposal_id": "proposal-1",
+		"executor": map[string]any{
+			"service_id": "updater-1", "authority": "updater", "execution_scope": "host_system",
+		},
+		"target":      map[string]any{"service_id": "worker-1", "service_type": "worker", "host_id": "host-1"},
+		"action_type": "host.update", "idempotency_key": "idem-1",
+		"canonical_argument_digest": "sha256:" + strings.Repeat("c", 64), "desired_revision": 9,
+		"applied_revision": 8, "fence": 4, "result": "ambiguous", "reconciliation_required": true,
+		"automatic_resend_allowed": false,
+		"evidence": []any{map[string]any{
+			"evidence_code": "outcome_ambiguous", "observed_at": "2026-08-31T00:30:00Z", "observed_revision": 8,
+		}},
+		"audit_correlation_id": "audit-1", "completed_at": "2026-08-31T00:31:00Z",
+	}
+	assertV2SchemaFixture(t, remediationResult, validRemediationResult, true)
+	blindResend := cloneV2Fixture(t, validRemediationResult)
+	blindResend["automatic_resend_allowed"] = true
+	assertV2SchemaFixture(t, remediationResult, blindResend, false)
+	falseReconciliation := cloneV2Fixture(t, validRemediationResult)
+	falseReconciliation["reconciliation_required"] = false
+	assertV2SchemaFixture(t, remediationResult, falseReconciliation, false)
+
+	proposal := compileNormalizedOpenAPISchema(t, "observability-api.json", "/components/schemas/RemediationProposal")
+	validProposal := map[string]any{
+		"proposal_id": "proposal-1", "incident_id": "incident-1",
+		"detector":    map[string]any{"service_id": "observability-1", "service_type": "observability"},
+		"target":      map[string]any{"service_id": "worker-1", "service_type": "worker", "host_id": "host-1"},
+		"action_type": "host.update", "proposal_revision": 2, "required_capability": "host.update",
+		"evidence": []any{map[string]any{
+			"evidence_code": "host_symptom_confirmed", "observed_at": "2026-08-31T00:15:00Z", "observed_revision": 2,
+		}},
+		"audit_correlation_id": "audit-1", "observed_at": "2026-08-31T00:15:00Z",
+		"control_panel_authorization_required": true,
+	}
+	assertV2SchemaFixture(t, proposal, validProposal, true)
+	proposalWithExecutor := cloneV2Fixture(t, validProposal)
+	proposalWithExecutor["executor"] = map[string]any{"authority": "updater"}
+	assertV2SchemaFixture(t, proposal, proposalWithExecutor, false)
+	wrongDetector := cloneV2Fixture(t, validProposal)
+	wrongDetector["detector"].(map[string]any)["service_type"] = "worker"
+	assertV2SchemaFixture(t, proposal, wrongDetector, false)
+	proposalCapabilityMismatch := cloneV2Fixture(t, validProposal)
+	proposalCapabilityMismatch["required_capability"] = "host.port"
+	assertV2SchemaFixture(t, proposal, proposalCapabilityMismatch, false)
+
+	localTransition := compileNormalizedOpenAPISchema(t, "observability-api.json", "/components/schemas/ObservabilityLocalRemediationTransition")
+	validLocalTransition := map[string]any{
+		"action_id": "action-1", "action_type": "rerun_diagnostics", "expected_revision": 2,
+		"fence": 2, "idempotency_key": "idem-1", "audit_correlation_id": "audit-1",
+	}
+	assertV2SchemaFixture(t, localTransition, validLocalTransition, true)
+	hostActionInObservability := cloneV2Fixture(t, validLocalTransition)
+	hostActionInObservability["action_type"] = "host.update"
+	assertV2SchemaFixture(t, localTransition, hostActionInObservability, false)
+
+	probeCases := []struct {
+		bundle      string
+		serviceType string
+	}{
+		{bundle: "control-api.json", serviceType: "control_panel"},
+		{bundle: "discord-bot-api.json", serviceType: "discord_bot"},
+		{bundle: "encoder-recorder-api.json", serviceType: "encoder_recorder"},
+		{bundle: "observability-api.json", serviceType: "observability"},
+	}
+	for _, test := range probeCases {
+		t.Run("application_probe_"+test.serviceType, func(t *testing.T) {
+			probe := compileNormalizedOpenAPISchema(t, test.bundle,
+				"/paths/~1updater~1version/get/responses/200/content/application~1json/schema")
+			validProbe := map[string]any{
+				"version": "v2.0.0", "service_id": test.serviceType + "-1",
+				"service_type": test.serviceType, "config_revision": 7,
+			}
+			assertV2SchemaFixture(t, probe, validProbe, true)
+			missingRevision := cloneV2Fixture(t, validProbe)
+			delete(missingRevision, "config_revision")
+			assertV2SchemaFixture(t, probe, missingRevision, false)
+			wrongIdentity := cloneV2Fixture(t, validProbe)
+			wrongIdentity["service_type"] = "updater"
+			assertV2SchemaFixture(t, probe, wrongIdentity, false)
+			updaterHealthSubstitution := cloneV2Fixture(t, validProbe)
+			delete(updaterHealthSubstitution, "service_id")
+			updaterHealthSubstitution["updater_health"] = map[string]any{"status": "ready"}
+			assertV2SchemaFixture(t, probe, updaterHealthSubstitution, false)
+		})
+	}
+	workerProbe := compileNormalizedOpenAPISchema(t, "control-api.json",
+		"/components/pathItems/WorkerApplicationRuntimeIdentityProbe/get/responses/200/content/application~1json/schema")
+	validWorkerProbe := map[string]any{
+		"version": "v2.0.0", "service_id": "worker-1", "service_type": "worker", "config_revision": 7,
+	}
+	assertV2SchemaFixture(t, workerProbe, validWorkerProbe, true)
+	workerHealthSubstitution := cloneV2Fixture(t, validWorkerProbe)
+	delete(workerHealthSubstitution, "service_id")
+	workerHealthSubstitution["updater_health"] = map[string]any{"status": "ready"}
+	assertV2SchemaFixture(t, workerProbe, workerHealthSubstitution, false)
+}
+
+func compileNormalizedOpenAPISchema(t *testing.T, bundleName, fragment string) *jsonschema.Schema {
+	t.Helper()
+	path := filepath.Join("..", "..", "testdata", "characterization", "generated", "openapi", "normalized", bundleName)
+	body, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	document, err := jsonschema.UnmarshalJSON(bytes.NewReader(body))
+	if err != nil {
+		t.Fatalf("parse normalized %s: %v", bundleName, err)
+	}
+	compiler := jsonschema.NewCompiler()
+	compiler.AssertFormat()
+	compiler.UseRegexpEngine(compileECMAContractSchemaRegexp)
+	if err := compiler.AddResource(bundleName, document); err != nil {
+		t.Fatalf("register normalized %s: %v", bundleName, err)
+	}
+	compiled, err := compiler.Compile(bundleName + "#" + fragment)
+	if err != nil {
+		t.Fatalf("compile normalized %s#%s: %v", bundleName, fragment, err)
+	}
+	return compiled
+}
+
+func assertGoJSONFields(t *testing.T, typ reflect.Type, fields ...string) {
+	t.Helper()
+	present := make(map[string]struct{}, typ.NumField())
+	for index := 0; index < typ.NumField(); index++ {
+		name := strings.Split(typ.Field(index).Tag.Get("json"), ",")[0]
+		if name != "" && name != "-" {
+			present[name] = struct{}{}
+		}
+	}
+	for _, field := range fields {
+		if _, ok := present[field]; !ok {
+			t.Fatalf("%s omits JSON field %q", typ.Name(), field)
+		}
+	}
+}
+
+func assertExactGoJSONSchemaParity(t *testing.T, typ reflect.Type, schema map[string]any) {
+	t.Helper()
+	if schema["additionalProperties"] != false {
+		t.Fatalf("%s OpenAPI schema is not strict", typ.Name())
+	}
+	properties := requireCharacterizationMap(t, schema, "properties")
+	required := requireCharacterizationStringSet(t, schema, "required")
+	goFields := make(map[string]bool, typ.NumField())
+	for index := 0; index < typ.NumField(); index++ {
+		tag := typ.Field(index).Tag.Get("json")
+		parts := strings.Split(tag, ",")
+		if parts[0] == "" || parts[0] == "-" {
+			continue
+		}
+		omitEmpty := false
+		for _, option := range parts[1:] {
+			if option == "omitempty" {
+				omitEmpty = true
+			}
+		}
+		goFields[parts[0]] = omitEmpty
+	}
+	if len(goFields) != len(properties) {
+		t.Fatalf("%s Go/OpenAPI field count differs: go=%v openapi=%v", typ.Name(), goFields, properties)
+	}
+	for name, omitEmpty := range goFields {
+		if _, ok := properties[name]; !ok {
+			t.Fatalf("%s Go field %q is absent from OpenAPI", typ.Name(), name)
+		}
+		_, isRequired := required[name]
+		if omitEmpty == isRequired {
+			t.Fatalf("%s field %q omitempty=%t OpenAPI-required=%t", typ.Name(), name, omitEmpty, isRequired)
+		}
+	}
+	for name := range properties {
+		if _, ok := goFields[name]; !ok {
+			t.Fatalf("%s OpenAPI field %q is absent from Go DTO", typ.Name(), name)
+		}
+	}
+}
+
+func readNormalizedOpenAPICharacterization(t *testing.T, name string) map[string]any {
+	t.Helper()
+	root := filepath.Join("..", "..", "testdata", "characterization", "generated", "openapi", "normalized")
+	var bundle map[string]any
+	readCharacterizationJSON(t, filepath.Join(root, name), &bundle)
+	return bundle
+}
+
+func requireCharacterizationMap(t *testing.T, parent map[string]any, field string) map[string]any {
+	t.Helper()
+	value, ok := parent[field].(map[string]any)
+	if !ok {
+		t.Fatalf("%s is %T, want object", field, parent[field])
+	}
+	return value
+}
+
+func resolveCharacterizationSchema(t *testing.T, root map[string]any, raw any) map[string]any {
+	t.Helper()
+	value, ok := raw.(map[string]any)
+	if !ok {
+		t.Fatalf("schema/response is %T, want object", raw)
+	}
+	ref, _ := value["$ref"].(string)
+	if ref == "" {
+		return value
+	}
+	if !strings.HasPrefix(ref, "#/") {
+		t.Fatalf("unsupported non-local characterization ref %q", ref)
+	}
+	current := any(root)
+	for _, rawToken := range strings.Split(strings.TrimPrefix(ref, "#/"), "/") {
+		token := strings.ReplaceAll(strings.ReplaceAll(rawToken, "~1", "/"), "~0", "~")
+		object, ok := current.(map[string]any)
+		if !ok {
+			t.Fatalf("ref %q traversed non-object at %q", ref, token)
+		}
+		current, ok = object[token]
+		if !ok {
+			t.Fatalf("ref %q is unresolved at %q", ref, token)
+		}
+	}
+	resolved, ok := current.(map[string]any)
+	if !ok {
+		t.Fatalf("ref %q resolved to %T, want object", ref, current)
+	}
+	return resolved
+}
+
+func assertExactCharacterizationProperties(t *testing.T, schema map[string]any, want []string) {
+	t.Helper()
+	if schema["additionalProperties"] != false {
+		t.Fatalf("schema is not strict: %v", schema)
+	}
+	properties := requireCharacterizationMap(t, schema, "properties")
+	got := make([]string, 0, len(properties))
+	for name := range properties {
+		got = append(got, name)
+	}
+	sort.Strings(got)
+	want = append([]string(nil), want...)
+	sort.Strings(want)
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("schema properties=%v, want exact %v", got, want)
+	}
+	assertCharacterizationRequired(t, schema, want...)
+}
+
+func assertCharacterizationRequired(t *testing.T, schema map[string]any, fields ...string) {
+	t.Helper()
+	required := characterizationStringSlice(t, schema["required"])
+	set := make(map[string]struct{}, len(required))
+	for _, field := range required {
+		set[field] = struct{}{}
+	}
+	for _, field := range fields {
+		if _, ok := set[field]; !ok {
+			t.Fatalf("required=%v omits %q", required, field)
+		}
+	}
+}
+
+func requireCharacterizationStringSet(t *testing.T, parent map[string]any, field string) map[string]struct{} {
+	t.Helper()
+	values := characterizationStringSlice(t, parent[field])
+	result := make(map[string]struct{}, len(values))
+	for _, value := range values {
+		result[value] = struct{}{}
+	}
+	return result
+}
+
+func characterizationStringSlice(t *testing.T, raw any) []string {
+	t.Helper()
+	values, ok := raw.([]any)
+	if !ok {
+		t.Fatalf("value is %T, want array", raw)
+	}
+	result := make([]string, 0, len(values))
+	for _, value := range values {
+		text, ok := value.(string)
+		if !ok {
+			t.Fatalf("array item is %T, want string", value)
+		}
+		result = append(result, text)
+	}
+	return result
 }
 
 func verifyOpenAPISourceInventory(t *testing.T, inventory openAPISourceInventory) {

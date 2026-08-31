@@ -438,6 +438,57 @@
         ],
         "type": "object"
       },
+      "ObservabilityLocalRemediationTransition": {
+        "additionalProperties": false,
+        "description": "The complete enumerated Observability-local execution scope. Host and cross-service actions are not representable.",
+        "properties": {
+          "action_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "action_type": {
+            "enum": [
+              "refresh_service_status",
+              "rerun_diagnostics",
+              "clear_stale_warning"
+            ],
+            "type": "string"
+          },
+          "audit_correlation_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "expected_revision": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "fence": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "action_id",
+          "action_type",
+          "expected_revision",
+          "fence",
+          "idempotency_key",
+          "audit_correlation_id"
+        ],
+        "type": "object"
+      },
       "ObservabilitySignal": {
         "properties": {
           "attributes": {
@@ -536,6 +587,375 @@
           "incident_status",
           "stream_id",
           "executable"
+        ],
+        "type": "object"
+      },
+      "RemediationProposal": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "action_type": {
+                  "const": "host.systemd"
+                }
+              },
+              "required": [
+                "action_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "required_capability": {
+                  "const": "host.systemd"
+                },
+                "target": {
+                  "required": [
+                    "host_id"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action_type": {
+                  "const": "host.docker"
+                }
+              },
+              "required": [
+                "action_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "required_capability": {
+                  "const": "host.docker"
+                },
+                "target": {
+                  "required": [
+                    "host_id"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action_type": {
+                  "const": "host.update"
+                }
+              },
+              "required": [
+                "action_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "required_capability": {
+                  "const": "host.update"
+                },
+                "target": {
+                  "required": [
+                    "host_id"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action_type": {
+                  "const": "host.bootstrap"
+                }
+              },
+              "required": [
+                "action_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "required_capability": {
+                  "const": "host.bootstrap"
+                },
+                "target": {
+                  "required": [
+                    "host_id"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action_type": {
+                  "const": "host.port"
+                }
+              },
+              "required": [
+                "action_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "required_capability": {
+                  "const": "host.port"
+                },
+                "target": {
+                  "required": [
+                    "host_id"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action_type": {
+                  "const": "host.self_update"
+                }
+              },
+              "required": [
+                "action_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "required_capability": {
+                  "const": "host.self_update"
+                },
+                "target": {
+                  "required": [
+                    "host_id"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action_type": {
+                  "const": "application.retry_gdrive_upload"
+                }
+              },
+              "required": [
+                "action_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "required_capability": {
+                  "const": "application.retry_gdrive_upload"
+                },
+                "target": {
+                  "properties": {
+                    "service_type": {
+                      "const": "encoder_recorder"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action_type": {
+                  "const": "application.retry_package_remux"
+                }
+              },
+              "required": [
+                "action_type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "required_capability": {
+                  "const": "application.retry_package_remux"
+                },
+                "target": {
+                  "properties": {
+                    "service_type": {
+                      "const": "encoder_recorder"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "description": "Observability may detect and propose only. This object is not a grant and cannot name an executor, mint authority, or invoke Updater directly.",
+        "properties": {
+          "action_type": {
+            "enum": [
+              "host.systemd",
+              "host.docker",
+              "host.update",
+              "host.bootstrap",
+              "host.port",
+              "host.self_update",
+              "application.retry_gdrive_upload",
+              "application.retry_package_remux"
+            ],
+            "type": "string"
+          },
+          "audit_correlation_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "control_panel_authorization_required": {
+            "const": true,
+            "type": "boolean"
+          },
+          "detector": {
+            "additionalProperties": false,
+            "properties": {
+              "service_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              },
+              "service_type": {
+                "const": "observability",
+                "type": "string"
+              }
+            },
+            "required": [
+              "service_id",
+              "service_type"
+            ],
+            "type": "object"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/RemediationProposalEvidence"
+            },
+            "maxItems": 32,
+            "minItems": 1,
+            "type": "array"
+          },
+          "incident_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "observed_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "proposal_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "proposal_revision": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "required_capability": {
+            "enum": [
+              "host.systemd",
+              "host.docker",
+              "host.update",
+              "host.bootstrap",
+              "host.port",
+              "host.self_update",
+              "application.retry_gdrive_upload",
+              "application.retry_package_remux"
+            ],
+            "type": "string"
+          },
+          "target": {
+            "additionalProperties": false,
+            "properties": {
+              "host_id": {
+                "maxLength": 191,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
+                "type": "string"
+              },
+              "service_id": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                "type": "string"
+              },
+              "service_type": {
+                "enum": [
+                  "control_panel",
+                  "worker",
+                  "encoder_recorder",
+                  "discord_bot",
+                  "observability"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "service_id",
+              "service_type"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "proposal_id",
+          "incident_id",
+          "detector",
+          "target",
+          "action_type",
+          "proposal_revision",
+          "required_capability",
+          "evidence",
+          "audit_correlation_id",
+          "observed_at",
+          "control_panel_authorization_required"
+        ],
+        "type": "object"
+      },
+      "RemediationProposalEvidence": {
+        "additionalProperties": false,
+        "description": "Bounded secret-safe evidence. Raw logs, payloads, credentials, configuration, and command output are prohibited.",
+        "properties": {
+          "evidence_code": {
+            "enum": [
+              "incident_detected",
+              "diagnostic_confirmed",
+              "retry_eligible",
+              "host_symptom_confirmed"
+            ],
+            "type": "string"
+          },
+          "evidence_digest": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "observed_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "observed_revision": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "evidence_code",
+          "observed_at",
+          "observed_revision"
         ],
         "type": "object"
       },
@@ -1216,7 +1636,7 @@
     },
     "/updater/version": {
       "get": {
-        "description": "Unauthenticated endpoint for the host-local update helper. Deployments must keep this path on loopback or block it at the public reverse proxy. The value comes from the running binary and never from SERVICE_VERSION.\n",
+        "description": "Historical route name retained without introducing a /v2 URI prefix. This is an application-owned runtime identity probe consumed by the Local Executor during update verification; it is not Updater health. The current source has no explicit route-level no-store behavior. A later consumer implementation must emit the exact Cache-Control no-store response declared here.\n",
         "operationId": "getUpdaterVersion",
         "responses": {
           "200": {
@@ -1224,25 +1644,133 @@
               "application/json": {
                 "schema": {
                   "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "required": [
+                        "version"
+                      ]
+                    }
+                  ],
                   "properties": {
+                    "config_revision": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "service_id": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+                      "type": "string"
+                    },
+                    "service_type": {
+                      "const": "observability",
+                      "type": "string"
+                    },
                     "version": {
-                      "example": "v1.1.1",
+                      "example": "v2.0.0",
                       "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
                       "type": "string"
                     }
                   },
                   "required": [
-                    "version"
+                    "version",
+                    "service_id",
+                    "service_type",
+                    "config_revision"
                   ],
                   "type": "object"
                 }
               }
             },
-            "description": "embedded release version"
+            "description": "Observability runtime identity",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "const": "method_not_allowed",
+                      "type": "string"
+                    },
+                    "message": {
+                      "maxLength": 240,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "method not allowed",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "application_probe_unavailable",
+                        "application_probe_identity_invalid",
+                        "application_probe_revision_unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "message": {
+                      "maxLength": 240,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Observability runtime identity is unavailable; the response is safe and contains no raw configuration",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "security": [],
-        "summary": "Read the running binary's embedded release version"
+        "summary": "Read the Observability application runtime identity",
+        "x-autostream-current-source-cache-control": "no_explicit_route_level_no_store",
+        "x-autostream-semantic-name": "application_runtime_identity_probe",
+        "x-autostream-v2-target-cache-control": "no-store"
       }
     }
   },
@@ -1255,5 +1783,409 @@
     {
       "url": "https://observability.example.com"
     }
-  ]
+  ],
+  "x-autostream-remediation-authority": {
+    "denied_actions": [
+      "delete_archives",
+      "rotate_credentials",
+      "change_roles",
+      "stop_live_stream",
+      "recreate_youtube_broadcast",
+      "revoke_service_tokens"
+    ],
+    "evidence_destination": "control_panel",
+    "local_execution_scope": "enumerated_observability_local_transitions_only",
+    "local_transition_schema": {
+      "additionalProperties": false,
+      "description": "The complete enumerated Observability-local execution scope. Host and cross-service actions are not representable.",
+      "properties": {
+        "action_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "type": "string"
+        },
+        "action_type": {
+          "enum": [
+            "refresh_service_status",
+            "rerun_diagnostics",
+            "clear_stale_warning"
+          ],
+          "type": "string"
+        },
+        "audit_correlation_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "type": "string"
+        },
+        "expected_revision": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fence": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "idempotency_key": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action_id",
+        "action_type",
+        "expected_revision",
+        "fence",
+        "idempotency_key",
+        "audit_correlation_id"
+      ],
+      "type": "object"
+    },
+    "may_call_updater_directly": false,
+    "may_execute_host_runtime": false,
+    "may_mint_cross_service_grant": false,
+    "may_use_shared_control_panel_database_credentials": false,
+    "proposal_destination": "control_panel",
+    "proposal_schema": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "action_type": {
+                "const": "host.systemd"
+              }
+            },
+            "required": [
+              "action_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_capability": {
+                "const": "host.systemd"
+              },
+              "target": {
+                "required": [
+                  "host_id"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_type": {
+                "const": "host.docker"
+              }
+            },
+            "required": [
+              "action_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_capability": {
+                "const": "host.docker"
+              },
+              "target": {
+                "required": [
+                  "host_id"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_type": {
+                "const": "host.update"
+              }
+            },
+            "required": [
+              "action_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_capability": {
+                "const": "host.update"
+              },
+              "target": {
+                "required": [
+                  "host_id"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_type": {
+                "const": "host.bootstrap"
+              }
+            },
+            "required": [
+              "action_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_capability": {
+                "const": "host.bootstrap"
+              },
+              "target": {
+                "required": [
+                  "host_id"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_type": {
+                "const": "host.port"
+              }
+            },
+            "required": [
+              "action_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_capability": {
+                "const": "host.port"
+              },
+              "target": {
+                "required": [
+                  "host_id"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_type": {
+                "const": "host.self_update"
+              }
+            },
+            "required": [
+              "action_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_capability": {
+                "const": "host.self_update"
+              },
+              "target": {
+                "required": [
+                  "host_id"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_type": {
+                "const": "application.retry_gdrive_upload"
+              }
+            },
+            "required": [
+              "action_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_capability": {
+                "const": "application.retry_gdrive_upload"
+              },
+              "target": {
+                "properties": {
+                  "service_type": {
+                    "const": "encoder_recorder"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action_type": {
+                "const": "application.retry_package_remux"
+              }
+            },
+            "required": [
+              "action_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_capability": {
+                "const": "application.retry_package_remux"
+              },
+              "target": {
+                "properties": {
+                  "service_type": {
+                    "const": "encoder_recorder"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "Observability may detect and propose only. This object is not a grant and cannot name an executor, mint authority, or invoke Updater directly.",
+      "properties": {
+        "action_type": {
+          "enum": [
+            "host.systemd",
+            "host.docker",
+            "host.update",
+            "host.bootstrap",
+            "host.port",
+            "host.self_update",
+            "application.retry_gdrive_upload",
+            "application.retry_package_remux"
+          ],
+          "type": "string"
+        },
+        "audit_correlation_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "type": "string"
+        },
+        "control_panel_authorization_required": {
+          "const": true,
+          "type": "boolean"
+        },
+        "detector": {
+          "additionalProperties": false,
+          "properties": {
+            "service_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "type": "string"
+            },
+            "service_type": {
+              "const": "observability",
+              "type": "string"
+            }
+          },
+          "required": [
+            "service_id",
+            "service_type"
+          ],
+          "type": "object"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/components/schemas/RemediationProposalEvidence"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "type": "array"
+        },
+        "incident_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "proposal_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "type": "string"
+        },
+        "proposal_revision": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required_capability": {
+          "enum": [
+            "host.systemd",
+            "host.docker",
+            "host.update",
+            "host.bootstrap",
+            "host.port",
+            "host.self_update",
+            "application.retry_gdrive_upload",
+            "application.retry_package_remux"
+          ],
+          "type": "string"
+        },
+        "target": {
+          "additionalProperties": false,
+          "properties": {
+            "host_id": {
+              "maxLength": 191,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
+              "type": "string"
+            },
+            "service_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "type": "string"
+            },
+            "service_type": {
+              "enum": [
+                "control_panel",
+                "worker",
+                "encoder_recorder",
+                "discord_bot",
+                "observability"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "service_id",
+            "service_type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "proposal_id",
+        "incident_id",
+        "detector",
+        "target",
+        "action_type",
+        "proposal_revision",
+        "required_capability",
+        "evidence",
+        "audit_correlation_id",
+        "observed_at",
+        "control_panel_authorization_required"
+      ],
+      "type": "object"
+    },
+    "role": "detect_propose_evidence"
+  }
 }
