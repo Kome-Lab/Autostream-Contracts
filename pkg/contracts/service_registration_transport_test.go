@@ -353,7 +353,6 @@ func TestControlOpenAPIModelsEndpointlessPullUpdater(t *testing.T) {
 
 	for _, want := range []string{
 		"transport_mode:",
-		"enum: [ssh_v1, pull_v2]",
 		"default: ssh_v1",
 		"ServiceEndpoint:",
 		"desired_endpoint:",
@@ -368,6 +367,7 @@ func TestControlOpenAPIModelsEndpointlessPullUpdater(t *testing.T) {
 			t.Fatalf("control-api.yaml is missing pull updater compatibility marker %q", want)
 		}
 	}
+	requireControlOpenAPITransportModes(t)
 
 	registrationStart := strings.Index(raw, "    ServiceRegistrationRequest:\n")
 	registrationEnd := strings.Index(raw[registrationStart+1:], "\n    Heartbeat:\n")

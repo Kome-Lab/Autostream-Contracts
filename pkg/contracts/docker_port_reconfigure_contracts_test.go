@@ -292,9 +292,6 @@ func TestDockerPortGoTypesAndOpenAPIAreAdditive(t *testing.T) {
 	for _, marker := range []string{
 		"SystemUpdateDockerPortReconfiguration:",
 		"SystemUpdatePortMapping:",
-		"new_advertised_port:",
-		"new_published_port:",
-		"new_container_port:",
 		"approved_compose_config_sha256:",
 		"expected_repository_digest:",
 		"published_host_ip:",
@@ -303,4 +300,5 @@ func TestDockerPortGoTypesAndOpenAPIAreAdditive(t *testing.T) {
 			t.Fatalf("control OpenAPI is missing Docker port marker %q", marker)
 		}
 	}
+	requireControlOpenAPISystemUpdateCreateRequest(t)
 }

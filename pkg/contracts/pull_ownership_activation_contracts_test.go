@@ -177,7 +177,7 @@ func TestControlOpenAPIDocumentsPullOwnershipActivationPathAndExactSchemas(t *te
 	if err != nil {
 		t.Fatal(err)
 	}
-	raw := string(body)
+	raw := strings.ReplaceAll(string(body), "\r\n", "\n")
 	const pathMarker = "  /system-updates/updaters/{id}/pull-ownership/activate:\n"
 	start := strings.Index(raw, pathMarker)
 	if start < 0 {
@@ -208,26 +208,8 @@ func TestControlOpenAPIDocumentsPullOwnershipActivationPathAndExactSchemas(t *te
 		}
 	}
 
-	for _, component := range []string{
-		"SystemUpdatePullOwnershipActivateRequest:",
-		"SystemUpdatePullOwnershipActivateResponse:",
-	} {
-		componentStart := strings.Index(raw, "    "+component)
-		if componentStart < 0 {
-			t.Fatalf("control-api.yaml is missing component %s", component)
-		}
-		section := raw[componentStart:]
-		if end := strings.Index(section[1:], "\n    SystemUpdate"); end >= 0 {
-			section = section[:end+1]
-		}
-		if !strings.Contains(section, "additionalProperties: false") {
-			t.Fatalf("%s is not strict", component)
-		}
-		if component == "SystemUpdatePullOwnershipActivateRequest:" &&
-			!strings.Contains(section, "maximum: 9223372036854775806") {
-			t.Fatal("activation request ownership epoch must reject int64 overflow")
-		}
-	}
+	requireControlOpenAPIPullOwnershipComponent(t, "SystemUpdatePullOwnershipActivateRequest")
+	requireControlOpenAPIPullOwnershipComponent(t, "SystemUpdatePullOwnershipActivateResponse")
 	for _, want := range []string{
 		"expected_ownership_epoch",
 		"expected_source_policy_revision",

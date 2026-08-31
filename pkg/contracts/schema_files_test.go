@@ -252,13 +252,13 @@ func TestServiceAssignmentRoleSchemas(t *testing.T) {
 	raw := string(body)
 	for _, want := range []string{
 		"assignment_role:",
-		"enum: [primary, standby]",
 		"standby is registered as a failover candidate but is not started automatically",
 	} {
 		if !strings.Contains(raw, want) {
 			t.Fatalf("control-api.yaml is missing service assignment role marker %q", want)
 		}
 	}
+	requireControlOpenAPIServiceAssignmentRole(t)
 }
 
 func TestRegisteredServiceSchemaDoesNotExposeTokenBindingID(t *testing.T) {
@@ -522,12 +522,12 @@ func TestControlOpenAPIDocumentsMFARolePolicy(t *testing.T) {
 		"#/components/schemas/SecuritySettings",
 		"mfa_required_roles:",
 		"Empty means an enabled mfa_mode applies to all users.",
-		"enum: [disabled, totp, passkey]",
 	} {
 		if !strings.Contains(raw, want) {
 			t.Fatalf("control-api.yaml is missing MFA role policy marker %q", want)
 		}
 	}
+	requireControlOpenAPIMFAPolicy(t)
 }
 
 func TestDeepgramCaptionAndSessionRefreshContracts(t *testing.T) {
@@ -1032,7 +1032,6 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 		}
 	}
 	for _, want := range []string{
-		"enum: [discord, slack, generic, email]",
 		"NotificationChannel:",
 		"uses_global_smtp:",
 		"Deprecated direct-Observability SMTP compatibility status.",
@@ -1047,6 +1046,7 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 			t.Fatalf("control-api.yaml is missing email notification marker %q", want)
 		}
 	}
+	requireControlOpenAPINotificationEmail(t)
 	for _, want := range []string{
 		"webhook_url:",
 		"uses_global_smtp:",
@@ -1974,7 +1974,7 @@ func TestYouTubeRelayStaticRuntimeConfigExcludesIngestFields(t *testing.T) {
 			name: "control-api.yaml",
 			path: filepath.Join("..", "..", "openapi", "control-api.yaml"),
 			markers: []string{
-				"live_api_relay_static", "required: [rtmp_url]", "required: [stream_key_secret_name]",
+				"live_api_relay_static",
 			},
 		},
 	} {
@@ -1989,6 +1989,7 @@ func TestYouTubeRelayStaticRuntimeConfigExcludesIngestFields(t *testing.T) {
 			}
 		}
 	}
+	requireControlOpenAPIRelayStaticExclusions(t)
 }
 
 func TestYouTubeRelayBindingMutationErrorsArePublicContracts(t *testing.T) {

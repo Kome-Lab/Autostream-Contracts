@@ -479,8 +479,6 @@ func TestPortPolicyProjectionAndAppliedConfigFieldsAreAdditive(t *testing.T) {
 		"local_executor_policy_sha256:",
 		"applied_config_revision:",
 		"applied_config_sha256:",
-		"eligible_operations:",
-		"operation_blocked_reasons:",
 		"const: host",
 		"const: tcp",
 		"port_reconfigure_reconcile",
@@ -490,4 +488,5 @@ func TestPortPolicyProjectionAndAppliedConfigFieldsAreAdditive(t *testing.T) {
 			t.Fatalf("control OpenAPI is missing port-reconfiguration marker %q", marker)
 		}
 	}
+	requireControlOpenAPISystemUpdateTargetProjection(t)
 }

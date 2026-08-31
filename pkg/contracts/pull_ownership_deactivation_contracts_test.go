@@ -175,7 +175,7 @@ func TestControlOpenAPIDocumentsPullOwnershipDeactivationPathAndExactSchemas(t *
 	if err != nil {
 		t.Fatal(err)
 	}
-	raw := string(body)
+	raw := strings.ReplaceAll(string(body), "\r\n", "\n")
 	const pathMarker = "  /system-updates/updaters/{id}/pull-ownership/deactivate:\n"
 	start := strings.Index(raw, pathMarker)
 	if start < 0 {
@@ -206,22 +206,8 @@ func TestControlOpenAPIDocumentsPullOwnershipDeactivationPathAndExactSchemas(t *
 		}
 	}
 
-	for _, component := range []string{
-		"SystemUpdatePullOwnershipDeactivateRequest:",
-		"SystemUpdatePullOwnershipDeactivateResponse:",
-	} {
-		componentStart := strings.Index(raw, "    "+component)
-		if componentStart < 0 {
-			t.Fatalf("control-api.yaml is missing component %s", component)
-		}
-		section := raw[componentStart:]
-		if end := strings.Index(section[1:], "\n    SystemUpdate"); end >= 0 {
-			section = section[:end+1]
-		}
-		if !strings.Contains(section, "additionalProperties: false") {
-			t.Fatalf("%s is not strict", component)
-		}
-	}
+	requireControlOpenAPIPullOwnershipComponent(t, "SystemUpdatePullOwnershipDeactivateRequest")
+	requireControlOpenAPIPullOwnershipComponent(t, "SystemUpdatePullOwnershipDeactivateResponse")
 	if strings.Contains(pathSection, "legacy_agent_service_id") {
 		t.Fatal("client-selected legacy owner leaked into the deactivation request contract")
 	}
