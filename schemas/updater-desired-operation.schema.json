@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/updater-desired-operation.schema.json",
+  "title": "Updater Desired Operation",
+  "description": "Credential-free, closed and exactly-one host mutation intent. Shell, argv, environment, path, URL and token fields are not representable.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["operation"],
+  "properties": {
+    "operation": {
+      "enum": ["software_update", "bootstrap", "port_reconfigure", "host_self_update"]
+    },
+    "software_update": { "$ref": "#/$defs/softwareUpdate" },
+    "bootstrap": { "$ref": "#/$defs/bootstrap" },
+    "port_reconfigure": {
+      "allOf": [
+        { "$ref": "system-update-job.schema.json#/$defs/portReconfigurationPlan" },
+        { "not": { "required": ["result"] } }
+      ]
+    },
+    "host_self_update": { "$ref": "host-agent-self-update-directive.schema.json" }
+  },
+  "$defs": {
+    "version": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 128,
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    },
+    "softwareUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_current_version", "target_version", "strategy"],
+      "properties": {
+        "expected_current_version": { "$ref": "#/$defs/version" },
+        "target_version": { "$ref": "#/$defs/version" },
+        "strategy": { "enum": ["when_idle", "maintenance"] }
+      }
+    },
+    "bootstrap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_state", "target_version"],
+      "properties": {
+        "expected_state": { "const": "absent" },
+        "target_version": { "$ref": "#/$defs/version" }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "required": ["software_update"],
+      "properties": { "operation": { "const": "software_update" } },
+      "not": {
+        "anyOf": [
+          { "required": ["bootstrap"] },
+          { "required": ["port_reconfigure"] },
+          { "required": ["host_self_update"] }
+        ]
+      }
+    },
+    {
+      "required": ["bootstrap"],
+      "properties": { "operation": { "const": "bootstrap" } },
+      "not": {
+        "anyOf": [
+          { "required": ["software_update"] },
+          { "required": ["port_reconfigure"] },
+          { "required": ["host_self_update"] }
+        ]
+      }
+    },
+    {
+      "required": ["port_reconfigure"],
+      "properties": { "operation": { "const": "port_reconfigure" } },
+      "not": {
+        "anyOf": [
+          { "required": ["software_update"] },
+          { "required": ["bootstrap"] },
+          { "required": ["host_self_update"] }
+        ]
+      }
+    },
+    {
+      "required": ["host_self_update"],
+      "properties": { "operation": { "const": "host_self_update" } },
+      "not": {
+        "anyOf": [
+          { "required": ["software_update"] },
+          { "required": ["bootstrap"] },
+          { "required": ["port_reconfigure"] }
+        ]
+      }
+    }
+  ]
+}

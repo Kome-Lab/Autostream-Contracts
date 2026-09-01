@@ -46,16 +46,38 @@ x-autostream-updater-v2-authority:
   observability_host_execution_allowed: false
   embedded_legacy_transition:
     owner: V2-COMPAT-EOL-CONTRACTS-001
-    removal_wave: Execution Bundle 8
+    removal_wave: Execution Bundle 5
     final_state: absent
     transport: ssh_v1
     rollback_only_after_v2_activation: true
   command_envelope_schema: { $ref: '#/components/schemas/UpdaterCommandEnvelope' }
+  desired_operation_schema: { $ref: '#/components/schemas/UpdaterDesiredOperation' }
   lease_envelope_schema: { $ref: '#/components/schemas/UpdaterLeaseEnvelope' }
   progress_envelope_schema: { $ref: '#/components/schemas/UpdaterProgressEnvelope' }
   result_envelope_schema: { $ref: '#/components/schemas/UpdaterResultEnvelope' }
   heartbeat_schema: { $ref: '#/components/schemas/UpdaterHeartbeat' }
   local_journal_schema: { $ref: '#/components/schemas/UpdaterLocalJournalBoundary' }
+  canonical_command_digest:
+    algorithm: sha256
+    serialization: RFC8785_JCS
+    projection_fields: [ target, desired_revision, fence, desired_operation ]
+    timestamp_lexical_form: canonical_utc_rfc3339nano_no_trailing_fractional_zeroes
+    payload_and_argument_digests_must_match: true
+  runtime_token_rotation:
+    credential_claim_request_schema: { $ref: '#/components/schemas/UpdaterRuntimeTokenRotationCredentialClaimRequest' }
+    raw_replacement_token_surface: credential_claim_response_only
+    cache_control: no-store
+    command_allowed: false
+    local_journal_allowed: false
+  local_executor_mutation_grant:
+    binding_schema: { $ref: '#/components/schemas/UpdaterMutationGrantBinding' }
+    issue_request_schema: { $ref: '#/components/schemas/UpdaterMutationGrantIssueRequest' }
+    issue_response_schema: { $ref: '#/components/schemas/UpdaterMutationGrantIssueResponse' }
+    consume_request_schema: { $ref: '#/components/schemas/UpdaterMutationGrantConsumeRequest' }
+    opaque_grant_surface: issue_response_and_authorization_header_only
+    cache_control: no-store
+    command_allowed: false
+    local_journal_allowed: false
 x-autostream-remediation-authority:
   detection_proposal_evidence: observability
   authorization_orchestration_audit: control_panel
@@ -2934,7 +2956,7 @@ paths:
     post:
       security:
         - bearerToken: []
-      description: Atomically claims the next eligible job assigned to the authenticated update_agent and optional host_id execution slot. Requires updates.claim. host_id is required for central multi-host operation and may be omitted only by legacy per-host agents. If active_job_id is present, the server returns only that job's renewed lease or an explicit clear_active_job_id instruction and never claims a different job. The opaque lease token is returned once and must not be logged.
+      description: Atomically claims the next eligible v2 command assigned to the authenticated update_agent and optional host_id execution slot. Requires updates.claim. If active_job_id is present, the server returns only that command's renewed typed lease or an explicit clear_active_job_id instruction and never claims a different command.
       requestBody:
         required: true
         content:
@@ -2949,7 +2971,7 @@ paths:
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/UpdaterLeaseEnvelope"
-                  - $ref: "#/components/schemas/UpdateAgentClaimResponse"
+                  - $ref: "#/components/schemas/UpdateAgentClearActiveJobResponse"
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -3039,7 +3061,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateAgentMutationGrantIssueRequest"
+              oneOf:
+                - $ref: "#/components/schemas/UpdaterMutationGrantIssueRequest"
+                - $ref: "#/components/schemas/UpdateAgentMutationGrantIssueRequest"
       responses:
         "201":
           description: one-time mutation grant issued for the exact immutable binding
@@ -3053,7 +3077,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UpdateAgentMutationGrantIssueResponse"
+                $ref: "#/components/schemas/UpdaterMutationGrantIssueResponse"
         "400":
           description: bad_request or invalid_system_update_mutation_grant
           headers:
@@ -3094,7 +3118,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateAgentMutationGrantConsumeRequest"
+              oneOf:
+                - $ref: "#/components/schemas/UpdaterMutationGrantConsumeRequest"
+                - $ref: "#/components/schemas/UpdateAgentMutationGrantConsumeRequest"
       responses:
         "204":
           description: grant consumed, or the exact same grant, session, and binding was already consumed; response has no body
@@ -4560,8 +4586,9 @@ components:
     UpdaterTargetIdentity:
       type: object
       additionalProperties: false
-      required: [ service_id, service_type, deployment_mode ]
+      required: [ target_kind, service_id, service_type, deployment_mode ]
       properties:
+        target_kind: { type: string, enum: [ application, update_agent, host_runtime ] }
         service_id:
           type: string
           minLength: 1
@@ -4569,9 +4596,33 @@ components:
           pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'
         service_type:
           type: string
-          enum: [ control_panel, worker, encoder_recorder, discord_bot, observability ]
+          enum: [ control_panel, worker, encoder_recorder, discord_bot, observability, update_agent ]
         deployment_mode: { type: string, enum: [ systemd, docker ] }
         expected_config_revision: { type: integer, format: int64, minimum: 1 }
+        execution_host_id:
+          type: string
+          minLength: 1
+          maxLength: 191
+          pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$'
+      oneOf:
+        - required: [ expected_config_revision ]
+          properties:
+            target_kind: { const: application }
+            service_type: { enum: [ control_panel, worker, encoder_recorder, discord_bot, observability ] }
+          not: { required: [ execution_host_id ] }
+        - required: [ execution_host_id ]
+          properties:
+            target_kind: { const: update_agent }
+            service_type: { const: update_agent }
+            deployment_mode: { const: systemd }
+          not: { required: [ expected_config_revision ] }
+        - required: [ execution_host_id ]
+          properties:
+            target_kind: { const: host_runtime }
+            service_type: { const: update_agent }
+            deployment_mode: { const: systemd }
+          not: { required: [ expected_config_revision ] }
+      description: Strict identity union. Application targets carry expected_config_revision; update_agent and host_runtime targets carry execution_host_id and forbid expected_config_revision.
     UpdaterEvidence:
       type: object
       additionalProperties: false
@@ -4579,7 +4630,7 @@ components:
       properties:
         evidence_code:
           type: string
-          enum: [ command_accepted, phase_observed, application_probe_verified, rollback_verified, outcome_ambiguous ]
+          enum: [ command_accepted, phase_observed, application_probe_verified, host_runtime_verified, rollback_verified, outcome_ambiguous ]
         observed_at: { type: string, format: date-time }
         observed_revision: { type: integer, format: int64, minimum: 1 }
         artifact_digest: { type: string, pattern: '^sha256:[a-f0-9]{64}$' }
@@ -4608,7 +4659,10 @@ components:
           type: string
           enum: [ host.systemd, host.docker, host.update, host.bootstrap, host.port, host.self_update ]
         target: { $ref: '#/components/schemas/UpdaterTargetIdentity' }
-        canonical_argument_digest: { type: string, pattern: '^sha256:[a-f0-9]{64}$' }
+        canonical_argument_digest:
+          type: string
+          pattern: '^sha256:[a-f0-9]{64}$'
+          description: RFC 8785/JCS SHA-256 digest of exactly target, desired_revision, fence, and desired_operation; identical to canonical_payload_digest.
         desired_revision: { type: integer, format: int64, minimum: 1 }
         fence: { type: integer, format: int64, minimum: 1 }
         expires_at: { type: string, format: date-time }
@@ -4630,6 +4684,8 @@ components:
         - if: { properties: { action_type: { const: host.self_update } }, required: [ action_type ] }
           then: { properties: { required_capability: { const: host.self_update } } }
       description: Complete short-lived one-time mutation grant claim. Job, updater, host, action, target, digest, revision, fence, expiry, nonce, and capability are bound in this single object; the bearer credential itself is never represented here.
+    UpdaterDesiredOperation:
+      $ref: '../schemas/updater-desired-operation.schema.json'
     UpdaterCommandEnvelope:
       type: object
       additionalProperties: false
@@ -4640,36 +4696,87 @@ components:
         - idempotency_key
         - canonical_payload_digest
         - mutation_authorization
+        - desired_operation
         - audit_correlation_id
       properties:
         protocol_version: { type: integer, const: 2 }
         command_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         issuer: { $ref: '#/components/schemas/UpdaterCommandIssuer' }
         idempotency_key: { type: string, minLength: 1, maxLength: 128, pattern: '^[^\u0000-\u001F\u007F]+$' }
-        canonical_payload_digest: { type: string, pattern: '^sha256:[a-f0-9]{64}$' }
+        canonical_payload_digest:
+          type: string
+          pattern: '^sha256:[a-f0-9]{64}$'
+          description: RFC 8785/JCS SHA-256 digest of exactly target, desired_revision, fence, and desired_operation; identical to mutation_authorization.canonical_argument_digest.
         mutation_authorization: { $ref: '#/components/schemas/UpdaterMutationAuthorization' }
+        desired_operation: { $ref: '#/components/schemas/UpdaterDesiredOperation' }
         audit_correlation_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
-      description: Typed host-execution intent whose privileged identity and fence are carried exactly once by mutation_authorization. Arbitrary shell, argv, environment, shared Control Panel database credentials, and unbounded command output are not representable.
+      allOf:
+        - if:
+            required: [ desired_operation ]
+            properties: { desired_operation: { properties: { operation: { const: software_update } } } }
+          then:
+            properties:
+              mutation_authorization:
+                properties:
+                  action_type: { const: host.update }
+                  required_capability: { const: host.update }
+                  target: { properties: { target_kind: { const: application } } }
+        - if:
+            required: [ desired_operation ]
+            properties: { desired_operation: { properties: { operation: { const: bootstrap } } } }
+          then:
+            properties:
+              mutation_authorization:
+                properties:
+                  action_type: { const: host.bootstrap }
+                  required_capability: { const: host.bootstrap }
+                  target: { properties: { target_kind: { const: update_agent } } }
+        - if:
+            required: [ desired_operation ]
+            properties: { desired_operation: { properties: { operation: { const: port_reconfigure } } } }
+          then:
+            properties:
+              mutation_authorization:
+                properties:
+                  action_type: { const: host.port }
+                  required_capability: { const: host.port }
+                  target: { properties: { target_kind: { const: application } } }
+        - if:
+            required: [ desired_operation ]
+            properties: { desired_operation: { properties: { operation: { const: host_self_update } } } }
+          then:
+            properties:
+              mutation_authorization:
+                properties:
+                  action_type: { const: host.self_update }
+                  required_capability: { const: host.self_update }
+                  target: { properties: { target_kind: { const: host_runtime } } }
+      x-autostream-behavioral-validator: contracts.ValidateUpdaterCommandEnvelope
+      description: Typed host-execution intent whose privileged identity and fence are carried exactly once by mutation_authorization. The desired operation is a closed exactly-one union. Arbitrary shell, argv, environment, path, URL, token, shared Control Panel database credentials, and unbounded command output are not representable.
     UpdaterLeaseEnvelope:
       type: object
       additionalProperties: false
-      required: [ protocol_version, lease_id, lease_generation, command ]
+      required: [ protocol_version, lease_id, lease_generation, lease_expires_at, command ]
       properties:
         protocol_version: { type: integer, const: 2 }
         lease_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         lease_generation: { type: integer, format: int64, minimum: 1 }
+        lease_expires_at: { type: string, format: date-time }
         command: { $ref: '#/components/schemas/UpdaterCommandEnvelope' }
+      x-autostream-behavioral-validator: contracts.ValidateUpdaterLeaseEnvelope
       description: Outbound pull lease. Updater, host, expiry and fence are read only from the nested one-time mutation grant, preventing contradictory duplicate bindings.
     UpdaterProgressEnvelope:
       type: object
       additionalProperties: false
-      required: [ protocol_version, command_id, job_id, updater_id, host_id, sequence, phase, progress, desired_revision, fence, audit_correlation_id, observed_at ]
+      required: [ protocol_version, command_id, job_id, updater_id, host_id, lease_id, lease_generation, sequence, phase, progress, desired_revision, fence, audit_correlation_id, observed_at ]
       properties:
         protocol_version: { type: integer, const: 2 }
         command_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         job_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         updater_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         host_id: { type: string, minLength: 1, maxLength: 191, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$' }
+        lease_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
+        lease_generation: { type: integer, format: int64, minimum: 1 }
         sequence: { type: integer, format: int64, minimum: 0 }
         phase: { type: string, enum: [ accepted, journaled, preparing, executing, verifying, rolling_back, reconciling ] }
         progress: { type: integer, minimum: 0, maximum: 100 }
@@ -4677,6 +4784,7 @@ components:
         fence: { type: integer, format: int64, minimum: 1 }
         audit_correlation_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         observed_at: { type: string, format: date-time }
+      x-autostream-behavioral-validator: contracts.ValidateUpdaterProgressEnvelope
       description: Bounded typed progress only. Raw command output and arbitrary log payloads are not representable.
     UpdaterResultEnvelope:
       type: object
@@ -4687,6 +4795,8 @@ components:
         - job_id
         - updater_id
         - host_id
+        - lease_id
+        - lease_generation
         - idempotency_key
         - canonical_payload_digest
         - authorization_id
@@ -4703,6 +4813,8 @@ components:
         job_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         updater_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         host_id: { type: string, minLength: 1, maxLength: 191, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$' }
+        lease_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
+        lease_generation: { type: integer, format: int64, minimum: 1 }
         idempotency_key: { type: string, minLength: 1, maxLength: 128, pattern: '^[^\u0000-\u001F\u007F]+$' }
         canonical_payload_digest: { type: string, pattern: '^sha256:[a-f0-9]{64}$' }
         authorization_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
@@ -4722,6 +4834,7 @@ components:
       allOf:
         - oneOf:
             - properties: { outcome: { const: succeeded }, status: { const: succeeded } }
+              required: [ applied_revision ]
               not: { required: [ safe_error ] }
             - properties: { outcome: { const: rolled_back }, status: { const: rolled_back } }
             - properties: { outcome: { const: failed }, status: { const: failed } }
@@ -4733,6 +4846,57 @@ components:
                   required: [ code ]
                   properties: { code: { const: outcome_ambiguous } }
               required: [ safe_error ]
+      x-autostream-behavioral-validator: contracts.ValidateUpdaterResultEnvelope
+      description: Terminal result bound to the exact lease generation. Success requires applied_revision equal to desired_revision plus target-specific verification evidence; rollback requires rollback_verified evidence; ambiguous outcomes remain reconciling and automatic resend is always false.
+    UpdaterRuntimeTokenRotationCredentialClaimRequest:
+      type: object
+      additionalProperties: false
+      required: [ expected_revision, claim_id ]
+      properties:
+        expected_revision: { type: integer, format: int64, minimum: 1 }
+        claim_id: { type: string, minLength: 16, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$' }
+      description: Secret-free one-time claim request binding. The raw replacement token exists only in the credential claim response, which is Cache-Control no-store, and is forbidden from Updater commands, progress, results, evidence, and local journal records.
+    UpdaterMutationGrantBinding:
+      type: object
+      additionalProperties: false
+      required: [ lease, operation, session_id ]
+      properties:
+        lease: { $ref: '#/components/schemas/UpdaterLeaseEnvelope' }
+        operation:
+          type: string
+          enum: [ apply, reconcile, port_reconfigure, port_reconfigure_reconcile, bootstrap, bootstrap_reconcile, host_self_update_stage, host_self_update_activate, host_self_update_reconcile ]
+        session_id: { type: string, minLength: 16, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$' }
+      x-autostream-operation-desired-map:
+        apply: software_update
+        reconcile: software_update
+        port_reconfigure: port_reconfigure
+        port_reconfigure_reconcile: port_reconfigure
+        bootstrap: bootstrap
+        bootstrap_reconcile: bootstrap
+        host_self_update_stage: host_self_update
+        host_self_update_activate: host_self_update
+        host_self_update_reconcile: host_self_update
+      description: Complete credential-free Local Executor binding. The nested lease carries the exact command, authorization, target, desired revision, fence, JCS digest and desired plan. The closed operation is semantically restricted by desired_operation.
+    UpdaterMutationGrantIssueRequest:
+      type: object
+      additionalProperties: false
+      required: [ binding ]
+      properties:
+        binding: { $ref: '#/components/schemas/UpdaterMutationGrantBinding' }
+      x-autostream-behavioral-validator: contracts.ValidateUpdaterMutationGrantIssueRequest
+      description: Authenticated Updater request for one opaque Local Executor grant. Grant credentials, tokens, shell, argv, environment, path and URL are prohibited.
+    UpdaterMutationGrantIssueResponse:
+      $ref: '#/components/schemas/UpdateAgentMutationGrantIssueResponse'
+      x-autostream-behavioral-validator: contracts.ValidateUpdaterMutationGrantIssueResponse
+      description: Exact no-store secret-bearing response. The opaque token is bounded, short-lived, never logged or persisted, and its expiry may not exceed the authorizing lease or mutation authorization.
+    UpdaterMutationGrantConsumeRequest:
+      type: object
+      additionalProperties: false
+      required: [ binding ]
+      properties:
+        binding: { $ref: '#/components/schemas/UpdaterMutationGrantBinding' }
+      x-autostream-behavioral-validator: contracts.ValidateUpdaterMutationGrantConsumeRequest
+      description: Exact Local Executor consume binding. The opaque grant is supplied only as authorization proof, never in this body, argv, environment, logs or persistent journal state.
     UpdaterHeartbeat:
       type: object
       additionalProperties: false
@@ -4763,11 +4927,26 @@ components:
       properties:
         code:
           type: string
-          enum: [ protocol_version_unsupported, issuer_authentication_failed, updater_identity_mismatch, authorization_expired, authorization_replayed, idempotency_payload_conflict, capability_missing, revision_conflict, stale_fence, command_expired, outcome_ambiguous, local_journal_unavailable ]
-        message: { type: string, minLength: 1, maxLength: 240 }
+          enum: [ protocol_version_unsupported, issuer_authentication_failed, updater_identity_mismatch, authorization_expired, authorization_replayed, idempotency_payload_conflict, capability_missing, revision_conflict, stale_fence, command_expired, outcome_ambiguous, local_journal_unavailable, execution_failed ]
+        message:
+          type: string
+          enum:
+            - updater protocol version is unsupported
+            - updater issuer authentication failed
+            - updater identity does not match assignment
+            - updater authorization expired
+            - updater authorization was already used
+            - updater idempotency payload conflicts
+            - updater capability is unavailable
+            - updater revision conflicts
+            - updater fence is stale
+            - updater command expired
+            - updater outcome requires reconciliation
+            - updater local journal is unavailable
+            - updater execution failed
         retryable: { type: boolean }
         audit_correlation_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
-      description: Secret-safe error metadata. It excludes credentials, raw payloads, commands, paths, stdout, stderr, and environment values.
+      description: Secret-safe error metadata. Message is a closed canonical phrase paired to code by the behavioral validator, so credentials, raw payloads, commands, paths, stdout, stderr, and environment values are not representable.
     UpdaterLocalJournalBoundary:
       type: object
       additionalProperties: false
@@ -5057,7 +5236,10 @@ components:
           maxLength: 128
           pattern: '^v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$'
         commit: { type: string, pattern: '^[a-f0-9]{40}$' }
-        published_at: { type: string, format: date-time }
+        published_at:
+          type: string
+          format: date-time
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.[0-9]{0,8}[1-9])?Z$'
         manifest_asset_id: { type: integer, format: int64, minimum: 1 }
         manifest_asset_name:
           type: string
@@ -5435,6 +5617,7 @@ components:
           type: boolean
           const: true
           description: The reported active job is terminal, missing, or not owned by this updater and must be durably cleared before another claim.
+      x-autostream-behavioral-validator: contracts.ValidateUpdateAgentClearActiveJobResponse
     UpdateAgentReportRequest:
       type: object
       additionalProperties: false

@@ -104,6 +104,7 @@ const (
 	SystemUpdateTargetDiscordBot      SystemUpdateTargetType = "discord_bot"
 	SystemUpdateTargetEncoderRecorder SystemUpdateTargetType = "encoder_recorder"
 	SystemUpdateTargetObservability   SystemUpdateTargetType = "observability"
+	SystemUpdateTargetUpdateAgent     SystemUpdateTargetType = "update_agent"
 	SystemUpdateTargetWorker          SystemUpdateTargetType = "worker"
 )
 
@@ -233,6 +234,57 @@ const (
 	UpdaterCapabilitySelfUpdate UpdaterCapability = "host.self_update"
 )
 
+// UpdaterDesiredOperationType is the closed operation vocabulary accepted by
+// the independent Updater command protocol. It deliberately has no generic
+// command, shell, argv, environment, path, URL, or credential escape hatch.
+type UpdaterDesiredOperationType string
+
+const (
+	UpdaterDesiredSoftwareUpdate  UpdaterDesiredOperationType = "software_update"
+	UpdaterDesiredBootstrap       UpdaterDesiredOperationType = "bootstrap"
+	UpdaterDesiredPortReconfigure UpdaterDesiredOperationType = "port_reconfigure"
+	UpdaterDesiredHostSelfUpdate  UpdaterDesiredOperationType = "host_self_update"
+)
+
+type UpdaterSoftwareUpdateDesiredOperation struct {
+	ExpectedCurrentVersion string               `json:"expected_current_version"`
+	TargetVersion          string               `json:"target_version"`
+	Strategy               SystemUpdateStrategy `json:"strategy"`
+}
+
+type UpdaterBootstrapDesiredOperation struct {
+	ExpectedState string `json:"expected_state"`
+	TargetVersion string `json:"target_version"`
+}
+
+// UpdaterDesiredOperation is a discriminated union. Exactly one pointer must
+// be non-nil and it must match Operation; the raw validator enforces this
+// before the payload can lose presence information during Go decoding.
+type UpdaterDesiredOperation struct {
+	Operation       UpdaterDesiredOperationType            `json:"operation"`
+	SoftwareUpdate  *UpdaterSoftwareUpdateDesiredOperation `json:"software_update,omitempty"`
+	Bootstrap       *UpdaterBootstrapDesiredOperation      `json:"bootstrap,omitempty"`
+	PortReconfigure *SystemUpdatePortReconfiguration       `json:"port_reconfigure,omitempty"`
+	HostSelfUpdate  *HostAgentSelfUpdateDirective          `json:"host_self_update,omitempty"`
+}
+
+// UpdaterMutationOperation is the closed root Local Executor action performed
+// under one opaque grant. It separates initial execution from reconciliation
+// and separates self-update staging from activation.
+type UpdaterMutationOperation string
+
+const (
+	UpdaterMutationApply                    UpdaterMutationOperation = "apply"
+	UpdaterMutationReconcile                UpdaterMutationOperation = "reconcile"
+	UpdaterMutationPortReconfigure          UpdaterMutationOperation = "port_reconfigure"
+	UpdaterMutationPortReconfigureReconcile UpdaterMutationOperation = "port_reconfigure_reconcile"
+	UpdaterMutationBootstrap                UpdaterMutationOperation = "bootstrap"
+	UpdaterMutationBootstrapReconcile       UpdaterMutationOperation = "bootstrap_reconcile"
+	UpdaterMutationHostSelfUpdateStage      UpdaterMutationOperation = "host_self_update_stage"
+	UpdaterMutationHostSelfUpdateActivate   UpdaterMutationOperation = "host_self_update_activate"
+	UpdaterMutationHostSelfUpdateReconcile  UpdaterMutationOperation = "host_self_update_reconcile"
+)
+
 type UpdaterOutcome string
 
 const (
@@ -262,11 +314,21 @@ type UpdaterHealth struct {
 	SafeErrorCode string `json:"safe_error_code,omitempty"`
 }
 
+type UpdaterTargetKind string
+
+const (
+	UpdaterTargetApplication UpdaterTargetKind = "application"
+	UpdaterTargetUpdateAgent UpdaterTargetKind = "update_agent"
+	UpdaterTargetHostRuntime UpdaterTargetKind = "host_runtime"
+)
+
 type UpdaterTargetIdentity struct {
+	TargetKind             UpdaterTargetKind          `json:"target_kind"`
 	ServiceID              string                     `json:"service_id"`
 	ServiceType            SystemUpdateTargetType     `json:"service_type"`
 	DeploymentMode         SystemUpdateDeploymentMode `json:"deployment_mode"`
 	ExpectedConfigRevision int64                      `json:"expected_config_revision,omitempty"`
+	ExecutionHostID        string                     `json:"execution_host_id,omitempty"`
 }
 
 type UpdaterCommandIssuer struct {
@@ -299,6 +361,7 @@ type UpdaterCommandEnvelope struct {
 	IdempotencyKey         string                       `json:"idempotency_key"`
 	CanonicalPayloadDigest string                       `json:"canonical_payload_digest"`
 	MutationAuthorization  UpdaterMutationAuthorization `json:"mutation_authorization"`
+	DesiredOperation       UpdaterDesiredOperation      `json:"desired_operation"`
 	AuditCorrelationID     string                       `json:"audit_correlation_id"`
 }
 
@@ -306,6 +369,7 @@ type UpdaterLeaseEnvelope struct {
 	ProtocolVersion int                    `json:"protocol_version"`
 	LeaseID         string                 `json:"lease_id"`
 	LeaseGeneration int64                  `json:"lease_generation"`
+	LeaseExpiresAt  time.Time              `json:"lease_expires_at"`
 	Command         UpdaterCommandEnvelope `json:"command"`
 }
 
@@ -322,6 +386,8 @@ type UpdaterProgressEnvelope struct {
 	JobID              string    `json:"job_id"`
 	UpdaterID          string    `json:"updater_id"`
 	HostID             string    `json:"host_id"`
+	LeaseID            string    `json:"lease_id"`
+	LeaseGeneration    int64     `json:"lease_generation"`
 	Sequence           int64     `json:"sequence"`
 	Phase              string    `json:"phase"`
 	Progress           int       `json:"progress"`
@@ -337,6 +403,8 @@ type UpdaterResultEnvelope struct {
 	JobID                  string              `json:"job_id"`
 	UpdaterID              string              `json:"updater_id"`
 	HostID                 string              `json:"host_id"`
+	LeaseID                string              `json:"lease_id"`
+	LeaseGeneration        int64               `json:"lease_generation"`
 	IdempotencyKey         string              `json:"idempotency_key"`
 	CanonicalPayloadDigest string              `json:"canonical_payload_digest"`
 	AuthorizationID        string              `json:"authorization_id"`
@@ -349,6 +417,39 @@ type UpdaterResultEnvelope struct {
 	AuditCorrelationID     string              `json:"audit_correlation_id"`
 	Evidence               []UpdaterEvidence   `json:"evidence"`
 	SafeError              *V2UpdaterSafeError `json:"safe_error,omitempty"`
+}
+
+// UpdaterRuntimeTokenRotationCredentialClaimRequest is the only shared wire
+// shape needed to claim a staged runtime credential. The raw replacement token
+// is intentionally absent: it is returned only by the one-time no-store claim
+// response and is forbidden in Updater commands, progress, results and local
+// journal records.
+type UpdaterRuntimeTokenRotationCredentialClaimRequest struct {
+	ExpectedRevision int64  `json:"expected_revision"`
+	ClaimID          string `json:"claim_id"`
+}
+
+// UpdaterMutationGrantBinding is the complete credential-free request and
+// consume binding for one root Local Executor mutation. Reusing the lease
+// preserves the exact command, authorization, fence, JCS digest and desired
+// plan without a second consumer-local representation.
+type UpdaterMutationGrantBinding struct {
+	Lease     UpdaterLeaseEnvelope     `json:"lease"`
+	Operation UpdaterMutationOperation `json:"operation"`
+	SessionID string                   `json:"session_id"`
+}
+
+type UpdaterMutationGrantIssueRequest struct {
+	Binding UpdaterMutationGrantBinding `json:"binding"`
+}
+
+// UpdaterMutationGrantIssueResponse reuses the existing response-only opaque
+// credential shape. The grant token must be emitted with Cache-Control:
+// no-store and supplied to Local Executor only as its authorization proof.
+type UpdaterMutationGrantIssueResponse = UpdateAgentMutationGrantIssueResponse
+
+type UpdaterMutationGrantConsumeRequest struct {
+	Binding UpdaterMutationGrantBinding `json:"binding"`
 }
 
 type UpdaterHeartbeat struct {
