@@ -116,7 +116,9 @@ func TestJSONSchemaCharacterization(t *testing.T) {
 		len(manifest.UnsupportedKeywords) + len(manifest.MissingRefs) + len(manifest.ExternalNetworkRefs) +
 		len(manifest.CompileErrors)
 	if issues != 0 {
-		t.Fatalf("JSON Schema characterization found %d issue(s); inspect schemas.json", issues)
+		t.Fatalf("JSON Schema characterization found %d issue(s): duplicate_ids=%v invalid_ids=%v unsupported_drafts=%v unsupported_keywords=%v missing_refs=%v external_network_refs=%v compile_errors=%v",
+			issues, manifest.DuplicateIDs, manifest.InvalidIDs, manifest.UnsupportedDrafts,
+			manifest.UnsupportedKeywords, manifest.MissingRefs, manifest.ExternalNetworkRefs, manifest.CompileErrors)
 	}
 	if manifest.SchemaCount == 0 {
 		t.Fatal("JSON Schema characterization found no schemas")
