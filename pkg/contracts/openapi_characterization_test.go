@@ -1242,7 +1242,46 @@ func canonicalCharacterizationJSON(t *testing.T, value any) []byte {
 	if err := encoder.Encode(value); err != nil {
 		t.Fatalf("encode canonical characterization JSON: %v", err)
 	}
-	return bytes.TrimSuffix(buffer.Bytes(), []byte("\n"))
+	return normalizeJavaScriptJSONLineSeparators(bytes.TrimSuffix(buffer.Bytes(), []byte("\n")))
+}
+
+func TestCanonicalCharacterizationJSONMatchesJavaScriptLineSeparatorEncoding(t *testing.T) {
+	got := string(canonicalCharacterizationJSON(t, map[string]any{
+		"actual":  "\u2028\u2029",
+		"literal": `\u2028`,
+	}))
+	want := "{\"actual\":\"\u2028\u2029\",\"literal\":\"\\\\u2028\"}"
+	if got != want {
+		t.Fatalf("canonical JSON = %q, want %q", got, want)
+	}
+}
+
+// JavaScript JSON.stringify emits U+2028 and U+2029 literally, while Go's
+// encoding/json escapes them for JSONP safety even when HTML escaping is off.
+// The pinned characterization generator is JavaScript, so normalize only
+// unescaped instances without corrupting a literal "\\u2028" string.
+func normalizeJavaScriptJSONLineSeparators(encoded []byte) []byte {
+	normalized := make([]byte, 0, len(encoded))
+	for index := 0; index < len(encoded); {
+		if index+1 < len(encoded) && encoded[index] == '\\' && encoded[index+1] == '\\' {
+			normalized = append(normalized, encoded[index], encoded[index+1])
+			index += 2
+			continue
+		}
+		if index+6 <= len(encoded) && bytes.Equal(encoded[index:index+6], []byte(`\u2028`)) {
+			normalized = append(normalized, []byte("\u2028")...)
+			index += 6
+			continue
+		}
+		if index+6 <= len(encoded) && bytes.Equal(encoded[index:index+6], []byte(`\u2029`)) {
+			normalized = append(normalized, []byte("\u2029")...)
+			index += 6
+			continue
+		}
+		normalized = append(normalized, encoded[index])
+		index++
+	}
+	return normalized
 }
 
 func countAsInt(t *testing.T, object map[string]any, field string) int {
