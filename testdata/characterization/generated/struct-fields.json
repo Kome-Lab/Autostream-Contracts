@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 182,
+  "struct_count": 190,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -14774,6 +14774,34 @@
       ]
     },
     {
+      "name": "UpdaterBootstrapDesiredOperation",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ExpectedState",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"expected_state\"",
+          "json_name": "expected_state",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "TargetVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"target_version\"",
+          "json_name": "target_version",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
       "name": "UpdaterCommandEnvelope",
       "alias": false,
       "fields": [
@@ -14845,6 +14873,17 @@
         },
         {
           "index": 6,
+          "name": "DesiredOperation",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterDesiredOperation",
+          "struct_tag": "json:\"desired_operation\"",
+          "json_name": "desired_operation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
           "name": "AuditCorrelationID",
           "exported": true,
           "embedded": false,
@@ -14903,6 +14942,67 @@
           "json_name": "permission",
           "json_ignored": false,
           "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterDesiredOperation",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Operation",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterDesiredOperationType",
+          "struct_tag": "json:\"operation\"",
+          "json_name": "operation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "SoftwareUpdate",
+          "exported": true,
+          "embedded": false,
+          "type": "*UpdaterSoftwareUpdateDesiredOperation",
+          "struct_tag": "json:\"software_update,omitempty\"",
+          "json_name": "software_update",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "Bootstrap",
+          "exported": true,
+          "embedded": false,
+          "type": "*UpdaterBootstrapDesiredOperation",
+          "struct_tag": "json:\"bootstrap,omitempty\"",
+          "json_name": "bootstrap",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "PortReconfigure",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortReconfiguration",
+          "struct_tag": "json:\"port_reconfigure,omitempty\"",
+          "json_name": "port_reconfigure",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "HostSelfUpdate",
+          "exported": true,
+          "embedded": false,
+          "type": "*HostAgentSelfUpdateDirective",
+          "struct_tag": "json:\"host_self_update,omitempty\"",
+          "json_name": "host_self_update",
+          "json_ignored": false,
+          "omitempty": true
         }
       ]
     },
@@ -15183,6 +15283,17 @@
         },
         {
           "index": 3,
+          "name": "LeaseExpiresAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"lease_expires_at\"",
+          "json_name": "lease_expires_at",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
           "name": "Command",
           "exported": true,
           "embedded": false,
@@ -15482,6 +15593,107 @@
       ]
     },
     {
+      "name": "UpdaterMutationGrantBinding",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Lease",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterLeaseEnvelope",
+          "struct_tag": "json:\"lease\"",
+          "json_name": "lease",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Operation",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterMutationOperation",
+          "struct_tag": "json:\"operation\"",
+          "json_name": "operation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "SessionID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"session_id\"",
+          "json_name": "session_id",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterMutationGrantConsumeRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Binding",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterMutationGrantBinding",
+          "struct_tag": "json:\"binding\"",
+          "json_name": "binding",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterMutationGrantIssueRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Binding",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterMutationGrantBinding",
+          "struct_tag": "json:\"binding\"",
+          "json_name": "binding",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterMutationGrantIssueResponse",
+      "alias": true,
+      "fields": [
+        {
+          "index": 0,
+          "name": "GrantToken",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"grant_token\"",
+          "json_name": "grant_token",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ExpiresAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"expires_at\"",
+          "json_name": "expires_at",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
       "name": "UpdaterProgressEnvelope",
       "alias": false,
       "fields": [
@@ -15542,6 +15754,28 @@
         },
         {
           "index": 5,
+          "name": "LeaseID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"lease_id\"",
+          "json_name": "lease_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "LeaseGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"lease_generation\"",
+          "json_name": "lease_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
           "name": "Sequence",
           "exported": true,
           "embedded": false,
@@ -15552,7 +15786,7 @@
           "omitempty": false
         },
         {
-          "index": 6,
+          "index": 8,
           "name": "Phase",
           "exported": true,
           "embedded": false,
@@ -15563,7 +15797,7 @@
           "omitempty": false
         },
         {
-          "index": 7,
+          "index": 9,
           "name": "Progress",
           "exported": true,
           "embedded": false,
@@ -15574,7 +15808,7 @@
           "omitempty": false
         },
         {
-          "index": 8,
+          "index": 10,
           "name": "DesiredRevision",
           "exported": true,
           "embedded": false,
@@ -15585,7 +15819,7 @@
           "omitempty": false
         },
         {
-          "index": 9,
+          "index": 11,
           "name": "Fence",
           "exported": true,
           "embedded": false,
@@ -15596,7 +15830,7 @@
           "omitempty": false
         },
         {
-          "index": 10,
+          "index": 12,
           "name": "AuditCorrelationID",
           "exported": true,
           "embedded": false,
@@ -15607,7 +15841,7 @@
           "omitempty": false
         },
         {
-          "index": 11,
+          "index": 13,
           "name": "ObservedAt",
           "exported": true,
           "embedded": false,
@@ -15680,6 +15914,28 @@
         },
         {
           "index": 5,
+          "name": "LeaseID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"lease_id\"",
+          "json_name": "lease_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "LeaseGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"lease_generation\"",
+          "json_name": "lease_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
           "name": "IdempotencyKey",
           "exported": true,
           "embedded": false,
@@ -15690,7 +15946,7 @@
           "omitempty": false
         },
         {
-          "index": 6,
+          "index": 8,
           "name": "CanonicalPayloadDigest",
           "exported": true,
           "embedded": false,
@@ -15701,7 +15957,7 @@
           "omitempty": false
         },
         {
-          "index": 7,
+          "index": 9,
           "name": "AuthorizationID",
           "exported": true,
           "embedded": false,
@@ -15712,7 +15968,7 @@
           "omitempty": false
         },
         {
-          "index": 8,
+          "index": 10,
           "name": "DesiredRevision",
           "exported": true,
           "embedded": false,
@@ -15723,7 +15979,7 @@
           "omitempty": false
         },
         {
-          "index": 9,
+          "index": 11,
           "name": "AppliedRevision",
           "exported": true,
           "embedded": false,
@@ -15734,7 +15990,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 12,
           "name": "Fence",
           "exported": true,
           "embedded": false,
@@ -15745,7 +16001,7 @@
           "omitempty": false
         },
         {
-          "index": 11,
+          "index": 13,
           "name": "Outcome",
           "exported": true,
           "embedded": false,
@@ -15756,7 +16012,7 @@
           "omitempty": false
         },
         {
-          "index": 12,
+          "index": 14,
           "name": "Status",
           "exported": true,
           "embedded": false,
@@ -15767,7 +16023,7 @@
           "omitempty": false
         },
         {
-          "index": 13,
+          "index": 15,
           "name": "AutomaticResendAllowed",
           "exported": true,
           "embedded": false,
@@ -15778,7 +16034,7 @@
           "omitempty": false
         },
         {
-          "index": 14,
+          "index": 16,
           "name": "AuditCorrelationID",
           "exported": true,
           "embedded": false,
@@ -15789,7 +16045,7 @@
           "omitempty": false
         },
         {
-          "index": 15,
+          "index": 17,
           "name": "Evidence",
           "exported": true,
           "embedded": false,
@@ -15800,7 +16056,7 @@
           "omitempty": false
         },
         {
-          "index": 16,
+          "index": 18,
           "name": "SafeError",
           "exported": true,
           "embedded": false,
@@ -15813,11 +16069,89 @@
       ]
     },
     {
+      "name": "UpdaterRuntimeTokenRotationCredentialClaimRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ExpectedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"expected_revision\"",
+          "json_name": "expected_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ClaimID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"claim_id\"",
+          "json_name": "claim_id",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterSoftwareUpdateDesiredOperation",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ExpectedCurrentVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"expected_current_version\"",
+          "json_name": "expected_current_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "TargetVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"target_version\"",
+          "json_name": "target_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Strategy",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateStrategy",
+          "struct_tag": "json:\"strategy\"",
+          "json_name": "strategy",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
       "name": "UpdaterTargetIdentity",
       "alias": false,
       "fields": [
         {
           "index": 0,
+          "name": "TargetKind",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterTargetKind",
+          "struct_tag": "json:\"target_kind\"",
+          "json_name": "target_kind",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
           "name": "ServiceID",
           "exported": true,
           "embedded": false,
@@ -15828,7 +16162,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "ServiceType",
           "exported": true,
           "embedded": false,
@@ -15839,7 +16173,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "DeploymentMode",
           "exported": true,
           "embedded": false,
@@ -15850,13 +16184,24 @@
           "omitempty": false
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "ExpectedConfigRevision",
           "exported": true,
           "embedded": false,
           "type": "int64",
           "struct_tag": "json:\"expected_config_revision,omitempty\"",
           "json_name": "expected_config_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "ExecutionHostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"execution_host_id,omitempty\"",
+          "json_name": "execution_host_id",
           "json_ignored": false,
           "omitempty": true
         }

@@ -2,7 +2,7 @@
   "format_version": 1,
   "package_import_path": "github.com/example/autostream-contracts/pkg/contracts",
   "package_name": "contracts",
-  "exported_identifier_count": 592,
+  "exported_identifier_count": 636,
   "exported_method_count": 0,
   "identifiers": [
     {
@@ -62,6 +62,12 @@
       "underlying": "struct{ID string \"json:\\\"id\\\"\"; Timestamp time.Time \"json:\\\"timestamp\\\"\"; ActorUserID string \"json:\\\"actor_user_id,omitempty\\\"\"; ActorUsername string \"json:\\\"actor_username,omitempty\\\"\"; ActorIP string \"json:\\\"actor_ip,omitempty\\\"\"; UserAgent string \"json:\\\"user_agent,omitempty\\\"\"; Action string \"json:\\\"action\\\"\"; ResourceType string \"json:\\\"resource_type\\\"\"; ResourceID string \"json:\\\"resource_id,omitempty\\\"\"; Result string \"json:\\\"result\\\"\"; Metadata map[string]any \"json:\\\"metadata,omitempty\\\"\"; RequestID string \"json:\\\"request_id\\\"\"}"
     },
     {
+      "name": "CanonicalUpdaterSafeErrorMessage",
+      "kind": "func",
+      "type": "func(code string) (string, bool)",
+      "alias": false
+    },
+    {
       "name": "CapabilityDiscordResolvedTargetV2",
       "kind": "const",
       "type": "untyped string",
@@ -116,6 +122,12 @@
       "type": "CaptionProfileConfig",
       "alias": false,
       "underlying": "struct{Provider string \"json:\\\"provider\\\"\"; Model string \"json:\\\"model\\\"\"; Language string \"json:\\\"language\\\"\"; APIKeySecretName string \"json:\\\"api_key_secret_name\\\"\"; EndpointingMS int \"json:\\\"endpointing_ms\\\"\"; UtteranceEndMS int \"json:\\\"utterance_end_ms\\\"\"; LocalFinalizeMS int \"json:\\\"local_finalize_ms\\\"\"; SpeakerIdleCloseSeconds int \"json:\\\"speaker_idle_close_seconds\\\"\"; KeepAliveIntervalSeconds int \"json:\\\"keepalive_interval_seconds\\\"\"; InterimResults bool \"json:\\\"interim_results\\\"\"; SmartFormat bool \"json:\\\"smart_format\\\"\"; Keyterms []string \"json:\\\"keyterms,omitempty\\\"\"; MIPOptOut bool \"json:\\\"mip_opt_out\\\"\"; ReplayBufferMaxMS int \"json:\\\"replay_buffer_max_ms\\\"\"; DelayMS int \"json:\\\"delay_ms\\\"\"; CaptionAudioFlushMS int \"json:\\\"caption_audio_flush_ms\\\"\"; CaptionAudioMaxBatchPackets int \"json:\\\"caption_audio_max_batch_packets\\\"\"; UnresolvedSSRCBufferMS int \"json:\\\"unresolved_ssrc_buffer_ms\\\"\"; ConversationMaxItems int \"json:\\\"conversation_max_items\\\"\"; ConversationReorderWindowMS int \"json:\\\"conversation_reorder_window_ms\\\"\"; VoiceInterimTTLSeconds int \"json:\\\"voice_interim_ttl_seconds\\\"\"; VoiceFinalTTLSeconds int \"json:\\\"voice_final_ttl_seconds\\\"\"; ShowVoiceTranscripts bool \"json:\\\"show_voice_transcripts\\\"\"; ShowLegacyCaptionBar bool \"json:\\\"show_legacy_caption_bar\\\"\"}"
+    },
+    {
+      "name": "ComputeUpdaterCommandCanonicalDigest",
+      "kind": "func",
+      "type": "func(target UpdaterTargetIdentity, desiredRevision int64, fence int64, desiredOperation UpdaterDesiredOperation) (string, error)",
+      "alias": false
     },
     {
       "name": "ControlNotificationChannelCreateRequest",
@@ -3418,6 +3430,13 @@
       "underlying": "string"
     },
     {
+      "name": "SystemUpdateTargetUpdateAgent",
+      "kind": "const",
+      "type": "SystemUpdateTargetType",
+      "alias": false,
+      "value": "\"update_agent\""
+    },
+    {
       "name": "SystemUpdateTargetWorker",
       "kind": "const",
       "type": "SystemUpdateTargetType",
@@ -3537,6 +3556,13 @@
       "value": "\"ssh_v1\""
     },
     {
+      "name": "UpdaterBootstrapDesiredOperation",
+      "kind": "type",
+      "type": "UpdaterBootstrapDesiredOperation",
+      "alias": false,
+      "underlying": "struct{ExpectedState string \"json:\\\"expected_state\\\"\"; TargetVersion string \"json:\\\"target_version\\\"\"}"
+    },
+    {
       "name": "UpdaterCapability",
       "kind": "type",
       "type": "UpdaterCapability",
@@ -3590,7 +3616,7 @@
       "kind": "type",
       "type": "UpdaterCommandEnvelope",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; Issuer UpdaterCommandIssuer \"json:\\\"issuer\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; MutationAuthorization UpdaterMutationAuthorization \"json:\\\"mutation_authorization\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; Issuer UpdaterCommandIssuer \"json:\\\"issuer\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; MutationAuthorization UpdaterMutationAuthorization \"json:\\\"mutation_authorization\\\"\"; DesiredOperation UpdaterDesiredOperation \"json:\\\"desired_operation\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id\\\"\"}"
     },
     {
       "name": "UpdaterCommandIssuer",
@@ -3598,6 +3624,48 @@
       "type": "UpdaterCommandIssuer",
       "alias": false,
       "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; ServiceType string \"json:\\\"service_type\\\"\"; Authentication string \"json:\\\"authentication\\\"\"; Permission string \"json:\\\"permission\\\"\"}"
+    },
+    {
+      "name": "UpdaterDesiredBootstrap",
+      "kind": "const",
+      "type": "UpdaterDesiredOperationType",
+      "alias": false,
+      "value": "\"bootstrap\""
+    },
+    {
+      "name": "UpdaterDesiredHostSelfUpdate",
+      "kind": "const",
+      "type": "UpdaterDesiredOperationType",
+      "alias": false,
+      "value": "\"host_self_update\""
+    },
+    {
+      "name": "UpdaterDesiredOperation",
+      "kind": "type",
+      "type": "UpdaterDesiredOperation",
+      "alias": false,
+      "underlying": "struct{Operation UpdaterDesiredOperationType \"json:\\\"operation\\\"\"; SoftwareUpdate *UpdaterSoftwareUpdateDesiredOperation \"json:\\\"software_update,omitempty\\\"\"; Bootstrap *UpdaterBootstrapDesiredOperation \"json:\\\"bootstrap,omitempty\\\"\"; PortReconfigure *SystemUpdatePortReconfiguration \"json:\\\"port_reconfigure,omitempty\\\"\"; HostSelfUpdate *HostAgentSelfUpdateDirective \"json:\\\"host_self_update,omitempty\\\"\"}"
+    },
+    {
+      "name": "UpdaterDesiredOperationType",
+      "kind": "type",
+      "type": "UpdaterDesiredOperationType",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "UpdaterDesiredPortReconfigure",
+      "kind": "const",
+      "type": "UpdaterDesiredOperationType",
+      "alias": false,
+      "value": "\"port_reconfigure\""
+    },
+    {
+      "name": "UpdaterDesiredSoftwareUpdate",
+      "kind": "const",
+      "type": "UpdaterDesiredOperationType",
+      "alias": false,
+      "value": "\"software_update\""
     },
     {
       "name": "UpdaterEvidence",
@@ -3625,7 +3693,7 @@
       "kind": "type",
       "type": "UpdaterLeaseEnvelope",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; LeaseID string \"json:\\\"lease_id\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; Command UpdaterCommandEnvelope \"json:\\\"command\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; LeaseID string \"json:\\\"lease_id\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; LeaseExpiresAt time.Time \"json:\\\"lease_expires_at\\\"\"; Command UpdaterCommandEnvelope \"json:\\\"command\\\"\"}"
     },
     {
       "name": "UpdaterLocalJournalBoundary",
@@ -3635,11 +3703,109 @@
       "underlying": "struct{JournalID string \"json:\\\"journal_id\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; AuthorizationID string \"json:\\\"authorization_id\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Phase string \"json:\\\"phase\\\"\"; RecoveryState string \"json:\\\"recovery_state\\\"\"; RecordedAt time.Time \"json:\\\"recorded_at\\\"\"}"
     },
     {
+      "name": "UpdaterMutationApply",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"apply\""
+    },
+    {
       "name": "UpdaterMutationAuthorization",
       "kind": "type",
       "type": "UpdaterMutationAuthorization",
       "alias": false,
       "underlying": "struct{AuthorizationID string \"json:\\\"authorization_id\\\"\"; NonceID string \"json:\\\"nonce_id\\\"\"; JobID string \"json:\\\"job_id\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; ActionType UpdaterCapability \"json:\\\"action_type\\\"\"; Target UpdaterTargetIdentity \"json:\\\"target\\\"\"; CanonicalArgumentDigest string \"json:\\\"canonical_argument_digest\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; ExpiresAt time.Time \"json:\\\"expires_at\\\"\"; RequiredCapability UpdaterCapability \"json:\\\"required_capability\\\"\"; OneTime bool \"json:\\\"one_time\\\"\"}"
+    },
+    {
+      "name": "UpdaterMutationBootstrap",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"bootstrap\""
+    },
+    {
+      "name": "UpdaterMutationBootstrapReconcile",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"bootstrap_reconcile\""
+    },
+    {
+      "name": "UpdaterMutationGrantBinding",
+      "kind": "type",
+      "type": "UpdaterMutationGrantBinding",
+      "alias": false,
+      "underlying": "struct{Lease UpdaterLeaseEnvelope \"json:\\\"lease\\\"\"; Operation UpdaterMutationOperation \"json:\\\"operation\\\"\"; SessionID string \"json:\\\"session_id\\\"\"}"
+    },
+    {
+      "name": "UpdaterMutationGrantConsumeRequest",
+      "kind": "type",
+      "type": "UpdaterMutationGrantConsumeRequest",
+      "alias": false,
+      "underlying": "struct{Binding UpdaterMutationGrantBinding \"json:\\\"binding\\\"\"}"
+    },
+    {
+      "name": "UpdaterMutationGrantIssueRequest",
+      "kind": "type",
+      "type": "UpdaterMutationGrantIssueRequest",
+      "alias": false,
+      "underlying": "struct{Binding UpdaterMutationGrantBinding \"json:\\\"binding\\\"\"}"
+    },
+    {
+      "name": "UpdaterMutationGrantIssueResponse",
+      "kind": "type",
+      "type": "UpdaterMutationGrantIssueResponse",
+      "alias": true,
+      "underlying": "struct{GrantToken string \"json:\\\"grant_token\\\"\"; ExpiresAt time.Time \"json:\\\"expires_at\\\"\"}"
+    },
+    {
+      "name": "UpdaterMutationHostSelfUpdateActivate",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"host_self_update_activate\""
+    },
+    {
+      "name": "UpdaterMutationHostSelfUpdateReconcile",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"host_self_update_reconcile\""
+    },
+    {
+      "name": "UpdaterMutationHostSelfUpdateStage",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"host_self_update_stage\""
+    },
+    {
+      "name": "UpdaterMutationOperation",
+      "kind": "type",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "UpdaterMutationPortReconfigure",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"port_reconfigure\""
+    },
+    {
+      "name": "UpdaterMutationPortReconfigureReconcile",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"port_reconfigure_reconcile\""
+    },
+    {
+      "name": "UpdaterMutationReconcile",
+      "kind": "const",
+      "type": "UpdaterMutationOperation",
+      "alias": false,
+      "value": "\"reconcile\""
     },
     {
       "name": "UpdaterOutcome",
@@ -3681,21 +3847,63 @@
       "kind": "type",
       "type": "UpdaterProgressEnvelope",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; JobID string \"json:\\\"job_id\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; Sequence int64 \"json:\\\"sequence\\\"\"; Phase string \"json:\\\"phase\\\"\"; Progress int \"json:\\\"progress\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id\\\"\"; ObservedAt time.Time \"json:\\\"observed_at\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; JobID string \"json:\\\"job_id\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; LeaseID string \"json:\\\"lease_id\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; Sequence int64 \"json:\\\"sequence\\\"\"; Phase string \"json:\\\"phase\\\"\"; Progress int \"json:\\\"progress\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id\\\"\"; ObservedAt time.Time \"json:\\\"observed_at\\\"\"}"
     },
     {
       "name": "UpdaterResultEnvelope",
       "kind": "type",
       "type": "UpdaterResultEnvelope",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; JobID string \"json:\\\"job_id\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; AuthorizationID string \"json:\\\"authorization_id\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision,omitempty\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Outcome UpdaterOutcome \"json:\\\"outcome\\\"\"; Status SystemUpdateStatus \"json:\\\"status\\\"\"; AutomaticResendAllowed bool \"json:\\\"automatic_resend_allowed\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id\\\"\"; Evidence []UpdaterEvidence \"json:\\\"evidence\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; JobID string \"json:\\\"job_id\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; LeaseID string \"json:\\\"lease_id\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; AuthorizationID string \"json:\\\"authorization_id\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision,omitempty\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Outcome UpdaterOutcome \"json:\\\"outcome\\\"\"; Status SystemUpdateStatus \"json:\\\"status\\\"\"; AutomaticResendAllowed bool \"json:\\\"automatic_resend_allowed\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id\\\"\"; Evidence []UpdaterEvidence \"json:\\\"evidence\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"}"
+    },
+    {
+      "name": "UpdaterRuntimeTokenRotationCredentialClaimRequest",
+      "kind": "type",
+      "type": "UpdaterRuntimeTokenRotationCredentialClaimRequest",
+      "alias": false,
+      "underlying": "struct{ExpectedRevision int64 \"json:\\\"expected_revision\\\"\"; ClaimID string \"json:\\\"claim_id\\\"\"}"
+    },
+    {
+      "name": "UpdaterSoftwareUpdateDesiredOperation",
+      "kind": "type",
+      "type": "UpdaterSoftwareUpdateDesiredOperation",
+      "alias": false,
+      "underlying": "struct{ExpectedCurrentVersion string \"json:\\\"expected_current_version\\\"\"; TargetVersion string \"json:\\\"target_version\\\"\"; Strategy SystemUpdateStrategy \"json:\\\"strategy\\\"\"}"
+    },
+    {
+      "name": "UpdaterTargetApplication",
+      "kind": "const",
+      "type": "UpdaterTargetKind",
+      "alias": false,
+      "value": "\"application\""
+    },
+    {
+      "name": "UpdaterTargetHostRuntime",
+      "kind": "const",
+      "type": "UpdaterTargetKind",
+      "alias": false,
+      "value": "\"host_runtime\""
     },
     {
       "name": "UpdaterTargetIdentity",
       "kind": "type",
       "type": "UpdaterTargetIdentity",
       "alias": false,
-      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; ServiceType SystemUpdateTargetType \"json:\\\"service_type\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; ExpectedConfigRevision int64 \"json:\\\"expected_config_revision,omitempty\\\"\"}"
+      "underlying": "struct{TargetKind UpdaterTargetKind \"json:\\\"target_kind\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; ServiceType SystemUpdateTargetType \"json:\\\"service_type\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; ExpectedConfigRevision int64 \"json:\\\"expected_config_revision,omitempty\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id,omitempty\\\"\"}"
+    },
+    {
+      "name": "UpdaterTargetKind",
+      "kind": "type",
+      "type": "UpdaterTargetKind",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "UpdaterTargetUpdateAgent",
+      "kind": "const",
+      "type": "UpdaterTargetKind",
+      "alias": false,
+      "value": "\"update_agent\""
     },
     {
       "name": "V2UpdaterSafeError",
@@ -3720,6 +3928,90 @@
       "name": "ValidateEncoderVideoCoverRuntimeState",
       "kind": "func",
       "type": "func(pathStreamID string, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdateAgentClearActiveJobResponse",
+      "kind": "func",
+      "type": "func(payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterCommand",
+      "kind": "func",
+      "type": "func(command UpdaterCommandEnvelope) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterCommandEnvelope",
+      "kind": "func",
+      "type": "func(payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterLease",
+      "kind": "func",
+      "type": "func(now time.Time, lease UpdaterLeaseEnvelope) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterLeaseEnvelope",
+      "kind": "func",
+      "type": "func(now time.Time, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterMutationGrantBinding",
+      "kind": "func",
+      "type": "func(now time.Time, binding UpdaterMutationGrantBinding) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterMutationGrantConsumeRequest",
+      "kind": "func",
+      "type": "func(now time.Time, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterMutationGrantIssueRequest",
+      "kind": "func",
+      "type": "func(now time.Time, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterMutationGrantIssueResponse",
+      "kind": "func",
+      "type": "func(now time.Time, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterMutationGrantIssueResponseForLease",
+      "kind": "func",
+      "type": "func(now time.Time, lease UpdaterLeaseEnvelope, response UpdaterMutationGrantIssueResponse) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterProgress",
+      "kind": "func",
+      "type": "func(lease UpdaterLeaseEnvelope, progress UpdaterProgressEnvelope) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterProgressEnvelope",
+      "kind": "func",
+      "type": "func(lease UpdaterLeaseEnvelope, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterResult",
+      "kind": "func",
+      "type": "func(lease UpdaterLeaseEnvelope, result UpdaterResultEnvelope) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterResultEnvelope",
+      "kind": "func",
+      "type": "func(lease UpdaterLeaseEnvelope, payload []byte) error",
       "alias": false
     },
     {

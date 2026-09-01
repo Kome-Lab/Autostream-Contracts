@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "constant_count": 363,
+  "constant_count": 380,
   "constants": [
     {
       "name": "AssignmentRolePrimary",
@@ -1813,6 +1813,12 @@
       "value": "\"observability\""
     },
     {
+      "name": "SystemUpdateTargetUpdateAgent",
+      "type": "SystemUpdateTargetType",
+      "enum_type": "SystemUpdateTargetType",
+      "value": "\"update_agent\""
+    },
+    {
       "name": "SystemUpdateTargetWorker",
       "type": "SystemUpdateTargetType",
       "enum_type": "SystemUpdateTargetType",
@@ -1891,6 +1897,84 @@
       "value": "\"host.update\""
     },
     {
+      "name": "UpdaterDesiredBootstrap",
+      "type": "UpdaterDesiredOperationType",
+      "enum_type": "UpdaterDesiredOperationType",
+      "value": "\"bootstrap\""
+    },
+    {
+      "name": "UpdaterDesiredHostSelfUpdate",
+      "type": "UpdaterDesiredOperationType",
+      "enum_type": "UpdaterDesiredOperationType",
+      "value": "\"host_self_update\""
+    },
+    {
+      "name": "UpdaterDesiredPortReconfigure",
+      "type": "UpdaterDesiredOperationType",
+      "enum_type": "UpdaterDesiredOperationType",
+      "value": "\"port_reconfigure\""
+    },
+    {
+      "name": "UpdaterDesiredSoftwareUpdate",
+      "type": "UpdaterDesiredOperationType",
+      "enum_type": "UpdaterDesiredOperationType",
+      "value": "\"software_update\""
+    },
+    {
+      "name": "UpdaterMutationApply",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"apply\""
+    },
+    {
+      "name": "UpdaterMutationBootstrap",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"bootstrap\""
+    },
+    {
+      "name": "UpdaterMutationBootstrapReconcile",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"bootstrap_reconcile\""
+    },
+    {
+      "name": "UpdaterMutationHostSelfUpdateActivate",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"host_self_update_activate\""
+    },
+    {
+      "name": "UpdaterMutationHostSelfUpdateReconcile",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"host_self_update_reconcile\""
+    },
+    {
+      "name": "UpdaterMutationHostSelfUpdateStage",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"host_self_update_stage\""
+    },
+    {
+      "name": "UpdaterMutationPortReconfigure",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"port_reconfigure\""
+    },
+    {
+      "name": "UpdaterMutationPortReconfigureReconcile",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"port_reconfigure_reconcile\""
+    },
+    {
+      "name": "UpdaterMutationReconcile",
+      "type": "UpdaterMutationOperation",
+      "enum_type": "UpdaterMutationOperation",
+      "value": "\"reconcile\""
+    },
+    {
       "name": "UpdaterOutcomeAmbiguous",
       "type": "UpdaterOutcome",
       "enum_type": "UpdaterOutcome",
@@ -1913,6 +1997,24 @@
       "type": "UpdaterOutcome",
       "enum_type": "UpdaterOutcome",
       "value": "\"succeeded\""
+    },
+    {
+      "name": "UpdaterTargetApplication",
+      "type": "UpdaterTargetKind",
+      "enum_type": "UpdaterTargetKind",
+      "value": "\"application\""
+    },
+    {
+      "name": "UpdaterTargetHostRuntime",
+      "type": "UpdaterTargetKind",
+      "enum_type": "UpdaterTargetKind",
+      "value": "\"host_runtime\""
+    },
+    {
+      "name": "UpdaterTargetUpdateAgent",
+      "type": "UpdaterTargetKind",
+      "enum_type": "UpdaterTargetKind",
+      "value": "\"update_agent\""
     },
     {
       "name": "VisualErrorCapabilityRequired",

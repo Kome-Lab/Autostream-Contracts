@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 182,
+  "struct_count": 190,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -6899,9 +6899,31 @@
       }
     },
     {
+      "name": "UpdaterBootstrapDesiredOperation",
+      "wire_json": "{\"expected_state\":\"\",\"target_version\":\"\"}",
+      "wire_sha256": "a0d12b2a5299de1cd4e4bf43f1861a9cbdbbab903677e2cd5b9a9cd397652a7c",
+      "shape": {
+        "fields": [
+          {
+            "name": "expected_state",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "UpdaterCommandEnvelope",
-      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"audit_correlation_id\":\"\"}",
-      "wire_sha256": "a729c2f087ad09d35b221a29c36b06993265ac5604614f08bf33685b5ed019df",
+      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"target_kind\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"desired_operation\":{\"operation\":\"\"},\"audit_correlation_id\":\"\"}",
+      "wire_sha256": "c825ca2faa9ae9cdb45eb3971d495168a62d0fd54752a28a3408b42d55b50b7c",
       "shape": {
         "fields": [
           {
@@ -6920,6 +6942,20 @@
             "name": "command_id",
             "shape": {
               "kind": "string"
+            }
+          },
+          {
+            "name": "desired_operation",
+            "shape": {
+              "fields": [
+                {
+                  "name": "operation",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
             }
           },
           {
@@ -7051,6 +7087,12 @@
                         "shape": {
                           "kind": "string"
                         }
+                      },
+                      {
+                        "name": "target_kind",
+                        "shape": {
+                          "kind": "string"
+                        }
                       }
                     ],
                     "kind": "object"
@@ -7102,6 +7144,22 @@
           },
           {
             "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterDesiredOperation",
+      "wire_json": "{\"operation\":\"\"}",
+      "wire_sha256": "24e8f754ac20a2e67aa6f44b09e932a4b76f593701db08527179a369b88f9686",
+      "shape": {
+        "fields": [
+          {
+            "name": "operation",
             "shape": {
               "kind": "string"
             }
@@ -7244,8 +7302,8 @@
     },
     {
       "name": "UpdaterLeaseEnvelope",
-      "wire_json": "{\"protocol_version\":0,\"lease_id\":\"\",\"lease_generation\":0,\"command\":{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"audit_correlation_id\":\"\"}}",
-      "wire_sha256": "0db9d3c99efa501639f9ef32bad6174c4059932fc5e5e30f2358e439563edd74",
+      "wire_json": "{\"protocol_version\":0,\"lease_id\":\"\",\"lease_generation\":0,\"lease_expires_at\":\"0001-01-01T00:00:00Z\",\"command\":{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"target_kind\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"desired_operation\":{\"operation\":\"\"},\"audit_correlation_id\":\"\"}}",
+      "wire_sha256": "a07b98fa32bfdc15cb0785d5f7e93cbca0feee3bd54481b309237eae064d2348",
       "shape": {
         "fields": [
           {
@@ -7268,6 +7326,20 @@
                   "name": "command_id",
                   "shape": {
                     "kind": "string"
+                  }
+                },
+                {
+                  "name": "desired_operation",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "operation",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
                   }
                 },
                 {
@@ -7399,6 +7471,12 @@
                               "shape": {
                                 "kind": "string"
                               }
+                            },
+                            {
+                              "name": "target_kind",
+                              "shape": {
+                                "kind": "string"
+                              }
                             }
                           ],
                           "kind": "object"
@@ -7422,6 +7500,12 @@
                 }
               ],
               "kind": "object"
+            }
+          },
+          {
+            "name": "lease_expires_at",
+            "shape": {
+              "kind": "string"
             }
           },
           {
@@ -7530,8 +7614,8 @@
     },
     {
       "name": "UpdaterMutationAuthorization",
-      "wire_json": "{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false}",
-      "wire_sha256": "0c828fdc9c39330747b5b7c179d5213895aaed62b221561c44b077c743c323e4",
+      "wire_json": "{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"target_kind\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false}",
+      "wire_sha256": "35f30515ed385b99d1f980b1ef48150bf7338db76ed6fd21e44659dbcec1636c",
       "shape": {
         "fields": [
           {
@@ -7621,6 +7705,12 @@
                   "shape": {
                     "kind": "string"
                   }
+                },
+                {
+                  "name": "target_kind",
+                  "shape": {
+                    "kind": "string"
+                  }
                 }
               ],
               "kind": "object"
@@ -7637,9 +7727,797 @@
       }
     },
     {
+      "name": "UpdaterMutationGrantBinding",
+      "wire_json": "{\"lease\":{\"protocol_version\":0,\"lease_id\":\"\",\"lease_generation\":0,\"lease_expires_at\":\"0001-01-01T00:00:00Z\",\"command\":{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"target_kind\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"desired_operation\":{\"operation\":\"\"},\"audit_correlation_id\":\"\"}},\"operation\":\"\",\"session_id\":\"\"}",
+      "wire_sha256": "f1be6ecde2ba7690f99dcbc4ccb03102deecb594efe6957cd3bc1c9b493a94ff",
+      "shape": {
+        "fields": [
+          {
+            "name": "lease",
+            "shape": {
+              "fields": [
+                {
+                  "name": "command",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "audit_correlation_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "canonical_payload_digest",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "command_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "desired_operation",
+                        "shape": {
+                          "fields": [
+                            {
+                              "name": "operation",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            }
+                          ],
+                          "kind": "object"
+                        }
+                      },
+                      {
+                        "name": "idempotency_key",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "issuer",
+                        "shape": {
+                          "fields": [
+                            {
+                              "name": "authentication",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "permission",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "service_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "service_type",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            }
+                          ],
+                          "kind": "object"
+                        }
+                      },
+                      {
+                        "name": "mutation_authorization",
+                        "shape": {
+                          "fields": [
+                            {
+                              "name": "action_type",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "authorization_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "canonical_argument_digest",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "desired_revision",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "expires_at",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "fence",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "host_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "job_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "nonce_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "one_time",
+                              "shape": {
+                                "kind": "boolean"
+                              }
+                            },
+                            {
+                              "name": "required_capability",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "target",
+                              "shape": {
+                                "fields": [
+                                  {
+                                    "name": "deployment_mode",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "service_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "service_type",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "target_kind",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  }
+                                ],
+                                "kind": "object"
+                              }
+                            },
+                            {
+                              "name": "updater_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            }
+                          ],
+                          "kind": "object"
+                        }
+                      },
+                      {
+                        "name": "protocol_version",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "lease_expires_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "lease_generation",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "lease_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "operation",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "session_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterMutationGrantConsumeRequest",
+      "wire_json": "{\"binding\":{\"lease\":{\"protocol_version\":0,\"lease_id\":\"\",\"lease_generation\":0,\"lease_expires_at\":\"0001-01-01T00:00:00Z\",\"command\":{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"target_kind\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"desired_operation\":{\"operation\":\"\"},\"audit_correlation_id\":\"\"}},\"operation\":\"\",\"session_id\":\"\"}}",
+      "wire_sha256": "6b1d735d572e05d26ccc8248d4c28b2e97621a85a7763aabd4dfdf187162d1b3",
+      "shape": {
+        "fields": [
+          {
+            "name": "binding",
+            "shape": {
+              "fields": [
+                {
+                  "name": "lease",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "command",
+                        "shape": {
+                          "fields": [
+                            {
+                              "name": "audit_correlation_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "canonical_payload_digest",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "command_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "desired_operation",
+                              "shape": {
+                                "fields": [
+                                  {
+                                    "name": "operation",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  }
+                                ],
+                                "kind": "object"
+                              }
+                            },
+                            {
+                              "name": "idempotency_key",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "issuer",
+                              "shape": {
+                                "fields": [
+                                  {
+                                    "name": "authentication",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "permission",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "service_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "service_type",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  }
+                                ],
+                                "kind": "object"
+                              }
+                            },
+                            {
+                              "name": "mutation_authorization",
+                              "shape": {
+                                "fields": [
+                                  {
+                                    "name": "action_type",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "authorization_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "canonical_argument_digest",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "desired_revision",
+                                    "shape": {
+                                      "kind": "number"
+                                    }
+                                  },
+                                  {
+                                    "name": "expires_at",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "fence",
+                                    "shape": {
+                                      "kind": "number"
+                                    }
+                                  },
+                                  {
+                                    "name": "host_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "job_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "nonce_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "one_time",
+                                    "shape": {
+                                      "kind": "boolean"
+                                    }
+                                  },
+                                  {
+                                    "name": "required_capability",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "target",
+                                    "shape": {
+                                      "fields": [
+                                        {
+                                          "name": "deployment_mode",
+                                          "shape": {
+                                            "kind": "string"
+                                          }
+                                        },
+                                        {
+                                          "name": "service_id",
+                                          "shape": {
+                                            "kind": "string"
+                                          }
+                                        },
+                                        {
+                                          "name": "service_type",
+                                          "shape": {
+                                            "kind": "string"
+                                          }
+                                        },
+                                        {
+                                          "name": "target_kind",
+                                          "shape": {
+                                            "kind": "string"
+                                          }
+                                        }
+                                      ],
+                                      "kind": "object"
+                                    }
+                                  },
+                                  {
+                                    "name": "updater_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  }
+                                ],
+                                "kind": "object"
+                              }
+                            },
+                            {
+                              "name": "protocol_version",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            }
+                          ],
+                          "kind": "object"
+                        }
+                      },
+                      {
+                        "name": "lease_expires_at",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "lease_generation",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "lease_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "protocol_version",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "operation",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "session_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterMutationGrantIssueRequest",
+      "wire_json": "{\"binding\":{\"lease\":{\"protocol_version\":0,\"lease_id\":\"\",\"lease_generation\":0,\"lease_expires_at\":\"0001-01-01T00:00:00Z\",\"command\":{\"protocol_version\":0,\"command_id\":\"\",\"issuer\":{\"service_id\":\"\",\"service_type\":\"\",\"authentication\":\"\",\"permission\":\"\"},\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"mutation_authorization\":{\"authorization_id\":\"\",\"nonce_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"action_type\":\"\",\"target\":{\"target_kind\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"},\"canonical_argument_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"expires_at\":\"0001-01-01T00:00:00Z\",\"required_capability\":\"\",\"one_time\":false},\"desired_operation\":{\"operation\":\"\"},\"audit_correlation_id\":\"\"}},\"operation\":\"\",\"session_id\":\"\"}}",
+      "wire_sha256": "6b1d735d572e05d26ccc8248d4c28b2e97621a85a7763aabd4dfdf187162d1b3",
+      "shape": {
+        "fields": [
+          {
+            "name": "binding",
+            "shape": {
+              "fields": [
+                {
+                  "name": "lease",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "command",
+                        "shape": {
+                          "fields": [
+                            {
+                              "name": "audit_correlation_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "canonical_payload_digest",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "command_id",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "desired_operation",
+                              "shape": {
+                                "fields": [
+                                  {
+                                    "name": "operation",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  }
+                                ],
+                                "kind": "object"
+                              }
+                            },
+                            {
+                              "name": "idempotency_key",
+                              "shape": {
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "name": "issuer",
+                              "shape": {
+                                "fields": [
+                                  {
+                                    "name": "authentication",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "permission",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "service_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "service_type",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  }
+                                ],
+                                "kind": "object"
+                              }
+                            },
+                            {
+                              "name": "mutation_authorization",
+                              "shape": {
+                                "fields": [
+                                  {
+                                    "name": "action_type",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "authorization_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "canonical_argument_digest",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "desired_revision",
+                                    "shape": {
+                                      "kind": "number"
+                                    }
+                                  },
+                                  {
+                                    "name": "expires_at",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "fence",
+                                    "shape": {
+                                      "kind": "number"
+                                    }
+                                  },
+                                  {
+                                    "name": "host_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "job_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "nonce_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "one_time",
+                                    "shape": {
+                                      "kind": "boolean"
+                                    }
+                                  },
+                                  {
+                                    "name": "required_capability",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  },
+                                  {
+                                    "name": "target",
+                                    "shape": {
+                                      "fields": [
+                                        {
+                                          "name": "deployment_mode",
+                                          "shape": {
+                                            "kind": "string"
+                                          }
+                                        },
+                                        {
+                                          "name": "service_id",
+                                          "shape": {
+                                            "kind": "string"
+                                          }
+                                        },
+                                        {
+                                          "name": "service_type",
+                                          "shape": {
+                                            "kind": "string"
+                                          }
+                                        },
+                                        {
+                                          "name": "target_kind",
+                                          "shape": {
+                                            "kind": "string"
+                                          }
+                                        }
+                                      ],
+                                      "kind": "object"
+                                    }
+                                  },
+                                  {
+                                    "name": "updater_id",
+                                    "shape": {
+                                      "kind": "string"
+                                    }
+                                  }
+                                ],
+                                "kind": "object"
+                              }
+                            },
+                            {
+                              "name": "protocol_version",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            }
+                          ],
+                          "kind": "object"
+                        }
+                      },
+                      {
+                        "name": "lease_expires_at",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "lease_generation",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "lease_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "protocol_version",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "operation",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "session_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterMutationGrantIssueResponse",
+      "wire_json": "{\"grant_token\":\"\",\"expires_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "0377f41801cdf7f013e89df8916085692ccbafe06d9d2da5da8688e0af0027e5",
+      "shape": {
+        "fields": [
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "grant_token",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "UpdaterProgressEnvelope",
-      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"sequence\":0,\"phase\":\"\",\"progress\":0,\"desired_revision\":0,\"fence\":0,\"audit_correlation_id\":\"\",\"observed_at\":\"0001-01-01T00:00:00Z\"}",
-      "wire_sha256": "0f2ce8bdcfcf8dd98f7d2f0137335578ffe23963e94c61c1263fa7e122177429",
+      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"lease_id\":\"\",\"lease_generation\":0,\"sequence\":0,\"phase\":\"\",\"progress\":0,\"desired_revision\":0,\"fence\":0,\"audit_correlation_id\":\"\",\"observed_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "654f649ec94d2b9011ead94aab4d6cce97765b42cf8a41e747c399fc096e92b3",
       "shape": {
         "fields": [
           {
@@ -7674,6 +8552,18 @@
           },
           {
             "name": "job_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "lease_id",
             "shape": {
               "kind": "string"
             }
@@ -7720,8 +8610,8 @@
     },
     {
       "name": "UpdaterResultEnvelope",
-      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"authorization_id\":\"\",\"desired_revision\":0,\"fence\":0,\"outcome\":\"\",\"status\":\"\",\"automatic_resend_allowed\":false,\"audit_correlation_id\":\"\",\"evidence\":null}",
-      "wire_sha256": "338b53877fc5cb27913cae61a16dac76c4e299ea7a3ca910eaf22778d13329c6",
+      "wire_json": "{\"protocol_version\":0,\"command_id\":\"\",\"job_id\":\"\",\"updater_id\":\"\",\"host_id\":\"\",\"lease_id\":\"\",\"lease_generation\":0,\"idempotency_key\":\"\",\"canonical_payload_digest\":\"\",\"authorization_id\":\"\",\"desired_revision\":0,\"fence\":0,\"outcome\":\"\",\"status\":\"\",\"automatic_resend_allowed\":false,\"audit_correlation_id\":\"\",\"evidence\":null}",
+      "wire_sha256": "ed4d8cd6b16ee0ed9e1cdd9dff52af7dbcd883636b8b61616eeb09907f1bd8f1",
       "shape": {
         "fields": [
           {
@@ -7791,6 +8681,18 @@
             }
           },
           {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "lease_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
             "name": "outcome",
             "shape": {
               "kind": "string"
@@ -7819,9 +8721,59 @@
       }
     },
     {
+      "name": "UpdaterRuntimeTokenRotationCredentialClaimRequest",
+      "wire_json": "{\"expected_revision\":0,\"claim_id\":\"\"}",
+      "wire_sha256": "cabeb05d8a181b17ffeebef96a13e0a591020adb892910f5d70ce05ef15277f8",
+      "shape": {
+        "fields": [
+          {
+            "name": "claim_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_revision",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterSoftwareUpdateDesiredOperation",
+      "wire_json": "{\"expected_current_version\":\"\",\"target_version\":\"\",\"strategy\":\"\"}",
+      "wire_sha256": "1c503f346c4432e8005017725fb6bf2049ea8029b1a1de610226ff50f7867997",
+      "shape": {
+        "fields": [
+          {
+            "name": "expected_current_version",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "strategy",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "UpdaterTargetIdentity",
-      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"}",
-      "wire_sha256": "b24c3acfa5f598e8118038f3f93b8a0ce5511c3aa1af9e173b93f810cb43108c",
+      "wire_json": "{\"target_kind\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\"}",
+      "wire_sha256": "e58b94bc7728dba129fe845e0a89017d0633d9c175788caa2d17a7b15b9d400c",
       "shape": {
         "fields": [
           {
@@ -7838,6 +8790,12 @@
           },
           {
             "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_kind",
             "shape": {
               "kind": "string"
             }

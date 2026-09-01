@@ -12,7 +12,7 @@
       "duplicate_operation_ids": [],
       "explicit_security_count": 29,
       "inherited_security_count": 150,
-      "inline_schema_count": 25,
+      "inline_schema_count": 27,
       "method_counts": {
         "delete": 18,
         "get": 62,
@@ -23,7 +23,7 @@
         "put": 17,
         "trace": 0
       },
-      "normalized_bundle_sha256": "12885965e4f43b6d87091b8c11a11403dd104c2cd53b5490218d40cd750e0435",
+      "normalized_bundle_sha256": "fac7b4a2011b7a9b2082bffb80ccbd9224b4fde54c4b3dc10fb3162582512e6e",
       "openapi_version": "3.1.0",
       "operation_count": 179,
       "operation_id_count": 14,
@@ -4305,7 +4305,7 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "c22b33e430161e2cd3bd2a741ddc8dd97c5e81695f1d07cd5df4fdcc4710c9c0",
+              "resolved_sha256": "c7a73aa1d3700230d995f39f9e38f60e9a34fdb6f8d8bd7d7490f6d2380c86f4",
               "type": ""
             }
           ],
@@ -4366,7 +4366,7 @@
                   "kind": "ref",
                   "name": "HostAgentPolicyResponse",
                   "ref": "#/components/schemas/HostAgentPolicyResponse",
-                  "resolved_sha256": "baebb67333f6fe1fc7510f7433334007fe3787c2651690991e52b0f55fa881a1"
+                  "resolved_sha256": "1f188f050863b17a93a16b8f172cb01a57dd8d915468bece1ad9ebf6b154a9b3"
                 }
               ],
               "status": "200"
@@ -4466,7 +4466,7 @@
               "kind": "ref",
               "name": "host-self-update-grant-consume-request.schema",
               "ref": "#/components/schemas/host-self-update-grant-consume-request.schema",
-              "resolved_sha256": "41e989d86119e09e0c64687232871f96856525ffdd050ab34c04efd4b71efe3d"
+              "resolved_sha256": "5089ed7a0264527bf47ae388886588ea30984b1baf6cd4133caa750f76d1ea49"
             }
           ],
           "responses": [
@@ -4479,7 +4479,7 @@
                   "kind": "ref",
                   "name": "host-self-update-grant-consume-response.schema",
                   "ref": "#/components/schemas/host-self-update-grant-consume-response.schema",
-                  "resolved_sha256": "efc6f92c9cf18f44f8e9aee83b34dce3a43e2e92f140c8390a0f822a7b75d8a5"
+                  "resolved_sha256": "a3b7f3e23543763c88d8e32a60fefbe054d08cdacd7c85ed0424c157f484eb5b"
                 }
               ],
               "status": "200"
@@ -4563,7 +4563,7 @@
                   "kind": "ref",
                   "name": "host-self-update-grant-issue-response.schema",
                   "ref": "#/components/schemas/host-self-update-grant-issue-response.schema",
-                  "resolved_sha256": "797351e74f7f72b1524bff213e1b6f6f34c5508168e2d7be49627e30cee20b5c"
+                  "resolved_sha256": "8cb17539e4e3abff591da547336f3d5ad2cfd08f821a7809cfa42d400f410685"
                 }
               ],
               "status": "201"
@@ -5462,7 +5462,7 @@
                 {
                   "kind": "inline",
                   "name": "",
-                  "resolved_sha256": "3e531737fc8bae29436c26da461b132bb64dc352657798a06b3bfae1382fd6c8",
+                  "resolved_sha256": "d4e7b78be0bc490e14e5ca41401f5d3e722aa95bb583c7eb7c36cff58dc69cbb",
                   "type": ""
                 }
               ],
@@ -5561,10 +5561,10 @@
           ],
           "request_schemas": [
             {
-              "kind": "ref",
-              "name": "UpdateAgentMutationGrantIssueRequest",
-              "ref": "#/components/schemas/UpdateAgentMutationGrantIssueRequest",
-              "resolved_sha256": "adf10a0f714e2325fde5a837a20ea0c321b888fa73eaea323c1fe204150d81ed"
+              "kind": "inline",
+              "name": "",
+              "resolved_sha256": "990443d2a4073437ef63a3f117ecd1be42f7e920e28a2bb3f055ca681b9cc23b",
+              "type": ""
             }
           ],
           "responses": [
@@ -5642,10 +5642,10 @@
           ],
           "request_schemas": [
             {
-              "kind": "ref",
-              "name": "UpdateAgentMutationGrantConsumeRequest",
-              "ref": "#/components/schemas/UpdateAgentMutationGrantConsumeRequest",
-              "resolved_sha256": "fe69e3ead99a12db27b405387e5f251349489d890f61d8699e628b0f0a9c77be"
+              "kind": "inline",
+              "name": "",
+              "resolved_sha256": "e8006aa271bbc848f36cdfad1fa071c49228e992491ccc2976d58664e2fab420",
+              "type": ""
             }
           ],
           "responses": [
@@ -5706,7 +5706,7 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "22f4349ff59edbde97a27a7c3a056c4fec48fd9a76a315db03dc7e763df17513",
+              "resolved_sha256": "e027e1bd17fba534569258a23c71dc988d037251c7930a122e768b9e0b408f58",
               "type": ""
             }
           ],
@@ -7825,7 +7825,7 @@
                   "kind": "ref",
                   "name": "HostSelfUpdateListResponse",
                   "ref": "#/components/schemas/HostSelfUpdateListResponse",
-                  "resolved_sha256": "4bd2bcf19057939d0035a43a7e1f3a1af1d0a991e9782c5049a90c04fb8f0ca6"
+                  "resolved_sha256": "be36f216cc76d278243875626468fbef727d78fc51439782f10fa096b6c84615"
                 }
               ],
               "status": "200"
@@ -7881,7 +7881,7 @@
                   "kind": "ref",
                   "name": "HostSelfUpdate",
                   "ref": "#/components/schemas/HostSelfUpdate",
-                  "resolved_sha256": "916b931a5ca0e0b0a50e8dbc048c7c2dd79c5cc5cb6042fc2118bc02b32d8f59"
+                  "resolved_sha256": "1512fa4ee0ab01ab0c4991711c74e332e50629c6a304762fa41f84e57479e049"
                 }
               ],
               "status": "200"
@@ -7979,7 +7979,7 @@
                   "kind": "ref",
                   "name": "HostSelfUpdate",
                   "ref": "#/components/schemas/HostSelfUpdate",
-                  "resolved_sha256": "916b931a5ca0e0b0a50e8dbc048c7c2dd79c5cc5cb6042fc2118bc02b32d8f59"
+                  "resolved_sha256": "1512fa4ee0ab01ab0c4991711c74e332e50629c6a304762fa41f84e57479e049"
                 }
               ],
               "status": "202"
@@ -8077,7 +8077,7 @@
                   "kind": "ref",
                   "name": "HostSelfUpdate",
                   "ref": "#/components/schemas/HostSelfUpdate",
-                  "resolved_sha256": "916b931a5ca0e0b0a50e8dbc048c7c2dd79c5cc5cb6042fc2118bc02b32d8f59"
+                  "resolved_sha256": "1512fa4ee0ab01ab0c4991711c74e332e50629c6a304762fa41f84e57479e049"
                 }
               ],
               "status": "202"
@@ -9635,7 +9635,7 @@
           "path": "/setup/first-admin"
         }
       ],
-      "ref_layout_independent_sha256": "1e0c3eba21e57df1928845df1d05ca390f8f3e55884162e16adc600c0696593d",
+      "ref_layout_independent_sha256": "d7f76b5796eca1653222658f4b60c1b8699d7e6d6545f0b221d5f19ce9188a17",
       "request_body_count": 55,
       "response_status_distribution": {
         "200": 137,
@@ -9656,7 +9656,7 @@
         "502": 11,
         "503": 11
       },
-      "schema_count": 168,
+      "schema_count": 178,
       "security_scheme_count": 2,
       "title": "AutoStream Control API",
       "unauthenticated_operation_count": 11,

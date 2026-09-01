@@ -5058,7 +5058,7 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/UpdateAgentClaimResponse"
+      "value": "#/components/schemas/UpdateAgentClearActiveJobResponse"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -5108,6 +5108,16 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterDesiredOperation"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterDesiredOperation"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/UpdaterEvidence"
     },
     {
@@ -5133,6 +5143,11 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterLeaseEnvelope"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/UpdaterLocalJournalBoundary"
     },
     {
@@ -5143,6 +5158,51 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantBinding"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantBinding"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantBinding"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantConsumeRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantConsumeRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantIssueRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantIssueRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantIssueResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterMutationGrantIssueResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/UpdaterProgressEnvelope"
     },
     {
@@ -5159,6 +5219,11 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/UpdaterResultEnvelope"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterRuntimeTokenRotationCredentialClaimRequest"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -5364,6 +5429,11 @@
       "source": "openapi/control-api.yaml",
       "target": "schemas/system-update-target.schema.json",
       "value": "../schemas/system-update-target.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/updater-desired-operation.schema.json",
+      "value": "../schemas/updater-desired-operation.schema.json"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -5994,12 +6064,47 @@
       "source": "schemas/system-update-target.schema.json",
       "target": "schemas/system-update-target.schema.json",
       "value": "#/$defs/updaterHealth"
+    },
+    {
+      "source": "schemas/updater-desired-operation.schema.json",
+      "target": "schemas/updater-desired-operation.schema.json",
+      "value": "#/$defs/bootstrap"
+    },
+    {
+      "source": "schemas/updater-desired-operation.schema.json",
+      "target": "schemas/updater-desired-operation.schema.json",
+      "value": "#/$defs/softwareUpdate"
+    },
+    {
+      "source": "schemas/updater-desired-operation.schema.json",
+      "target": "schemas/updater-desired-operation.schema.json",
+      "value": "#/$defs/version"
+    },
+    {
+      "source": "schemas/updater-desired-operation.schema.json",
+      "target": "schemas/updater-desired-operation.schema.json",
+      "value": "#/$defs/version"
+    },
+    {
+      "source": "schemas/updater-desired-operation.schema.json",
+      "target": "schemas/updater-desired-operation.schema.json",
+      "value": "#/$defs/version"
+    },
+    {
+      "source": "schemas/updater-desired-operation.schema.json",
+      "target": "schemas/host-agent-self-update-directive.schema.json",
+      "value": "host-agent-self-update-directive.schema.json"
+    },
+    {
+      "source": "schemas/updater-desired-operation.schema.json",
+      "target": "schemas/system-update-job.schema.json",
+      "value": "system-update-job.schema.json#/$defs/portReconfigurationPlan"
     }
   ],
-  "source_file_count": 35,
+  "source_file_count": 36,
   "source_files": [
     {
-      "normalized_source_sha256": "89a8a186bbf5b0c3273f4725621ec585e897e835568884eb24e92ebf62bf4917",
+      "normalized_source_sha256": "d2cc832463f13ad07512acea5d06ccf1d8238c8b1b1f6b029a23c35db1b70dbc",
       "path": "openapi/control-api.yaml"
     },
     {
@@ -6055,7 +6160,7 @@
       "path": "schemas/encoder-video-cover-unavailable-response.schema.json"
     },
     {
-      "normalized_source_sha256": "13d60b15034095f967e55837bab9546bb72666942fde4d8affa1a48ced00fdcc",
+      "normalized_source_sha256": "14cb501d17a4ad057180d86d965339e04ef315d218b9d27047e2a298108cb11f",
       "path": "schemas/host-agent-self-update-directive.schema.json"
     },
     {
@@ -6075,7 +6180,7 @@
       "path": "schemas/host-self-update-grant.schema.json"
     },
     {
-      "normalized_source_sha256": "69fe27d8d9e13e39f46a1455c939d1f5318dbde5d04a677dc66ddaa4312b971f",
+      "normalized_source_sha256": "4d28a7461314c67eafd161c89a33cb0738023f98b79ce9ba82cde277f5afe4f0",
       "path": "schemas/host-self-update-release-binding.schema.json"
     },
     {
@@ -6125,6 +6230,10 @@
     {
       "normalized_source_sha256": "5069a67fd6362e630cd36d967d9c91b7e7e147925cdbba1e7713e99fa39d3f0c",
       "path": "schemas/system-update-target.schema.json"
+    },
+    {
+      "normalized_source_sha256": "793b40a198dd4e384564878df57c03c3ccd91e5d21683897d11f4413ad02ac2e",
+      "path": "schemas/updater-desired-operation.schema.json"
     },
     {
       "normalized_source_sha256": "b753ae827b516f3df85860710af6e87786f3afc6cdc3640fba7591595420637c",

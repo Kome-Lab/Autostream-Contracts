@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 117,
+  "schema_count": 118,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -1058,7 +1058,7 @@
       "path": "schemas/host-agent-self-update-directive.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "267d96f0be3d713d7b533b82a4f2d578641f87ab27eb27342c9f9285cd2e86c5",
+      "normalized_sha256": "180191d9904b3cf4b68eead1f3f3634c8ed86fd0d09a1acc8623f5f45148bda1",
       "keywords": [
         "$ref",
         "$schema",
@@ -1316,7 +1316,7 @@
       "path": "schemas/host-self-update-release-binding.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "f66c877730adcf46ca928f3ac18f85ab522a300e3fc8758413a39cb765f37a82",
+      "normalized_sha256": "089578f0fca1f727b963c730672089fa115e28c3c0ae7c855248e7b998113f79",
       "keywords": [
         "$schema",
         "additionalProperties",
@@ -3260,6 +3260,78 @@
       ],
       "extension_keywords": [],
       "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/updater-desired-operation.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "079d5230a5d1a2ad7cd099789e8f67b750b017ea968ce42ad21afc0d5d25dd49",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "enum",
+        "maxLength",
+        "minLength",
+        "not",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$defs/bootstrap/properties/target_version/$ref",
+          "value": "#/$defs/version",
+          "target": "schemas/updater-desired-operation.schema.json",
+          "fragment": "/$defs/version"
+        },
+        {
+          "pointer": "/$defs/softwareUpdate/properties/expected_current_version/$ref",
+          "value": "#/$defs/version",
+          "target": "schemas/updater-desired-operation.schema.json",
+          "fragment": "/$defs/version"
+        },
+        {
+          "pointer": "/$defs/softwareUpdate/properties/target_version/$ref",
+          "value": "#/$defs/version",
+          "target": "schemas/updater-desired-operation.schema.json",
+          "fragment": "/$defs/version"
+        },
+        {
+          "pointer": "/properties/bootstrap/$ref",
+          "value": "#/$defs/bootstrap",
+          "target": "schemas/updater-desired-operation.schema.json",
+          "fragment": "/$defs/bootstrap"
+        },
+        {
+          "pointer": "/properties/host_self_update/$ref",
+          "value": "host-agent-self-update-directive.schema.json",
+          "target": "schemas/host-agent-self-update-directive.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/port_reconfigure/allOf/0/$ref",
+          "value": "system-update-job.schema.json#/$defs/portReconfigurationPlan",
+          "target": "schemas/system-update-job.schema.json",
+          "fragment": "/$defs/portReconfigurationPlan"
+        },
+        {
+          "pointer": "/properties/software_update/$ref",
+          "value": "#/$defs/softwareUpdate",
+          "target": "schemas/updater-desired-operation.schema.json",
+          "fragment": "/$defs/softwareUpdate"
+        }
+      ],
       "compiled": true
     },
     {

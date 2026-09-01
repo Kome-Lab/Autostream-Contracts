@@ -2087,6 +2087,7 @@
           },
           "published_at": {
             "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.[0-9]{0,8}[1-9])?Z$",
             "type": "string"
           },
           "recovery_protocol_version": {
@@ -6488,7 +6489,8 @@
         "required": [
           "clear_active_job_id"
         ],
-        "type": "object"
+        "type": "object",
+        "x-autostream-behavioral-validator": "contracts.ValidateUpdateAgentClearActiveJobResponse"
       },
       "UpdateAgentLeaseClaimResponse": {
         "additionalProperties": false,
@@ -7179,7 +7181,157 @@
       },
       "UpdaterCommandEnvelope": {
         "additionalProperties": false,
-        "description": "Typed host-execution intent whose privileged identity and fence are carried exactly once by mutation_authorization. Arbitrary shell, argv, environment, shared Control Panel database credentials, and unbounded command output are not representable.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "desired_operation": {
+                  "properties": {
+                    "operation": {
+                      "const": "software_update"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "desired_operation"
+              ]
+            },
+            "then": {
+              "properties": {
+                "mutation_authorization": {
+                  "properties": {
+                    "action_type": {
+                      "const": "host.update"
+                    },
+                    "required_capability": {
+                      "const": "host.update"
+                    },
+                    "target": {
+                      "properties": {
+                        "target_kind": {
+                          "const": "application"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "desired_operation": {
+                  "properties": {
+                    "operation": {
+                      "const": "bootstrap"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "desired_operation"
+              ]
+            },
+            "then": {
+              "properties": {
+                "mutation_authorization": {
+                  "properties": {
+                    "action_type": {
+                      "const": "host.bootstrap"
+                    },
+                    "required_capability": {
+                      "const": "host.bootstrap"
+                    },
+                    "target": {
+                      "properties": {
+                        "target_kind": {
+                          "const": "update_agent"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "desired_operation": {
+                  "properties": {
+                    "operation": {
+                      "const": "port_reconfigure"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "desired_operation"
+              ]
+            },
+            "then": {
+              "properties": {
+                "mutation_authorization": {
+                  "properties": {
+                    "action_type": {
+                      "const": "host.port"
+                    },
+                    "required_capability": {
+                      "const": "host.port"
+                    },
+                    "target": {
+                      "properties": {
+                        "target_kind": {
+                          "const": "application"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "desired_operation": {
+                  "properties": {
+                    "operation": {
+                      "const": "host_self_update"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "desired_operation"
+              ]
+            },
+            "then": {
+              "properties": {
+                "mutation_authorization": {
+                  "properties": {
+                    "action_type": {
+                      "const": "host.self_update"
+                    },
+                    "required_capability": {
+                      "const": "host.self_update"
+                    },
+                    "target": {
+                      "properties": {
+                        "target_kind": {
+                          "const": "host_runtime"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "description": "Typed host-execution intent whose privileged identity and fence are carried exactly once by mutation_authorization. The desired operation is a closed exactly-one union. Arbitrary shell, argv, environment, path, URL, token, shared Control Panel database credentials, and unbounded command output are not representable.",
         "properties": {
           "audit_correlation_id": {
             "maxLength": 128,
@@ -7188,6 +7340,7 @@
             "type": "string"
           },
           "canonical_payload_digest": {
+            "description": "RFC 8785/JCS SHA-256 digest of exactly target, desired_revision, fence, and desired_operation; identical to mutation_authorization.canonical_argument_digest.",
             "pattern": "^sha256:[a-f0-9]{64}$",
             "type": "string"
           },
@@ -7196,6 +7349,9 @@
             "minLength": 1,
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
             "type": "string"
+          },
+          "desired_operation": {
+            "$ref": "#/components/schemas/updater-desired-operation.schema"
           },
           "idempotency_key": {
             "maxLength": 128,
@@ -7221,9 +7377,11 @@
           "idempotency_key",
           "canonical_payload_digest",
           "mutation_authorization",
+          "desired_operation",
           "audit_correlation_id"
         ],
-        "type": "object"
+        "type": "object",
+        "x-autostream-behavioral-validator": "contracts.ValidateUpdaterCommandEnvelope"
       },
       "UpdaterCommandIssuer": {
         "additionalProperties": false,
@@ -7256,6 +7414,9 @@
         ],
         "type": "object"
       },
+      "UpdaterDesiredOperation": {
+        "$ref": "#/components/schemas/updater-desired-operation.schema"
+      },
       "UpdaterEvidence": {
         "additionalProperties": false,
         "description": "Bounded evidence only. Raw stdout, stderr, environment, paths, payloads, credentials, and configuration are prohibited.",
@@ -7269,6 +7430,7 @@
               "command_accepted",
               "phase_observed",
               "application_probe_verified",
+              "host_runtime_verified",
               "rollback_verified",
               "outcome_ambiguous"
             ],
@@ -7397,6 +7559,10 @@
           "command": {
             "$ref": "#/components/schemas/UpdaterCommandEnvelope"
           },
+          "lease_expires_at": {
+            "format": "date-time",
+            "type": "string"
+          },
           "lease_generation": {
             "format": "int64",
             "minimum": 1,
@@ -7417,9 +7583,11 @@
           "protocol_version",
           "lease_id",
           "lease_generation",
+          "lease_expires_at",
           "command"
         ],
-        "type": "object"
+        "type": "object",
+        "x-autostream-behavioral-validator": "contracts.ValidateUpdaterLeaseEnvelope"
       },
       "UpdaterLocalJournalBoundary": {
         "additionalProperties": false,
@@ -7654,6 +7822,7 @@
             "type": "string"
           },
           "canonical_argument_digest": {
+            "description": "RFC 8785/JCS SHA-256 digest of exactly target, desired_revision, fence, and desired_operation; identical to canonical_payload_digest.",
             "pattern": "^sha256:[a-f0-9]{64}$",
             "type": "string"
           },
@@ -7731,6 +7900,85 @@
         ],
         "type": "object"
       },
+      "UpdaterMutationGrantBinding": {
+        "additionalProperties": false,
+        "description": "Complete credential-free Local Executor binding. The nested lease carries the exact command, authorization, target, desired revision, fence, JCS digest and desired plan. The closed operation is semantically restricted by desired_operation.",
+        "properties": {
+          "lease": {
+            "$ref": "#/components/schemas/UpdaterLeaseEnvelope"
+          },
+          "operation": {
+            "enum": [
+              "apply",
+              "reconcile",
+              "port_reconfigure",
+              "port_reconfigure_reconcile",
+              "bootstrap",
+              "bootstrap_reconcile",
+              "host_self_update_stage",
+              "host_self_update_activate",
+              "host_self_update_reconcile"
+            ],
+            "type": "string"
+          },
+          "session_id": {
+            "maxLength": 128,
+            "minLength": 16,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "lease",
+          "operation",
+          "session_id"
+        ],
+        "type": "object",
+        "x-autostream-operation-desired-map": {
+          "apply": "software_update",
+          "bootstrap": "bootstrap",
+          "bootstrap_reconcile": "bootstrap",
+          "host_self_update_activate": "host_self_update",
+          "host_self_update_reconcile": "host_self_update",
+          "host_self_update_stage": "host_self_update",
+          "port_reconfigure": "port_reconfigure",
+          "port_reconfigure_reconcile": "port_reconfigure",
+          "reconcile": "software_update"
+        }
+      },
+      "UpdaterMutationGrantConsumeRequest": {
+        "additionalProperties": false,
+        "description": "Exact Local Executor consume binding. The opaque grant is supplied only as authorization proof, never in this body, argv, environment, logs or persistent journal state.",
+        "properties": {
+          "binding": {
+            "$ref": "#/components/schemas/UpdaterMutationGrantBinding"
+          }
+        },
+        "required": [
+          "binding"
+        ],
+        "type": "object",
+        "x-autostream-behavioral-validator": "contracts.ValidateUpdaterMutationGrantConsumeRequest"
+      },
+      "UpdaterMutationGrantIssueRequest": {
+        "additionalProperties": false,
+        "description": "Authenticated Updater request for one opaque Local Executor grant. Grant credentials, tokens, shell, argv, environment, path and URL are prohibited.",
+        "properties": {
+          "binding": {
+            "$ref": "#/components/schemas/UpdaterMutationGrantBinding"
+          }
+        },
+        "required": [
+          "binding"
+        ],
+        "type": "object",
+        "x-autostream-behavioral-validator": "contracts.ValidateUpdaterMutationGrantIssueRequest"
+      },
+      "UpdaterMutationGrantIssueResponse": {
+        "$ref": "#/components/schemas/UpdateAgentMutationGrantIssueResponse",
+        "description": "Exact no-store secret-bearing response. The opaque token is bounded, short-lived, never logged or persisted, and its expiry may not exceed the authorizing lease or mutation authorization.",
+        "x-autostream-behavioral-validator": "contracts.ValidateUpdaterMutationGrantIssueResponse"
+      },
       "UpdaterProgressEnvelope": {
         "additionalProperties": false,
         "description": "Bounded typed progress only. Raw command output and arbitrary log payloads are not representable.",
@@ -7764,6 +8012,17 @@
             "type": "string"
           },
           "job_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "lease_generation": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "lease_id": {
             "maxLength": 128,
             "minLength": 1,
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
@@ -7812,6 +8071,8 @@
           "job_id",
           "updater_id",
           "host_id",
+          "lease_id",
+          "lease_generation",
           "sequence",
           "phase",
           "progress",
@@ -7820,7 +8081,8 @@
           "audit_correlation_id",
           "observed_at"
         ],
-        "type": "object"
+        "type": "object",
+        "x-autostream-behavioral-validator": "contracts.ValidateUpdaterProgressEnvelope"
       },
       "UpdaterResultEnvelope": {
         "additionalProperties": false,
@@ -7840,7 +8102,10 @@
                   "status": {
                     "const": "succeeded"
                   }
-                }
+                },
+                "required": [
+                  "applied_revision"
+                ]
               },
               {
                 "properties": {
@@ -7891,6 +8156,7 @@
             ]
           }
         ],
+        "description": "Terminal result bound to the exact lease generation. Success requires applied_revision equal to desired_revision plus target-specific verification evidence; rollback requires rollback_verified evidence; ambiguous outcomes remain reconciling and automatic resend is always false.",
         "properties": {
           "applied_revision": {
             "format": "int64",
@@ -7959,6 +8225,17 @@
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
             "type": "string"
           },
+          "lease_generation": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "lease_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
           "outcome": {
             "enum": [
               "succeeded",
@@ -7997,6 +8274,8 @@
           "job_id",
           "updater_id",
           "host_id",
+          "lease_id",
+          "lease_generation",
           "idempotency_key",
           "canonical_payload_digest",
           "authorization_id",
@@ -8008,11 +8287,34 @@
           "audit_correlation_id",
           "evidence"
         ],
+        "type": "object",
+        "x-autostream-behavioral-validator": "contracts.ValidateUpdaterResultEnvelope"
+      },
+      "UpdaterRuntimeTokenRotationCredentialClaimRequest": {
+        "additionalProperties": false,
+        "description": "Secret-free one-time claim request binding. The raw replacement token exists only in the credential claim response, which is Cache-Control no-store, and is forbidden from Updater commands, progress, results, evidence, and local journal records.",
+        "properties": {
+          "claim_id": {
+            "maxLength": 128,
+            "minLength": 16,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$",
+            "type": "string"
+          },
+          "expected_revision": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expected_revision",
+          "claim_id"
+        ],
         "type": "object"
       },
       "UpdaterSafeError": {
         "additionalProperties": false,
-        "description": "Secret-safe error metadata. It excludes credentials, raw payloads, commands, paths, stdout, stderr, and environment values.",
+        "description": "Secret-safe error metadata. Message is a closed canonical phrase paired to code by the behavioral validator, so credentials, raw payloads, commands, paths, stdout, stderr, and environment values are not representable.",
         "properties": {
           "audit_correlation_id": {
             "maxLength": 128,
@@ -8033,13 +8335,27 @@
               "stale_fence",
               "command_expired",
               "outcome_ambiguous",
-              "local_journal_unavailable"
+              "local_journal_unavailable",
+              "execution_failed"
             ],
             "type": "string"
           },
           "message": {
-            "maxLength": 240,
-            "minLength": 1,
+            "enum": [
+              "updater protocol version is unsupported",
+              "updater issuer authentication failed",
+              "updater identity does not match assignment",
+              "updater authorization expired",
+              "updater authorization was already used",
+              "updater idempotency payload conflicts",
+              "updater capability is unavailable",
+              "updater revision conflicts",
+              "updater fence is stale",
+              "updater command expired",
+              "updater outcome requires reconciliation",
+              "updater local journal is unavailable",
+              "updater execution failed"
+            ],
             "type": "string"
           },
           "retryable": {
@@ -8055,12 +8371,87 @@
       },
       "UpdaterTargetIdentity": {
         "additionalProperties": false,
+        "description": "Strict identity union. Application targets carry expected_config_revision; update_agent and host_runtime targets carry execution_host_id and forbid expected_config_revision.",
+        "oneOf": [
+          {
+            "not": {
+              "required": [
+                "execution_host_id"
+              ]
+            },
+            "properties": {
+              "service_type": {
+                "enum": [
+                  "control_panel",
+                  "worker",
+                  "encoder_recorder",
+                  "discord_bot",
+                  "observability"
+                ]
+              },
+              "target_kind": {
+                "const": "application"
+              }
+            },
+            "required": [
+              "expected_config_revision"
+            ]
+          },
+          {
+            "not": {
+              "required": [
+                "expected_config_revision"
+              ]
+            },
+            "properties": {
+              "deployment_mode": {
+                "const": "systemd"
+              },
+              "service_type": {
+                "const": "update_agent"
+              },
+              "target_kind": {
+                "const": "update_agent"
+              }
+            },
+            "required": [
+              "execution_host_id"
+            ]
+          },
+          {
+            "not": {
+              "required": [
+                "expected_config_revision"
+              ]
+            },
+            "properties": {
+              "deployment_mode": {
+                "const": "systemd"
+              },
+              "service_type": {
+                "const": "update_agent"
+              },
+              "target_kind": {
+                "const": "host_runtime"
+              }
+            },
+            "required": [
+              "execution_host_id"
+            ]
+          }
+        ],
         "properties": {
           "deployment_mode": {
             "enum": [
               "systemd",
               "docker"
             ],
+            "type": "string"
+          },
+          "execution_host_id": {
+            "maxLength": 191,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
             "type": "string"
           },
           "expected_config_revision": {
@@ -8080,12 +8471,22 @@
               "worker",
               "encoder_recorder",
               "discord_bot",
-              "observability"
+              "observability",
+              "update_agent"
+            ],
+            "type": "string"
+          },
+          "target_kind": {
+            "enum": [
+              "application",
+              "update_agent",
+              "host_runtime"
             ],
             "type": "string"
           }
         },
         "required": [
+          "target_kind",
           "service_id",
           "service_type",
           "deployment_mode"
@@ -8910,6 +9311,22 @@
         ],
         "type": "object"
       },
+      "bootstrap": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_state": {
+            "const": "absent"
+          },
+          "target_version": {
+            "$ref": "#/components/schemas/version"
+          }
+        },
+        "required": [
+          "expected_state",
+          "target_version"
+        ],
+        "type": "object"
+      },
       "diagnostic-rerun-response.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
@@ -9176,7 +9593,7 @@
           },
           "staged_at": {
             "format": "date-time",
-            "pattern": "Z$",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.[0-9]{0,8}[1-9])?Z$",
             "type": "string"
           }
         },
@@ -9651,7 +10068,7 @@
           },
           "published_at": {
             "format": "date-time",
-            "pattern": "Z$",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.[0-9]{0,8}[1-9])?Z$",
             "type": "string"
           },
           "recovery_protocol_version": {
@@ -10095,6 +10512,29 @@
           "expected_executor_policy_revision",
           "expected_executor_policy_sha256",
           "port_plan_sha256"
+        ],
+        "type": "object"
+      },
+      "softwareUpdate": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_current_version": {
+            "$ref": "#/components/schemas/version"
+          },
+          "strategy": {
+            "enum": [
+              "when_idle",
+              "maintenance"
+            ]
+          },
+          "target_version": {
+            "$ref": "#/components/schemas/version"
+          }
+        },
+        "required": [
+          "expected_current_version",
+          "target_version",
+          "strategy"
         ],
         "type": "object"
       },
@@ -12472,6 +12912,214 @@
         ],
         "type": "object"
       },
+      "updater-desired-operation.schema": {
+        "$defs": {
+          "bootstrap": {
+            "additionalProperties": false,
+            "properties": {
+              "expected_state": {
+                "const": "absent"
+              },
+              "target_version": {
+                "$ref": "#/components/schemas/version"
+              }
+            },
+            "required": [
+              "expected_state",
+              "target_version"
+            ],
+            "type": "object"
+          },
+          "softwareUpdate": {
+            "additionalProperties": false,
+            "properties": {
+              "expected_current_version": {
+                "$ref": "#/components/schemas/version"
+              },
+              "strategy": {
+                "enum": [
+                  "when_idle",
+                  "maintenance"
+                ]
+              },
+              "target_version": {
+                "$ref": "#/components/schemas/version"
+              }
+            },
+            "required": [
+              "expected_current_version",
+              "target_version",
+              "strategy"
+            ],
+            "type": "object"
+          },
+          "version": {
+            "maxLength": 128,
+            "minLength": 6,
+            "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "description": "Credential-free, closed and exactly-one host mutation intent. Shell, argv, environment, path, URL and token fields are not representable.",
+        "oneOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "bootstrap"
+                  ]
+                },
+                {
+                  "required": [
+                    "port_reconfigure"
+                  ]
+                },
+                {
+                  "required": [
+                    "host_self_update"
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "operation": {
+                "const": "software_update"
+              }
+            },
+            "required": [
+              "software_update"
+            ]
+          },
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "software_update"
+                  ]
+                },
+                {
+                  "required": [
+                    "port_reconfigure"
+                  ]
+                },
+                {
+                  "required": [
+                    "host_self_update"
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "operation": {
+                "const": "bootstrap"
+              }
+            },
+            "required": [
+              "bootstrap"
+            ]
+          },
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "software_update"
+                  ]
+                },
+                {
+                  "required": [
+                    "bootstrap"
+                  ]
+                },
+                {
+                  "required": [
+                    "host_self_update"
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "operation": {
+                "const": "port_reconfigure"
+              }
+            },
+            "required": [
+              "port_reconfigure"
+            ]
+          },
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "software_update"
+                  ]
+                },
+                {
+                  "required": [
+                    "bootstrap"
+                  ]
+                },
+                {
+                  "required": [
+                    "port_reconfigure"
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "operation": {
+                "const": "host_self_update"
+              }
+            },
+            "required": [
+              "host_self_update"
+            ]
+          }
+        ],
+        "properties": {
+          "bootstrap": {
+            "$ref": "#/components/schemas/bootstrap"
+          },
+          "host_self_update": {
+            "$ref": "#/components/schemas/host-agent-self-update-directive.schema"
+          },
+          "operation": {
+            "enum": [
+              "software_update",
+              "bootstrap",
+              "port_reconfigure",
+              "host_self_update"
+            ]
+          },
+          "port_reconfigure": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/portReconfigurationPlan"
+              },
+              {
+                "not": {
+                  "required": [
+                    "result"
+                  ]
+                }
+              }
+            ]
+          },
+          "software_update": {
+            "$ref": "#/components/schemas/softwareUpdate"
+          }
+        },
+        "required": [
+          "operation"
+        ],
+        "title": "Updater Desired Operation",
+        "type": "object"
+      },
       "updaterHealth": {
         "additionalProperties": false,
         "properties": {
@@ -12500,6 +13148,12 @@
           "revision"
         ],
         "type": "object"
+      },
+      "version": {
+        "maxLength": 128,
+        "minLength": 6,
+        "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
+        "type": "string"
       },
       "youtube-relay-static-recovery-resolve-request.schema": {
         "$id": "https://schemas.autostream.example.com/youtube-relay-static-recovery-resolve-request.schema.json",
@@ -16415,7 +17069,7 @@
         }
       ],
       "post": {
-        "description": "Atomically claims the next eligible job assigned to the authenticated update_agent and optional host_id execution slot. Requires updates.claim. host_id is required for central multi-host operation and may be omitted only by legacy per-host agents. If active_job_id is present, the server returns only that job's renewed lease or an explicit clear_active_job_id instruction and never claims a different job. The opaque lease token is returned once and must not be logged.",
+        "description": "Atomically claims the next eligible job as a v2 command assigned to the authenticated update_agent and optional host_id execution slot. Requires updates.claim. If active_job_id is present, the server returns only that command's renewed typed lease or an explicit clear_active_job_id instruction and never claims a different command.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -16436,7 +17090,7 @@
                       "$ref": "#/components/schemas/UpdaterLeaseEnvelope"
                     },
                     {
-                      "$ref": "#/components/schemas/UpdateAgentClaimResponse"
+                      "$ref": "#/components/schemas/UpdateAgentClearActiveJobResponse"
                     }
                   ]
                 }
@@ -16543,7 +17197,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateAgentMutationGrantIssueRequest"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdaterMutationGrantIssueRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateAgentMutationGrantIssueRequest"
+                  }
+                ]
               }
             }
           },
@@ -16639,7 +17300,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateAgentMutationGrantConsumeRequest"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdaterMutationGrantConsumeRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateAgentMutationGrantConsumeRequest"
+                  }
+                ]
               }
             }
           },
@@ -21042,9 +21710,171 @@
   "x-autostream-updater-v2-authority": {
     "application_verification_consumer": "local_executor",
     "arbitrary_shell_allowed": false,
+    "canonical_command_digest": {
+      "algorithm": "sha256",
+      "payload_and_argument_digests_must_match": true,
+      "projection_fields": [
+        "target",
+        "desired_revision",
+        "fence",
+        "desired_operation"
+      ],
+      "serialization": "RFC8785_JCS",
+      "timestamp_lexical_form": "canonical_utc_rfc3339nano_no_trailing_fractional_zeroes"
+    },
     "command_envelope_schema": {
       "additionalProperties": false,
-      "description": "Typed host-execution intent whose privileged identity and fence are carried exactly once by mutation_authorization. Arbitrary shell, argv, environment, shared Control Panel database credentials, and unbounded command output are not representable.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "desired_operation": {
+                "properties": {
+                  "operation": {
+                    "const": "software_update"
+                  }
+                }
+              }
+            },
+            "required": [
+              "desired_operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mutation_authorization": {
+                "properties": {
+                  "action_type": {
+                    "const": "host.update"
+                  },
+                  "required_capability": {
+                    "const": "host.update"
+                  },
+                  "target": {
+                    "properties": {
+                      "target_kind": {
+                        "const": "application"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "desired_operation": {
+                "properties": {
+                  "operation": {
+                    "const": "bootstrap"
+                  }
+                }
+              }
+            },
+            "required": [
+              "desired_operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mutation_authorization": {
+                "properties": {
+                  "action_type": {
+                    "const": "host.bootstrap"
+                  },
+                  "required_capability": {
+                    "const": "host.bootstrap"
+                  },
+                  "target": {
+                    "properties": {
+                      "target_kind": {
+                        "const": "update_agent"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "desired_operation": {
+                "properties": {
+                  "operation": {
+                    "const": "port_reconfigure"
+                  }
+                }
+              }
+            },
+            "required": [
+              "desired_operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mutation_authorization": {
+                "properties": {
+                  "action_type": {
+                    "const": "host.port"
+                  },
+                  "required_capability": {
+                    "const": "host.port"
+                  },
+                  "target": {
+                    "properties": {
+                      "target_kind": {
+                        "const": "application"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "desired_operation": {
+                "properties": {
+                  "operation": {
+                    "const": "host_self_update"
+                  }
+                }
+              }
+            },
+            "required": [
+              "desired_operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mutation_authorization": {
+                "properties": {
+                  "action_type": {
+                    "const": "host.self_update"
+                  },
+                  "required_capability": {
+                    "const": "host.self_update"
+                  },
+                  "target": {
+                    "properties": {
+                      "target_kind": {
+                        "const": "host_runtime"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "Typed host-execution intent whose privileged identity and fence are carried exactly once by mutation_authorization. The desired operation is a closed exactly-one union. Arbitrary shell, argv, environment, path, URL, token, shared Control Panel database credentials, and unbounded command output are not representable.",
       "properties": {
         "audit_correlation_id": {
           "maxLength": 128,
@@ -21053,6 +21883,7 @@
           "type": "string"
         },
         "canonical_payload_digest": {
+          "description": "RFC 8785/JCS SHA-256 digest of exactly target, desired_revision, fence, and desired_operation; identical to mutation_authorization.canonical_argument_digest.",
           "pattern": "^sha256:[a-f0-9]{64}$",
           "type": "string"
         },
@@ -21061,6 +21892,9 @@
           "minLength": 1,
           "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
           "type": "string"
+        },
+        "desired_operation": {
+          "$ref": "#/components/schemas/updater-desired-operation.schema"
         },
         "idempotency_key": {
           "maxLength": 128,
@@ -21086,14 +21920,224 @@
         "idempotency_key",
         "canonical_payload_digest",
         "mutation_authorization",
+        "desired_operation",
         "audit_correlation_id"
       ],
+      "type": "object",
+      "x-autostream-behavioral-validator": "contracts.ValidateUpdaterCommandEnvelope"
+    },
+    "desired_operation_schema": {
+      "$defs": {
+        "bootstrap": {
+          "additionalProperties": false,
+          "properties": {
+            "expected_state": {
+              "const": "absent"
+            },
+            "target_version": {
+              "$ref": "#/components/schemas/version"
+            }
+          },
+          "required": [
+            "expected_state",
+            "target_version"
+          ],
+          "type": "object"
+        },
+        "softwareUpdate": {
+          "additionalProperties": false,
+          "properties": {
+            "expected_current_version": {
+              "$ref": "#/components/schemas/version"
+            },
+            "strategy": {
+              "enum": [
+                "when_idle",
+                "maintenance"
+              ]
+            },
+            "target_version": {
+              "$ref": "#/components/schemas/version"
+            }
+          },
+          "required": [
+            "expected_current_version",
+            "target_version",
+            "strategy"
+          ],
+          "type": "object"
+        },
+        "version": {
+          "maxLength": 128,
+          "minLength": 6,
+          "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$",
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Credential-free, closed and exactly-one host mutation intent. Shell, argv, environment, path, URL and token fields are not representable.",
+      "oneOf": [
+        {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "bootstrap"
+                ]
+              },
+              {
+                "required": [
+                  "port_reconfigure"
+                ]
+              },
+              {
+                "required": [
+                  "host_self_update"
+                ]
+              }
+            ]
+          },
+          "properties": {
+            "operation": {
+              "const": "software_update"
+            }
+          },
+          "required": [
+            "software_update"
+          ]
+        },
+        {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "software_update"
+                ]
+              },
+              {
+                "required": [
+                  "port_reconfigure"
+                ]
+              },
+              {
+                "required": [
+                  "host_self_update"
+                ]
+              }
+            ]
+          },
+          "properties": {
+            "operation": {
+              "const": "bootstrap"
+            }
+          },
+          "required": [
+            "bootstrap"
+          ]
+        },
+        {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "software_update"
+                ]
+              },
+              {
+                "required": [
+                  "bootstrap"
+                ]
+              },
+              {
+                "required": [
+                  "host_self_update"
+                ]
+              }
+            ]
+          },
+          "properties": {
+            "operation": {
+              "const": "port_reconfigure"
+            }
+          },
+          "required": [
+            "port_reconfigure"
+          ]
+        },
+        {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "software_update"
+                ]
+              },
+              {
+                "required": [
+                  "bootstrap"
+                ]
+              },
+              {
+                "required": [
+                  "port_reconfigure"
+                ]
+              }
+            ]
+          },
+          "properties": {
+            "operation": {
+              "const": "host_self_update"
+            }
+          },
+          "required": [
+            "host_self_update"
+          ]
+        }
+      ],
+      "properties": {
+        "bootstrap": {
+          "$ref": "#/components/schemas/bootstrap"
+        },
+        "host_self_update": {
+          "$ref": "#/components/schemas/host-agent-self-update-directive.schema"
+        },
+        "operation": {
+          "enum": [
+            "software_update",
+            "bootstrap",
+            "port_reconfigure",
+            "host_self_update"
+          ]
+        },
+        "port_reconfigure": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/portReconfigurationPlan"
+            },
+            {
+              "not": {
+                "required": [
+                  "result"
+                ]
+              }
+            }
+          ]
+        },
+        "software_update": {
+          "$ref": "#/components/schemas/softwareUpdate"
+        }
+      },
+      "required": [
+        "operation"
+      ],
+      "title": "Updater Desired Operation",
       "type": "object"
     },
     "embedded_legacy_transition": {
       "final_state": "absent",
       "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-      "removal_wave": "Execution Bundle 8",
+      "removal_wave": "Execution Bundle 5",
       "rollback_only_after_v2_activation": true,
       "transport": "ssh_v1"
     },
@@ -21204,6 +22248,10 @@
         "command": {
           "$ref": "#/components/schemas/UpdaterCommandEnvelope"
         },
+        "lease_expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
         "lease_generation": {
           "format": "int64",
           "minimum": 1,
@@ -21224,9 +22272,29 @@
         "protocol_version",
         "lease_id",
         "lease_generation",
+        "lease_expires_at",
         "command"
       ],
-      "type": "object"
+      "type": "object",
+      "x-autostream-behavioral-validator": "contracts.ValidateUpdaterLeaseEnvelope"
+    },
+    "local_executor_mutation_grant": {
+      "binding_schema": {
+        "$ref": "#/components/schemas/UpdaterMutationGrantBinding"
+      },
+      "cache_control": "no-store",
+      "command_allowed": false,
+      "consume_request_schema": {
+        "$ref": "#/components/schemas/UpdaterMutationGrantConsumeRequest"
+      },
+      "issue_request_schema": {
+        "$ref": "#/components/schemas/UpdaterMutationGrantIssueRequest"
+      },
+      "issue_response_schema": {
+        "$ref": "#/components/schemas/UpdaterMutationGrantIssueResponse"
+      },
+      "local_journal_allowed": false,
+      "opaque_grant_surface": "issue_response_and_authorization_header_only"
     },
     "local_journal_owner": "updater",
     "local_journal_schema": {
@@ -21364,6 +22432,17 @@
           "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
           "type": "string"
         },
+        "lease_generation": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "type": "string"
+        },
         "observed_at": {
           "format": "date-time",
           "type": "string"
@@ -21407,6 +22486,8 @@
         "job_id",
         "updater_id",
         "host_id",
+        "lease_id",
+        "lease_generation",
         "sequence",
         "phase",
         "progress",
@@ -21415,7 +22496,8 @@
         "audit_correlation_id",
         "observed_at"
       ],
-      "type": "object"
+      "type": "object",
+      "x-autostream-behavioral-validator": "contracts.ValidateUpdaterProgressEnvelope"
     },
     "protocol_version": 2,
     "result_envelope_schema": {
@@ -21436,7 +22518,10 @@
                 "status": {
                   "const": "succeeded"
                 }
-              }
+              },
+              "required": [
+                "applied_revision"
+              ]
             },
             {
               "properties": {
@@ -21487,6 +22572,7 @@
           ]
         }
       ],
+      "description": "Terminal result bound to the exact lease generation. Success requires applied_revision equal to desired_revision plus target-specific verification evidence; rollback requires rollback_verified evidence; ambiguous outcomes remain reconciling and automatic resend is always false.",
       "properties": {
         "applied_revision": {
           "format": "int64",
@@ -21555,6 +22641,17 @@
           "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
           "type": "string"
         },
+        "lease_generation": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "type": "string"
+        },
         "outcome": {
           "enum": [
             "succeeded",
@@ -21593,6 +22690,8 @@
         "job_id",
         "updater_id",
         "host_id",
+        "lease_id",
+        "lease_generation",
         "idempotency_key",
         "canonical_payload_digest",
         "authorization_id",
@@ -21604,7 +22703,17 @@
         "audit_correlation_id",
         "evidence"
       ],
-      "type": "object"
+      "type": "object",
+      "x-autostream-behavioral-validator": "contracts.ValidateUpdaterResultEnvelope"
+    },
+    "runtime_token_rotation": {
+      "cache_control": "no-store",
+      "command_allowed": false,
+      "credential_claim_request_schema": {
+        "$ref": "#/components/schemas/UpdaterRuntimeTokenRotationCredentialClaimRequest"
+      },
+      "local_journal_allowed": false,
+      "raw_replacement_token_surface": "credential_claim_response_only"
     },
     "shared_control_panel_database_credentials_allowed": false,
     "updater_health_substitutes_for_application_probe": false
