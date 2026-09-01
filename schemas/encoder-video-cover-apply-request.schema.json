@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-video-cover-apply-request.schema.json",
+  "title": "EncoderVideoCoverApplyRequest",
+  "$ref": "discord-bot-start-job-request.schema.json#/$defs/encoderVideoCoverApplyRequest"
+}

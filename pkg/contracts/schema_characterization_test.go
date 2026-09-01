@@ -237,16 +237,22 @@ func TestV2VisualPresetSchemasAndInvariants(t *testing.T) {
 
 	cover := compileV2SchemaFragment(t, schemaName, "videoCoverRuntimeState")
 	assertV2SchemaFixture(t, cover, map[string]any{
-		"job_generation": 11, "generation": 4, "capability": "live_video_cover_v1", "readiness": "ready",
+		"stream_id": "stream-1", "job_generation": 11, "generation": 4, "capability": "live_video_cover_v1", "readiness": "ready",
 		"desired":     map[string]any{"active": true, "revision": 7, "source": "upload", "variant_id": "variant-1"},
 		"applied":     map[string]any{"state": "known", "active": true, "revision": 7, "variant_id": "variant-1"},
 		"cover":       map[string]any{"enabled": true, "revision": 7, "variant_id": "variant-1"},
 		"cover_asset": coverAsset,
 		"watermark":   map[string]any{"enabled": true, "revision": 3, "variant_id": "watermark-1"},
 		"pipeline":    validPipeline, "no_automatic_resend": true,
+		"applied_witness": map[string]any{
+			"graph_applied": true, "generation": 4, "revision": 7, "active": true,
+			"cover":     map[string]any{"enabled": true, "revision": 7, "variant_id": "variant-1"},
+			"watermark": map[string]any{"enabled": true, "revision": 3, "variant_id": "watermark-1"},
+			"pipeline":  validPipeline,
+		},
 	}, true)
 	unknownApplied := map[string]any{
-		"job_generation": 11, "generation": 5, "capability": "live_video_cover_v1", "readiness": "unknown",
+		"stream_id": "stream-1", "job_generation": 11, "generation": 5, "capability": "live_video_cover_v1", "readiness": "unknown",
 		"desired":           map[string]any{"active": true, "revision": 8, "source": "upload", "variant_id": "variant-1"},
 		"applied":           map[string]any{"state": "unknown"},
 		"last_good_applied": map[string]any{"state": "known", "active": true, "revision": 7, "variant_id": "variant-1"},
@@ -431,7 +437,8 @@ func v2VisualPipelineFixture() map[string]any {
 		"cover_watermark_independent": true,
 		"output_parity":               []any{"live", "archive", "preview"},
 		"audio_continuity": map[string]any{
-			"process_restart": 0, "graph_rebuild": 0, "reconnect": 0, "sequence_loss": 0,
+			"process_restart": 0, "audio_encoder_restart": 0, "audio_mux_restart": 0,
+			"graph_rebuild": 0, "reconnect": 0, "sequence_loss": 0,
 			"timestamp_discontinuity": 0, "intentional_mute_insertion": 0,
 		},
 	}

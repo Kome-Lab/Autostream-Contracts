@@ -6744,7 +6744,7 @@
     {
       "api": "openapi/discord-bot-api.yaml",
       "error_count": 0,
-      "finding_count": 60,
+      "finding_count": 76,
       "findings": [
         {
           "category": "openapi_lint",
@@ -6756,6 +6756,30 @@
             }
           ],
           "rule_id": "info-license",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "052b135e027ff40f12db6311c369bda37c4a13f12ca8d1b0fafb1caba0556192",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/1/then/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "08fe732310d28f3cd7e4d4616bc1e06b0a2b8394a2bad8c48a0f631819732675",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/4/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
           "severity": "warn"
         },
         {
@@ -6812,6 +6836,18 @@
           "locations": [
             {
               "pointer": "#/$defs/mediaAssetDescriptor/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "24dcd7f9097a7af625429125afb5d78960afaa3d9a521fa2bbbe93b331f5bb1a",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest/allOf/0/then/not/required/0",
               "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
@@ -6952,6 +6988,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "52af9023a8140440b904996c60a6126ce045b84821b7f21cbb76ad90d4577e11",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverStartSnapshot/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "53e004357ffe209966d8b1712e7268229250b1a9a80491e82e7f3757755851e4",
           "locations": [
             {
@@ -7024,6 +7072,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "77c716fe86851f8e7bf4d1a073d0af699372352f283edc0bad681673cc7dd30d",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/4/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "7c2f03a306b2f3aa6cb7b57b10fac38754c52d1817d9c13cb8e8e8f69ab94c32",
           "locations": [
             {
@@ -7052,18 +7112,6 @@
           "locations": [
             {
               "pointer": "#/$defs/appliedCoverState/allOf/0/else/not/anyOf/1/required/0",
-              "source": "schemas/discord-bot-start-job-request.schema.json"
-            }
-          ],
-          "rule_id": "no-required-schema-properties-undefined",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "9072bb6b2d9a10c627c1c9501daeb1162f9b2d2e6f69b496e238792eb392ed9d",
-          "locations": [
-            {
-              "pointer": "#/$defs/videoCoverRuntimeState/allOf/3/else/not/required/0",
               "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
@@ -7108,10 +7156,34 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "9797863ddc672f64673b7546b3636daf7851e12a7647ff089dc5080927292505",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverAppliedWitness/allOf/0/then/properties/cover/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "9b8753a6a3e5536c6341d88b04d5064832c639400d743845713d40e36ab1e8a9",
           "locations": [
             {
               "pointer": "#/allOf/0/if/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "9e5310874970ee145a919a4f6a2807112435f51c563fe443eca69cb23a026a89",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse/allOf/0/then/not/required/0",
               "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
@@ -7148,6 +7220,18 @@
           "locations": [
             {
               "pointer": "#/$defs/videoCoverRuntimeState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b015abd2a6643dcd958dda38a87459621e31f4e691089730dcad950edaa5fc76",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverAppliedWitness/allOf/0/else/properties/cover/not/required/0",
               "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
@@ -7240,6 +7324,30 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "c3b26da387b78ec33a188b0b4b3ee9848d615984b5109ed74cc9d28f9e39e237",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/2/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c624c7c7719722b98c6956580161634fec54053904cdc9aa58ed967d6de43628",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverStartSnapshot/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "c9090194da119d1183c068d90306abe7fcaacfa6c6b659530d07f1a6619aa525",
           "locations": [
             {
@@ -7276,10 +7384,34 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "d160333db5cfe1d2f9538fdb7f69332beb317bcaf699122ab0fb9b76053bb7e9",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest/allOf/0/else/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "d3c4ee25c5ab5fcaaedc0ce299381000a2dd386aeb99dbf9df4c6e1d1a6604fd",
           "locations": [
             {
               "pointer": "#/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d5a12cb08993a3397f5323b0ea13198b4f767405442f1c33908960e9dd697b5a",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse/allOf/0/then/properties/actual/required/1",
               "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
@@ -7312,10 +7444,46 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "ecb7772821259363d63c6c2ab62f509af54863a478dacbbfc95171ce1b56a019",
+          "fingerprint": "d750f170b8901728d7d87ce06fc688cbabf4fb18e7d1574d1dd966fd016f048b",
           "locations": [
             {
-              "pointer": "#/$defs/videoCoverRuntimeState/allOf/3/then/required/0",
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "db77ad0b5e0139360cc7490cf37af0bccf52118fe8895207ffadaad82fb3e38d",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e01e0dbbe053cda73a987a896329da89ce2e06135ba50820173c14b8720a61ac",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e31392e54ec1db45ce1348792bd4092235baa88e49ea224689eda3f58a8d2f57",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse/allOf/2/then/required/0",
               "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
@@ -7408,10 +7576,22 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "3cbdef1a8af91fa0b658f78b112f062d752988effe4eeceb935f3279b9694384",
+          "fingerprint": "3d7ed2d6d17ac72443ad9e0c846963cd089d4d558fac8e9c5d94d3d95a4def44",
           "locations": [
             {
-              "pointer": "#/$defs/videoCoverRuntimeState",
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3daea6ec5f59a7fd2879ca2584d6afa702b794c0fecadbf9506e9f45b3865c83",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverStartSnapshot",
               "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
@@ -7465,15 +7645,27 @@
           ],
           "rule_id": "no-unused-components",
           "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b652fda1ee619d453fb4d4d89ed2a7d0d1b6ebe90aa5fd3976e2f03cae5199cf",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
         }
       ],
       "lint_exit_code": 0,
-      "warning_count": 60
+      "warning_count": 76
     },
     {
       "api": "openapi/encoder-recorder-api.yaml",
       "error_count": 0,
-      "finding_count": 10,
+      "finding_count": 48,
       "findings": [
         {
           "category": "openapi_lint",
@@ -7489,11 +7681,47 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "052b135e027ff40f12db6311c369bda37c4a13f12ca8d1b0fafb1caba0556192",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/1/then/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "08fe732310d28f3cd7e4d4616bc1e06b0a2b8394a2bad8c48a0f631819732675",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/4/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "0abe7aa664e9f6e43175e498db795d54a9b63314d06b94e023ac5ae7cd34af57",
           "locations": [
             {
               "pointer": "#/allOf/0/then/required/1",
               "source": "schemas/encoder-start-stream-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "0f51d78ae23468ac434bc8eda7ddfc0a8159234a4eaf0bb14ee02a7fa3adad69",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -7525,11 +7753,227 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "1ff785d256c8e3bca7af311b92a4d54479ba8ce1e601d0db7155d43480a15402",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "24dcd7f9097a7af625429125afb5d78960afaa3d9a521fa2bbbe93b331f5bb1a",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest/allOf/0/then/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "299b317fc30759ae55ac15b18118e6c3fe8a0de87c70ee0bd9d2c546079695d1",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "2f3dc006877931e9b7fb53f1d164f657cf13396d8ffe6f4bc96d0b5752f1f4f3",
+          "locations": [
+            {
+              "pointer": "#/$defs/knownAppliedCoverState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "3d617e46744e7934f62788c787858dd2efff6f3f6a51ba6eeed686fede050f70",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/0/else/not/anyOf/0/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "4628151302c39627006038d9c70e1c01436c5febafd3ee6e11e60163327aa0e4",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/1/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "49b050fa7ecb8cfce69bcc994e8200adeb8749e98282a1f239dfad6b4390e813",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/0/then/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "4a186b7fe1b2ede6676af5a7ea30365f3b2c116540c3ce68df9be5d968a9a635",
           "locations": [
             {
               "pointer": "#/allOf/0/then/not/anyOf/1/required/0",
               "source": "schemas/youtube-runtime-config.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "509eae43c4690263a844842a4e01fe2583fda7b6c8946955b0c9d8921f12b036",
+          "locations": [
+            {
+              "pointer": "#/$defs/desiredCoverState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "52af9023a8140440b904996c60a6126ce045b84821b7f21cbb76ad90d4577e11",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverStartSnapshot/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "53e004357ffe209966d8b1712e7268229250b1a9a80491e82e7f3757755851e4",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "666601c8106036de479f1c3002750ca16180d83b637892318c57c2c3f2ccf1d4",
+          "locations": [
+            {
+              "pointer": "#/$defs/knownAppliedCoverState/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "71fdf465edbe87c2a40fce00cf96eb1b9ad371c62e17e43c931dbe68b41aca30",
+          "locations": [
+            {
+              "pointer": "#/$defs/layerState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "74bfa6804271ec93b9c2e435fb2be583b38022b24962cae689bcbceecc8ed43d",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/EncoderVideoCoverAppliedResponse/allOf/1/not/required/0",
+              "source": "openapi/encoder-recorder-api.yaml"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "761f17d10db2f3e717a22230a340aafcc7de9c3ec1f98b10cc2fba5a123a58b7",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/1/then/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "77c716fe86851f8e7bf4d1a073d0af699372352f283edc0bad681673cc7dd30d",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/4/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "7c2f03a306b2f3aa6cb7b57b10fac38754c52d1817d9c13cb8e8e8f69ab94c32",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/1/else/not/anyOf/0/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "8f0f0634bf4c2904acf3c866032e214ddfde05b9381b740d6cfd23c3b09f7396",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/0/else/not/anyOf/1/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "909b8173d5e0bba390ce677d24a36ab7089c62e6dc041c1f93f85a98a69f975e",
+          "locations": [
+            {
+              "pointer": "#/$defs/appliedCoverState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -7549,6 +7993,186 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "9797863ddc672f64673b7546b3636daf7851e12a7647ff089dc5080927292505",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverAppliedWitness/allOf/0/then/properties/cover/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "9e5310874970ee145a919a4f6a2807112435f51c563fe443eca69cb23a026a89",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse/allOf/0/then/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "afb9ced73334df8cabf70342ea1a3db0c6a21c6fe303b858391873d9e3f993b6",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b015abd2a6643dcd958dda38a87459621e31f4e691089730dcad950edaa5fc76",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverAppliedWitness/allOf/0/else/properties/cover/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "b3ca88b86438b281b7796c82e402e94be44d751f158d35323be3b14d2b03259f",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "bb317a1c62fe3dd7c5f3ed2c067640fa3e8db866c06d58310b555e9e65fb6fc2",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/1/else/not/anyOf/1/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "bfce5c2e4014220d8be5e34f26bfb2e13fb6973d1c9372179cc4480b717508da",
+          "locations": [
+            {
+              "pointer": "#/$defs/mediaAssetDescriptor/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c3b26da387b78ec33a188b0b4b3ee9848d615984b5109ed74cc9d28f9e39e237",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverRuntimeState/allOf/2/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "c624c7c7719722b98c6956580161634fec54053904cdc9aa58ed967d6de43628",
+          "locations": [
+            {
+              "pointer": "#/$defs/videoCoverStartSnapshot/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d160333db5cfe1d2f9538fdb7f69332beb317bcaf699122ab0fb9b76053bb7e9",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest/allOf/0/else/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d5a12cb08993a3397f5323b0ea13198b4f767405442f1c33908960e9dd697b5a",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse/allOf/0/then/properties/actual/required/1",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "d750f170b8901728d7d87ce06fc688cbabf4fb18e7d1574d1dd966fd016f048b",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "db77ad0b5e0139360cc7490cf37af0bccf52118fe8895207ffadaad82fb3e38d",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyRequest/allOf/0/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e01e0dbbe053cda73a987a896329da89ce2e06135ba50820173c14b8720a61ac",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse/allOf/1/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "e31392e54ec1db45ce1348792bd4092235baa88e49ea224689eda3f58a8d2f57",
+          "locations": [
+            {
+              "pointer": "#/$defs/encoderVideoCoverApplyResponse/allOf/2/then/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "ef3923971cf86d96e9610119378eded6cebf232de9ddaae6dde1adaf151f84e5",
           "locations": [
             {
@@ -7561,11 +8185,35 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "f072b46a2508db4298dc20ddf39df36755496bcf922d49cfda2c86457e3c4d48",
+          "locations": [
+            {
+              "pointer": "#/$defs/layerState/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "f2b83a16af28bbba24d84c5fc8da5cdd07ac393d11388ccb0d8c2681b14b0a4a",
           "locations": [
             {
               "pointer": "#/allOf/0/then/not/anyOf/0/required/0",
               "source": "schemas/youtube-runtime-config.schema.json"
+            }
+          ],
+          "rule_id": "no-required-schema-properties-undefined",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
+          "fingerprint": "f4f5cded339370e484702cb2bcd5f57c5e4068bf72c2f888330ef0f6ed9886a6",
+          "locations": [
+            {
+              "pointer": "#/$defs/desiredCoverState/allOf/0/else/not/required/0",
+              "source": "schemas/discord-bot-start-job-request.schema.json"
             }
           ],
           "rule_id": "no-required-schema-properties-undefined",
@@ -7597,7 +8245,7 @@
         }
       ],
       "lint_exit_code": 0,
-      "warning_count": 10
+      "warning_count": 48
     },
     {
       "api": "openapi/observability-api.yaml",

@@ -26,9 +26,21 @@ const (
 const (
 	CapabilitySceneFramesMJPEGSRT        = "scene_frames_mjpeg_srt"
 	CapabilityWorkerFrameIngestMJPEGSRT  = "worker_frame_ingest_mjpeg_srt"
+	CapabilitySceneAppearanceV1          = "scene_appearance_v1"
+	CapabilityLiveVideoCoverV1           = "live_video_cover_v1"
+	CapabilityDiscordResolvedTargetV2    = "discord_resolved_target_v2"
 	CapabilitySceneVideoSRTLegacy        = "scene_video_srt"
 	CapabilityWorkerVideoIngestSRTLegacy = "worker_video_ingest_srt"
 )
+
+// SupportsDiscordResolvedTargetV2 is the fail-closed mixed-fleet negotiation
+// boundary for Discord Bot start requests. Only an actual boolean true in the
+// assigned Bot's current capability map authorizes the strict v2 DTO; absence,
+// false, unknown types, and a version string alone retain the legacy DTO.
+func SupportsDiscordResolvedTargetV2(capabilities map[string]any) bool {
+	supported, ok := capabilities[CapabilityDiscordResolvedTargetV2].(bool)
+	return ok && supported
+}
 
 type UpdateTransportMode string
 
@@ -1161,26 +1173,116 @@ type WorkerEvent struct {
 	Timestamp time.Time       `json:"timestamp"`
 }
 
+type VisualReadiness string
+
+const (
+	VisualReadinessReady    VisualReadiness = "ready"
+	VisualReadinessNotReady VisualReadiness = "not_ready"
+	VisualReadinessUnknown  VisualReadiness = "unknown"
+)
+
+type VisualSafeErrorCode string
+
+const (
+	VisualErrorInvalidThemeID               VisualSafeErrorCode = "invalid_theme_id"
+	VisualErrorMediaAssetFormatUnsupported  VisualSafeErrorCode = "media_asset_format_unsupported"
+	VisualErrorMediaAssetTooLarge           VisualSafeErrorCode = "media_asset_too_large"
+	VisualErrorMediaAssetDecodeFailed       VisualSafeErrorCode = "media_asset_decode_failed"
+	VisualErrorMediaAssetAspectRatioInvalid VisualSafeErrorCode = "media_asset_aspect_ratio_invalid"
+	VisualErrorMediaAssetVariantProcessing  VisualSafeErrorCode = "media_asset_variant_processing"
+	VisualErrorMediaAssetVariantFailed      VisualSafeErrorCode = "media_asset_variant_failed"
+	VisualErrorMediaAssetUnauthorized       VisualSafeErrorCode = "media_asset_unauthorized"
+	VisualErrorMediaAssetNotFound           VisualSafeErrorCode = "media_asset_not_found"
+	VisualErrorMediaAssetHashMismatch       VisualSafeErrorCode = "media_asset_hash_mismatch"
+	VisualErrorMediaAssetDimensionMismatch  VisualSafeErrorCode = "media_asset_dimension_mismatch"
+	VisualErrorMediaAssetTimeout            VisualSafeErrorCode = "media_asset_timeout"
+	VisualErrorDiscordTargetInvalid         VisualSafeErrorCode = "discord_target_invalid"
+	VisualErrorPresetNotFound               VisualSafeErrorCode = "preset_not_found"
+	VisualErrorPresetRevisionConflict       VisualSafeErrorCode = "preset_revision_conflict"
+	VisualErrorStaleJobGeneration           VisualSafeErrorCode = "stale_job_generation"
+	VisualErrorStaleCoverGeneration         VisualSafeErrorCode = "stale_cover_generation"
+	VisualErrorStaleCoverRevision           VisualSafeErrorCode = "stale_cover_revision"
+	VisualErrorIdempotencyConflict          VisualSafeErrorCode = "idempotency_conflict"
+	VisualErrorCoverApplyAmbiguous          VisualSafeErrorCode = "cover_apply_ambiguous"
+	VisualErrorCoverGraphUnavailable        VisualSafeErrorCode = "cover_graph_unavailable"
+	VisualErrorRevisionPayloadConflict      VisualSafeErrorCode = "revision_payload_conflict"
+	VisualErrorCapabilityRequired           VisualSafeErrorCode = "capability_required"
+)
+
+type VisualSafeError struct {
+	Code      VisualSafeErrorCode `json:"code"`
+	RequestID string              `json:"request_id,omitempty"`
+}
+
+// MediaAssetDescriptor is safe metadata for one immutable processed variant.
+// It never carries a storage key, filesystem path, external URL, or raw bytes.
+type MediaAssetDescriptor struct {
+	AssetID             string           `json:"asset_id"`
+	VariantID           string           `json:"variant_id"`
+	Usage               string           `json:"usage"`
+	MediaType           string           `json:"media_type"`
+	Width               int              `json:"width"`
+	Height              int              `json:"height"`
+	ByteSize            int64            `json:"byte_size"`
+	PixelCount          int64            `json:"pixel_count"`
+	Animated            bool             `json:"animated"`
+	AspectRatioErrorPPM *int             `json:"aspect_ratio_error_ppm,omitempty"`
+	Opaque              *bool            `json:"opaque,omitempty"`
+	SHA256              string           `json:"sha256"`
+	Revision            uint64           `json:"revision"`
+	Readiness           VisualReadiness  `json:"readiness"`
+	Error               *VisualSafeError `json:"error,omitempty"`
+}
+
+// SceneAppearance is the immutable Control Panel-owned start snapshot. Its
+// Generation shares the Video Cover JobGeneration epoch for this stream start;
+// it is intentionally distinct from the Worker-issued job generation.
+type SceneAppearance struct {
+	Generation      uint64                `json:"generation"`
+	Revision        uint64                `json:"revision"`
+	Capability      string                `json:"capability"`
+	Readiness       VisualReadiness       `json:"readiness"`
+	BackgroundMode  string                `json:"background_mode"`
+	Background      *MediaAssetDescriptor `json:"background,omitempty"`
+	HeaderTitleMode string                `json:"header_title_mode"`
+	CustomTitle     string                `json:"custom_title,omitempty"`
+	Error           *VisualSafeError      `json:"error,omitempty"`
+}
+
 type WorkerStreamContext struct {
-	StreamID              string `json:"stream_id"`
-	StreamName            string `json:"stream_name,omitempty"`
-	EncoderRecorderURL    string `json:"encoder_recorder_url,omitempty"`
-	StreamIngestToken     string `json:"stream_ingest_token,omitempty"`
-	OverlayProfileID      string `json:"overlay_profile_id,omitempty"`
-	CaptionProfileID      string `json:"caption_profile_id,omitempty"`
-	EncoderProfileID      string `json:"encoder_profile_id,omitempty"`
-	VideoWidth            int    `json:"video_width,omitempty"`
-	VideoHeight           int    `json:"video_height,omitempty"`
-	VideoFPS              int    `json:"video_fps,omitempty"`
-	VideoIngestURL        string `json:"video_ingest_url,omitempty"`
-	VideoIngestPassphrase string `json:"video_ingest_passphrase,omitempty"`
-	VideoIngestPBKeyLen   int    `json:"video_ingest_pbkeylen,omitempty"`
+	StreamID              string           `json:"stream_id"`
+	StreamName            string           `json:"stream_name,omitempty"`
+	EncoderRecorderURL    string           `json:"encoder_recorder_url,omitempty"`
+	StreamIngestToken     string           `json:"stream_ingest_token,omitempty"`
+	OverlayProfileID      string           `json:"overlay_profile_id,omitempty"`
+	CaptionProfileID      string           `json:"caption_profile_id,omitempty"`
+	SceneAppearance       *SceneAppearance `json:"scene_appearance,omitempty"`
+	EncoderProfileID      string           `json:"encoder_profile_id,omitempty"`
+	VideoWidth            int              `json:"video_width,omitempty"`
+	VideoHeight           int              `json:"video_height,omitempty"`
+	VideoFPS              int              `json:"video_fps,omitempty"`
+	VideoIngestURL        string           `json:"video_ingest_url,omitempty"`
+	VideoIngestPassphrase string           `json:"video_ingest_passphrase,omitempty"`
+	VideoIngestPBKeyLen   int              `json:"video_ingest_pbkeylen,omitempty"`
 }
 
 type WorkerStartJobRequest = WorkerStreamContext
 
 type WorkerCaptionRuntimeSettingsRequest struct {
 	CaptionProfileID string `json:"caption_profile_id"`
+}
+
+type ResolvedDiscordTarget struct {
+	GuildID        string `json:"guild_id"`
+	TextChannelID  string `json:"text_channel_id"`
+	VoiceChannelID string `json:"voice_channel_id"`
+}
+
+// DiscordTargetSnapshot is the server-resolved v2 target. Preset and manual
+// selection inputs are intentionally absent from the Bot-facing DTO.
+type DiscordTargetSnapshot struct {
+	Revision uint64                `json:"revision"`
+	Resolved ResolvedDiscordTarget `json:"resolved"`
 }
 
 type DiscordVoiceJob struct {
@@ -1201,6 +1303,25 @@ type DiscordVoiceJob struct {
 }
 
 type DiscordBotStartJobRequest = DiscordVoiceJob
+
+// DiscordBotStartJobV2Request is the strict additive v2 wire DTO. The existing
+// DiscordVoiceJob and DiscordBotStartJobRequest remain source- and wire-stable
+// for the legacy compatibility branch through Execution Bundle 8.
+type DiscordBotStartJobV2Request struct {
+	SchemaVersion               int                   `json:"schema_version"`
+	StreamID                    string                `json:"stream_id"`
+	JobGeneration               uint64                `json:"job_generation"`
+	DiscordTarget               DiscordTargetSnapshot `json:"discord_target"`
+	EncoderAudioURL             string                `json:"encoder_audio_url,omitempty"`
+	CaptionAudioURL             string                `json:"caption_audio_url,omitempty"`
+	CaptionAudioToken           string                `json:"caption_audio_token,omitempty"`
+	CaptionAudioFlushMS         int                   `json:"caption_audio_flush_ms,omitempty"`
+	CaptionAudioMaxBatchPackets int                   `json:"caption_audio_max_batch_packets,omitempty"`
+	UnresolvedSSRCBufferMS      *int                  `json:"unresolved_ssrc_buffer_ms,omitempty"`
+	StreamIngestToken           string                `json:"stream_ingest_token,omitempty"`
+	WorkerEventsURL             string                `json:"worker_events_url,omitempty"`
+	WorkerEventsToken           string                `json:"worker_events_token,omitempty"`
+}
 
 type EncoderInputMode string
 
@@ -1340,10 +1461,10 @@ const (
 // binding identity. It is intentionally not an ingest URL or stream key.
 const RelayBindingIDPattern = `^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$`
 
-// EncoderOutputRelayCapabilities is the non-secret subset of an
-// Encoder/Recorder capabilities map that describes its output relay. A
-// live_api_static relay requires an OutputRelayBindingID matching
-// RelayBindingIDPattern.
+// EncoderOutputRelayCapabilities is the historical shared service-capability
+// DTO name. Its non-secret fields now also cover negotiated Worker visual and
+// Discord Bot start-envelope behavior. A live_api_static relay requires an
+// OutputRelayBindingID matching RelayBindingIDPattern.
 type EncoderOutputRelayCapabilities struct {
 	OutputRelayMode            EncoderOutputRelayMode `json:"output_relay_mode,omitempty"`
 	OutputRelayBindingID       string                 `json:"output_relay_binding_id,omitempty"`
@@ -1351,6 +1472,9 @@ type EncoderOutputRelayCapabilities struct {
 	WorkerFrameIngestMJPEGSRT  bool                   `json:"worker_frame_ingest_mjpeg_srt,omitempty"`
 	SceneVideoSRTLegacy        bool                   `json:"scene_video_srt,omitempty"`
 	WorkerVideoIngestSRTLegacy bool                   `json:"worker_video_ingest_srt,omitempty"`
+	SceneAppearanceV1          bool                   `json:"scene_appearance_v1,omitempty"`
+	LiveVideoCoverV1           bool                   `json:"live_video_cover_v1,omitempty"`
+	DiscordResolvedTargetV2    bool                   `json:"discord_resolved_target_v2,omitempty"`
 }
 
 // ErrorCodeYouTubeRelayStaticConfigChangedReload is returned when a fixed
@@ -1495,25 +1619,153 @@ type YouTubeRelayStaticRecoveryResolveResponse struct {
 	RelayBindingID string `json:"relay_binding_id"`
 }
 
+// VideoCoverStartSnapshot binds the desired Cover state and visual epoch at
+// stream start. New producers send both active and inactive snapshots; whole-
+// field omission remains only for legacy callers during compatibility.
+type VideoCoverStartSnapshot struct {
+	JobGeneration  uint64                `json:"job_generation"`
+	Revision       uint64                `json:"revision"`
+	Active         bool                  `json:"active"`
+	IdempotencyKey string                `json:"idempotency_key"`
+	CoverAsset     *MediaAssetDescriptor `json:"cover_asset,omitempty"`
+}
+
+// EncoderVideoCoverApplyRequest is a fenced mutation of the Cover layer only.
+// Watermark state is intentionally not representable. HideConfirmed is
+// required by the schema for inactive requests because an ambiguous hide must
+// be reconciled with a read instead of automatically resent. Consumers must
+// validate raw bytes with ValidateEncoderVideoCoverApplyRequest before
+// using this presence-losing decoded DTO.
+type EncoderVideoCoverApplyRequest struct {
+	StreamID           string                `json:"stream_id"`
+	JobGeneration      uint64                `json:"job_generation"`
+	ExpectedGeneration uint64                `json:"expected_generation"`
+	Revision           uint64                `json:"revision"`
+	Active             bool                  `json:"active"`
+	IdempotencyKey     string                `json:"idempotency_key"`
+	CoverAsset         *MediaAssetDescriptor `json:"cover_asset,omitempty"`
+	HideConfirmed      bool                  `json:"hide_confirmed,omitempty"`
+}
+
+type VideoCoverDesiredState struct {
+	Active    bool   `json:"active"`
+	Revision  uint64 `json:"revision"`
+	Source    string `json:"source"`
+	VariantID string `json:"variant_id,omitempty"`
+}
+
+// VideoCoverAppliedState uses pointers for conditionally present known-state
+// fields so a known inactive state can still encode active=false explicitly.
+type VideoCoverAppliedState struct {
+	State     string `json:"state"`
+	Active    *bool  `json:"active,omitempty"`
+	Revision  uint64 `json:"revision,omitempty"`
+	VariantID string `json:"variant_id,omitempty"`
+}
+
+type VideoVisualLayerState struct {
+	Enabled   bool   `json:"enabled"`
+	Revision  uint64 `json:"revision"`
+	VariantID string `json:"variant_id,omitempty"`
+}
+
+type VisualAudioContinuity struct {
+	ProcessRestart           int `json:"process_restart"`
+	AudioEncoderRestart      int `json:"audio_encoder_restart"`
+	AudioMuxRestart          int `json:"audio_mux_restart"`
+	GraphRebuild             int `json:"graph_rebuild"`
+	Reconnect                int `json:"reconnect"`
+	SequenceLoss             int `json:"sequence_loss"`
+	TimestampDiscontinuity   int `json:"timestamp_discontinuity"`
+	IntentionalMuteInsertion int `json:"intentional_mute_insertion"`
+}
+
+type VisualPipelineInvariant struct {
+	Layers                    []string              `json:"layers"`
+	WatermarkTopmost          bool                  `json:"watermark_topmost"`
+	CoverWatermarkIndependent bool                  `json:"cover_watermark_independent"`
+	OutputParity              []string              `json:"output_parity"`
+	AudioContinuity           VisualAudioContinuity `json:"audio_continuity"`
+}
+
+// VideoCoverAppliedWitness exists only after the Encoder graph applied the
+// state. Request acceptance and asset validation cannot produce this witness.
+type VideoCoverAppliedWitness struct {
+	GraphApplied bool                    `json:"graph_applied"`
+	Generation   uint64                  `json:"generation"`
+	Revision     uint64                  `json:"revision"`
+	Active       bool                    `json:"active"`
+	Cover        VideoVisualLayerState   `json:"cover"`
+	Watermark    VideoVisualLayerState   `json:"watermark"`
+	Pipeline     VisualPipelineInvariant `json:"pipeline"`
+}
+
+// VideoCoverRuntimeState returns the actual Encoder-owned graph generation and
+// keeps the independently observed Cover and Watermark layer states separate.
+// Consumers must validate raw GET bytes with
+// ValidateEncoderVideoCoverRuntimeState before using this decoded DTO.
+type VideoCoverRuntimeState struct {
+	StreamID          string                    `json:"stream_id"`
+	JobGeneration     uint64                    `json:"job_generation"`
+	Generation        uint64                    `json:"generation"`
+	Capability        string                    `json:"capability"`
+	Readiness         VisualReadiness           `json:"readiness"`
+	Desired           VideoCoverDesiredState    `json:"desired"`
+	Applied           VideoCoverAppliedState    `json:"applied"`
+	Cover             VideoVisualLayerState     `json:"cover"`
+	CoverAsset        *MediaAssetDescriptor     `json:"cover_asset,omitempty"`
+	Watermark         VideoVisualLayerState     `json:"watermark"`
+	Pipeline          VisualPipelineInvariant   `json:"pipeline"`
+	AppliedWitness    *VideoCoverAppliedWitness `json:"applied_witness,omitempty"`
+	NoAutomaticResend bool                      `json:"no_automatic_resend"`
+	LastGoodApplied   *VideoCoverAppliedState   `json:"last_good_applied,omitempty"`
+	Error             *VisualSafeError          `json:"error,omitempty"`
+}
+
+type EncoderVideoCoverApplyOutcome string
+
+const (
+	EncoderVideoCoverApplyOutcomeApplied   EncoderVideoCoverApplyOutcome = "applied"
+	EncoderVideoCoverApplyOutcomeRejected  EncoderVideoCoverApplyOutcome = "rejected"
+	EncoderVideoCoverApplyOutcomeAmbiguous EncoderVideoCoverApplyOutcome = "ambiguous"
+)
+
+// EncoderVideoCoverApplyResponse is the decoded response DTO. Consumers must
+// validate raw bytes with ValidateEncoderVideoCoverApplyResponse first so
+// required false booleans cannot be confused with omitted fields.
+type EncoderVideoCoverApplyResponse struct {
+	StreamID          string                        `json:"stream_id"`
+	JobGeneration     uint64                        `json:"job_generation"`
+	RequestedRevision uint64                        `json:"requested_revision"`
+	ActualGeneration  uint64                        `json:"actual_generation"`
+	Accepted          bool                          `json:"accepted"`
+	Rejected          bool                          `json:"rejected"`
+	Applied           bool                          `json:"applied"`
+	Outcome           EncoderVideoCoverApplyOutcome `json:"outcome"`
+	Actual            VideoCoverRuntimeState        `json:"actual"`
+	Error             *VisualSafeError              `json:"error,omitempty"`
+}
+
 type EncoderStartStreamRequest struct {
-	StreamID               string               `json:"stream_id"`
-	ArchiveRunID           string               `json:"archive_run_id,omitempty"`
-	Name                   string               `json:"name"`
-	InputURL               string               `json:"input_url,omitempty"`
-	InputMode              string               `json:"input_mode,omitempty"`
-	WorkerVideoIngest      bool                 `json:"worker_video_ingest,omitempty"`
-	WorkerVideoIngestToken string               `json:"worker_video_ingest_token,omitempty"`
-	RTMPURL                string               `json:"rtmp_url"`
-	StreamKey              string               `json:"stream_key,omitempty"`
-	StreamKeySecretName    string               `json:"stream_key_secret_name,omitempty"`
-	EncoderProfileID       string               `json:"encoder_profile_id,omitempty"`
-	OverlayProfileID       string               `json:"overlay_profile_id,omitempty"`
-	EncoderAudioGainDB     float64              `json:"encoder_audio_gain_db,omitempty"`
-	ArchiveProfileID       string               `json:"archive_profile_id,omitempty"`
-	StartedAt              time.Time            `json:"started_at,omitempty"`
-	YouTubeRuntime         YouTubeRuntimeConfig `json:"youtube_runtime,omitempty"`
-	ArchiveConfig          ArchiveRuntimeConfig `json:"archive_config,omitempty"`
-	DryRun                 bool                 `json:"dry_run,omitempty"`
+	StreamID               string                   `json:"stream_id"`
+	ArchiveRunID           string                   `json:"archive_run_id,omitempty"`
+	Name                   string                   `json:"name"`
+	InputURL               string                   `json:"input_url,omitempty"`
+	InputMode              string                   `json:"input_mode,omitempty"`
+	WorkerVideoIngest      bool                     `json:"worker_video_ingest,omitempty"`
+	WorkerVideoIngestToken string                   `json:"worker_video_ingest_token,omitempty"`
+	RTMPURL                string                   `json:"rtmp_url"`
+	StreamKey              string                   `json:"stream_key,omitempty"`
+	StreamKeySecretName    string                   `json:"stream_key_secret_name,omitempty"`
+	EncoderProfileID       string                   `json:"encoder_profile_id,omitempty"`
+	OverlayProfileID       string                   `json:"overlay_profile_id,omitempty"`
+	EncoderAudioGainDB     float64                  `json:"encoder_audio_gain_db,omitempty"`
+	ArchiveProfileID       string                   `json:"archive_profile_id,omitempty"`
+	StartedAt              time.Time                `json:"started_at,omitempty"`
+	YouTubeRuntime         YouTubeRuntimeConfig     `json:"youtube_runtime,omitempty"`
+	ArchiveConfig          ArchiveRuntimeConfig     `json:"archive_config,omitempty"`
+	VideoCoverStart        *VideoCoverStartSnapshot `json:"video_cover_start,omitempty"`
+	DryRun                 bool                     `json:"dry_run,omitempty"`
 }
 
 type EncoderRuntimeSettingsRequest struct {

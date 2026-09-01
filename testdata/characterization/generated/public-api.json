@@ -2,7 +2,7 @@
   "format_version": 1,
   "package_import_path": "github.com/example/autostream-contracts/pkg/contracts",
   "package_name": "contracts",
-  "exported_identifier_count": 536,
+  "exported_identifier_count": 591,
   "exported_method_count": 0,
   "identifiers": [
     {
@@ -60,6 +60,27 @@
       "type": "AuditEvent",
       "alias": false,
       "underlying": "struct{ID string \"json:\\\"id\\\"\"; Timestamp time.Time \"json:\\\"timestamp\\\"\"; ActorUserID string \"json:\\\"actor_user_id,omitempty\\\"\"; ActorUsername string \"json:\\\"actor_username,omitempty\\\"\"; ActorIP string \"json:\\\"actor_ip,omitempty\\\"\"; UserAgent string \"json:\\\"user_agent,omitempty\\\"\"; Action string \"json:\\\"action\\\"\"; ResourceType string \"json:\\\"resource_type\\\"\"; ResourceID string \"json:\\\"resource_id,omitempty\\\"\"; Result string \"json:\\\"result\\\"\"; Metadata map[string]any \"json:\\\"metadata,omitempty\\\"\"; RequestID string \"json:\\\"request_id\\\"\"}"
+    },
+    {
+      "name": "CapabilityDiscordResolvedTargetV2",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"discord_resolved_target_v2\""
+    },
+    {
+      "name": "CapabilityLiveVideoCoverV1",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"live_video_cover_v1\""
+    },
+    {
+      "name": "CapabilitySceneAppearanceV1",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"scene_appearance_v1\""
     },
     {
       "name": "CapabilitySceneFramesMJPEGSRT",
@@ -195,6 +216,13 @@
       "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; GuildID string \"json:\\\"guild_id\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id\\\"\"; TextChannelID string \"json:\\\"text_channel_id,omitempty\\\"\"; EncoderAudioURL string \"json:\\\"encoder_audio_url,omitempty\\\"\"; CaptionAudioURL string \"json:\\\"caption_audio_url,omitempty\\\"\"; CaptionAudioToken string \"json:\\\"caption_audio_token,omitempty\\\"\"; CaptionAudioFlushMS int \"json:\\\"caption_audio_flush_ms,omitempty\\\"\"; CaptionAudioMaxBatchPackets int \"json:\\\"caption_audio_max_batch_packets,omitempty\\\"\"; UnresolvedSSRCBufferMS int \"json:\\\"unresolved_ssrc_buffer_ms,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; WorkerEventsURL string \"json:\\\"worker_events_url,omitempty\\\"\"; WorkerEventsToken string \"json:\\\"worker_events_token,omitempty\\\"\"}"
     },
     {
+      "name": "DiscordBotStartJobV2Request",
+      "kind": "type",
+      "type": "DiscordBotStartJobV2Request",
+      "alias": false,
+      "underlying": "struct{SchemaVersion int \"json:\\\"schema_version\\\"\"; StreamID string \"json:\\\"stream_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; DiscordTarget DiscordTargetSnapshot \"json:\\\"discord_target\\\"\"; EncoderAudioURL string \"json:\\\"encoder_audio_url,omitempty\\\"\"; CaptionAudioURL string \"json:\\\"caption_audio_url,omitempty\\\"\"; CaptionAudioToken string \"json:\\\"caption_audio_token,omitempty\\\"\"; CaptionAudioFlushMS int \"json:\\\"caption_audio_flush_ms,omitempty\\\"\"; CaptionAudioMaxBatchPackets int \"json:\\\"caption_audio_max_batch_packets,omitempty\\\"\"; UnresolvedSSRCBufferMS *int \"json:\\\"unresolved_ssrc_buffer_ms,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; WorkerEventsURL string \"json:\\\"worker_events_url,omitempty\\\"\"; WorkerEventsToken string \"json:\\\"worker_events_token,omitempty\\\"\"}"
+    },
+    {
       "name": "DiscordConfig",
       "kind": "type",
       "type": "DiscordConfig",
@@ -228,6 +256,13 @@
       "type": "DiscordOpusPacket",
       "alias": false,
       "underlying": "struct{SSRC uint32 \"json:\\\"ssrc\\\"\"; UserID string \"json:\\\"user_id,omitempty\\\"\"; JobGeneration uint64 \"json:\\\"job_generation,omitempty\\\"\"; ConnectionGeneration uint64 \"json:\\\"connection_generation,omitempty\\\"\"; Sequence uint16 \"json:\\\"sequence\\\"\"; Timestamp uint32 \"json:\\\"timestamp\\\"\"; ReceivedAt time.Time \"json:\\\"received_at\\\"\"; OpusBase64 string \"json:\\\"opus_base64\\\"\"}"
+    },
+    {
+      "name": "DiscordTargetSnapshot",
+      "kind": "type",
+      "type": "DiscordTargetSnapshot",
+      "alias": false,
+      "underlying": "struct{Revision uint64 \"json:\\\"revision\\\"\"; Resolved ResolvedDiscordTarget \"json:\\\"resolved\\\"\"}"
     },
     {
       "name": "DiscordVoiceJob",
@@ -290,7 +325,7 @@
       "kind": "type",
       "type": "EncoderOutputRelayCapabilities",
       "alias": false,
-      "underlying": "struct{OutputRelayMode EncoderOutputRelayMode \"json:\\\"output_relay_mode,omitempty\\\"\"; OutputRelayBindingID string \"json:\\\"output_relay_binding_id,omitempty\\\"\"; SceneFramesMJPEGSRT bool \"json:\\\"scene_frames_mjpeg_srt,omitempty\\\"\"; WorkerFrameIngestMJPEGSRT bool \"json:\\\"worker_frame_ingest_mjpeg_srt,omitempty\\\"\"; SceneVideoSRTLegacy bool \"json:\\\"scene_video_srt,omitempty\\\"\"; WorkerVideoIngestSRTLegacy bool \"json:\\\"worker_video_ingest_srt,omitempty\\\"\"}"
+      "underlying": "struct{OutputRelayMode EncoderOutputRelayMode \"json:\\\"output_relay_mode,omitempty\\\"\"; OutputRelayBindingID string \"json:\\\"output_relay_binding_id,omitempty\\\"\"; SceneFramesMJPEGSRT bool \"json:\\\"scene_frames_mjpeg_srt,omitempty\\\"\"; WorkerFrameIngestMJPEGSRT bool \"json:\\\"worker_frame_ingest_mjpeg_srt,omitempty\\\"\"; SceneVideoSRTLegacy bool \"json:\\\"scene_video_srt,omitempty\\\"\"; WorkerVideoIngestSRTLegacy bool \"json:\\\"worker_video_ingest_srt,omitempty\\\"\"; SceneAppearanceV1 bool \"json:\\\"scene_appearance_v1,omitempty\\\"\"; LiveVideoCoverV1 bool \"json:\\\"live_video_cover_v1,omitempty\\\"\"; DiscordResolvedTargetV2 bool \"json:\\\"discord_resolved_target_v2,omitempty\\\"\"}"
     },
     {
       "name": "EncoderOutputRelayMode",
@@ -353,7 +388,7 @@
       "kind": "type",
       "type": "EncoderStartStreamRequest",
       "alias": false,
-      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; ArchiveRunID string \"json:\\\"archive_run_id,omitempty\\\"\"; Name string \"json:\\\"name\\\"\"; InputURL string \"json:\\\"input_url,omitempty\\\"\"; InputMode string \"json:\\\"input_mode,omitempty\\\"\"; WorkerVideoIngest bool \"json:\\\"worker_video_ingest,omitempty\\\"\"; WorkerVideoIngestToken string \"json:\\\"worker_video_ingest_token,omitempty\\\"\"; RTMPURL string \"json:\\\"rtmp_url\\\"\"; StreamKey string \"json:\\\"stream_key,omitempty\\\"\"; StreamKeySecretName string \"json:\\\"stream_key_secret_name,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; StartedAt time.Time \"json:\\\"started_at,omitempty\\\"\"; YouTubeRuntime YouTubeRuntimeConfig \"json:\\\"youtube_runtime,omitempty\\\"\"; ArchiveConfig ArchiveRuntimeConfig \"json:\\\"archive_config,omitempty\\\"\"; DryRun bool \"json:\\\"dry_run,omitempty\\\"\"}"
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; ArchiveRunID string \"json:\\\"archive_run_id,omitempty\\\"\"; Name string \"json:\\\"name\\\"\"; InputURL string \"json:\\\"input_url,omitempty\\\"\"; InputMode string \"json:\\\"input_mode,omitempty\\\"\"; WorkerVideoIngest bool \"json:\\\"worker_video_ingest,omitempty\\\"\"; WorkerVideoIngestToken string \"json:\\\"worker_video_ingest_token,omitempty\\\"\"; RTMPURL string \"json:\\\"rtmp_url\\\"\"; StreamKey string \"json:\\\"stream_key,omitempty\\\"\"; StreamKeySecretName string \"json:\\\"stream_key_secret_name,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; StartedAt time.Time \"json:\\\"started_at,omitempty\\\"\"; YouTubeRuntime YouTubeRuntimeConfig \"json:\\\"youtube_runtime,omitempty\\\"\"; ArchiveConfig ArchiveRuntimeConfig \"json:\\\"archive_config,omitempty\\\"\"; VideoCoverStart *VideoCoverStartSnapshot \"json:\\\"video_cover_start,omitempty\\\"\"; DryRun bool \"json:\\\"dry_run,omitempty\\\"\"}"
     },
     {
       "name": "EncoderStartStreamResponse",
@@ -361,6 +396,48 @@
       "type": "EncoderStartStreamResponse",
       "alias": false,
       "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; Name string \"json:\\\"name\\\"\"; Status string \"json:\\\"status\\\"\"; StartedAtJST string \"json:\\\"started_at_jst\\\"\"; StoppedAtJST string \"json:\\\"stopped_at_jst,omitempty\\\"\"; Archive map[string]string \"json:\\\"archive\\\"\"; Error string \"json:\\\"error,omitempty\\\"\"; VideoIngest *EncoderVideoIngest \"json:\\\"video_ingest,omitempty\\\"\"}"
+    },
+    {
+      "name": "EncoderVideoCoverApplyOutcome",
+      "kind": "type",
+      "type": "EncoderVideoCoverApplyOutcome",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "EncoderVideoCoverApplyOutcomeAmbiguous",
+      "kind": "const",
+      "type": "EncoderVideoCoverApplyOutcome",
+      "alias": false,
+      "value": "\"ambiguous\""
+    },
+    {
+      "name": "EncoderVideoCoverApplyOutcomeApplied",
+      "kind": "const",
+      "type": "EncoderVideoCoverApplyOutcome",
+      "alias": false,
+      "value": "\"applied\""
+    },
+    {
+      "name": "EncoderVideoCoverApplyOutcomeRejected",
+      "kind": "const",
+      "type": "EncoderVideoCoverApplyOutcome",
+      "alias": false,
+      "value": "\"rejected\""
+    },
+    {
+      "name": "EncoderVideoCoverApplyRequest",
+      "kind": "type",
+      "type": "EncoderVideoCoverApplyRequest",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; ExpectedGeneration uint64 \"json:\\\"expected_generation\\\"\"; Revision uint64 \"json:\\\"revision\\\"\"; Active bool \"json:\\\"active\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CoverAsset *MediaAssetDescriptor \"json:\\\"cover_asset,omitempty\\\"\"; HideConfirmed bool \"json:\\\"hide_confirmed,omitempty\\\"\"}"
+    },
+    {
+      "name": "EncoderVideoCoverApplyResponse",
+      "kind": "type",
+      "type": "EncoderVideoCoverApplyResponse",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; RequestedRevision uint64 \"json:\\\"requested_revision\\\"\"; ActualGeneration uint64 \"json:\\\"actual_generation\\\"\"; Accepted bool \"json:\\\"accepted\\\"\"; Rejected bool \"json:\\\"rejected\\\"\"; Applied bool \"json:\\\"applied\\\"\"; Outcome EncoderVideoCoverApplyOutcome \"json:\\\"outcome\\\"\"; Actual VideoCoverRuntimeState \"json:\\\"actual\\\"\"; Error *VisualSafeError \"json:\\\"error,omitempty\\\"\"}"
     },
     {
       "name": "EncoderVideoIngest",
@@ -584,6 +661,13 @@
       "type": "ManagedAppSettings",
       "alias": false,
       "underlying": "struct{AppName string \"json:\\\"app_name\\\"\"; Timezone string \"json:\\\"timezone\\\"\"; GoogleAnalyticsEnabled bool \"json:\\\"google_analytics_enabled,omitempty\\\"\"; GoogleAnalyticsMeasurementID string \"json:\\\"google_analytics_measurement_id,omitempty\\\"\"; SMTPEnabled bool \"json:\\\"smtp_enabled\\\"\"; SMTPHost string \"json:\\\"smtp_host,omitempty\\\"\"; SMTPPort int \"json:\\\"smtp_port,omitempty\\\"\"; SMTPStartTLS bool \"json:\\\"smtp_starttls\\\"\"; SMTPFrom string \"json:\\\"smtp_from,omitempty\\\"\"; SMTPUsername string \"json:\\\"smtp_username,omitempty\\\"\"; SMTPPasswordConfigured bool \"json:\\\"smtp_password_configured,omitempty\\\"\"; TurnstileEnabled bool \"json:\\\"turnstile_enabled,omitempty\\\"\"; TurnstileSiteKey string \"json:\\\"turnstile_site_key,omitempty\\\"\"; TurnstileConfigured bool \"json:\\\"turnstile_configured,omitempty\\\"\"; UpdatedAt string \"json:\\\"updated_at,omitempty\\\"\"}"
+    },
+    {
+      "name": "MediaAssetDescriptor",
+      "kind": "type",
+      "type": "MediaAssetDescriptor",
+      "alias": false,
+      "underlying": "struct{AssetID string \"json:\\\"asset_id\\\"\"; VariantID string \"json:\\\"variant_id\\\"\"; Usage string \"json:\\\"usage\\\"\"; MediaType string \"json:\\\"media_type\\\"\"; Width int \"json:\\\"width\\\"\"; Height int \"json:\\\"height\\\"\"; ByteSize int64 \"json:\\\"byte_size\\\"\"; PixelCount int64 \"json:\\\"pixel_count\\\"\"; Animated bool \"json:\\\"animated\\\"\"; AspectRatioErrorPPM *int \"json:\\\"aspect_ratio_error_ppm,omitempty\\\"\"; Opaque *bool \"json:\\\"opaque,omitempty\\\"\"; SHA256 string \"json:\\\"sha256\\\"\"; Revision uint64 \"json:\\\"revision\\\"\"; Readiness VisualReadiness \"json:\\\"readiness\\\"\"; Error *VisualSafeError \"json:\\\"error,omitempty\\\"\"}"
     },
     {
       "name": "MetricArchiveFinalMKVExists",
@@ -2124,6 +2208,13 @@
       "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; ServiceType SystemUpdateTargetType \"json:\\\"service_type\\\"\"; HostID string \"json:\\\"host_id,omitempty\\\"\"; IncidentID string \"json:\\\"incident_id,omitempty\\\"\"}"
     },
     {
+      "name": "ResolvedDiscordTarget",
+      "kind": "type",
+      "type": "ResolvedDiscordTarget",
+      "alias": false,
+      "underlying": "struct{GuildID string \"json:\\\"guild_id\\\"\"; TextChannelID string \"json:\\\"text_channel_id\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id\\\"\"}"
+    },
+    {
       "name": "RuleArchivePackageFailed",
       "kind": "const",
       "type": "IncidentRule",
@@ -2290,6 +2381,13 @@
       "type": "IncidentRule",
       "alias": false,
       "value": "\"worker_event_send_failed\""
+    },
+    {
+      "name": "SceneAppearance",
+      "kind": "type",
+      "type": "SceneAppearance",
+      "alias": false,
+      "underlying": "struct{Generation uint64 \"json:\\\"generation\\\"\"; Revision uint64 \"json:\\\"revision\\\"\"; Capability string \"json:\\\"capability\\\"\"; Readiness VisualReadiness \"json:\\\"readiness\\\"\"; BackgroundMode string \"json:\\\"background_mode\\\"\"; Background *MediaAssetDescriptor \"json:\\\"background,omitempty\\\"\"; HeaderTitleMode string \"json:\\\"header_title_mode\\\"\"; CustomTitle string \"json:\\\"custom_title,omitempty\\\"\"; Error *VisualSafeError \"json:\\\"error,omitempty\\\"\"}"
     },
     {
       "name": "ScopeDiscordStatusWrite",
@@ -2899,6 +2997,12 @@
       "type": "StreamWriteRequest",
       "alias": false,
       "underlying": "struct{Name string \"json:\\\"name\\\"\"; StreamSettingsWriteRequest}"
+    },
+    {
+      "name": "SupportsDiscordResolvedTargetV2",
+      "kind": "func",
+      "type": "func(capabilities map[string]any) bool",
+      "alias": false
     },
     {
       "name": "SystemUpdateAgentStatus",
@@ -3594,6 +3698,283 @@
       "underlying": "struct{Code string \"json:\\\"code\\\"\"; Message string \"json:\\\"message\\\"\"; Retryable bool \"json:\\\"retryable\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id,omitempty\\\"\"}"
     },
     {
+      "name": "ValidateEncoderVideoCoverApplyRequest",
+      "kind": "func",
+      "type": "func(pathStreamID string, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateEncoderVideoCoverApplyResponse",
+      "kind": "func",
+      "type": "func(statusCode int, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateEncoderVideoCoverRuntimeState",
+      "kind": "func",
+      "type": "func(pathStreamID string, payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "VideoCoverAppliedState",
+      "kind": "type",
+      "type": "VideoCoverAppliedState",
+      "alias": false,
+      "underlying": "struct{State string \"json:\\\"state\\\"\"; Active *bool \"json:\\\"active,omitempty\\\"\"; Revision uint64 \"json:\\\"revision,omitempty\\\"\"; VariantID string \"json:\\\"variant_id,omitempty\\\"\"}"
+    },
+    {
+      "name": "VideoCoverAppliedWitness",
+      "kind": "type",
+      "type": "VideoCoverAppliedWitness",
+      "alias": false,
+      "underlying": "struct{GraphApplied bool \"json:\\\"graph_applied\\\"\"; Generation uint64 \"json:\\\"generation\\\"\"; Revision uint64 \"json:\\\"revision\\\"\"; Active bool \"json:\\\"active\\\"\"; Cover VideoVisualLayerState \"json:\\\"cover\\\"\"; Watermark VideoVisualLayerState \"json:\\\"watermark\\\"\"; Pipeline VisualPipelineInvariant \"json:\\\"pipeline\\\"\"}"
+    },
+    {
+      "name": "VideoCoverDesiredState",
+      "kind": "type",
+      "type": "VideoCoverDesiredState",
+      "alias": false,
+      "underlying": "struct{Active bool \"json:\\\"active\\\"\"; Revision uint64 \"json:\\\"revision\\\"\"; Source string \"json:\\\"source\\\"\"; VariantID string \"json:\\\"variant_id,omitempty\\\"\"}"
+    },
+    {
+      "name": "VideoCoverRuntimeState",
+      "kind": "type",
+      "type": "VideoCoverRuntimeState",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; Generation uint64 \"json:\\\"generation\\\"\"; Capability string \"json:\\\"capability\\\"\"; Readiness VisualReadiness \"json:\\\"readiness\\\"\"; Desired VideoCoverDesiredState \"json:\\\"desired\\\"\"; Applied VideoCoverAppliedState \"json:\\\"applied\\\"\"; Cover VideoVisualLayerState \"json:\\\"cover\\\"\"; CoverAsset *MediaAssetDescriptor \"json:\\\"cover_asset,omitempty\\\"\"; Watermark VideoVisualLayerState \"json:\\\"watermark\\\"\"; Pipeline VisualPipelineInvariant \"json:\\\"pipeline\\\"\"; AppliedWitness *VideoCoverAppliedWitness \"json:\\\"applied_witness,omitempty\\\"\"; NoAutomaticResend bool \"json:\\\"no_automatic_resend\\\"\"; LastGoodApplied *VideoCoverAppliedState \"json:\\\"last_good_applied,omitempty\\\"\"; Error *VisualSafeError \"json:\\\"error,omitempty\\\"\"}"
+    },
+    {
+      "name": "VideoCoverStartSnapshot",
+      "kind": "type",
+      "type": "VideoCoverStartSnapshot",
+      "alias": false,
+      "underlying": "struct{JobGeneration uint64 \"json:\\\"job_generation\\\"\"; Revision uint64 \"json:\\\"revision\\\"\"; Active bool \"json:\\\"active\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CoverAsset *MediaAssetDescriptor \"json:\\\"cover_asset,omitempty\\\"\"}"
+    },
+    {
+      "name": "VideoVisualLayerState",
+      "kind": "type",
+      "type": "VideoVisualLayerState",
+      "alias": false,
+      "underlying": "struct{Enabled bool \"json:\\\"enabled\\\"\"; Revision uint64 \"json:\\\"revision\\\"\"; VariantID string \"json:\\\"variant_id,omitempty\\\"\"}"
+    },
+    {
+      "name": "VisualAudioContinuity",
+      "kind": "type",
+      "type": "VisualAudioContinuity",
+      "alias": false,
+      "underlying": "struct{ProcessRestart int \"json:\\\"process_restart\\\"\"; AudioEncoderRestart int \"json:\\\"audio_encoder_restart\\\"\"; AudioMuxRestart int \"json:\\\"audio_mux_restart\\\"\"; GraphRebuild int \"json:\\\"graph_rebuild\\\"\"; Reconnect int \"json:\\\"reconnect\\\"\"; SequenceLoss int \"json:\\\"sequence_loss\\\"\"; TimestampDiscontinuity int \"json:\\\"timestamp_discontinuity\\\"\"; IntentionalMuteInsertion int \"json:\\\"intentional_mute_insertion\\\"\"}"
+    },
+    {
+      "name": "VisualErrorCapabilityRequired",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"capability_required\""
+    },
+    {
+      "name": "VisualErrorCoverApplyAmbiguous",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"cover_apply_ambiguous\""
+    },
+    {
+      "name": "VisualErrorCoverGraphUnavailable",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"cover_graph_unavailable\""
+    },
+    {
+      "name": "VisualErrorDiscordTargetInvalid",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"discord_target_invalid\""
+    },
+    {
+      "name": "VisualErrorIdempotencyConflict",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"idempotency_conflict\""
+    },
+    {
+      "name": "VisualErrorInvalidThemeID",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"invalid_theme_id\""
+    },
+    {
+      "name": "VisualErrorMediaAssetAspectRatioInvalid",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_aspect_ratio_invalid\""
+    },
+    {
+      "name": "VisualErrorMediaAssetDecodeFailed",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_decode_failed\""
+    },
+    {
+      "name": "VisualErrorMediaAssetDimensionMismatch",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_dimension_mismatch\""
+    },
+    {
+      "name": "VisualErrorMediaAssetFormatUnsupported",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_format_unsupported\""
+    },
+    {
+      "name": "VisualErrorMediaAssetHashMismatch",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_hash_mismatch\""
+    },
+    {
+      "name": "VisualErrorMediaAssetNotFound",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_not_found\""
+    },
+    {
+      "name": "VisualErrorMediaAssetTimeout",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_timeout\""
+    },
+    {
+      "name": "VisualErrorMediaAssetTooLarge",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_too_large\""
+    },
+    {
+      "name": "VisualErrorMediaAssetUnauthorized",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_unauthorized\""
+    },
+    {
+      "name": "VisualErrorMediaAssetVariantFailed",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_variant_failed\""
+    },
+    {
+      "name": "VisualErrorMediaAssetVariantProcessing",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"media_asset_variant_processing\""
+    },
+    {
+      "name": "VisualErrorPresetNotFound",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"preset_not_found\""
+    },
+    {
+      "name": "VisualErrorPresetRevisionConflict",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"preset_revision_conflict\""
+    },
+    {
+      "name": "VisualErrorRevisionPayloadConflict",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"revision_payload_conflict\""
+    },
+    {
+      "name": "VisualErrorStaleCoverGeneration",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"stale_cover_generation\""
+    },
+    {
+      "name": "VisualErrorStaleCoverRevision",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"stale_cover_revision\""
+    },
+    {
+      "name": "VisualErrorStaleJobGeneration",
+      "kind": "const",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "value": "\"stale_job_generation\""
+    },
+    {
+      "name": "VisualPipelineInvariant",
+      "kind": "type",
+      "type": "VisualPipelineInvariant",
+      "alias": false,
+      "underlying": "struct{Layers []string \"json:\\\"layers\\\"\"; WatermarkTopmost bool \"json:\\\"watermark_topmost\\\"\"; CoverWatermarkIndependent bool \"json:\\\"cover_watermark_independent\\\"\"; OutputParity []string \"json:\\\"output_parity\\\"\"; AudioContinuity VisualAudioContinuity \"json:\\\"audio_continuity\\\"\"}"
+    },
+    {
+      "name": "VisualReadiness",
+      "kind": "type",
+      "type": "VisualReadiness",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "VisualReadinessNotReady",
+      "kind": "const",
+      "type": "VisualReadiness",
+      "alias": false,
+      "value": "\"not_ready\""
+    },
+    {
+      "name": "VisualReadinessReady",
+      "kind": "const",
+      "type": "VisualReadiness",
+      "alias": false,
+      "value": "\"ready\""
+    },
+    {
+      "name": "VisualReadinessUnknown",
+      "kind": "const",
+      "type": "VisualReadiness",
+      "alias": false,
+      "value": "\"unknown\""
+    },
+    {
+      "name": "VisualSafeError",
+      "kind": "type",
+      "type": "VisualSafeError",
+      "alias": false,
+      "underlying": "struct{Code VisualSafeErrorCode \"json:\\\"code\\\"\"; RequestID string \"json:\\\"request_id,omitempty\\\"\"}"
+    },
+    {
+      "name": "VisualSafeErrorCode",
+      "kind": "type",
+      "type": "VisualSafeErrorCode",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
       "name": "WorkerCaptionRuntimeSettingsRequest",
       "kind": "type",
       "type": "WorkerCaptionRuntimeSettingsRequest",
@@ -3661,14 +4042,14 @@
       "kind": "type",
       "type": "WorkerStartJobRequest",
       "alias": true,
-      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; StreamName string \"json:\\\"stream_name,omitempty\\\"\"; EncoderRecorderURL string \"json:\\\"encoder_recorder_url,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; VideoWidth int \"json:\\\"video_width,omitempty\\\"\"; VideoHeight int \"json:\\\"video_height,omitempty\\\"\"; VideoFPS int \"json:\\\"video_fps,omitempty\\\"\"; VideoIngestURL string \"json:\\\"video_ingest_url,omitempty\\\"\"; VideoIngestPassphrase string \"json:\\\"video_ingest_passphrase,omitempty\\\"\"; VideoIngestPBKeyLen int \"json:\\\"video_ingest_pbkeylen,omitempty\\\"\"}"
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; StreamName string \"json:\\\"stream_name,omitempty\\\"\"; EncoderRecorderURL string \"json:\\\"encoder_recorder_url,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; SceneAppearance *SceneAppearance \"json:\\\"scene_appearance,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; VideoWidth int \"json:\\\"video_width,omitempty\\\"\"; VideoHeight int \"json:\\\"video_height,omitempty\\\"\"; VideoFPS int \"json:\\\"video_fps,omitempty\\\"\"; VideoIngestURL string \"json:\\\"video_ingest_url,omitempty\\\"\"; VideoIngestPassphrase string \"json:\\\"video_ingest_passphrase,omitempty\\\"\"; VideoIngestPBKeyLen int \"json:\\\"video_ingest_pbkeylen,omitempty\\\"\"}"
     },
     {
       "name": "WorkerStreamContext",
       "kind": "type",
       "type": "WorkerStreamContext",
       "alias": false,
-      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; StreamName string \"json:\\\"stream_name,omitempty\\\"\"; EncoderRecorderURL string \"json:\\\"encoder_recorder_url,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; VideoWidth int \"json:\\\"video_width,omitempty\\\"\"; VideoHeight int \"json:\\\"video_height,omitempty\\\"\"; VideoFPS int \"json:\\\"video_fps,omitempty\\\"\"; VideoIngestURL string \"json:\\\"video_ingest_url,omitempty\\\"\"; VideoIngestPassphrase string \"json:\\\"video_ingest_passphrase,omitempty\\\"\"; VideoIngestPBKeyLen int \"json:\\\"video_ingest_pbkeylen,omitempty\\\"\"}"
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; StreamName string \"json:\\\"stream_name,omitempty\\\"\"; EncoderRecorderURL string \"json:\\\"encoder_recorder_url,omitempty\\\"\"; StreamIngestToken string \"json:\\\"stream_ingest_token,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; SceneAppearance *SceneAppearance \"json:\\\"scene_appearance,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; VideoWidth int \"json:\\\"video_width,omitempty\\\"\"; VideoHeight int \"json:\\\"video_height,omitempty\\\"\"; VideoFPS int \"json:\\\"video_fps,omitempty\\\"\"; VideoIngestURL string \"json:\\\"video_ingest_url,omitempty\\\"\"; VideoIngestPassphrase string \"json:\\\"video_ingest_passphrase,omitempty\\\"\"; VideoIngestPBKeyLen int \"json:\\\"video_ingest_pbkeylen,omitempty\\\"\"}"
     },
     {
       "name": "YouTubeLiveNotificationRequest",

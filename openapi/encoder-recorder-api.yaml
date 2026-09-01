@@ -114,6 +114,83 @@ paths:
         "503":
           description: Worker video ingest is unavailable or could not allocate its encrypted SRT listener
 
+  /streams/{id}/video-cover-state:
+    get:
+      operationId: getVideoCoverRuntimeState
+      summary: Reconcile the actual Encoder Video Cover graph state
+      description: >
+        Returns the Encoder-owned graph generation and graph-applied witness for
+        the Control Panel-owned stream visual job epoch. Unknown or ambiguous
+        applied state is returned explicitly and must not trigger an automatic resend.
+      x-autostream-response-validator: contracts.ValidateEncoderVideoCoverRuntimeState
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: string, minLength: 1}
+      responses:
+        "200":
+          description: current generation-fenced Video Cover runtime state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncoderVideoCoverRuntimeState"
+        "401": {description: service token missing or invalid}
+        "404": {description: stream runtime is not present}
+    put:
+      operationId: applyVideoCoverState
+      summary: Apply one generation-fenced Video Cover mutation
+      description: >
+        Mutates only the Cover imagefeed. The request cannot represent a
+        Watermark mutation. Applied is returned only after the Encoder graph
+        produced a graph-applied witness. Hide ambiguity is reconciled by GET
+        and is never automatically resent. The path id and body stream_id must
+        match exactly before the generation-fenced CAS is evaluated.
+      x-autostream-path-body-equality:
+        path_parameter: id
+        body_property: stream_id
+        comparison: exact
+        validator: contracts.ValidateEncoderVideoCoverApplyRequest
+      x-autostream-response-validator: contracts.ValidateEncoderVideoCoverApplyResponse
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: string, minLength: 1}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EncoderVideoCoverApplyRequest"
+      responses:
+        "200":
+          description: mutation applied or an exact idempotent result replayed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncoderVideoCoverAppliedResponse"
+        "202":
+          description: request accepted but the applied result is ambiguous; reconcile by GET without automatic resend
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncoderVideoCoverAmbiguousResponse"
+        "400": {description: invalid strict apply payload}
+        "401": {description: service token missing or invalid}
+        "409":
+          description: rejected stale job/generation/revision fence or idempotency conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncoderVideoCoverConflictResponse"
+        "502":
+          description: video-local graph or asset failure; audio and the independent Watermark state remain active
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncoderVideoCoverGraphFailureResponse"
+
   /streams/{id}/runtime-settings:
     put:
       operationId: updateStreamRuntimeSettings
@@ -205,3 +282,86 @@ components:
       $ref: "../schemas/encoder-start-stream-response.schema.json"
     EncoderRuntimeSettingsRequest:
       $ref: "../schemas/encoder-runtime-settings-request.schema.json"
+    EncoderVideoCoverStartSnapshot:
+      $ref: "../schemas/encoder-video-cover-start-snapshot.schema.json"
+    EncoderVideoCoverApplyRequest:
+      $ref: "../schemas/encoder-video-cover-apply-request.schema.json"
+    EncoderVideoCoverApplyResponse:
+      $ref: "../schemas/encoder-video-cover-apply-response.schema.json"
+    EncoderVideoCoverAppliedResponse:
+      allOf:
+        - $ref: "#/components/schemas/EncoderVideoCoverApplyResponse"
+        - type: object
+          properties:
+            accepted: {const: true}
+            rejected: {const: false}
+            applied: {const: true}
+            outcome: {const: applied}
+          not: {required: [error]}
+    EncoderVideoCoverAmbiguousResponse:
+      allOf:
+        - $ref: "#/components/schemas/EncoderVideoCoverApplyResponse"
+        - type: object
+          required: [error]
+          properties:
+            accepted: {const: true}
+            rejected: {const: false}
+            applied: {const: false}
+            outcome: {const: ambiguous}
+            error:
+              type: object
+              required: [code]
+              properties:
+                code: {const: cover_apply_ambiguous}
+    EncoderVideoCoverConflictResponse:
+      allOf:
+        - $ref: "#/components/schemas/EncoderVideoCoverApplyResponse"
+        - type: object
+          required: [error]
+          properties:
+            accepted: {const: false}
+            rejected: {const: true}
+            applied: {const: false}
+            outcome: {const: rejected}
+            error:
+              type: object
+              required: [code]
+              properties:
+                code:
+                  enum:
+                    - stale_job_generation
+                    - stale_cover_generation
+                    - stale_cover_revision
+                    - idempotency_conflict
+                    - revision_payload_conflict
+    EncoderVideoCoverGraphFailureResponse:
+      allOf:
+        - $ref: "#/components/schemas/EncoderVideoCoverApplyResponse"
+        - type: object
+          required: [error]
+          properties:
+            accepted: {const: false}
+            rejected: {const: true}
+            applied: {const: false}
+            outcome: {const: rejected}
+            error:
+              type: object
+              required: [code]
+              properties:
+                code:
+                  enum:
+                    - media_asset_format_unsupported
+                    - media_asset_too_large
+                    - media_asset_decode_failed
+                    - media_asset_aspect_ratio_invalid
+                    - media_asset_variant_processing
+                    - media_asset_variant_failed
+                    - media_asset_unauthorized
+                    - media_asset_not_found
+                    - media_asset_hash_mismatch
+                    - media_asset_dimension_mismatch
+                    - media_asset_timeout
+                    - cover_graph_unavailable
+                    - capability_required
+    EncoderVideoCoverRuntimeState:
+      $ref: "../schemas/encoder-video-cover-runtime-state.schema.json"

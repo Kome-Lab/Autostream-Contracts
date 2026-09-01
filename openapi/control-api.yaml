@@ -6249,7 +6249,7 @@ components:
     EncoderOutputRelayCapabilities:
       type: object
       additionalProperties: true
-      description: Non-secret service capability hints for output relay routing and negotiated Worker scene-video transport.
+      description: Non-secret service capability hints for output relay routing, negotiated Worker scene-video transport, and strict Discord Bot start-envelope selection.
       allOf:
         - if:
             required: [ output_relay_mode ]
@@ -6272,6 +6272,18 @@ components:
           type: boolean
           const: true
           description: Encoder/Recorder can receive Worker-rendered JPEG images, hold the latest frame, and perform the only video encode and audio mux.
+        scene_appearance_v1:
+          type: boolean
+          const: true
+          description: Worker implements the complete scene appearance start snapshot, authenticated asset retrieval, integrity verification, cache, rendering, and exact default parity.
+        live_video_cover_v1:
+          type: boolean
+          const: true
+          description: Encoder/Recorder implements generation-fenced Video Cover apply and reconcile with independent Cover and Watermark imagefeeds and graph-applied witnesses.
+        discord_resolved_target_v2:
+          type: boolean
+          const: true
+          description: Advertises actual Discord Bot support for the strict schema_version=2 resolved-target start DTO. Control Panel may select v2 only for this exact current advertisement; missing, false, unknown values, and version strings require the legacy flat payload with no v2-only fields.
         scene_video_srt:
           type: boolean
           const: true

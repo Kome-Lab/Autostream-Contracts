@@ -884,8 +884,18 @@
             }
           }
         ],
-        "description": "Non-secret service capability hints for output relay routing and negotiated Worker scene-video transport.",
+        "description": "Non-secret service capability hints for output relay routing, negotiated Worker scene-video transport, and strict Discord Bot start-envelope selection.",
         "properties": {
+          "discord_resolved_target_v2": {
+            "const": true,
+            "description": "Advertises actual Discord Bot support for the strict schema_version=2 resolved-target start DTO. Control Panel may select v2 only for this exact current advertisement; missing, false, unknown values, and version strings require the legacy flat payload with no v2-only fields.",
+            "type": "boolean"
+          },
+          "live_video_cover_v1": {
+            "const": true,
+            "description": "Encoder/Recorder implements generation-fenced Video Cover apply and reconcile with independent Cover and Watermark imagefeeds and graph-applied witnesses.",
+            "type": "boolean"
+          },
           "output_relay_binding_id": {
             "description": "Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output; never an RTMPS address or stream key.",
             "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
@@ -893,6 +903,11 @@
           },
           "output_relay_mode": {
             "$ref": "#/components/schemas/EncoderOutputRelayMode"
+          },
+          "scene_appearance_v1": {
+            "const": true,
+            "description": "Worker implements the complete scene appearance start snapshot, authenticated asset retrieval, integrity verification, cache, rendering, and exact default parity.",
+            "type": "boolean"
           },
           "scene_frames_mjpeg_srt": {
             "const": true,

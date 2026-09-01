@@ -65,7 +65,7 @@ func TestEncoderArchiveRunRequestSchemasRemainBackwardCompatible(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			dependencies := []string(nil)
 			if test.schemaFile == "encoder-start-stream-request.schema.json" {
-				dependencies = append(dependencies, "youtube-runtime-config.schema.json")
+				dependencies = append(dependencies, "youtube-runtime-config.schema.json", visualCatalogSchema)
 			}
 			schema := compileContractJSONSchema(t, test.schemaFile, dependencies...)
 			var value any

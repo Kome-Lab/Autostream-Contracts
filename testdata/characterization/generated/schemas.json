@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 112,
+  "schema_count": 116,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -252,7 +252,7 @@
       "path": "schemas/discord-bot-start-job-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "9ac70964cfe8f2899b0d093ca04705d1ec704b607f545a05b67945d3ececa3fb",
+      "normalized_sha256": "ead812fb9da52fca12697151e994c3e01fbc593af93888b63f9bae2bea64a064",
       "keywords": [
         "$defs",
         "$ref",
@@ -284,7 +284,18 @@
         "writeOnly"
       ],
       "extension_keywords": [
+        "x-autostream-advance",
+        "x-autostream-applied-linkage",
+        "x-autostream-behavioral-validator",
         "x-autostream-contract-major",
+        "x-autostream-epoch",
+        "x-autostream-fence",
+        "x-autostream-immutability",
+        "x-autostream-monotonic",
+        "x-autostream-owner",
+        "x-autostream-path-body-equality",
+        "x-autostream-scope",
+        "x-autostream-source",
         "x-autostream-v2-transition-compatibility",
         "x-autostream-visual-contract-catalog",
         "x-autostream-visual-contract-definitions"
@@ -307,6 +318,24 @@
           "value": "#/$defs/resolvedDiscordTarget",
           "target": "schemas/discord-bot-start-job-request.schema.json",
           "fragment": "/$defs/resolvedDiscordTarget"
+        },
+        {
+          "pointer": "/$defs/encoderVideoCoverApplyRequest/properties/cover_asset/$ref",
+          "value": "#/$defs/mediaAssetDescriptor",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/mediaAssetDescriptor"
+        },
+        {
+          "pointer": "/$defs/encoderVideoCoverApplyResponse/properties/actual/$ref",
+          "value": "#/$defs/videoCoverRuntimeState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/videoCoverRuntimeState"
+        },
+        {
+          "pointer": "/$defs/encoderVideoCoverApplyResponse/properties/error/$ref",
+          "value": "#/$defs/safeError",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/safeError"
         },
         {
           "pointer": "/$defs/mediaAssetDescriptor/properties/error/$ref",
@@ -351,10 +380,34 @@
           "fragment": "/$defs/readiness"
         },
         {
+          "pointer": "/$defs/videoCoverAppliedWitness/properties/cover/$ref",
+          "value": "#/$defs/layerState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/layerState"
+        },
+        {
+          "pointer": "/$defs/videoCoverAppliedWitness/properties/pipeline/$ref",
+          "value": "#/$defs/visualPipelineInvariant",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/visualPipelineInvariant"
+        },
+        {
+          "pointer": "/$defs/videoCoverAppliedWitness/properties/watermark/$ref",
+          "value": "#/$defs/layerState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/layerState"
+        },
+        {
           "pointer": "/$defs/videoCoverRuntimeState/properties/applied/$ref",
           "value": "#/$defs/appliedCoverState",
           "target": "schemas/discord-bot-start-job-request.schema.json",
           "fragment": "/$defs/appliedCoverState"
+        },
+        {
+          "pointer": "/$defs/videoCoverRuntimeState/properties/applied_witness/$ref",
+          "value": "#/$defs/videoCoverAppliedWitness",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/videoCoverAppliedWitness"
         },
         {
           "pointer": "/$defs/videoCoverRuntimeState/properties/cover/$ref",
@@ -403,6 +456,12 @@
           "value": "#/$defs/layerState",
           "target": "schemas/discord-bot-start-job-request.schema.json",
           "fragment": "/$defs/layerState"
+        },
+        {
+          "pointer": "/$defs/videoCoverStartSnapshot/properties/cover_asset/$ref",
+          "value": "#/$defs/mediaAssetDescriptor",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/mediaAssetDescriptor"
         },
         {
           "pointer": "/properties/discord_target/$ref",
@@ -557,7 +616,7 @@
       "path": "schemas/encoder-output-relay-capabilities.schema.json",
       "id": "https://schemas.autostream.example.com/encoder-output-relay-capabilities.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "247cb6d0a7a13d9dd6bea8e18b6ef738dc52cd7ccdf45fe54c8742394064bcbd",
+      "normalized_sha256": "77625ad86d01cb99f9faf06d653bd07a2c2abac456b12d9dcf2002b768719f3c",
       "keywords": [
         "$id",
         "$schema",
@@ -631,7 +690,7 @@
       "path": "schemas/encoder-start-stream-request.schema.json",
       "id": "https://schemas.autostream.example.com/encoder-start-stream-request.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "4cf37d3b83a6944d8d0190169624bf49049017bc7523cb9adcaae8eb4d819f2e",
+      "normalized_sha256": "a3dff00e2ca78aa5329e28673a849ef55ec67dc778c486be47495b323f6faf1d",
       "keywords": [
         "$id",
         "$ref",
@@ -660,8 +719,17 @@
         "type",
         "writeOnly"
       ],
-      "extension_keywords": [],
+      "extension_keywords": [
+        "x-autostream-legacy-omission-compatible",
+        "x-autostream-new-producer-required"
+      ],
       "refs": [
+        {
+          "pointer": "/properties/video_cover_start/$ref",
+          "value": "discord-bot-start-job-request.schema.json#/$defs/videoCoverStartSnapshot",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/videoCoverStartSnapshot"
+        },
         {
           "pointer": "/properties/youtube_runtime/$ref",
           "value": "youtube-runtime-config.schema.json",
@@ -694,6 +762,94 @@
       ],
       "extension_keywords": [],
       "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-video-cover-apply-request.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-video-cover-apply-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "24a31898ab078cecd169405bf3bf451956e4e39da3665292406651c246c9f12b",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "title"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$ref",
+          "value": "discord-bot-start-job-request.schema.json#/$defs/encoderVideoCoverApplyRequest",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/encoderVideoCoverApplyRequest"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-video-cover-apply-response.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-video-cover-apply-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "b52e67172395d9b446a30190702d11ab5059af64309407ee1ec94abfe0137c32",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "title"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$ref",
+          "value": "discord-bot-start-job-request.schema.json#/$defs/encoderVideoCoverApplyResponse",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/encoderVideoCoverApplyResponse"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-video-cover-runtime-state.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-video-cover-runtime-state.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "0c862303d43f2baa9ffb644706f08e4eebe4c7796ea7a73e68b4db8dc571f685",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "title"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$ref",
+          "value": "discord-bot-start-job-request.schema.json#/$defs/videoCoverRuntimeState",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/videoCoverRuntimeState"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-video-cover-start-snapshot.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-video-cover-start-snapshot.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "9f3cafd8062df8f544cf953bffd76caafa991467f4db67f37e84e72c25f598f5",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "title"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$ref",
+          "value": "discord-bot-start-job-request.schema.json#/$defs/videoCoverStartSnapshot",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/videoCoverStartSnapshot"
+        }
+      ],
       "compiled": true
     },
     {
@@ -3148,9 +3304,10 @@
       "path": "schemas/worker-start-job-request.schema.json",
       "id": "https://schemas.autostream.example.com/worker-start-job-request.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "772e0885ad8da34c43cbf357f70598ea8150d25637389939fb6b9b009293b8ff",
+      "normalized_sha256": "3527eef2f5a472550bc51a62161fe3f920a2d2b8e3b058836ae7b158e7853c19",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
@@ -3174,7 +3331,14 @@
         "writeOnly"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/scene_appearance/$ref",
+          "value": "discord-bot-start-job-request.schema.json#/$defs/sceneAppearance",
+          "target": "schemas/discord-bot-start-job-request.schema.json",
+          "fragment": "/$defs/sceneAppearance"
+        }
+      ],
       "compiled": true
     },
     {

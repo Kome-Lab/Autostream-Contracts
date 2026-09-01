@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DiscordBotStartJobRequest",
-  "description": "AutoStream v2 Discord Bot start envelope. Discord target IDs are delivered only as one server-resolved snapshot; the Bot never reads preset resources or accepts legacy flat target fields.",
+  "description": "AutoStream Discord Bot start envelope. Control Panel may send schema_version=2 only when the assigned Bot's current capability map advertises discord_resolved_target_v2 as boolean true; a version string alone, an absent capability, false, or an unknown value is not support evidence. schema_version=2 delivers target IDs only as one server-resolved snapshot and rejects legacy flat target fields. Otherwise Control Panel sends the legacy flat target payload and omits every v2-only field. Payloads without schema_version retain a narrowly scoped compatibility branch in which legacy flat target fields remain accepted until Execution Bundle 8; the Bot never reads preset resources.",
   "type": "object",
   "required": ["stream_id", "job_generation"],
   "additionalProperties": false,
@@ -19,6 +19,10 @@
     "discordTargetSelection",
     "discordTargetStoredSnapshot",
     "discordTargetSnapshot",
+    "videoCoverStartSnapshot",
+    "encoderVideoCoverApplyRequest",
+    "encoderVideoCoverApplyResponse",
+    "videoCoverAppliedWitness",
     "videoCoverRuntimeState",
     "videoCoverStateRequest",
     "visualPipelineInvariant"
@@ -29,6 +33,9 @@
     "scene_appearance": { "$ref": "#/$defs/sceneAppearance" },
     "discord_target_selection": { "$ref": "#/$defs/discordTargetSelection" },
     "discord_target_stored_snapshot": { "$ref": "#/$defs/discordTargetStoredSnapshot" },
+    "video_cover_start_snapshot": { "$ref": "#/$defs/videoCoverStartSnapshot" },
+    "encoder_video_cover_apply_request": { "$ref": "#/$defs/encoderVideoCoverApplyRequest" },
+    "encoder_video_cover_apply_response": { "$ref": "#/$defs/encoderVideoCoverApplyResponse" },
     "video_cover_state_request": { "$ref": "#/$defs/videoCoverStateRequest" },
     "video_cover_runtime_state": { "$ref": "#/$defs/videoCoverRuntimeState" }
   },
@@ -50,11 +57,20 @@
             "media_asset_aspect_ratio_invalid",
             "media_asset_variant_processing",
             "media_asset_variant_failed",
+            "media_asset_unauthorized",
+            "media_asset_not_found",
+            "media_asset_hash_mismatch",
+            "media_asset_dimension_mismatch",
+            "media_asset_timeout",
             "discord_target_invalid",
             "preset_not_found",
             "preset_revision_conflict",
             "stale_job_generation",
+            "stale_cover_generation",
             "stale_cover_revision",
+            "idempotency_conflict",
+            "cover_apply_ambiguous",
+            "cover_graph_unavailable",
             "revision_payload_conflict",
             "capability_required"
           ]
@@ -197,7 +213,10 @@
         },
         "revision": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "description": "Immutable processed-variant revision. It is copied from media_asset_variants.processor_revision and never changes for an existing variant identity.",
+          "x-autostream-source": "media_asset_variants.processor_revision",
+          "x-autostream-immutability": "processed_variant"
         },
         "readiness": {
           "$ref": "#/$defs/readiness"
@@ -250,11 +269,17 @@
       "properties": {
         "generation": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "description": "Control Panel-owned stream visual runtime generation. It advances for every stream start and is the same epoch value as Video Cover job_generation for that start; it is not the Worker-issued job generation.",
+          "x-autostream-owner": "control_panel",
+          "x-autostream-epoch": "video_cover_job_generation",
+          "x-autostream-advance": "every_stream_start"
         },
         "revision": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "description": "Exact stream_visual_settings.revision captured in this immutable start snapshot.",
+          "x-autostream-source": "stream_visual_settings.revision"
         },
         "capability": {
           "const": "scene_appearance_v1"
@@ -520,6 +545,8 @@
           "additionalProperties": false,
           "required": [
             "process_restart",
+            "audio_encoder_restart",
+            "audio_mux_restart",
             "graph_rebuild",
             "reconnect",
             "sequence_loss",
@@ -528,6 +555,12 @@
           ],
           "properties": {
             "process_restart": {
+              "const": 0
+            },
+            "audio_encoder_restart": {
+              "const": 0
+            },
+            "audio_mux_restart": {
               "const": 0
             },
             "graph_rebuild": {
@@ -703,6 +736,283 @@
         }
       ]
     },
+    "videoCoverStartSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["job_generation", "revision", "active", "idempotency_key"],
+      "properties": {
+        "job_generation": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Control Panel-owned stream visual start epoch shared with Scene Appearance generation.",
+          "x-autostream-owner": "control_panel",
+          "x-autostream-epoch": "video_cover_job_generation"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Desired Video Cover revision captured for this start."
+        },
+        "active": { "type": "boolean" },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+        },
+        "cover_asset": {
+          "$ref": "#/$defs/mediaAssetDescriptor",
+          "properties": {
+            "usage": { "const": "video_cover" },
+            "readiness": { "const": "ready" }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["active"],
+            "properties": { "active": { "const": true } }
+          },
+          "then": { "required": ["cover_asset"] },
+          "else": { "not": { "required": ["cover_asset"] } }
+        }
+      ],
+      "description": "Desired Video Cover start snapshot. New Control Panel producers send it for both active and inactive desired state so Encoder binds job_generation and revision before GET/reconcile. active=true requires cover_asset; active=false forbids cover_asset. Whole-field omission remains only for legacy callers during compatibility."
+    },
+    "encoderVideoCoverApplyRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-autostream-path-body-equality": {
+        "path_parameter": "id",
+        "body_property": "stream_id",
+        "comparison": "exact",
+        "validator": "contracts.ValidateEncoderVideoCoverApplyRequest"
+      },
+      "required": [
+        "stream_id",
+        "job_generation",
+        "expected_generation",
+        "revision",
+        "active",
+        "idempotency_key"
+      ],
+      "properties": {
+        "stream_id": { "type": "string", "minLength": 1 },
+        "job_generation": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Control Panel-owned stream visual start epoch."
+        },
+        "expected_generation": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "CAS fence for the Encoder-owned graph instance generation currently observed by Control Panel.",
+          "x-autostream-owner": "encoder_recorder",
+          "x-autostream-fence": "exact_current_generation"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Desired Video Cover revision."
+        },
+        "active": { "type": "boolean" },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+        },
+        "cover_asset": {
+          "$ref": "#/$defs/mediaAssetDescriptor",
+          "properties": {
+            "usage": { "const": "video_cover" },
+            "readiness": { "const": "ready" }
+          }
+        },
+        "hide_confirmed": {
+          "const": true,
+          "description": "Required for hide. An ambiguous hide outcome is reconciled by GET and is never automatically resent."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["active"],
+            "properties": { "active": { "const": true } }
+          },
+          "then": {
+            "required": ["cover_asset"],
+            "not": { "required": ["hide_confirmed"] }
+          },
+          "else": {
+            "required": ["hide_confirmed"],
+            "not": { "required": ["cover_asset"] }
+          }
+        }
+      ],
+      "description": "Strict Control Panel to Encoder Video Cover CAS. It can mutate only the Cover layer; Watermark fields are intentionally not representable. OpenAPI path id and body stream_id equality is enforced by the named behavioral validator because JSON Schema cannot express that relation."
+    },
+    "videoCoverAppliedWitness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "graph_applied",
+        "generation",
+        "revision",
+        "active",
+        "cover",
+        "watermark",
+        "pipeline"
+      ],
+      "properties": {
+        "graph_applied": {
+          "const": true,
+          "description": "True only after the Encoder graph has applied the Cover state. Acceptance or asset validation alone cannot produce this witness."
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Encoder-owned graph instance generation that applied this state."
+        },
+        "revision": { "type": "integer", "minimum": 1 },
+        "active": { "type": "boolean" },
+        "cover": { "$ref": "#/$defs/layerState" },
+        "watermark": {
+          "$ref": "#/$defs/layerState",
+          "description": "Independently observed Watermark layer; a Cover mutation cannot change it."
+        },
+        "pipeline": { "$ref": "#/$defs/visualPipelineInvariant" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["active"],
+            "properties": { "active": { "const": true } }
+          },
+          "then": {
+            "properties": {
+              "cover": {
+                "required": ["enabled", "variant_id"],
+                "properties": { "enabled": { "const": true } }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "cover": {
+                "required": ["enabled"],
+                "properties": { "enabled": { "const": false } },
+                "not": { "required": ["variant_id"] }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "encoderVideoCoverApplyResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-autostream-behavioral-validator": "contracts.ValidateEncoderVideoCoverApplyResponse",
+      "x-autostream-applied-linkage": [
+        "stream_id=actual.stream_id",
+        "job_generation=actual.job_generation",
+        "actual_generation=actual.generation=actual.applied_witness.generation",
+        "requested_revision=actual.desired.revision=actual.applied.revision=actual.cover.revision=actual.applied_witness.revision=actual.applied_witness.cover.revision",
+        "actual.desired.active=actual.applied.active=actual.cover.enabled=actual.applied_witness.active=actual.applied_witness.cover.enabled",
+        "actual.cover=actual.applied_witness.cover",
+        "actual.watermark=actual.applied_witness.watermark",
+        "actual.pipeline=actual.applied_witness.pipeline"
+      ],
+      "required": [
+        "stream_id",
+        "job_generation",
+        "requested_revision",
+        "actual_generation",
+        "accepted",
+        "rejected",
+        "applied",
+        "outcome",
+        "actual"
+      ],
+      "properties": {
+        "stream_id": { "type": "string", "minLength": 1 },
+        "job_generation": { "type": "integer", "minimum": 1 },
+        "requested_revision": { "type": "integer", "minimum": 1 },
+        "actual_generation": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Encoder-owned graph instance generation observed when producing this response.",
+          "x-autostream-owner": "encoder_recorder",
+          "x-autostream-scope": "job_generation"
+        },
+        "accepted": { "type": "boolean" },
+        "rejected": { "type": "boolean" },
+        "applied": { "type": "boolean" },
+        "outcome": { "enum": ["applied", "rejected", "ambiguous"] },
+        "actual": { "$ref": "#/$defs/videoCoverRuntimeState" },
+        "error": { "$ref": "#/$defs/safeError" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["outcome"],
+            "properties": { "outcome": { "const": "applied" } }
+          },
+          "then": {
+            "properties": {
+              "accepted": { "const": true },
+              "rejected": { "const": false },
+              "applied": { "const": true },
+              "actual": {
+                "required": ["readiness", "applied_witness"],
+                "properties": { "readiness": { "const": "ready" } }
+              }
+            },
+            "not": { "required": ["error"] }
+          }
+        },
+        {
+          "if": {
+            "required": ["outcome"],
+            "properties": { "outcome": { "const": "rejected" } }
+          },
+          "then": {
+            "required": ["error"],
+            "properties": {
+              "accepted": { "const": false },
+              "rejected": { "const": true },
+              "applied": { "const": false }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["outcome"],
+            "properties": { "outcome": { "const": "ambiguous" } }
+          },
+          "then": {
+            "required": ["error"],
+            "properties": {
+              "accepted": { "const": true },
+              "rejected": { "const": false },
+              "applied": { "const": false },
+              "actual": {
+                "required": ["readiness", "applied"],
+                "properties": {
+                  "readiness": { "const": "unknown" },
+                  "applied": {
+                    "required": ["state"],
+                    "properties": { "state": { "const": "unknown" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "Strict Encoder apply result. Applied=true is impossible without an actual runtime state carrying a graph-applied witness. Cross-field equality is enforced by the named behavioral validator because JSON Schema cannot express value equality between object locations."
+    },
     "videoCoverStateRequest": {
       "type": "object",
       "additionalProperties": false,
@@ -735,6 +1045,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "stream_id",
         "job_generation",
         "generation",
         "capability",
@@ -747,13 +1058,24 @@
         "no_automatic_resend"
       ],
       "properties": {
+        "stream_id": {
+          "type": "string",
+          "minLength": 1
+        },
         "job_generation": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "description": "Control Panel-owned stream visual start epoch shared with Scene Appearance generation.",
+          "x-autostream-owner": "control_panel",
+          "x-autostream-epoch": "video_cover_job_generation"
         },
         "generation": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "description": "Encoder-owned graph instance generation. It increases monotonically within one job_generation whenever a new graph instance becomes authoritative.",
+          "x-autostream-owner": "encoder_recorder",
+          "x-autostream-scope": "job_generation",
+          "x-autostream-monotonic": true
         },
         "capability": {
           "const": "live_video_cover_v1"
@@ -768,17 +1090,22 @@
           "$ref": "#/$defs/appliedCoverState"
         },
         "cover": {
-          "$ref": "#/$defs/layerState"
+          "$ref": "#/$defs/layerState",
+          "description": "Current Cover imagefeed layer state, independent from Watermark."
         },
         "cover_asset": {
           "$ref": "#/$defs/mediaAssetDescriptor",
           "properties": { "usage": { "const": "video_cover" } }
         },
         "watermark": {
-          "$ref": "#/$defs/layerState"
+          "$ref": "#/$defs/layerState",
+          "description": "Current Watermark imagefeed layer state, independent from Cover."
         },
         "pipeline": {
           "$ref": "#/$defs/visualPipelineInvariant"
+        },
+        "applied_witness": {
+          "$ref": "#/$defs/videoCoverAppliedWitness"
         },
         "no_automatic_resend": {
           "const": true,
@@ -812,8 +1139,21 @@
           },
           "then": {
             "required": ["last_good_applied", "error"],
-            "properties": { "readiness": { "enum": ["not_ready", "unknown"] } }
+            "properties": { "readiness": { "enum": ["not_ready", "unknown"] } },
+            "not": { "required": ["applied_witness"] }
           }
+        },
+        {
+          "if": {
+            "required": ["applied"],
+            "properties": {
+              "applied": {
+                "required": ["state"],
+                "properties": { "state": { "const": "known" } }
+              }
+            }
+          },
+          "then": { "required": ["applied_witness"] }
         },
         {
           "if": {
@@ -910,6 +1250,24 @@
       "minLength": 1,
       "writeOnly": true,
       "description": "Short-lived stream-scoped token authorizing Discord Opus ingest at the selected Worker. It must never be returned by status endpoints, logs, audit metadata, or frontend API responses."
+    },
+    "caption_audio_flush_ms": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 1000,
+      "description": "Optional start snapshot of caption_profile_config.caption_audio_flush_ms. Bounds are owned by the canonical Caption Profile contract."
+    },
+    "caption_audio_max_batch_packets": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Optional start snapshot of caption_profile_config.caption_audio_max_batch_packets. Bounds are owned by the canonical Caption Profile contract."
+    },
+    "unresolved_ssrc_buffer_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5000,
+      "description": "Optional start snapshot of caption_profile_config.unresolved_ssrc_buffer_ms. Bounds are owned by the canonical Caption Profile contract."
     },
     "stream_ingest_token": {
       "type": "string",

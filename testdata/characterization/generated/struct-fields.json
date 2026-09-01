@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 165,
+  "struct_count": 181,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -1445,6 +1445,155 @@
       ]
     },
     {
+      "name": "DiscordBotStartJobV2Request",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "SchemaVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"schema_version\"",
+          "json_name": "schema_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "StreamID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"stream_id\"",
+          "json_name": "stream_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "JobGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"job_generation\"",
+          "json_name": "job_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "DiscordTarget",
+          "exported": true,
+          "embedded": false,
+          "type": "DiscordTargetSnapshot",
+          "struct_tag": "json:\"discord_target\"",
+          "json_name": "discord_target",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "EncoderAudioURL",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"encoder_audio_url,omitempty\"",
+          "json_name": "encoder_audio_url",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "CaptionAudioURL",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"caption_audio_url,omitempty\"",
+          "json_name": "caption_audio_url",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
+          "name": "CaptionAudioToken",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"caption_audio_token,omitempty\"",
+          "json_name": "caption_audio_token",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 7,
+          "name": "CaptionAudioFlushMS",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"caption_audio_flush_ms,omitempty\"",
+          "json_name": "caption_audio_flush_ms",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 8,
+          "name": "CaptionAudioMaxBatchPackets",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"caption_audio_max_batch_packets,omitempty\"",
+          "json_name": "caption_audio_max_batch_packets",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 9,
+          "name": "UnresolvedSSRCBufferMS",
+          "exported": true,
+          "embedded": false,
+          "type": "*int",
+          "struct_tag": "json:\"unresolved_ssrc_buffer_ms,omitempty\"",
+          "json_name": "unresolved_ssrc_buffer_ms",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 10,
+          "name": "StreamIngestToken",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"stream_ingest_token,omitempty\"",
+          "json_name": "stream_ingest_token",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 11,
+          "name": "WorkerEventsURL",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"worker_events_url,omitempty\"",
+          "json_name": "worker_events_url",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 12,
+          "name": "WorkerEventsToken",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"worker_events_token,omitempty\"",
+          "json_name": "worker_events_token",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
       "name": "DiscordConfig",
       "alias": false,
       "fields": [
@@ -1981,6 +2130,34 @@
       ]
     },
     {
+      "name": "DiscordTargetSnapshot",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Resolved",
+          "exported": true,
+          "embedded": false,
+          "type": "ResolvedDiscordTarget",
+          "struct_tag": "json:\"resolved\"",
+          "json_name": "resolved",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
       "name": "DiscordVoiceJob",
       "alias": false,
       "fields": [
@@ -2408,6 +2585,39 @@
           "json_name": "worker_video_ingest_srt",
           "json_ignored": false,
           "omitempty": true
+        },
+        {
+          "index": 6,
+          "name": "SceneAppearanceV1",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"scene_appearance_v1,omitempty\"",
+          "json_name": "scene_appearance_v1",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 7,
+          "name": "LiveVideoCoverV1",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"live_video_cover_v1,omitempty\"",
+          "json_name": "live_video_cover_v1",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 8,
+          "name": "DiscordResolvedTargetV2",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"discord_resolved_target_v2,omitempty\"",
+          "json_name": "discord_resolved_target_v2",
+          "json_ignored": false,
+          "omitempty": true
         }
       ]
     },
@@ -2831,6 +3041,17 @@
         },
         {
           "index": 17,
+          "name": "VideoCoverStart",
+          "exported": true,
+          "embedded": false,
+          "type": "*VideoCoverStartSnapshot",
+          "struct_tag": "json:\"video_cover_start,omitempty\"",
+          "json_name": "video_cover_start",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 18,
           "name": "DryRun",
           "exported": true,
           "embedded": false,
@@ -2931,6 +3152,216 @@
           "type": "*EncoderVideoIngest",
           "struct_tag": "json:\"video_ingest,omitempty\"",
           "json_name": "video_ingest",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "EncoderVideoCoverApplyRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "StreamID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"stream_id\"",
+          "json_name": "stream_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "JobGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"job_generation\"",
+          "json_name": "job_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ExpectedGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"expected_generation\"",
+          "json_name": "expected_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "Active",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"active\"",
+          "json_name": "active",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "CoverAsset",
+          "exported": true,
+          "embedded": false,
+          "type": "*MediaAssetDescriptor",
+          "struct_tag": "json:\"cover_asset,omitempty\"",
+          "json_name": "cover_asset",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 7,
+          "name": "HideConfirmed",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"hide_confirmed,omitempty\"",
+          "json_name": "hide_confirmed",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "EncoderVideoCoverApplyResponse",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "StreamID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"stream_id\"",
+          "json_name": "stream_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "JobGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"job_generation\"",
+          "json_name": "job_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "RequestedRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"requested_revision\"",
+          "json_name": "requested_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ActualGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"actual_generation\"",
+          "json_name": "actual_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "Accepted",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"accepted\"",
+          "json_name": "accepted",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Rejected",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"rejected\"",
+          "json_name": "rejected",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "Applied",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"applied\"",
+          "json_name": "applied",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "Outcome",
+          "exported": true,
+          "embedded": false,
+          "type": "EncoderVideoCoverApplyOutcome",
+          "struct_tag": "json:\"outcome\"",
+          "json_name": "outcome",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "Actual",
+          "exported": true,
+          "embedded": false,
+          "type": "VideoCoverRuntimeState",
+          "struct_tag": "json:\"actual\"",
+          "json_name": "actual",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "Error",
+          "exported": true,
+          "embedded": false,
+          "type": "*VisualSafeError",
+          "struct_tag": "json:\"error,omitempty\"",
+          "json_name": "error",
           "json_ignored": false,
           "omitempty": true
         }
@@ -4576,6 +5007,177 @@
           "type": "string",
           "struct_tag": "json:\"updated_at,omitempty\"",
           "json_name": "updated_at",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "MediaAssetDescriptor",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "AssetID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"asset_id\"",
+          "json_name": "asset_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "VariantID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"variant_id\"",
+          "json_name": "variant_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Usage",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"usage\"",
+          "json_name": "usage",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "MediaType",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"media_type\"",
+          "json_name": "media_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "Width",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"width\"",
+          "json_name": "width",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Height",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"height\"",
+          "json_name": "height",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "ByteSize",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"byte_size\"",
+          "json_name": "byte_size",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "PixelCount",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"pixel_count\"",
+          "json_name": "pixel_count",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "Animated",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"animated\"",
+          "json_name": "animated",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "AspectRatioErrorPPM",
+          "exported": true,
+          "embedded": false,
+          "type": "*int",
+          "struct_tag": "json:\"aspect_ratio_error_ppm,omitempty\"",
+          "json_name": "aspect_ratio_error_ppm",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 10,
+          "name": "Opaque",
+          "exported": true,
+          "embedded": false,
+          "type": "*bool",
+          "struct_tag": "json:\"opaque,omitempty\"",
+          "json_name": "opaque",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 11,
+          "name": "SHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"sha256\"",
+          "json_name": "sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 12,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 13,
+          "name": "Readiness",
+          "exported": true,
+          "embedded": false,
+          "type": "VisualReadiness",
+          "struct_tag": "json:\"readiness\"",
+          "json_name": "readiness",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 14,
+          "name": "Error",
+          "exported": true,
+          "embedded": false,
+          "type": "*VisualSafeError",
+          "struct_tag": "json:\"error,omitempty\"",
+          "json_name": "error",
           "json_ignored": false,
           "omitempty": true
         }
@@ -8688,6 +9290,150 @@
           "type": "string",
           "struct_tag": "json:\"incident_id,omitempty\"",
           "json_name": "incident_id",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "ResolvedDiscordTarget",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "GuildID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"guild_id\"",
+          "json_name": "guild_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "TextChannelID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"text_channel_id\"",
+          "json_name": "text_channel_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "VoiceChannelID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"voice_channel_id\"",
+          "json_name": "voice_channel_id",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "SceneAppearance",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Generation",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"generation\"",
+          "json_name": "generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Capability",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"capability\"",
+          "json_name": "capability",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Readiness",
+          "exported": true,
+          "embedded": false,
+          "type": "VisualReadiness",
+          "struct_tag": "json:\"readiness\"",
+          "json_name": "readiness",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "BackgroundMode",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"background_mode\"",
+          "json_name": "background_mode",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Background",
+          "exported": true,
+          "embedded": false,
+          "type": "*MediaAssetDescriptor",
+          "struct_tag": "json:\"background,omitempty\"",
+          "json_name": "background",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
+          "name": "HeaderTitleMode",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"header_title_mode\"",
+          "json_name": "header_title_mode",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "CustomTitle",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"custom_title,omitempty\"",
+          "json_name": "custom_title",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 8,
+          "name": "Error",
+          "exported": true,
+          "embedded": false,
+          "type": "*VisualSafeError",
+          "struct_tag": "json:\"error,omitempty\"",
+          "json_name": "error",
           "json_ignored": false,
           "omitempty": true
         }
@@ -15150,6 +15896,643 @@
       ]
     },
     {
+      "name": "VideoCoverAppliedState",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "State",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"state\"",
+          "json_name": "state",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Active",
+          "exported": true,
+          "embedded": false,
+          "type": "*bool",
+          "struct_tag": "json:\"active,omitempty\"",
+          "json_name": "active",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision,omitempty\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "VariantID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"variant_id,omitempty\"",
+          "json_name": "variant_id",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "VideoCoverAppliedWitness",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "GraphApplied",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"graph_applied\"",
+          "json_name": "graph_applied",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Generation",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"generation\"",
+          "json_name": "generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Active",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"active\"",
+          "json_name": "active",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "Cover",
+          "exported": true,
+          "embedded": false,
+          "type": "VideoVisualLayerState",
+          "struct_tag": "json:\"cover\"",
+          "json_name": "cover",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Watermark",
+          "exported": true,
+          "embedded": false,
+          "type": "VideoVisualLayerState",
+          "struct_tag": "json:\"watermark\"",
+          "json_name": "watermark",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "Pipeline",
+          "exported": true,
+          "embedded": false,
+          "type": "VisualPipelineInvariant",
+          "struct_tag": "json:\"pipeline\"",
+          "json_name": "pipeline",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "VideoCoverDesiredState",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Active",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"active\"",
+          "json_name": "active",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Source",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"source\"",
+          "json_name": "source",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "VariantID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"variant_id,omitempty\"",
+          "json_name": "variant_id",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "VideoCoverRuntimeState",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "StreamID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"stream_id\"",
+          "json_name": "stream_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "JobGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"job_generation\"",
+          "json_name": "job_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Generation",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"generation\"",
+          "json_name": "generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Capability",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"capability\"",
+          "json_name": "capability",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "Readiness",
+          "exported": true,
+          "embedded": false,
+          "type": "VisualReadiness",
+          "struct_tag": "json:\"readiness\"",
+          "json_name": "readiness",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Desired",
+          "exported": true,
+          "embedded": false,
+          "type": "VideoCoverDesiredState",
+          "struct_tag": "json:\"desired\"",
+          "json_name": "desired",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "Applied",
+          "exported": true,
+          "embedded": false,
+          "type": "VideoCoverAppliedState",
+          "struct_tag": "json:\"applied\"",
+          "json_name": "applied",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "Cover",
+          "exported": true,
+          "embedded": false,
+          "type": "VideoVisualLayerState",
+          "struct_tag": "json:\"cover\"",
+          "json_name": "cover",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "CoverAsset",
+          "exported": true,
+          "embedded": false,
+          "type": "*MediaAssetDescriptor",
+          "struct_tag": "json:\"cover_asset,omitempty\"",
+          "json_name": "cover_asset",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 9,
+          "name": "Watermark",
+          "exported": true,
+          "embedded": false,
+          "type": "VideoVisualLayerState",
+          "struct_tag": "json:\"watermark\"",
+          "json_name": "watermark",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "Pipeline",
+          "exported": true,
+          "embedded": false,
+          "type": "VisualPipelineInvariant",
+          "struct_tag": "json:\"pipeline\"",
+          "json_name": "pipeline",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "AppliedWitness",
+          "exported": true,
+          "embedded": false,
+          "type": "*VideoCoverAppliedWitness",
+          "struct_tag": "json:\"applied_witness,omitempty\"",
+          "json_name": "applied_witness",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 12,
+          "name": "NoAutomaticResend",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"no_automatic_resend\"",
+          "json_name": "no_automatic_resend",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 13,
+          "name": "LastGoodApplied",
+          "exported": true,
+          "embedded": false,
+          "type": "*VideoCoverAppliedState",
+          "struct_tag": "json:\"last_good_applied,omitempty\"",
+          "json_name": "last_good_applied",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 14,
+          "name": "Error",
+          "exported": true,
+          "embedded": false,
+          "type": "*VisualSafeError",
+          "struct_tag": "json:\"error,omitempty\"",
+          "json_name": "error",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "VideoCoverStartSnapshot",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "JobGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"job_generation\"",
+          "json_name": "job_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Active",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"active\"",
+          "json_name": "active",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "CoverAsset",
+          "exported": true,
+          "embedded": false,
+          "type": "*MediaAssetDescriptor",
+          "struct_tag": "json:\"cover_asset,omitempty\"",
+          "json_name": "cover_asset",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "VideoVisualLayerState",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Enabled",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"enabled\"",
+          "json_name": "enabled",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Revision",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"revision\"",
+          "json_name": "revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "VariantID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"variant_id,omitempty\"",
+          "json_name": "variant_id",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "VisualAudioContinuity",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ProcessRestart",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"process_restart\"",
+          "json_name": "process_restart",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "AudioEncoderRestart",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"audio_encoder_restart\"",
+          "json_name": "audio_encoder_restart",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "AudioMuxRestart",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"audio_mux_restart\"",
+          "json_name": "audio_mux_restart",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "GraphRebuild",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"graph_rebuild\"",
+          "json_name": "graph_rebuild",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "Reconnect",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"reconnect\"",
+          "json_name": "reconnect",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "SequenceLoss",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"sequence_loss\"",
+          "json_name": "sequence_loss",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "TimestampDiscontinuity",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"timestamp_discontinuity\"",
+          "json_name": "timestamp_discontinuity",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "IntentionalMuteInsertion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"intentional_mute_insertion\"",
+          "json_name": "intentional_mute_insertion",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "VisualPipelineInvariant",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Layers",
+          "exported": true,
+          "embedded": false,
+          "type": "[]string",
+          "struct_tag": "json:\"layers\"",
+          "json_name": "layers",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "WatermarkTopmost",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"watermark_topmost\"",
+          "json_name": "watermark_topmost",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "CoverWatermarkIndependent",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"cover_watermark_independent\"",
+          "json_name": "cover_watermark_independent",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "OutputParity",
+          "exported": true,
+          "embedded": false,
+          "type": "[]string",
+          "struct_tag": "json:\"output_parity\"",
+          "json_name": "output_parity",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "AudioContinuity",
+          "exported": true,
+          "embedded": false,
+          "type": "VisualAudioContinuity",
+          "struct_tag": "json:\"audio_continuity\"",
+          "json_name": "audio_continuity",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "VisualSafeError",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Code",
+          "exported": true,
+          "embedded": false,
+          "type": "VisualSafeErrorCode",
+          "struct_tag": "json:\"code\"",
+          "json_name": "code",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "RequestID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"request_id,omitempty\"",
+          "json_name": "request_id",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
       "name": "WorkerCaptionRuntimeSettingsRequest",
       "alias": false,
       "fields": [
@@ -15310,6 +16693,17 @@
         },
         {
           "index": 6,
+          "name": "SceneAppearance",
+          "exported": true,
+          "embedded": false,
+          "type": "*SceneAppearance",
+          "struct_tag": "json:\"scene_appearance,omitempty\"",
+          "json_name": "scene_appearance",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 7,
           "name": "EncoderProfileID",
           "exported": true,
           "embedded": false,
@@ -15320,7 +16714,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "VideoWidth",
           "exported": true,
           "embedded": false,
@@ -15331,7 +16725,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "VideoHeight",
           "exported": true,
           "embedded": false,
@@ -15342,7 +16736,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 10,
           "name": "VideoFPS",
           "exported": true,
           "embedded": false,
@@ -15353,7 +16747,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 11,
           "name": "VideoIngestURL",
           "exported": true,
           "embedded": false,
@@ -15364,7 +16758,7 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 12,
           "name": "VideoIngestPassphrase",
           "exported": true,
           "embedded": false,
@@ -15375,7 +16769,7 @@
           "omitempty": true
         },
         {
-          "index": 12,
+          "index": 13,
           "name": "VideoIngestPBKeyLen",
           "exported": true,
           "embedded": false,
@@ -15459,6 +16853,17 @@
         },
         {
           "index": 6,
+          "name": "SceneAppearance",
+          "exported": true,
+          "embedded": false,
+          "type": "*SceneAppearance",
+          "struct_tag": "json:\"scene_appearance,omitempty\"",
+          "json_name": "scene_appearance",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 7,
           "name": "EncoderProfileID",
           "exported": true,
           "embedded": false,
@@ -15469,7 +16874,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "VideoWidth",
           "exported": true,
           "embedded": false,
@@ -15480,7 +16885,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "VideoHeight",
           "exported": true,
           "embedded": false,
@@ -15491,7 +16896,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 10,
           "name": "VideoFPS",
           "exported": true,
           "embedded": false,
@@ -15502,7 +16907,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 11,
           "name": "VideoIngestURL",
           "exported": true,
           "embedded": false,
@@ -15513,7 +16918,7 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 12,
           "name": "VideoIngestPassphrase",
           "exported": true,
           "embedded": false,
@@ -15524,7 +16929,7 @@
           "omitempty": true
         },
         {
-          "index": 12,
+          "index": 13,
           "name": "VideoIngestPBKeyLen",
           "exported": true,
           "embedded": false,

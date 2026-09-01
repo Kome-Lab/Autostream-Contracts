@@ -111,6 +111,12 @@
         }
       }
     },
+    "video_cover_start": {
+      "$ref": "discord-bot-start-job-request.schema.json#/$defs/videoCoverStartSnapshot",
+      "description": "Desired Video Cover start snapshot. New Control Panel producers send this snapshot for both active and inactive desired state so Encoder can bind the visual epoch before GET/reconcile. Whole-field omission remains accepted only for legacy callers during compatibility.",
+      "x-autostream-new-producer-required": true,
+      "x-autostream-legacy-omission-compatible": true
+    },
     "dry_run": { "type": "boolean" }
   }
 }

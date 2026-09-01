@@ -10,6 +10,343 @@
       "EncoderStartStreamResponse": {
         "$ref": "#/components/schemas/encoder-start-stream-response.schema"
       },
+      "EncoderVideoCoverAmbiguousResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/encoderVideoCoverApplyResponse"
+          },
+          {
+            "properties": {
+              "accepted": {
+                "const": true
+              },
+              "applied": {
+                "const": false
+              },
+              "error": {
+                "properties": {
+                  "code": {
+                    "const": "cover_apply_ambiguous"
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "type": "object"
+              },
+              "outcome": {
+                "const": "ambiguous"
+              },
+              "rejected": {
+                "const": false
+              }
+            },
+            "required": [
+              "error"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "EncoderVideoCoverAppliedResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/encoderVideoCoverApplyResponse"
+          },
+          {
+            "not": {
+              "required": [
+                "error"
+              ]
+            },
+            "properties": {
+              "accepted": {
+                "const": true
+              },
+              "applied": {
+                "const": true
+              },
+              "outcome": {
+                "const": "applied"
+              },
+              "rejected": {
+                "const": false
+              }
+            },
+            "type": "object"
+          }
+        ]
+      },
+      "EncoderVideoCoverApplyRequest": {
+        "$ref": "#/components/schemas/encoderVideoCoverApplyRequest"
+      },
+      "EncoderVideoCoverApplyResponse": {
+        "$ref": "#/components/schemas/encoderVideoCoverApplyResponse"
+      },
+      "EncoderVideoCoverConflictResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/encoderVideoCoverApplyResponse"
+          },
+          {
+            "properties": {
+              "accepted": {
+                "const": false
+              },
+              "applied": {
+                "const": false
+              },
+              "error": {
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "stale_job_generation",
+                      "stale_cover_generation",
+                      "stale_cover_revision",
+                      "idempotency_conflict",
+                      "revision_payload_conflict"
+                    ]
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "type": "object"
+              },
+              "outcome": {
+                "const": "rejected"
+              },
+              "rejected": {
+                "const": true
+              }
+            },
+            "required": [
+              "error"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "EncoderVideoCoverGraphFailureResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/encoderVideoCoverApplyResponse"
+          },
+          {
+            "properties": {
+              "accepted": {
+                "const": false
+              },
+              "applied": {
+                "const": false
+              },
+              "error": {
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "media_asset_format_unsupported",
+                      "media_asset_too_large",
+                      "media_asset_decode_failed",
+                      "media_asset_aspect_ratio_invalid",
+                      "media_asset_variant_processing",
+                      "media_asset_variant_failed",
+                      "media_asset_unauthorized",
+                      "media_asset_not_found",
+                      "media_asset_hash_mismatch",
+                      "media_asset_dimension_mismatch",
+                      "media_asset_timeout",
+                      "cover_graph_unavailable",
+                      "capability_required"
+                    ]
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "type": "object"
+              },
+              "outcome": {
+                "const": "rejected"
+              },
+              "rejected": {
+                "const": true
+              }
+            },
+            "required": [
+              "error"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "EncoderVideoCoverRuntimeState": {
+        "$ref": "#/components/schemas/videoCoverRuntimeState"
+      },
+      "EncoderVideoCoverStartSnapshot": {
+        "$ref": "#/components/schemas/videoCoverStartSnapshot"
+      },
+      "appliedCoverState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "active"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "revision"
+                    ]
+                  }
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "known"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            "then": {
+              "required": [
+                "active",
+                "revision"
+              ]
+            }
+          },
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "variant_id"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                },
+                "state": {
+                  "const": "known"
+                }
+              },
+              "required": [
+                "state",
+                "active"
+              ]
+            },
+            "then": {
+              "required": [
+                "variant_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "state": {
+            "enum": [
+              "known",
+              "unknown"
+            ]
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "type": "object"
+      },
+      "desiredCoverState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "variant_id"
+                ]
+              },
+              "properties": {
+                "source": {
+                  "const": "none"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              },
+              "required": [
+                "active"
+              ]
+            },
+            "then": {
+              "properties": {
+                "source": {
+                  "enum": [
+                    "preset",
+                    "upload"
+                  ]
+                }
+              },
+              "required": [
+                "variant_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "source": {
+            "enum": [
+              "none",
+              "preset",
+              "upload"
+            ]
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "active",
+          "revision",
+          "source"
+        ],
+        "type": "object"
+      },
       "encoder-runtime-settings-request.schema": {
         "$id": "https://schemas.autostream.example.com/encoder-runtime-settings-request.schema.json",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -204,6 +541,12 @@
             "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through the Control Panel. This is preferred for stored YouTube outputs and YouTube Live API short-lived stream keys.",
             "type": "string"
           },
+          "video_cover_start": {
+            "$ref": "#/components/schemas/videoCoverStartSnapshot",
+            "description": "Desired Video Cover start snapshot. New Control Panel producers send this snapshot for both active and inactive desired state so Encoder can bind the visual epoch before GET/reconcile. Whole-field omission remains accepted only for legacy callers during compatibility.",
+            "x-autostream-legacy-omission-compatible": true,
+            "x-autostream-new-producer-required": true
+          },
           "worker_video_ingest": {
             "description": "Internal opt-in requesting a per-job SRT listener for the assigned Worker scene video. Existing callers omit this field.",
             "type": "boolean"
@@ -304,6 +647,1100 @@
           "archive"
         ],
         "title": "EncoderStartStreamResponse",
+        "type": "object"
+      },
+      "encoderVideoCoverApplyRequest": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "cover_asset"
+                ]
+              },
+              "required": [
+                "hide_confirmed"
+              ]
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              },
+              "required": [
+                "active"
+              ]
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "hide_confirmed"
+                ]
+              },
+              "required": [
+                "cover_asset"
+              ]
+            }
+          }
+        ],
+        "description": "Strict Control Panel to Encoder Video Cover CAS. It can mutate only the Cover layer; Watermark fields are intentionally not representable. OpenAPI path id and body stream_id equality is enforced by the named behavioral validator because JSON Schema cannot express that relation.",
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "cover_asset": {
+            "$ref": "#/components/schemas/mediaAssetDescriptor",
+            "properties": {
+              "readiness": {
+                "const": "ready"
+              },
+              "usage": {
+                "const": "video_cover"
+              }
+            }
+          },
+          "expected_generation": {
+            "description": "CAS fence for the Encoder-owned graph instance generation currently observed by Control Panel.",
+            "minimum": 1,
+            "type": "integer",
+            "x-autostream-fence": "exact_current_generation",
+            "x-autostream-owner": "encoder_recorder"
+          },
+          "hide_confirmed": {
+            "const": true,
+            "description": "Required for hide. An ambiguous hide outcome is reconciled by GET and is never automatically resent."
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+            "type": "string"
+          },
+          "job_generation": {
+            "description": "Control Panel-owned stream visual start epoch.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "revision": {
+            "description": "Desired Video Cover revision.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "stream_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "stream_id",
+          "job_generation",
+          "expected_generation",
+          "revision",
+          "active",
+          "idempotency_key"
+        ],
+        "type": "object",
+        "x-autostream-path-body-equality": {
+          "body_property": "stream_id",
+          "comparison": "exact",
+          "path_parameter": "id",
+          "validator": "contracts.ValidateEncoderVideoCoverApplyRequest"
+        }
+      },
+      "encoderVideoCoverApplyResponse": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "applied"
+                }
+              },
+              "required": [
+                "outcome"
+              ]
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "error"
+                ]
+              },
+              "properties": {
+                "accepted": {
+                  "const": true
+                },
+                "actual": {
+                  "properties": {
+                    "readiness": {
+                      "const": "ready"
+                    }
+                  },
+                  "required": [
+                    "readiness",
+                    "applied_witness"
+                  ]
+                },
+                "applied": {
+                  "const": true
+                },
+                "rejected": {
+                  "const": false
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "rejected"
+                }
+              },
+              "required": [
+                "outcome"
+              ]
+            },
+            "then": {
+              "properties": {
+                "accepted": {
+                  "const": false
+                },
+                "applied": {
+                  "const": false
+                },
+                "rejected": {
+                  "const": true
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "ambiguous"
+                }
+              },
+              "required": [
+                "outcome"
+              ]
+            },
+            "then": {
+              "properties": {
+                "accepted": {
+                  "const": true
+                },
+                "actual": {
+                  "properties": {
+                    "applied": {
+                      "properties": {
+                        "state": {
+                          "const": "unknown"
+                        }
+                      },
+                      "required": [
+                        "state"
+                      ]
+                    },
+                    "readiness": {
+                      "const": "unknown"
+                    }
+                  },
+                  "required": [
+                    "readiness",
+                    "applied"
+                  ]
+                },
+                "applied": {
+                  "const": false
+                },
+                "rejected": {
+                  "const": false
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
+          }
+        ],
+        "description": "Strict Encoder apply result. Applied=true is impossible without an actual runtime state carrying a graph-applied witness. Cross-field equality is enforced by the named behavioral validator because JSON Schema cannot express value equality between object locations.",
+        "properties": {
+          "accepted": {
+            "type": "boolean"
+          },
+          "actual": {
+            "$ref": "#/components/schemas/videoCoverRuntimeState"
+          },
+          "actual_generation": {
+            "description": "Encoder-owned graph instance generation observed when producing this response.",
+            "minimum": 1,
+            "type": "integer",
+            "x-autostream-owner": "encoder_recorder",
+            "x-autostream-scope": "job_generation"
+          },
+          "applied": {
+            "type": "boolean"
+          },
+          "error": {
+            "$ref": "#/components/schemas/safeError"
+          },
+          "job_generation": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "outcome": {
+            "enum": [
+              "applied",
+              "rejected",
+              "ambiguous"
+            ]
+          },
+          "rejected": {
+            "type": "boolean"
+          },
+          "requested_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "stream_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "stream_id",
+          "job_generation",
+          "requested_revision",
+          "actual_generation",
+          "accepted",
+          "rejected",
+          "applied",
+          "outcome",
+          "actual"
+        ],
+        "type": "object",
+        "x-autostream-applied-linkage": [
+          "stream_id=actual.stream_id",
+          "job_generation=actual.job_generation",
+          "actual_generation=actual.generation=actual.applied_witness.generation",
+          "requested_revision=actual.desired.revision=actual.applied.revision=actual.cover.revision=actual.applied_witness.revision=actual.applied_witness.cover.revision",
+          "actual.desired.active=actual.applied.active=actual.cover.enabled=actual.applied_witness.active=actual.applied_witness.cover.enabled",
+          "actual.cover=actual.applied_witness.cover",
+          "actual.watermark=actual.applied_witness.watermark",
+          "actual.pipeline=actual.applied_witness.pipeline"
+        ],
+        "x-autostream-behavioral-validator": "contracts.ValidateEncoderVideoCoverApplyResponse"
+      },
+      "knownAppliedCoverState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "variant_id"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              },
+              "required": [
+                "active"
+              ]
+            },
+            "then": {
+              "required": [
+                "variant_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "state": {
+            "const": "known"
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state",
+          "active",
+          "revision"
+        ],
+        "type": "object"
+      },
+      "layerState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "variant_id"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "enabled": {
+                  "const": true
+                }
+              },
+              "required": [
+                "enabled"
+              ]
+            },
+            "then": {
+              "required": [
+                "variant_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "enabled",
+          "revision"
+        ],
+        "type": "object"
+      },
+      "mediaAssetDescriptor": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "error"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "readiness": {
+                  "enum": [
+                    "not_ready",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "readiness"
+              ]
+            },
+            "then": {
+              "required": [
+                "error"
+              ]
+            }
+          },
+          {
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "aspect_ratio_error_ppm"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "opaque"
+                    ]
+                  }
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "usage": {
+                  "const": "video_cover"
+                }
+              },
+              "required": [
+                "usage"
+              ]
+            },
+            "then": {
+              "properties": {
+                "opaque": {
+                  "const": true
+                }
+              },
+              "required": [
+                "aspect_ratio_error_ppm",
+                "opaque"
+              ]
+            }
+          }
+        ],
+        "description": "Static PNG, JPEG, or WebP metadata only. SVG, GIF, animation, filesystem paths, URLs, and Base64 payloads are not representable.",
+        "properties": {
+          "animated": {
+            "const": false
+          },
+          "aspect_ratio_error_ppm": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "asset_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "byte_size": {
+            "maximum": 20971520,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "error": {
+            "$ref": "#/components/schemas/safeError"
+          },
+          "height": {
+            "maximum": 8192,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "media_type": {
+            "enum": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ]
+          },
+          "opaque": {
+            "type": "boolean"
+          },
+          "pixel_count": {
+            "description": "The producer must verify this equals decoded width multiplied by height before declaring readiness.",
+            "maximum": 40000000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "readiness": {
+            "$ref": "#/components/schemas/readiness"
+          },
+          "revision": {
+            "description": "Immutable processed-variant revision. It is copied from media_asset_variants.processor_revision and never changes for an existing variant identity.",
+            "minimum": 1,
+            "type": "integer",
+            "x-autostream-immutability": "processed_variant",
+            "x-autostream-source": "media_asset_variants.processor_revision"
+          },
+          "sha256": {
+            "description": "Public integrity digest only; never an authentication credential.",
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "usage": {
+            "enum": [
+              "scene_background",
+              "video_cover"
+            ]
+          },
+          "variant_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "width": {
+            "maximum": 8192,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "asset_id",
+          "variant_id",
+          "usage",
+          "media_type",
+          "width",
+          "height",
+          "byte_size",
+          "pixel_count",
+          "animated",
+          "sha256",
+          "revision",
+          "readiness"
+        ],
+        "type": "object"
+      },
+      "readiness": {
+        "enum": [
+          "ready",
+          "not_ready",
+          "unknown"
+        ]
+      },
+      "safeError": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "invalid_theme_id",
+              "media_asset_format_unsupported",
+              "media_asset_too_large",
+              "media_asset_decode_failed",
+              "media_asset_aspect_ratio_invalid",
+              "media_asset_variant_processing",
+              "media_asset_variant_failed",
+              "media_asset_unauthorized",
+              "media_asset_not_found",
+              "media_asset_hash_mismatch",
+              "media_asset_dimension_mismatch",
+              "media_asset_timeout",
+              "discord_target_invalid",
+              "preset_not_found",
+              "preset_revision_conflict",
+              "stale_job_generation",
+              "stale_cover_generation",
+              "stale_cover_revision",
+              "idempotency_conflict",
+              "cover_apply_ambiguous",
+              "cover_graph_unavailable",
+              "revision_payload_conflict",
+              "capability_required"
+            ]
+          },
+          "request_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "type": "object"
+      },
+      "videoCoverAppliedWitness": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "properties": {
+                "cover": {
+                  "not": {
+                    "required": [
+                      "variant_id"
+                    ]
+                  },
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  },
+                  "required": [
+                    "enabled"
+                  ]
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              },
+              "required": [
+                "active"
+              ]
+            },
+            "then": {
+              "properties": {
+                "cover": {
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "enabled",
+                    "variant_id"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "cover": {
+            "$ref": "#/components/schemas/layerState"
+          },
+          "generation": {
+            "description": "Encoder-owned graph instance generation that applied this state.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "graph_applied": {
+            "const": true,
+            "description": "True only after the Encoder graph has applied the Cover state. Acceptance or asset validation alone cannot produce this witness."
+          },
+          "pipeline": {
+            "$ref": "#/components/schemas/visualPipelineInvariant"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "watermark": {
+            "$ref": "#/components/schemas/layerState",
+            "description": "Independently observed Watermark layer; a Cover mutation cannot change it."
+          }
+        },
+        "required": [
+          "graph_applied",
+          "generation",
+          "revision",
+          "active",
+          "cover",
+          "watermark",
+          "pipeline"
+        ],
+        "type": "object"
+      },
+      "videoCoverRuntimeState": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "error"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "readiness": {
+                  "enum": [
+                    "not_ready",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "readiness"
+              ]
+            },
+            "then": {
+              "required": [
+                "error"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "applied": {
+                  "properties": {
+                    "state": {
+                      "const": "unknown"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                }
+              },
+              "required": [
+                "applied"
+              ]
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "applied_witness"
+                ]
+              },
+              "properties": {
+                "readiness": {
+                  "enum": [
+                    "not_ready",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "last_good_applied",
+                "error"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "applied": {
+                  "properties": {
+                    "state": {
+                      "const": "known"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                }
+              },
+              "required": [
+                "applied"
+              ]
+            },
+            "then": {
+              "required": [
+                "applied_witness"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "readiness": {
+                  "const": "ready"
+                }
+              },
+              "required": [
+                "readiness"
+              ]
+            },
+            "then": {
+              "properties": {
+                "applied": {
+                  "properties": {
+                    "state": {
+                      "const": "known"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "cover_asset"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "desired": {
+                  "properties": {
+                    "active": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "active"
+                  ]
+                }
+              },
+              "required": [
+                "desired"
+              ]
+            },
+            "then": {
+              "required": [
+                "cover_asset"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "applied": {
+            "$ref": "#/components/schemas/appliedCoverState"
+          },
+          "applied_witness": {
+            "$ref": "#/components/schemas/videoCoverAppliedWitness"
+          },
+          "capability": {
+            "const": "live_video_cover_v1"
+          },
+          "cover": {
+            "$ref": "#/components/schemas/layerState",
+            "description": "Current Cover imagefeed layer state, independent from Watermark."
+          },
+          "cover_asset": {
+            "$ref": "#/components/schemas/mediaAssetDescriptor",
+            "properties": {
+              "usage": {
+                "const": "video_cover"
+              }
+            }
+          },
+          "desired": {
+            "$ref": "#/components/schemas/desiredCoverState"
+          },
+          "error": {
+            "$ref": "#/components/schemas/safeError"
+          },
+          "generation": {
+            "description": "Encoder-owned graph instance generation. It increases monotonically within one job_generation whenever a new graph instance becomes authoritative.",
+            "minimum": 1,
+            "type": "integer",
+            "x-autostream-monotonic": true,
+            "x-autostream-owner": "encoder_recorder",
+            "x-autostream-scope": "job_generation"
+          },
+          "job_generation": {
+            "description": "Control Panel-owned stream visual start epoch shared with Scene Appearance generation.",
+            "minimum": 1,
+            "type": "integer",
+            "x-autostream-epoch": "video_cover_job_generation",
+            "x-autostream-owner": "control_panel"
+          },
+          "last_good_applied": {
+            "$ref": "#/components/schemas/knownAppliedCoverState"
+          },
+          "no_automatic_resend": {
+            "const": true,
+            "description": "Unknown or ambiguous applied state requires an explicit operator resend with a new revision."
+          },
+          "pipeline": {
+            "$ref": "#/components/schemas/visualPipelineInvariant"
+          },
+          "readiness": {
+            "$ref": "#/components/schemas/readiness"
+          },
+          "stream_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "watermark": {
+            "$ref": "#/components/schemas/layerState",
+            "description": "Current Watermark imagefeed layer state, independent from Cover."
+          }
+        },
+        "required": [
+          "stream_id",
+          "job_generation",
+          "generation",
+          "capability",
+          "readiness",
+          "desired",
+          "applied",
+          "cover",
+          "watermark",
+          "pipeline",
+          "no_automatic_resend"
+        ],
+        "type": "object"
+      },
+      "videoCoverStartSnapshot": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "cover_asset"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              },
+              "required": [
+                "active"
+              ]
+            },
+            "then": {
+              "required": [
+                "cover_asset"
+              ]
+            }
+          }
+        ],
+        "description": "Desired Video Cover start snapshot. New Control Panel producers send it for both active and inactive desired state so Encoder binds job_generation and revision before GET/reconcile. active=true requires cover_asset; active=false forbids cover_asset. Whole-field omission remains only for legacy callers during compatibility.",
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "cover_asset": {
+            "$ref": "#/components/schemas/mediaAssetDescriptor",
+            "properties": {
+              "readiness": {
+                "const": "ready"
+              },
+              "usage": {
+                "const": "video_cover"
+              }
+            }
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+            "type": "string"
+          },
+          "job_generation": {
+            "description": "Control Panel-owned stream visual start epoch shared with Scene Appearance generation.",
+            "minimum": 1,
+            "type": "integer",
+            "x-autostream-epoch": "video_cover_job_generation",
+            "x-autostream-owner": "control_panel"
+          },
+          "revision": {
+            "description": "Desired Video Cover revision captured for this start.",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "job_generation",
+          "revision",
+          "active",
+          "idempotency_key"
+        ],
+        "type": "object"
+      },
+      "visualPipelineInvariant": {
+        "additionalProperties": false,
+        "properties": {
+          "audio_continuity": {
+            "additionalProperties": false,
+            "properties": {
+              "audio_encoder_restart": {
+                "const": 0
+              },
+              "audio_mux_restart": {
+                "const": 0
+              },
+              "graph_rebuild": {
+                "const": 0
+              },
+              "intentional_mute_insertion": {
+                "const": 0
+              },
+              "process_restart": {
+                "const": 0
+              },
+              "reconnect": {
+                "const": 0
+              },
+              "sequence_loss": {
+                "const": 0
+              },
+              "timestamp_discontinuity": {
+                "const": 0
+              }
+            },
+            "required": [
+              "process_restart",
+              "audio_encoder_restart",
+              "audio_mux_restart",
+              "graph_rebuild",
+              "reconnect",
+              "sequence_loss",
+              "timestamp_discontinuity",
+              "intentional_mute_insertion"
+            ],
+            "type": "object"
+          },
+          "cover_watermark_independent": {
+            "const": true
+          },
+          "layers": {
+            "items": false,
+            "maxItems": 5,
+            "minItems": 5,
+            "prefixItems": [
+              {
+                "const": "base_or_worker_scene"
+              },
+              {
+                "const": "video_cover"
+              },
+              {
+                "const": "watermark"
+              },
+              {
+                "const": "video_encode"
+              },
+              {
+                "const": "tee_live_archive_preview"
+              }
+            ],
+            "type": "array"
+          },
+          "output_parity": {
+            "items": false,
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "const": "live"
+              },
+              {
+                "const": "archive"
+              },
+              {
+                "const": "preview"
+              }
+            ],
+            "type": "array"
+          },
+          "watermark_topmost": {
+            "const": true
+          }
+        },
+        "required": [
+          "layers",
+          "watermark_topmost",
+          "cover_watermark_independent",
+          "output_parity",
+          "audio_continuity"
+        ],
         "type": "object"
       },
       "youtube-runtime-config.schema": {
@@ -633,6 +2070,124 @@
           }
         },
         "summary": "Change per-stream Encoder gain and watermark without restarting FFmpeg"
+      }
+    },
+    "/streams/{id}/video-cover-state": {
+      "get": {
+        "description": "Returns the Encoder-owned graph generation and graph-applied witness for the Control Panel-owned stream visual job epoch. Unknown or ambiguous applied state is returned explicitly and must not trigger an automatic resend.\n",
+        "operationId": "getVideoCoverRuntimeState",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/videoCoverRuntimeState"
+                }
+              }
+            },
+            "description": "current generation-fenced Video Cover runtime state"
+          },
+          "401": {
+            "description": "service token missing or invalid"
+          },
+          "404": {
+            "description": "stream runtime is not present"
+          }
+        },
+        "summary": "Reconcile the actual Encoder Video Cover graph state",
+        "x-autostream-response-validator": "contracts.ValidateEncoderVideoCoverRuntimeState"
+      },
+      "put": {
+        "description": "Mutates only the Cover imagefeed. The request cannot represent a Watermark mutation. Applied is returned only after the Encoder graph produced a graph-applied witness. Hide ambiguity is reconciled by GET and is never automatically resent. The path id and body stream_id must match exactly before the generation-fenced CAS is evaluated.\n",
+        "operationId": "applyVideoCoverState",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/encoderVideoCoverApplyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncoderVideoCoverAppliedResponse"
+                }
+              }
+            },
+            "description": "mutation applied or an exact idempotent result replayed"
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncoderVideoCoverAmbiguousResponse"
+                }
+              }
+            },
+            "description": "request accepted but the applied result is ambiguous; reconcile by GET without automatic resend"
+          },
+          "400": {
+            "description": "invalid strict apply payload"
+          },
+          "401": {
+            "description": "service token missing or invalid"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncoderVideoCoverConflictResponse"
+                }
+              }
+            },
+            "description": "rejected stale job/generation/revision fence or idempotency conflict"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EncoderVideoCoverGraphFailureResponse"
+                }
+              }
+            },
+            "description": "video-local graph or asset failure; audio and the independent Watermark state remain active"
+          }
+        },
+        "summary": "Apply one generation-fenced Video Cover mutation",
+        "x-autostream-path-body-equality": {
+          "body_property": "stream_id",
+          "comparison": "exact",
+          "path_parameter": "id",
+          "validator": "contracts.ValidateEncoderVideoCoverApplyRequest"
+        },
+        "x-autostream-response-validator": "contracts.ValidateEncoderVideoCoverApplyResponse"
       }
     },
     "/updater/version": {

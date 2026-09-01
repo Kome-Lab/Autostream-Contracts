@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "constant_count": 331,
+  "constant_count": 363,
   "constants": [
     {
       "name": "AssignmentRolePrimary",
@@ -11,6 +11,21 @@
       "name": "AssignmentRoleStandby",
       "type": "untyped string",
       "value": "\"standby\""
+    },
+    {
+      "name": "CapabilityDiscordResolvedTargetV2",
+      "type": "untyped string",
+      "value": "\"discord_resolved_target_v2\""
+    },
+    {
+      "name": "CapabilityLiveVideoCoverV1",
+      "type": "untyped string",
+      "value": "\"live_video_cover_v1\""
+    },
+    {
+      "name": "CapabilitySceneAppearanceV1",
+      "type": "untyped string",
+      "value": "\"scene_appearance_v1\""
     },
     {
       "name": "CapabilitySceneFramesMJPEGSRT",
@@ -115,6 +130,24 @@
       "type": "EncoderOutputRelayMode",
       "enum_type": "EncoderOutputRelayMode",
       "value": "\"static\""
+    },
+    {
+      "name": "EncoderVideoCoverApplyOutcomeAmbiguous",
+      "type": "EncoderVideoCoverApplyOutcome",
+      "enum_type": "EncoderVideoCoverApplyOutcome",
+      "value": "\"ambiguous\""
+    },
+    {
+      "name": "EncoderVideoCoverApplyOutcomeApplied",
+      "type": "EncoderVideoCoverApplyOutcome",
+      "enum_type": "EncoderVideoCoverApplyOutcome",
+      "value": "\"applied\""
+    },
+    {
+      "name": "EncoderVideoCoverApplyOutcomeRejected",
+      "type": "EncoderVideoCoverApplyOutcome",
+      "enum_type": "EncoderVideoCoverApplyOutcome",
+      "value": "\"rejected\""
     },
     {
       "name": "ErrorCodeYouTubeLiveAPIRequiresManagedOutputRelay",
@@ -1880,6 +1913,162 @@
       "type": "UpdaterOutcome",
       "enum_type": "UpdaterOutcome",
       "value": "\"succeeded\""
+    },
+    {
+      "name": "VisualErrorCapabilityRequired",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"capability_required\""
+    },
+    {
+      "name": "VisualErrorCoverApplyAmbiguous",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"cover_apply_ambiguous\""
+    },
+    {
+      "name": "VisualErrorCoverGraphUnavailable",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"cover_graph_unavailable\""
+    },
+    {
+      "name": "VisualErrorDiscordTargetInvalid",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"discord_target_invalid\""
+    },
+    {
+      "name": "VisualErrorIdempotencyConflict",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"idempotency_conflict\""
+    },
+    {
+      "name": "VisualErrorInvalidThemeID",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"invalid_theme_id\""
+    },
+    {
+      "name": "VisualErrorMediaAssetAspectRatioInvalid",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_aspect_ratio_invalid\""
+    },
+    {
+      "name": "VisualErrorMediaAssetDecodeFailed",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_decode_failed\""
+    },
+    {
+      "name": "VisualErrorMediaAssetDimensionMismatch",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_dimension_mismatch\""
+    },
+    {
+      "name": "VisualErrorMediaAssetFormatUnsupported",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_format_unsupported\""
+    },
+    {
+      "name": "VisualErrorMediaAssetHashMismatch",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_hash_mismatch\""
+    },
+    {
+      "name": "VisualErrorMediaAssetNotFound",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_not_found\""
+    },
+    {
+      "name": "VisualErrorMediaAssetTimeout",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_timeout\""
+    },
+    {
+      "name": "VisualErrorMediaAssetTooLarge",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_too_large\""
+    },
+    {
+      "name": "VisualErrorMediaAssetUnauthorized",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_unauthorized\""
+    },
+    {
+      "name": "VisualErrorMediaAssetVariantFailed",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_variant_failed\""
+    },
+    {
+      "name": "VisualErrorMediaAssetVariantProcessing",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"media_asset_variant_processing\""
+    },
+    {
+      "name": "VisualErrorPresetNotFound",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"preset_not_found\""
+    },
+    {
+      "name": "VisualErrorPresetRevisionConflict",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"preset_revision_conflict\""
+    },
+    {
+      "name": "VisualErrorRevisionPayloadConflict",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"revision_payload_conflict\""
+    },
+    {
+      "name": "VisualErrorStaleCoverGeneration",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"stale_cover_generation\""
+    },
+    {
+      "name": "VisualErrorStaleCoverRevision",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"stale_cover_revision\""
+    },
+    {
+      "name": "VisualErrorStaleJobGeneration",
+      "type": "VisualSafeErrorCode",
+      "enum_type": "VisualSafeErrorCode",
+      "value": "\"stale_job_generation\""
+    },
+    {
+      "name": "VisualReadinessNotReady",
+      "type": "VisualReadiness",
+      "enum_type": "VisualReadiness",
+      "value": "\"not_ready\""
+    },
+    {
+      "name": "VisualReadinessReady",
+      "type": "VisualReadiness",
+      "enum_type": "VisualReadiness",
+      "value": "\"ready\""
+    },
+    {
+      "name": "VisualReadinessUnknown",
+      "type": "VisualReadiness",
+      "enum_type": "VisualReadiness",
+      "value": "\"unknown\""
     },
     {
       "name": "WorkerEventActiveSpeaker",

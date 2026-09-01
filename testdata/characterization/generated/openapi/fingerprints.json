@@ -3,20 +3,20 @@
     {
       "api": "openapi/control-api.yaml",
       "normalized_file": "openapi/normalized/control-api.json",
-      "normalized_sha256": "a18dfeaba2f1e07d2e8a13878009b10eb34caf2b5eacda8ca2df70a38aec1385",
-      "ref_layout_independent_sha256": "68646cfc09aad14396bfe4fdb82ff18e64ba397180d17d86de2b4bcb98bb7252"
+      "normalized_sha256": "12885965e4f43b6d87091b8c11a11403dd104c2cd53b5490218d40cd750e0435",
+      "ref_layout_independent_sha256": "1e0c3eba21e57df1928845df1d05ca390f8f3e55884162e16adc600c0696593d"
     },
     {
       "api": "openapi/discord-bot-api.yaml",
       "normalized_file": "openapi/normalized/discord-bot-api.json",
-      "normalized_sha256": "c0e07802be0d812255f97c336d9d9709f06ff17dad3ef40073aeaf6d98402234",
-      "ref_layout_independent_sha256": "d43197b92dbab718a2f51a7451a39ad9ade14e2b053cb855811a0f85f9e8173c"
+      "normalized_sha256": "98118d6f0b995c7bf19ba8d04508e252eebac44c285fe455ee42b460f9172f26",
+      "ref_layout_independent_sha256": "a0a895bd0caa0fd9de45fdce4b922a1214ce9c806b1078a66bd44ee33e9a52d5"
     },
     {
       "api": "openapi/encoder-recorder-api.yaml",
       "normalized_file": "openapi/normalized/encoder-recorder-api.json",
-      "normalized_sha256": "cde4bb8a3ec66113a123285ff399f341f6befd0076806ae5638586f3f836d3b2",
-      "ref_layout_independent_sha256": "ffcf29b01eb8c701227544b37c4386423957526c6ff896bfd6967b0b0e0d8dbd"
+      "normalized_sha256": "11cd28712ea0631f84a46d721c267ae2e82ea007e0521b383c625b8e86753a5c",
+      "ref_layout_independent_sha256": "4db128e13020216d63a026b8c7eb4e4d28b2e5712741c2a7113a45d75d35253e"
     },
     {
       "api": "openapi/observability-api.yaml",

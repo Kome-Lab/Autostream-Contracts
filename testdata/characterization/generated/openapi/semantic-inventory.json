@@ -23,7 +23,7 @@
         "put": 17,
         "trace": 0
       },
-      "normalized_bundle_sha256": "a18dfeaba2f1e07d2e8a13878009b10eb34caf2b5eacda8ca2df70a38aec1385",
+      "normalized_bundle_sha256": "12885965e4f43b6d87091b8c11a11403dd104c2cd53b5490218d40cd750e0435",
       "openapi_version": "3.1.0",
       "operation_count": 179,
       "operation_id_count": 14,
@@ -94,7 +94,7 @@
               "kind": "ref",
               "name": "ServiceTokenCreateRequest",
               "ref": "#/components/schemas/ServiceTokenCreateRequest",
-              "resolved_sha256": "a791dc23041e04aecd1ca8d0816f2599476c98dc6dc87db35f2a2a39754d401f"
+              "resolved_sha256": "dd9a880914b8b2dabc7d20204a6171e2c05a4161ad0e376eadc3c44db5e1a851"
             }
           ],
           "responses": [
@@ -4305,7 +4305,7 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "84fadc34458ec037f85411ae4c35e0773ed033d1d1e3377f456adf753ca9e840",
+              "resolved_sha256": "c22b33e430161e2cd3bd2a741ddc8dd97c5e81695f1d07cd5df4fdcc4710c9c0",
               "type": ""
             }
           ],
@@ -4911,7 +4911,7 @@
               "kind": "ref",
               "name": "ServiceRegistrationRequest",
               "ref": "#/components/schemas/ServiceRegistrationRequest",
-              "resolved_sha256": "7ac4ee539debcbed7830139fdea8ad65565e39f4b7ccba7e5edecb64a9f1f2b4"
+              "resolved_sha256": "b0031ec71e41e49f9a6180d1d31143f574f6a0c696503d3982e0bba3ed749d5e"
             }
           ],
           "responses": [
@@ -4924,7 +4924,7 @@
                   "kind": "ref",
                   "name": "RegisteredService",
                   "ref": "#/components/schemas/RegisteredService",
-                  "resolved_sha256": "29d4e660975858a916455e6b35549c7e64ee19871bc4aa657921e9469de64afa"
+                  "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
                 }
               ],
               "status": "202"
@@ -5047,7 +5047,7 @@
                   "kind": "ref",
                   "name": "ServiceRuntimeConfig",
                   "ref": "#/components/schemas/ServiceRuntimeConfig",
-                  "resolved_sha256": "1aba3dc0318f05c43c3bbb6a795372a048dd1f4b33de0fc711d40453a0b37654"
+                  "resolved_sha256": "d7435591710618efc0478efb5d09dd34bf2620342d730f4532f398a54d994a6d"
                 }
               ],
               "status": "200"
@@ -5833,7 +5833,7 @@
                   "kind": "ref",
                   "name": "RegisteredService",
                   "ref": "#/components/schemas/RegisteredService",
-                  "resolved_sha256": "29d4e660975858a916455e6b35549c7e64ee19871bc4aa657921e9469de64afa"
+                  "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
                 }
               ],
               "status": "200"
@@ -7096,7 +7096,7 @@
                   "kind": "ref",
                   "name": "StartReadinessResponse",
                   "ref": "#/components/schemas/StartReadinessResponse",
-                  "resolved_sha256": "a471b3703049120a836741e17c4efef23d9555a02c18d48de6f36dabe1e6c3a1"
+                  "resolved_sha256": "6d719beb5d5cde88057b2c2aeb5d91ba3c40deeedac00689537d499ba024d95f"
                 }
               ],
               "status": "200"
@@ -9163,7 +9163,7 @@
                   "kind": "ref",
                   "name": "RegisteredService",
                   "ref": "#/components/schemas/RegisteredService",
-                  "resolved_sha256": "29d4e660975858a916455e6b35549c7e64ee19871bc4aa657921e9469de64afa"
+                  "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
                 }
               ],
               "status": "200"
@@ -9635,7 +9635,7 @@
           "path": "/setup/first-admin"
         }
       ],
-      "ref_layout_independent_sha256": "68646cfc09aad14396bfe4fdb82ff18e64ba397180d17d86de2b4bcb98bb7252",
+      "ref_layout_independent_sha256": "1e0c3eba21e57df1928845df1d05ca390f8f3e55884162e16adc600c0696593d",
       "request_body_count": 55,
       "response_status_distribution": {
         "200": 137,
@@ -9753,7 +9753,7 @@
         "put": 0,
         "trace": 0
       },
-      "normalized_bundle_sha256": "c0e07802be0d812255f97c336d9d9709f06ff17dad3ef40073aeaf6d98402234",
+      "normalized_bundle_sha256": "98118d6f0b995c7bf19ba8d04508e252eebac44c285fe455ee42b460f9172f26",
       "openapi_version": "3.1.0",
       "operation_count": 3,
       "operation_id_count": 3,
@@ -9777,7 +9777,7 @@
               "kind": "ref",
               "name": "discord-bot-start-job-request.schema",
               "ref": "#/components/schemas/discord-bot-start-job-request.schema",
-              "resolved_sha256": "fe73d0ae84ef9ae95952bf3bbf150f01f2b1ddaf162e52823bc4ed9520a8e034"
+              "resolved_sha256": "f143724b1820df15eb16a15f47a86f4dde66abbbea278669551bd63e511d4886"
             }
           ],
           "responses": [
@@ -10049,7 +10049,7 @@
       "path_count": 3,
       "public_operation_count": 0,
       "public_operations": [],
-      "ref_layout_independent_sha256": "d43197b92dbab718a2f51a7451a39ad9ade14e2b053cb855811a0f85f9e8173c",
+      "ref_layout_independent_sha256": "a0a895bd0caa0fd9de45fdce4b922a1214ce9c806b1078a66bd44ee33e9a52d5",
       "request_body_count": 2,
       "response_status_distribution": {
         "200": 2,
@@ -10065,7 +10065,7 @@
         "502": 2,
         "503": 2
       },
-      "schema_count": 15,
+      "schema_count": 17,
       "security_scheme_count": 1,
       "title": "AutoStream Discord Bot API",
       "unauthenticated_operation_count": 1,
@@ -10092,22 +10092,22 @@
       "duplicate_method_paths": [],
       "duplicate_operation_ids": [],
       "explicit_security_count": 1,
-      "inherited_security_count": 3,
+      "inherited_security_count": 5,
       "inline_schema_count": 6,
       "method_counts": {
         "delete": 0,
-        "get": 2,
+        "get": 3,
         "head": 0,
         "options": 0,
         "patch": 0,
         "post": 1,
-        "put": 1,
+        "put": 2,
         "trace": 0
       },
-      "normalized_bundle_sha256": "cde4bb8a3ec66113a123285ff399f341f6befd0076806ae5638586f3f836d3b2",
+      "normalized_bundle_sha256": "11cd28712ea0631f84a46d721c267ae2e82ea007e0521b383c625b8e86753a5c",
       "openapi_version": "3.1.0",
-      "operation_count": 4,
-      "operation_id_count": 4,
+      "operation_count": 6,
+      "operation_id_count": 6,
       "operations": [
         {
           "deprecated": false,
@@ -10128,7 +10128,7 @@
               "kind": "ref",
               "name": "encoder-start-stream-request.schema",
               "ref": "#/components/schemas/encoder-start-stream-request.schema",
-              "resolved_sha256": "eb1b58b0a464118ccebfb8d794a7e4d7c4b79dc32048d80a4907695d27521344"
+              "resolved_sha256": "893cf54ad451300ff9eaf3ef1661ded00fafc2a766d4e0db38091ad11616b4f4"
             }
           ],
           "responses": [
@@ -10300,6 +10300,143 @@
         },
         {
           "deprecated": false,
+          "effective_security": [
+            {
+              "serviceToken": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getVideoCoverRuntimeState",
+          "path": "/streams/{id}/video-cover-state",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "videoCoverRuntimeState",
+                  "ref": "#/components/schemas/videoCoverRuntimeState",
+                  "resolved_sha256": "400aad6bf495ad24022eb55d849fa047ca8af0f4229fc7db8841a24bc53f196e"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "401"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "404"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "serviceToken": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "put",
+          "operation_id": "applyVideoCoverState",
+          "path": "/streams/{id}/video-cover-state",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "encoderVideoCoverApplyRequest",
+              "ref": "#/components/schemas/encoderVideoCoverApplyRequest",
+              "resolved_sha256": "4cb515e032153cde430bd19bfe24649ee63dc80e9a41a86169fa427b12a24e0e"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "EncoderVideoCoverAppliedResponse",
+                  "ref": "#/components/schemas/EncoderVideoCoverAppliedResponse",
+                  "resolved_sha256": "8b77cef54bcffee9d0b48d1c945ee4e1f48f043529ed47855b06b08d43780fef"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "EncoderVideoCoverAmbiguousResponse",
+                  "ref": "#/components/schemas/EncoderVideoCoverAmbiguousResponse",
+                  "resolved_sha256": "0b471040adf43f5575212dd7a7cb0a728b3febf4a12d7cc448c70cf0529c0dde"
+                }
+              ],
+              "status": "202"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "401"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "EncoderVideoCoverConflictResponse",
+                  "ref": "#/components/schemas/EncoderVideoCoverConflictResponse",
+                  "resolved_sha256": "392d754557a439fcb02f274061a1667e2bf49377167f3ce5237de70b33d3d997"
+                }
+              ],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "EncoderVideoCoverGraphFailureResponse",
+                  "ref": "#/components/schemas/EncoderVideoCoverGraphFailureResponse",
+                  "resolved_sha256": "29d0b00b2c5a86732f1267149e1d7450b49b6e8971732f1400319eb4646f7b85"
+                }
+              ],
+              "status": "502"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
           "effective_security": [],
           "exposure_classification": "loopback_only",
           "method": "get",
@@ -10360,25 +10497,25 @@
       "operations_without_responses": [],
       "operations_without_security_definition": [],
       "operations_without_success_response": [],
-      "path_count": 4,
+      "path_count": 5,
       "public_operation_count": 0,
       "public_operations": [],
-      "ref_layout_independent_sha256": "ffcf29b01eb8c701227544b37c4386423957526c6ff896bfd6967b0b0e0d8dbd",
-      "request_body_count": 2,
+      "ref_layout_independent_sha256": "4db128e13020216d63a026b8c7eb4e4d28b2e5712741c2a7113a45d75d35253e",
+      "request_body_count": 3,
       "response_status_distribution": {
-        "200": 3,
-        "202": 1,
+        "200": 5,
+        "202": 2,
         "206": 1,
-        "400": 3,
-        "401": 3,
-        "404": 1,
+        "400": 4,
+        "401": 5,
+        "404": 2,
         "405": 1,
-        "409": 2,
+        "409": 3,
         "500": 1,
-        "502": 1,
+        "502": 2,
         "503": 2
       },
-      "schema_count": 7,
+      "schema_count": 28,
       "security_scheme_count": 1,
       "title": "AutoStream Encoder Recorder API",
       "unauthenticated_operation_count": 1,

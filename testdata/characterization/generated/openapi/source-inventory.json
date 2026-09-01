@@ -5457,6 +5457,56 @@
     },
     {
       "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverAmbiguousResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverAppliedResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverApplyRequest"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverApplyResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverApplyResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverApplyResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverApplyResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverConflictResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverGraphFailureResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverRuntimeState"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
       "target": "schemas/encoder-runtime-settings-request.schema.json",
       "value": "../schemas/encoder-runtime-settings-request.schema.json"
     },
@@ -5469,6 +5519,26 @@
       "source": "openapi/encoder-recorder-api.yaml",
       "target": "schemas/encoder-start-stream-response.schema.json",
       "value": "../schemas/encoder-start-stream-response.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-video-cover-apply-request.schema.json",
+      "value": "../schemas/encoder-video-cover-apply-request.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-video-cover-apply-response.schema.json",
+      "value": "../schemas/encoder-video-cover-apply-response.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-video-cover-runtime-state.schema.json",
+      "value": "../schemas/encoder-video-cover-runtime-state.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-video-cover-start-snapshot.schema.json",
+      "value": "../schemas/encoder-video-cover-start-snapshot.schema.json"
     },
     {
       "source": "openapi/observability-api.yaml",
@@ -5643,6 +5713,16 @@
     {
       "source": "schemas/discord-bot-start-job-request.schema.json",
       "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/encoderVideoCoverApplyRequest"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/encoderVideoCoverApplyResponse"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
       "value": "#/$defs/knownAppliedCoverState"
     },
     {
@@ -5658,6 +5738,21 @@
     {
       "source": "schemas/discord-bot-start-job-request.schema.json",
       "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/layerState"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/layerState"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/mediaAssetDescriptor"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
       "value": "#/$defs/mediaAssetDescriptor"
     },
     {
@@ -5668,6 +5763,11 @@
     {
       "source": "schemas/discord-bot-start-job-request.schema.json",
       "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/mediaAssetDescriptor"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
       "value": "#/$defs/readiness"
     },
     {
@@ -5699,6 +5799,11 @@
       "source": "schemas/discord-bot-start-job-request.schema.json",
       "target": "schemas/discord-bot-start-job-request.schema.json",
       "value": "#/$defs/resolvedDiscordTarget"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/safeError"
     },
     {
       "source": "schemas/discord-bot-start-job-request.schema.json",
@@ -5738,7 +5843,22 @@
     {
       "source": "schemas/discord-bot-start-job-request.schema.json",
       "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/videoCoverAppliedWitness"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
       "value": "#/$defs/videoCoverRuntimeState"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/videoCoverRuntimeState"
+    },
+    {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/videoCoverStartSnapshot"
     },
     {
       "source": "schemas/discord-bot-start-job-request.schema.json",
@@ -5751,9 +5871,39 @@
       "value": "#/$defs/visualPipelineInvariant"
     },
     {
+      "source": "schemas/discord-bot-start-job-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "#/$defs/visualPipelineInvariant"
+    },
+    {
+      "source": "schemas/encoder-start-stream-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "discord-bot-start-job-request.schema.json#/$defs/videoCoverStartSnapshot"
+    },
+    {
       "source": "schemas/encoder-start-stream-request.schema.json",
       "target": "schemas/youtube-runtime-config.schema.json",
       "value": "youtube-runtime-config.schema.json"
+    },
+    {
+      "source": "schemas/encoder-video-cover-apply-request.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "discord-bot-start-job-request.schema.json#/$defs/encoderVideoCoverApplyRequest"
+    },
+    {
+      "source": "schemas/encoder-video-cover-apply-response.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "discord-bot-start-job-request.schema.json#/$defs/encoderVideoCoverApplyResponse"
+    },
+    {
+      "source": "schemas/encoder-video-cover-runtime-state.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "discord-bot-start-job-request.schema.json#/$defs/videoCoverRuntimeState"
+    },
+    {
+      "source": "schemas/encoder-video-cover-start-snapshot.schema.json",
+      "target": "schemas/discord-bot-start-job-request.schema.json",
+      "value": "discord-bot-start-job-request.schema.json#/$defs/videoCoverStartSnapshot"
     },
     {
       "source": "schemas/host-agent-self-update-directive.schema.json",
@@ -5836,18 +5986,18 @@
       "value": "#/$defs/updaterHealth"
     }
   ],
-  "source_file_count": 30,
+  "source_file_count": 34,
   "source_files": [
     {
-      "normalized_source_sha256": "b0c3a6bea884d9d0a50c3a1c7c93737183337b21c8a65754d6e8971cb836c3ff",
+      "normalized_source_sha256": "89a8a186bbf5b0c3273f4725621ec585e897e835568884eb24e92ebf62bf4917",
       "path": "openapi/control-api.yaml"
     },
     {
-      "normalized_source_sha256": "57326906773403e9ca3a41472955c68cfe40f4a3a8f9677507995b4fd9c64b9b",
+      "normalized_source_sha256": "c65ce5c5202d94d4c4ee8700089e119b4c8b8afa74f97205fa40aeb8bbd88a97",
       "path": "openapi/discord-bot-api.yaml"
     },
     {
-      "normalized_source_sha256": "3ba8d13b604b14728dcb217c708d00e4a8c451ac49cd6bb0ef3baadef822f17f",
+      "normalized_source_sha256": "b2b51833577889737657eb64983fdf003b224b395bee742588fd8f5d5dee731b",
       "path": "openapi/encoder-recorder-api.yaml"
     },
     {
@@ -5859,7 +6009,7 @@
       "path": "schemas/diagnostic-rerun-response.schema.json"
     },
     {
-      "normalized_source_sha256": "1e10152b95b77fcb9606f8b7d3c4f11ff47d5291cd03b7f1bbdaf14c43b11507",
+      "normalized_source_sha256": "dc86deb7dc3b1e2fcbcbba5224c2555a7ffd68dc39f17d35212ce3dc4cebd5bb",
       "path": "schemas/discord-bot-start-job-request.schema.json"
     },
     {
@@ -5867,12 +6017,28 @@
       "path": "schemas/encoder-runtime-settings-request.schema.json"
     },
     {
-      "normalized_source_sha256": "fd1d5cbd7bed8146e8c3a66f23e9ca46b8306a79906de02dbdc0d0055d145029",
+      "normalized_source_sha256": "9e46dd05715df232f7406c176bc6e0ac5bea37f006d7fe898bb8025527dbd91d",
       "path": "schemas/encoder-start-stream-request.schema.json"
     },
     {
       "normalized_source_sha256": "d3513e2258ee7c544a71991e314067396d3bca0b3000d46c2e239f965a77c74f",
       "path": "schemas/encoder-start-stream-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "b4109a01735b570cd9d17bc57db904c37c2a0621db9a28d8d0687317ddc1f885",
+      "path": "schemas/encoder-video-cover-apply-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "d2d022cefec50723df6a6230697dedeadd6e09a13a8da672dbee14da7314e453",
+      "path": "schemas/encoder-video-cover-apply-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "3d26a7804312f566546a1bc4567ff4ccc5409404a821ec88b3fdd3f0f3f5bcbd",
+      "path": "schemas/encoder-video-cover-runtime-state.schema.json"
+    },
+    {
+      "normalized_source_sha256": "5ec400ecbc9afee0a5680a91bf5832dbd89abb0edf76676796ca4838a48a8783",
+      "path": "schemas/encoder-video-cover-start-snapshot.schema.json"
     },
     {
       "normalized_source_sha256": "13d60b15034095f967e55837bab9546bb72666942fde4d8affa1a48ced00fdcc",

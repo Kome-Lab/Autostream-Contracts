@@ -21,7 +21,7 @@
     "put": 17,
     "trace": 0
   },
-  "normalized_bundle_sha256": "a18dfeaba2f1e07d2e8a13878009b10eb34caf2b5eacda8ca2df70a38aec1385",
+  "normalized_bundle_sha256": "12885965e4f43b6d87091b8c11a11403dd104c2cd53b5490218d40cd750e0435",
   "openapi_version": "3.1.0",
   "operation_count": 179,
   "operation_id_count": 14,
@@ -92,7 +92,7 @@
           "kind": "ref",
           "name": "ServiceTokenCreateRequest",
           "ref": "#/components/schemas/ServiceTokenCreateRequest",
-          "resolved_sha256": "a791dc23041e04aecd1ca8d0816f2599476c98dc6dc87db35f2a2a39754d401f"
+          "resolved_sha256": "dd9a880914b8b2dabc7d20204a6171e2c05a4161ad0e376eadc3c44db5e1a851"
         }
       ],
       "responses": [
@@ -4303,7 +4303,7 @@
         {
           "kind": "inline",
           "name": "",
-          "resolved_sha256": "84fadc34458ec037f85411ae4c35e0773ed033d1d1e3377f456adf753ca9e840",
+          "resolved_sha256": "c22b33e430161e2cd3bd2a741ddc8dd97c5e81695f1d07cd5df4fdcc4710c9c0",
           "type": ""
         }
       ],
@@ -4909,7 +4909,7 @@
           "kind": "ref",
           "name": "ServiceRegistrationRequest",
           "ref": "#/components/schemas/ServiceRegistrationRequest",
-          "resolved_sha256": "7ac4ee539debcbed7830139fdea8ad65565e39f4b7ccba7e5edecb64a9f1f2b4"
+          "resolved_sha256": "b0031ec71e41e49f9a6180d1d31143f574f6a0c696503d3982e0bba3ed749d5e"
         }
       ],
       "responses": [
@@ -4922,7 +4922,7 @@
               "kind": "ref",
               "name": "RegisteredService",
               "ref": "#/components/schemas/RegisteredService",
-              "resolved_sha256": "29d4e660975858a916455e6b35549c7e64ee19871bc4aa657921e9469de64afa"
+              "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
             }
           ],
           "status": "202"
@@ -5045,7 +5045,7 @@
               "kind": "ref",
               "name": "ServiceRuntimeConfig",
               "ref": "#/components/schemas/ServiceRuntimeConfig",
-              "resolved_sha256": "1aba3dc0318f05c43c3bbb6a795372a048dd1f4b33de0fc711d40453a0b37654"
+              "resolved_sha256": "d7435591710618efc0478efb5d09dd34bf2620342d730f4532f398a54d994a6d"
             }
           ],
           "status": "200"
@@ -5831,7 +5831,7 @@
               "kind": "ref",
               "name": "RegisteredService",
               "ref": "#/components/schemas/RegisteredService",
-              "resolved_sha256": "29d4e660975858a916455e6b35549c7e64ee19871bc4aa657921e9469de64afa"
+              "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
             }
           ],
           "status": "200"
@@ -7094,7 +7094,7 @@
               "kind": "ref",
               "name": "StartReadinessResponse",
               "ref": "#/components/schemas/StartReadinessResponse",
-              "resolved_sha256": "a471b3703049120a836741e17c4efef23d9555a02c18d48de6f36dabe1e6c3a1"
+              "resolved_sha256": "6d719beb5d5cde88057b2c2aeb5d91ba3c40deeedac00689537d499ba024d95f"
             }
           ],
           "status": "200"
@@ -9161,7 +9161,7 @@
               "kind": "ref",
               "name": "RegisteredService",
               "ref": "#/components/schemas/RegisteredService",
-              "resolved_sha256": "29d4e660975858a916455e6b35549c7e64ee19871bc4aa657921e9469de64afa"
+              "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
             }
           ],
           "status": "200"
@@ -9633,7 +9633,7 @@
       "path": "/setup/first-admin"
     }
   ],
-  "ref_layout_independent_sha256": "68646cfc09aad14396bfe4fdb82ff18e64ba397180d17d86de2b4bcb98bb7252",
+  "ref_layout_independent_sha256": "1e0c3eba21e57df1928845df1d05ca390f8f3e55884162e16adc600c0696593d",
   "request_body_count": 55,
   "response_status_distribution": {
     "200": 137,

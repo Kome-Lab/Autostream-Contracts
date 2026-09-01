@@ -11,6 +11,9 @@ import (
 func validateWorkerSceneVideoContract(t *testing.T, schemaFile, body string, wantValid bool, dependencies ...string) {
 	t.Helper()
 
+	if schemaFile == "encoder-start-stream-request.schema.json" || schemaFile == "worker-start-job-request.schema.json" {
+		dependencies = append(dependencies, visualCatalogSchema)
+	}
 	schema := compileContractJSONSchema(t, schemaFile, dependencies...)
 	var document any
 	if err := json.Unmarshal([]byte(body), &document); err != nil {

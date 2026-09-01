@@ -113,6 +113,7 @@ func TestEncoderStartStreamAllowsCanonicalStaticRuntimeWatchURL(t *testing.T) {
 	validator := compileContractJSONSchema(t,
 		"encoder-start-stream-request.schema.json",
 		"youtube-runtime-config.schema.json",
+		visualCatalogSchema,
 	)
 
 	valid := `{"stream_id":"stream-1","name":"fixed relay","rtmp_url":"rtmp://encoder.internal/live","youtube_runtime":{"mode":"live_api_relay_static","output_id":"output-1","oauth_account_id":"oauth-1","relay_binding_id":"` + validRelayBindingID + `","reusable_live_stream_id":"live-stream-1","broadcast_id":"broadcast-1","live_stream_id":"live-stream-1","complete_on_stop":true,"watch_url":"https://www.youtube.com/watch?v=abc12345"}}`

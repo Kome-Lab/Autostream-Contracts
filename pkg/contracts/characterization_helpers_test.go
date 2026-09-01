@@ -11,6 +11,7 @@ import (
 	"go/parser"
 	"go/token"
 	"go/types"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -195,7 +196,7 @@ func loadContractPackageModelFromDirectory(t *testing.T, directory string) contr
 	}
 	var typeErrors []string
 	config := &types.Config{
-		Importer: importer.Default(),
+		Importer: newContractPackageImporter(fset),
 		Error: func(err error) {
 			typeErrors = append(typeErrors, err.Error())
 		},
@@ -209,6 +210,37 @@ func loadContractPackageModelFromDirectory(t *testing.T, directory string) contr
 	}
 
 	return contractPackageModel{Package: pkg, Files: files, Info: info}
+}
+
+type contractPackageImporter struct {
+	standard types.Importer
+	module   types.Importer
+}
+
+func newContractPackageImporter(fset *token.FileSet) types.Importer {
+	lookup := func(importPath string) (io.ReadCloser, error) {
+		command := exec.Command("go", "list", "-mod=readonly", "-export", "-f", "{{.Export}}", importPath)
+		output, err := command.CombinedOutput()
+		if err != nil {
+			return nil, fmt.Errorf("resolve module export for %q: %w (%s)", importPath, err, strings.TrimSpace(string(output)))
+		}
+		exportPath := strings.TrimSpace(string(output))
+		if exportPath == "" {
+			return nil, fmt.Errorf("resolve module export for %q: empty export path", importPath)
+		}
+		return os.Open(exportPath)
+	}
+	return &contractPackageImporter{
+		standard: importer.Default(),
+		module:   importer.ForCompiler(fset, "gc", lookup),
+	}
+}
+
+func (value *contractPackageImporter) Import(importPath string) (*types.Package, error) {
+	if imported, err := value.standard.Import(importPath); err == nil {
+		return imported, nil
+	}
+	return value.module.Import(importPath)
 }
 
 func buildPublicAPICharacterization(t *testing.T, model contractPackageModel) (publicAPIManifest, structFieldManifest, enumConstantManifest) {

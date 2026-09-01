@@ -86,7 +86,11 @@ paths:
       description: >
         Control Panel supplies the positive Worker-issued job generation unchanged.
         Discord Bot validates the generation before fetching runtime configuration,
-        starting the manager, or joining the voice channel.
+        starting the manager, or joining the voice channel. For mixed fleets, Control
+        Panel sends schema_version=2 only when the assigned Bot's current capability
+        map advertises discord_resolved_target_v2: true as actual support. A version
+        string, absent capability, false, or unknown value is insufficient; Control
+        Panel then sends the legacy flat target payload and must omit every v2-only field.
       requestBody:
         required: true
         content:

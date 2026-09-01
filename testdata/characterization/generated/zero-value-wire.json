@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 165,
+  "struct_count": 181,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -678,6 +678,74 @@
       }
     },
     {
+      "name": "DiscordBotStartJobV2Request",
+      "wire_json": "{\"schema_version\":0,\"stream_id\":\"\",\"job_generation\":0,\"discord_target\":{\"revision\":0,\"resolved\":{\"guild_id\":\"\",\"text_channel_id\":\"\",\"voice_channel_id\":\"\"}}}",
+      "wire_sha256": "69f4ec3a0fb7dfc00f5b4f7fa9fc0e23a6694caf33275b69fde2e608620d9b03",
+      "shape": {
+        "fields": [
+          {
+            "name": "discord_target",
+            "shape": {
+              "fields": [
+                {
+                  "name": "resolved",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "guild_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "text_channel_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      },
+                      {
+                        "name": "voice_channel_id",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "schema_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "DiscordConfig",
       "wire_json": "{\"id\":\"\",\"name\":\"\",\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
       "wire_sha256": "42745f3c5f411ccde710fc80b98f7e195570c8e7469df193f47dcaa58867a0ce",
@@ -821,6 +889,48 @@
           },
           {
             "name": "timestamp",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "DiscordTargetSnapshot",
+      "wire_json": "{\"revision\":0,\"resolved\":{\"guild_id\":\"\",\"text_channel_id\":\"\",\"voice_channel_id\":\"\"}}",
+      "wire_sha256": "3c60e615dca46cc57b583bbeafc46b1e71033c8e0fe5e4508bf527dfece86ebe",
+      "shape": {
+        "fields": [
+          {
+            "name": "resolved",
+            "shape": {
+              "fields": [
+                {
+                  "name": "guild_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "text_channel_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "voice_channel_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "revision",
             "shape": {
               "kind": "number"
             }
@@ -1180,6 +1290,322 @@
             "name": "status",
             "shape": {
               "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderVideoCoverApplyRequest",
+      "wire_json": "{\"stream_id\":\"\",\"job_generation\":0,\"expected_generation\":0,\"revision\":0,\"active\":false,\"idempotency_key\":\"\"}",
+      "wire_sha256": "dcf6b078f9dcd63cd2dee2a002b196bb211eaa57c843a9e34c29546a8b2ee873",
+      "shape": {
+        "fields": [
+          {
+            "name": "active",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "expected_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderVideoCoverApplyResponse",
+      "wire_json": "{\"stream_id\":\"\",\"job_generation\":0,\"requested_revision\":0,\"actual_generation\":0,\"accepted\":false,\"rejected\":false,\"applied\":false,\"outcome\":\"\",\"actual\":{\"stream_id\":\"\",\"job_generation\":0,\"generation\":0,\"capability\":\"\",\"readiness\":\"\",\"desired\":{\"active\":false,\"revision\":0,\"source\":\"\"},\"applied\":{\"state\":\"\"},\"cover\":{\"enabled\":false,\"revision\":0},\"watermark\":{\"enabled\":false,\"revision\":0},\"pipeline\":{\"layers\":null,\"watermark_topmost\":false,\"cover_watermark_independent\":false,\"output_parity\":null,\"audio_continuity\":{\"process_restart\":0,\"audio_encoder_restart\":0,\"audio_mux_restart\":0,\"graph_rebuild\":0,\"reconnect\":0,\"sequence_loss\":0,\"timestamp_discontinuity\":0,\"intentional_mute_insertion\":0}},\"no_automatic_resend\":false}}",
+      "wire_sha256": "cdd14220b0e4ccebaa129566ba058b7184f7db3c8d40ed98be0c01358a3efee3",
+      "shape": {
+        "fields": [
+          {
+            "name": "accepted",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "actual",
+            "shape": {
+              "fields": [
+                {
+                  "name": "applied",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "state",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "capability",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "cover",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "enabled",
+                        "shape": {
+                          "kind": "boolean"
+                        }
+                      },
+                      {
+                        "name": "revision",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "desired",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "active",
+                        "shape": {
+                          "kind": "boolean"
+                        }
+                      },
+                      {
+                        "name": "revision",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "source",
+                        "shape": {
+                          "kind": "string"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "generation",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "job_generation",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "no_automatic_resend",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "pipeline",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "audio_continuity",
+                        "shape": {
+                          "fields": [
+                            {
+                              "name": "audio_encoder_restart",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "audio_mux_restart",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "graph_rebuild",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "intentional_mute_insertion",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "process_restart",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "reconnect",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "sequence_loss",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            },
+                            {
+                              "name": "timestamp_discontinuity",
+                              "shape": {
+                                "kind": "number"
+                              }
+                            }
+                          ],
+                          "kind": "object"
+                        }
+                      },
+                      {
+                        "name": "cover_watermark_independent",
+                        "shape": {
+                          "kind": "boolean"
+                        }
+                      },
+                      {
+                        "name": "layers",
+                        "shape": {
+                          "kind": "null"
+                        }
+                      },
+                      {
+                        "name": "output_parity",
+                        "shape": {
+                          "kind": "null"
+                        }
+                      },
+                      {
+                        "name": "watermark_topmost",
+                        "shape": {
+                          "kind": "boolean"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "readiness",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "stream_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "watermark",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "enabled",
+                        "shape": {
+                          "kind": "boolean"
+                        }
+                      },
+                      {
+                        "name": "revision",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "actual_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "applied",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "outcome",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "rejected",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "requested_revision",
+            "shape": {
+              "kind": "number"
             }
           },
           {
@@ -2206,6 +2632,88 @@
             "name": "timezone",
             "shape": {
               "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "MediaAssetDescriptor",
+      "wire_json": "{\"asset_id\":\"\",\"variant_id\":\"\",\"usage\":\"\",\"media_type\":\"\",\"width\":0,\"height\":0,\"byte_size\":0,\"pixel_count\":0,\"animated\":false,\"sha256\":\"\",\"revision\":0,\"readiness\":\"\"}",
+      "wire_sha256": "696695deb64b2d56978da6996221cdbce59f0a2d2c45697156a42d99cb736d13",
+      "shape": {
+        "fields": [
+          {
+            "name": "animated",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "asset_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "byte_size",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "height",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "media_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "pixel_count",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "readiness",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "usage",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "variant_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "width",
+            "shape": {
+              "kind": "number"
             }
           }
         ],
@@ -4370,6 +4878,80 @@
             "name": "service_type",
             "shape": {
               "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "ResolvedDiscordTarget",
+      "wire_json": "{\"guild_id\":\"\",\"text_channel_id\":\"\",\"voice_channel_id\":\"\"}",
+      "wire_sha256": "38d92726f112e4fe7f73e5c9205e102bcf784214d0507da939a4adbd33af8267",
+      "shape": {
+        "fields": [
+          {
+            "name": "guild_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "text_channel_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "voice_channel_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SceneAppearance",
+      "wire_json": "{\"generation\":0,\"revision\":0,\"capability\":\"\",\"readiness\":\"\",\"background_mode\":\"\",\"header_title_mode\":\"\"}",
+      "wire_sha256": "b816705ba481f9cfaabe24c6dcedb5fcb208f856066768054a0b1a828dcbbb3c",
+      "shape": {
+        "fields": [
+          {
+            "name": "background_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "capability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "header_title_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "readiness",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
             }
           }
         ],
@@ -7270,6 +7852,646 @@
             "name": "retryable",
             "shape": {
               "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VideoCoverAppliedState",
+      "wire_json": "{\"state\":\"\"}",
+      "wire_sha256": "24305f337320206f6c9f32335d9d4f47f89d23bfbda617eed4aa637eb8ab8b68",
+      "shape": {
+        "fields": [
+          {
+            "name": "state",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VideoCoverAppliedWitness",
+      "wire_json": "{\"graph_applied\":false,\"generation\":0,\"revision\":0,\"active\":false,\"cover\":{\"enabled\":false,\"revision\":0},\"watermark\":{\"enabled\":false,\"revision\":0},\"pipeline\":{\"layers\":null,\"watermark_topmost\":false,\"cover_watermark_independent\":false,\"output_parity\":null,\"audio_continuity\":{\"process_restart\":0,\"audio_encoder_restart\":0,\"audio_mux_restart\":0,\"graph_rebuild\":0,\"reconnect\":0,\"sequence_loss\":0,\"timestamp_discontinuity\":0,\"intentional_mute_insertion\":0}}}",
+      "wire_sha256": "69bab59448d0899f0e3dca1ae49da4ec12b2661b8831d45dddd30e5580e880c3",
+      "shape": {
+        "fields": [
+          {
+            "name": "active",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "cover",
+            "shape": {
+              "fields": [
+                {
+                  "name": "enabled",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "graph_applied",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "pipeline",
+            "shape": {
+              "fields": [
+                {
+                  "name": "audio_continuity",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "audio_encoder_restart",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "audio_mux_restart",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "graph_rebuild",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "intentional_mute_insertion",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "process_restart",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "reconnect",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "sequence_loss",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "timestamp_discontinuity",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "cover_watermark_independent",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "layers",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "output_parity",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "watermark_topmost",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "watermark",
+            "shape": {
+              "fields": [
+                {
+                  "name": "enabled",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VideoCoverDesiredState",
+      "wire_json": "{\"active\":false,\"revision\":0,\"source\":\"\"}",
+      "wire_sha256": "f212244d8558edb61785f54a884f2065c956fa2ca0f1742ea7cf57483897cf46",
+      "shape": {
+        "fields": [
+          {
+            "name": "active",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "source",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VideoCoverRuntimeState",
+      "wire_json": "{\"stream_id\":\"\",\"job_generation\":0,\"generation\":0,\"capability\":\"\",\"readiness\":\"\",\"desired\":{\"active\":false,\"revision\":0,\"source\":\"\"},\"applied\":{\"state\":\"\"},\"cover\":{\"enabled\":false,\"revision\":0},\"watermark\":{\"enabled\":false,\"revision\":0},\"pipeline\":{\"layers\":null,\"watermark_topmost\":false,\"cover_watermark_independent\":false,\"output_parity\":null,\"audio_continuity\":{\"process_restart\":0,\"audio_encoder_restart\":0,\"audio_mux_restart\":0,\"graph_rebuild\":0,\"reconnect\":0,\"sequence_loss\":0,\"timestamp_discontinuity\":0,\"intentional_mute_insertion\":0}},\"no_automatic_resend\":false}",
+      "wire_sha256": "dee31ca80ae55f2b4d243d26278f1234f340810054691490dea61ecfac22bb3b",
+      "shape": {
+        "fields": [
+          {
+            "name": "applied",
+            "shape": {
+              "fields": [
+                {
+                  "name": "state",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "capability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "cover",
+            "shape": {
+              "fields": [
+                {
+                  "name": "enabled",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "desired",
+            "shape": {
+              "fields": [
+                {
+                  "name": "active",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "source",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "no_automatic_resend",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "pipeline",
+            "shape": {
+              "fields": [
+                {
+                  "name": "audio_continuity",
+                  "shape": {
+                    "fields": [
+                      {
+                        "name": "audio_encoder_restart",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "audio_mux_restart",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "graph_rebuild",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "intentional_mute_insertion",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "process_restart",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "reconnect",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "sequence_loss",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      },
+                      {
+                        "name": "timestamp_discontinuity",
+                        "shape": {
+                          "kind": "number"
+                        }
+                      }
+                    ],
+                    "kind": "object"
+                  }
+                },
+                {
+                  "name": "cover_watermark_independent",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "layers",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "output_parity",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "watermark_topmost",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "readiness",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "watermark",
+            "shape": {
+              "fields": [
+                {
+                  "name": "enabled",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VideoCoverStartSnapshot",
+      "wire_json": "{\"job_generation\":0,\"revision\":0,\"active\":false,\"idempotency_key\":\"\"}",
+      "wire_sha256": "e93cc126c402508a85c01ff8a4ae9848787e7d26d9904ca571c87c85cf3dc655",
+      "shape": {
+        "fields": [
+          {
+            "name": "active",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VideoVisualLayerState",
+      "wire_json": "{\"enabled\":false,\"revision\":0}",
+      "wire_sha256": "badea60818dbe046a75fbee4256e5989315ee0f101fb4cbc3974d01de6cd58e9",
+      "shape": {
+        "fields": [
+          {
+            "name": "enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "revision",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VisualAudioContinuity",
+      "wire_json": "{\"process_restart\":0,\"audio_encoder_restart\":0,\"audio_mux_restart\":0,\"graph_rebuild\":0,\"reconnect\":0,\"sequence_loss\":0,\"timestamp_discontinuity\":0,\"intentional_mute_insertion\":0}",
+      "wire_sha256": "d15df548a3b2df2eff0b1411577b773f74d57876319814972ece7d1680ed2b6f",
+      "shape": {
+        "fields": [
+          {
+            "name": "audio_encoder_restart",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "audio_mux_restart",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "graph_rebuild",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "intentional_mute_insertion",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "process_restart",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "reconnect",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "sequence_loss",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "timestamp_discontinuity",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VisualPipelineInvariant",
+      "wire_json": "{\"layers\":null,\"watermark_topmost\":false,\"cover_watermark_independent\":false,\"output_parity\":null,\"audio_continuity\":{\"process_restart\":0,\"audio_encoder_restart\":0,\"audio_mux_restart\":0,\"graph_rebuild\":0,\"reconnect\":0,\"sequence_loss\":0,\"timestamp_discontinuity\":0,\"intentional_mute_insertion\":0}}",
+      "wire_sha256": "0742b5ab3437ac9dc320d33ccdd2eb96a2fcd9e5a494fe5c9936891d9bdf7003",
+      "shape": {
+        "fields": [
+          {
+            "name": "audio_continuity",
+            "shape": {
+              "fields": [
+                {
+                  "name": "audio_encoder_restart",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "audio_mux_restart",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "graph_rebuild",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "intentional_mute_insertion",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "process_restart",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "reconnect",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "sequence_loss",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "timestamp_discontinuity",
+                  "shape": {
+                    "kind": "number"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "cover_watermark_independent",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "layers",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "output_parity",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "watermark_topmost",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "VisualSafeError",
+      "wire_json": "{\"code\":\"\"}",
+      "wire_sha256": "fe8cb7f0ce7e20fc030bdc6e153d251c0563f1cde0e15e7f0e512e603f2e6168",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
+            "shape": {
+              "kind": "string"
             }
           }
         ],

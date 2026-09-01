@@ -58,6 +58,13 @@
     },
     "overlay_profile_id": { "type": "string" },
     "caption_profile_id": { "type": "string" },
+    "scene_appearance": {
+      "$ref": "discord-bot-start-job-request.schema.json#/$defs/sceneAppearance",
+      "properties": {
+        "readiness": { "const": "ready" }
+      },
+      "description": "Optional Control Panel-owned ready start snapshot. Omission preserves the exact legacy/default Worker scene. The generation is the stream visual runtime epoch shared with Video Cover job_generation, not the Worker-issued job generation."
+    },
     "encoder_profile_id": {
       "type": "string",
       "minLength": 1,
