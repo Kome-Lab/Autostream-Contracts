@@ -2956,7 +2956,7 @@ paths:
     post:
       security:
         - bearerToken: []
-      description: Atomically claims the next eligible v2 command assigned to the authenticated update_agent and optional host_id execution slot. Requires updates.claim. If active_job_id is present, the server returns only that command's renewed typed lease or an explicit clear_active_job_id instruction and never claims a different command.
+      description: Atomically claims the next eligible job as a v2 command assigned to the authenticated update_agent and optional host_id execution slot. Requires updates.claim. If active_job_id is present, the server returns only that command's renewed typed lease or an explicit clear_active_job_id instruction and never claims a different command.
       requestBody:
         required: true
         content:

@@ -1,6 +1,5 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.autostream.example.com/updater-desired-operation.schema.json",
   "title": "Updater Desired Operation",
   "description": "Credential-free, closed and exactly-one host mutation intent. Shell, argv, environment, path, URL and token fields are not representable.",
   "type": "object",
