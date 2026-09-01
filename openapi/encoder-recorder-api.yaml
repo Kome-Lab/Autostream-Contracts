@@ -178,6 +178,12 @@ paths:
                 $ref: "#/components/schemas/EncoderVideoCoverAmbiguousResponse"
         "400": {description: invalid strict apply payload}
         "401": {description: service token missing or invalid}
+        "404":
+          description: the running stream has no negotiated Video Cover runtime epoch; callers must not fabricate one from the rejected request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncoderVideoCoverUnavailableResponse"
         "409":
           description: rejected stale job/generation/revision fence or idempotency conflict
           content:
@@ -363,5 +369,7 @@ components:
                     - media_asset_timeout
                     - cover_graph_unavailable
                     - capability_required
+    EncoderVideoCoverUnavailableResponse:
+      $ref: "../schemas/encoder-video-cover-unavailable-response.schema.json"
     EncoderVideoCoverRuntimeState:
       $ref: "../schemas/encoder-video-cover-runtime-state.schema.json"

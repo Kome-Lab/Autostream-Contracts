@@ -9,14 +9,14 @@
     {
       "api": "openapi/discord-bot-api.yaml",
       "normalized_file": "openapi/normalized/discord-bot-api.json",
-      "normalized_sha256": "98118d6f0b995c7bf19ba8d04508e252eebac44c285fe455ee42b460f9172f26",
-      "ref_layout_independent_sha256": "a0a895bd0caa0fd9de45fdce4b922a1214ce9c806b1078a66bd44ee33e9a52d5"
+      "normalized_sha256": "acb53a76e16614bf2836db7d46cb5d96e84d96e8b93351b7fdeafa9892dc0611",
+      "ref_layout_independent_sha256": "bb0ee2b97dae5c2fe779fcbf404ada8db6b01c5d3557d2eb6113ce147c0fe730"
     },
     {
       "api": "openapi/encoder-recorder-api.yaml",
       "normalized_file": "openapi/normalized/encoder-recorder-api.json",
-      "normalized_sha256": "730db18f554f935c974fb362b188c5f52211998e911a95b1f66e4c0d8ecae640",
-      "ref_layout_independent_sha256": "93ea50aca2ecb615b668cf2ccbe0331393fe41774ed3952a2e92f60d54f43824"
+      "normalized_sha256": "5862503152cdfd44e14146769afccf5ce134b9f77ead8fc0422206b0b3056470",
+      "ref_layout_independent_sha256": "712de3d093ca417f35d738cba6b2ab80f7e8a4bc54adb42c422fb0924cb58f00"
     },
     {
       "api": "openapi/observability-api.yaml",

@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 181,
+  "struct_count": 182,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -3364,6 +3364,23 @@
           "json_name": "error",
           "json_ignored": false,
           "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "EncoderVideoCoverUnavailableResponse",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Code",
+          "exported": true,
+          "embedded": false,
+          "type": "VisualSafeErrorCode",
+          "struct_tag": "json:\"code\"",
+          "json_name": "code",
+          "json_ignored": false,
+          "omitempty": false
         }
       ]
     },

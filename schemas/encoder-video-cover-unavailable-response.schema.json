@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-video-cover-unavailable-response.schema.json",
+  "title": "EncoderVideoCoverUnavailableResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["code"],
+  "properties": {
+    "code": { "const": "capability_required" }
+  }
+}

@@ -32,6 +32,11 @@ func TestValidateEncoderVideoCoverApplyJSONRejectsPresenceUnknownTrailingAndNull
 	if err := ValidateEncoderVideoCoverApplyRequest("stream-1", []byte("null")); err == nil {
 		t.Fatal("null request accepted")
 	}
+	invalidUTF8 := append([]byte(`{"stream_id":"stream-1","job_generation":9,"expected_generation":3,"revision":4,"active":false,"idempotency_key":"hide-`), 0xff)
+	invalidUTF8 = append(invalidUTF8, []byte(`","hide_confirmed":true}`)...)
+	if err := ValidateEncoderVideoCoverApplyRequest("stream-1", invalidUTF8); err == nil {
+		t.Fatal("request with invalid raw UTF-8 accepted after replacement normalization")
+	}
 
 	responsePayload := marshalVideoCoverValidationFixture(t, validVideoCoverResponseForStatus(409))
 	if err := ValidateEncoderVideoCoverApplyResponse(409, responsePayload); err != nil {
@@ -80,6 +85,31 @@ func TestValidateEncoderVideoCoverApplyJSONRejectsPresenceUnknownTrailingAndNull
 	responseObject["actual"].(map[string]any)["pipeline"].(map[string]any)["audio_continuity"] = nil
 	if err := ValidateEncoderVideoCoverApplyResponse(409, marshalVideoCoverValidationFixture(t, responseObject)); err == nil {
 		t.Fatal("response with null required object accepted")
+	}
+}
+
+func TestValidateEncoderVideoCoverApplyResponseAcceptsOnlyCanonicalUnavailable404(t *testing.T) {
+	valid := []byte(`{"code":"capability_required"}`)
+	if err := ValidateEncoderVideoCoverApplyResponse(404, valid); err != nil {
+		t.Fatalf("canonical unavailable response rejected: %v", err)
+	}
+	mutants := map[string][]byte{
+		"missing":       []byte(`{}`),
+		"null":          []byte(`{"code":null}`),
+		"wrong_code":    []byte(`{"code":"cover_graph_unavailable"}`),
+		"unknown_field": []byte(`{"code":"capability_required","job_generation":9}`),
+		"duplicate":     []byte(`{"code":"capability_required","code":"capability_required"}`),
+		"trailing":      []byte(`{"code":"capability_required"}{}`),
+	}
+	for name, payload := range mutants {
+		t.Run(name, func(t *testing.T) {
+			if err := ValidateEncoderVideoCoverApplyResponse(404, payload); err == nil {
+				t.Fatalf("non-canonical unavailable response accepted: %s", payload)
+			}
+		})
+	}
+	if err := ValidateEncoderVideoCoverApplyResponse(502, valid); err == nil {
+		t.Fatal("unavailable response accepted for the graph-failure status class")
 	}
 }
 
@@ -199,6 +229,15 @@ func TestValidateEncoderVideoCoverApplyRequestIsStandaloneFailClosed(t *testing.
 		},
 		"control_idempotency": func(value *EncoderVideoCoverApplyRequest) {
 			value.IdempotencyKey = "cover\napply"
+		},
+		"unicode_nbsp_edge_whitespace": func(value *EncoderVideoCoverApplyRequest) {
+			value.IdempotencyKey = "\u00a0show-cover-4"
+		},
+		"unicode_nel_edge_whitespace": func(value *EncoderVideoCoverApplyRequest) {
+			value.IdempotencyKey = "\u0085show-cover-4"
+		},
+		"unicode_bom_edge_whitespace": func(value *EncoderVideoCoverApplyRequest) {
+			value.IdempotencyKey = "\ufeffshow-cover-4"
 		},
 		"active_without_asset":          func(value *EncoderVideoCoverApplyRequest) { value.CoverAsset = nil },
 		"active_with_hide_confirmation": func(value *EncoderVideoCoverApplyRequest) { value.HideConfirmed = true },

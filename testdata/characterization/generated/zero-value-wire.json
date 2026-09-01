@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 181,
+  "struct_count": 182,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -1610,6 +1610,22 @@
           },
           {
             "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderVideoCoverUnavailableResponse",
+      "wire_json": "{\"code\":\"\"}",
+      "wire_sha256": "fe8cb7f0ce7e20fc030bdc6e153d251c0563f1cde0e15e7f0e512e603f2e6168",
+      "shape": {
+        "fields": [
+          {
+            "name": "code",
             "shape": {
               "kind": "string"
             }

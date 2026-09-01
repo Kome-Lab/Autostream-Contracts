@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io"
 	"sync"
+	"unicode"
 	"unicode/utf8"
 
 	contractschemas "github.com/example/autostream-contracts/schemas"
@@ -23,19 +24,21 @@ var (
 )
 
 const (
-	encoderVideoCoverCatalogSchemaName  = "discord-bot-start-job-request.schema.json"
-	encoderVideoCoverCatalogSchemaID    = "https://schemas.autostream.example.com/discord-bot-start-job-request.schema.json"
-	encoderVideoCoverRequestSchemaName  = "encoder-video-cover-apply-request.schema.json"
-	encoderVideoCoverResponseSchemaName = "encoder-video-cover-apply-response.schema.json"
-	encoderVideoCoverRuntimeSchemaName  = "encoder-video-cover-runtime-state.schema.json"
+	encoderVideoCoverCatalogSchemaName     = "discord-bot-start-job-request.schema.json"
+	encoderVideoCoverCatalogSchemaID       = "https://schemas.autostream.example.com/discord-bot-start-job-request.schema.json"
+	encoderVideoCoverRequestSchemaName     = "encoder-video-cover-apply-request.schema.json"
+	encoderVideoCoverResponseSchemaName    = "encoder-video-cover-apply-response.schema.json"
+	encoderVideoCoverRuntimeSchemaName     = "encoder-video-cover-runtime-state.schema.json"
+	encoderVideoCoverUnavailableSchemaName = "encoder-video-cover-unavailable-response.schema.json"
 )
 
 var encoderVideoCoverCanonicalSchemas struct {
-	once     sync.Once
-	request  *jsonschema.Schema
-	response *jsonschema.Schema
-	runtime  *jsonschema.Schema
-	err      error
+	once        sync.Once
+	request     *jsonschema.Schema
+	response    *jsonschema.Schema
+	runtime     *jsonschema.Schema
+	unavailable *jsonschema.Schema
+	err         error
 }
 
 // ValidateEncoderVideoCoverApplyRequest is the single public request
@@ -43,7 +46,7 @@ var encoderVideoCoverCanonicalSchemas struct {
 // unknown JSON; applies the canonical schema while field presence is intact;
 // then enforces path linkage and typed semantic invariants.
 func ValidateEncoderVideoCoverApplyRequest(pathStreamID string, payload []byte) error {
-	requestSchema, _, _, err := loadEncoderVideoCoverCanonicalSchemas()
+	requestSchema, _, _, _, err := loadEncoderVideoCoverCanonicalSchemas()
 	if err != nil {
 		return errEncoderVideoCoverSchema
 	}
@@ -59,9 +62,17 @@ func ValidateEncoderVideoCoverApplyRequest(pathStreamID string, payload []byte) 
 // validation seam. It preserves required-field presence through canonical
 // schema validation before applying status-class and cross-field semantics.
 func ValidateEncoderVideoCoverApplyResponse(statusCode int, payload []byte) error {
-	_, responseSchema, _, err := loadEncoderVideoCoverCanonicalSchemas()
+	_, responseSchema, _, unavailableSchema, err := loadEncoderVideoCoverCanonicalSchemas()
 	if err != nil {
 		return errEncoderVideoCoverSchema
+	}
+	if statusCode == 404 {
+		var response EncoderVideoCoverUnavailableResponse
+		document, err := decodeEncoderVideoCoverStrictJSON(payload, &response)
+		if err != nil || unavailableSchema.Validate(document) != nil || response.Code != VisualErrorCapabilityRequired {
+			return errEncoderVideoCoverResponseShape
+		}
+		return nil
 	}
 	var response EncoderVideoCoverApplyResponse
 	document, err := decodeEncoderVideoCoverStrictJSON(payload, &response)
@@ -75,7 +86,7 @@ func ValidateEncoderVideoCoverApplyResponse(statusCode int, payload []byte) erro
 // response seam. It preserves required false and zero-valued field presence,
 // binds the body stream to the requested path, and validates graph linkage.
 func ValidateEncoderVideoCoverRuntimeState(pathStreamID string, payload []byte) error {
-	_, _, runtimeSchema, err := loadEncoderVideoCoverCanonicalSchemas()
+	_, _, runtimeSchema, _, err := loadEncoderVideoCoverCanonicalSchemas()
 	if err != nil {
 		return errEncoderVideoCoverSchema
 	}
@@ -93,7 +104,7 @@ func ValidateEncoderVideoCoverRuntimeState(pathStreamID string, payload []byte) 
 	return nil
 }
 
-func loadEncoderVideoCoverCanonicalSchemas() (*jsonschema.Schema, *jsonschema.Schema, *jsonschema.Schema, error) {
+func loadEncoderVideoCoverCanonicalSchemas() (*jsonschema.Schema, *jsonschema.Schema, *jsonschema.Schema, *jsonschema.Schema, error) {
 	encoderVideoCoverCanonicalSchemas.once.Do(func() {
 		compiler := jsonschema.NewCompiler()
 		compiler.AssertFormat()
@@ -103,6 +114,7 @@ func loadEncoderVideoCoverCanonicalSchemas() (*jsonschema.Schema, *jsonschema.Sc
 			encoderVideoCoverRequestSchemaName,
 			encoderVideoCoverResponseSchemaName,
 			encoderVideoCoverRuntimeSchemaName,
+			encoderVideoCoverUnavailableSchemaName,
 		} {
 			body, err := contractschemas.RuntimeValidationFS.ReadFile(name)
 			if err != nil {
@@ -147,9 +159,13 @@ func loadEncoderVideoCoverCanonicalSchemas() (*jsonschema.Schema, *jsonschema.Sc
 			return
 		}
 		encoderVideoCoverCanonicalSchemas.runtime, encoderVideoCoverCanonicalSchemas.err = compiler.Compile(encoderVideoCoverRuntimeSchemaName)
+		if encoderVideoCoverCanonicalSchemas.err != nil {
+			return
+		}
+		encoderVideoCoverCanonicalSchemas.unavailable, encoderVideoCoverCanonicalSchemas.err = compiler.Compile(encoderVideoCoverUnavailableSchemaName)
 	})
 	return encoderVideoCoverCanonicalSchemas.request, encoderVideoCoverCanonicalSchemas.response,
-		encoderVideoCoverCanonicalSchemas.runtime, encoderVideoCoverCanonicalSchemas.err
+		encoderVideoCoverCanonicalSchemas.runtime, encoderVideoCoverCanonicalSchemas.unavailable, encoderVideoCoverCanonicalSchemas.err
 }
 
 type denyEncoderVideoCoverExternalSchemaLoader struct{}
@@ -159,6 +175,9 @@ func (denyEncoderVideoCoverExternalSchemaLoader) Load(string) (any, error) {
 }
 
 func decodeEncoderVideoCoverStrictJSON(payload []byte, target any) (any, error) {
+	if !utf8.Valid(payload) {
+		return nil, errEncoderVideoCoverResponseShape
+	}
 	if err := validateEncoderVideoCoverJSONTokens(payload); err != nil {
 		return nil, err
 	}
@@ -546,12 +565,21 @@ func validVisualIdempotencyKey(value string) bool {
 	if length < 1 || length > 128 {
 		return false
 	}
+	first, _ := utf8.DecodeRuneInString(value)
+	last, _ := utf8.DecodeLastRuneInString(value)
+	if visualIdempotencyEdgeSpace(first) || visualIdempotencyEdgeSpace(last) {
+		return false
+	}
 	for _, character := range value {
 		if character <= 0x1f || character == 0x7f {
 			return false
 		}
 	}
 	return true
+}
+
+func visualIdempotencyEdgeSpace(character rune) bool {
+	return unicode.IsSpace(character) || character == '\ufeff'
 }
 
 func validVisualIdentifier(value string) bool {

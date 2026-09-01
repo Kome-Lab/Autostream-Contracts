@@ -182,6 +182,9 @@ func TestEncoderVideoCoverSchemasFenceAndWitnessGraphApplication(t *testing.T) {
 		"idempotency_key": "start-cover-9", "cover_asset": validCoverAssetFixture(),
 	}
 	assertV2SchemaFixture(t, startSchema, start, true)
+	paddedStart := cloneV2Fixture(t, start)
+	paddedStart["idempotency_key"] = " start-cover-9"
+	assertV2SchemaFixture(t, startSchema, paddedStart, false)
 	inactiveStart := cloneV2Fixture(t, start)
 	inactiveStart["active"] = false
 	delete(inactiveStart, "cover_asset")
@@ -199,6 +202,9 @@ func TestEncoderVideoCoverSchemasFenceAndWitnessGraphApplication(t *testing.T) {
 		"cover_asset": validCoverAssetFixture(),
 	}
 	assertV2SchemaFixture(t, applySchema, show, true)
+	paddedShow := cloneV2Fixture(t, show)
+	paddedShow["idempotency_key"] = "show-4 "
+	assertV2SchemaFixture(t, applySchema, paddedShow, false)
 	showWithoutAsset := cloneV2Fixture(t, show)
 	delete(showWithoutAsset, "cover_asset")
 	assertV2SchemaFixture(t, applySchema, showWithoutAsset, false)
@@ -217,6 +223,23 @@ func TestEncoderVideoCoverSchemasFenceAndWitnessGraphApplication(t *testing.T) {
 	hideWithAsset := cloneV2Fixture(t, hide)
 	hideWithAsset["cover_asset"] = validCoverAssetFixture()
 	assertV2SchemaFixture(t, applySchema, hideWithAsset, false)
+
+	stateActionSchema := compileV2SchemaFragment(t, visualCatalogSchema, "videoCoverStateRequest")
+	showStateAction := map[string]any{
+		"active": true, "expected_job_generation": 9, "expected_revision": 4, "idempotency_key": "show-state-4",
+	}
+	assertV2SchemaFixture(t, stateActionSchema, showStateAction, true)
+	paddedStateAction := cloneV2Fixture(t, showStateAction)
+	paddedStateAction["idempotency_key"] = " show-state-4"
+	assertV2SchemaFixture(t, stateActionSchema, paddedStateAction, false)
+	showStateWithHideConfirmation := cloneV2Fixture(t, showStateAction)
+	showStateWithHideConfirmation["hide_confirmed"] = true
+	assertV2SchemaFixture(t, stateActionSchema, showStateWithHideConfirmation, false)
+	hideStateAction := cloneV2Fixture(t, showStateAction)
+	hideStateAction["active"] = false
+	hideStateAction["idempotency_key"] = "hide-state-5"
+	hideStateAction["hide_confirmed"] = true
+	assertV2SchemaFixture(t, stateActionSchema, hideStateAction, true)
 
 	runtime := validVideoCoverRuntimeFixture()
 	assertV2SchemaFixture(t, runtimeSchema, runtime, true)
@@ -351,6 +374,14 @@ func TestEncoderVideoCoverOpenAPIStatusSchemasAreDisjoint(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestEncoderVideoCoverUnavailableResponseIsExplicitAndClosed(t *testing.T) {
+	schema := compileNormalizedOpenAPISchema(t, "encoder-recorder-api.json", "/paths/~1streams~1{id}~1video-cover-state/put/responses/404/content/application~1json/schema")
+	assertV2SchemaFixture(t, schema, map[string]any{"code": "capability_required"}, true)
+	assertV2SchemaFixture(t, schema, map[string]any{"code": "cover_graph_unavailable"}, false)
+	assertV2SchemaFixture(t, schema, map[string]any{"code": "capability_required", "job_generation": 9}, false)
+	assertV2SchemaFixture(t, schema, map[string]any{}, false)
 }
 
 func TestVisualRuntimeGoTypesPreserveOptionalCompatibility(t *testing.T) {

@@ -5507,6 +5507,11 @@
     },
     {
       "source": "openapi/encoder-recorder-api.yaml",
+      "target": "openapi/encoder-recorder-api.yaml",
+      "value": "#/components/schemas/EncoderVideoCoverUnavailableResponse"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
       "target": "schemas/encoder-runtime-settings-request.schema.json",
       "value": "../schemas/encoder-runtime-settings-request.schema.json"
     },
@@ -5539,6 +5544,11 @@
       "source": "openapi/encoder-recorder-api.yaml",
       "target": "schemas/encoder-video-cover-start-snapshot.schema.json",
       "value": "../schemas/encoder-video-cover-start-snapshot.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-video-cover-unavailable-response.schema.json",
+      "value": "../schemas/encoder-video-cover-unavailable-response.schema.json"
     },
     {
       "source": "openapi/observability-api.yaml",
@@ -5986,7 +5996,7 @@
       "value": "#/$defs/updaterHealth"
     }
   ],
-  "source_file_count": 34,
+  "source_file_count": 35,
   "source_files": [
     {
       "normalized_source_sha256": "89a8a186bbf5b0c3273f4725621ec585e897e835568884eb24e92ebf62bf4917",
@@ -5997,7 +6007,7 @@
       "path": "openapi/discord-bot-api.yaml"
     },
     {
-      "normalized_source_sha256": "673eb37ceba752e2ebed1f61997a52c712e1e032c70c70068403932cc66f10f1",
+      "normalized_source_sha256": "28c60540f5df1545e48a1b5f3182c970382200ae0788b400e7a2fa5d92d36b99",
       "path": "openapi/encoder-recorder-api.yaml"
     },
     {
@@ -6009,7 +6019,7 @@
       "path": "schemas/diagnostic-rerun-response.schema.json"
     },
     {
-      "normalized_source_sha256": "dc86deb7dc3b1e2fcbcbba5224c2555a7ffd68dc39f17d35212ce3dc4cebd5bb",
+      "normalized_source_sha256": "b78d10beb31818c5edbb6e7c5ee617d7df183adef9a585622d9127feafe5b35b",
       "path": "schemas/discord-bot-start-job-request.schema.json"
     },
     {
@@ -6039,6 +6049,10 @@
     {
       "normalized_source_sha256": "5ec400ecbc9afee0a5680a91bf5832dbd89abb0edf76676796ca4838a48a8783",
       "path": "schemas/encoder-video-cover-start-snapshot.schema.json"
+    },
+    {
+      "normalized_source_sha256": "524d1334e32450e36a947c74aec4f7e5dd5dfa93c59a01ab512b15bab9d8eca9",
+      "path": "schemas/encoder-video-cover-unavailable-response.schema.json"
     },
     {
       "normalized_source_sha256": "13d60b15034095f967e55837bab9546bb72666942fde4d8affa1a48ced00fdcc",

@@ -185,6 +185,9 @@
       "EncoderVideoCoverStartSnapshot": {
         "$ref": "#/components/schemas/videoCoverStartSnapshot"
       },
+      "EncoderVideoCoverUnavailableResponse": {
+        "$ref": "#/components/schemas/encoder-video-cover-unavailable-response.schema"
+      },
       "appliedCoverState": {
         "additionalProperties": false,
         "allOf": [
@@ -649,6 +652,21 @@
         "title": "EncoderStartStreamResponse",
         "type": "object"
       },
+      "encoder-video-cover-unavailable-response.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-video-cover-unavailable-response.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "capability_required"
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "title": "EncoderVideoCoverUnavailableResponse",
+        "type": "object"
+      },
       "encoderVideoCoverApplyRequest": {
         "additionalProperties": false,
         "allOf": [
@@ -715,7 +733,7 @@
           "idempotency_key": {
             "maxLength": 128,
             "minLength": 1,
-            "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+            "pattern": "^[^\\x00-\\x20\\x7F   -     　﻿](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F   -     　﻿])?$",
             "type": "string"
           },
           "job_generation": {
@@ -1620,7 +1638,7 @@
           "idempotency_key": {
             "maxLength": 128,
             "minLength": 1,
-            "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+            "pattern": "^[^\\x00-\\x20\\x7F   -     　﻿](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F   -     　﻿])?$",
             "type": "string"
           },
           "job_generation": {
@@ -2158,6 +2176,16 @@
           },
           "401": {
             "description": "service token missing or invalid"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encoder-video-cover-unavailable-response.schema"
+                }
+              }
+            },
+            "description": "the running stream has no negotiated Video Cover runtime epoch; callers must not fabricate one from the rejected request"
           },
           "409": {
             "content": {

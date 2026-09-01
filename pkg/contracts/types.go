@@ -1746,6 +1746,13 @@ type EncoderVideoCoverApplyResponse struct {
 	Error             *VisualSafeError              `json:"error,omitempty"`
 }
 
+// EncoderVideoCoverUnavailableResponse is returned only when a running legacy
+// stream has no negotiated Video Cover runtime epoch. It intentionally carries
+// no request-derived generation or revision fields.
+type EncoderVideoCoverUnavailableResponse struct {
+	Code VisualSafeErrorCode `json:"code"`
+}
+
 type EncoderStartStreamRequest struct {
 	StreamID               string                   `json:"stream_id"`
 	ArchiveRunID           string                   `json:"archive_run_id,omitempty"`

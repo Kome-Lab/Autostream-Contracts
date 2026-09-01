@@ -2,7 +2,7 @@
   "format_version": 1,
   "package_import_path": "github.com/example/autostream-contracts/pkg/contracts",
   "package_name": "contracts",
-  "exported_identifier_count": 591,
+  "exported_identifier_count": 592,
   "exported_method_count": 0,
   "identifiers": [
     {
@@ -438,6 +438,13 @@
       "type": "EncoderVideoCoverApplyResponse",
       "alias": false,
       "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; RequestedRevision uint64 \"json:\\\"requested_revision\\\"\"; ActualGeneration uint64 \"json:\\\"actual_generation\\\"\"; Accepted bool \"json:\\\"accepted\\\"\"; Rejected bool \"json:\\\"rejected\\\"\"; Applied bool \"json:\\\"applied\\\"\"; Outcome EncoderVideoCoverApplyOutcome \"json:\\\"outcome\\\"\"; Actual VideoCoverRuntimeState \"json:\\\"actual\\\"\"; Error *VisualSafeError \"json:\\\"error,omitempty\\\"\"}"
+    },
+    {
+      "name": "EncoderVideoCoverUnavailableResponse",
+      "kind": "type",
+      "type": "EncoderVideoCoverUnavailableResponse",
+      "alias": false,
+      "underlying": "struct{Code VisualSafeErrorCode \"json:\\\"code\\\"\"}"
     },
     {
       "name": "EncoderVideoIngest",

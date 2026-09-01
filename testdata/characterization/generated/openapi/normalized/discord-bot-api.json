@@ -627,7 +627,7 @@
               "idempotency_key": {
                 "maxLength": 128,
                 "minLength": 1,
-                "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+                "pattern": "^[^\\x00-\\x20\\x7F   -     　﻿](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F   -     　﻿])?$",
                 "type": "string"
               },
               "job_generation": {
@@ -1873,7 +1873,7 @@
               "idempotency_key": {
                 "maxLength": 128,
                 "minLength": 1,
-                "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+                "pattern": "^[^\\x00-\\x20\\x7F   -     　﻿](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F   -     　﻿])?$",
                 "type": "string"
               },
               "job_generation": {
@@ -1944,7 +1944,7 @@
               "idempotency_key": {
                 "maxLength": 128,
                 "minLength": 1,
-                "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+                "pattern": "^[^\\x00-\\x20\\x7F   -     　﻿](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F   -     　﻿])?$",
                 "type": "string"
               }
             },
@@ -2413,7 +2413,7 @@
               "idempotency_key": {
                 "maxLength": 128,
                 "minLength": 1,
-                "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+                "pattern": "^[^\\x00-\\x20\\x7F   -     　﻿](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F   -     　﻿])?$",
                 "type": "string"
               },
               "job_generation": {
@@ -3232,7 +3232,7 @@
               "idempotency_key": {
                 "maxLength": 128,
                 "minLength": 1,
-                "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+                "pattern": "^[^\\x00-\\x20\\x7F   -     　﻿](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F   -     　﻿])?$",
                 "type": "string"
               },
               "job_generation": {
@@ -3303,7 +3303,7 @@
               "idempotency_key": {
                 "maxLength": 128,
                 "minLength": 1,
-                "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+                "pattern": "^[^\\x00-\\x20\\x7F   -     　﻿](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F   -     　﻿])?$",
                 "type": "string"
               }
             },

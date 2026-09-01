@@ -758,7 +758,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+          "pattern": "^[^\\x00-\\x20\\x7F\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF])?$"
         },
         "cover_asset": {
           "$ref": "#/$defs/mediaAssetDescriptor",
@@ -821,7 +821,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+          "pattern": "^[^\\x00-\\x20\\x7F\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF])?$"
         },
         "cover_asset": {
           "$ref": "#/$defs/mediaAssetDescriptor",
@@ -1025,7 +1025,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 128,
-          "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+          "pattern": "^[^\\x00-\\x20\\x7F\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF](?:[^\\x00-\\x1F\\x7F]*[^\\x00-\\x20\\x7F\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF])?$"
         },
         "hide_confirmed": { "const": true }
       },
