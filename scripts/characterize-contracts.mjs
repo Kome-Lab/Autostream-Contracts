@@ -181,7 +181,7 @@ function captureGoAndSchemaCharacterization(outputRoot) {
       env: {
         ...process.env,
         AUTOSTREAM_CHARACTERIZATION_OUTPUT: outputRoot,
-        GOMAXPROCS: "2",
+        GOMAXPROCS: process.env.GOMAXPROCS || "2",
         GOTOOLCHAIN: "auto",
       },
     },

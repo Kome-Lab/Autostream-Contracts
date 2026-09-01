@@ -5997,7 +5997,7 @@
       "path": "openapi/discord-bot-api.yaml"
     },
     {
-      "normalized_source_sha256": "b2b51833577889737657eb64983fdf003b224b395bee742588fd8f5d5dee731b",
+      "normalized_source_sha256": "673eb37ceba752e2ebed1f61997a52c712e1e032c70c70068403932cc66f10f1",
       "path": "openapi/encoder-recorder-api.yaml"
     },
     {

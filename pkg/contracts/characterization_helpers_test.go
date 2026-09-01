@@ -409,6 +409,13 @@ func buildZeroValueWireManifest(t *testing.T, structs structFieldManifest) zeroV
 	if err := os.WriteFile(filepath.Join(tempDir, "go.mod"), []byte(goMod), 0o600); err != nil {
 		t.Fatalf("write temporary go.mod: %v", err)
 	}
+	goSum, err := os.ReadFile(filepath.Join(repoRoot, "go.sum"))
+	if err != nil {
+		t.Fatalf("read repository go.sum: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(tempDir, "go.sum"), goSum, 0o600); err != nil {
+		t.Fatalf("write temporary go.sum: %v", err)
+	}
 
 	var source strings.Builder
 	source.WriteString("package main\n\n")
@@ -426,9 +433,16 @@ func buildZeroValueWireManifest(t *testing.T, structs structFieldManifest) zeroV
 		t.Fatalf("write temporary zero-value marshaler: %v", err)
 	}
 
-	command := exec.Command("go", "run", "-mod=readonly", ".")
+	// The throw-away module must be allowed to record indirect requirements
+	// from the replaced Contracts module. This never mutates the repository's
+	// go.mod or go.sum; both the generated module files live under t.TempDir().
+	command := exec.Command("go", "run", "-mod=mod", ".")
 	command.Dir = tempDir
-	command.Env = append(os.Environ(), "GOWORK=off", "GOTOOLCHAIN=auto", "GOMAXPROCS=2")
+	goMaxProcs := strings.TrimSpace(os.Getenv("GOMAXPROCS"))
+	if goMaxProcs == "" {
+		goMaxProcs = "2"
+	}
+	command.Env = append(os.Environ(), "GOWORK=off", "GOTOOLCHAIN=auto", "GOMAXPROCS="+goMaxProcs)
 	output, err := command.CombinedOutput()
 	if err != nil {
 		t.Fatalf("run temporary zero-value marshaler: %v\n%s", err, output)
