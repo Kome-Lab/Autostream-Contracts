@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 118,
+  "schema_count": 119,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -1443,6 +1443,53 @@
           "value": "#/$defs/diagnostic_report",
           "target": "schemas/incident.schema.json",
           "fragment": "/$defs/diagnostic_report"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/node-action-permission-projection.schema.json",
+      "id": "https://contracts.autostream.invalid/node-action-permission-projection.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "16d3871cd2d132ec27a99d0ffae2c42d519d01fb24afe6a027564bd0319c73d3",
+      "keywords": [
+        "$defs",
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "maxItems",
+        "maxLength",
+        "minItems",
+        "minLength",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type",
+        "uniqueItems"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/missing_permissions/$ref",
+          "value": "#/$defs/permissionSet",
+          "target": "schemas/node-action-permission-projection.schema.json",
+          "fragment": "/$defs/permissionSet"
+        },
+        {
+          "pointer": "/properties/required_permissions/$ref",
+          "value": "#/$defs/permissionSet",
+          "target": "schemas/node-action-permission-projection.schema.json",
+          "fragment": "/$defs/permissionSet"
         }
       ],
       "compiled": true

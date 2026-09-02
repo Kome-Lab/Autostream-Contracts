@@ -16,6 +16,34 @@
           "const": "no-store",
           "type": "string"
         }
+      },
+      "nodeProjectionCacheControl": {
+        "required": true,
+        "schema": {
+          "const": "no-store, no-cache",
+          "type": "string"
+        }
+      },
+      "nodeProjectionJSONContentType": {
+        "required": true,
+        "schema": {
+          "const": "application/json",
+          "type": "string"
+        }
+      },
+      "nodeProjectionPragma": {
+        "required": true,
+        "schema": {
+          "const": "no-cache",
+          "type": "string"
+        }
+      },
+      "nodeProjectionReferrerPolicy": {
+        "required": true,
+        "schema": {
+          "const": "no-referrer",
+          "type": "string"
+        }
       }
     },
     "parameters": {
@@ -317,6 +345,265 @@
         },
         "description": "The request omitted contract major 2 or supplied an unsupported major.",
         "headers": {
+          "X-AutoStream-Contract-Major": {
+            "$ref": "#/components/headers/contractMajor"
+          }
+        }
+      },
+      "nodeProjectionBadRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "const": "invalid_node_action_projection_request",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "description": "invalid Node action projection query",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/nodeProjectionCacheControl"
+          },
+          "Content-Type": {
+            "$ref": "#/components/headers/nodeProjectionJSONContentType"
+          },
+          "Pragma": {
+            "$ref": "#/components/headers/nodeProjectionPragma"
+          },
+          "Referrer-Policy": {
+            "$ref": "#/components/headers/nodeProjectionReferrerPolicy"
+          },
+          "X-AutoStream-Contract-Major": {
+            "$ref": "#/components/headers/contractMajor"
+          }
+        }
+      },
+      "nodeProjectionContractMajorUnsupported": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/V2ContractError"
+            }
+          }
+        },
+        "description": "exact contract major 2 is required",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/nodeProjectionCacheControl"
+          },
+          "Content-Type": {
+            "$ref": "#/components/headers/nodeProjectionJSONContentType"
+          },
+          "Pragma": {
+            "$ref": "#/components/headers/nodeProjectionPragma"
+          },
+          "Referrer-Policy": {
+            "$ref": "#/components/headers/nodeProjectionReferrerPolicy"
+          },
+          "X-AutoStream-Contract-Major": {
+            "$ref": "#/components/headers/contractMajor"
+          }
+        }
+      },
+      "nodeProjectionForbidden": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "enum": [
+                    "password_change_required",
+                    "permission_denied"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "description": "password change required or caller lacks api_tokens.create",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/nodeProjectionCacheControl"
+          },
+          "Content-Type": {
+            "$ref": "#/components/headers/nodeProjectionJSONContentType"
+          },
+          "Pragma": {
+            "$ref": "#/components/headers/nodeProjectionPragma"
+          },
+          "Referrer-Policy": {
+            "$ref": "#/components/headers/nodeProjectionReferrerPolicy"
+          },
+          "X-AutoStream-Contract-Major": {
+            "$ref": "#/components/headers/contractMajor"
+          }
+        }
+      },
+      "nodeProjectionInternalError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "enum": [
+                    "get_node_failed",
+                    "list_service_tokens_failed",
+                    "check_system_update_emergency_recovery_failed"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "description": "Node or permission authority could not be read",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/nodeProjectionCacheControl"
+          },
+          "Content-Type": {
+            "$ref": "#/components/headers/nodeProjectionJSONContentType"
+          },
+          "Pragma": {
+            "$ref": "#/components/headers/nodeProjectionPragma"
+          },
+          "Referrer-Policy": {
+            "$ref": "#/components/headers/nodeProjectionReferrerPolicy"
+          },
+          "X-AutoStream-Contract-Major": {
+            "$ref": "#/components/headers/contractMajor"
+          }
+        }
+      },
+      "nodeProjectionNotFound": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "enum": [
+                    "node_not_found",
+                    "runtime_token_not_found"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "description": "Node or current Node Runtime Token not found",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/nodeProjectionCacheControl"
+          },
+          "Content-Type": {
+            "$ref": "#/components/headers/nodeProjectionJSONContentType"
+          },
+          "Pragma": {
+            "$ref": "#/components/headers/nodeProjectionPragma"
+          },
+          "Referrer-Policy": {
+            "$ref": "#/components/headers/nodeProjectionReferrerPolicy"
+          },
+          "X-AutoStream-Contract-Major": {
+            "$ref": "#/components/headers/contractMajor"
+          }
+        }
+      },
+      "nodeProjectionUnauthorized": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "const": "unauthorized",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "description": "unauthenticated",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/nodeProjectionCacheControl"
+          },
+          "Content-Type": {
+            "$ref": "#/components/headers/nodeProjectionJSONContentType"
+          },
+          "Pragma": {
+            "$ref": "#/components/headers/nodeProjectionPragma"
+          },
+          "Referrer-Policy": {
+            "$ref": "#/components/headers/nodeProjectionReferrerPolicy"
+          },
+          "X-AutoStream-Contract-Major": {
+            "$ref": "#/components/headers/contractMajor"
+          }
+        }
+      },
+      "nodeProjectionUnavailable": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "const": "system_update_identity_fence_unavailable",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "description": "updater identity fence authority is unavailable",
+        "headers": {
+          "Cache-Control": {
+            "$ref": "#/components/headers/nodeProjectionCacheControl"
+          },
+          "Content-Type": {
+            "$ref": "#/components/headers/nodeProjectionJSONContentType"
+          },
+          "Pragma": {
+            "$ref": "#/components/headers/nodeProjectionPragma"
+          },
+          "Referrer-Policy": {
+            "$ref": "#/components/headers/nodeProjectionReferrerPolicy"
+          },
           "X-AutoStream-Contract-Major": {
             "$ref": "#/components/headers/contractMajor"
           }
@@ -10233,6 +10520,189 @@
         "title": "Incident",
         "type": "object"
       },
+      "node-action-permission-projection.schema": {
+        "$defs": {
+          "permissionSet": {
+            "items": {
+              "enum": [
+                "api_tokens.create",
+                "api_tokens.revoke",
+                "secrets.update",
+                "system_updates.execute",
+                "streams.start",
+                "streams.stop",
+                "remediation.execute"
+              ],
+              "type": "string"
+            },
+            "maxItems": 8,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "$id": "https://contracts.autostream.invalid/node-action-permission-projection.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "availability": {
+                  "const": "allowed"
+                }
+              },
+              "required": [
+                "availability"
+              ]
+            },
+            "then": {
+              "properties": {
+                "missing_permissions": {
+                  "maxItems": 0
+                },
+                "reason_code": {
+                  "const": "allowed"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "availability": {
+                  "const": "denied"
+                }
+              },
+              "required": [
+                "availability"
+              ]
+            },
+            "then": {
+              "properties": {
+                "missing_permissions": {
+                  "minItems": 1
+                },
+                "reason_code": {
+                  "const": "additional_permission_required"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "availability": {
+                  "const": "unknown"
+                }
+              },
+              "required": [
+                "availability"
+              ]
+            },
+            "then": {
+              "properties": {
+                "missing_permissions": {
+                  "maxItems": 0
+                },
+                "reason_code": {
+                  "enum": [
+                    "invalid_service_scope",
+                    "projection_unavailable"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "availability": {
+                  "const": "not_applicable"
+                }
+              },
+              "required": [
+                "availability"
+              ]
+            },
+            "then": {
+              "properties": {
+                "missing_permissions": {
+                  "maxItems": 0
+                },
+                "reason_code": {
+                  "enum": [
+                    "invalid_service_type",
+                    "staged_runtime_token_rotation_required"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "action": {
+            "enum": [
+              "registration_token",
+              "configure_token_regenerate",
+              "runtime_token_rotate"
+            ],
+            "type": "string"
+          },
+          "availability": {
+            "enum": [
+              "allowed",
+              "denied",
+              "unknown",
+              "not_applicable"
+            ],
+            "type": "string"
+          },
+          "contract_version": {
+            "const": 1,
+            "type": "integer"
+          },
+          "evaluated_at": {
+            "description": "Diagnostic timestamp only. It is never an authorization or freshness input.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "missing_permissions": {
+            "$ref": "#/components/schemas/permissionSet"
+          },
+          "projection_revision": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "reason_code": {
+            "enum": [
+              "allowed",
+              "additional_permission_required",
+              "invalid_service_type",
+              "invalid_service_scope",
+              "projection_unavailable",
+              "staged_runtime_token_rotation_required"
+            ],
+            "type": "string"
+          },
+          "required_permissions": {
+            "$ref": "#/components/schemas/permissionSet"
+          }
+        },
+        "required": [
+          "contract_version",
+          "projection_revision",
+          "evaluated_at",
+          "action",
+          "availability",
+          "reason_code",
+          "required_permissions",
+          "missing_permissions"
+        ],
+        "title": "Node action permission projection",
+        "type": "object"
+      },
       "oauth-account-connection-start-response.schema": {
         "$id": "https://schemas.autostream.example.com/oauth-account-connection-start-response.schema.json",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -10342,6 +10812,23 @@
         ],
         "title": "OAuthLoginProvider",
         "type": "object"
+      },
+      "permissionSet": {
+        "items": {
+          "enum": [
+            "api_tokens.create",
+            "api_tokens.revoke",
+            "secrets.update",
+            "system_updates.execute",
+            "streams.start",
+            "streams.stop",
+            "remediation.execute"
+          ],
+          "type": "string"
+        },
+        "maxItems": 8,
+        "type": "array",
+        "uniqueItems": true
       },
       "portMapping": {
         "additionalProperties": false,
@@ -14925,6 +15412,124 @@
           }
         }
       }
+    },
+    "/nodes/action-permissions": {
+      "get": {
+        "description": "Read-only, audit-free projection that reuses the Node credential mutation authority. The response never returns a Node, service-token, credential, raw scope, or private endpoint identifier. evaluated_at is diagnostic only; projection_revision is the opaque authority value used by the UI for pre-submit revalidation.\n",
+        "operationId": "getNodeActionPermissionProjection",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "action",
+            "required": true,
+            "schema": {
+              "enum": [
+                "registration_token",
+                "configure_token_regenerate",
+                "runtime_token_rotate"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "node_type",
+            "required": false,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-z][a-z0-9_]*$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "node_id",
+            "required": false,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "allow_runtime_secrets",
+            "required": false,
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "allow_remediation",
+            "required": false,
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/node-action-permission-projection.schema"
+                }
+              }
+            },
+            "description": "strict permission projection",
+            "headers": {
+              "Cache-Control": {
+                "$ref": "#/components/headers/nodeProjectionCacheControl"
+              },
+              "Content-Type": {
+                "$ref": "#/components/headers/nodeProjectionJSONContentType"
+              },
+              "Pragma": {
+                "$ref": "#/components/headers/nodeProjectionPragma"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/nodeProjectionReferrerPolicy"
+              },
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/nodeProjectionBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/nodeProjectionUnauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/nodeProjectionForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/nodeProjectionNotFound"
+          },
+          "426": {
+            "$ref": "#/components/responses/nodeProjectionContractMajorUnsupported"
+          },
+          "500": {
+            "$ref": "#/components/responses/nodeProjectionInternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/nodeProjectionUnavailable"
+          }
+        },
+        "summary": "Project the current caller's permission for one Node credential action",
+        "x-autostream-required-permission": "api_tokens.create"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ]
     },
     "/observability/diagnostics": {
       "get": {

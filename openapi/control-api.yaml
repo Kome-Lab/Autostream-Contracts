@@ -2413,6 +2413,69 @@ paths:
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:
       - $ref: "#/components/parameters/contractMajor"
+  /nodes/action-permissions:
+    get:
+      operationId: getNodeActionPermissionProjection
+      summary: Project the current caller's permission for one Node credential action
+      x-autostream-required-permission: api_tokens.create
+      description: >
+        Read-only, audit-free projection that reuses the Node credential mutation
+        authority. The response never returns a Node, service-token, credential, raw
+        scope, or private endpoint identifier. evaluated_at is diagnostic only;
+        projection_revision is the opaque authority value used by the UI for
+        pre-submit revalidation.
+      parameters:
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ registration_token, configure_token_regenerate, runtime_token_rotate ]
+        - name: node_type
+          in: query
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+            pattern: '^[a-z][a-z0-9_]*$'
+        - name: node_id
+          in: query
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+            pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'
+        - name: allow_runtime_secrets
+          in: query
+          required: false
+          schema: { type: boolean, default: false }
+        - name: allow_remediation
+          in: query
+          required: false
+          schema: { type: boolean, default: false }
+      responses:
+        "200":
+          description: strict permission projection
+          headers:
+            Content-Type: { $ref: '#/components/headers/nodeProjectionJSONContentType' }
+            Cache-Control: { $ref: '#/components/headers/nodeProjectionCacheControl' }
+            Pragma: { $ref: '#/components/headers/nodeProjectionPragma' }
+            Referrer-Policy: { $ref: '#/components/headers/nodeProjectionReferrerPolicy' }
+            X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
+          content:
+            application/json:
+              schema: { $ref: '../schemas/node-action-permission-projection.schema.json' }
+        "400": { $ref: '#/components/responses/nodeProjectionBadRequest' }
+        "401": { $ref: '#/components/responses/nodeProjectionUnauthorized' }
+        "403": { $ref: '#/components/responses/nodeProjectionForbidden' }
+        "404": { $ref: '#/components/responses/nodeProjectionNotFound' }
+        "500": { $ref: '#/components/responses/nodeProjectionInternalError' }
+        "503": { $ref: '#/components/responses/nodeProjectionUnavailable' }
+        "426": { $ref: '#/components/responses/nodeProjectionContractMajorUnsupported' }
+    parameters:
+      - $ref: "#/components/parameters/contractMajor"
   /api-tokens:
     get:
       responses:
@@ -4384,10 +4447,131 @@ components:
       required: true
       description: Identity probes must never be cached.
       schema: { type: string, const: no-store }
+    nodeProjectionJSONContentType:
+      required: true
+      schema: { type: string, const: application/json }
+    nodeProjectionCacheControl:
+      required: true
+      schema: { type: string, const: 'no-store, no-cache' }
+    nodeProjectionPragma:
+      required: true
+      schema: { type: string, const: no-cache }
+    nodeProjectionReferrerPolicy:
+      required: true
+      schema: { type: string, const: no-referrer }
   responses:
     contractMajorUnsupported:
       description: The request omitted contract major 2 or supplied an unsupported major.
       headers:
+        X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/V2ContractError' }
+    nodeProjectionBadRequest:
+      description: invalid Node action projection query
+      headers:
+        Content-Type: { $ref: '#/components/headers/nodeProjectionJSONContentType' }
+        Cache-Control: { $ref: '#/components/headers/nodeProjectionCacheControl' }
+        Pragma: { $ref: '#/components/headers/nodeProjectionPragma' }
+        Referrer-Policy: { $ref: '#/components/headers/nodeProjectionReferrerPolicy' }
+        X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required: [ code ]
+            properties:
+              code: { type: string, const: invalid_node_action_projection_request }
+    nodeProjectionUnauthorized:
+      description: unauthenticated
+      headers:
+        Content-Type: { $ref: '#/components/headers/nodeProjectionJSONContentType' }
+        Cache-Control: { $ref: '#/components/headers/nodeProjectionCacheControl' }
+        Pragma: { $ref: '#/components/headers/nodeProjectionPragma' }
+        Referrer-Policy: { $ref: '#/components/headers/nodeProjectionReferrerPolicy' }
+        X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required: [ code ]
+            properties:
+              code: { type: string, const: unauthorized }
+    nodeProjectionForbidden:
+      description: password change required or caller lacks api_tokens.create
+      headers:
+        Content-Type: { $ref: '#/components/headers/nodeProjectionJSONContentType' }
+        Cache-Control: { $ref: '#/components/headers/nodeProjectionCacheControl' }
+        Pragma: { $ref: '#/components/headers/nodeProjectionPragma' }
+        Referrer-Policy: { $ref: '#/components/headers/nodeProjectionReferrerPolicy' }
+        X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required: [ code ]
+            properties:
+              code: { type: string, enum: [ password_change_required, permission_denied ] }
+    nodeProjectionNotFound:
+      description: Node or current Node Runtime Token not found
+      headers:
+        Content-Type: { $ref: '#/components/headers/nodeProjectionJSONContentType' }
+        Cache-Control: { $ref: '#/components/headers/nodeProjectionCacheControl' }
+        Pragma: { $ref: '#/components/headers/nodeProjectionPragma' }
+        Referrer-Policy: { $ref: '#/components/headers/nodeProjectionReferrerPolicy' }
+        X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required: [ code ]
+            properties:
+              code: { type: string, enum: [ node_not_found, runtime_token_not_found ] }
+    nodeProjectionInternalError:
+      description: Node or permission authority could not be read
+      headers:
+        Content-Type: { $ref: '#/components/headers/nodeProjectionJSONContentType' }
+        Cache-Control: { $ref: '#/components/headers/nodeProjectionCacheControl' }
+        Pragma: { $ref: '#/components/headers/nodeProjectionPragma' }
+        Referrer-Policy: { $ref: '#/components/headers/nodeProjectionReferrerPolicy' }
+        X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required: [ code ]
+            properties:
+              code:
+                type: string
+                enum: [ get_node_failed, list_service_tokens_failed, check_system_update_emergency_recovery_failed ]
+    nodeProjectionUnavailable:
+      description: updater identity fence authority is unavailable
+      headers:
+        Content-Type: { $ref: '#/components/headers/nodeProjectionJSONContentType' }
+        Cache-Control: { $ref: '#/components/headers/nodeProjectionCacheControl' }
+        Pragma: { $ref: '#/components/headers/nodeProjectionPragma' }
+        Referrer-Policy: { $ref: '#/components/headers/nodeProjectionReferrerPolicy' }
+        X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            required: [ code ]
+            properties:
+              code: { type: string, const: system_update_identity_fence_unavailable }
+    nodeProjectionContractMajorUnsupported:
+      description: exact contract major 2 is required
+      headers:
+        Content-Type: { $ref: '#/components/headers/nodeProjectionJSONContentType' }
+        Cache-Control: { $ref: '#/components/headers/nodeProjectionCacheControl' }
+        Pragma: { $ref: '#/components/headers/nodeProjectionPragma' }
+        Referrer-Policy: { $ref: '#/components/headers/nodeProjectionReferrerPolicy' }
         X-AutoStream-Contract-Major: { $ref: '#/components/headers/contractMajor' }
       content:
         application/json:

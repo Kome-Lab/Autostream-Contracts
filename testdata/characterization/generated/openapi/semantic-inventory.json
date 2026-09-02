@@ -11,11 +11,11 @@
       "duplicate_method_paths": [],
       "duplicate_operation_ids": [],
       "explicit_security_count": 29,
-      "inherited_security_count": 150,
-      "inline_schema_count": 27,
+      "inherited_security_count": 151,
+      "inline_schema_count": 33,
       "method_counts": {
         "delete": 18,
-        "get": 62,
+        "get": 63,
         "head": 0,
         "options": 0,
         "patch": 0,
@@ -23,10 +23,10 @@
         "put": 17,
         "trace": 0
       },
-      "normalized_bundle_sha256": "fac7b4a2011b7a9b2082bffb80ccbd9224b4fde54c4b3dc10fb3162582512e6e",
+      "normalized_bundle_sha256": "ffa020bc59359240a48b100b77a6a778b18c3667cc45afddcc961fc0cab59996",
       "openapi_version": "3.1.0",
-      "operation_count": 179,
-      "operation_id_count": 14,
+      "operation_count": 180,
+      "operation_id_count": 15,
       "operations": [
         {
           "deprecated": false,
@@ -2311,6 +2311,137 @@
           ],
           "security_source": "inherited",
           "summary_present": false,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getNodeActionPermissionProjection",
+          "path": "/nodes/action-permissions",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "node-action-permission-projection.schema",
+                  "ref": "#/components/schemas/node-action-permission-projection.schema",
+                  "resolved_sha256": "48be99c11cd64a99b96362dd7129ce77d6d9b5c4ffa780826ef6ca11072d11cc"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "94367cfbf075a74719acb8cac44ea2addd29d08c8c76e3337d9782ad6346b643",
+                  "type": "object"
+                }
+              ],
+              "status": "400"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "888ed11644cc8c2b3af9b437ac0eeb986b9704a2b23f71363e60fc308112c204",
+                  "type": "object"
+                }
+              ],
+              "status": "401"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "c6414667987c072987f31746e988159a5865aa40d0b19bf4bf754f46c0234456",
+                  "type": "object"
+                }
+              ],
+              "status": "403"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "7b279a5ac980b3f42385e5356530a8a4c10bb7969dc2b264bcff4cf4d83654f3",
+                  "type": "object"
+                }
+              ],
+              "status": "404"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "226b55eb5201e273042186d884ef553d9cf3540a87cba47e05390a8924ff8a3c",
+                  "type": "object"
+                }
+              ],
+              "status": "500"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "c51bac857caa872591fafb25a2eaf606732268f2d8e2d092b4e0010b947f0c7c",
+                  "type": "object"
+                }
+              ],
+              "status": "503"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
           "tags": []
         },
         {
@@ -9595,7 +9726,7 @@
           "path": "/users/{id}/oauth-links"
         }
       ],
-      "path_count": 135,
+      "path_count": 136,
       "public_operation_count": 6,
       "public_operations": [
         {
@@ -9635,28 +9766,28 @@
           "path": "/setup/first-admin"
         }
       ],
-      "ref_layout_independent_sha256": "d7f76b5796eca1653222658f4b60c1b8699d7e6d6545f0b221d5f19ce9188a17",
+      "ref_layout_independent_sha256": "607886f68b1c173dec2242cd214f4b95f9de5fffae68061081d9e486b9687761",
       "request_body_count": 55,
       "response_status_distribution": {
-        "200": 137,
+        "200": 138,
         "201": 21,
         "202": 19,
         "204": 4,
         "303": 1,
-        "400": 25,
-        "401": 14,
-        "403": 30,
-        "404": 25,
+        "400": 26,
+        "401": 15,
+        "403": 31,
+        "404": 26,
         "405": 1,
         "409": 40,
         "410": 3,
-        "426": 178,
+        "426": 179,
         "429": 4,
-        "500": 14,
+        "500": 15,
         "502": 11,
-        "503": 11
+        "503": 12
       },
-      "schema_count": 178,
+      "schema_count": 180,
       "security_scheme_count": 2,
       "title": "AutoStream Control API",
       "unauthenticated_operation_count": 11,

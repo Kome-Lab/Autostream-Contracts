@@ -1758,7 +1758,42 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/headers/noStore"
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -1769,6 +1804,171 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/headers/noStore"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/noStore"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionCacheControl"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionCacheControl"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionCacheControl"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionCacheControl"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionCacheControl"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionCacheControl"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionCacheControl"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionCacheControl"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionJSONContentType"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionJSONContentType"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionJSONContentType"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionJSONContentType"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionJSONContentType"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionJSONContentType"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionJSONContentType"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionJSONContentType"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionPragma"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionPragma"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionPragma"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionPragma"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionPragma"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionPragma"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionPragma"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionPragma"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionReferrerPolicy"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionReferrerPolicy"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionReferrerPolicy"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionReferrerPolicy"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionReferrerPolicy"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionReferrerPolicy"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionReferrerPolicy"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/nodeProjectionReferrerPolicy"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -1809,6 +2009,11 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/parameters/auditResult"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -3928,6 +4133,41 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/nodeProjectionBadRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/nodeProjectionContractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/nodeProjectionForbidden"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/nodeProjectionInternalError"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/nodeProjectionNotFound"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/nodeProjectionUnauthorized"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/nodeProjectionUnavailable"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/AppSettingsWriteRequest"
     },
     {
@@ -5293,6 +5533,11 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/V2ContractError"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/WorkerApplicationRuntimeIdentityProbe"
     },
     {
@@ -5379,6 +5624,11 @@
       "source": "openapi/control-api.yaml",
       "target": "schemas/host-self-update-release-binding.schema.json",
       "value": "../schemas/host-self-update-release-binding.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/node-action-permission-projection.schema.json",
+      "value": "../schemas/node-action-permission-projection.schema.json"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -6016,6 +6266,16 @@
       "value": "#/$defs/diagnostic_report"
     },
     {
+      "source": "schemas/node-action-permission-projection.schema.json",
+      "target": "schemas/node-action-permission-projection.schema.json",
+      "value": "#/$defs/permissionSet"
+    },
+    {
+      "source": "schemas/node-action-permission-projection.schema.json",
+      "target": "schemas/node-action-permission-projection.schema.json",
+      "value": "#/$defs/permissionSet"
+    },
+    {
       "source": "schemas/oauth-account-connection-start-response.schema.json",
       "target": "schemas/oauth-login-provider.schema.json",
       "value": "oauth-login-provider.schema.json"
@@ -6101,10 +6361,10 @@
       "value": "system-update-job.schema.json#/$defs/portReconfigurationPlan"
     }
   ],
-  "source_file_count": 36,
+  "source_file_count": 37,
   "source_files": [
     {
-      "normalized_source_sha256": "d2cc832463f13ad07512acea5d06ccf1d8238c8b1b1f6b029a23c35db1b70dbc",
+      "normalized_source_sha256": "d1d5ff4904e24c3eae0431709017b709c19cffdf8b1397fdd4ecc6d71bab78eb",
       "path": "openapi/control-api.yaml"
     },
     {
@@ -6186,6 +6446,10 @@
     {
       "normalized_source_sha256": "1fbb1d743dcf109ce081988497fe647914b6de91b20a174f2882250f76ec4804",
       "path": "schemas/incident.schema.json"
+    },
+    {
+      "normalized_source_sha256": "6fe7b921584f0c5d09204029c7d5a4d1fe40fdb7c5a983afa4ba3277f7365de8",
+      "path": "schemas/node-action-permission-projection.schema.json"
     },
     {
       "normalized_source_sha256": "aad18d65f7e389dd273e2e98ef18a9703fff83ac625a22909e2e2613c84a6b7d",

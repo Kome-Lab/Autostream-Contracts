@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.autostream.invalid/node-action-permission-projection.schema.json",
+  "title": "Node action permission projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "projection_revision",
+    "evaluated_at",
+    "action",
+    "availability",
+    "reason_code",
+    "required_permissions",
+    "missing_permissions"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "projection_revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Diagnostic timestamp only. It is never an authorization or freshness input."
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "registration_token",
+        "configure_token_regenerate",
+        "runtime_token_rotate"
+      ]
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "allowed",
+        "denied",
+        "unknown",
+        "not_applicable"
+      ]
+    },
+    "reason_code": {
+      "type": "string",
+      "enum": [
+        "allowed",
+        "additional_permission_required",
+        "invalid_service_type",
+        "invalid_service_scope",
+        "projection_unavailable",
+        "staged_runtime_token_rotation_required"
+      ]
+    },
+    "required_permissions": {
+      "$ref": "#/$defs/permissionSet"
+    },
+    "missing_permissions": {
+      "$ref": "#/$defs/permissionSet"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "availability": { "const": "allowed" }
+        },
+        "required": ["availability"]
+      },
+      "then": {
+        "properties": {
+          "reason_code": { "const": "allowed" },
+          "missing_permissions": { "maxItems": 0 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "availability": { "const": "denied" }
+        },
+        "required": ["availability"]
+      },
+      "then": {
+        "properties": {
+          "reason_code": { "const": "additional_permission_required" },
+          "missing_permissions": { "minItems": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "availability": { "const": "unknown" }
+        },
+        "required": ["availability"]
+      },
+      "then": {
+        "properties": {
+          "reason_code": {
+            "enum": [
+              "invalid_service_scope",
+              "projection_unavailable"
+            ]
+          },
+          "missing_permissions": { "maxItems": 0 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "availability": { "const": "not_applicable" }
+        },
+        "required": ["availability"]
+      },
+      "then": {
+        "properties": {
+          "reason_code": {
+            "enum": [
+              "invalid_service_type",
+              "staged_runtime_token_rotation_required"
+            ]
+          },
+          "missing_permissions": { "maxItems": 0 }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "permissionSet": {
+      "type": "array",
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "api_tokens.create",
+          "api_tokens.revoke",
+          "secrets.update",
+          "system_updates.execute",
+          "streams.start",
+          "streams.stop",
+          "remediation.execute"
+        ]
+      }
+    }
+  }
+}
