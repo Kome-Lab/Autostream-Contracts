@@ -14,9 +14,10 @@
         }
       },
       "then": {
-        "required": ["email_recipients"],
+        "required": ["email_recipients", "uses_global_smtp"],
         "properties": {
-          "email_recipients": {}
+          "email_recipients": {},
+          "uses_global_smtp": { "const": true }
         }
       }
     }

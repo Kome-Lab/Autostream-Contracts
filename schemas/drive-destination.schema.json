@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.autostream.example.com/drive-destination.schema.json",
   "type": "object",
-  "required": ["id", "name", "auth_mode", "folder_id_configured", "shared_drive", "base_path", "created_at", "updated_at"],
+  "required": ["id", "name", "auth_mode", "folder_id_configured", "shared_drive", "created_at", "updated_at"],
   "properties": {
     "id": { "type": "string" },
     "name": { "type": "string" },
@@ -12,7 +12,6 @@
     "folder_id_fingerprint": { "type": "string" },
     "masked_folder_id": { "type": "string" },
     "shared_drive": { "type": "boolean" },
-    "base_path": { "type": "string", "deprecated": true, "description": "Legacy value retained for compatible reads. folder_id is the archive root." },
     "created_at": { "type": "string", "format": "date-time" },
     "updated_at": { "type": "string", "format": "date-time" }
   },

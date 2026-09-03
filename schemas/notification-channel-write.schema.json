@@ -6,27 +6,8 @@
   "additionalProperties": false,
   "allOf": [
     {
-      "if": {
-        "required": ["uses_global_smtp"],
-        "properties": {
-          "uses_global_smtp": { "const": true }
-        }
-      },
-      "then": {
-        "properties": {
-          "type": { "const": "email" }
-        },
-        "not": {
-          "anyOf": [
-            { "required": ["smtp_host"], "properties": { "smtp_host": {} } },
-            { "required": ["smtp_port"], "properties": { "smtp_port": {} } },
-            { "required": ["smtp_tls"], "properties": { "smtp_tls": {} } },
-            { "required": ["smtp_from"], "properties": { "smtp_from": {} } },
-            { "required": ["smtp_username"], "properties": { "smtp_username": {} } },
-            { "required": ["smtp_password"], "properties": { "smtp_password": {} } }
-          ]
-        }
-      }
+      "if": { "required": ["uses_global_smtp"] },
+      "then": { "properties": { "type": { "const": "email" } } }
     }
   ],
   "properties": {
@@ -56,41 +37,8 @@
     },
     "uses_global_smtp": {
       "type": "boolean",
-      "description": "For an email channel, true delegates delivery to the service-authenticated Control Panel email relay, which uses globally managed application SMTP settings; false selects deprecated direct-Observability SMTP compatibility. SMTP credentials are never copied into a global-SMTP channel or runtime config. On update, omission preserves the existing mode."
-    },
-    "smtp_host": {
-      "type": "string",
-      "deprecated": true,
-      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
-    },
-    "smtp_port": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 65535,
-      "deprecated": true,
-      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
-    },
-    "smtp_tls": {
-      "type": "boolean",
-      "deprecated": true,
-      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
-    },
-    "smtp_from": {
-      "type": "string",
-      "format": "email",
-      "deprecated": true,
-      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
-    },
-    "smtp_username": {
-      "type": "string",
-      "deprecated": true,
-      "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true."
-    },
-    "smtp_password": {
-      "type": "string",
-      "writeOnly": true,
-      "deprecated": true,
-      "description": "Deprecated write-only direct-Observability SMTP password. Do not supply when uses_global_smtp is true; it is never returned raw."
+      "const": true,
+      "description": "Email delivery is delegated to the service-authenticated Control Panel relay backed by globally managed SMTP settings."
     },
     "severity_filter": {
       "type": "array",

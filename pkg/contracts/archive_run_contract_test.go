@@ -13,7 +13,7 @@ import (
 	"github.com/santhosh-tekuri/jsonschema/v6"
 )
 
-func TestEncoderArchiveRunRequestSchemasRemainBackwardCompatible(t *testing.T) {
+func TestEncoderArchiveRunRequestSchemasAreV2Only(t *testing.T) {
 	tests := []struct {
 		name       string
 		schemaFile string
@@ -21,7 +21,7 @@ func TestEncoderArchiveRunRequestSchemasRemainBackwardCompatible(t *testing.T) {
 		wantValid  bool
 	}{
 		{
-			name:       "legacy start",
+			name:       "start without archive run",
 			schemaFile: "encoder-start-stream-request.schema.json",
 			body:       `{"stream_id":"stream-01","name":"Live","rtmp_url":"rtmps://example.invalid/live"}`,
 			wantValid:  true,
@@ -45,10 +45,10 @@ func TestEncoderArchiveRunRequestSchemasRemainBackwardCompatible(t *testing.T) {
 			wantValid:  false,
 		},
 		{
-			name:       "legacy package",
+			name:       "runless package is rejected",
 			schemaFile: "encoder-package-stream-request.schema.json",
 			body:       `{"stream_id":"stream-01","name":"Live"}`,
-			wantValid:  true,
+			wantValid:  false,
 		},
 		{
 			name:       "run scoped package",

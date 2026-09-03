@@ -415,7 +415,7 @@ func assertV2SchemaFixture(t *testing.T, schema *jsonschema.Schema, fixture any,
 	}
 }
 
-func cloneV2Fixture(t *testing.T, fixture map[string]any) map[string]any {
+func cloneV2Fixture(t *testing.T, fixture any) map[string]any {
 	t.Helper()
 	body, err := json.Marshal(fixture)
 	if err != nil {

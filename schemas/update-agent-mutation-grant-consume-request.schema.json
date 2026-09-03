@@ -150,7 +150,7 @@
       "type": "string", "minLength": 1, "maxLength": 191,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
     },
-    "transport_mode": { "enum": ["ssh_v1", "pull_v2"] },
+    "transport_mode": { "const": "pull_v2" },
     "ownership_epoch": { "type": "integer", "minimum": 1 },
     "policy_revision": { "type": "integer", "minimum": 0 },
     "target_id": {

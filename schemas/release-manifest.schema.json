@@ -4,22 +4,13 @@
   "description": "Published as release-manifest.json with release-manifest.json.sha256 containing 64 lowercase hexadecimal characters, two spaces, the filename, and a trailing newline.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "release_id", "channel", "published_at", "minimum_agent_version", "components"],
+  "required": ["schema_version", "release_id", "channel", "published_at", "components"],
   "properties": {
-    "schema_version": { "const": 1 },
+    "schema_version": { "const": 2 },
     "release_id": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:[.-][0-9A-Za-z.-]+)?$" },
     "channel": { "enum": ["host", "docker"] },
     "published_at": { "type": "string", "format": "date-time" },
-    "bundle_version": {
-      "type": "string",
-      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:[.-][0-9A-Za-z.-]+)?$",
-      "description": "Docker compatibility alias. It must equal release_id."
-    },
-    "generated_at": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Docker compatibility alias. It must equal published_at."
-    },
+    "protocol_major": { "const": 2, "description": "Docker bundle compatibility is protocol-major-only; it does not require a co-released Updater version." },
     "minimum_agent_version": {
       "type": "string",
       "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
@@ -30,15 +21,16 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["service", "source_version"],
+        "required": ["service"],
         "properties": {
-          "service": { "enum": ["control-panel", "discord-bot", "encoder-recorder", "observability", "worker"] },
+          "service": { "enum": ["control-panel", "discord-bot", "encoder-recorder", "observability", "worker", "updater"] },
           "source_version": {
             "type": "string",
             "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:[.-][0-9A-Za-z.-]+)?$",
             "description": "For host releases this must equal release_id."
           },
           "commit": { "type": "string", "pattern": "^[A-Fa-f0-9]{40}$" },
+          "protocol_major": { "const": 2 },
           "image": { "type": "string" },
           "manifest_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
           "artifacts": {
@@ -97,28 +89,32 @@
         "required": ["channel"]
       },
       "then": {
-        "required": ["bundle_version", "generated_at", "minimum_agent_version"],
+        "required": ["protocol_major"],
+        "not": { "required": ["minimum_agent_version"] },
         "properties": {
           "components": {
-            "minItems": 5,
-            "maxItems": 5,
+            "minItems": 6,
+            "maxItems": 6,
             "items": {
+              "oneOf": [
+                {
               "required": [
-                "service", "source_version", "image", "manifest_digest", "platform_digests",
+                "service", "source_version", "commit", "image", "manifest_digest", "platform_digests",
                 "rollback_compatible", "database_schema"
               ],
               "properties": {
+                "service": { "enum": ["control-panel", "discord-bot", "encoder-recorder", "observability", "worker"] },
                 "image": {
                   "type": "string",
                   "pattern": "^ghcr\\.io/kome-lab/autostream-docker/(?:control-panel|discord-bot|encoder-recorder|observability|worker):v[0-9]+\\.[0-9]+\\.[0-9]+(?:[.-][0-9A-Za-z.-]+)?$",
-                  "description": "The repository suffix must equal service and the tag must equal release_id/bundle_version."
+                  "description": "The repository suffix must equal service and the tag must equal release_id."
                 },
                 "rollback_compatible": { "const": true },
                 "database_schema": { "enum": ["none", "backward_compatible"] }
               },
               "not": {
                 "anyOf": [
-                  { "required": ["commit"] },
+                  { "required": ["protocol_major"] },
                   { "required": ["artifacts"] }
                 ]
               },
@@ -169,13 +165,35 @@
                   }
                 }
               ]
+                },
+                {
+                  "description": "Independent host Updater source authority metadata, not a Docker image or a published binary artifact binding.",
+                  "required": ["service", "commit", "protocol_major"],
+                  "properties": {
+                    "service": { "const": "updater" },
+                    "protocol_major": { "const": 2 }
+                  },
+                  "not": {
+                    "anyOf": [
+                      { "required": ["source_version"] },
+                      { "required": ["image"] },
+                      { "required": ["artifacts"] },
+                      { "required": ["rollback_compatible"] },
+                      { "required": ["database_schema"] },
+                      { "required": ["manifest_digest"] },
+                      { "required": ["platform_digests"] }
+                    ]
+                  }
+                }
+              ]
             },
             "allOf": [
               { "contains": { "properties": { "service": { "const": "control-panel" } }, "required": ["service"] }, "minContains": 1, "maxContains": 1 },
               { "contains": { "properties": { "service": { "const": "discord-bot" } }, "required": ["service"] }, "minContains": 1, "maxContains": 1 },
               { "contains": { "properties": { "service": { "const": "encoder-recorder" } }, "required": ["service"] }, "minContains": 1, "maxContains": 1 },
               { "contains": { "properties": { "service": { "const": "observability" } }, "required": ["service"] }, "minContains": 1, "maxContains": 1 },
-              { "contains": { "properties": { "service": { "const": "worker" } }, "required": ["service"] }, "minContains": 1, "maxContains": 1 }
+              { "contains": { "properties": { "service": { "const": "worker" } }, "required": ["service"] }, "minContains": 1, "maxContains": 1 },
+              { "contains": { "properties": { "service": { "const": "updater" } }, "required": ["service"] }, "minContains": 1, "maxContains": 1 }
             ]
           }
         }
@@ -187,12 +205,8 @@
         "required": ["channel"]
       },
       "then": {
-        "not": {
-          "anyOf": [
-            { "required": ["bundle_version"] },
-            { "required": ["generated_at"] }
-          ]
-        },
+        "required": ["minimum_agent_version"],
+        "not": { "required": ["protocol_major"] },
         "properties": {
           "components": {
             "minItems": 1,
@@ -204,12 +218,14 @@
               ],
               "not": {
                 "anyOf": [
+                  { "required": ["protocol_major"] },
                   { "required": ["image"] },
                   { "required": ["manifest_digest"] },
                   { "required": ["platform_digests"] }
                 ]
               },
               "properties": {
+                "service": { "enum": ["control-panel", "discord-bot", "encoder-recorder", "observability", "worker"] },
                 "rollback_compatible": { "const": true },
                 "database_schema": { "enum": ["none", "backward_compatible"] },
                 "artifacts": {

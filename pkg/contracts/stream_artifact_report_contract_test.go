@@ -93,7 +93,7 @@ func TestControlOpenAPIStreamArtifactReportFailureResponses(t *testing.T) {
 	}
 }
 
-func TestServiceArtifactReportSchemaSupportsLegacyAndRunScopedArchives(t *testing.T) {
+func TestServiceArtifactReportSchemaRequiresRunScopedArchives(t *testing.T) {
 	schema := compileContractJSONSchema(t, "service-artifact-report.schema.json")
 	validate := func(name, body string, wantValid bool) {
 		t.Helper()
@@ -112,10 +112,10 @@ func TestServiceArtifactReportSchemaSupportsLegacyAndRunScopedArchives(t *testin
 		})
 	}
 
-	validate("legacy path remains accepted", `{
+	validate("legacy path without run metadata is rejected", `{
 		"service_id":"enc-01","stream_id":"stream-01",
 		"artifacts":[{"kind":"archive","name":"final.mp4","relative_path":"final/stream-01/final.mp4","size_bytes":123}]
-	}`, true)
+	}`, false)
 	validate("run scoped path and metadata are accepted", `{
 		"service_id":"enc-01","stream_id":"stream-01",
 		"archive_run_id":"20260818_140629_123456789_JST",
@@ -125,6 +125,10 @@ func TestServiceArtifactReportSchemaSupportsLegacyAndRunScopedArchives(t *testin
 	validate("run id requires start time", `{
 		"service_id":"enc-01","stream_id":"stream-01","archive_run_id":"run-01",
 		"artifacts":[{"kind":"archive","name":"final.mp4","relative_path":"final/stream-01/run-01/final.mp4","size_bytes":1}]
+	}`, false)
+	validate("runless path cannot be rescued by run metadata", `{
+		"service_id":"enc-01","stream_id":"stream-01","archive_run_id":"run-01","archive_started_at":"2026-08-18T05:06:29Z",
+		"artifacts":[{"kind":"archive","name":"final.mp4","relative_path":"final/stream-01/final.mp4","size_bytes":1}]
 	}`, false)
 	validate("start time requires run id", `{
 		"service_id":"enc-01","stream_id":"stream-01","archive_started_at":"2026-08-18T05:06:29Z",

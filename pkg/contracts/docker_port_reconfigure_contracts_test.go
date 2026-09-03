@@ -52,7 +52,7 @@ func dockerPortReconfigurationPlanJSON() string {
 }
 
 func dockerPortReconfigurationJobJSON() string {
-	return `{
+	return `{` + portContractV2JobFields + `
 		"id":"job-docker-port-1",
 		"target_id":"worker-a",
 		"target_type":"worker",
@@ -66,7 +66,7 @@ func dockerPortReconfigurationJobJSON() string {
 		"strategy":"maintenance",
 		"status":"queued",
 		"idempotency_key":"docker-port-worker-a-28084",
-		"lease_generation":0,
+		"lease_generation":1,
 		"sequence":0,
 		"progress":0,
 		"created_at":"2026-07-28T00:00:00Z",
@@ -79,7 +79,7 @@ func dockerPortReconfigurationJobJSON() string {
 func TestDockerPortCreateRequestIsDisjointFromSystemdPortRequest(t *testing.T) {
 	schema := compileContractJSONSchema(t, "system-update-create-request.schema.json")
 
-	dockerRequest := `{
+	dockerRequest := `{` + portContractV2CreateFields + `
 		"operation":"port_reconfigure",
 		"target_id":"worker-a",
 		"new_advertised_port":18080,
@@ -174,7 +174,7 @@ func TestDockerPortMutationGrantsBindTheCompleteDockerPlan(t *testing.T) {
 
 func TestSystemUpdateTargetDockerPortMappingIsAllowlisted(t *testing.T) {
 	schema := compileContractJSONSchema(t, "system-update-target.schema.json")
-	applied := `{
+	applied := `{` + portContractV2TargetFields + `
 		"target_id":"worker-a",
 		"target_type":"worker",
 		"name":"Worker A",
@@ -203,7 +203,8 @@ func TestSystemUpdateTargetDockerPortMappingIsAllowlisted(t *testing.T) {
 	validatePortContractJSON(t, schema, strings.Replace(applied, `"published_port":28084,`, "", 1), false)
 
 	for _, state := range []string{"drifted", "unavailable"} {
-		validatePortContractJSON(t, schema, `{
+		validatePortContractJSON(t, schema, `{`+portContractV2TargetFields+`
+			"host_id":"host-a",
 			"target_id":"worker-a",
 			"target_type":"worker",
 			"name":"Worker A",
@@ -219,6 +220,7 @@ func TestSystemUpdateTargetDockerPortMappingIsAllowlisted(t *testing.T) {
 
 func TestDockerPortGoTypesAndOpenAPIAreAdditive(t *testing.T) {
 	body, err := json.Marshal(SystemUpdateCreateRequest{
+		ProtocolVersion: 2, DesiredRevision: 12, Fence: 3, RequiredCapability: UpdaterCapabilityPort,
 		Operation:                SystemUpdateOperationPortReconfigure,
 		TargetID:                 "worker-a",
 		NewAdvertisedPort:        18080,
@@ -257,7 +259,11 @@ func TestDockerPortGoTypesAndOpenAPIAreAdditive(t *testing.T) {
 		},
 	}
 	jobBody, err := json.Marshal(SystemUpdateJob{
-		ID: "job-docker-port-1", TargetID: "worker-a", TargetType: SystemUpdateTargetWorker,
+		ProtocolVersion: 2, UpdaterID: "host-agent-a", DesiredRevision: 12, Fence: 3,
+		Outcome: "pending", RequiredCapability: UpdaterCapabilityPort, AuthorizationID: "authorization-1",
+		CanonicalPayloadDigest: portContractConfigDigest, AutomaticResendAllowed: systemUpdateAutomaticResendDisabledFixture(),
+		LeaseGeneration: 1,
+		ID:              "job-docker-port-1", TargetID: "worker-a", TargetType: SystemUpdateTargetWorker,
 		ExecutionHostID: "host-a", TransportMode: UpdateTransportPullV2,
 		OwnershipEpoch: 2, PolicyRevision: 23, DeploymentMode: SystemUpdateDeploymentDocker,
 		CurrentVersion: "v1.2.3", TargetVersion: "v1.2.3", Strategy: SystemUpdateMaintenance,
@@ -271,7 +277,11 @@ func TestDockerPortGoTypesAndOpenAPIAreAdditive(t *testing.T) {
 	validatePortContractJSON(t, compileContractJSONSchema(t, "system-update-job.schema.json"), string(jobBody), true)
 
 	targetBody, err := json.Marshal(SystemUpdateTarget{
-		TargetID: "worker-a", TargetType: SystemUpdateTargetWorker, Name: "Worker A",
+		ProtocolVersion: 2, HostID: "host-a", UpdaterID: "host-agent-a", Capabilities: []UpdaterCapability{UpdaterCapabilityPort},
+		DesiredRevision: 12, AppliedRevision: 11, Fence: 3,
+		UpdaterHealth:    &UpdaterHealth{Status: "ready", Revision: 12},
+		ApplicationProbe: &ApplicationRuntimeIdentityProbe{Version: "v1.2.3", ServiceID: "worker-a", ServiceType: SystemUpdateTargetWorker, ConfigRevision: 11},
+		TargetID:         "worker-a", TargetType: SystemUpdateTargetWorker, Name: "Worker A",
 		DeploymentMode: SystemUpdateDeploymentDocker, UpdaterOnline: true, Eligible: true,
 		PortMapping: &SystemUpdatePortMapping{
 			Mode: SystemUpdateDeploymentDocker, State: SystemUpdatePortMappingApplied,

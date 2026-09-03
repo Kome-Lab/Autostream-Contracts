@@ -1,16 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SystemUpdatePullOwnershipDeactivateResponse",
-  "description": "Server-owned ssh_v1 execution-host ownership and unchanged pull policy fences returned after atomic deactivation. agent_service_id is the server-preserved legacy updater, while the pull updater identified by updater_id is returned to observer epoch zero. No credential or secret is returned.",
+  "description": "Server-owned pull_v2 execution-host identity and unchanged policy fences returned after atomic deactivation. The updater identified by updater_id is returned to observer epoch zero. No credential or secret is returned.",
   "x-autostream-contract-major": 2,
-  "x-autostream-v2-transition-compatibility": {
-    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-    "removal_wave": "Execution Bundle 8",
-    "final_state": "absent",
-    "purpose": "whole_release_rollback_only"
-  },
   "type": "object",
   "required": [
+    "protocol_version", "idempotency_key", "desired_revision", "applied_revision", "fence", "capability",
     "updater_id",
     "execution_host_id",
     "transport_mode",
@@ -23,17 +18,6 @@
     "local_executor_policy_sha256"
   ],
   "additionalProperties": false,
-  "allOf": [
-    {
-      "if": { "required": ["protocol_version"] },
-      "then": {
-        "required": [
-          "protocol_version", "idempotency_key", "desired_revision", "applied_revision",
-          "fence", "capability", "rollback_transition"
-        ]
-      }
-    }
-  ],
   "properties": {
     "protocol_version": { "const": 2 },
     "idempotency_key": {
@@ -46,7 +30,6 @@
     "applied_revision": { "type": "integer", "minimum": 1 },
     "fence": { "type": "integer", "minimum": 1 },
     "capability": { "const": "host.update" },
-    "rollback_transition": { "const": true },
     "updater_id": {
       "type": "string",
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
@@ -56,7 +39,7 @@
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
     },
     "transport_mode": {
-      "const": "ssh_v1"
+      "const": "pull_v2"
     },
     "agent_service_id": {
       "type": "string",

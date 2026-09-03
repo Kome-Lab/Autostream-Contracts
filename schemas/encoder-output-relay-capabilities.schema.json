@@ -2,15 +2,21 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.autostream.example.com/encoder-output-relay-capabilities.schema.json",
   "title": "EncoderOutputRelayCapabilities",
-  "description": "Non-secret service capability hints. output_relay_mode describes Encoder/Recorder routing behavior only and never carries an RTMPS URL, relay URL, or YouTube stream key. scene_frames_mjpeg_srt and worker_frame_ingest_mjpeg_srt negotiate Worker-rendered JPEG images that are paced and encoded only by Encoder/Recorder. discord_resolved_target_v2 advertises actual Discord Bot support for the strict resolved-target start DTO; absence or any value other than boolean true must retain the legacy flat start DTO. New Encoder reports use the canonical direct, legacy_stream_key, or live_api_static relay values. The historical static value is accepted on Control Panel capability input and registered-service reads for migration compatibility, with legacy_stream_key semantics. Unknown relay-mode values must be rejected fail closed.",
+  "description": "Non-secret v2 service capability hints. output_relay_mode describes Encoder/Recorder routing behavior only and never carries an RTMPS URL, relay URL, or YouTube stream key. scene_frames_mjpeg_srt and worker_frame_ingest_mjpeg_srt negotiate Worker-rendered JPEG images that are paced and encoded only by Encoder/Recorder.",
   "type": "object",
   "additionalProperties": true,
+  "not": {
+    "anyOf": [
+      { "required": ["scene_video_srt"] },
+      { "required": ["worker_video_ingest_srt"] }
+    ]
+  },
   "allOf": [
     {
       "if": {
         "required": ["output_relay_mode"],
         "properties": {
-          "output_relay_mode": { "const": "live_api_static" }
+          "output_relay_mode": { "const": "live_api_relay_static" }
         }
       },
       "then": {
@@ -21,13 +27,13 @@
   "properties": {
     "output_relay_mode": {
       "type": "string",
-      "enum": ["direct", "legacy_stream_key", "live_api_static", "static"],
-      "description": "direct has no fixed output relay. legacy_stream_key is a fixed relay with a preconfigured legacy YouTube stream-key route. live_api_static is a fixed relay that accepts the non-secret live API static binding below. static is the historical alias for legacy_stream_key; it is accepted only for Control Panel input and registered-service read compatibility, while new Encoder reports must use a canonical value."
+      "enum": ["direct", "live_api_relay_static"],
+      "description": "direct sends to the assignment-scoped runtime target. live_api_relay_static sends to the matching non-secret fixed relay binding."
     },
     "output_relay_binding_id": {
       "type": "string",
       "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-      "description": "Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output. It is never an RTMPS address or stream key."
+      "description": "Required with live_api_relay_static. Non-secret fixed relay binding identity that must match the selected output. It is never an RTMPS address or stream key."
     },
     "scene_frames_mjpeg_srt": {
       "type": "boolean",
@@ -57,19 +63,7 @@
     "discord_resolved_target_v2": {
       "type": "boolean",
       "const": true,
-      "description": "The Discord Bot actually accepts the strict schema_version=2 start DTO with one server-resolved discord_target snapshot. Control Panel may select that DTO only when the assigned Bot currently advertises this exact boolean true; absence, false, unknown values, and version strings are not support evidence and require the legacy flat payload without v2-only fields."
-    },
-    "scene_video_srt": {
-      "type": "boolean",
-      "const": true,
-      "deprecated": true,
-      "description": "Legacy Worker H.264 MPEG-TS capability accepted only for migration reads. It is not negotiated by the current Control Panel."
-    },
-    "worker_video_ingest_srt": {
-      "type": "boolean",
-      "const": true,
-      "deprecated": true,
-      "description": "Legacy Encoder H.264 MPEG-TS capability accepted only for migration reads. It is not negotiated by the current Control Panel."
+      "description": "The Discord Bot actually accepts the strict schema_version=2 start DTO with one server-resolved discord_target snapshot. Control Panel may select that DTO only when the assigned Bot currently advertises this exact boolean true; absence, false, unknown values, and version strings make the service ineligible for start dispatch."
     }
   }
 }

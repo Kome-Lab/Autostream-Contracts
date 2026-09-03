@@ -3,14 +3,9 @@
   "title": "System Update Create Request",
   "description": "Control Panel orchestration intent. protocol_version 2 carries only typed revision-fenced intent and never accepts host execution details.",
   "x-autostream-contract-major": 2,
-  "x-autostream-v2-transition-compatibility": {
-    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-    "removal_wave": "Execution Bundle 8",
-    "final_state": "absent"
-  },
   "type": "object",
   "additionalProperties": false,
-  "required": ["target_id", "idempotency_key"],
+  "required": ["protocol_version", "target_id", "idempotency_key", "desired_revision", "fence", "required_capability"],
   "allOf": [
     {
       "if": {
@@ -53,10 +48,7 @@
       }
     },
     {
-      "if": { "required": ["protocol_version"] },
-      "then": {
-        "required": ["protocol_version", "desired_revision", "fence", "required_capability"],
-        "oneOf": [
+      "oneOf": [
           {
             "required": ["operation"],
             "properties": {
@@ -77,8 +69,7 @@
               "required_capability": { "const": "host.update" }
             }
           }
-        ]
-      }
+      ]
     }
   ],
   "properties": {

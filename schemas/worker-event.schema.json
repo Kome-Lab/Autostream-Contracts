@@ -7,28 +7,25 @@
   "$defs": {
     "discordChatPayload": {
       "type": "object",
-      "description": "Discord chat overlay payload. Producers use author_id and content as the canonical fields. During the compatibility window they also emit user_id and text; consumers prefer the canonical fields and fall back to the aliases.",
+      "description": "Discord chat overlay payload using the canonical v2 author_id and content fields.",
       "additionalProperties": true,
+      "required": ["author_id", "content"],
+      "not": {
+        "anyOf": [
+          { "required": ["user_id"] },
+          { "required": ["text"] }
+        ]
+      },
       "properties": {
         "message_id": { "type": "string" },
         "author_id": {
           "type": "string",
           "description": "Canonical Discord author ID."
         },
-        "user_id": {
-          "type": "string",
-          "deprecated": true,
-          "description": "Compatibility alias for author_id."
-        },
         "display_name": { "type": "string" },
         "content": {
           "type": "string",
           "description": "Canonical Discord message content."
-        },
-        "text": {
-          "type": "string",
-          "deprecated": true,
-          "description": "Compatibility alias for content."
         },
         "avatar_url": { "type": "string" },
         "is_bot": { "type": "boolean" },
@@ -55,7 +52,7 @@
     },
     "payload": {
       "type": "object",
-      "description": "Event payload. overlay.discord_chat carries canonical author_id and content plus message_id, display_name, avatar_url, is_bot, text_channel_id, and created_at from the stream's configured Discord Chat Channel ID; user_id and text remain compatibility aliases.",
+      "description": "Event payload. overlay.discord_chat carries canonical author_id and content plus message_id, display_name, avatar_url, is_bot, text_channel_id, and created_at.",
       "additionalProperties": true
     },
     "timestamp": {

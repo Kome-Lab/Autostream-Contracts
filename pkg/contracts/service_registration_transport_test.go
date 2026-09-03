@@ -26,7 +26,7 @@ func validateServiceTransportInstance(t *testing.T, schema *jsonschema.Schema, b
 	}
 }
 
-func TestServiceRegistrationTransportModeCompatibility(t *testing.T) {
+func TestServiceRegistrationTransportModeIsV2Only(t *testing.T) {
 	schema := compileContractJSONSchema(t, "service-registration.schema.json", "encoder-output-relay-capabilities.schema.json")
 
 	tests := []struct {
@@ -35,7 +35,7 @@ func TestServiceRegistrationTransportModeCompatibility(t *testing.T) {
 		wantValid bool
 	}{
 		{
-			name: "legacy worker retains endpoint requirement",
+			name: "application service retains endpoint requirement",
 			body: `{
 				"service_id":"worker-a",
 				"service_type":"worker",
@@ -47,7 +47,7 @@ func TestServiceRegistrationTransportModeCompatibility(t *testing.T) {
 			wantValid: true,
 		},
 		{
-			name: "legacy updater is ssh v1 compatible",
+			name: "updater without v2 transport is rejected",
 			body: `{
 				"service_id":"updater-a",
 				"service_type":"update_agent",
@@ -56,7 +56,7 @@ func TestServiceRegistrationTransportModeCompatibility(t *testing.T) {
 				"version":"v1.0.0",
 				"capabilities":{}
 			}`,
-			wantValid: true,
+			wantValid: false,
 		},
 		{
 			name: "pull updater is endpointless",
@@ -100,7 +100,7 @@ func TestServiceRegistrationTransportModeCompatibility(t *testing.T) {
 			wantValid: false,
 		},
 		{
-			name: "explicit ssh updater still requires endpoint",
+			name: "removed ssh transport is rejected",
 			body: `{
 				"service_id":"updater-a",
 				"service_type":"update_agent",
@@ -112,7 +112,7 @@ func TestServiceRegistrationTransportModeCompatibility(t *testing.T) {
 			wantValid: false,
 		},
 		{
-			name: "legacy updater without endpoint stays invalid",
+			name: "updater without transport stays invalid",
 			body: `{
 				"service_id":"updater-a",
 				"service_type":"update_agent",
@@ -199,7 +199,7 @@ func TestPullRegistrationGoTypeCarriesNoServerOwnedBinding(t *testing.T) {
 	}
 }
 
-func TestRegisteredServiceTransportModeCompatibility(t *testing.T) {
+func TestRegisteredServiceTransportModeIsV2Only(t *testing.T) {
 	schema := compileContractJSONSchema(t, "registered-service.schema.json", "encoder-output-relay-capabilities.schema.json")
 
 	const common = `
@@ -321,19 +321,19 @@ func TestRegisteredServiceTransportModeCompatibility(t *testing.T) {
 			wantValid: false,
 		},
 		{
-			name:      "legacy updater response retains endpoint requirement",
+			name:      "updater response without transport is rejected",
 			body:      `{` + common + `}`,
 			wantValid: false,
 		},
 		{
-			name:      "explicit ssh updater response retains endpoint requirement",
+			name:      "removed ssh updater response is rejected",
 			body:      `{` + common + `,"transport_mode":"ssh_v1"}`,
 			wantValid: false,
 		},
 		{
-			name:      "legacy updater response remains valid with endpoint",
+			name:      "updater response without transport is rejected even with endpoint",
 			body:      `{` + common + `,"public_url":"http://updater-a.example.com"}`,
-			wantValid: true,
+			wantValid: false,
 		},
 	}
 
@@ -353,21 +353,25 @@ func TestControlOpenAPIModelsEndpointlessPullUpdater(t *testing.T) {
 
 	for _, want := range []string{
 		"transport_mode:",
-		"default: ssh_v1",
 		"ServiceEndpoint:",
 		"desired_endpoint:",
 		"applied_endpoint:",
 		"reported_endpoint:",
 		"endpoint_revision:",
 		"endpoint_status:",
-		"Existing payloads that omit transport_mode are interpreted as ssh_v1.",
-		"update_agent with transport_mode pull_v2 must omit host, port, and public_url.",
+		"Required protocol-major-2 transport for update_agent registration.",
+		"Protocol-major-2 transport for update_agent records.",
 	} {
 		if !strings.Contains(raw, want) {
 			t.Fatalf("control-api.yaml is missing pull updater compatibility marker %q", want)
 		}
 	}
 	requireControlOpenAPITransportModes(t)
+	for _, removed := range []string{"default: ssh_v1", "interpreted as ssh_v1"} {
+		if strings.Contains(raw, removed) {
+			t.Fatalf("control-api.yaml retained removed updater transport compatibility %q", removed)
+		}
+	}
 
 	registrationStart := strings.Index(raw, "    ServiceRegistrationRequest:\n")
 	registrationEnd := strings.Index(raw[registrationStart+1:], "\n    Heartbeat:\n")

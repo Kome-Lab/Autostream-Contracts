@@ -24,13 +24,11 @@ const (
 )
 
 const (
-	CapabilitySceneFramesMJPEGSRT        = "scene_frames_mjpeg_srt"
-	CapabilityWorkerFrameIngestMJPEGSRT  = "worker_frame_ingest_mjpeg_srt"
-	CapabilitySceneAppearanceV1          = "scene_appearance_v1"
-	CapabilityLiveVideoCoverV1           = "live_video_cover_v1"
-	CapabilityDiscordResolvedTargetV2    = "discord_resolved_target_v2"
-	CapabilitySceneVideoSRTLegacy        = "scene_video_srt"
-	CapabilityWorkerVideoIngestSRTLegacy = "worker_video_ingest_srt"
+	CapabilitySceneFramesMJPEGSRT       = "scene_frames_mjpeg_srt"
+	CapabilityWorkerFrameIngestMJPEGSRT = "worker_frame_ingest_mjpeg_srt"
+	CapabilitySceneAppearanceV1         = "scene_appearance_v1"
+	CapabilityLiveVideoCoverV1          = "live_video_cover_v1"
+	CapabilityDiscordResolvedTargetV2   = "discord_resolved_target_v2"
 )
 
 // SupportsDiscordResolvedTargetV2 is the fail-closed mixed-fleet negotiation
@@ -44,10 +42,7 @@ func SupportsDiscordResolvedTargetV2(capabilities map[string]any) bool {
 
 type UpdateTransportMode string
 
-const (
-	UpdateTransportSSHV1  UpdateTransportMode = "ssh_v1"
-	UpdateTransportPullV2 UpdateTransportMode = "pull_v2"
-)
+const UpdateTransportPullV2 UpdateTransportMode = "pull_v2"
 
 type ServiceStatus string
 
@@ -308,6 +303,13 @@ type ApplicationRuntimeIdentityProbe struct {
 	ConfigRevision int64                  `json:"config_revision"`
 }
 
+// SystemUpdateHostApplicationProbe is the host readiness projection. Status is
+// not part of the application-owned four-field runtime identity probe.
+type SystemUpdateHostApplicationProbe struct {
+	Status string `json:"status"`
+	ApplicationRuntimeIdentityProbe
+}
+
 type UpdaterHealth struct {
 	Status        string `json:"status"`
 	Revision      int64  `json:"revision"`
@@ -484,7 +486,7 @@ type UpdaterLocalJournalBoundary struct {
 }
 
 type SystemUpdateCreateRequest struct {
-	ProtocolVersion          int                   `json:"protocol_version,omitempty"`
+	ProtocolVersion          int                   `json:"protocol_version"`
 	Operation                SystemUpdateOperation `json:"operation,omitempty"`
 	TargetID                 string                `json:"target_id"`
 	Strategy                 SystemUpdateStrategy  `json:"strategy,omitempty"`
@@ -494,17 +496,17 @@ type SystemUpdateCreateRequest struct {
 	NewContainerPort         int                   `json:"new_container_port,omitempty"`
 	ExpectedEndpointRevision int64                 `json:"expected_endpoint_revision,omitempty"`
 	IdempotencyKey           string                `json:"idempotency_key"`
-	DesiredRevision          int64                 `json:"desired_revision,omitempty"`
-	Fence                    int64                 `json:"fence,omitempty"`
-	RequiredCapability       UpdaterCapability     `json:"required_capability,omitempty"`
+	DesiredRevision          int64                 `json:"desired_revision"`
+	Fence                    int64                 `json:"fence"`
+	RequiredCapability       UpdaterCapability     `json:"required_capability"`
 }
 
 type SystemUpdatePullOwnershipActivateRequest struct {
-	ProtocolVersion                     int               `json:"protocol_version,omitempty"`
-	IdempotencyKey                      string            `json:"idempotency_key,omitempty"`
-	DesiredRevision                     int64             `json:"desired_revision,omitempty"`
-	Fence                               int64             `json:"fence,omitempty"`
-	RequiredCapability                  UpdaterCapability `json:"required_capability,omitempty"`
+	ProtocolVersion                     int               `json:"protocol_version"`
+	IdempotencyKey                      string            `json:"idempotency_key"`
+	DesiredRevision                     int64             `json:"desired_revision"`
+	Fence                               int64             `json:"fence"`
+	RequiredCapability                  UpdaterCapability `json:"required_capability"`
 	ExpectedExecutionHostID             string            `json:"expected_execution_host_id"`
 	ExpectedOwnershipEpoch              int64             `json:"expected_ownership_epoch"`
 	ExpectedSourcePolicyRevision        int64             `json:"expected_source_policy_revision"`
@@ -514,12 +516,12 @@ type SystemUpdatePullOwnershipActivateRequest struct {
 }
 
 type SystemUpdatePullOwnershipActivateResponse struct {
-	ProtocolVersion             int                 `json:"protocol_version,omitempty"`
-	IdempotencyKey              string              `json:"idempotency_key,omitempty"`
-	DesiredRevision             int64               `json:"desired_revision,omitempty"`
-	AppliedRevision             int64               `json:"applied_revision,omitempty"`
-	Fence                       int64               `json:"fence,omitempty"`
-	Capability                  UpdaterCapability   `json:"capability,omitempty"`
+	ProtocolVersion             int                 `json:"protocol_version"`
+	IdempotencyKey              string              `json:"idempotency_key"`
+	DesiredRevision             int64               `json:"desired_revision"`
+	AppliedRevision             int64               `json:"applied_revision"`
+	Fence                       int64               `json:"fence"`
+	Capability                  UpdaterCapability   `json:"capability"`
 	UpdaterID                   string              `json:"updater_id"`
 	ExecutionHostID             string              `json:"execution_host_id"`
 	TransportMode               UpdateTransportMode `json:"transport_mode"`
@@ -532,14 +534,14 @@ type SystemUpdatePullOwnershipActivateResponse struct {
 }
 
 // SystemUpdatePullOwnershipDeactivateRequest is an administrative
-// compare-and-swap request. The previous ssh_v1 owner is deliberately absent:
-// the server restores only the owner it preserved during activation.
+// compare-and-swap request returning a pull_v2 updater to observer mode.
+// The client cannot supply a replacement owner, transport or epoch.
 type SystemUpdatePullOwnershipDeactivateRequest struct {
-	ProtocolVersion                     int               `json:"protocol_version,omitempty"`
-	IdempotencyKey                      string            `json:"idempotency_key,omitempty"`
-	DesiredRevision                     int64             `json:"desired_revision,omitempty"`
-	Fence                               int64             `json:"fence,omitempty"`
-	RequiredCapability                  UpdaterCapability `json:"required_capability,omitempty"`
+	ProtocolVersion                     int               `json:"protocol_version"`
+	IdempotencyKey                      string            `json:"idempotency_key"`
+	DesiredRevision                     int64             `json:"desired_revision"`
+	Fence                               int64             `json:"fence"`
+	RequiredCapability                  UpdaterCapability `json:"required_capability"`
 	ExpectedExecutionHostID             string            `json:"expected_execution_host_id"`
 	ExpectedOwnershipEpoch              int64             `json:"expected_ownership_epoch"`
 	ExpectedSourcePolicyRevision        int64             `json:"expected_source_policy_revision"`
@@ -548,16 +550,16 @@ type SystemUpdatePullOwnershipDeactivateRequest struct {
 	ExpectedLocalExecutorPolicySHA256   string            `json:"expected_local_executor_policy_sha256"`
 }
 
-// SystemUpdatePullOwnershipDeactivateResponse reports the restored ssh_v1
-// execution-host owner and the pull agent's observer epoch. It contains no
-// credential and does not expose a client-selectable legacy owner field.
+// SystemUpdatePullOwnershipDeactivateResponse reports the pull_v2
+// execution-host identity and the updater's observer epoch. It contains no
+// credential and does not expose a client-selectable replacement owner.
 type SystemUpdatePullOwnershipDeactivateResponse struct {
-	ProtocolVersion             int                 `json:"protocol_version,omitempty"`
-	IdempotencyKey              string              `json:"idempotency_key,omitempty"`
-	DesiredRevision             int64               `json:"desired_revision,omitempty"`
-	AppliedRevision             int64               `json:"applied_revision,omitempty"`
-	Fence                       int64               `json:"fence,omitempty"`
-	Capability                  UpdaterCapability   `json:"capability,omitempty"`
+	ProtocolVersion             int                 `json:"protocol_version"`
+	IdempotencyKey              string              `json:"idempotency_key"`
+	DesiredRevision             int64               `json:"desired_revision"`
+	AppliedRevision             int64               `json:"applied_revision"`
+	Fence                       int64               `json:"fence"`
+	Capability                  UpdaterCapability   `json:"capability"`
 	UpdaterID                   string              `json:"updater_id"`
 	ExecutionHostID             string              `json:"execution_host_id"`
 	TransportMode               UpdateTransportMode `json:"transport_mode"`
@@ -583,23 +585,23 @@ type SystemUpdatePortMapping struct {
 }
 
 type SystemUpdateTarget struct {
-	ProtocolVersion         int                              `json:"protocol_version,omitempty"`
+	ProtocolVersion         int                              `json:"protocol_version"`
 	TargetID                string                           `json:"target_id"`
 	TargetType              SystemUpdateTargetType           `json:"target_type"`
 	Name                    string                           `json:"name"`
-	HostID                  string                           `json:"host_id,omitempty"`
+	HostID                  string                           `json:"host_id"`
 	CurrentVersion          string                           `json:"current_version,omitempty"`
 	LatestVersion           string                           `json:"latest_version,omitempty"`
 	UpdateAvailable         bool                             `json:"update_available"`
 	DeploymentMode          SystemUpdateDeploymentMode       `json:"deployment_mode,omitempty"`
-	UpdaterID               string                           `json:"updater_id,omitempty"`
+	UpdaterID               string                           `json:"updater_id"`
 	UpdaterOnline           bool                             `json:"updater_online"`
-	Capabilities            []UpdaterCapability              `json:"capabilities,omitempty"`
-	DesiredRevision         int64                            `json:"desired_revision,omitempty"`
-	AppliedRevision         int64                            `json:"applied_revision,omitempty"`
-	Fence                   int64                            `json:"fence,omitempty"`
-	UpdaterHealth           *UpdaterHealth                   `json:"updater_health,omitempty"`
-	ApplicationProbe        *ApplicationRuntimeIdentityProbe `json:"application_probe,omitempty"`
+	Capabilities            []UpdaterCapability              `json:"capabilities"`
+	DesiredRevision         int64                            `json:"desired_revision"`
+	AppliedRevision         int64                            `json:"applied_revision"`
+	Fence                   int64                            `json:"fence"`
+	UpdaterHealth           *UpdaterHealth                   `json:"updater_health"`
+	ApplicationProbe        *ApplicationRuntimeIdentityProbe `json:"application_probe"`
 	Eligible                bool                             `json:"eligible"`
 	BlockedReason           string                           `json:"blocked_reason,omitempty"`
 	EligibleOperations      []SystemUpdateOperation          `json:"eligible_operations,omitempty"`
@@ -613,28 +615,28 @@ type SystemUpdateTarget struct {
 }
 
 type SystemUpdateJob struct {
-	ProtocolVersion        int                              `json:"protocol_version,omitempty"`
+	ProtocolVersion        int                              `json:"protocol_version"`
 	ID                     string                           `json:"id"`
 	TargetID               string                           `json:"target_id"`
 	TargetType             SystemUpdateTargetType           `json:"target_type"`
 	ExecutionHostID        string                           `json:"host_id"`
-	TransportMode          UpdateTransportMode              `json:"transport_mode,omitempty"`
-	OwnershipEpoch         int64                            `json:"ownership_epoch,omitempty"`
-	PolicyRevision         int64                            `json:"policy_revision,omitempty"`
+	TransportMode          UpdateTransportMode              `json:"transport_mode"`
+	OwnershipEpoch         int64                            `json:"ownership_epoch"`
+	PolicyRevision         int64                            `json:"policy_revision"`
 	DeploymentMode         SystemUpdateDeploymentMode       `json:"deployment_mode"`
 	CurrentVersion         string                           `json:"current_version"`
 	TargetVersion          string                           `json:"target_version"`
 	Strategy               SystemUpdateStrategy             `json:"strategy"`
 	Status                 SystemUpdateStatus               `json:"status"`
 	IdempotencyKey         string                           `json:"idempotency_key"`
-	UpdaterID              string                           `json:"updater_id,omitempty"`
-	AuthorizationID        string                           `json:"authorization_id,omitempty"`
-	CanonicalPayloadDigest string                           `json:"canonical_payload_digest,omitempty"`
-	DesiredRevision        int64                            `json:"desired_revision,omitempty"`
-	Fence                  int64                            `json:"fence,omitempty"`
-	Outcome                string                           `json:"outcome,omitempty"`
-	RequiredCapability     UpdaterCapability                `json:"required_capability,omitempty"`
-	AutomaticResendAllowed *bool                            `json:"automatic_resend_allowed,omitempty"`
+	UpdaterID              string                           `json:"updater_id"`
+	AuthorizationID        string                           `json:"authorization_id"`
+	CanonicalPayloadDigest string                           `json:"canonical_payload_digest"`
+	DesiredRevision        int64                            `json:"desired_revision"`
+	Fence                  int64                            `json:"fence"`
+	Outcome                string                           `json:"outcome"`
+	RequiredCapability     UpdaterCapability                `json:"required_capability"`
+	AutomaticResendAllowed *bool                            `json:"automatic_resend_allowed"`
 	SafeError              *V2UpdaterSafeError              `json:"safe_error,omitempty"`
 	RequestedBy            string                           `json:"requested_by,omitempty"`
 	LeaseGeneration        int64                            `json:"lease_generation"`
@@ -662,50 +664,48 @@ type SystemUpdatesResponse struct {
 }
 
 type SystemUpdateAgentStatus struct {
-	ProtocolVersion                   int                 `json:"protocol_version,omitempty"`
+	ProtocolVersion                   int                 `json:"protocol_version"`
 	UpdaterID                         string              `json:"updater_id"`
-	HostID                            string              `json:"host_id,omitempty"`
-	ServiceID                         string              `json:"service_id,omitempty"`
-	Authentication                    string              `json:"authentication,omitempty"`
+	HostID                            string              `json:"host_id"`
+	ServiceID                         string              `json:"service_id"`
+	Authentication                    string              `json:"authentication"`
 	Name                              string              `json:"name"`
-	TransportMode                     UpdateTransportMode `json:"transport_mode,omitempty"`
+	TransportMode                     UpdateTransportMode `json:"transport_mode"`
 	ExecutionHostID                   string              `json:"execution_host_id,omitempty"`
 	OwnershipEpoch                    int64               `json:"ownership_epoch,omitempty"`
 	Status                            string              `json:"status"`
 	Online                            bool                `json:"online"`
 	Version                           string              `json:"version"`
 	LastHeartbeatAt                   *time.Time          `json:"last_heartbeat_at,omitempty"`
-	HeartbeatSequence                 int64               `json:"heartbeat_sequence,omitempty"`
-	Capabilities                      []UpdaterCapability `json:"capabilities,omitempty"`
-	DesiredRevision                   int64               `json:"desired_revision,omitempty"`
-	AppliedRevision                   int64               `json:"applied_revision,omitempty"`
-	Fence                             int64               `json:"fence,omitempty"`
+	HeartbeatSequence                 int64               `json:"heartbeat_sequence"`
+	Capabilities                      []UpdaterCapability `json:"capabilities"`
+	DesiredRevision                   int64               `json:"desired_revision"`
+	AppliedRevision                   int64               `json:"applied_revision"`
+	Fence                             int64               `json:"fence"`
 	PolicyStatus                      string              `json:"policy_status,omitempty"`
 	PolicyErrorCode                   string              `json:"policy_error_code,omitempty"`
-	SSHClientPublicKeys               map[string]string   `json:"ssh_client_public_keys,omitempty"`
-	SSHClientKeyFingerprints          map[string]string   `json:"ssh_client_key_fingerprints,omitempty"`
 	BootstrapEncryptionPublicKey      string              `json:"bootstrap_encryption_public_key,omitempty"`
 	BootstrapEncryptionKeyFingerprint string              `json:"bootstrap_encryption_key_fingerprint,omitempty"`
 }
 
 type SystemUpdateHostStatus struct {
-	ProtocolVersion         int                              `json:"protocol_version,omitempty"`
-	HostID                  string                           `json:"host_id"`
-	Name                    string                           `json:"name"`
-	UpdaterID               string                           `json:"updater_id"`
-	Reachability            SystemUpdateReachability         `json:"reachability"`
-	ReachabilityCheckedAt   *time.Time                       `json:"reachability_checked_at,omitempty"`
-	ReachabilityCode        string                           `json:"reachability_code,omitempty"`
-	UpdaterHealth           *UpdaterHealth                   `json:"updater_health,omitempty"`
-	ApplicationProbe        *ApplicationRuntimeIdentityProbe `json:"application_probe,omitempty"`
-	SSHClientPublicKey      string                           `json:"ssh_client_public_key,omitempty"`
-	SSHClientKeyFingerprint string                           `json:"ssh_client_key_fingerprint,omitempty"`
+	ProtocolVersion       int                               `json:"protocol_version"`
+	HostID                string                            `json:"host_id"`
+	Name                  string                            `json:"name"`
+	UpdaterID             string                            `json:"updater_id"`
+	Reachability          SystemUpdateReachability          `json:"reachability"`
+	ReachabilityCheckedAt *time.Time                        `json:"reachability_checked_at,omitempty"`
+	ReachabilityCode      string                            `json:"reachability_code,omitempty"`
+	UpdaterHealth         *UpdaterHealth                    `json:"updater_health"`
+	ApplicationProbe      *SystemUpdateHostApplicationProbe `json:"application_probe"`
 }
 
 type UpdateAgentClaimRequest struct {
-	ServiceID   string `json:"service_id"`
-	HostID      string `json:"host_id,omitempty"`
-	ActiveJobID string `json:"active_job_id,omitempty"`
+	UpdaterID       string `json:"updater_id"`
+	HostID          string `json:"host_id"`
+	LeaseGeneration int64  `json:"lease_generation"`
+	Fence           int64  `json:"fence"`
+	ActiveJobID     string `json:"active_job_id,omitempty"`
 }
 
 type UpdateAgentClaimResponse struct {
@@ -727,9 +727,11 @@ type UpdateAgentClearActiveJobResponse struct {
 }
 
 type UpdateAgentReportRequest struct {
-	ServiceID       string                           `json:"service_id"`
+	UpdaterID       string                           `json:"updater_id"`
+	HostID          string                           `json:"host_id"`
 	LeaseToken      string                           `json:"lease_token"`
 	LeaseGeneration int64                            `json:"lease_generation"`
+	Fence           int64                            `json:"fence"`
 	Sequence        int64                            `json:"sequence"`
 	Status          SystemUpdateStatus               `json:"status"`
 	Progress        int                              `json:"progress,omitempty"`
@@ -741,10 +743,11 @@ type UpdateAgentReportRequest struct {
 }
 
 type UpdateAgentAuthorizeRequest struct {
-	ServiceID       string                     `json:"service_id"`
+	UpdaterID       string                     `json:"updater_id"`
+	HostID          string                     `json:"host_id"`
 	LeaseToken      string                     `json:"lease_token"`
 	LeaseGeneration int64                      `json:"lease_generation"`
-	ExecutionHostID string                     `json:"host_id,omitempty"`
+	Fence           int64                      `json:"fence"`
 	TargetID        string                     `json:"target_id"`
 	TargetVersion   string                     `json:"target_version"`
 	DeploymentMode  SystemUpdateDeploymentMode `json:"deployment_mode"`
@@ -803,9 +806,8 @@ type ReleaseManifest struct {
 	ReleaseID           string                     `json:"release_id"`
 	Channel             ReleaseChannel             `json:"channel"`
 	PublishedAt         time.Time                  `json:"published_at"`
-	BundleVersion       string                     `json:"bundle_version,omitempty"`
-	GeneratedAt         *time.Time                 `json:"generated_at,omitempty"`
-	MinimumAgentVersion string                     `json:"minimum_agent_version"`
+	ProtocolMajor       int                        `json:"protocol_major,omitempty"`
+	MinimumAgentVersion string                     `json:"minimum_agent_version,omitempty"`
 	Components          []ReleaseManifestComponent `json:"components"`
 }
 
@@ -813,6 +815,7 @@ type ReleaseManifestComponent struct {
 	Service            string            `json:"service"`
 	SourceVersion      string            `json:"source_version"`
 	Commit             string            `json:"commit,omitempty"`
+	ProtocolMajor      int               `json:"protocol_major,omitempty"`
 	Image              string            `json:"image,omitempty"`
 	ManifestDigest     string            `json:"manifest_digest,omitempty"`
 	Artifacts          []ReleaseArtifact `json:"artifacts,omitempty"`
@@ -1249,8 +1252,8 @@ type StreamArtifact struct {
 type ServiceArtifactReport struct {
 	ServiceID        string           `json:"service_id"`
 	StreamID         string           `json:"stream_id"`
-	ArchiveRunID     string           `json:"archive_run_id,omitempty"`
-	ArchiveStartedAt *time.Time       `json:"archive_started_at,omitempty"`
+	ArchiveRunID     string           `json:"archive_run_id"`
+	ArchiveStartedAt *time.Time       `json:"archive_started_at"`
 	Artifacts        []StreamArtifact `json:"artifacts"`
 }
 
@@ -1527,7 +1530,6 @@ type ArchiveRuntimeConfig struct {
 	OAuthAccountID         string `json:"oauth_account_id,omitempty"`
 	OAuthProviderID        string `json:"oauth_provider_id,omitempty"`
 	FolderIDSecretName     string `json:"folder_id_secret_name,omitempty"`
-	BasePath               string `json:"base_path,omitempty"`
 	SharedDrive            bool   `json:"shared_drive,omitempty"`
 	ClientID               string `json:"client_id,omitempty"`
 	ClientSecretSecretName string `json:"client_secret_secret_name,omitempty"`
@@ -1549,13 +1551,8 @@ const (
 type EncoderOutputRelayMode string
 
 const (
-	EncoderOutputRelayModeDirect          EncoderOutputRelayMode = "direct"
-	EncoderOutputRelayModeLegacyStreamKey EncoderOutputRelayMode = "legacy_stream_key"
-	EncoderOutputRelayModeLiveAPIStatic   EncoderOutputRelayMode = "live_api_static"
-	// EncoderOutputRelayModeStaticLegacyAlias is accepted for existing Encoder
-	// capability input and registered-service reads, but new reporters must
-	// advertise EncoderOutputRelayModeLegacyStreamKey instead.
-	EncoderOutputRelayModeStaticLegacyAlias EncoderOutputRelayMode = "static"
+	EncoderOutputRelayModeDirect             EncoderOutputRelayMode = "direct"
+	EncoderOutputRelayModeLiveAPIRelayStatic EncoderOutputRelayMode = "live_api_relay_static"
 )
 
 // RelayBindingIDPattern is the exact format of a non-secret fixed relay
@@ -1564,18 +1561,16 @@ const RelayBindingIDPattern = `^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-
 
 // EncoderOutputRelayCapabilities is the historical shared service-capability
 // DTO name. Its non-secret fields now also cover negotiated Worker visual and
-// Discord Bot start-envelope behavior. A live_api_static relay requires an
+// Discord Bot start-envelope behavior. A live_api_relay_static relay requires an
 // OutputRelayBindingID matching RelayBindingIDPattern.
 type EncoderOutputRelayCapabilities struct {
-	OutputRelayMode            EncoderOutputRelayMode `json:"output_relay_mode,omitempty"`
-	OutputRelayBindingID       string                 `json:"output_relay_binding_id,omitempty"`
-	SceneFramesMJPEGSRT        bool                   `json:"scene_frames_mjpeg_srt,omitempty"`
-	WorkerFrameIngestMJPEGSRT  bool                   `json:"worker_frame_ingest_mjpeg_srt,omitempty"`
-	SceneVideoSRTLegacy        bool                   `json:"scene_video_srt,omitempty"`
-	WorkerVideoIngestSRTLegacy bool                   `json:"worker_video_ingest_srt,omitempty"`
-	SceneAppearanceV1          bool                   `json:"scene_appearance_v1,omitempty"`
-	LiveVideoCoverV1           bool                   `json:"live_video_cover_v1,omitempty"`
-	DiscordResolvedTargetV2    bool                   `json:"discord_resolved_target_v2,omitempty"`
+	OutputRelayMode           EncoderOutputRelayMode `json:"output_relay_mode,omitempty"`
+	OutputRelayBindingID      string                 `json:"output_relay_binding_id,omitempty"`
+	SceneFramesMJPEGSRT       bool                   `json:"scene_frames_mjpeg_srt,omitempty"`
+	WorkerFrameIngestMJPEGSRT bool                   `json:"worker_frame_ingest_mjpeg_srt,omitempty"`
+	SceneAppearanceV1         bool                   `json:"scene_appearance_v1,omitempty"`
+	LiveVideoCoverV1          bool                   `json:"live_video_cover_v1,omitempty"`
+	DiscordResolvedTargetV2   bool                   `json:"discord_resolved_target_v2,omitempty"`
 }
 
 // ErrorCodeYouTubeRelayStaticConfigChangedReload is returned when a fixed
@@ -1863,7 +1858,6 @@ type EncoderStartStreamRequest struct {
 	WorkerVideoIngest      bool                     `json:"worker_video_ingest,omitempty"`
 	WorkerVideoIngestToken string                   `json:"worker_video_ingest_token,omitempty"`
 	RTMPURL                string                   `json:"rtmp_url"`
-	StreamKey              string                   `json:"stream_key,omitempty"`
 	StreamKeySecretName    string                   `json:"stream_key_secret_name,omitempty"`
 	EncoderProfileID       string                   `json:"encoder_profile_id,omitempty"`
 	OverlayProfileID       string                   `json:"overlay_profile_id,omitempty"`
@@ -1871,7 +1865,6 @@ type EncoderStartStreamRequest struct {
 	ArchiveProfileID       string                   `json:"archive_profile_id,omitempty"`
 	StartedAt              time.Time                `json:"started_at,omitempty"`
 	YouTubeRuntime         YouTubeRuntimeConfig     `json:"youtube_runtime,omitempty"`
-	ArchiveConfig          ArchiveRuntimeConfig     `json:"archive_config,omitempty"`
 	VideoCoverStart        *VideoCoverStartSnapshot `json:"video_cover_start,omitempty"`
 	DryRun                 bool                     `json:"dry_run,omitempty"`
 }
@@ -1902,12 +1895,11 @@ type EncoderStartStreamResponse struct {
 }
 
 type EncoderPackageStreamRequest struct {
-	StreamID      string               `json:"stream_id"`
-	ArchiveRunID  string               `json:"archive_run_id,omitempty"`
-	Name          string               `json:"name"`
-	StartedAt     time.Time            `json:"started_at,omitempty"`
-	DryRun        bool                 `json:"dry_run,omitempty"`
-	ArchiveConfig ArchiveRuntimeConfig `json:"archive_config,omitempty"`
+	StreamID     string    `json:"stream_id"`
+	ArchiveRunID string    `json:"archive_run_id"`
+	Name         string    `json:"name"`
+	StartedAt    time.Time `json:"started_at"`
+	DryRun       bool      `json:"dry_run,omitempty"`
 }
 
 type MissingStreamAssignmentsResponse struct {
@@ -2624,18 +2616,17 @@ type NotificationDeliveryResult struct {
 }
 
 type NotificationChannel struct {
-	ID                     string    `json:"id"`
-	Name                   string    `json:"name"`
-	Type                   string    `json:"type"`
-	Enabled                bool      `json:"enabled"`
-	UsesGlobalSMTP         bool      `json:"uses_global_smtp"`
-	MaskedWebhookURL       string    `json:"masked_webhook_url,omitempty"`
-	SMTPPasswordConfigured bool      `json:"smtp_password_configured,omitempty"`
-	MaskedEmailTarget      string    `json:"masked_email_target,omitempty"`
-	SeverityFilter         []string  `json:"severity_filter,omitempty"`
-	EventTypeFilter        []string  `json:"event_type_filter,omitempty"`
-	CreatedAt              time.Time `json:"created_at"`
-	UpdatedAt              time.Time `json:"updated_at"`
+	ID                string    `json:"id"`
+	Name              string    `json:"name"`
+	Type              string    `json:"type"`
+	Enabled           bool      `json:"enabled"`
+	UsesGlobalSMTP    bool      `json:"uses_global_smtp"`
+	MaskedWebhookURL  string    `json:"masked_webhook_url,omitempty"`
+	MaskedEmailTarget string    `json:"masked_email_target,omitempty"`
+	SeverityFilter    []string  `json:"severity_filter,omitempty"`
+	EventTypeFilter   []string  `json:"event_type_filter,omitempty"`
+	CreatedAt         time.Time `json:"created_at"`
+	UpdatedAt         time.Time `json:"updated_at"`
 }
 
 type NotificationChannelWriteRequest struct {
@@ -2645,14 +2636,6 @@ type NotificationChannelWriteRequest struct {
 	WebhookURL      string   `json:"webhook_url,omitempty"`
 	EmailRecipients []string `json:"email_recipients,omitempty"`
 	UsesGlobalSMTP  *bool    `json:"uses_global_smtp,omitempty"`
-	// Deprecated: direct SMTP settings are retained only for existing
-	// Observability channels. New email channels use UsesGlobalSMTP.
-	SMTPHost        string   `json:"smtp_host,omitempty"`
-	SMTPPort        int      `json:"smtp_port,omitempty"`
-	SMTPTLS         bool     `json:"smtp_tls,omitempty"`
-	SMTPFrom        string   `json:"smtp_from,omitempty"`
-	SMTPUsername    string   `json:"smtp_username,omitempty"`
-	SMTPPassword    string   `json:"smtp_password,omitempty"`
 	SeverityFilter  []string `json:"severity_filter,omitempty"`
 	EventTypeFilter []string `json:"event_type_filter,omitempty"`
 }
@@ -2743,16 +2726,6 @@ type OAuthAccount struct {
 	UpdatedAt                        time.Time           `json:"updated_at"`
 }
 
-type OAuthAccountWriteRequest struct {
-	ProviderID   string   `json:"provider_id"`
-	ProviderType string   `json:"provider_type"`
-	AccountLabel string   `json:"account_label"`
-	Subject      string   `json:"subject,omitempty"`
-	Email        string   `json:"email,omitempty"`
-	Scopes       []string `json:"scopes,omitempty"`
-	RefreshToken string   `json:"refresh_token,omitempty"`
-}
-
 type OAuthAccountConnectionStartRequest struct {
 	ProviderID     string `json:"provider_id,omitempty"`
 	OAuthAccountID string `json:"oauth_account_id,omitempty"`
@@ -2789,7 +2762,6 @@ type DriveDestination struct {
 	FolderIDFingerprint string    `json:"folder_id_fingerprint,omitempty"`
 	MaskedFolderID      string    `json:"masked_folder_id,omitempty"`
 	SharedDrive         bool      `json:"shared_drive"`
-	BasePath            string    `json:"base_path"`
 	CreatedAt           time.Time `json:"created_at"`
 	UpdatedAt           time.Time `json:"updated_at"`
 }
@@ -2800,7 +2772,6 @@ type DriveDestinationWriteRequest struct {
 	OAuthAccountID string `json:"oauth_account_id,omitempty"`
 	FolderID       string `json:"folder_id,omitempty"`
 	SharedDrive    bool   `json:"shared_drive"`
-	BasePath       string `json:"base_path"`
 }
 
 type OAuthLoginProvider struct {
@@ -2838,13 +2809,6 @@ type OAuthUserLink struct {
 	Email        string    `json:"email,omitempty"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
-}
-
-type OAuthUserLinkWriteRequest struct {
-	ProviderID   string `json:"provider_id"`
-	ProviderType string `json:"provider_type,omitempty"`
-	Subject      string `json:"subject"`
-	Email        string `json:"email,omitempty"`
 }
 
 type NotificationDelivery struct {

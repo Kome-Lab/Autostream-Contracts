@@ -36,6 +36,11 @@ func validatePullOwnershipDeactivationJSON(
 
 func pullOwnershipDeactivationRequestFixture() map[string]any {
 	return map[string]any{
+		"protocol_version":                        2,
+		"idempotency_key":                         "deactivate-host-a",
+		"desired_revision":                        int64(7),
+		"fence":                                   int64(13),
+		"required_capability":                     "host.update",
 		"expected_execution_host_id":              "host-a",
 		"expected_ownership_epoch":                int64(13),
 		"expected_source_policy_revision":         int64(7),
@@ -47,10 +52,16 @@ func pullOwnershipDeactivationRequestFixture() map[string]any {
 
 func pullOwnershipDeactivationResponseFixture() map[string]any {
 	return map[string]any{
+		"protocol_version":               2,
+		"idempotency_key":                "deactivate-host-a",
+		"desired_revision":               int64(7),
+		"applied_revision":               int64(7),
+		"fence":                          int64(13),
+		"capability":                     "host.update",
 		"updater_id":                     "host-agent-a",
 		"execution_host_id":              "host-a",
-		"transport_mode":                 "ssh_v1",
-		"agent_service_id":               "legacy-updater-a",
+		"transport_mode":                 "pull_v2",
+		"agent_service_id":               "updater-service-a",
 		"ownership_epoch":                int64(14),
 		"agent_ownership_epoch":          int64(0),
 		"source_policy_revision":         int64(7),
@@ -114,6 +125,7 @@ func TestPullOwnershipDeactivationResponseIsExactAndSecretFree(t *testing.T) {
 	}
 	for field, value := range map[string]any{
 		"legacy_agent_service_id": "legacy-updater-a",
+		"rollback_transition":     true,
 		"runtime_token":           "secret",
 		"mutation_grant":          "secret",
 		"lease_token":             "secret",
@@ -126,7 +138,7 @@ func TestPullOwnershipDeactivationResponseIsExactAndSecretFree(t *testing.T) {
 	}
 
 	wrongTransport := clonePullOwnershipFixture(t, valid)
-	wrongTransport["transport_mode"] = "pull_v2"
+	wrongTransport["transport_mode"] = "ssh_v1"
 	validatePullOwnershipDeactivationJSON(t, schema, wrongTransport, false)
 	activeAgent := clonePullOwnershipFixture(t, valid)
 	activeAgent["agent_ownership_epoch"] = int64(14)
@@ -147,6 +159,8 @@ func TestPullOwnershipDeactivationGoTypesMatchExactSchemas(t *testing.T) {
 	)
 
 	request := SystemUpdatePullOwnershipDeactivateRequest{
+		ProtocolVersion: 2, IdempotencyKey: "deactivate-host-a", DesiredRevision: 7,
+		Fence: 13, RequiredCapability: UpdaterCapabilityUpdate,
 		ExpectedExecutionHostID:             "host-a",
 		ExpectedOwnershipEpoch:              13,
 		ExpectedSourcePolicyRevision:        7,
@@ -155,10 +169,12 @@ func TestPullOwnershipDeactivationGoTypesMatchExactSchemas(t *testing.T) {
 		ExpectedLocalExecutorPolicySHA256:   pullOwnershipPolicyDigest,
 	}
 	response := SystemUpdatePullOwnershipDeactivateResponse{
+		ProtocolVersion: 2, IdempotencyKey: "deactivate-host-a", DesiredRevision: 7,
+		AppliedRevision: 7, Fence: 13, Capability: UpdaterCapabilityUpdate,
 		UpdaterID:                   "host-agent-a",
 		ExecutionHostID:             "host-a",
-		TransportMode:               UpdateTransportSSHV1,
-		AgentServiceID:              "legacy-updater-a",
+		TransportMode:               UpdateTransportPullV2,
+		AgentServiceID:              "updater-service-a",
 		OwnershipEpoch:              14,
 		AgentOwnershipEpoch:         0,
 		SourcePolicyRevision:        7,

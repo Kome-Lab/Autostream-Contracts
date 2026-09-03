@@ -334,15 +334,12 @@ func TestWorkerEventSchemaDocumentsDiscordChatOverlay(t *testing.T) {
 		"overlay.discord_chat",
 		"message_id",
 		"author_id",
-		"user_id",
 		"display_name",
 		"content",
-		"text",
 		"avatar_url",
 		"is_bot",
 		"text_channel_id",
 		"created_at",
-		"Discord Chat Channel ID",
 	} {
 		if !strings.Contains(raw, want) {
 			t.Fatalf("worker-event.schema.json is missing Discord chat overlay marker %q", want)
@@ -373,32 +370,19 @@ func TestWorkerEventSchemaValidatesDiscordChatPayloadCompatibility(t *testing.T)
 			valid: true,
 		},
 		{
-			name: "legacy aliases remain accepted",
-			payload: map[string]any{
-				"message_id":      "message-legacy",
-				"user_id":         "user-legacy",
-				"display_name":    "Legacy User",
-				"text":            "legacy text",
-				"text_channel_id": "channel-01",
-				"created_at":      "2026-08-12T07:30:00Z",
-				"legacy_extra":    "preserved",
-			},
-			valid: true,
-		},
-		{
-			name: "canonical and legacy aliases can coexist during migration",
+			name: "removed aliases are rejected",
 			payload: map[string]any{
 				"author_id": "user-01",
 				"user_id":   "user-01",
 				"content":   "hello",
 				"text":      "hello",
 			},
-			valid: true,
+			valid: false,
 		},
 		{
-			name:    "previously accepted empty payload remains accepted",
+			name:    "chat payload requires canonical fields",
 			payload: map[string]any{},
-			valid:   true,
+			valid:   false,
 		},
 		{
 			name: "canonical bot marker must be boolean",
@@ -431,22 +415,6 @@ func TestWorkerEventSchemaValidatesDiscordChatPayloadCompatibility(t *testing.T)
 				"author_id":  "user-01",
 				"content":    "hello",
 				"avatar_url": true,
-			},
-			valid: false,
-		},
-		{
-			name: "legacy user id alias must be string",
-			payload: map[string]any{
-				"user_id": false,
-				"text":    "legacy text",
-			},
-			valid: false,
-		},
-		{
-			name: "legacy text alias must be string",
-			payload: map[string]any{
-				"user_id": "user-legacy",
-				"text":    []any{"not", "text"},
 			},
 			valid: false,
 		},
@@ -719,7 +687,6 @@ func TestOAuthLoginSchemasDocumentProviderAndSecretBoundaries(t *testing.T) {
 		"oauth-login-start-response.schema.json",
 		"oauth-login-callback-request.schema.json",
 		"oauth-user-link.schema.json",
-		"oauth-user-link-write.schema.json",
 	}
 	for _, file := range files {
 		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", file))
@@ -813,15 +780,17 @@ func TestOAuthLoginSchemasDocumentProviderAndSecretBoundaries(t *testing.T) {
 	}
 	openapiRaw := string(openapiBody)
 	for _, want := range []string{
-		"Manual OAuth login links are disabled",
-		"manual_oauth_link_disabled",
-		"manual_oauth_account_create_disabled",
-		"manual OAuth refresh token update is disabled",
-		"OAuth user links are created only",
-		"OAuth callback ceremony",
+		"/auth/oauth/callback:",
+		"/integrations/oauth-accounts/start:",
+		"/integrations/oauth-accounts/callback:",
 	} {
 		if !strings.Contains(openapiRaw, want) {
 			t.Fatalf("control-api.yaml is missing OAuth user link safety marker %q", want)
+		}
+	}
+	for _, removed := range []string{"OAuthUserLinkWriteRequest", "OAuthAccountWriteRequest", "manual_oauth_link_disabled", "manual_oauth_account_create_disabled"} {
+		if strings.Contains(openapiRaw, removed) {
+			t.Fatalf("control-api.yaml retained removed manual OAuth surface %q", removed)
 		}
 	}
 }
@@ -1001,9 +970,7 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 		"\"email_recipients\"",
 		"\"uses_global_smtp\"",
 		"\"format\": \"email\"",
-		"\"smtp_from\"",
-		"\"smtp_password\"",
-		"\"deprecated\": true",
+		"\"const\": true",
 		"\"writeOnly\": true",
 		"Write-only Discord, Slack, or generic webhook URL",
 	} {
@@ -1013,7 +980,6 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 	}
 	for _, want := range []string{
 		"\"uses_global_smtp\"",
-		"\"smtp_password_configured\"",
 		"\"masked_email_target\"",
 	} {
 		if !strings.Contains(string(publicBody), want) {
@@ -1034,16 +1000,21 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 	for _, want := range []string{
 		"NotificationChannel:",
 		"uses_global_smtp:",
-		"Deprecated direct-Observability SMTP compatibility status.",
 		"proxied notification channels without raw webhook URLs or raw SMTP settings",
 		"masked_email_target:",
-		"smtp_password_configured:",
 		"writeOnly: true",
 		"format: email",
 		"Raw email recipients and SMTP settings are never returned as unmasked response fields.",
 	} {
 		if !strings.Contains(string(openapiBody), want) {
 			t.Fatalf("control-api.yaml is missing email notification marker %q", want)
+		}
+	}
+	controlNotification := requireControlNotificationComponentSection(t, string(openapiBody), "NotificationChannel:")
+	observabilityNotification := requireControlNotificationComponentSection(t, string(observabilityOpenAPIBody), "NotificationChannel:")
+	for _, removed := range []string{"smtp_password_configured:", "Deprecated direct-Observability SMTP compatibility status."} {
+		if strings.Contains(controlNotification, removed) || strings.Contains(observabilityNotification, removed) {
+			t.Fatalf("notification-channel OpenAPI retained removed SMTP field %q", removed)
 		}
 	}
 	requireControlOpenAPINotificationEmail(t)
@@ -1055,6 +1026,35 @@ func TestNotificationChannelSchemasDocumentEmailSecretBoundary(t *testing.T) {
 	} {
 		if !strings.Contains(string(observabilityOpenAPIBody), want) {
 			t.Fatalf("observability-api.yaml is missing webhook write-only marker %q", want)
+		}
+	}
+}
+
+func requireControlNotificationComponentSection(t *testing.T, raw, component string) string {
+	t.Helper()
+	raw = strings.ReplaceAll(raw, "\r\n", "\n")
+	marker := "    " + component + "\n"
+	start := strings.Index(raw, marker)
+	if start < 0 {
+		t.Fatalf("OpenAPI component %s is missing", component)
+	}
+	rest := raw[start+len(marker):]
+	next := regexp.MustCompile(`(?m)^    [^ \t\r\n]+:\r?$`).FindStringIndex(rest)
+	if next == nil {
+		return rest
+	}
+	return rest[:next[0]]
+}
+
+func TestControlNotificationComponentSectionIncludesNestedProperties(t *testing.T) {
+	const fixture = "components:\n  schemas:\n    NotificationChannel:\n      type: object\n      properties:\n        smtp_password_configured:\n          type: boolean\n    FollowingComponent:\n      type: string\n"
+	for _, raw := range []string{fixture, strings.ReplaceAll(fixture, "\n", "\r\n")} {
+		section := requireControlNotificationComponentSection(t, raw, "NotificationChannel:")
+		if !strings.Contains(section, "smtp_password_configured:") || !strings.Contains(section, "type: boolean") {
+			t.Fatal("component scanner cannot see a reintroduced nested legacy property")
+		}
+		if strings.Contains(section, "FollowingComponent") || strings.Contains(section, "type: string") {
+			t.Fatal("component scanner crossed the next component boundary")
 		}
 	}
 }
@@ -1178,7 +1178,7 @@ func TestServiceNotificationEmailRelayContracts(t *testing.T) {
 		MaxLength   int    `json:"maxLength"`
 		Pattern     string `json:"pattern"`
 		UniqueItems bool   `json:"uniqueItems"`
-		Const       string `json:"const"`
+		Const       any    `json:"const"`
 	}
 	var request struct {
 		AdditionalProperties bool                `json:"additionalProperties"`
@@ -1232,39 +1232,17 @@ func TestServiceNotificationEmailRelayContracts(t *testing.T) {
 		t.Fatal(err)
 	}
 	var write struct {
-		AllOf []struct {
-			Then struct {
-				Required   []string            `json:"required"`
-				Properties map[string]property `json:"properties"`
-				Not        struct {
-					AnyOf []struct {
-						Required []string `json:"required"`
-					} `json:"anyOf"`
-				} `json:"not"`
-			} `json:"then"`
-		} `json:"allOf"`
+		Properties map[string]property `json:"properties"`
 	}
 	if err := json.Unmarshal(writeBody, &write); err != nil {
 		t.Fatal(err)
 	}
-	if len(write.AllOf) != 1 {
-		t.Fatalf("expected one global SMTP compatibility condition: %#v", write.AllOf)
-	}
-	if stringSliceContainsForSchemaTest(write.AllOf[0].Then.Required, "email_recipients") {
-		t.Fatalf("update schema must allow omitted recipients to preserve the existing masked set: %#v", write.AllOf)
-	}
-	if write.AllOf[0].Then.Properties["type"].Const != "email" {
-		t.Fatalf("uses_global_smtp=true must be limited to email channels: %#v", write.AllOf[0].Then.Properties)
-	}
-	forbidden := map[string]bool{}
-	for _, condition := range write.AllOf[0].Then.Not.AnyOf {
-		for _, field := range condition.Required {
-			forbidden[field] = true
-		}
+	if write.Properties["uses_global_smtp"].Const != true {
+		t.Fatal("notification write must expose only the global SMTP authority")
 	}
 	for _, field := range []string{"smtp_host", "smtp_port", "smtp_tls", "smtp_from", "smtp_username", "smtp_password"} {
-		if !forbidden[field] {
-			t.Fatalf("uses_global_smtp=true must reject legacy field %q", field)
+		if _, exists := write.Properties[field]; exists {
+			t.Fatalf("notification write retained removed direct SMTP field %q", field)
 		}
 	}
 
@@ -1283,7 +1261,7 @@ func TestServiceNotificationEmailRelayContracts(t *testing.T) {
 	if err := json.Unmarshal(createBody, &create); err != nil {
 		t.Fatal(err)
 	}
-	if len(create.AllOf) != 2 || create.AllOf[0].Ref != "notification-channel-write.schema.json" || !stringSliceContainsForSchemaTest(create.AllOf[1].Then.Required, "email_recipients") {
+	if len(create.AllOf) != 2 || create.AllOf[0].Ref != "notification-channel-write.schema.json" || !stringSliceContainsForSchemaTest(create.AllOf[1].Then.Required, "email_recipients") || !stringSliceContainsForSchemaTest(create.AllOf[1].Then.Required, "uses_global_smtp") {
 		t.Fatalf("email create schema must require recipients while reusing the update-compatible write schema: %#v", create.AllOf)
 	}
 
@@ -1440,21 +1418,15 @@ func stringSliceContainsForSchemaTest(values []string, want string) bool {
 	return false
 }
 
-func TestEncoderPackageSchemaDocumentsRuntimeArchiveConfig(t *testing.T) {
-	body, err := os.ReadFile(filepath.Join("..", "..", "schemas", "encoder-package-stream-request.schema.json"))
-	if err != nil {
-		t.Fatal(err)
+func TestEncoderPackageSchemaUsesOnlyRunScopedRuntimeAssignment(t *testing.T) {
+	schema := readContractSchema(t, "encoder-package-stream-request.schema.json")
+	if schema.AdditionalProperties != false {
+		t.Fatal("encoder package requests must reject unknown fields")
 	}
-	raw := string(body)
-	for _, want := range []string{
-		"EncoderPackageStreamRequest",
-		"archive_config",
-		"folder_id_secret_name",
-		"refresh_token_secret_name",
-		"Raw Drive folder IDs and OAuth refresh tokens must not be sent",
-	} {
-		if !strings.Contains(raw, want) {
-			t.Fatalf("encoder package schema is missing %q", want)
+	requireContractFields(t, schema.Required, "stream_id", "archive_run_id", "name", "started_at")
+	for _, removed := range []string{"archive_config", "base_path", "folder_id_secret_name", "refresh_token_secret_name"} {
+		if _, exists := schema.Properties[removed]; exists {
+			t.Fatalf("encoder package schema retained inline runtime field %q", removed)
 		}
 	}
 }
@@ -2093,17 +2065,6 @@ func TestIntegrationWriteSchemasDocumentSecretBoundaries(t *testing.T) {
 		wants []string
 	}{
 		{
-			file: "oauth-account-write.schema.json",
-			wants: []string{
-				"OAuthAccountWriteRequest",
-				"manual refresh token entry is disabled",
-				"refresh_token",
-				"writeOnly",
-				"Drive destinations require a Google Drive scope",
-				"YouTube Live API outputs require a YouTube scope",
-			},
-		},
-		{
 			file: "drive-destination-write.schema.json",
 			wants: []string{
 				"DriveDestinationWriteRequest",
@@ -2111,9 +2072,13 @@ func TestIntegrationWriteSchemasDocumentSecretBoundaries(t *testing.T) {
 				"writeOnly",
 				"supportsAllDrives=true",
 				"shared drive folder IDs",
-				"uses folder_id itself as the archive root",
 			},
 		},
+	}
+	for _, removed := range []string{"oauth-account-write.schema.json", "oauth-user-link-write.schema.json"} {
+		if _, err := os.Stat(filepath.Join("..", "..", "schemas", removed)); !os.IsNotExist(err) {
+			t.Fatalf("removed manual OAuth schema %s still exists: %v", removed, err)
+		}
 	}
 	for _, tt := range tests {
 		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", tt.file))

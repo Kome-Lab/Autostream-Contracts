@@ -1,40 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "System Update Agent Status",
-  "description": "Updater heartbeat and capability projection. Payloads declaring protocol_version 2 are strict pull_v2 records. Payloads without protocol_version are temporary legacy compatibility owned by V2-COMPAT-EOL-CONTRACTS-001 and removed in Execution Bundle 8.",
+  "description": "Strict protocol-major-2 Updater heartbeat and capability projection.",
   "x-autostream-contract-major": 2,
-  "x-autostream-v2-transition-compatibility": {
-    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-    "removal_wave": "Execution Bundle 8",
-    "final_state": "absent"
-  },
   "type": "object",
   "additionalProperties": false,
-  "required": ["updater_id", "name", "status", "online", "version"],
-  "allOf": [
-    {
-      "if": { "required": ["protocol_version"] },
-      "then": {
-        "required": [
-          "protocol_version", "updater_id", "host_id", "service_id", "name",
-          "transport_mode", "authentication", "status", "online", "version", "heartbeat_sequence",
-          "capabilities", "desired_revision", "applied_revision", "fence"
-        ],
-        "properties": {
-          "transport_mode": { "const": "pull_v2" },
-          "desired_revision": { "minimum": 1 },
-          "applied_revision": { "minimum": 0 },
-          "fence": { "minimum": 1 }
-        },
-        "not": {
-          "anyOf": [
-            { "required": ["ssh_client_public_keys"] },
-            { "required": ["ssh_client_key_fingerprints"] }
-          ]
-        }
-      }
-    }
-  ],
+  "required": ["protocol_version", "updater_id", "host_id", "service_id", "name", "transport_mode", "authentication", "status", "online", "version", "heartbeat_sequence", "capabilities", "desired_revision", "applied_revision", "fence"],
   "properties": {
     "protocol_version": { "const": 2 },
     "updater_id": {
@@ -57,7 +28,7 @@
     },
     "authentication": { "const": "assignment_bound_rotating_service_identity" },
     "name": { "type": "string", "minLength": 1, "maxLength": 191 },
-    "transport_mode": { "enum": ["ssh_v1", "pull_v2"] },
+    "transport_mode": { "const": "pull_v2" },
     "execution_host_id": {
       "type": "string",
       "minLength": 1,
@@ -81,7 +52,7 @@
         ]
       }
     },
-    "desired_revision": { "type": "integer", "minimum": 0 },
+    "desired_revision": { "type": "integer", "minimum": 1 },
     "applied_revision": { "type": "integer", "minimum": 0 },
     "fence": { "type": "integer", "minimum": 1 },
     "policy_status": { "enum": ["applied", "pending", "failed"] },
@@ -89,36 +60,10 @@
       "enum": [
         "policy_fetch_failed",
         "policy_invalid",
-        "ssh_identity_failed",
-        "ssh_connectivity_failed",
         "policy_snapshot_failed",
         "coordinator_start_failed",
         "active_job_pending"
       ]
-    },
-    "ssh_client_public_keys": {
-      "type": "object",
-      "propertyNames": {
-        "maxLength": 191,
-        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
-      },
-      "additionalProperties": {
-        "type": "string",
-        "maxLength": 80,
-        "pattern": "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$"
-      }
-    },
-    "ssh_client_key_fingerprints": {
-      "type": "object",
-      "propertyNames": {
-        "maxLength": 191,
-        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
-      },
-      "additionalProperties": {
-        "type": "string",
-        "maxLength": 50,
-        "pattern": "^SHA256:[A-Za-z0-9+/]{43}$"
-      }
     },
     "bootstrap_encryption_public_key": {
       "type": "string",

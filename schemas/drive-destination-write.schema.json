@@ -40,12 +40,6 @@
     "shared_drive": {
       "type": "boolean",
       "description": "When true, upload clients must use supportsAllDrives=true."
-    },
-    "base_path": {
-      "type": "string",
-      "default": "",
-      "deprecated": true,
-      "description": "Legacy compatibility input. Current Encoder/Recorder ignores this value and uses folder_id itself as the archive root."
     }
   }
 }

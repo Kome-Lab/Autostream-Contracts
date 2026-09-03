@@ -41,9 +41,7 @@ func TestEncoderOutputRelayModeVocabulary(t *testing.T) {
 		want string
 	}{
 		{name: "direct", got: EncoderOutputRelayModeDirect, want: "direct"},
-		{name: "legacy stream key", got: EncoderOutputRelayModeLegacyStreamKey, want: "legacy_stream_key"},
-		{name: "live API static", got: EncoderOutputRelayModeLiveAPIStatic, want: "live_api_static"},
-		{name: "legacy static alias", got: EncoderOutputRelayModeStaticLegacyAlias, want: "static"},
+		{name: "live API relay static", got: EncoderOutputRelayModeLiveAPIRelayStatic, want: "live_api_relay_static"},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			if got := string(test.got); got != test.want {
@@ -54,16 +52,16 @@ func TestEncoderOutputRelayModeVocabulary(t *testing.T) {
 
 	payload, err := json.Marshal(RegisteredService{
 		Capabilities: map[string]any{
-			"output_relay_mode": string(EncoderOutputRelayModeLiveAPIStatic),
+			"output_relay_mode": string(EncoderOutputRelayModeLiveAPIRelayStatic),
 		},
 		ReportedCapabilities: map[string]any{
-			"output_relay_mode": string(EncoderOutputRelayModeStaticLegacyAlias),
+			"output_relay_mode": string(EncoderOutputRelayModeDirect),
 		},
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !strings.Contains(string(payload), `"reported_capabilities":{"output_relay_mode":"static"}`) {
+	if !strings.Contains(string(payload), `"reported_capabilities":{"output_relay_mode":"direct"}`) {
 		t.Fatalf("RegisteredService must expose reported relay capabilities: %s", payload)
 	}
 }
@@ -98,13 +96,20 @@ func TestEncoderOutputRelayModeSchemaCompatibility(t *testing.T) {
 		valid        bool
 	}{
 		{name: "direct is canonical", capabilities: encoderOutputRelayCapabilitiesJSON("direct", false), valid: true},
-		{name: "legacy stream key is canonical", capabilities: encoderOutputRelayCapabilitiesJSON("legacy_stream_key", false), valid: true},
-		{name: "live API static carries binding", capabilities: encoderOutputRelayCapabilitiesJSON("live_api_static", true), valid: true},
-		{name: "historical static alias remains accepted", capabilities: encoderOutputRelayCapabilitiesJSON("static", false), valid: true},
-		{name: "live API static requires binding", capabilities: encoderOutputRelayCapabilitiesJSON("live_api_static", false), valid: false},
+		{name: "live API relay static carries binding", capabilities: encoderOutputRelayCapabilitiesJSON("live_api_relay_static", true), valid: true},
+		{name: "removed legacy stream key is rejected", capabilities: encoderOutputRelayCapabilitiesJSON("legacy_stream_key", false), valid: false},
+		{name: "removed live API static is rejected", capabilities: encoderOutputRelayCapabilitiesJSON("live_api_static", true), valid: false},
+		{name: "removed static alias is rejected", capabilities: encoderOutputRelayCapabilitiesJSON("static", false), valid: false},
+		{name: "live API relay static requires binding", capabilities: encoderOutputRelayCapabilitiesJSON("live_api_relay_static", false), valid: false},
 		{name: "unknown mode is rejected fail closed", capabilities: encoderOutputRelayCapabilitiesJSON("managed", false), valid: false},
-		{name: "empty live API static binding is rejected", capabilities: `{"output_relay_mode":"live_api_static","output_relay_binding_id":""}`, valid: false},
-		{name: "legacy capability without relay mode remains compatible", capabilities: `{"ffmpeg":true}`, valid: true},
+		{name: "empty live API relay binding is rejected", capabilities: `{"output_relay_mode":"live_api_relay_static","output_relay_binding_id":""}`, valid: false},
+		{name: "capability without relay mode remains valid", capabilities: `{"ffmpeg":true}`, valid: true},
+		{name: "preserved visual and frame capabilities", capabilities: `{"scene_frames_mjpeg_srt":true,"worker_frame_ingest_mjpeg_srt":true,"scene_appearance_v1":true,"live_video_cover_v1":true,"live_encoder_runtime_settings":true}`, valid: true},
+		{name: "removed scene video flag true", capabilities: `{"scene_video_srt":true}`, valid: false},
+		{name: "removed scene video flag false", capabilities: `{"scene_video_srt":false}`, valid: false},
+		{name: "removed ingest flag true", capabilities: `{"worker_video_ingest_srt":true}`, valid: false},
+		{name: "removed ingest flag false", capabilities: `{"worker_video_ingest_srt":false}`, valid: false},
+		{name: "canonical flags cannot rescue removed aliases", capabilities: `{"scene_frames_mjpeg_srt":true,"worker_frame_ingest_mjpeg_srt":true,"scene_video_srt":true,"worker_video_ingest_srt":true}`, valid: false},
 	} {
 		t.Run("registration/"+test.name, func(t *testing.T) {
 			validateEncoderOutputRelayModeInstance(t, registration, registrationBody(test.capabilities), test.valid)
@@ -115,17 +120,27 @@ func TestEncoderOutputRelayModeSchemaCompatibility(t *testing.T) {
 		t.Run("token create/"+test.name, func(t *testing.T) {
 			validateEncoderOutputRelayModeInstance(t, tokenCreate, tokenCreateBody(test.capabilities), test.valid)
 		})
+		t.Run("registered capabilities/"+test.name, func(t *testing.T) {
+			validateEncoderOutputRelayModeInstance(t, registered, registeredBody(test.capabilities, `{}`), test.valid)
+		})
+		t.Run("registered reported capabilities/"+test.name, func(t *testing.T) {
+			validateEncoderOutputRelayModeInstance(t, registered, registeredBody(`{}`, test.capabilities), test.valid)
+		})
+		t.Run("readiness/"+test.name, func(t *testing.T) {
+			validateEncoderOutputRelayModeInstance(t, readiness, readinessBody(test.capabilities), test.valid)
+		})
 	}
 
 	validateEncoderOutputRelayModeInstance(t, registered, registeredBody(
-		encoderOutputRelayCapabilitiesJSON("live_api_static", true),
-		encoderOutputRelayCapabilitiesJSON("static", false),
+		encoderOutputRelayCapabilitiesJSON("live_api_relay_static", true),
+		encoderOutputRelayCapabilitiesJSON("direct", false),
 	), true)
 	validateEncoderOutputRelayModeInstance(t, registered, registeredBody(
 		encoderOutputRelayCapabilitiesJSON("direct", false),
 		encoderOutputRelayCapabilitiesJSON("unknown", false),
 	), false)
-	validateEncoderOutputRelayModeInstance(t, readiness, readinessBody(encoderOutputRelayCapabilitiesJSON("static", false)), true)
+	validateEncoderOutputRelayModeInstance(t, readiness, readinessBody(encoderOutputRelayCapabilitiesJSON("live_api_relay_static", true)), true)
+	validateEncoderOutputRelayModeInstance(t, readiness, readinessBody(encoderOutputRelayCapabilitiesJSON("static", false)), false)
 	validateEncoderOutputRelayModeInstance(t, readiness, readinessBody(encoderOutputRelayCapabilitiesJSON("unknown", false)), false)
 
 	body, err := os.ReadFile(filepath.Join("..", "..", "schemas", capabilitiesSchema))
@@ -176,14 +191,19 @@ func TestEncoderOutputRelayModeOpenAPIContract(t *testing.T) {
 	}
 
 	mode := component("EncoderOutputRelayMode")
-	for _, want := range []string{"direct", "legacy_stream_key", "live_api_static", "static", "canonical", "legacy", "fail closed"} {
+	for _, want := range []string{"direct", "live_api_relay_static", "fail closed"} {
 		if !strings.Contains(mode, want) {
 			t.Fatalf("EncoderOutputRelayMode is missing %q", want)
 		}
 	}
+	for _, removed := range []string{"legacy_stream_key", "live_api_static", "static alias"} {
+		if strings.Contains(mode, removed) {
+			t.Fatalf("EncoderOutputRelayMode retained removed value %q", removed)
+		}
+	}
 
 	capabilities := component("EncoderOutputRelayCapabilities")
-	for _, want := range []string{"output_relay_mode", "output_relay_binding_id", `pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"`, "live_api_static", "stream key", "RTMPS"} {
+	for _, want := range []string{"output_relay_mode", "output_relay_binding_id", `pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"`, "live_api_relay_static", "stream key", "RTMPS"} {
 		if !strings.Contains(capabilities, want) {
 			t.Fatalf("EncoderOutputRelayCapabilities is missing %q", want)
 		}

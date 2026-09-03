@@ -25,8 +25,8 @@ func TestRelayBindingIDFormatContracts(t *testing.T) {
 		{
 			name:    "encoder capability",
 			schema:  "encoder-output-relay-capabilities.schema.json",
-			valid:   `{"output_relay_mode":"live_api_static","output_relay_binding_id":"` + validRelayBindingID + `"}`,
-			invalid: `{"output_relay_mode":"live_api_static","output_relay_binding_id":"relay-binding-1"}`,
+			valid:   `{"output_relay_mode":"live_api_relay_static","output_relay_binding_id":"` + validRelayBindingID + `"}`,
+			invalid: `{"output_relay_mode":"live_api_relay_static","output_relay_binding_id":"relay-binding-1"}`,
 		},
 		{
 			name:    "YouTube output write",
@@ -80,7 +80,7 @@ func TestRelayBindingIDFormatContracts(t *testing.T) {
 		"relay-01234567-89AB-4def-8123-456789abcdef",
 		"binding-01234567-89ab-4def-8123-456789abcdef",
 	} {
-		validateEncoderOutputRelayModeInstance(t, capabilities, `{"output_relay_mode":"live_api_static","output_relay_binding_id":"`+malformedBindingID+`"}`, false)
+		validateEncoderOutputRelayModeInstance(t, capabilities, `{"output_relay_mode":"live_api_relay_static","output_relay_binding_id":"`+malformedBindingID+`"}`, false)
 	}
 
 	for _, file := range []string{

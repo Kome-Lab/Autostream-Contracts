@@ -1,15 +1,14 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "release_id": "v1.3.0",
   "channel": "docker",
   "published_at": "2026-07-18T07:08:09Z",
-  "bundle_version": "v1.3.0",
-  "generated_at": "2026-07-18T07:08:09Z",
-  "minimum_agent_version": "v1.0.0",
+  "protocol_major": 2,
   "components": [
     {
       "service": "control-panel",
       "source_version": "v1.6.8",
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "image": "ghcr.io/kome-lab/autostream-docker/control-panel:v1.3.0",
       "manifest_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
       "platform_digests": {
@@ -22,6 +21,7 @@
     {
       "service": "discord-bot",
       "source_version": "v1.0.16",
+      "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "image": "ghcr.io/kome-lab/autostream-docker/discord-bot:v1.3.0",
       "manifest_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
       "platform_digests": {
@@ -34,6 +34,7 @@
     {
       "service": "encoder-recorder",
       "source_version": "v1.0.16",
+      "commit": "cccccccccccccccccccccccccccccccccccccccc",
       "image": "ghcr.io/kome-lab/autostream-docker/encoder-recorder:v1.3.0",
       "manifest_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
       "platform_digests": {
@@ -46,6 +47,7 @@
     {
       "service": "observability",
       "source_version": "v1.0.18",
+      "commit": "dddddddddddddddddddddddddddddddddddddddd",
       "image": "ghcr.io/kome-lab/autostream-docker/observability:v1.3.0",
       "manifest_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
       "platform_digests": {
@@ -58,6 +60,7 @@
     {
       "service": "worker",
       "source_version": "v1.0.16",
+      "commit": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       "image": "ghcr.io/kome-lab/autostream-docker/worker:v1.3.0",
       "manifest_digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
       "platform_digests": {
@@ -66,6 +69,11 @@
       },
       "rollback_compatible": true,
       "database_schema": "none"
+    },
+    {
+      "service": "updater",
+      "commit": "ffffffffffffffffffffffffffffffffffffffff",
+      "protocol_major": 2
     }
   ]
 }

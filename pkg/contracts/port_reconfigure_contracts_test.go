@@ -12,9 +12,13 @@ import (
 )
 
 const (
-	portContractConfigDigest   = "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-	portContractExecutorDigest = "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-	portContractPlanSHA256     = "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+	portContractConfigDigest       = "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	portContractExecutorDigest     = "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+	portContractPlanSHA256         = "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+	portContractV2CreateFields     = `"protocol_version":2,"desired_revision":12,"fence":3,"required_capability":"host.port",`
+	softwareContractV2CreateFields = `"protocol_version":2,"desired_revision":12,"fence":3,"required_capability":"host.update",`
+	portContractV2JobFields        = `"protocol_version":2,"updater_id":"host-agent-a","desired_revision":12,"fence":3,"outcome":"pending","required_capability":"host.port","authorization_id":"authorization-1","canonical_payload_digest":"` + portContractConfigDigest + `","automatic_resend_allowed":false,`
+	portContractV2TargetFields     = `"protocol_version":2,"updater_id":"host-agent-a","capabilities":["host.port"],"desired_revision":12,"applied_revision":11,"fence":3,"updater_health":{"status":"ready","revision":12},"application_probe":{"version":"v1.2.3","service_id":"worker-a","service_type":"worker","config_revision":11},`
 )
 
 func validatePortContractJSON(t *testing.T, schema *jsonschema.Schema, body string, wantValid bool) {
@@ -53,7 +57,7 @@ func portReconfigurationPlanJSON() string {
 }
 
 func portReconfigurationJobJSON() string {
-	return `{
+	return `{` + portContractV2JobFields + `
 		"id":"job-port-1",
 		"target_id":"worker-a",
 		"target_type":"worker",
@@ -67,7 +71,7 @@ func portReconfigurationJobJSON() string {
 		"strategy":"maintenance",
 		"status":"queued",
 		"idempotency_key":"port-worker-a-18084",
-		"lease_generation":0,
+		"lease_generation":1,
 		"sequence":0,
 		"progress":0,
 		"created_at":"2026-07-28T00:00:00Z",
@@ -80,18 +84,18 @@ func portReconfigurationJobJSON() string {
 func TestSystemUpdateCreateRequestSeparatesSoftwareAndPortOperations(t *testing.T) {
 	schema := compileContractJSONSchema(t, "system-update-create-request.schema.json")
 
-	validatePortContractJSON(t, schema, `{
+	validatePortContractJSON(t, schema, `{`+softwareContractV2CreateFields+`
 		"target_id":"worker-a",
 		"strategy":"when_idle",
 		"idempotency_key":"software-worker-a"
 	}`, true)
-	validatePortContractJSON(t, schema, `{
+	validatePortContractJSON(t, schema, `{`+softwareContractV2CreateFields+`
 		"operation":"software_update",
 		"target_id":"worker-a",
 		"strategy":"maintenance",
 		"idempotency_key":"software-worker-a-explicit"
 	}`, true)
-	validatePortContractJSON(t, schema, `{
+	validatePortContractJSON(t, schema, `{`+portContractV2CreateFields+`
 		"operation":"port_reconfigure",
 		"target_id":"worker-a",
 		"new_port":18084,
@@ -100,12 +104,12 @@ func TestSystemUpdateCreateRequestSeparatesSoftwareAndPortOperations(t *testing.
 	}`, true)
 
 	for _, invalid := range []string{
-		`{"operation":"port_reconfigure","target_id":"worker-a","new_port":18084,"idempotency_key":"missing-fence"}`,
-		`{"operation":"port_reconfigure","target_id":"worker-a","new_port":1023,"expected_endpoint_revision":7,"idempotency_key":"privileged-port"}`,
-		`{"operation":"port_reconfigure","target_id":"worker-a","new_port":65536,"expected_endpoint_revision":7,"idempotency_key":"invalid-port"}`,
-		`{"operation":"port_reconfigure","target_id":"worker-a","new_port":18084,"expected_endpoint_revision":7,"strategy":"maintenance","idempotency_key":"mixed-operation"}`,
-		`{"operation":"port_reconfigure","target_id":"worker-a","new_port":18084,"expected_endpoint_revision":7,"old_port":8084,"idempotency_key":"client-controls-old-port"}`,
-		`{"operation":"software_update","target_id":"worker-a","new_port":18084,"expected_endpoint_revision":7,"strategy":"maintenance","idempotency_key":"software-with-port"}`,
+		`{` + portContractV2CreateFields + `"operation":"port_reconfigure","target_id":"worker-a","new_port":18084,"idempotency_key":"missing-endpoint-revision"}`,
+		`{` + portContractV2CreateFields + `"operation":"port_reconfigure","target_id":"worker-a","new_port":1023,"expected_endpoint_revision":7,"idempotency_key":"privileged-port"}`,
+		`{` + portContractV2CreateFields + `"operation":"port_reconfigure","target_id":"worker-a","new_port":65536,"expected_endpoint_revision":7,"idempotency_key":"invalid-port"}`,
+		`{` + portContractV2CreateFields + `"operation":"port_reconfigure","target_id":"worker-a","new_port":18084,"expected_endpoint_revision":7,"strategy":"maintenance","idempotency_key":"mixed-operation"}`,
+		`{` + portContractV2CreateFields + `"operation":"port_reconfigure","target_id":"worker-a","new_port":18084,"expected_endpoint_revision":7,"old_port":8084,"idempotency_key":"client-controls-old-port"}`,
+		`{` + softwareContractV2CreateFields + `"operation":"software_update","target_id":"worker-a","new_port":18084,"expected_endpoint_revision":7,"strategy":"maintenance","idempotency_key":"software-with-port"}`,
 	} {
 		validatePortContractJSON(t, schema, invalid, false)
 	}
@@ -131,6 +135,7 @@ func TestPortReconfigurationJobClaimAndReportUseNestedWireShapes(t *testing.T) {
 	validatePortContractJSON(t, jobSchema, strings.Replace(job, `"expected_executor_policy_revision":5`, `"expected_executor_policy_revision":0`, 1), false)
 	validatePortContractJSON(t, jobSchema, strings.Replace(job, `"port_plan_sha256":"`+portContractPlanSHA256+`"`, `"port_plan_sha256":"`+strings.ToUpper(portContractPlanSHA256)+`"`, 1), false)
 	succeededJob := strings.Replace(job, `"status":"queued"`, `"status":"succeeded"`, 1)
+	succeededJob = strings.Replace(succeededJob, `"outcome":"pending"`, `"outcome":"succeeded"`, 1)
 	succeededJob = strings.Replace(succeededJob, `"port_plan_sha256":"`+portContractPlanSHA256+`"`, `"port_plan_sha256":"`+portContractPlanSHA256+`","result":"applied"`, 1)
 	validatePortContractJSON(t, jobSchema, succeededJob, true)
 	validatePortContractJSON(t, jobSchema, strings.Replace(succeededJob, `"result":"applied"`, `"result":"rolled_back"`, 1), false)
@@ -157,9 +162,11 @@ func TestPortReconfigurationJobClaimAndReportUseNestedWireShapes(t *testing.T) {
 		{status: "failed", result: "rollback_failed"},
 	} {
 		report := `{
-			"service_id":"host-agent-a",
+			"updater_id":"host-agent-a",
+			"host_id":"host-a",
 			"lease_token":"` + strings.Repeat("l", 43) + `",
 			"lease_generation":1,
+			"fence":1,
 			"sequence":1,
 			"status":"` + terminal.status + `",
 			"port_reconfigure":{"result":"` + terminal.result + `"}
@@ -167,9 +174,11 @@ func TestPortReconfigurationJobClaimAndReportUseNestedWireShapes(t *testing.T) {
 		validatePortContractJSON(t, reportSchema, report, true)
 	}
 	reportPrefix := `{
-		"service_id":"host-agent-a",
+		"updater_id":"host-agent-a",
+		"host_id":"host-a",
 		"lease_token":"` + strings.Repeat("l", 43) + `",
 		"lease_generation":1,
+		"fence":1,
 		"sequence":1,`
 	for _, invalid := range []string{
 		reportPrefix + `"status":"failed","port_reconfigure":{"result":"partially_applied"}}`,
@@ -259,7 +268,7 @@ func TestPortReconfigurationMutationGrantsBindTheImmutableJobPlan(t *testing.T) 
 
 func TestSystemUpdateTargetAdvertisesOperationSpecificEligibility(t *testing.T) {
 	schema := compileContractJSONSchema(t, "system-update-target.schema.json")
-	valid := `{
+	valid := `{` + portContractV2TargetFields + `
 		"target_id":"worker-a",
 		"target_type":"worker",
 		"name":"Worker A",
@@ -284,7 +293,11 @@ func TestSystemUpdateTargetAdvertisesOperationSpecificEligibility(t *testing.T) 
 	}
 
 	body, err := json.Marshal(SystemUpdateTarget{
-		TargetID: "worker-a", TargetType: SystemUpdateTargetWorker, Name: "Worker A",
+		ProtocolVersion: 2, UpdaterID: "host-agent-a", Capabilities: []UpdaterCapability{UpdaterCapabilityPort},
+		DesiredRevision: 12, AppliedRevision: 11, Fence: 3,
+		UpdaterHealth:    &UpdaterHealth{Status: "ready", Revision: 12},
+		ApplicationProbe: &ApplicationRuntimeIdentityProbe{Version: "v1.2.3", ServiceID: "worker-a", ServiceType: SystemUpdateTargetWorker, ConfigRevision: 11},
+		TargetID:         "worker-a", TargetType: SystemUpdateTargetWorker, Name: "Worker A",
 		HostID: "host-a", DeploymentMode: SystemUpdateDeploymentSystemd,
 		UpdaterOnline: true, Eligible: false,
 		BlockedReason:      "system_update_release_unavailable",
@@ -300,18 +313,21 @@ func TestSystemUpdateTargetAdvertisesOperationSpecificEligibility(t *testing.T) 
 	validatePortContractJSON(t, schema, string(body), true)
 }
 
-func TestPortReconfigurationGoTypesPreserveSoftwareCompatibility(t *testing.T) {
+func TestPortReconfigurationGoTypesPreserveV2SoftwareOperation(t *testing.T) {
 	software, err := json.Marshal(SystemUpdateCreateRequest{
+		ProtocolVersion: 2, DesiredRevision: 12, Fence: 3, RequiredCapability: UpdaterCapabilityUpdate,
 		TargetID: "worker-a", Strategy: SystemUpdateWhenIdle, IdempotencyKey: "software-worker-a",
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
 	if strings.Contains(string(software), "operation") || strings.Contains(string(software), "port_reconfigure") || strings.Contains(string(software), "new_port") {
-		t.Fatalf("legacy software request leaked additive port fields: %s", software)
+		t.Fatalf("v2 software request leaked port fields: %s", software)
 	}
+	validatePortContractJSON(t, compileContractJSONSchema(t, "system-update-create-request.schema.json"), string(software), true)
 
 	portRequest, err := json.Marshal(SystemUpdateCreateRequest{
+		ProtocolVersion: 2, DesiredRevision: 12, Fence: 3, RequiredCapability: UpdaterCapabilityPort,
 		Operation:                SystemUpdateOperationPortReconfigure,
 		TargetID:                 "worker-a",
 		NewPort:                  18084,
@@ -342,7 +358,11 @@ func TestPortReconfigurationGoTypesPreserveSoftwareCompatibility(t *testing.T) {
 	}
 	now := time.Date(2026, time.July, 28, 0, 0, 0, 0, time.UTC)
 	portJob, err := json.Marshal(SystemUpdateJob{
-		ID: "job-port-1", TargetID: "worker-a", TargetType: SystemUpdateTargetWorker,
+		ProtocolVersion: 2, UpdaterID: "host-agent-a", DesiredRevision: 12, Fence: 3,
+		Outcome: "pending", RequiredCapability: UpdaterCapabilityPort, AuthorizationID: "authorization-1",
+		CanonicalPayloadDigest: portContractConfigDigest, AutomaticResendAllowed: systemUpdateAutomaticResendDisabledFixture(),
+		LeaseGeneration: 1,
+		ID:              "job-port-1", TargetID: "worker-a", TargetType: SystemUpdateTargetWorker,
 		ExecutionHostID: "host-a", TransportMode: UpdateTransportPullV2,
 		OwnershipEpoch: 2, PolicyRevision: 23, DeploymentMode: SystemUpdateDeploymentSystemd,
 		CurrentVersion: "v1.2.3", TargetVersion: "v1.2.3", Strategy: SystemUpdateMaintenance,
@@ -356,7 +376,7 @@ func TestPortReconfigurationGoTypesPreserveSoftwareCompatibility(t *testing.T) {
 	validatePortContractJSON(t, compileContractJSONSchema(t, "system-update-job.schema.json"), string(portJob), true)
 
 	report, err := json.Marshal(UpdateAgentReportRequest{
-		ServiceID: "host-agent-a", LeaseToken: strings.Repeat("l", 43), LeaseGeneration: 1,
+		UpdaterID: "host-agent-a", HostID: "host-a", LeaseToken: strings.Repeat("l", 43), LeaseGeneration: 1, Fence: 1,
 		Sequence: 1, Status: SystemUpdateSucceeded,
 		PortReconfigure: &SystemUpdatePortReconfiguration{Result: SystemUpdatePortReconfigurationApplied},
 	})

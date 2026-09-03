@@ -3,11 +3,6 @@
   "title": "System Update Host Status",
   "description": "Host readiness projection. Updater health and the target application's runtime identity probe are independent evidence and may not substitute for one another.",
   "x-autostream-contract-major": 2,
-  "x-autostream-v2-transition-compatibility": {
-    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-    "removal_wave": "Execution Bundle 8",
-    "final_state": "absent"
-  },
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -43,21 +38,7 @@
       }
     }
   },
-  "required": ["host_id", "name", "updater_id", "reachability"],
-  "allOf": [
-    {
-      "if": { "required": ["protocol_version"] },
-      "then": {
-        "required": ["protocol_version", "updater_health", "application_probe"],
-        "not": {
-          "anyOf": [
-            { "required": ["ssh_client_public_key"] },
-            { "required": ["ssh_client_key_fingerprint"] }
-          ]
-        }
-      }
-    }
-  ],
+  "required": ["protocol_version", "host_id", "name", "updater_id", "reachability", "updater_health", "application_probe"],
   "properties": {
     "protocol_version": { "const": 2 },
     "host_id": {
@@ -81,16 +62,6 @@
       "pattern": "^[a-z0-9_.-]+$"
     },
     "updater_health": { "$ref": "#/$defs/updaterHealth" },
-    "application_probe": { "$ref": "#/$defs/applicationProbe" },
-    "ssh_client_public_key": {
-      "type": "string",
-      "maxLength": 80,
-      "pattern": "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$"
-    },
-    "ssh_client_key_fingerprint": {
-      "type": "string",
-      "maxLength": 50,
-      "pattern": "^SHA256:[A-Za-z0-9+/]{43}$"
-    }
+    "application_probe": { "$ref": "#/$defs/applicationProbe" }
   }
 }

@@ -3,11 +3,6 @@
   "title": "System Update Target",
   "description": "Control Panel target projection. protocol_version 2 requires capability, revision/fence, Updater health, and a distinct application-owned identity probe.",
   "x-autostream-contract-major": 2,
-  "x-autostream-v2-transition-compatibility": {
-    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-    "removal_wave": "Execution Bundle 8",
-    "final_state": "absent"
-  },
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -102,18 +97,8 @@
   },
   "allOf": [
     {
-      "if": { "required": ["protocol_version"] },
-      "then": {
-        "required": [
-          "protocol_version", "host_id", "updater_id", "capabilities", "desired_revision",
-          "applied_revision", "fence", "updater_health", "application_probe"
-        ],
-        "not": { "required": ["update_check_error"] }
-      }
-    },
-    {
       "if": {
-        "required": ["protocol_version", "updater_health"],
+        "required": ["updater_health"],
         "properties": {
           "updater_health": {
             "required": ["status"],
@@ -122,17 +107,14 @@
         }
       },
       "then": { "required": ["safe_error"] }
-    },
-    {
-      "if": {
-        "required": ["protocol_version", "safe_error"]
-      },
-      "then": {
-        "not": { "required": ["update_check_error"] }
-      }
     }
   ],
-  "required": ["target_id", "target_type", "name", "update_available", "updater_online", "eligible", "busy"],
+  "not": { "required": ["update_check_error"] },
+  "required": [
+    "protocol_version", "host_id", "updater_id", "capabilities", "desired_revision",
+    "applied_revision", "fence", "updater_health", "application_probe",
+    "target_id", "target_type", "name", "update_available", "updater_online", "eligible", "busy"
+  ],
   "properties": {
     "protocol_version": { "const": 2 },
     "target_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },

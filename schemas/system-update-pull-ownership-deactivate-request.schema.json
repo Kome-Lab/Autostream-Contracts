@@ -1,16 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SystemUpdatePullOwnershipDeactivateRequest",
-  "description": "Administrative compare-and-swap request that returns one active pull_v2 Host Agent to observer mode and restores the server-preserved ssh_v1 owner. Every expected value is required; a replacement owner, transport, epoch, credential, or grant cannot be supplied by the client.",
+  "description": "Administrative compare-and-swap request that returns one active pull_v2 Host Agent to observer mode. Every expected value is required; a replacement owner, transport, epoch, credential, or grant cannot be supplied by the client.",
   "x-autostream-contract-major": 2,
-  "x-autostream-v2-transition-compatibility": {
-    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-    "removal_wave": "Execution Bundle 8",
-    "final_state": "absent",
-    "purpose": "whole_release_rollback_only"
-  },
   "type": "object",
   "required": [
+    "protocol_version", "idempotency_key", "desired_revision", "fence", "required_capability",
     "expected_execution_host_id",
     "expected_ownership_epoch",
     "expected_source_policy_revision",
@@ -19,14 +14,6 @@
     "expected_local_executor_policy_sha256"
   ],
   "additionalProperties": false,
-  "allOf": [
-    {
-      "if": { "required": ["protocol_version"] },
-      "then": {
-        "required": ["protocol_version", "idempotency_key", "desired_revision", "fence", "required_capability"]
-      }
-    }
-  ],
   "properties": {
     "protocol_version": { "const": 2 },
     "idempotency_key": {

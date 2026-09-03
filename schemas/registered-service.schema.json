@@ -21,28 +21,13 @@
   "allOf": [
     {
       "if": {
-        "anyOf": [
-          { "required": ["transport_mode"] },
-          { "required": ["execution_host_id"] },
-          { "required": ["ownership_epoch"] }
-        ]
-      },
-      "then": {
+        "required": ["service_type"],
         "properties": {
           "service_type": { "const": "update_agent" }
         }
-      }
-    },
-    {
-      "if": {
-        "required": ["service_type", "transport_mode"],
-        "properties": {
-          "service_type": { "const": "update_agent" },
-          "transport_mode": { "const": "pull_v2" }
-        }
       },
       "then": {
-        "required": ["execution_host_id", "ownership_epoch"],
+        "required": ["transport_mode", "execution_host_id", "ownership_epoch"],
         "not": {
           "anyOf": [
             { "required": ["host"] },
@@ -59,7 +44,14 @@
         }
       },
       "else": {
-        "required": ["public_url"]
+        "required": ["public_url"],
+        "not": {
+          "anyOf": [
+            { "required": ["transport_mode"] },
+            { "required": ["execution_host_id"] },
+            { "required": ["ownership_epoch"] }
+          ]
+        }
       }
     }
   ],
@@ -69,9 +61,8 @@
       "enum": ["discord_bot", "encoder_recorder", "worker", "observability", "update_agent"]
     },
     "transport_mode": {
-      "enum": ["ssh_v1", "pull_v2"],
-      "default": "ssh_v1",
-      "description": "Update-agent transport. Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url."
+      "const": "pull_v2",
+      "description": "Update-agent protocol-major-2 transport. An update_agent omits host, port, and public_url."
     },
     "execution_host_id": {
       "type": "string",

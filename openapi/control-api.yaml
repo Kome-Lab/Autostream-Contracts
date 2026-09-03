@@ -44,12 +44,6 @@ x-autostream-updater-v2-authority:
   arbitrary_shell_allowed: false
   shared_control_panel_database_credentials_allowed: false
   observability_host_execution_allowed: false
-  embedded_legacy_transition:
-    owner: V2-COMPAT-EOL-CONTRACTS-001
-    removal_wave: Execution Bundle 5
-    final_state: absent
-    transport: ssh_v1
-    rollback_only_after_v2_activation: true
   command_envelope_schema: { $ref: '#/components/schemas/UpdaterCommandEnvelope' }
   desired_operation_schema: { $ref: '#/components/schemas/UpdaterDesiredOperation' }
   lease_envelope_schema: { $ref: '#/components/schemas/UpdaterLeaseEnvelope' }
@@ -713,34 +707,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/OAuthUserLink"
-          headers:
-            X-AutoStream-Contract-Major:
-              $ref: "#/components/headers/contractMajor"
-        "426":
-          $ref: "#/components/responses/contractMajorUnsupported"
-    post:
-      deprecated: true
-      summary: Manual OAuth login links are disabled
-      description: |
-        Manual subject entry is disabled to avoid linking a local account to an
-        attacker-controlled provider subject. OAuth user links are created only
-        by the OAuth callback ceremony after state, nonce, provider identity,
-        and allowlist checks succeed. This endpoint is retained only for legacy
-        clients and always returns 403 manual_oauth_link_disabled.
-      parameters: [ { $ref: "#/components/parameters/id" } ]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/OAuthUserLinkWriteRequest"
-      responses:
-        "403":
-          description: manual OAuth subject link creation is disabled
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -2271,7 +2237,7 @@ paths:
     post:
       operationId: activateSystemUpdatePullOwnership
       description: >
-        Atomically transfers one execution host from the legacy ssh_v1 owner to the already-registered and readiness-verified pull_v2 Host Agent. Requires system_updates.execute. The id path parameter selects the pre-created updater; every request field is a compare-and-swap expectation. The server chooses the next ownership epoch and never accepts a replacement owner, credential, command, path, URL, image, or release input.
+        Atomically activates the already-registered and readiness-verified pull_v2 Host Agent for one execution host. Requires system_updates.execute. The id path parameter selects the pre-created updater; every request field is a compare-and-swap expectation. The server chooses the next ownership epoch and never accepts a replacement owner, credential, command, path, URL, image, or release input.
       parameters:
         - $ref: "#/components/parameters/id"
         - $ref: "#/components/parameters/csrfToken"
@@ -2344,7 +2310,7 @@ paths:
     post:
       operationId: deactivateSystemUpdatePullOwnership
       description: >
-        Atomically returns one active pull_v2 Host Agent to observer epoch zero and restores the ssh_v1 updater that the server preserved when ownership was activated. Requires system_updates.execute. The id path parameter selects the pull updater; every request field is a compare-and-swap expectation. The client cannot select the legacy owner, replacement transport, next epoch, credential, command, path, URL, image, or release.
+        Atomically returns one active pull_v2 Host Agent to observer epoch zero. Requires system_updates.execute. The id path parameter selects the updater; every request field is a compare-and-swap expectation. The client cannot select a replacement owner, transport, next epoch, credential, command, path, URL, image, or release.
       parameters:
         - $ref: "#/components/parameters/id"
         - $ref: "#/components/parameters/csrfToken"
@@ -2356,7 +2322,7 @@ paths:
               $ref: "#/components/schemas/SystemUpdatePullOwnershipDeactivateRequest"
       responses:
         "200":
-          description: ssh_v1 ownership restored and the pull updater returned to observer epoch zero
+          description: pull_v2 updater returned to observer epoch zero
           content:
             application/json:
               schema:
@@ -2605,7 +2571,7 @@ paths:
       operationId: fetchHostAgentPolicy
       security:
         - bearerToken: []
-      description: Fetches the dedicated pull_v2 observe-only policy for the authenticated Host Agent. Requires service.config.read. Server-owned host binding fields are never accepted from the request. This endpoint is separate from the legacy /services/update-agent/policy contract.
+      description: Fetches the pull_v2 policy for the authenticated Host Agent. Requires service.config.read. Server-owned host binding fields are never accepted from the request.
       requestBody:
         required: true
         content:
@@ -2996,7 +2962,6 @@ paths:
     post:
       security:
         - bearerToken: []
-      x-autostream-v2-transition-compatibility: {owner: V2-COMPAT-EOL-CONTRACTS-001, removal_wave: Execution Bundle 8, final_state: v2_only}
       requestBody:
         required: true
         content:
@@ -4070,25 +4035,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/OAuthAccount"
-          headers:
-            X-AutoStream-Contract-Major:
-              $ref: "#/components/headers/contractMajor"
-        "426":
-          $ref: "#/components/responses/contractMajorUnsupported"
-    post:
-      deprecated: true
-      summary: Manual OAuth connected account creation is disabled
-      description: >
-        Connected operational accounts must be created through /integrations/oauth-accounts/start and /integrations/oauth-accounts/callback. Manual refresh token import is disabled for normal clients and returns 403 manual_oauth_account_create_disabled.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/OAuthAccountWriteRequest"
-      responses:
-        "403":
-          description: manual OAuth account creation is disabled
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -5756,15 +5702,16 @@ components:
     UpdateAgentClaimRequest:
       type: object
       additionalProperties: false
-      required: [ service_id ]
+      required: [ updater_id, host_id, lease_generation, fence ]
       properties:
-        service_id: { type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" }
+        updater_id: { type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" }
         host_id:
           type: string
           minLength: 1
           maxLength: 191
           pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
-          description: Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior.
+        lease_generation: { type: integer, format: int64, minimum: 1 }
+        fence: { type: integer, format: int64, minimum: 1 }
         active_job_id:
           type: string
           minLength: 1
@@ -5805,7 +5752,7 @@ components:
     UpdateAgentReportRequest:
       type: object
       additionalProperties: false
-      required: [ service_id, lease_token, lease_generation, sequence, status ]
+      required: [ updater_id, host_id, lease_token, lease_generation, fence, sequence, status ]
       allOf:
         - if:
             required: [ port_reconfigure ]
@@ -5828,7 +5775,9 @@ components:
                     properties:
                       result: { const: rollback_failed }
       properties:
-        service_id: { type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" }
+        updater_id: { type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" }
+        host_id: { type: string, minLength: 1, maxLength: 191, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$" }
+        fence: { type: integer, format: int64, minimum: 1 }
         lease_token:
           type: string
           minLength: 32
@@ -5854,13 +5803,13 @@ components:
     UpdateAgentAuthorizeRequest:
       type: object
       additionalProperties: false
-      required: [ service_id, lease_token, lease_generation, target_id, target_version, deployment_mode ]
+      required: [ updater_id, host_id, lease_token, lease_generation, fence, target_id, target_version, deployment_mode ]
       properties:
-        service_id:
+        updater_id:
           type: string
           minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
+          maxLength: 128
+          pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'
         lease_token:
           type: string
           minLength: 32
@@ -5868,12 +5817,12 @@ components:
           pattern: '^[^\u0000-\u001F\u007F]+$'
           writeOnly: true
         lease_generation: { type: integer, format: int64, minimum: 1 }
+        fence: { type: integer, format: int64, minimum: 1 }
         host_id:
           type: string
           minLength: 1
           maxLength: 191
           pattern: '^[^\u0000-\u001F\u007F]+$'
-          description: Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior.
         target_id:
           type: string
           minLength: 1
@@ -5951,7 +5900,7 @@ components:
           pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
         transport_mode:
           type: string
-          enum: [ ssh_v1, pull_v2 ]
+          const: pull_v2
         ownership_epoch: { type: integer, format: int64, minimum: 1 }
         policy_revision: { type: integer, format: int64, minimum: 0 }
         target_id:
@@ -6053,7 +6002,7 @@ components:
           pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
         transport_mode:
           type: string
-          enum: [ ssh_v1, pull_v2 ]
+          const: pull_v2
         ownership_epoch: { type: integer, format: int64, minimum: 1 }
         policy_revision: { type: integer, format: int64, minimum: 0 }
         target_id:
@@ -6610,18 +6559,22 @@ components:
           format: date-time
     EncoderOutputRelayMode:
       type: string
-      enum: [ direct, legacy_stream_key, live_api_static, static ]
+      enum: [ direct, live_api_relay_static ]
       description: >
-        Non-secret Encoder/Recorder output relay routing vocabulary. New Encoder reports use the canonical direct, legacy_stream_key, or live_api_static values. direct has no fixed output relay; legacy_stream_key means a fixed relay uses a preconfigured legacy YouTube stream-key route; and live_api_static means a fixed relay accepts the non-secret live API static binding. The historical static value is accepted on Control Panel capability input and registered-service reads for migration compatibility with legacy_stream_key semantics. Unknown values are rejected fail closed. This value never carries an RTMPS URL, relay URL, or stream key.
+        Non-secret v2 Encoder/Recorder output relay routing vocabulary. direct uses the assignment-scoped runtime target; live_api_relay_static requires the matching fixed relay binding. Unknown values are rejected fail closed. This value never carries an RTMPS URL, relay URL, or stream key.
     EncoderOutputRelayCapabilities:
       type: object
       additionalProperties: true
+      not:
+        anyOf:
+          - required: [ scene_video_srt ]
+          - required: [ worker_video_ingest_srt ]
       description: Non-secret service capability hints for output relay routing, negotiated Worker scene-video transport, and strict Discord Bot start-envelope selection.
       allOf:
         - if:
             required: [ output_relay_mode ]
             properties:
-              output_relay_mode: { const: live_api_static }
+              output_relay_mode: { const: live_api_relay_static }
           then:
             required: [ output_relay_binding_id ]
       properties:
@@ -6630,7 +6583,7 @@ components:
         output_relay_binding_id:
           type: string
           pattern: "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
-          description: Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output; never an RTMPS address or stream key.
+          description: Required with live_api_relay_static. Non-secret fixed relay binding identity that must match the selected output; never an RTMPS address or stream key.
         scene_frames_mjpeg_srt:
           type: boolean
           const: true
@@ -6650,36 +6603,19 @@ components:
         discord_resolved_target_v2:
           type: boolean
           const: true
-          description: Advertises actual Discord Bot support for the strict schema_version=2 resolved-target start DTO. Control Panel may select v2 only for this exact current advertisement; missing, false, unknown values, and version strings require the legacy flat payload with no v2-only fields.
-        scene_video_srt:
-          type: boolean
-          const: true
-          deprecated: true
-          description: Legacy Worker H.264 MPEG-TS capability accepted for migration reads only.
-        worker_video_ingest_srt:
-          type: boolean
-          const: true
-          deprecated: true
-          description: Legacy Encoder H.264 MPEG-TS capability accepted for migration reads only.
+          description: Advertises actual Discord Bot support for the strict schema_version=2 resolved-target start DTO. Missing, false, unknown values, and version strings make the service ineligible for start dispatch.
     ServiceRegistrationRequest:
       type: object
       additionalProperties: false
       required: [ service_id, service_type, service_name, version, capabilities ]
       allOf:
         - if:
+            required: [ service_type ]
+            properties:
+              service_type:
+                const: update_agent
+          then:
             required: [ transport_mode ]
-          then:
-            properties:
-              service_type:
-                const: update_agent
-        - if:
-            required: [ service_type, transport_mode ]
-            properties:
-              service_type:
-                const: update_agent
-              transport_mode:
-                const: pull_v2
-          then:
             not:
               anyOf:
                 - required: [ host ]
@@ -6687,6 +6623,8 @@ components:
                 - required: [ public_url ]
           else:
             required: [ public_url ]
+            not:
+              required: [ transport_mode ]
       properties:
         service_id:
           type: string
@@ -6694,9 +6632,8 @@ components:
         service_type:
           enum: [ discord_bot, encoder_recorder, worker, observability, update_agent ]
         transport_mode:
-          enum: [ ssh_v1, pull_v2 ]
-          default: ssh_v1
-          description: Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url. Server-owned execution_host_id and ownership_epoch are never accepted from registration input.
+          const: pull_v2
+          description: Required protocol-major-2 transport for update_agent registration. An update_agent must omit host, port, and public_url. Server-owned execution_host_id and ownership_epoch are never accepted from registration input.
         service_name:
           type: string
           minLength: 1
@@ -6960,23 +6897,12 @@ components:
       required: [ service_id, service_type, service_name, ssl_enabled, version, status, capabilities, created_at, updated_at ]
       allOf:
         - if:
-            anyOf:
-              - required: [ transport_mode ]
-              - required: [ execution_host_id ]
-              - required: [ ownership_epoch ]
-          then:
+            required: [ service_type ]
             properties:
               service_type:
                 const: update_agent
-        - if:
-            required: [ service_type, transport_mode ]
-            properties:
-              service_type:
-                const: update_agent
-              transport_mode:
-                const: pull_v2
           then:
-            required: [ execution_host_id, ownership_epoch ]
+            required: [ transport_mode, execution_host_id, ownership_epoch ]
             not:
               anyOf:
                 - required: [ host ]
@@ -6991,6 +6917,11 @@ components:
                 - required: [ applied_config_sha256 ]
           else:
             required: [ public_url ]
+            not:
+              anyOf:
+                - required: [ transport_mode ]
+                - required: [ execution_host_id ]
+                - required: [ ownership_epoch ]
       properties:
         ssl_enabled:
           type: boolean
@@ -7025,9 +6956,8 @@ components:
         service_type:
           enum: [ discord_bot, encoder_recorder, worker, observability, update_agent ]
         transport_mode:
-          enum: [ ssh_v1, pull_v2 ]
-          default: ssh_v1
-          description: Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url.
+          const: pull_v2
+          description: Protocol-major-2 transport for update_agent records. An update_agent omits host, port, and public_url.
         execution_host_id:
           type: string
           minLength: 1
@@ -7626,6 +7556,8 @@ components:
                 type: object
                 description: Non-secret archive dispatch config. Secret material is represented by *_secret_name fields only.
                 additionalProperties: true
+                not:
+                  required: [ base_path ]
                 properties:
                   drive_destination_id:
                     type: string
@@ -7640,10 +7572,6 @@ components:
                     type: string
                   folder_id_secret_name:
                     type: string
-                  base_path:
-                    type: string
-                    deprecated: true
-                    description: Ignored legacy value. folder_id is the archive root.
                   shared_drive:
                     type: boolean
                   client_id:
@@ -7915,15 +7843,15 @@ components:
           type: string
           minLength: 1
           maxLength: 1024
-          pattern: "^final/[^/\\\\]+/(?:[^/\\\\]+/)?[^/\\\\]+$"
-          description: Logical legacy final/{stream_id}/{name} or run-scoped final/{stream_id}/{archive_run_id}/{name} path; the server verifies the embedded identifiers and file name.
+          pattern: "^final/[^/\\\\]+/[^/\\\\]+/[^/\\\\]+$"
+          description: Run-scoped final/{stream_id}/{archive_run_id}/{name} path; the server verifies the embedded identifiers and file name.
         size_bytes:
           type: integer
           minimum: 0
     ServiceArtifactReport:
       type: object
       additionalProperties: false
-      required: [ service_id, stream_id, artifacts ]
+      required: [ service_id, stream_id, archive_run_id, archive_started_at, artifacts ]
       dependentRequired:
         archive_run_id: [ archive_started_at ]
         archive_started_at: [ archive_run_id ]
@@ -8055,10 +7983,6 @@ components:
         masked_webhook_url:
           type: string
           description: Raw webhook URL is never returned.
-        smtp_password_configured:
-          type: boolean
-          deprecated: true
-          description: Deprecated direct-Observability SMTP compatibility status. False for global-SMTP channels and never exposes the password.
         masked_email_target:
           type: string
           description: Raw email recipients and SMTP settings are never returned as unmasked response fields.
@@ -8141,20 +8065,6 @@ components:
         email: { type: string }
         created_at: { type: string, format: date-time }
         updated_at: { type: string, format: date-time }
-    OAuthUserLinkWriteRequest:
-      description: |
-        Legacy administrative shape. Production links must be created through
-        the OAuth callback ceremony; manual subject entry is disabled by the
-        Control Panel and returns manual_oauth_link_disabled.
-      type: object
-      additionalProperties: false
-      required: [ provider_id, subject ]
-      properties:
-        provider_id: { type: string }
-        provider_type:
-          enum: [ google, github, discord ]
-        subject: { type: string }
-        email: { type: string }
     OAuthProvider:
       type: object
       additionalProperties: false
@@ -8268,27 +8178,6 @@ components:
           description: True only when the recorded automatic refresh failure requires reconnecting this existing OAuth account; reconnecting retains the account ID and its references.
         created_at: { type: string, format: date-time }
         updated_at: { type: string, format: date-time }
-    OAuthAccountWriteRequest:
-      type: object
-      deprecated: true
-      description: >
-        Legacy manual import shape. The Control Panel rejects normal API calls that try to create connected accounts or update refresh tokens manually; connected accounts are created by OAuth callback only.
-      additionalProperties: false
-      required: [ provider_id, provider_type, account_label ]
-      properties:
-        provider_id: { type: string }
-        provider_type:
-          enum: [ google, github, discord ]
-        account_label: { type: string }
-        subject: { type: string }
-        email: { type: string }
-        scopes:
-          type: array
-          items: { type: string }
-        refresh_token:
-          type: string
-          writeOnly: true
-          description: manual refresh token input is disabled; callback stores it encrypted at rest
     OAuthAccountLabelUpdateRequest:
       type: object
       additionalProperties: false
@@ -8340,7 +8229,7 @@ components:
     DriveDestination:
       type: object
       additionalProperties: false
-      required: [ id, name, auth_mode, folder_id_configured, shared_drive, base_path, created_at, updated_at ]
+      required: [ id, name, auth_mode, folder_id_configured, shared_drive, created_at, updated_at ]
       properties:
         id: { type: string }
         name: { type: string }
@@ -8355,10 +8244,6 @@ components:
         shared_drive:
           type: boolean
           description: use supportsAllDrives=true when uploading
-        base_path:
-          type: string
-          deprecated: true
-          description: Legacy value retained for compatible reads. folder_id is the archive root.
         created_at: { type: string, format: date-time }
         updated_at: { type: string, format: date-time }
     DriveDestinationWriteRequest:
@@ -8379,10 +8264,6 @@ components:
           description: required when creating a destination, optional when updating an existing destination, encrypted at rest, and never returned by API
         shared_drive:
           type: boolean
-        base_path:
-          type: string
-          deprecated: true
-          description: Legacy compatibility input. Current Encoder/Recorder ignores this value and uses folder_id itself as the archive root.
     StartStreamRequest:
       type: object
       additionalProperties: false

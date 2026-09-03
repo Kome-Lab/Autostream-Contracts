@@ -3,13 +3,9 @@
   "title": "SystemUpdatePullOwnershipActivateRequest",
   "description": "Administrative compare-and-swap request that activates one already-verified pull_v2 Host Agent. Every expected value is required and no client-selected replacement owner or epoch is accepted.",
   "x-autostream-contract-major": 2,
-  "x-autostream-v2-transition-compatibility": {
-    "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-    "removal_wave": "Execution Bundle 8",
-    "final_state": "absent"
-  },
   "type": "object",
   "required": [
+    "protocol_version", "idempotency_key", "desired_revision", "fence", "required_capability",
     "expected_execution_host_id",
     "expected_ownership_epoch",
     "expected_source_policy_revision",
@@ -18,14 +14,6 @@
     "expected_local_executor_policy_sha256"
   ],
   "additionalProperties": false,
-  "allOf": [
-    {
-      "if": { "required": ["protocol_version"] },
-      "then": {
-        "required": ["protocol_version", "idempotency_key", "desired_revision", "fence", "required_capability"]
-      }
-    }
-  ],
   "properties": {
     "protocol_version": { "const": 2 },
     "idempotency_key": {

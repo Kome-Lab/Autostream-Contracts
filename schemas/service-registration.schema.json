@@ -7,23 +7,13 @@
   "allOf": [
     {
       "if": {
-        "required": ["transport_mode"]
-      },
-      "then": {
+        "required": ["service_type"],
         "properties": {
           "service_type": { "const": "update_agent" }
         }
-      }
-    },
-    {
-      "if": {
-        "required": ["service_type", "transport_mode"],
-        "properties": {
-          "service_type": { "const": "update_agent" },
-          "transport_mode": { "const": "pull_v2" }
-        }
       },
       "then": {
+        "required": ["transport_mode"],
         "not": {
           "anyOf": [
             { "required": ["host"] },
@@ -33,7 +23,8 @@
         }
       },
       "else": {
-        "required": ["public_url"]
+        "required": ["public_url"],
+        "not": { "required": ["transport_mode"] }
       }
     }
   ],
@@ -43,9 +34,8 @@
       "enum": ["discord_bot", "encoder_recorder", "worker", "observability", "update_agent"]
     },
     "transport_mode": {
-      "enum": ["ssh_v1", "pull_v2"],
-      "default": "ssh_v1",
-      "description": "Update-agent transport. Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url. Server-owned execution_host_id and ownership_epoch are never accepted from registration input."
+      "const": "pull_v2",
+      "description": "Required update-agent transport. An update_agent must omit host, port, and public_url. Server-owned execution_host_id and ownership_epoch are never accepted from registration input."
     },
     "service_name": { "type": "string", "minLength": 1 },
     "description": { "type": "string" },

@@ -3,7 +3,7 @@
   "title": "ServiceArtifactReport",
   "type": "object",
   "additionalProperties": false,
-  "required": ["service_id", "stream_id", "artifacts"],
+  "required": ["service_id", "stream_id", "archive_run_id", "archive_started_at", "artifacts"],
   "dependentRequired": {
     "archive_run_id": ["archive_started_at"],
     "archive_started_at": ["archive_run_id"]
@@ -52,8 +52,8 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 1024,
-            "pattern": "^final/[^/\\\\]+/(?:[^/\\\\]+/)?[^/\\\\]+$",
-            "description": "Logical legacy final/{stream_id}/{name} or run-scoped final/{stream_id}/{archive_run_id}/{name} path. The server also verifies embedded identifiers and name equality."
+            "pattern": "^final/[^/\\\\]+/[^/\\\\]+/[^/\\\\]+$",
+            "description": "Run-scoped final/{stream_id}/{archive_run_id}/{name} path. The server also verifies embedded identifiers and name equality."
           },
           "size_bytes": {
             "type": "integer",

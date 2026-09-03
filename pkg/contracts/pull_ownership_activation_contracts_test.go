@@ -37,6 +37,11 @@ func validatePullOwnershipActivationJSON(t *testing.T, schema *jsonschema.Schema
 
 func pullOwnershipActivationRequestFixture() map[string]any {
 	return map[string]any{
+		"protocol_version":                        2,
+		"idempotency_key":                         "activate-host-a",
+		"desired_revision":                        int64(7),
+		"fence":                                   int64(13),
+		"required_capability":                     "host.update",
 		"expected_execution_host_id":              "host-a",
 		"expected_ownership_epoch":                int64(0),
 		"expected_source_policy_revision":         int64(7),
@@ -48,6 +53,12 @@ func pullOwnershipActivationRequestFixture() map[string]any {
 
 func pullOwnershipActivationResponseFixture() map[string]any {
 	return map[string]any{
+		"protocol_version":               2,
+		"idempotency_key":                "activate-host-a",
+		"desired_revision":               int64(7),
+		"applied_revision":               int64(7),
+		"fence":                          int64(13),
+		"capability":                     "host.update",
 		"updater_id":                     "host-agent-a",
 		"execution_host_id":              "host-a",
 		"transport_mode":                 "pull_v2",
@@ -150,6 +161,8 @@ func TestPullOwnershipActivationGoTypesMatchExactSchemas(t *testing.T) {
 	responseSchema := compileContractJSONSchema(t, "system-update-pull-ownership-activate-response.schema.json")
 
 	request := SystemUpdatePullOwnershipActivateRequest{
+		ProtocolVersion: 2, IdempotencyKey: "activate-host-a", DesiredRevision: 7,
+		Fence: 13, RequiredCapability: UpdaterCapabilityUpdate,
 		ExpectedExecutionHostID:             "host-a",
 		ExpectedOwnershipEpoch:              0,
 		ExpectedSourcePolicyRevision:        7,
@@ -158,6 +171,8 @@ func TestPullOwnershipActivationGoTypesMatchExactSchemas(t *testing.T) {
 		ExpectedLocalExecutorPolicySHA256:   pullOwnershipPolicyDigest,
 	}
 	response := SystemUpdatePullOwnershipActivateResponse{
+		ProtocolVersion: 2, IdempotencyKey: "activate-host-a", DesiredRevision: 7,
+		AppliedRevision: 7, Fence: 13, Capability: UpdaterCapabilityUpdate,
 		UpdaterID:                   "host-agent-a",
 		ExecutionHostID:             "host-a",
 		TransportMode:               UpdateTransportPullV2,

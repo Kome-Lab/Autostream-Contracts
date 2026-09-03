@@ -5,15 +5,17 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "service_id",
+    "updater_id",
+    "host_id",
     "lease_token",
     "lease_generation",
+    "fence",
     "target_id",
     "target_version",
     "deployment_mode"
   ],
   "properties": {
-    "service_id": {
+    "updater_id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 128,
@@ -30,12 +32,15 @@
       "type": "integer",
       "minimum": 1
     },
+    "fence": {
+      "type": "integer",
+      "minimum": 1
+    },
     "host_id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 191,
-      "pattern": "^[^\u0000-\u001F\u007F]+$",
-      "description": "Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior."
+      "pattern": "^[^\u0000-\u001F\u007F]+$"
     },
     "target_id": {
       "type": "string",

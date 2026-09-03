@@ -26,7 +26,7 @@ func TestControlOpenAPIAdditiveV2CompatibilitySemantics(t *testing.T) {
 		"enum: [discord, slack, generic, email]",
 		"required: [rtmp_url]",
 		"required: [stream_key_secret_name]",
-		"enum: [ssh_v1, pull_v2]",
+		"const: pull_v2",
 	} {
 		if !requireControlOpenAPISemanticMarker(t, marker) {
 			t.Fatalf("semantic marker %q has no structural assertion", marker)
@@ -74,8 +74,8 @@ func TestControlOpenAPIAdditiveV2CompatibilityMutationSensitivity(t *testing.T) 
 		{name: "passkey_removed", wantFailure: "enum=[disabled totp]"},
 		{name: "email_removed", wantFailure: "enum=[discord slack generic]"},
 		{name: "relay_rtmp_exclusion_removed", wantFailure: "rtmp_url"},
-		{name: "ssh_v1_removed", wantFailure: "enum=[pull_v2]"},
-		{name: "pull_v2_removed", wantFailure: "enum=[ssh_v1]"},
+		{name: "transport_const_removed", wantFailure: "must be pull_v2"},
+		{name: "transport_const_changed", wantFailure: "must be pull_v2"},
 		{name: "marker_only_unreferenced_schema", wantFailure: "POST /system-updates request does not reference SystemUpdateCreateRequest"},
 		{name: "email_marker_only_unreferenced_schema", wantFailure: "enum=[discord slack generic]"},
 	} {
@@ -116,7 +116,7 @@ func requireControlOpenAPISemanticMarker(t *testing.T, marker string) bool {
 		requireControlOpenAPINotificationEmail(t)
 	case "required: [rtmp_url]", "required: [stream_key_secret_name]":
 		requireControlOpenAPIRelayStaticExclusions(t)
-	case "enum: [ssh_v1, pull_v2]":
+	case "const: pull_v2":
 		requireControlOpenAPITransportModes(t)
 	default:
 		return false
@@ -222,9 +222,10 @@ func requireControlOpenAPITransportModes(t *testing.T) {
 	control := readMutatedControlOpenAPI(t)
 	schema := requireControlOpenAPIRequestComponentSchema(
 		t, control, "/services/register", "post", "ServiceRegistrationRequest")
-	assertControlOpenAPIExactEnum(t,
-		requireControlOpenAPIProperty(t, schema, "ServiceRegistrationRequest", "transport_mode"),
-		[]string{"ssh_v1", "pull_v2"})
+	transport := requireControlOpenAPIProperty(t, schema, "ServiceRegistrationRequest", "transport_mode")
+	if transport["const"] != "pull_v2" {
+		t.Fatalf("ServiceRegistrationRequest transport_mode must be pull_v2, got %#v", transport["const"])
+	}
 }
 
 func readMutatedControlOpenAPI(t *testing.T) map[string]any {
@@ -364,10 +365,20 @@ func applyControlOpenAPITestMutant(t *testing.T, control map[string]any, mutant 
 			kept = append(kept, rawAlternative)
 		}
 		notSchema["anyOf"] = kept
-	case "ssh_v1_removed":
-		setEnum("ServiceRegistrationRequest", "transport_mode", "pull_v2")
-	case "pull_v2_removed":
-		setEnum("ServiceRegistrationRequest", "transport_mode", "ssh_v1")
+	case "transport_const_removed":
+		properties := property("ServiceRegistrationRequest")
+		schema, ok := properties["transport_mode"].(map[string]any)
+		if !ok {
+			t.Fatal("mutant target ServiceRegistrationRequest.transport_mode is missing")
+		}
+		delete(schema, "const")
+	case "transport_const_changed":
+		properties := property("ServiceRegistrationRequest")
+		schema, ok := properties["transport_mode"].(map[string]any)
+		if !ok {
+			t.Fatal("mutant target ServiceRegistrationRequest.transport_mode is missing")
+		}
+		schema["const"] = "push_v3"
 	case "marker_only_unreferenced_schema":
 		slot := controlOpenAPIRequestSchemaSlot(t, control, "/system-updates", "post")
 		slot["schema"] = map[string]any{
@@ -528,6 +539,7 @@ func requireControlOpenAPIPullOwnershipComponent(t *testing.T, name string) map[
 		"expected_local_executor_policy_sha256",
 	}
 	requestRequired := []string{
+		"protocol_version", "idempotency_key", "desired_revision", "fence", "required_capability",
 		"expected_execution_host_id", "expected_ownership_epoch", "expected_source_policy_revision",
 		"expected_projection_revision", "expected_local_executor_policy_revision",
 		"expected_local_executor_policy_sha256",
@@ -544,6 +556,7 @@ func requireControlOpenAPIPullOwnershipComponent(t *testing.T, name string) map[
 				"source_policy_revision", "projection_revision", "local_executor_policy_revision", "local_executor_policy_sha256",
 			},
 			required: []string{
+				"protocol_version", "idempotency_key", "desired_revision", "applied_revision", "fence", "capability",
 				"updater_id", "execution_host_id", "transport_mode", "agent_service_id", "ownership_epoch",
 				"source_policy_revision", "projection_revision", "local_executor_policy_revision", "local_executor_policy_sha256",
 			},
@@ -555,11 +568,12 @@ func requireControlOpenAPIPullOwnershipComponent(t *testing.T, name string) map[
 			path: "/system-updates/updaters/{id}/pull-ownership/deactivate", status: "200",
 			properties: []string{
 				"protocol_version", "idempotency_key", "desired_revision", "applied_revision", "fence", "capability",
-				"rollback_transition", "updater_id", "execution_host_id", "transport_mode", "agent_service_id",
+				"updater_id", "execution_host_id", "transport_mode", "agent_service_id",
 				"ownership_epoch", "agent_ownership_epoch", "source_policy_revision", "projection_revision",
 				"local_executor_policy_revision", "local_executor_policy_sha256",
 			},
 			required: []string{
+				"protocol_version", "idempotency_key", "desired_revision", "applied_revision", "fence", "capability",
 				"updater_id", "execution_host_id", "transport_mode", "agent_service_id", "ownership_epoch",
 				"agent_ownership_epoch", "source_policy_revision", "projection_revision",
 				"local_executor_policy_revision", "local_executor_policy_sha256",

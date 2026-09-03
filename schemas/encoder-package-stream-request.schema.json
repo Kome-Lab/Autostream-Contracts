@@ -3,7 +3,7 @@
   "$id": "https://schemas.autostream.example.com/encoder-package-stream-request.schema.json",
   "title": "EncoderPackageStreamRequest",
   "type": "object",
-  "required": ["stream_id", "name"],
+  "required": ["stream_id", "archive_run_id", "name", "started_at"],
   "additionalProperties": false,
   "dependentRequired": {
     "archive_run_id": ["started_at"]
@@ -16,40 +16,10 @@
       "maxLength": 128,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
       "not": { "pattern": "\\.\\." },
-      "description": "Stable identifier for one broadcast/archive run. Legacy callers omit this field."
+      "description": "Stable identifier for the broadcast/archive run being packaged."
     },
     "name": { "type": "string", "minLength": 1 },
     "started_at": { "type": "string", "format": "date-time" },
-    "dry_run": { "type": "boolean" },
-    "archive_config": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Same Control Panel-managed archive runtime config used for stream start and retry-upload. Raw Drive folder IDs and OAuth refresh tokens must not be sent; use runtime secret references.",
-      "properties": {
-        "drive_destination_id": { "type": "string" },
-        "archive_profile_id": { "type": "string" },
-        "auth_mode": { "enum": ["oauth2"] },
-        "oauth_account_id": { "type": "string" },
-        "oauth_provider_id": { "type": "string" },
-        "folder_id_secret_name": {
-          "type": "string",
-          "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through Control Panel."
-        },
-        "base_path": { "type": "string", "deprecated": true, "description": "Ignored legacy value. folder_id is the archive root." },
-        "shared_drive": { "type": "boolean" },
-        "client_id": {
-          "type": "string",
-          "description": "OAuth client ID for Encoder/Recorder token refresh."
-        },
-        "client_secret_secret_name": {
-          "type": "string",
-          "description": "Runtime secret reference for the OAuth client secret."
-        },
-        "refresh_token_secret_name": {
-          "type": "string",
-          "description": "Runtime secret reference for the OAuth refresh token."
-        }
-      }
-    }
+    "dry_run": { "type": "boolean" }
   }
 }

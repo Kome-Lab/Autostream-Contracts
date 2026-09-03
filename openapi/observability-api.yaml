@@ -556,10 +556,6 @@ components:
         masked_webhook_url:
           type: string
           description: Raw webhook URL is never returned.
-        smtp_password_configured:
-          type: boolean
-          deprecated: true
-          description: Deprecated direct-Observability SMTP compatibility status. False for global-SMTP channels.
         masked_email_target:
           type: string
           description: Raw email recipients and SMTP settings are never returned as unmasked response fields.
@@ -584,27 +580,9 @@ components:
       allOf:
         - if:
             required: [uses_global_smtp]
-            properties:
-              uses_global_smtp:
-                const: true
           then:
             properties:
-              type:
-                const: email
-            not:
-              anyOf:
-                - required: [smtp_host]
-                  properties: {smtp_host: {}}
-                - required: [smtp_port]
-                  properties: {smtp_port: {}}
-                - required: [smtp_tls]
-                  properties: {smtp_tls: {}}
-                - required: [smtp_from]
-                  properties: {smtp_from: {}}
-                - required: [smtp_username]
-                  properties: {smtp_username: {}}
-                - required: [smtp_password]
-                  properties: {smtp_password: {}}
+              type: { const: email }
       properties:
         name:
           type: string
@@ -632,35 +610,8 @@ components:
           description: Required for email-channel creation. On update, omission preserves the existing masked recipient set; when supplied, the array must be non-empty.
         uses_global_smtp:
           type: boolean
-          description: True delegates delivery to the Control Panel service relay and globally managed application SMTP settings; false selects deprecated direct-Observability SMTP compatibility. On update, omission preserves the existing mode.
-        smtp_host:
-          type: string
-          deprecated: true
-          description: Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.
-        smtp_port:
-          type: integer
-          minimum: 1
-          maximum: 65535
-          deprecated: true
-          description: Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.
-        smtp_tls:
-          type: boolean
-          deprecated: true
-          description: Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.
-        smtp_from:
-          type: string
-          format: email
-          deprecated: true
-          description: Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.
-        smtp_username:
-          type: string
-          deprecated: true
-          description: Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.
-        smtp_password:
-          type: string
-          writeOnly: true
-          deprecated: true
-          description: Deprecated write-only direct-Observability SMTP password. Do not supply when uses_global_smtp is true; it is never returned raw.
+          const: true
+          description: Email delivery is delegated to the authenticated Control Panel relay backed by globally managed SMTP settings.
         severity_filter:
           type: array
           items:
@@ -678,9 +629,10 @@ components:
               type:
                 const: email
           then:
-            required: [email_recipients]
+            required: [email_recipients, uses_global_smtp]
             properties:
               email_recipients: {}
+              uses_global_smtp: { const: true }
     RemediationDispatchContext:
       type: object
       additionalProperties: false

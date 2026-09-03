@@ -393,9 +393,8 @@ func TestV2UpdaterProtocolAndRemediationAuthority(t *testing.T) {
 	grantResponse := resolveCharacterizationSchema(t, control, schemas["UpdaterMutationGrantIssueResponse"])
 	assertExactCharacterizationProperties(t, grantResponse, []string{"grant_token", "expires_at"})
 	updaterAuthority := requireCharacterizationMap(t, control, "x-autostream-updater-v2-authority")
-	embeddedTransition := requireCharacterizationMap(t, updaterAuthority, "embedded_legacy_transition")
-	if embeddedTransition["removal_wave"] != "Execution Bundle 5" || embeddedTransition["final_state"] != "absent" {
-		t.Fatalf("Updater embedded runtime removal authority drifted: %v", embeddedTransition)
+	if _, exists := updaterAuthority["embedded_legacy_transition"]; exists {
+		t.Fatal("Updater v2 authority retained removed embedded-runtime transition metadata")
 	}
 	digestAuthority := requireCharacterizationMap(t, updaterAuthority, "canonical_command_digest")
 	if digestAuthority["serialization"] != "RFC8785_JCS" ||

@@ -127,9 +127,27 @@ func requireContractFields(t *testing.T, actual []string, fields ...string) {
 	}
 }
 
+func systemUpdateAutomaticResendDisabledFixture() *bool {
+	allowed := false
+	return &allowed
+}
+
+func systemUpdateV2JobFixture(now time.Time) SystemUpdateJob {
+	return SystemUpdateJob{
+		ProtocolVersion: 2, ID: "job-1", TargetID: "control-panel", TargetType: SystemUpdateTargetControlPanel,
+		ExecutionHostID: "host-1", TransportMode: UpdateTransportPullV2, OwnershipEpoch: 2, PolicyRevision: 3,
+		DeploymentMode: SystemUpdateDeploymentSystemd, CurrentVersion: "v1.6.5", TargetVersion: "v1.6.6",
+		Strategy: SystemUpdateWhenIdle, Status: SystemUpdateQueued, Outcome: "pending",
+		IdempotencyKey: "request-1", UpdaterID: "updater-1", AuthorizationID: "authorization-1",
+		CanonicalPayloadDigest: portContractConfigDigest, DesiredRevision: 4, Fence: 5,
+		RequiredCapability: UpdaterCapabilityUpdate, LeaseGeneration: 1,
+		AutomaticResendAllowed: systemUpdateAutomaticResendDisabledFixture(), CreatedAt: now, UpdatedAt: now,
+	}
+}
+
 func TestSystemUpdatePublicSchemasMatchControlPanelWireShape(t *testing.T) {
 	create := readContractSchema(t, "system-update-create-request.schema.json")
-	requireContractFields(t, create.Required, "target_id", "idempotency_key")
+	requireContractFields(t, create.Required, "protocol_version", "target_id", "idempotency_key", "desired_revision", "fence", "required_capability")
 	if _, ok := create.Properties["strategy"]; !ok {
 		t.Fatal("software-update create request is missing strategy")
 	}
@@ -140,12 +158,14 @@ func TestSystemUpdatePublicSchemasMatchControlPanelWireShape(t *testing.T) {
 
 	target := readContractSchema(t, "system-update-target.schema.json")
 	requireContractFields(t, target.Required,
+		"protocol_version", "host_id", "updater_id", "capabilities", "desired_revision",
+		"applied_revision", "fence", "updater_health", "application_probe",
 		"target_id", "target_type", "name", "update_available",
 		"updater_online", "eligible", "busy",
 	)
 	for _, optional := range []string{
-		"host_id", "current_version", "latest_version", "deployment_mode", "updater_id",
-		"blocked_reason", "current_stream_id", "update_check_source", "update_check_error",
+		"current_version", "latest_version", "deployment_mode",
+		"blocked_reason", "current_stream_id", "update_check_source",
 	} {
 		if _, ok := target.Properties[optional]; !ok {
 			t.Fatalf("target schema is missing optional field %q", optional)
@@ -157,13 +177,14 @@ func TestSystemUpdatePublicSchemasMatchControlPanelWireShape(t *testing.T) {
 
 	job := readContractSchema(t, "system-update-job.schema.json")
 	requireContractFields(t, job.Required,
+		"protocol_version", "transport_mode", "updater_id", "desired_revision", "fence", "outcome",
+		"required_capability", "authorization_id", "canonical_payload_digest", "automatic_resend_allowed",
 		"id", "target_id", "target_type", "host_id", "deployment_mode", "current_version", "target_version",
 		"strategy", "status", "idempotency_key",
 		"lease_generation", "sequence", "progress", "created_at", "updated_at",
 	)
 	for _, optional := range []string{
-		"updater_id", "requested_by", "lease_expires_at",
-		"code", "message", "artifact_digest", "previous_digest",
+		"requested_by", "lease_expires_at", "artifact_digest", "previous_digest",
 		"claimed_at", "completed_at", "canceled_at",
 	} {
 		if _, ok := job.Properties[optional]; !ok {
@@ -209,11 +230,9 @@ func TestSystemUpdatePublicSchemasMatchControlPanelWireShape(t *testing.T) {
 
 func TestUpdateAgentLeaseRecoverySchemasAreExplicit(t *testing.T) {
 	claimRequest := readContractSchema(t, "update-agent-claim-request.schema.json")
-	requireContractFields(t, claimRequest.Required, "service_id")
-	for _, optional := range []string{"host_id", "active_job_id"} {
-		if contractSliceHas(claimRequest.Required, optional) {
-			t.Fatalf("%s must remain optional for legacy per-host agents", optional)
-		}
+	requireContractFields(t, claimRequest.Required, "updater_id", "host_id", "lease_generation", "fence")
+	if contractSliceHas(claimRequest.Required, "active_job_id") {
+		t.Fatal("active_job_id must remain optional for recovery")
 	}
 	hostID := claimRequest.Properties["host_id"]
 	if hostID.MinLength != 1 || hostID.MaxLength != 191 || hostID.Pattern == "" {
@@ -270,7 +289,7 @@ func TestUpdateAgentLeaseRecoverySchemasAreExplicit(t *testing.T) {
 	}
 
 	report := readContractSchema(t, "update-agent-report-request.schema.json")
-	requireContractFields(t, report.Required, "service_id", "lease_token", "lease_generation", "sequence", "status")
+	requireContractFields(t, report.Required, "updater_id", "host_id", "lease_token", "lease_generation", "fence", "sequence", "status")
 	if !report.Properties["lease_token"].WriteOnly || report.Properties["lease_generation"].Minimum != 1 {
 		t.Fatal("report must bind its write-only token to a positive lease generation")
 	}
@@ -282,10 +301,7 @@ func TestUpdateAgentLeaseRecoverySchemasAreExplicit(t *testing.T) {
 	}
 
 	authorize := readContractSchema(t, "update-agent-authorize-request.schema.json")
-	requireContractFields(t, authorize.Required, "service_id", "lease_token", "lease_generation", "target_id", "target_version", "deployment_mode")
-	if contractSliceHas(authorize.Required, "host_id") {
-		t.Fatal("legacy authorize host_id must remain optional")
-	}
+	requireContractFields(t, authorize.Required, "updater_id", "host_id", "lease_token", "lease_generation", "fence", "target_id", "target_version", "deployment_mode")
 	if authorize.AdditionalProperties != false || !authorize.Properties["lease_token"].WriteOnly || authorize.Properties["lease_token"].MinLength != 32 || authorize.Properties["lease_token"].MaxLength != 256 {
 		t.Fatalf("authorize lease token constraints changed: %#v", authorize.Properties["lease_token"])
 	}
@@ -323,14 +339,14 @@ func TestUpdateAgentAuthorizeSchemaValidatesOnlyTheExactMutationPlan(t *testing.
 			t.Fatalf("expected authorization contract rejection for %s", body)
 		}
 	}
-	valid := `{"service_id":"updater-1","lease_token":"` + strings.Repeat("a", 43) + `","lease_generation":2,"host_id":"host-1","target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`
+	valid := `{"updater_id":"updater-1","host_id":"host-1","lease_token":"` + strings.Repeat("a", 43) + `","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`
 	assertValidation(valid, true)
-	assertValidation(`{"service_id":"updater-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, true)
-	assertValidation(`{"service_id":"updater-1","lease_token":"short","lease_generation":2,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, false)
-	assertValidation(`{"service_id":"updater-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":0,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, false)
-	assertValidation(`{"service_id":"updater-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"kubernetes"}`, false)
+	assertValidation(`{"updater_id":"updater-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, false)
+	assertValidation(`{"updater_id":"updater-1","host_id":"host-1","lease_token":"short","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, false)
+	assertValidation(`{"updater_id":"updater-1","host_id":"host-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":0,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, false)
+	assertValidation(`{"updater_id":"updater-1","host_id":"host-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"kubernetes"}`, false)
 	assertValidation(strings.TrimSuffix(valid, "}")+`,"command":"systemctl restart"}`, false)
-	assertValidation(`{"service_id":"updater-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"target_id":"control-panel","target_version":"v1.6.6"}`, false)
+	assertValidation(`{"updater_id":"updater-1","host_id":"host-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6"}`, false)
 }
 
 func TestUpdateAgentClaimSchemasValidateExactRecoveryShapes(t *testing.T) {
@@ -352,22 +368,17 @@ func TestUpdateAgentClaimSchemasValidateExactRecoveryShapes(t *testing.T) {
 		}
 	}
 
-	assertValidation(requestSchema, `{"service_id":"updater-1"}`, true)
-	assertValidation(requestSchema, `{"service_id":"updater-1","host_id":"host-1"}`, true)
-	assertValidation(requestSchema, `{"service_id":"updater-1","active_job_id":"job-1"}`, true)
-	assertValidation(requestSchema, `{"service_id":"updater-1","host_id":""}`, false)
-	assertValidation(requestSchema, `{"service_id":"updater-1","active_job_id":""}`, false)
-	assertValidation(requestSchema, `{"service_id":"updater-1","active_job_id":"   "}`, false)
-	assertValidation(requestSchema, `{"service_id":"updater-1","active_job_id":"`+strings.Repeat("a", 65)+`"}`, false)
+	validClaim := `{"updater_id":"updater-1","host_id":"host-1","lease_generation":2,"fence":3}`
+	assertValidation(requestSchema, validClaim, true)
+	assertValidation(requestSchema, strings.TrimSuffix(validClaim, "}")+`,"active_job_id":"job-1"}`, true)
+	assertValidation(requestSchema, `{"service_id":"updater-1","host_id":"host-1","lease_generation":2,"fence":3}`, false)
+	assertValidation(requestSchema, `{"updater_id":"updater-1","host_id":"","lease_generation":2,"fence":3}`, false)
+	assertValidation(requestSchema, strings.TrimSuffix(validClaim, "}")+`,"active_job_id":""}`, false)
+	assertValidation(requestSchema, strings.TrimSuffix(validClaim, "}")+`,"active_job_id":"   "}`, false)
+	assertValidation(requestSchema, strings.TrimSuffix(validClaim, "}")+`,"active_job_id":"`+strings.Repeat("a", 65)+`"}`, false)
 
 	now := time.Date(2026, time.July, 18, 0, 0, 0, 0, time.UTC)
-	job := SystemUpdateJob{
-		ID: "job-1", TargetID: "control-panel", TargetType: SystemUpdateTargetControlPanel,
-		ExecutionHostID: "host-1",
-		DeploymentMode:  SystemUpdateDeploymentSystemd, CurrentVersion: "v1.6.5", TargetVersion: "v1.6.6",
-		Strategy: SystemUpdateWhenIdle, Status: SystemUpdateQueued,
-		IdempotencyKey: "request-1", CreatedAt: now, UpdatedAt: now,
-	}
+	job := systemUpdateV2JobFixture(now)
 	leaseBody, err := json.Marshal(UpdateAgentClaimResponse{
 		Job: job, LeaseToken: strings.Repeat("a", 43), LeaseExpiresAt: now.Add(time.Minute),
 		LeaseGeneration: 1, ReportSequence: 1, RecoveryRequired: false, LastStatus: SystemUpdateQueued,
@@ -384,14 +395,7 @@ func TestUpdateAgentClaimSchemasValidateExactRecoveryShapes(t *testing.T) {
 
 func TestSystemUpdateGoTypesPreserveRequiredZerosAndOmitOptionalFields(t *testing.T) {
 	now := time.Date(2026, time.July, 18, 0, 0, 0, 0, time.UTC)
-	job := SystemUpdateJob{
-		ID: "job-1", TargetID: "control-panel", TargetType: SystemUpdateTargetControlPanel,
-		ExecutionHostID: "host-1",
-		DeploymentMode:  SystemUpdateDeploymentSystemd, CurrentVersion: "v1.6.5", TargetVersion: "v1.6.6",
-		Strategy: SystemUpdateWhenIdle, Status: SystemUpdateQueued,
-		IdempotencyKey: "request-1",
-		CreatedAt:      now, UpdatedAt: now,
-	}
+	job := systemUpdateV2JobFixture(now)
 	body, err := json.Marshal(job)
 	if err != nil {
 		t.Fatal(err)
@@ -401,6 +405,8 @@ func TestSystemUpdateGoTypesPreserveRequiredZerosAndOmitOptionalFields(t *testin
 		t.Fatal(err)
 	}
 	for _, field := range []string{
+		"protocol_version", "transport_mode", "updater_id", "desired_revision", "fence", "outcome",
+		"required_capability", "authorization_id", "canonical_payload_digest", "automatic_resend_allowed",
 		"id", "target_id", "target_type", "host_id", "deployment_mode", "current_version", "target_version",
 		"strategy", "status", "idempotency_key",
 		"lease_generation", "sequence", "progress", "created_at", "updated_at",
@@ -410,13 +416,19 @@ func TestSystemUpdateGoTypesPreserveRequiredZerosAndOmitOptionalFields(t *testin
 		}
 	}
 	for _, field := range []string{
-		"updater_id", "requested_by", "lease_expires_at",
+		"requested_by", "lease_expires_at",
 		"artifact_digest", "previous_digest", "claimed_at", "completed_at", "canceled_at",
 	} {
 		if _, ok := wire[field]; ok {
 			t.Fatalf("Go job JSON emitted absent optional field %q: %s", field, body)
 		}
 	}
+	for _, marker := range []string{`"sequence":0`, `"progress":0`, `"automatic_resend_allowed":false`} {
+		if !strings.Contains(string(body), marker) {
+			t.Fatalf("Go job JSON omitted required zero/false marker %s", marker)
+		}
+	}
+	validatePortContractJSON(t, compileContractJSONSchema(t, "system-update-job.schema.json"), string(body), true)
 
 	claimBody, err := json.Marshal(UpdateAgentClaimResponse{
 		Job: job, LeaseToken: strings.Repeat("a", 43), LeaseExpiresAt: now.Add(time.Minute),
@@ -434,18 +446,18 @@ func TestSystemUpdateGoTypesPreserveRequiredZerosAndOmitOptionalFields(t *testin
 		}
 	}
 
-	requestBody, err := json.Marshal(UpdateAgentClaimRequest{ServiceID: "updater-1"})
+	requestBody, err := json.Marshal(UpdateAgentClaimRequest{UpdaterID: "updater-1", HostID: "host-1", LeaseGeneration: 1, Fence: 1})
 	if err != nil {
 		t.Fatal(err)
 	}
 	if strings.Contains(string(requestBody), "active_job_id") {
 		t.Fatalf("empty active_job_id must be omitted: %s", requestBody)
 	}
-	requestBody, err = json.Marshal(UpdateAgentClaimRequest{ServiceID: "updater-1", HostID: "host-1", ActiveJobID: "job-1"})
+	requestBody, err = json.Marshal(UpdateAgentClaimRequest{UpdaterID: "updater-1", HostID: "host-1", LeaseGeneration: 2, Fence: 3, ActiveJobID: "job-1"})
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, marker := range []string{`"host_id":"host-1"`, `"active_job_id":"job-1"`} {
+	for _, marker := range []string{`"updater_id":"updater-1"`, `"host_id":"host-1"`, `"lease_generation":2`, `"fence":3`, `"active_job_id":"job-1"`} {
 		if !strings.Contains(string(requestBody), marker) {
 			t.Fatalf("recovery claim is missing %s: %s", marker, requestBody)
 		}
@@ -458,13 +470,13 @@ func TestSystemUpdateGoTypesPreserveRequiredZerosAndOmitOptionalFields(t *testin
 		t.Fatalf("clear response must contain only the explicit sentinel: %s", clearBody)
 	}
 	authorizeBody, err := json.Marshal(UpdateAgentAuthorizeRequest{
-		ServiceID: "updater-1", LeaseToken: strings.Repeat("a", 43), LeaseGeneration: 2,
-		ExecutionHostID: "host-1", TargetID: "control-panel", TargetVersion: "v1.6.6", DeploymentMode: SystemUpdateDeploymentSystemd,
+		UpdaterID: "updater-1", HostID: "host-1", LeaseToken: strings.Repeat("a", 43), LeaseGeneration: 2, Fence: 3,
+		TargetID: "control-panel", TargetVersion: "v1.6.6", DeploymentMode: SystemUpdateDeploymentSystemd,
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, marker := range []string{`"service_id":"updater-1"`, `"lease_generation":2`, `"host_id":"host-1"`, `"target_id":"control-panel"`, `"target_version":"v1.6.6"`, `"deployment_mode":"systemd"`} {
+	for _, marker := range []string{`"updater_id":"updater-1"`, `"lease_generation":2`, `"fence":3`, `"host_id":"host-1"`, `"target_id":"control-panel"`, `"target_version":"v1.6.6"`, `"deployment_mode":"systemd"`} {
 		if !strings.Contains(string(authorizeBody), marker) {
 			t.Fatalf("authorize JSON is missing %s: %s", marker, authorizeBody)
 		}
@@ -476,46 +488,36 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 	if updater.AdditionalProperties != false {
 		t.Fatal("updater status must reject unknown fields")
 	}
-	requireContractFields(t, updater.Required, "updater_id", "name", "status", "online", "version")
+	requireContractFields(t, updater.Required, "protocol_version", "updater_id", "host_id", "service_id", "name", "transport_mode", "authentication", "status", "online", "version", "heartbeat_sequence", "capabilities", "desired_revision", "applied_revision", "fence")
 	updaterOptional := []string{
-		"transport_mode", "execution_host_id", "ownership_epoch", "last_heartbeat_at",
-		"desired_revision", "applied_revision", "policy_status", "policy_error_code",
-		"ssh_client_public_keys", "ssh_client_key_fingerprints",
+		"execution_host_id", "ownership_epoch", "last_heartbeat_at", "policy_status", "policy_error_code",
 		"bootstrap_encryption_public_key", "bootstrap_encryption_key_fingerprint",
 	}
 	for _, optional := range updaterOptional {
 		if contractSliceHas(updater.Required, optional) {
-			t.Fatalf("updater status field %q must remain optional for additive ssh_v1 compatibility", optional)
+			t.Fatalf("updater status field %q must remain optional", optional)
 		}
 	}
-	for _, value := range []string{"ssh_v1", "pull_v2"} {
-		if !contractSliceHas(updater.Properties["transport_mode"].Enum, value) {
-			t.Fatalf("updater transport_mode enum is missing %q", value)
-		}
+	if updater.Properties["transport_mode"].Const != "pull_v2" {
+		t.Fatalf("updater transport_mode must be pull_v2, got %#v", updater.Properties["transport_mode"].Const)
 	}
-	for _, field := range []string{"ownership_epoch", "desired_revision", "applied_revision"} {
+	for _, field := range []string{"ownership_epoch", "applied_revision"} {
 		property := updater.Properties[field]
 		if property.Type != "integer" || property.Minimum != 0 {
 			t.Fatalf("updater %s must be a non-negative integer: %#v", field, property)
 		}
+	}
+	if desired := updater.Properties["desired_revision"]; desired.Type != "integer" || desired.Minimum != 1 {
+		t.Fatalf("updater desired_revision must be a positive integer: %#v", desired)
 	}
 	for _, value := range []string{"applied", "pending", "failed"} {
 		if !contractSliceHas(updater.Properties["policy_status"].Enum, value) {
 			t.Fatalf("updater policy_status enum is missing %q", value)
 		}
 	}
-	for field, wantPattern := range map[string]string{
-		"ssh_client_public_keys":      "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$",
-		"ssh_client_key_fingerprints": "^SHA256:[A-Za-z0-9+/]{43}$",
-	} {
-		property := updater.Properties[field]
-		if property.Type != "object" || property.PropertyNames == nil ||
-			property.PropertyNames.Pattern != "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$" {
-			t.Fatalf("updater %s must be a host-id keyed object: %#v", field, property)
-		}
-		values, ok := property.AdditionalProperties.(map[string]any)
-		if !ok || values["type"] != "string" || values["pattern"] != wantPattern {
-			t.Fatalf("updater %s values must be constrained strings: %#v", field, property.AdditionalProperties)
+	for _, removed := range []string{"ssh_client_public_keys", "ssh_client_key_fingerprints"} {
+		if _, ok := updater.Properties[removed]; ok {
+			t.Fatalf("updater v2 status retained removed SSH field %q", removed)
 		}
 	}
 	for field, wantPattern := range map[string]string{
@@ -531,7 +533,7 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 	if host.AdditionalProperties != false {
 		t.Fatal("host status must reject unknown fields")
 	}
-	requireContractFields(t, host.Required, "host_id", "name", "updater_id", "reachability")
+	requireContractFields(t, host.Required, "protocol_version", "host_id", "name", "updater_id", "reachability", "updater_health", "application_probe")
 	for _, value := range []string{"reachable", "unreachable", "unknown"} {
 		if !contractSliceHas(host.Properties["reachability"].Enum, value) {
 			t.Fatalf("host reachability enum is missing %q", value)
@@ -539,15 +541,15 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 	}
 	for _, optional := range []string{
 		"reachability_checked_at", "reachability_code",
-		"ssh_client_public_key", "ssh_client_key_fingerprint",
 	} {
 		if contractSliceHas(host.Required, optional) {
 			t.Fatalf("host status field %q must remain optional", optional)
 		}
 	}
-	if host.Properties["ssh_client_public_key"].Pattern != "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$" ||
-		host.Properties["ssh_client_key_fingerprint"].Pattern != "^SHA256:[A-Za-z0-9+/]{43}$" {
-		t.Fatal("host SSH identity fields must use the canonical ED25519 public-key and SHA256 fingerprint formats")
+	for _, removed := range []string{"ssh_client_public_key", "ssh_client_key_fingerprint"} {
+		if _, ok := host.Properties[removed]; ok {
+			t.Fatalf("host v2 status retained removed SSH field %q", removed)
+		}
 	}
 
 	response := readContractSchema(t, "system-updates-response.schema.json")
@@ -557,37 +559,38 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 	requireContractFields(t, response.Required, "updaters", "hosts", "targets", "jobs")
 
 	now := time.Date(2026, time.July, 19, 0, 0, 0, 0, time.UTC)
+	inventoryJob := systemUpdateV2JobFixture(now)
+	inventoryJob.TargetID = "worker-1"
+	inventoryJob.TargetType = SystemUpdateTargetWorker
 	instance := SystemUpdatesResponse{
 		Updaters: []SystemUpdateAgentStatus{{
-			UpdaterID: "updater-1", Name: "Central Updater", Status: "online",
+			ProtocolVersion: 2, UpdaterID: "updater-1", HostID: "host-1", ServiceID: "updater-service-1",
+			Authentication: "assignment_bound_rotating_service_identity", Name: "Independent Updater", Status: "online",
 			TransportMode: UpdateTransportPullV2, ExecutionHostID: "host-1", OwnershipEpoch: 2,
-			Online: true, Version: "v1.7.0", LastHeartbeatAt: &now,
-			DesiredRevision: 4, AppliedRevision: 3, PolicyStatus: "pending", PolicyErrorCode: "active_job_pending",
-			SSHClientPublicKeys: map[string]string{
-				"host-1": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8g",
-			},
-			SSHClientKeyFingerprints: map[string]string{
-				"host-1": "SHA256:mKqU+0K8OhKmA8bBQi9Rz0Q5l7/g160hIP+rJYSTNj4",
-			},
+			Online: true, Version: "v2.0.0", LastHeartbeatAt: &now,
+			HeartbeatSequence: 8, Capabilities: []UpdaterCapability{UpdaterCapabilityUpdate},
+			DesiredRevision: 4, AppliedRevision: 3, Fence: 5, PolicyStatus: "pending", PolicyErrorCode: "active_job_pending",
 			BootstrapEncryptionPublicKey:      "BG_wO5SSQc4drdQ1GeaWDgqFtBppoFwygQOqK84VlMoWPE91OlW_AdxT9sCwx-7ni0DG_30lqW4igrmJzvccFEo",
 			BootstrapEncryptionKeyFingerprint: "SHA256:JWsb4ydF0dHJ1JEhzIe8RRxPLfp1bYm0yRCvrrYliuA",
 		}},
 		Hosts: []SystemUpdateHostStatus{{
-			HostID: "host-1", Name: "Encoder Host", UpdaterID: "updater-1",
+			ProtocolVersion: 2, HostID: "host-1", Name: "Encoder Host", UpdaterID: "updater-1",
 			Reachability: SystemUpdateReachable, ReachabilityCheckedAt: &now,
-			SSHClientPublicKey:      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8g",
-			SSHClientKeyFingerprint: "SHA256:mKqU+0K8OhKmA8bBQi9Rz0Q5l7/g160hIP+rJYSTNj4",
+			UpdaterHealth: &UpdaterHealth{Status: "ready", Revision: 4},
+			ApplicationProbe: &SystemUpdateHostApplicationProbe{
+				Status:                          "ready",
+				ApplicationRuntimeIdentityProbe: ApplicationRuntimeIdentityProbe{Version: "v2.0.0", ServiceID: "encoder-1", ServiceType: SystemUpdateTargetEncoderRecorder, ConfigRevision: 3},
+			},
 		}},
 		Targets: []SystemUpdateTarget{{
-			TargetID: "worker-1", TargetType: SystemUpdateTargetWorker, Name: "Worker",
+			ProtocolVersion: 2, UpdaterID: "updater-1", Capabilities: []UpdaterCapability{UpdaterCapabilityUpdate},
+			DesiredRevision: 4, AppliedRevision: 0, Fence: 5,
+			UpdaterHealth:    &UpdaterHealth{Status: "ready", Revision: 4},
+			ApplicationProbe: &ApplicationRuntimeIdentityProbe{Version: "v2.0.0", ServiceID: "worker-1", ServiceType: SystemUpdateTargetWorker, ConfigRevision: 3},
+			TargetID:         "worker-1", TargetType: SystemUpdateTargetWorker, Name: "Worker",
 			HostID: "host-1", UpdateAvailable: false, UpdaterOnline: true, Eligible: false, Busy: false,
 		}},
-		Jobs: []SystemUpdateJob{{
-			ID: "job-1", TargetID: "worker-1", TargetType: SystemUpdateTargetWorker,
-			ExecutionHostID: "host-1", DeploymentMode: SystemUpdateDeploymentSystemd,
-			CurrentVersion: "v1.0.0", TargetVersion: "v1.0.1", Strategy: SystemUpdateWhenIdle, Status: SystemUpdateQueued,
-			IdempotencyKey: "request-1", CreatedAt: now, UpdatedAt: now,
-		}},
+		Jobs: []SystemUpdateJob{inventoryJob},
 	}
 	body, err := json.Marshal(instance)
 	if err != nil {
@@ -651,16 +654,8 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 		{name: "applied_revision", mutate: func(value map[string]any) {
 			updaterAt(value)["applied_revision"] = -1
 		}},
-		{name: "ssh_key_map_key", mutate: func(value map[string]any) {
-			updaterAt(value)["ssh_client_public_keys"] = map[string]any{
-				"bad host": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8g",
-			}
-		}},
-		{name: "ssh_key_map_value", mutate: func(value map[string]any) {
-			updaterAt(value)["ssh_client_public_keys"] = map[string]any{"host-1": 7}
-		}},
-		{name: "ssh_fingerprint_map_value", mutate: func(value map[string]any) {
-			updaterAt(value)["ssh_client_key_fingerprints"] = map[string]any{"host-1": "MD5:legacy"}
+		{name: "removed_ssh_key_map", mutate: func(value map[string]any) {
+			updaterAt(value)["ssh_client_public_keys"] = map[string]any{"host-1": "removed"}
 		}},
 		{name: "bootstrap_public_key", mutate: func(value map[string]any) {
 			updaterAt(value)["bootstrap_encryption_public_key"] = "not-a-p256-public-key"
@@ -668,11 +663,8 @@ func TestSystemUpdateInventoryHostContractsMatchGETShape(t *testing.T) {
 		{name: "bootstrap_fingerprint", mutate: func(value map[string]any) {
 			updaterAt(value)["bootstrap_encryption_key_fingerprint"] = "sha256:wrong-case"
 		}},
-		{name: "host_ssh_public_key", mutate: func(value map[string]any) {
-			hostAt(value)["ssh_client_public_key"] = "ssh-rsa legacy"
-		}},
-		{name: "host_ssh_fingerprint", mutate: func(value map[string]any) {
-			hostAt(value)["ssh_client_key_fingerprint"] = "MD5:legacy"
+		{name: "removed_host_ssh_public_key", mutate: func(value map[string]any) {
+			hostAt(value)["ssh_client_public_key"] = "removed"
 		}},
 	}
 	for _, testCase := range invalidCases {
@@ -948,14 +940,19 @@ func TestReleaseManifestSchemasSeparateHostAndDockerChannels(t *testing.T) {
 	}
 	manifest := readContractSchema(t, "release-manifest.schema.json")
 	requireContractFields(t, manifest.Required, "schema_version", "release_id", "channel", "published_at", "components")
-	requireContractFields(t, manifest.Required, "minimum_agent_version")
+	if contractSliceHas(manifest.Required, "minimum_agent_version") || contractSliceHas(manifest.Required, "protocol_major") {
+		t.Fatal("release compatibility fields must be required by channel, not across both channels")
+	}
 	if !contractSliceHas(manifest.Properties["channel"].Enum, "host") ||
 		!contractSliceHas(manifest.Properties["channel"].Enum, "docker") {
 		t.Fatal("release manifest must support host and docker channels")
 	}
-	for _, alias := range []string{"bundle_version", "generated_at"} {
-		if !strings.Contains(manifest.Properties[alias].Pattern+readReleaseDescription(t, alias), "must equal") {
-			t.Fatalf("%s must document its canonical identity alias", alias)
+	if manifest.Properties["schema_version"].Const != float64(2) {
+		t.Fatalf("release manifest schema version must be 2, got %#v", manifest.Properties["schema_version"].Const)
+	}
+	for _, removed := range []string{"bundle_version", "generated_at"} {
+		if _, ok := manifest.Properties[removed]; ok {
+			t.Fatalf("release manifest retained removed alias %q", removed)
 		}
 	}
 	if len(manifest.AllOf) != 2 || manifest.AllOf[0].Then == nil || manifest.AllOf[1].Then == nil {
@@ -963,43 +960,53 @@ func TestReleaseManifestSchemasSeparateHostAndDockerChannels(t *testing.T) {
 	}
 
 	docker := manifest.AllOf[0].Then
-	requireContractFields(t, docker.Required, "bundle_version", "generated_at", "minimum_agent_version")
+	requireContractFields(t, docker.Required, "protocol_major")
+	if manifest.Properties["protocol_major"].Const != float64(2) || docker.Not == nil || !contractSliceHas(docker.Not.Required, "minimum_agent_version") {
+		t.Fatal("Docker releases must use protocol-major 2 and forbid version-based compatibility")
+	}
+	requireContractFields(t, manifest.AllOf[1].Then.Required, "minimum_agent_version")
 	if manifest.Properties["minimum_agent_version"].Pattern != "^v[0-9]+\\.[0-9]+\\.[0-9]+$" {
 		t.Fatal("minimum_agent_version must use the canonical release version format")
 	}
 	dockerComponents := docker.Properties["components"]
-	if dockerComponents.MinItems != 5 || dockerComponents.MaxItems != 5 || dockerComponents.Items == nil {
-		t.Fatalf("docker manifest must contain exactly five components: %#v", dockerComponents)
+	if dockerComponents.MinItems != 6 || dockerComponents.MaxItems != 6 || dockerComponents.Items == nil || len(dockerComponents.Items.OneOf) != 2 {
+		t.Fatalf("docker manifest must contain five images and one independent Updater metadata component: %#v", dockerComponents)
 	}
-	requireContractFields(t, dockerComponents.Items.Required,
-		"service", "source_version", "image", "manifest_digest", "platform_digests",
+	imageComponent := dockerComponents.Items.OneOf[0]
+	updaterComponent := dockerComponents.Items.OneOf[1]
+	requireContractFields(t, imageComponent.Required,
+		"service", "source_version", "commit", "image", "manifest_digest", "platform_digests",
 		"rollback_compatible", "database_schema",
 	)
-	if len(dockerComponents.AllOf) != 5 {
+	requireContractFields(t, updaterComponent.Required, "service", "commit", "protocol_major")
+	if len(updaterComponent.Required) != 3 || updaterComponent.Properties["service"].Const != "updater" || updaterComponent.Properties["protocol_major"].Const != float64(2) {
+		t.Fatal("independent Updater component must contain only source identity and protocol-major metadata")
+	}
+	if len(dockerComponents.AllOf) != 6 {
 		t.Fatalf("docker manifest must contain each known service exactly once: %#v", dockerComponents.AllOf)
 	}
-	if !strings.Contains(dockerComponents.Items.Properties["image"].Pattern, "ghcr\\.io/kome-lab/autostream-docker") {
+	if !strings.Contains(imageComponent.Properties["image"].Pattern, "ghcr\\.io/kome-lab/autostream-docker") {
 		t.Fatal("docker images must use the fixed lowercase GHCR namespace")
 	}
-	if dockerComponents.Items.Properties["rollback_compatible"].Const != true {
+	if imageComponent.Properties["rollback_compatible"].Const != true {
 		t.Fatal("Docker releases must explicitly allow rollback")
 	}
-	if dockerComponents.Items.Not == nil {
+	if imageComponent.Not == nil {
 		t.Fatal("Docker components must reject host-only fields")
 	}
-	for _, forbidden := range dockerComponents.Items.Not.AnyOf {
+	for _, forbidden := range imageComponent.Not.AnyOf {
 		for _, policyField := range []string{"rollback_compatible", "database_schema"} {
 			if contractSliceHas(forbidden.Required, policyField) {
 				t.Fatalf("Docker schema both requires and forbids %q", policyField)
 			}
 		}
 	}
-	if schemas := dockerComponents.Items.Properties["database_schema"].Enum; !contractSliceHas(schemas, "none") || !contractSliceHas(schemas, "backward_compatible") || contractSliceHas(schemas, "irreversible") {
+	if schemas := imageComponent.Properties["database_schema"].Enum; !contractSliceHas(schemas, "none") || !contractSliceHas(schemas, "backward_compatible") || contractSliceHas(schemas, "irreversible") {
 		t.Fatalf("Docker database_schema policy is unsafe: %#v", schemas)
 	}
 	expectedSchemas := []string{"backward_compatible", "none", "none", "backward_compatible", "none"}
 	for i, expected := range expectedSchemas {
-		if dockerComponents.Items.AllOf[i].Then == nil || dockerComponents.Items.AllOf[i].Then.Properties["database_schema"].Const != expected {
+		if imageComponent.AllOf[i].Then == nil || imageComponent.AllOf[i].Then.Properties["database_schema"].Const != expected {
 			t.Fatalf("Docker service policy %d must require database_schema %q", i, expected)
 		}
 	}

@@ -3,16 +3,17 @@
   "title": "Update Agent Claim Request",
   "type": "object",
   "additionalProperties": false,
-  "required": ["service_id"],
+  "required": ["updater_id", "host_id", "lease_generation", "fence"],
   "properties": {
-    "service_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "updater_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "host_id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 191,
-      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
-      "description": "Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior."
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
     },
+    "lease_generation": { "type": "integer", "minimum": 1 },
+    "fence": { "type": "integer", "minimum": 1 },
     "active_job_id": {
       "type": "string",
       "minLength": 1,
