@@ -28,17 +28,55 @@ func compilePhysicalEOLSchemaFragment(t *testing.T, name, fragment string) *json
 
 func compilePhysicalEOLDocumentFragment(t *testing.T, name string, document any, fragment string) *jsonschema.Schema {
 	t.Helper()
+	stripPhysicalEOLSchemaIDs(document)
 	compiler := jsonschema.NewCompiler()
 	compiler.AssertFormat()
 	compiler.UseRegexpEngine(compileECMAContractSchemaRegexp)
 	if err := compiler.AddResource(name, document); err != nil {
 		t.Fatal(err)
 	}
+	entries, err := os.ReadDir(filepath.Join("..", "..", "schemas"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".json") {
+			continue
+		}
+		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", entry.Name()))
+		if err != nil {
+			t.Fatal(err)
+		}
+		dependency, err := jsonschema.UnmarshalJSON(bytes.NewReader(body))
+		if err != nil {
+			t.Fatalf("parse %s: %v", entry.Name(), err)
+		}
+		stripPhysicalEOLSchemaIDs(dependency)
+		if entry.Name() != name {
+			if err := compiler.AddResource(entry.Name(), dependency); err != nil {
+				t.Fatalf("register %s: %v", entry.Name(), err)
+			}
+		}
+	}
 	schema, err := compiler.Compile(name + "#" + fragment)
 	if err != nil {
 		t.Fatal(err)
 	}
 	return schema
+}
+
+func stripPhysicalEOLSchemaIDs(value any) {
+	switch typed := value.(type) {
+	case map[string]any:
+		delete(typed, "$id")
+		for _, child := range typed {
+			stripPhysicalEOLSchemaIDs(child)
+		}
+	case []any:
+		for _, child := range typed {
+			stripPhysicalEOLSchemaIDs(child)
+		}
+	}
 }
 
 func TestPhysicalEOLEncoderRequestsRejectInlineRuntimeFields(t *testing.T) {
