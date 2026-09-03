@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/testdata/v2-migration/migration-proof.schema.json",
+  "title": "AutoStreamV2MigrationProofFixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scope",
+    "environment",
+    "physical_eol_deletion_started",
+    "production_mutation",
+    "rows"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "scope": { "const": "V2-DATA-MIGRATION-CONTRACTS-001" },
+    "environment": { "const": "contract_fixture" },
+    "physical_eol_deletion_started": { "const": false },
+    "production_mutation": { "const": false },
+    "rows": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/migrationRow" }
+    }
+  },
+  "$defs": {
+    "countSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_count", "represented_count"],
+      "properties": {
+        "source_count": { "type": "integer", "minimum": 0 },
+        "represented_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "artifactProof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "artifact_id", "record_count", "checksum_sha256"],
+      "properties": {
+        "status": { "const": "PASS" },
+        "artifact_id": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "record_count": { "type": "integer", "minimum": 0 },
+        "checksum_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "replacementProof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "authority"],
+      "properties": {
+        "status": { "const": "PASS" },
+        "authority": { "type": "string", "minLength": 1, "maxLength": 512 }
+      }
+    },
+    "migrationRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inventory_id",
+        "repository",
+        "model_or_contract",
+        "strategy",
+        "migration_task",
+        "deletion_task",
+        "expected_non_empty",
+        "replacement",
+        "backup",
+        "restore",
+        "pre_counts",
+        "post_counts",
+        "orphan_count",
+        "idempotence",
+        "rollback"
+      ],
+      "properties": {
+        "inventory_id": { "type": "string", "pattern": "^DEP-[A-Z]+-[0-9]{4}$" },
+        "repository": { "const": "autostream-contracts" },
+        "model_or_contract": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "strategy": {
+          "enum": [
+            "transform",
+            "archive read-only",
+            "export then drop",
+            "retain data / remove runtime reference",
+            "drop after proof",
+            "no persistent data"
+          ]
+        },
+        "migration_task": { "const": "V2-DATA-MIGRATION-CONTRACTS-001" },
+        "deletion_task": { "const": "V2-COMPAT-EOL-CONTRACTS-001" },
+        "expected_non_empty": { "type": "boolean" },
+        "replacement": { "$ref": "#/$defs/replacementProof" },
+        "backup": { "$ref": "#/$defs/artifactProof" },
+        "restore": { "$ref": "#/$defs/artifactProof" },
+        "pre_counts": { "$ref": "#/$defs/countSet" },
+        "post_counts": { "$ref": "#/$defs/countSet" },
+        "orphan_count": { "const": 0 },
+        "idempotence": { "const": "PASS" },
+        "rollback": { "const": "PASS" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "expected_non_empty": { "const": true } },
+            "required": ["expected_non_empty"]
+          },
+          "then": {
+            "properties": {
+              "pre_counts": {
+                "properties": { "source_count": { "minimum": 1 } }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
