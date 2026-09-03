@@ -434,58 +434,11 @@
           ]
         },
         "properties": {
-          "archive_config": {
-            "additionalProperties": false,
-            "properties": {
-              "archive_profile_id": {
-                "type": "string"
-              },
-              "auth_mode": {
-                "enum": [
-                  "oauth2"
-                ]
-              },
-              "base_path": {
-                "deprecated": true,
-                "description": "Ignored legacy value. folder_id is the archive root.",
-                "type": "string"
-              },
-              "client_id": {
-                "description": "OAuth client ID for Encoder/Recorder token refresh.",
-                "type": "string"
-              },
-              "client_secret_secret_name": {
-                "description": "Runtime secret reference for the OAuth client secret.",
-                "type": "string"
-              },
-              "drive_destination_id": {
-                "type": "string"
-              },
-              "folder_id_secret_name": {
-                "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through Control Panel.",
-                "type": "string"
-              },
-              "oauth_account_id": {
-                "type": "string"
-              },
-              "oauth_provider_id": {
-                "type": "string"
-              },
-              "refresh_token_secret_name": {
-                "description": "Runtime secret reference for the OAuth refresh token.",
-                "type": "string"
-              },
-              "shared_drive": {
-                "type": "boolean"
-              }
-            },
-            "type": "object"
-          },
           "archive_profile_id": {
             "type": "string"
           },
           "archive_run_id": {
-            "description": "Stable identifier for one broadcast/archive run. Legacy callers omit this field.",
+            "description": "Stable identifier for one broadcast/archive run.",
             "maxLength": 128,
             "minLength": 1,
             "not": {
@@ -534,11 +487,6 @@
           "stream_id": {
             "minLength": 1,
             "type": "string"
-          },
-          "stream_key": {
-            "description": "Deprecated backward-compatible raw runtime secret. Production Control Panel-managed YouTube outputs, including live_api_dry_run, must send stream_key_secret_name instead.",
-            "type": "string",
-            "writeOnly": true
           },
           "stream_key_secret_name": {
             "description": "Runtime secret reference resolved by the assigned Encoder/Recorder through the Control Panel. This is preferred for stored YouTube outputs and YouTube Live API short-lived stream keys.",

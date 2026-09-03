@@ -11,7 +11,7 @@
       "duplicate_method_paths": [],
       "duplicate_operation_ids": [],
       "explicit_security_count": 29,
-      "inherited_security_count": 151,
+      "inherited_security_count": 149,
       "inline_schema_count": 33,
       "method_counts": {
         "delete": 18,
@@ -19,13 +19,13 @@
         "head": 0,
         "options": 0,
         "patch": 0,
-        "post": 82,
+        "post": 80,
         "put": 17,
         "trace": 0
       },
-      "normalized_bundle_sha256": "ffa020bc59359240a48b100b77a6a778b18c3667cc45afddcc961fc0cab59996",
+      "normalized_bundle_sha256": "9eb44b230a7b5c3853294c6998798f79531465419fd4f60bb9aca0c15eda8213",
       "openapi_version": "3.1.0",
-      "operation_count": 180,
+      "operation_count": 178,
       "operation_id_count": 15,
       "operations": [
         {
@@ -94,7 +94,7 @@
               "kind": "ref",
               "name": "ServiceTokenCreateRequest",
               "ref": "#/components/schemas/ServiceTokenCreateRequest",
-              "resolved_sha256": "dd9a880914b8b2dabc7d20204a6171e2c05a4161ad0e376eadc3c44db5e1a851"
+              "resolved_sha256": "e4bbf6570054d3f92677cafb13b22235acf4a291fa3766b3bf6f97553e572119"
             }
           ],
           "responses": [
@@ -280,7 +280,7 @@
                 {
                   "kind": "inline",
                   "name": "",
-                  "resolved_sha256": "f27e3f3970560752c1a21bb2c3a6d30d136a9ddba7c15c41e88dafda6ee098b5",
+                  "resolved_sha256": "6f697268b9b74ec71a7e9b93eb6d8117f9355dde1c0821e6472fca1ac9004d66",
                   "type": "array"
                 }
               ],
@@ -324,7 +324,7 @@
               "kind": "ref",
               "name": "DriveDestinationWriteRequest",
               "ref": "#/components/schemas/DriveDestinationWriteRequest",
-              "resolved_sha256": "a037cc0e1bf62602bf6d737aa0c5d81a23c8fe675dbc5d5c2b43b4947fefd034"
+              "resolved_sha256": "455850faaf3d83b03512dea0cbdad21fa93cc9e338be9de353735049409c2cc8"
             }
           ],
           "responses": [
@@ -447,7 +447,7 @@
               "kind": "ref",
               "name": "DriveDestinationWriteRequest",
               "ref": "#/components/schemas/DriveDestinationWriteRequest",
-              "resolved_sha256": "a037cc0e1bf62602bf6d737aa0c5d81a23c8fe675dbc5d5c2b43b4947fefd034"
+              "resolved_sha256": "455850faaf3d83b03512dea0cbdad21fa93cc9e338be9de353735049409c2cc8"
             }
           ],
           "responses": [
@@ -1688,53 +1688,6 @@
           "tags": []
         },
         {
-          "deprecated": true,
-          "effective_security": [
-            {
-              "cookieSession": []
-            }
-          ],
-          "exposure_classification": "authenticated",
-          "method": "post",
-          "operation_id": "",
-          "path": "/integrations/oauth-accounts",
-          "request_body_content_types": [
-            "application/json"
-          ],
-          "request_schemas": [
-            {
-              "kind": "ref",
-              "name": "OAuthAccountWriteRequest",
-              "ref": "#/components/schemas/OAuthAccountWriteRequest",
-              "resolved_sha256": "6f81f9c093aad5a1e3ebf5d98ac046c72c530f81cbbe07b1a5402c66ef214722"
-            }
-          ],
-          "responses": [
-            {
-              "content_types": [],
-              "schemas": [],
-              "status": "403"
-            },
-            {
-              "content_types": [
-                "application/json"
-              ],
-              "schemas": [
-                {
-                  "kind": "ref",
-                  "name": "V2ContractError",
-                  "ref": "#/components/schemas/V2ContractError",
-                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
-                }
-              ],
-              "status": "426"
-            }
-          ],
-          "security_source": "inherited",
-          "summary_present": true,
-          "tags": []
-        },
-        {
           "deprecated": false,
           "effective_security": [
             {
@@ -2738,7 +2691,7 @@
                 {
                   "kind": "inline",
                   "name": "",
-                  "resolved_sha256": "9eff34b629a674924454d4a39631b27718ca233ddecc36f80033cb5ce5b506e4",
+                  "resolved_sha256": "4bfd212f08e45ecb9679017cca1f308d391acd09c521b5f2b8837bbc6a33ab93",
                   "type": "array"
                 }
               ],
@@ -2795,7 +2748,7 @@
                   "kind": "ref",
                   "name": "NotificationChannel",
                   "ref": "#/components/schemas/NotificationChannel",
-                  "resolved_sha256": "f98543b5ade2340ba173291534e574d15cfa1d297c800231b47efe5cbd70bbc6"
+                  "resolved_sha256": "89a6ce45a4b947aac608f0ca3c799836fb32767c7c6fb26aeaeaa28d852b069a"
                 }
               ],
               "status": "201"
@@ -2900,7 +2853,7 @@
                   "kind": "ref",
                   "name": "NotificationChannel",
                   "ref": "#/components/schemas/NotificationChannel",
-                  "resolved_sha256": "f98543b5ade2340ba173291534e574d15cfa1d297c800231b47efe5cbd70bbc6"
+                  "resolved_sha256": "89a6ce45a4b947aac608f0ca3c799836fb32767c7c6fb26aeaeaa28d852b069a"
                 }
               ],
               "status": "200"
@@ -2956,7 +2909,7 @@
                   "kind": "ref",
                   "name": "NotificationChannel",
                   "ref": "#/components/schemas/NotificationChannel",
-                  "resolved_sha256": "f98543b5ade2340ba173291534e574d15cfa1d297c800231b47efe5cbd70bbc6"
+                  "resolved_sha256": "89a6ce45a4b947aac608f0ca3c799836fb32767c7c6fb26aeaeaa28d852b069a"
                 }
               ],
               "status": "200"
@@ -4436,7 +4389,7 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "c7a73aa1d3700230d995f39f9e38f60e9a34fdb6f8d8bd7d7490f6d2380c86f4",
+              "resolved_sha256": "1464d669184c7bbf39682515ba88e8ea1f02015909b4a3d9e2bdc79d202a7847",
               "type": ""
             }
           ],
@@ -5042,7 +4995,7 @@
               "kind": "ref",
               "name": "ServiceRegistrationRequest",
               "ref": "#/components/schemas/ServiceRegistrationRequest",
-              "resolved_sha256": "b0031ec71e41e49f9a6180d1d31143f574f6a0c696503d3982e0bba3ed749d5e"
+              "resolved_sha256": "42426dfc582f439b5d1b11cd760ecc5019878ef1e0dc745892ff8c05ce9b797b"
             }
           ],
           "responses": [
@@ -5055,7 +5008,7 @@
                   "kind": "ref",
                   "name": "RegisteredService",
                   "ref": "#/components/schemas/RegisteredService",
-                  "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
+                  "resolved_sha256": "6826bc4100cc27660f6f82863f2786ba10b7c42ff535f4fcf86fd4f4e8fd85e6"
                 }
               ],
               "status": "202"
@@ -5178,7 +5131,7 @@
                   "kind": "ref",
                   "name": "ServiceRuntimeConfig",
                   "ref": "#/components/schemas/ServiceRuntimeConfig",
-                  "resolved_sha256": "d7435591710618efc0478efb5d09dd34bf2620342d730f4532f398a54d994a6d"
+                  "resolved_sha256": "1fc8797951dec3e51f32839d3129eb037556b0d0172b7f41f864d4ad4b32653b"
                 }
               ],
               "status": "200"
@@ -5333,7 +5286,7 @@
               "kind": "ref",
               "name": "ServiceArtifactReport",
               "ref": "#/components/schemas/ServiceArtifactReport",
-              "resolved_sha256": "3e18653ec823e3ee095bfc2d61fef690a2e8e4e905844921a90f4d7495b19380"
+              "resolved_sha256": "b4676022ae83a2f8031bd608d700e14bacc0a22ba41a7ff0fbcc80b5d7f99988"
             }
           ],
           "responses": [
@@ -5581,7 +5534,7 @@
               "kind": "ref",
               "name": "UpdateAgentClaimRequest",
               "ref": "#/components/schemas/UpdateAgentClaimRequest",
-              "resolved_sha256": "39132171ca6d5e4ce2afd54eb71d5e148da0a5773284873656a79db1c8fd4afd"
+              "resolved_sha256": "f1c3441dbcba5fe0f9b10b3879c34c691f3c8de056b2a15adf1d259e0afef682"
             }
           ],
           "responses": [
@@ -5694,7 +5647,7 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "990443d2a4073437ef63a3f117ecd1be42f7e920e28a2bb3f055ca681b9cc23b",
+              "resolved_sha256": "1b501699a3400d4a076e990d53a575e734b29a98b1f76ed0eaacd452452b36ab",
               "type": ""
             }
           ],
@@ -5775,7 +5728,7 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "e8006aa271bbc848f36cdfad1fa071c49228e992491ccc2976d58664e2fab420",
+              "resolved_sha256": "3c66fc647fe543c002cea3dabe70dba74feb5507e748559b5ffc4e263ecd10a7",
               "type": ""
             }
           ],
@@ -5837,7 +5790,7 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "e027e1bd17fba534569258a23c71dc988d037251c7930a122e768b9e0b408f58",
+              "resolved_sha256": "cda3edbf8bbf9d692315d649d424894002e8110c7a9b9ec2ff49ab3be7548d74",
               "type": ""
             }
           ],
@@ -5851,7 +5804,7 @@
                   "kind": "ref",
                   "name": "system-update-job.schema",
                   "ref": "#/components/schemas/system-update-job.schema",
-                  "resolved_sha256": "588b23ba34c95e0ea8b1d0a607720128c56cb8159939e872b640d827eabbe907"
+                  "resolved_sha256": "cbc0a0f091bf8d89282173100899b9eeb62d0ea93fee34c0da548a5713236a52"
                 }
               ],
               "status": "200"
@@ -5964,7 +5917,7 @@
                   "kind": "ref",
                   "name": "RegisteredService",
                   "ref": "#/components/schemas/RegisteredService",
-                  "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
+                  "resolved_sha256": "6826bc4100cc27660f6f82863f2786ba10b7c42ff535f4fcf86fd4f4e8fd85e6"
                 }
               ],
               "status": "200"
@@ -7227,7 +7180,7 @@
                   "kind": "ref",
                   "name": "StartReadinessResponse",
                   "ref": "#/components/schemas/StartReadinessResponse",
-                  "resolved_sha256": "6d719beb5d5cde88057b2c2aeb5d91ba3c40deeedac00689537d499ba024d95f"
+                  "resolved_sha256": "13e56c5d568a5f368fbd1d596f676c5fe7db28ec49e31324fdd7eb22865ba051"
                 }
               ],
               "status": "200"
@@ -7848,7 +7801,7 @@
                   "kind": "ref",
                   "name": "SystemUpdatesResponse",
                   "ref": "#/components/schemas/SystemUpdatesResponse",
-                  "resolved_sha256": "bf1556813979e7176ab48f3ec89562e5dbab1ca0c6e952ad53845aae88193651"
+                  "resolved_sha256": "e4a9ca63a91408a0a453bac7f459d79cb4ced0f6f16afa21357055ef4c2dc43f"
                 }
               ],
               "status": "200"
@@ -7891,7 +7844,7 @@
               "kind": "ref",
               "name": "system-update-create-request.schema",
               "ref": "#/components/schemas/system-update-create-request.schema",
-              "resolved_sha256": "2845a007bc5cb0b300ea7a29be7d7b993c241abfdcf1c94e9e1ba8bc354a558d"
+              "resolved_sha256": "c202576b706313ad220dfd2c869b6cf9588b90aefb29dd7de60a3fe301f580cf"
             }
           ],
           "responses": [
@@ -7904,7 +7857,7 @@
                   "kind": "ref",
                   "name": "system-update-job.schema",
                   "ref": "#/components/schemas/system-update-job.schema",
-                  "resolved_sha256": "588b23ba34c95e0ea8b1d0a607720128c56cb8159939e872b640d827eabbe907"
+                  "resolved_sha256": "cbc0a0f091bf8d89282173100899b9eeb62d0ea93fee34c0da548a5713236a52"
                 }
               ],
               "status": "202"
@@ -8293,7 +8246,7 @@
               "kind": "ref",
               "name": "system-update-pull-ownership-activate-request.schema",
               "ref": "#/components/schemas/system-update-pull-ownership-activate-request.schema",
-              "resolved_sha256": "d73a31570e0f5e34c7d1700c5535208d19c7cad403badb6346cf2b7c28ba1c5a"
+              "resolved_sha256": "63a0e55274b0e98bacab82fcf493a9ece81c991d02acc067c463d6fb08a31338"
             }
           ],
           "responses": [
@@ -8306,7 +8259,7 @@
                   "kind": "ref",
                   "name": "system-update-pull-ownership-activate-response.schema",
                   "ref": "#/components/schemas/system-update-pull-ownership-activate-response.schema",
-                  "resolved_sha256": "9e16b2d6f3a01e0c85e5e1d4ac3ef0ef780afcae957f1730822b2561ec3e48fa"
+                  "resolved_sha256": "ad7eb980d41d8fb05d1cd76025459a126c6c6f9859c6888472056c13ee7ffcc6"
                 }
               ],
               "status": "200"
@@ -8419,7 +8372,7 @@
               "kind": "ref",
               "name": "system-update-pull-ownership-deactivate-request.schema",
               "ref": "#/components/schemas/system-update-pull-ownership-deactivate-request.schema",
-              "resolved_sha256": "b19a9640c5eb93d9b11bd2fa295bb13a3a02f2a4868d00157dfc89e4d2e00262"
+              "resolved_sha256": "c261f40188f0489e059e0fc85616d67d9e865f030a84f21f564e45bb387ff226"
             }
           ],
           "responses": [
@@ -8432,7 +8385,7 @@
                   "kind": "ref",
                   "name": "system-update-pull-ownership-deactivate-response.schema",
                   "ref": "#/components/schemas/system-update-pull-ownership-deactivate-response.schema",
-                  "resolved_sha256": "80ae7dfacd295b1fe51e0e72876c10705c2e41eda4aec0fe2acd2503908bb672"
+                  "resolved_sha256": "4fe0b498810555d86b51a56660cb119e0108db28867657d238134f6f3ac1d604"
                 }
               ],
               "status": "200"
@@ -8549,7 +8502,7 @@
                   "kind": "ref",
                   "name": "system-update-job.schema",
                   "ref": "#/components/schemas/system-update-job.schema",
-                  "resolved_sha256": "588b23ba34c95e0ea8b1d0a607720128c56cb8159939e872b640d827eabbe907"
+                  "resolved_sha256": "cbc0a0f091bf8d89282173100899b9eeb62d0ea93fee34c0da548a5713236a52"
                 }
               ],
               "status": "200"
@@ -9017,62 +8970,6 @@
           "tags": []
         },
         {
-          "deprecated": true,
-          "effective_security": [
-            {
-              "cookieSession": []
-            }
-          ],
-          "exposure_classification": "authenticated",
-          "method": "post",
-          "operation_id": "",
-          "path": "/users/{id}/oauth-links",
-          "request_body_content_types": [
-            "application/json"
-          ],
-          "request_schemas": [
-            {
-              "kind": "ref",
-              "name": "OAuthUserLinkWriteRequest",
-              "ref": "#/components/schemas/OAuthUserLinkWriteRequest",
-              "resolved_sha256": "c0f0ed234de548e8c075749ab08357c1698308dc501f89b609bedf4a78de0cc5"
-            }
-          ],
-          "responses": [
-            {
-              "content_types": [
-                "application/json"
-              ],
-              "schemas": [
-                {
-                  "kind": "ref",
-                  "name": "ErrorResponse",
-                  "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "07c300ce7804f1fe48e4085f3f0afd5ba9573110ddca16f031fc017f8db99f17"
-                }
-              ],
-              "status": "403"
-            },
-            {
-              "content_types": [
-                "application/json"
-              ],
-              "schemas": [
-                {
-                  "kind": "ref",
-                  "name": "V2ContractError",
-                  "ref": "#/components/schemas/V2ContractError",
-                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
-                }
-              ],
-              "status": "426"
-            }
-          ],
-          "security_source": "inherited",
-          "summary_present": true,
-          "tags": []
-        },
-        {
           "deprecated": false,
           "effective_security": [
             {
@@ -9294,7 +9191,7 @@
                   "kind": "ref",
                   "name": "RegisteredService",
                   "ref": "#/components/schemas/RegisteredService",
-                  "resolved_sha256": "f348d78d2ebc00daba66036147a3ac994016414922dfcbc5706ec73224c8556b"
+                  "resolved_sha256": "6826bc4100cc27660f6f82863f2786ba10b7c42ff535f4fcf86fd4f4e8fd85e6"
                 }
               ],
               "status": "200"
@@ -9706,11 +9603,6 @@
       "operations_without_security_definition": [],
       "operations_without_success_response": [
         {
-          "method": "post",
-          "operation_id": "",
-          "path": "/integrations/oauth-accounts"
-        },
-        {
           "method": "get",
           "operation_id": "",
           "path": "/integrations/oauth-accounts/callback"
@@ -9719,11 +9611,6 @@
           "method": "post",
           "operation_id": "",
           "path": "/services/update-jobs/{id}/authorize"
-        },
-        {
-          "method": "post",
-          "operation_id": "",
-          "path": "/users/{id}/oauth-links"
         }
       ],
       "path_count": 136,
@@ -9766,8 +9653,8 @@
           "path": "/setup/first-admin"
         }
       ],
-      "ref_layout_independent_sha256": "607886f68b1c173dec2242cd214f4b95f9de5fffae68061081d9e486b9687761",
-      "request_body_count": 55,
+      "ref_layout_independent_sha256": "7dd783405926ebcb5db88c2d7d71cfc1402a2c33c69cb76fab6fe71ea5cfe8e9",
+      "request_body_count": 53,
       "response_status_distribution": {
         "200": 138,
         "201": 21,
@@ -9776,18 +9663,18 @@
         "303": 1,
         "400": 26,
         "401": 15,
-        "403": 31,
+        "403": 29,
         "404": 26,
         "405": 1,
         "409": 40,
         "410": 3,
-        "426": 179,
+        "426": 177,
         "429": 4,
         "500": 15,
         "502": 11,
         "503": 12
       },
-      "schema_count": 180,
+      "schema_count": 178,
       "security_scheme_count": 2,
       "title": "AutoStream Control API",
       "unauthenticated_operation_count": 11,
@@ -10235,7 +10122,7 @@
         "put": 2,
         "trace": 0
       },
-      "normalized_bundle_sha256": "5862503152cdfd44e14146769afccf5ce134b9f77ead8fc0422206b0b3056470",
+      "normalized_bundle_sha256": "b467c38f347b8fd88020608c0ad56945fd00529f9aef318ec9aa81d49aa77ebe",
       "openapi_version": "3.1.0",
       "operation_count": 6,
       "operation_id_count": 6,
@@ -10259,7 +10146,7 @@
               "kind": "ref",
               "name": "encoder-start-stream-request.schema",
               "ref": "#/components/schemas/encoder-start-stream-request.schema",
-              "resolved_sha256": "ddad811b96246cc889160ea1bf084fe615264c6728d44f2e393c8e28ef848f26"
+              "resolved_sha256": "bd14d0fb8808587f5ff2457840c95e2dcb92123609747494bd296e3c9a6900da"
             }
           ],
           "responses": [
@@ -10645,7 +10532,7 @@
       "path_count": 5,
       "public_operation_count": 0,
       "public_operations": [],
-      "ref_layout_independent_sha256": "712de3d093ca417f35d738cba6b2ab80f7e8a4bc54adb42c422fb0924cb58f00",
+      "ref_layout_independent_sha256": "5c018180a8e1f37e1c07d22d9da476e9d8176b49847cdf6166c0fe678cf783ed",
       "request_body_count": 3,
       "response_status_distribution": {
         "200": 5,
@@ -10697,7 +10584,7 @@
         "put": 1,
         "trace": 0
       },
-      "normalized_bundle_sha256": "4a4cf75b719cb5f6f62897085bee8c91151b53c7018c8a4e300ec2459df4c4ef",
+      "normalized_bundle_sha256": "e1e6c64b22a5a427c7fa801a764eedf42da3f8fa2acdafe6fc5d534723b839cd",
       "openapi_version": "3.1.0",
       "operation_count": 25,
       "operation_id_count": 2,
@@ -10965,7 +10852,7 @@
                 {
                   "kind": "inline",
                   "name": "",
-                  "resolved_sha256": "05f7769adfe5cce0c074993e8d92458959504ecdc7633739cda8aaf7e9fdf4e4",
+                  "resolved_sha256": "6006fb2c2a8c02cdcffbf5c80ac18bab591c8369190b6581d945b94ff794f612",
                   "type": "array"
                 }
               ],
@@ -10995,7 +10882,7 @@
               "kind": "ref",
               "name": "NotificationChannelCreateRequest",
               "ref": "#/components/schemas/NotificationChannelCreateRequest",
-              "resolved_sha256": "760f0ff47ef54cc22bbaf5f90890e43904366be6f4e9b0519ce380605cc41f57"
+              "resolved_sha256": "a6b73d238dc01e7edd81250de86b75b07eee3097b0d711c99159e3c51d4b79f2"
             }
           ],
           "responses": [
@@ -11008,7 +10895,7 @@
                   "kind": "ref",
                   "name": "NotificationChannel",
                   "ref": "#/components/schemas/NotificationChannel",
-                  "resolved_sha256": "081801d468c86672c52e23fb4376f4ebe2a2be283972a852713045cc81549c7e"
+                  "resolved_sha256": "d169c7df1bdb900076c130a057b8e91de07538b94e87329758efe122c97f5a7b"
                 }
               ],
               "status": "201"
@@ -11070,7 +10957,7 @@
                   "kind": "ref",
                   "name": "NotificationChannel",
                   "ref": "#/components/schemas/NotificationChannel",
-                  "resolved_sha256": "081801d468c86672c52e23fb4376f4ebe2a2be283972a852713045cc81549c7e"
+                  "resolved_sha256": "d169c7df1bdb900076c130a057b8e91de07538b94e87329758efe122c97f5a7b"
                 }
               ],
               "status": "200"
@@ -11099,7 +10986,7 @@
               "kind": "ref",
               "name": "NotificationChannelWriteRequest",
               "ref": "#/components/schemas/NotificationChannelWriteRequest",
-              "resolved_sha256": "0ec3a30d14ddcc4c0dd8861d5fda64442562c82d1fb3226a04988347f68e39e9"
+              "resolved_sha256": "0648febdc6d1ed21bec76515ee14af4c3979240a8fb8e0a3fb0c840954fb0a10"
             }
           ],
           "responses": [
@@ -11112,7 +10999,7 @@
                   "kind": "ref",
                   "name": "NotificationChannel",
                   "ref": "#/components/schemas/NotificationChannel",
-                  "resolved_sha256": "081801d468c86672c52e23fb4376f4ebe2a2be283972a852713045cc81549c7e"
+                  "resolved_sha256": "d169c7df1bdb900076c130a057b8e91de07538b94e87329758efe122c97f5a7b"
                 }
               ],
               "status": "200"
@@ -11604,7 +11491,7 @@
       "path_count": 21,
       "public_operation_count": 0,
       "public_operations": [],
-      "ref_layout_independent_sha256": "dc34e3d037b0d6770c2cfb1a64b33b8818deea57f9ebf10a6adfcaef8aa3e3a4",
+      "ref_layout_independent_sha256": "88b60c82921aebd5657ac71879ca60663dafc8f74ae63f66e9e9d7c2ec3eaf08",
       "request_body_count": 4,
       "response_status_distribution": {
         "200": 20,

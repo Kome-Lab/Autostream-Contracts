@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "constant_count": 380,
+  "constant_count": 375,
   "constants": [
     {
       "name": "AssignmentRolePrimary",
@@ -33,19 +33,9 @@
       "value": "\"scene_frames_mjpeg_srt\""
     },
     {
-      "name": "CapabilitySceneVideoSRTLegacy",
-      "type": "untyped string",
-      "value": "\"scene_video_srt\""
-    },
-    {
       "name": "CapabilityWorkerFrameIngestMJPEGSRT",
       "type": "untyped string",
       "value": "\"worker_frame_ingest_mjpeg_srt\""
-    },
-    {
-      "name": "CapabilityWorkerVideoIngestSRTLegacy",
-      "type": "untyped string",
-      "value": "\"worker_video_ingest_srt\""
     },
     {
       "name": "DiagnosticRerunOutcomeEvaluated",
@@ -114,22 +104,10 @@
       "value": "\"direct\""
     },
     {
-      "name": "EncoderOutputRelayModeLegacyStreamKey",
+      "name": "EncoderOutputRelayModeLiveAPIRelayStatic",
       "type": "EncoderOutputRelayMode",
       "enum_type": "EncoderOutputRelayMode",
-      "value": "\"legacy_stream_key\""
-    },
-    {
-      "name": "EncoderOutputRelayModeLiveAPIStatic",
-      "type": "EncoderOutputRelayMode",
-      "enum_type": "EncoderOutputRelayMode",
-      "value": "\"live_api_static\""
-    },
-    {
-      "name": "EncoderOutputRelayModeStaticLegacyAlias",
-      "type": "EncoderOutputRelayMode",
-      "enum_type": "EncoderOutputRelayMode",
-      "value": "\"static\""
+      "value": "\"live_api_relay_static\""
     },
     {
       "name": "EncoderVideoCoverApplyOutcomeAmbiguous",
@@ -1853,12 +1831,6 @@
       "type": "UpdateTransportMode",
       "enum_type": "UpdateTransportMode",
       "value": "\"pull_v2\""
-    },
-    {
-      "name": "UpdateTransportSSHV1",
-      "type": "UpdateTransportMode",
-      "enum_type": "UpdateTransportMode",
-      "value": "\"ssh_v1\""
     },
     {
       "name": "UpdaterCapabilityBootstrap",

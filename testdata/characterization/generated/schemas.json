@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 119,
+  "schema_count": 118,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -567,15 +567,13 @@
       "path": "schemas/drive-destination-write.schema.json",
       "id": "https://schemas.autostream.example.com/drive-destination-write.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "30c1c3da1ddc73ecd2f57087a869a3c756560130cfb71bb89e205c3a6cf1f3ad",
+      "normalized_sha256": "f80a62cfcb2854ebbab0f9169adccfbc147c9ce5eaf9110779d10edfd8170464",
       "keywords": [
         "$id",
         "$schema",
         "additionalProperties",
         "allOf",
         "const",
-        "default",
-        "deprecated",
         "description",
         "enum",
         "if",
@@ -595,13 +593,11 @@
       "path": "schemas/drive-destination.schema.json",
       "id": "https://schemas.autostream.example.com/drive-destination.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "dabf2b937ce928b228ae4f2181f6f476ccc4e86287da047e0ddcd3c4fd601985",
+      "normalized_sha256": "cd23f5f5f57e446738ff1e473f16b0a65fe49a797725844f37b98ab9a482dd34",
       "keywords": [
         "$id",
         "$schema",
         "additionalProperties",
-        "deprecated",
-        "description",
         "enum",
         "format",
         "properties",
@@ -616,17 +612,18 @@
       "path": "schemas/encoder-output-relay-capabilities.schema.json",
       "id": "https://schemas.autostream.example.com/encoder-output-relay-capabilities.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "77625ad86d01cb99f9faf06d653bd07a2c2abac456b12d9dcf2002b768719f3c",
+      "normalized_sha256": "eb6ec107237d1d5f154337f1639ebe90bb515c1c01f76ef3fe1cb4f74c3cdcbe",
       "keywords": [
         "$id",
         "$schema",
         "additionalProperties",
         "allOf",
+        "anyOf",
         "const",
-        "deprecated",
         "description",
         "enum",
         "if",
+        "not",
         "pattern",
         "properties",
         "required",
@@ -642,15 +639,13 @@
       "path": "schemas/encoder-package-stream-request.schema.json",
       "id": "https://schemas.autostream.example.com/encoder-package-stream-request.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "0435f530dd843558318f3c52ee590170cb0a05d08f4cf1606cc87287d7994a5c",
+      "normalized_sha256": "68e8c27a8f700df163c9944b50f6884dc76acbe25dae781105a407f037ad136d",
       "keywords": [
         "$id",
         "$schema",
         "additionalProperties",
         "dependentRequired",
-        "deprecated",
         "description",
-        "enum",
         "format",
         "maxLength",
         "minLength",
@@ -690,7 +685,7 @@
       "path": "schemas/encoder-start-stream-request.schema.json",
       "id": "https://schemas.autostream.example.com/encoder-start-stream-request.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "a3dff00e2ca78aa5329e28673a849ef55ec67dc778c486be47495b323f6faf1d",
+      "normalized_sha256": "a6ce5c114c0bc452b2f05e4484567fd2514d5804dfc33aa79055bb0d22ad5fd6",
       "keywords": [
         "$id",
         "$ref",
@@ -701,7 +696,6 @@
         "const",
         "default",
         "dependentRequired",
-        "deprecated",
         "description",
         "enum",
         "format",
@@ -1495,10 +1489,36 @@
       "compiled": true
     },
     {
+      "path": "schemas/node-listener-config.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "0a7b6e7e0fb4ecf9a8e004dfa90e3f00743b0d7bb271add6fd1fe4a2148d080e",
+      "keywords": [
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "enum",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
       "path": "schemas/notification-channel-create.schema.json",
       "id": "https://schemas.autostream.example.com/notification-channel-create.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "c9673075fce7a9aa84b29f16bf630d29cb8ee726c231408bec761c9263eb5fe9",
+      "normalized_sha256": "c8ef37eaa6846a66e826890c832ec4833707e4935f9e9e175142084c5cc2e3f6",
       "keywords": [
         "$id",
         "$ref",
@@ -1526,14 +1546,12 @@
       "path": "schemas/notification-channel-write.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "8e5ae98d4dd0fcf5636eac6dc248832fa0f9d788fe035f51c571639586085419",
+      "normalized_sha256": "754656420776a5ffc0c9cba394556f50550068c315449051bfecf5093e8157ea",
       "keywords": [
         "$schema",
         "additionalProperties",
         "allOf",
-        "anyOf",
         "const",
-        "deprecated",
         "description",
         "enum",
         "format",
@@ -1541,11 +1559,8 @@
         "items",
         "maxItems",
         "maxLength",
-        "maximum",
         "minItems",
         "minLength",
-        "minimum",
-        "not",
         "pattern",
         "properties",
         "required",
@@ -1563,11 +1578,10 @@
       "path": "schemas/notification-channel.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "6ba4ddf0f850949dedd98616a2b6453bc36632273b68fc9df76cf278cc9a9e9d",
+      "normalized_sha256": "484ebe3b67f5ad26d39df51284eb2ef05ffcbf6cc3f379a12926fdf754f07b14",
       "keywords": [
         "$schema",
         "additionalProperties",
-        "deprecated",
         "description",
         "enum",
         "format",
@@ -1699,30 +1713,6 @@
         "required",
         "title",
         "type"
-      ],
-      "extension_keywords": [],
-      "refs": null,
-      "compiled": true
-    },
-    {
-      "path": "schemas/oauth-account-write.schema.json",
-      "id": "https://schemas.autostream.example.com/oauth-account-write.schema.json",
-      "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "e30e00946a26c59ba51f0105c01c9d3b1e0c495d971ec8b9788c36cca994e73b",
-      "keywords": [
-        "$id",
-        "$schema",
-        "additionalProperties",
-        "deprecated",
-        "description",
-        "enum",
-        "items",
-        "minLength",
-        "properties",
-        "required",
-        "title",
-        "type",
-        "writeOnly"
       ],
       "extension_keywords": [],
       "refs": null,
@@ -1886,26 +1876,6 @@
       "compiled": true
     },
     {
-      "path": "schemas/oauth-user-link-write.schema.json",
-      "id": "https://schemas.autostream.example.com/oauth-user-link-write.schema.json",
-      "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "da63f2a0179a76cd0329375ee832b38f4b2ed09e737b78a31b6d3a1d55e531a4",
-      "keywords": [
-        "$id",
-        "$schema",
-        "additionalProperties",
-        "description",
-        "enum",
-        "properties",
-        "required",
-        "title",
-        "type"
-      ],
-      "extension_keywords": [],
-      "refs": null,
-      "compiled": true
-    },
-    {
       "path": "schemas/oauth-user-link.schema.json",
       "id": "https://schemas.autostream.example.com/oauth-user-link.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
@@ -2016,7 +1986,7 @@
       "path": "schemas/registered-service.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "a276045c28a524d7d8c98990284e3bcb748d715556a3485fceebea7c4897373c",
+      "normalized_sha256": "4f5d7fce3986b0b40925acce05936c53c2ecefc8e5843e63a79e6f0df088d56a",
       "keywords": [
         "$defs",
         "$ref",
@@ -2025,7 +1995,6 @@
         "allOf",
         "anyOf",
         "const",
-        "default",
         "description",
         "else",
         "enum",
@@ -2082,7 +2051,7 @@
       "path": "schemas/release-manifest.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "f78d0079ad9f533d005e1faf3561c011de365a317f48cc9c620f8cdc9d408061",
+      "normalized_sha256": "fcc470a03bb86dd88a9797e32149ba0bec6cdbcf86cf78ad78c2ff04a26c8c22",
       "keywords": [
         "$schema",
         "additionalProperties",
@@ -2102,6 +2071,7 @@
         "minItems",
         "minimum",
         "not",
+        "oneOf",
         "pattern",
         "properties",
         "required",
@@ -2182,7 +2152,7 @@
       "path": "schemas/service-artifact-report.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "6a4666e1766693715f956893010247a82ded28599a1aa301c34bab5d2500b857",
+      "normalized_sha256": "6bc3e763355fafdfe4be422806b649a214bf2f84fd2a50fb640c19eff65beedd",
       "keywords": [
         "$schema",
         "additionalProperties",
@@ -2323,7 +2293,7 @@
       "path": "schemas/service-registration.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "76940c29d823d68c9394ad59cee549719476bc19b4e33c07e11e84d1b03639df",
+      "normalized_sha256": "da723060168dc9a021fe404e6078b4821e9655ab99bd0105a97080513528ffd7",
       "keywords": [
         "$ref",
         "$schema",
@@ -2331,7 +2301,6 @@
         "allOf",
         "anyOf",
         "const",
-        "default",
         "description",
         "else",
         "enum",
@@ -2363,7 +2332,7 @@
       "path": "schemas/service-runtime-config.schema.json",
       "id": "https://schemas.autostream.example.com/service-runtime-config.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "02cca60529d43b1cdafc085469269585386bdf5b04723ab1f49374894c85b8c5",
+      "normalized_sha256": "a1ea22d04a740031b5ecb17ba6db931563da4d863d1ab756a69cf5f672495d22",
       "keywords": [
         "$id",
         "$ref",
@@ -2372,7 +2341,6 @@
         "allOf",
         "anyOf",
         "const",
-        "deprecated",
         "description",
         "enum",
         "format",
@@ -2686,35 +2654,28 @@
       "path": "schemas/system-update-agent-status.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "b1e042d0e65863b49fe82fa4797fd2d5ca34bf72eb6d929ff2b091b8606b4be9",
+      "normalized_sha256": "a360cadd63fd122dee4f3b599437258007277afebea5893edea0da0c8819572a",
       "keywords": [
         "$schema",
         "additionalProperties",
-        "allOf",
-        "anyOf",
         "const",
         "description",
         "enum",
         "format",
-        "if",
         "items",
         "maxLength",
         "minItems",
         "minLength",
         "minimum",
-        "not",
         "pattern",
         "properties",
-        "propertyNames",
         "required",
-        "then",
         "title",
         "type",
         "uniqueItems"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": null,
       "compiled": true
@@ -2723,7 +2684,7 @@
       "path": "schemas/system-update-create-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "2845a007bc5cb0b300ea7a29be7d7b993c241abfdcf1c94e9e1ba8bc354a558d",
+      "normalized_sha256": "c202576b706313ad220dfd2c869b6cf9588b90aefb29dd7de60a3fe301f580cf",
       "keywords": [
         "$schema",
         "additionalProperties",
@@ -2749,8 +2710,7 @@
         "type"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": null,
       "compiled": true
@@ -2759,33 +2719,27 @@
       "path": "schemas/system-update-host-status.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "864c85510d09c44461404e12eef16640992852078e66a4ae30d951f45fe0593a",
+      "normalized_sha256": "28628a47f54aa004f06361702fafdbd84a2b36e0b10a2406aa0597ae79a50c74",
       "keywords": [
         "$defs",
         "$ref",
         "$schema",
         "additionalProperties",
-        "allOf",
-        "anyOf",
         "const",
         "description",
         "enum",
         "format",
-        "if",
         "maxLength",
         "minLength",
         "minimum",
-        "not",
         "pattern",
         "properties",
         "required",
-        "then",
         "title",
         "type"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": [
         {
@@ -2807,7 +2761,7 @@
       "path": "schemas/system-update-job.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "b1a33945f1ca12d8d2c0ab6f15a8b121e8d1285412396177b626558a7dcb112e",
+      "normalized_sha256": "496edc88b94565649f78a1ff2adf199e15466f29225c1a7f236786b781bc149f",
       "keywords": [
         "$defs",
         "$ref",
@@ -2836,8 +2790,7 @@
         "type"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": [
         {
@@ -2865,14 +2818,12 @@
       "path": "schemas/system-update-pull-ownership-activate-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "d8dd84b5106185ba0bea2e14f32fe7f8a9ac759caee975597dc56712ee8a532d",
+      "normalized_sha256": "240bbf8c6aa77fbd98b390c4b440fdf34cf6ea65e142fa4e43976bbbf1d15229",
       "keywords": [
         "$schema",
         "additionalProperties",
-        "allOf",
         "const",
         "description",
-        "if",
         "maxLength",
         "maximum",
         "minLength",
@@ -2880,13 +2831,11 @@
         "pattern",
         "properties",
         "required",
-        "then",
         "title",
         "type"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": null,
       "compiled": true
@@ -2895,27 +2844,23 @@
       "path": "schemas/system-update-pull-ownership-activate-response.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "9e16b2d6f3a01e0c85e5e1d4ac3ef0ef780afcae957f1730822b2561ec3e48fa",
+      "normalized_sha256": "ad7eb980d41d8fb05d1cd76025459a126c6c6f9859c6888472056c13ee7ffcc6",
       "keywords": [
         "$schema",
         "additionalProperties",
-        "allOf",
         "const",
         "description",
-        "if",
         "maxLength",
         "minLength",
         "minimum",
         "pattern",
         "properties",
         "required",
-        "then",
         "title",
         "type"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": null,
       "compiled": true
@@ -2924,14 +2869,12 @@
       "path": "schemas/system-update-pull-ownership-deactivate-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "9a566163ef4824d01778433ac1d467417f1b6e4ad4c22b296275541cf11dd63e",
+      "normalized_sha256": "8027d159a305edd609a90ea8a9b5eabdb3b9663c2b2c56441ee81f4100b7c71f",
       "keywords": [
         "$schema",
         "additionalProperties",
-        "allOf",
         "const",
         "description",
-        "if",
         "maxLength",
         "maximum",
         "minLength",
@@ -2939,13 +2882,11 @@
         "pattern",
         "properties",
         "required",
-        "then",
         "title",
         "type"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": null,
       "compiled": true
@@ -2954,27 +2895,23 @@
       "path": "schemas/system-update-pull-ownership-deactivate-response.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "80ae7dfacd295b1fe51e0e72876c10705c2e41eda4aec0fe2acd2503908bb672",
+      "normalized_sha256": "4fe0b498810555d86b51a56660cb119e0108db28867657d238134f6f3ac1d604",
       "keywords": [
         "$schema",
         "additionalProperties",
-        "allOf",
         "const",
         "description",
-        "if",
         "maxLength",
         "minLength",
         "minimum",
         "pattern",
         "properties",
         "required",
-        "then",
         "title",
         "type"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": null,
       "compiled": true
@@ -2983,7 +2920,7 @@
       "path": "schemas/system-update-target.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "46a8680d3e4fbd00e98a1ae1a2d23fe7341eb859cf83f5deacae6f97925a00da",
+      "normalized_sha256": "066c9368714a373018e836221d9f3ada4bb2152ec84c401e9b23ac59125c958b",
       "keywords": [
         "$defs",
         "$ref",
@@ -3011,8 +2948,7 @@
         "uniqueItems"
       ],
       "extension_keywords": [
-        "x-autostream-contract-major",
-        "x-autostream-v2-transition-compatibility"
+        "x-autostream-contract-major"
       ],
       "refs": [
         {
@@ -3090,7 +3026,7 @@
       "path": "schemas/update-agent-authorize-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "9ba4f44f3d1c7f9407748ca8950556ebf99e0f4b84005b9813a0de074d68ce2b",
+      "normalized_sha256": "2d10be034d8d165808eea3799479625bebcb06c3afb5f88d269fe7f315ecfcb2",
       "keywords": [
         "$schema",
         "additionalProperties",
@@ -3114,13 +3050,14 @@
       "path": "schemas/update-agent-claim-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "dde55fe5a69080e27c81d0f5312932d5113d2571c297313b14e8d729074d422e",
+      "normalized_sha256": "23a7dd5e84bc9f686cb2ef405dd7b6ed4be08daa6d734f50571338ec95ef96b5",
       "keywords": [
         "$schema",
         "additionalProperties",
         "description",
         "maxLength",
         "minLength",
+        "minimum",
         "pattern",
         "properties",
         "required",
@@ -3168,7 +3105,7 @@
       "path": "schemas/update-agent-mutation-grant-consume-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "9df2eb61a5f8c703e5db08dcb7f469b40c330a23700d7c3ee20c8bee1841ca9e",
+      "normalized_sha256": "090ccdd700b80d48231e2bafc00f4feb0b3e2728b879c1b0bd5151939890d554",
       "keywords": [
         "$defs",
         "$ref",
@@ -3214,7 +3151,7 @@
       "path": "schemas/update-agent-mutation-grant-issue-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "ee86c9453a1f78c8d77c41b1529f05949202d244cbaba8f4f46c7f2bf78b7acf",
+      "normalized_sha256": "1160a9d47417d1e3f401c77ed99dddb631e506f554695b6f0b481be2ec35e72e",
       "keywords": [
         "$defs",
         "$ref",
@@ -3284,7 +3221,7 @@
       "path": "schemas/update-agent-report-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "60c404c763697651abf4558a05d3afcda19a39ee5d9e235c4f2a9b55b5740bf6",
+      "normalized_sha256": "119f8aba2d58859be882b7abf04fdd4e6d1d0856b1e0af4296f4bc51e8c12d57",
       "keywords": [
         "$schema",
         "additionalProperties",
@@ -3406,20 +3343,21 @@
       "path": "schemas/worker-event.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "065248787d391a985250ff9ecfb7a523c134b414dfa8e094f04485490b80ef38",
+      "normalized_sha256": "4555fe04a320c46c9ed259fe680b3a92cbd52a831bfbee7bcd62da776235f207",
       "keywords": [
         "$defs",
         "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
+        "anyOf",
         "const",
-        "deprecated",
         "description",
         "examples",
         "format",
         "if",
         "minLength",
+        "not",
         "pattern",
         "properties",
         "required",

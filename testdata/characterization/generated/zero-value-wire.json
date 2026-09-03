@@ -975,18 +975,12 @@
     },
     {
       "name": "DriveDestination",
-      "wire_json": "{\"id\":\"\",\"name\":\"\",\"auth_mode\":\"\",\"folder_id_configured\":false,\"shared_drive\":false,\"base_path\":\"\",\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
-      "wire_sha256": "ed013b77c04fd95d8ca9b8d54eb027a0396db1b9d095e96612665ad7fec1bc81",
+      "wire_json": "{\"id\":\"\",\"name\":\"\",\"auth_mode\":\"\",\"folder_id_configured\":false,\"shared_drive\":false,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "607dc6e8b0e7168c2e7f9372de5fd440eedb58973fc1eaddc009d91cd407abb8",
       "shape": {
         "fields": [
           {
             "name": "auth_mode",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "base_path",
             "shape": {
               "kind": "string"
             }
@@ -1033,18 +1027,12 @@
     },
     {
       "name": "DriveDestinationWriteRequest",
-      "wire_json": "{\"name\":\"\",\"auth_mode\":\"\",\"shared_drive\":false,\"base_path\":\"\"}",
-      "wire_sha256": "8c2c1800ccb9cbcd87db971ce4d6ad2e0d67e75ed5d6c1f3a0c52ff49a2201e3",
+      "wire_json": "{\"name\":\"\",\"auth_mode\":\"\",\"shared_drive\":false}",
+      "wire_sha256": "f97c8648a051ac519c9d92b2c3e1a5783773e646f5a43043f9b2c9603e40ec2b",
       "shape": {
         "fields": [
           {
             "name": "auth_mode",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "base_path",
             "shape": {
               "kind": "string"
             }
@@ -1076,15 +1064,14 @@
     },
     {
       "name": "EncoderPackageStreamRequest",
-      "wire_json": "{\"stream_id\":\"\",\"name\":\"\",\"started_at\":\"0001-01-01T00:00:00Z\",\"archive_config\":{}}",
-      "wire_sha256": "1fbda26b00ec907fd4c3125f11b7d2adc68c427e2b2492469f5990813ef2e33c",
+      "wire_json": "{\"stream_id\":\"\",\"archive_run_id\":\"\",\"name\":\"\",\"started_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "e09d05f3138fe348f8edbad7188c35ba9fb8f1253f8faae3f9e1da3d13115f6d",
       "shape": {
         "fields": [
           {
-            "name": "archive_config",
+            "name": "archive_run_id",
             "shape": {
-              "fields": [],
-              "kind": "object"
+              "kind": "string"
             }
           },
           {
@@ -1209,17 +1196,10 @@
     },
     {
       "name": "EncoderStartStreamRequest",
-      "wire_json": "{\"stream_id\":\"\",\"name\":\"\",\"rtmp_url\":\"\",\"started_at\":\"0001-01-01T00:00:00Z\",\"youtube_runtime\":{\"mode\":\"\"},\"archive_config\":{}}",
-      "wire_sha256": "e11944024b9f0ab98075b1c6d11d827a9706f15b4abc600008e759eef86d05f3",
+      "wire_json": "{\"stream_id\":\"\",\"name\":\"\",\"rtmp_url\":\"\",\"started_at\":\"0001-01-01T00:00:00Z\",\"youtube_runtime\":{\"mode\":\"\"}}",
+      "wire_sha256": "e0ab8bf53189bd2860823e1626860ea589ff97397a7f05670bd9638a247ab381",
       "shape": {
         "fields": [
-          {
-            "name": "archive_config",
-            "shape": {
-              "fields": [],
-              "kind": "object"
-            }
-          },
           {
             "name": "name",
             "shape": {
@@ -2787,6 +2767,40 @@
       }
     },
     {
+      "name": "NodeListenerConfig",
+      "wire_json": "{\"schema_version\":0,\"service_type\":\"\",\"bind_address\":\"\",\"config_revision\":0}",
+      "wire_sha256": "c7b760fb8cd7a0bd545aa19b18c13702882815991319e57f097744652ebcaab8",
+      "shape": {
+        "fields": [
+          {
+            "name": "bind_address",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "config_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "schema_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "NotificationChannel",
       "wire_json": "{\"id\":\"\",\"name\":\"\",\"type\":\"\",\"enabled\":false,\"uses_global_smtp\":false,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
       "wire_sha256": "397b7863be67239158bb3ba68723eac018293b81b79222164f7fc8eec5dd8c7c",
@@ -3166,34 +3180,6 @@
       }
     },
     {
-      "name": "OAuthAccountWriteRequest",
-      "wire_json": "{\"provider_id\":\"\",\"provider_type\":\"\",\"account_label\":\"\"}",
-      "wire_sha256": "896d00df51e24f0791a4e42cbb3e78199e3e1be0dd78403343c0990cc255747d",
-      "shape": {
-        "fields": [
-          {
-            "name": "account_label",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "provider_id",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "provider_type",
-            "shape": {
-              "kind": "string"
-            }
-          }
-        ],
-        "kind": "object"
-      }
-    },
-    {
       "name": "OAuthLoginCallbackRequest",
       "wire_json": "{\"state\":\"\",\"code\":\"\"}",
       "wire_sha256": "ad922ca0a53a5b427493926f10945c0d40fee6254b7f6aa557cd67e13510e42a",
@@ -3502,28 +3488,6 @@
           },
           {
             "name": "user_id",
-            "shape": {
-              "kind": "string"
-            }
-          }
-        ],
-        "kind": "object"
-      }
-    },
-    {
-      "name": "OAuthUserLinkWriteRequest",
-      "wire_json": "{\"provider_id\":\"\",\"subject\":\"\"}",
-      "wire_sha256": "55f751f2b56305a0f3d876aca6c1e3add6d9565c79079fcc672fa0d180c049f2",
-      "shape": {
-        "fields": [
-          {
-            "name": "provider_id",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "subject",
             "shape": {
               "kind": "string"
             }
@@ -4228,8 +4192,8 @@
     },
     {
       "name": "ReleaseManifest",
-      "wire_json": "{\"schema_version\":0,\"release_id\":\"\",\"channel\":\"\",\"published_at\":\"0001-01-01T00:00:00Z\",\"minimum_agent_version\":\"\",\"components\":null}",
-      "wire_sha256": "4356e068f2b72916f757dfbb98a50f9e26e56481e5ecbfa29b51c110bb064156",
+      "wire_json": "{\"schema_version\":0,\"release_id\":\"\",\"channel\":\"\",\"published_at\":\"0001-01-01T00:00:00Z\",\"components\":null}",
+      "wire_sha256": "fb07a2f3f58c9a26c47a75b63a08243cf7b71e8ce1b27276d2dcd2df4138624d",
       "shape": {
         "fields": [
           {
@@ -4242,12 +4206,6 @@
             "name": "components",
             "shape": {
               "kind": "null"
-            }
-          },
-          {
-            "name": "minimum_agent_version",
-            "shape": {
-              "kind": "string"
             }
           },
           {
@@ -5066,10 +5024,22 @@
     },
     {
       "name": "ServiceArtifactReport",
-      "wire_json": "{\"service_id\":\"\",\"stream_id\":\"\",\"artifacts\":null}",
-      "wire_sha256": "2afe0158b956b9ee10410c77ed09263f2d00354145d0cff1668a0930e8088945",
+      "wire_json": "{\"service_id\":\"\",\"stream_id\":\"\",\"archive_run_id\":\"\",\"archive_started_at\":null,\"artifacts\":null}",
+      "wire_sha256": "f6250c9bf7b2a336bdde0f98e42bc49708ec1ed0e03eb37bbce90c57c3527ca5",
       "shape": {
         "fields": [
+          {
+            "name": "archive_run_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "archive_started_at",
+            "shape": {
+              "kind": "null"
+            }
+          },
           {
             "name": "artifacts",
             "shape": {
@@ -5940,10 +5910,52 @@
     },
     {
       "name": "SystemUpdateAgentStatus",
-      "wire_json": "{\"updater_id\":\"\",\"name\":\"\",\"status\":\"\",\"online\":false,\"version\":\"\"}",
-      "wire_sha256": "134ae001ec7307c2aef2f711b93a2064f88b64cc07a0ecbc34280ffbce0ac050",
+      "wire_json": "{\"protocol_version\":0,\"updater_id\":\"\",\"host_id\":\"\",\"service_id\":\"\",\"authentication\":\"\",\"name\":\"\",\"transport_mode\":\"\",\"status\":\"\",\"online\":false,\"version\":\"\",\"heartbeat_sequence\":0,\"capabilities\":null,\"desired_revision\":0,\"applied_revision\":0,\"fence\":0}",
+      "wire_sha256": "86e6f04d4654624464db8d35106b7d152e4608737aca9d19af5b4893df2e777f",
       "shape": {
         "fields": [
+          {
+            "name": "applied_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "authentication",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "capabilities",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "heartbeat_sequence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
           {
             "name": "name",
             "shape": {
@@ -5957,7 +5969,25 @@
             }
           },
           {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
             "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "transport_mode",
             "shape": {
               "kind": "string"
             }
@@ -5980,12 +6010,36 @@
     },
     {
       "name": "SystemUpdateCreateRequest",
-      "wire_json": "{\"target_id\":\"\",\"idempotency_key\":\"\"}",
-      "wire_sha256": "3fbd898e3095dc3cc9ce2cef0c375c24f54200afdd8bcf6695712b96dda3410e",
+      "wire_json": "{\"protocol_version\":0,\"target_id\":\"\",\"idempotency_key\":\"\",\"desired_revision\":0,\"fence\":0,\"required_capability\":\"\"}",
+      "wire_sha256": "6ef0d22d0a4083ef14937520c11c87f3a8c43b8fb1663feced994d8bdbb161e7",
       "shape": {
         "fields": [
           {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
             "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "required_capability",
             "shape": {
               "kind": "string"
             }
@@ -6010,11 +6064,57 @@
       }
     },
     {
-      "name": "SystemUpdateHostStatus",
-      "wire_json": "{\"host_id\":\"\",\"name\":\"\",\"updater_id\":\"\",\"reachability\":\"\"}",
-      "wire_sha256": "394a29aeaaf1fd50ffd4561da1af279bd3801bbb20e7d1408236d460998b6b5d",
+      "name": "SystemUpdateHostApplicationProbe",
+      "wire_json": "{\"status\":\"\",\"version\":\"\",\"service_id\":\"\",\"service_type\":\"\",\"config_revision\":0}",
+      "wire_sha256": "40d4a3796910a378031ab1dd556267a370329beedcc11f52b040870db94bdfa8",
       "shape": {
         "fields": [
+          {
+            "name": "config_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "status",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "version",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdateHostStatus",
+      "wire_json": "{\"protocol_version\":0,\"host_id\":\"\",\"name\":\"\",\"updater_id\":\"\",\"reachability\":\"\",\"updater_health\":null,\"application_probe\":null}",
+      "wire_sha256": "a538697f2ea548000ae53eea5fd0658112843e43fa49aed2f111f65ee678457e",
+      "shape": {
+        "fields": [
+          {
+            "name": "application_probe",
+            "shape": {
+              "kind": "null"
+            }
+          },
           {
             "name": "host_id",
             "shape": {
@@ -6028,9 +6128,21 @@
             }
           },
           {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
             "name": "reachability",
             "shape": {
               "kind": "string"
+            }
+          },
+          {
+            "name": "updater_health",
+            "shape": {
+              "kind": "null"
             }
           },
           {
@@ -6045,10 +6157,28 @@
     },
     {
       "name": "SystemUpdateJob",
-      "wire_json": "{\"id\":\"\",\"target_id\":\"\",\"target_type\":\"\",\"host_id\":\"\",\"deployment_mode\":\"\",\"current_version\":\"\",\"target_version\":\"\",\"strategy\":\"\",\"status\":\"\",\"idempotency_key\":\"\",\"lease_generation\":0,\"sequence\":0,\"progress\":0,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
-      "wire_sha256": "bfb0bea9e709cd832b6361e9e64e3a83a2951a045e61d48df2a31e8b1696c104",
+      "wire_json": "{\"protocol_version\":0,\"id\":\"\",\"target_id\":\"\",\"target_type\":\"\",\"host_id\":\"\",\"transport_mode\":\"\",\"ownership_epoch\":0,\"policy_revision\":0,\"deployment_mode\":\"\",\"current_version\":\"\",\"target_version\":\"\",\"strategy\":\"\",\"status\":\"\",\"idempotency_key\":\"\",\"updater_id\":\"\",\"authorization_id\":\"\",\"canonical_payload_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"outcome\":\"\",\"required_capability\":\"\",\"automatic_resend_allowed\":null,\"lease_generation\":0,\"sequence\":0,\"progress\":0,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "7206b4533a490c749da40691269adb0ee7e2c83dbd28b5e98019d9db7491341e",
       "shape": {
         "fields": [
+          {
+            "name": "authorization_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "automatic_resend_allowed",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "canonical_payload_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
           {
             "name": "created_at",
             "shape": {
@@ -6065,6 +6195,18 @@
             "name": "deployment_mode",
             "shape": {
               "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
             }
           },
           {
@@ -6092,9 +6234,39 @@
             }
           },
           {
+            "name": "outcome",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
             "name": "progress",
             "shape": {
               "kind": "number"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "required_capability",
+            "shape": {
+              "kind": "string"
             }
           },
           {
@@ -6134,7 +6306,19 @@
             }
           },
           {
+            "name": "transport_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
             "name": "updated_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "updater_id",
             "shape": {
               "kind": "string"
             }
@@ -6176,10 +6360,16 @@
     },
     {
       "name": "SystemUpdatePullOwnershipActivateRequest",
-      "wire_json": "{\"expected_execution_host_id\":\"\",\"expected_ownership_epoch\":0,\"expected_source_policy_revision\":0,\"expected_projection_revision\":0,\"expected_local_executor_policy_revision\":0,\"expected_local_executor_policy_sha256\":\"\"}",
-      "wire_sha256": "be92c02e39ff030c433e5ee70931a326ec57652a876aa3c37f5baab03ac624ad",
+      "wire_json": "{\"protocol_version\":0,\"idempotency_key\":\"\",\"desired_revision\":0,\"fence\":0,\"required_capability\":\"\",\"expected_execution_host_id\":\"\",\"expected_ownership_epoch\":0,\"expected_source_policy_revision\":0,\"expected_projection_revision\":0,\"expected_local_executor_policy_revision\":0,\"expected_local_executor_policy_sha256\":\"\"}",
+      "wire_sha256": "43b586ef5565255cc8edad24aaabc11a739ac2e7bb25706943b5e47e5ee01cf5",
       "shape": {
         "fields": [
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
           {
             "name": "expected_execution_host_id",
             "shape": {
@@ -6215,6 +6405,30 @@
             "shape": {
               "kind": "number"
             }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "required_capability",
+            "shape": {
+              "kind": "string"
+            }
           }
         ],
         "kind": "object"
@@ -6222,8 +6436,8 @@
     },
     {
       "name": "SystemUpdatePullOwnershipActivateResponse",
-      "wire_json": "{\"updater_id\":\"\",\"execution_host_id\":\"\",\"transport_mode\":\"\",\"agent_service_id\":\"\",\"ownership_epoch\":0,\"source_policy_revision\":0,\"projection_revision\":0,\"local_executor_policy_revision\":0,\"local_executor_policy_sha256\":\"\"}",
-      "wire_sha256": "1950d2dbbc7b8eb08805a3414422def4e340427cdba72cdc7940304b218ac69b",
+      "wire_json": "{\"protocol_version\":0,\"idempotency_key\":\"\",\"desired_revision\":0,\"applied_revision\":0,\"fence\":0,\"capability\":\"\",\"updater_id\":\"\",\"execution_host_id\":\"\",\"transport_mode\":\"\",\"agent_service_id\":\"\",\"ownership_epoch\":0,\"source_policy_revision\":0,\"projection_revision\":0,\"local_executor_policy_revision\":0,\"local_executor_policy_sha256\":\"\"}",
+      "wire_sha256": "79274313daedab27e835aa292830e52928cdc6fa6b8213eaf3a20b5e1588aa46",
       "shape": {
         "fields": [
           {
@@ -6233,7 +6447,37 @@
             }
           },
           {
+            "name": "applied_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "capability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
             "name": "execution_host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "idempotency_key",
             "shape": {
               "kind": "string"
             }
@@ -6258,6 +6502,12 @@
           },
           {
             "name": "projection_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "protocol_version",
             "shape": {
               "kind": "number"
             }
@@ -6286,10 +6536,16 @@
     },
     {
       "name": "SystemUpdatePullOwnershipDeactivateRequest",
-      "wire_json": "{\"expected_execution_host_id\":\"\",\"expected_ownership_epoch\":0,\"expected_source_policy_revision\":0,\"expected_projection_revision\":0,\"expected_local_executor_policy_revision\":0,\"expected_local_executor_policy_sha256\":\"\"}",
-      "wire_sha256": "be92c02e39ff030c433e5ee70931a326ec57652a876aa3c37f5baab03ac624ad",
+      "wire_json": "{\"protocol_version\":0,\"idempotency_key\":\"\",\"desired_revision\":0,\"fence\":0,\"required_capability\":\"\",\"expected_execution_host_id\":\"\",\"expected_ownership_epoch\":0,\"expected_source_policy_revision\":0,\"expected_projection_revision\":0,\"expected_local_executor_policy_revision\":0,\"expected_local_executor_policy_sha256\":\"\"}",
+      "wire_sha256": "43b586ef5565255cc8edad24aaabc11a739ac2e7bb25706943b5e47e5ee01cf5",
       "shape": {
         "fields": [
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
           {
             "name": "expected_execution_host_id",
             "shape": {
@@ -6325,6 +6581,30 @@
             "shape": {
               "kind": "number"
             }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "required_capability",
+            "shape": {
+              "kind": "string"
+            }
           }
         ],
         "kind": "object"
@@ -6332,8 +6612,8 @@
     },
     {
       "name": "SystemUpdatePullOwnershipDeactivateResponse",
-      "wire_json": "{\"updater_id\":\"\",\"execution_host_id\":\"\",\"transport_mode\":\"\",\"agent_service_id\":\"\",\"ownership_epoch\":0,\"agent_ownership_epoch\":0,\"source_policy_revision\":0,\"projection_revision\":0,\"local_executor_policy_revision\":0,\"local_executor_policy_sha256\":\"\"}",
-      "wire_sha256": "7efd528a64f52494cd5ff0e4d3f51184ebd1e4486768c608df250f241b8a6c58",
+      "wire_json": "{\"protocol_version\":0,\"idempotency_key\":\"\",\"desired_revision\":0,\"applied_revision\":0,\"fence\":0,\"capability\":\"\",\"updater_id\":\"\",\"execution_host_id\":\"\",\"transport_mode\":\"\",\"agent_service_id\":\"\",\"ownership_epoch\":0,\"agent_ownership_epoch\":0,\"source_policy_revision\":0,\"projection_revision\":0,\"local_executor_policy_revision\":0,\"local_executor_policy_sha256\":\"\"}",
+      "wire_sha256": "80a52e77a3ac27782ed4164de2d85fbd53f42f449d545b8fab6f6a4d2b4361e8",
       "shape": {
         "fields": [
           {
@@ -6349,7 +6629,37 @@
             }
           },
           {
+            "name": "applied_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "capability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
             "name": "execution_host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "idempotency_key",
             "shape": {
               "kind": "string"
             }
@@ -6379,6 +6689,12 @@
             }
           },
           {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
             "name": "source_policy_revision",
             "shape": {
               "kind": "number"
@@ -6402,14 +6718,38 @@
     },
     {
       "name": "SystemUpdateTarget",
-      "wire_json": "{\"target_id\":\"\",\"target_type\":\"\",\"name\":\"\",\"update_available\":false,\"updater_online\":false,\"eligible\":false,\"busy\":false}",
-      "wire_sha256": "1a4391d122da7887c0961ed08fd51edb0666d5e2d80ddc1534f27859ef86395d",
+      "wire_json": "{\"protocol_version\":0,\"target_id\":\"\",\"target_type\":\"\",\"name\":\"\",\"host_id\":\"\",\"update_available\":false,\"updater_id\":\"\",\"updater_online\":false,\"capabilities\":null,\"desired_revision\":0,\"applied_revision\":0,\"fence\":0,\"updater_health\":null,\"application_probe\":null,\"eligible\":false,\"busy\":false}",
+      "wire_sha256": "8d0b5946b561a39a3bea43048e98b948fd9ac1c0ed1f4e0834d0ffd022d1d058",
       "shape": {
         "fields": [
+          {
+            "name": "application_probe",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "applied_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
           {
             "name": "busy",
             "shape": {
               "kind": "boolean"
+            }
+          },
+          {
+            "name": "capabilities",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
             }
           },
           {
@@ -6419,9 +6759,27 @@
             }
           },
           {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
             "name": "name",
             "shape": {
               "kind": "string"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
             }
           },
           {
@@ -6440,6 +6798,18 @@
             "name": "update_available",
             "shape": {
               "kind": "boolean"
+            }
+          },
+          {
+            "name": "updater_health",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
             }
           },
           {
@@ -6488,12 +6858,24 @@
     },
     {
       "name": "UpdateAgentAuthorizeRequest",
-      "wire_json": "{\"service_id\":\"\",\"lease_token\":\"\",\"lease_generation\":0,\"target_id\":\"\",\"target_version\":\"\",\"deployment_mode\":\"\"}",
-      "wire_sha256": "e970fe242cd06fc8432343996b3e967f1bbc0df7bfb90d7afb9c8d0e84aec869",
+      "wire_json": "{\"updater_id\":\"\",\"host_id\":\"\",\"lease_token\":\"\",\"lease_generation\":0,\"fence\":0,\"target_id\":\"\",\"target_version\":\"\",\"deployment_mode\":\"\"}",
+      "wire_sha256": "86feddd686c31cdb3fcbe3639391def7b59e3d461e6297d5215a228d5d72c2d9",
       "shape": {
         "fields": [
           {
             "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
             "shape": {
               "kind": "string"
             }
@@ -6511,12 +6893,6 @@
             }
           },
           {
-            "name": "service_id",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
             "name": "target_id",
             "shape": {
               "kind": "string"
@@ -6527,6 +6903,12 @@
             "shape": {
               "kind": "string"
             }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
           }
         ],
         "kind": "object"
@@ -6534,12 +6916,30 @@
     },
     {
       "name": "UpdateAgentClaimRequest",
-      "wire_json": "{\"service_id\":\"\"}",
-      "wire_sha256": "1bcd5d4d95b5161987cc3bf582854ff70dc0a79240912613a8700a2cca4cffd9",
+      "wire_json": "{\"updater_id\":\"\",\"host_id\":\"\",\"lease_generation\":0,\"fence\":0}",
+      "wire_sha256": "597d60adf2209fbada815f913c303d2d5b9a18ff463e6a27ffb0e96001ff5c42",
       "shape": {
         "fields": [
           {
-            "name": "service_id",
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "lease_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "updater_id",
             "shape": {
               "kind": "string"
             }
@@ -6550,14 +6950,32 @@
     },
     {
       "name": "UpdateAgentClaimResponse",
-      "wire_json": "{\"job\":{\"id\":\"\",\"target_id\":\"\",\"target_type\":\"\",\"host_id\":\"\",\"deployment_mode\":\"\",\"current_version\":\"\",\"target_version\":\"\",\"strategy\":\"\",\"status\":\"\",\"idempotency_key\":\"\",\"lease_generation\":0,\"sequence\":0,\"progress\":0,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"},\"lease_token\":\"\",\"lease_expires_at\":\"0001-01-01T00:00:00Z\",\"lease_generation\":0,\"report_sequence\":0,\"recovery_required\":false,\"last_status\":\"\"}",
-      "wire_sha256": "22775b57991bd7c9e3a680efc9d0a7c19c89f5314ea4a1daa503042e9175aa3a",
+      "wire_json": "{\"job\":{\"protocol_version\":0,\"id\":\"\",\"target_id\":\"\",\"target_type\":\"\",\"host_id\":\"\",\"transport_mode\":\"\",\"ownership_epoch\":0,\"policy_revision\":0,\"deployment_mode\":\"\",\"current_version\":\"\",\"target_version\":\"\",\"strategy\":\"\",\"status\":\"\",\"idempotency_key\":\"\",\"updater_id\":\"\",\"authorization_id\":\"\",\"canonical_payload_digest\":\"\",\"desired_revision\":0,\"fence\":0,\"outcome\":\"\",\"required_capability\":\"\",\"automatic_resend_allowed\":null,\"lease_generation\":0,\"sequence\":0,\"progress\":0,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"},\"lease_token\":\"\",\"lease_expires_at\":\"0001-01-01T00:00:00Z\",\"lease_generation\":0,\"report_sequence\":0,\"recovery_required\":false,\"last_status\":\"\"}",
+      "wire_sha256": "3b9199bda0278a6351e32896c0206fa8f304aa333e5962fcbe6ab60a2b6dacd9",
       "shape": {
         "fields": [
           {
             "name": "job",
             "shape": {
               "fields": [
+                {
+                  "name": "authorization_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "automatic_resend_allowed",
+                  "shape": {
+                    "kind": "null"
+                  }
+                },
+                {
+                  "name": "canonical_payload_digest",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
                 {
                   "name": "created_at",
                   "shape": {
@@ -6574,6 +6992,18 @@
                   "name": "deployment_mode",
                   "shape": {
                     "kind": "string"
+                  }
+                },
+                {
+                  "name": "desired_revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "fence",
+                  "shape": {
+                    "kind": "number"
                   }
                 },
                 {
@@ -6601,9 +7031,39 @@
                   }
                 },
                 {
+                  "name": "outcome",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "ownership_epoch",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "policy_revision",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
                   "name": "progress",
                   "shape": {
                     "kind": "number"
+                  }
+                },
+                {
+                  "name": "protocol_version",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "required_capability",
+                  "shape": {
+                    "kind": "string"
                   }
                 },
                 {
@@ -6643,7 +7103,19 @@
                   }
                 },
                 {
+                  "name": "transport_mode",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
                   "name": "updated_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "updater_id",
                   "shape": {
                     "kind": "string"
                   }
@@ -6860,10 +7332,22 @@
     },
     {
       "name": "UpdateAgentReportRequest",
-      "wire_json": "{\"service_id\":\"\",\"lease_token\":\"\",\"lease_generation\":0,\"sequence\":0,\"status\":\"\"}",
-      "wire_sha256": "c4d76d88f4d39df99afe793d3d8197468ba02880c8cbfa20351da0305acfca74",
+      "wire_json": "{\"updater_id\":\"\",\"host_id\":\"\",\"lease_token\":\"\",\"lease_generation\":0,\"fence\":0,\"sequence\":0,\"status\":\"\"}",
+      "wire_sha256": "c35a16bd81c603d23724790a992067c8786e35edeb61c5197fc81e664d7efffb",
       "shape": {
         "fields": [
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
           {
             "name": "lease_generation",
             "shape": {
@@ -6883,13 +7367,13 @@
             }
           },
           {
-            "name": "service_id",
+            "name": "status",
             "shape": {
               "kind": "string"
             }
           },
           {
-            "name": "status",
+            "name": "updater_id",
             "shape": {
               "kind": "string"
             }

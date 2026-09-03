@@ -1788,16 +1788,6 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/headers/contractMajor"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/headers/contractMajor"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
       "value": "#/components/headers/noStore"
     },
     {
@@ -2754,11 +2744,6 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/parameters/csrfToken"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/parameters/id"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -4123,16 +4108,6 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/responses/contractMajorUnsupported"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/responses/contractMajorUnsupported"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
       "value": "#/components/responses/nodeProjectionBadRequest"
     },
     {
@@ -4289,11 +4264,6 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/EncoderRuntimeSettingsRequest"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/ErrorResponse"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -4858,11 +4828,6 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/OAuthAccountWriteRequest"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/OAuthLoginCallbackRequest"
     },
     {
@@ -4904,11 +4869,6 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/OAuthUserLink"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/OAuthUserLinkWriteRequest"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -6364,7 +6324,7 @@
   "source_file_count": 37,
   "source_files": [
     {
-      "normalized_source_sha256": "d1d5ff4904e24c3eae0431709017b709c19cffdf8b1397fdd4ecc6d71bab78eb",
+      "normalized_source_sha256": "a209f9ce053506194578ad2c493e083471993323f030c36f175c5642bef0ddd2",
       "path": "openapi/control-api.yaml"
     },
     {
@@ -6376,7 +6336,7 @@
       "path": "openapi/encoder-recorder-api.yaml"
     },
     {
-      "normalized_source_sha256": "5bab0158a72358a9dcd9eed24da14f9631e4c08d1c6bad5c0bbca8e03000908c",
+      "normalized_source_sha256": "2961cffda3d786415cde898ca6b9719f27e0fe893ce344b5e0c0fc5dc6927067",
       "path": "openapi/observability-api.yaml"
     },
     {
@@ -6392,7 +6352,7 @@
       "path": "schemas/encoder-runtime-settings-request.schema.json"
     },
     {
-      "normalized_source_sha256": "9e46dd05715df232f7406c176bc6e0ac5bea37f006d7fe898bb8025527dbd91d",
+      "normalized_source_sha256": "eea777427647a8bf121cf10df98e3b2f4ae822d6e88b743cb23e0e8c78cdfa46",
       "path": "schemas/encoder-start-stream-request.schema.json"
     },
     {
@@ -6460,39 +6420,39 @@
       "path": "schemas/oauth-login-provider.schema.json"
     },
     {
-      "normalized_source_sha256": "3ccf02df941a601d6bc75797535f08a87ff7a5167bf1fcf8d2f54cd54b21ad70",
+      "normalized_source_sha256": "b42b89cef88157b62cb1f8aa0b8b228c988140f8d1a3da3df8d8ac2ce707647d",
       "path": "schemas/system-update-agent-status.schema.json"
     },
     {
-      "normalized_source_sha256": "a4c85fd9cbb7d32b15f342a4701dab321da6508785057145907d4bc06c252497",
+      "normalized_source_sha256": "613a4a4aed54ee59ba10fbadbad4d0a05b0a9a1a439c9d978b6acc753d05e29b",
       "path": "schemas/system-update-create-request.schema.json"
     },
     {
-      "normalized_source_sha256": "9f2c399dd5fe9f06bb0f3cd5525e4720cf63c20391d812da25cc1fce2b5d6061",
+      "normalized_source_sha256": "5b159afea80d8428fd129970641a400b2e728563a1e6507e9c3cbef15ab2610d",
       "path": "schemas/system-update-host-status.schema.json"
     },
     {
-      "normalized_source_sha256": "03ef2a73699341afb2fa5a7e07b3a7e4a6c4afb440f5659fb6f5164b70a92fbc",
+      "normalized_source_sha256": "5ab3c9e3b234143cc9c0aacef00a05f4d44a5a2f3f921c784616373cfe0b3ca9",
       "path": "schemas/system-update-job.schema.json"
     },
     {
-      "normalized_source_sha256": "5779fbe8e846a1ed47acb3e3e32d215ba2cf28673ce790a080db50c00d98acaa",
+      "normalized_source_sha256": "8c04a2dc2f56c5f531d9573b237361690aeaf4bf175955922d2724b103209305",
       "path": "schemas/system-update-pull-ownership-activate-request.schema.json"
     },
     {
-      "normalized_source_sha256": "1ce13af19a1e9a5801541abbcb4cd9e0a981d1e9fbc2f56f9d294496614416cc",
+      "normalized_source_sha256": "c246d37a69ade67236fe5944dd1ea7ca26038232e7af3807e20f0b706d98109f",
       "path": "schemas/system-update-pull-ownership-activate-response.schema.json"
     },
     {
-      "normalized_source_sha256": "acd06b827e9ed43045235762488f924bd8542dc84a0d207eeed53e63600f09b4",
+      "normalized_source_sha256": "1c1fba0f8ad2ab5235f0263edb26770d1fd334ced043f5c3615f5f5e42d45b9f",
       "path": "schemas/system-update-pull-ownership-deactivate-request.schema.json"
     },
     {
-      "normalized_source_sha256": "0ceb42f5bb94ae06067a981696793b07524c980b876310ff218a834d9714666d",
+      "normalized_source_sha256": "fc3d645a0e7259dad6ae7046d76db3772d0ae227e0b4526c6ca8af7d3032f8f3",
       "path": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
     },
     {
-      "normalized_source_sha256": "5069a67fd6362e630cd36d967d9c91b7e7e147925cdbba1e7713e99fa39d3f0c",
+      "normalized_source_sha256": "f61b1a3939fadcbb03f84739f064a80f0e40f3d3ed4bcf524d4a14d314147075",
       "path": "schemas/system-update-target.schema.json"
     },
     {

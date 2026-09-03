@@ -1064,11 +1064,6 @@
               "oauth2"
             ]
           },
-          "base_path": {
-            "deprecated": true,
-            "description": "Legacy value retained for compatible reads. folder_id is the archive root.",
-            "type": "string"
-          },
           "created_at": {
             "format": "date-time",
             "type": "string"
@@ -1107,7 +1102,6 @@
           "auth_mode",
           "folder_id_configured",
           "shared_drive",
-          "base_path",
           "created_at",
           "updated_at"
         ],
@@ -1120,11 +1114,6 @@
             "enum": [
               "oauth2"
             ]
-          },
-          "base_path": {
-            "deprecated": true,
-            "description": "Legacy compatibility input. Current Encoder/Recorder ignores this value and uses folder_id itself as the archive root.",
-            "type": "string"
           },
           "folder_id": {
             "description": "required when creating a destination, optional when updating an existing destination, encrypted at rest, and never returned by API",
@@ -1157,7 +1146,7 @@
             "if": {
               "properties": {
                 "output_relay_mode": {
-                  "const": "live_api_static"
+                  "const": "live_api_relay_static"
                 }
               },
               "required": [
@@ -1172,10 +1161,24 @@
           }
         ],
         "description": "Non-secret service capability hints for output relay routing, negotiated Worker scene-video transport, and strict Discord Bot start-envelope selection.",
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "scene_video_srt"
+              ]
+            },
+            {
+              "required": [
+                "worker_video_ingest_srt"
+              ]
+            }
+          ]
+        },
         "properties": {
           "discord_resolved_target_v2": {
             "const": true,
-            "description": "Advertises actual Discord Bot support for the strict schema_version=2 resolved-target start DTO. Control Panel may select v2 only for this exact current advertisement; missing, false, unknown values, and version strings require the legacy flat payload with no v2-only fields.",
+            "description": "Advertises actual Discord Bot support for the strict schema_version=2 resolved-target start DTO. Missing, false, unknown values, and version strings make the service ineligible for start dispatch.",
             "type": "boolean"
           },
           "live_video_cover_v1": {
@@ -1184,7 +1187,7 @@
             "type": "boolean"
           },
           "output_relay_binding_id": {
-            "description": "Required with live_api_static. Non-secret fixed relay binding identity that must match the selected live_api_relay_static output; never an RTMPS address or stream key.",
+            "description": "Required with live_api_relay_static. Non-secret fixed relay binding identity that must match the selected output; never an RTMPS address or stream key.",
             "pattern": "^relay-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
             "type": "string"
           },
@@ -1201,33 +1204,19 @@
             "description": "Worker can render the complete scene as low-rate MJPEG images over the negotiated job-scoped SRT ingest without video encoding.",
             "type": "boolean"
           },
-          "scene_video_srt": {
-            "const": true,
-            "deprecated": true,
-            "description": "Legacy Worker H.264 MPEG-TS capability accepted for migration reads only.",
-            "type": "boolean"
-          },
           "worker_frame_ingest_mjpeg_srt": {
             "const": true,
             "description": "Encoder/Recorder can receive Worker-rendered JPEG images, hold the latest frame, and perform the only video encode and audio mux.",
-            "type": "boolean"
-          },
-          "worker_video_ingest_srt": {
-            "const": true,
-            "deprecated": true,
-            "description": "Legacy Encoder H.264 MPEG-TS capability accepted for migration reads only.",
             "type": "boolean"
           }
         },
         "type": "object"
       },
       "EncoderOutputRelayMode": {
-        "description": "Non-secret Encoder/Recorder output relay routing vocabulary. New Encoder reports use the canonical direct, legacy_stream_key, or live_api_static values. direct has no fixed output relay; legacy_stream_key means a fixed relay uses a preconfigured legacy YouTube stream-key route; and live_api_static means a fixed relay accepts the non-secret live API static binding. The historical static value is accepted on Control Panel capability input and registered-service reads for migration compatibility with legacy_stream_key semantics. Unknown values are rejected fail closed. This value never carries an RTMPS URL, relay URL, or stream key.\n",
+        "description": "Non-secret v2 Encoder/Recorder output relay routing vocabulary. direct uses the assignment-scoped runtime target; live_api_relay_static requires the matching fixed relay binding. Unknown values are rejected fail closed. This value never carries an RTMPS URL, relay URL, or stream key.\n",
         "enum": [
           "direct",
-          "legacy_stream_key",
-          "live_api_static",
-          "static"
+          "live_api_relay_static"
         ],
         "type": "string"
       },
@@ -2571,11 +2560,6 @@
             },
             "type": "array"
           },
-          "smtp_password_configured": {
-            "deprecated": true,
-            "description": "Deprecated direct-Observability SMTP compatibility status. False for global-SMTP channels and never exposes the password.",
-            "type": "boolean"
-          },
           "type": {
             "enum": [
               "discord",
@@ -2855,49 +2839,6 @@
           }
         },
         "required": [
-          "account_label"
-        ],
-        "type": "object"
-      },
-      "OAuthAccountWriteRequest": {
-        "additionalProperties": false,
-        "deprecated": true,
-        "description": "Legacy manual import shape. The Control Panel rejects normal API calls that try to create connected accounts or update refresh tokens manually; connected accounts are created by OAuth callback only.\n",
-        "properties": {
-          "account_label": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "provider_id": {
-            "type": "string"
-          },
-          "provider_type": {
-            "enum": [
-              "google",
-              "github",
-              "discord"
-            ]
-          },
-          "refresh_token": {
-            "description": "manual refresh token input is disabled; callback stores it encrypted at rest",
-            "type": "string",
-            "writeOnly": true
-          },
-          "scopes": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "subject": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "provider_id",
-          "provider_type",
           "account_label"
         ],
         "type": "object"
@@ -3182,33 +3123,6 @@
           "subject",
           "created_at",
           "updated_at"
-        ],
-        "type": "object"
-      },
-      "OAuthUserLinkWriteRequest": {
-        "additionalProperties": false,
-        "description": "Legacy administrative shape. Production links must be created through\nthe OAuth callback ceremony; manual subject entry is disabled by the\nControl Panel and returns manual_oauth_link_disabled.\n",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "provider_id": {
-            "type": "string"
-          },
-          "provider_type": {
-            "enum": [
-              "google",
-              "github",
-              "discord"
-            ]
-          },
-          "subject": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "provider_id",
-          "subject"
         ],
         "type": "object"
       },
@@ -3593,35 +3507,26 @@
       "RegisteredService": {
         "allOf": [
           {
-            "if": {
-              "anyOf": [
-                {
-                  "required": [
-                    "transport_mode"
-                  ]
-                },
-                {
-                  "required": [
-                    "execution_host_id"
-                  ]
-                },
-                {
-                  "required": [
-                    "ownership_epoch"
-                  ]
-                }
-              ]
-            },
-            "then": {
-              "properties": {
-                "service_type": {
-                  "const": "update_agent"
-                }
-              }
-            }
-          },
-          {
             "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "transport_mode"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "execution_host_id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "ownership_epoch"
+                    ]
+                  }
+                ]
+              },
               "required": [
                 "public_url"
               ]
@@ -3630,14 +3535,10 @@
               "properties": {
                 "service_type": {
                   "const": "update_agent"
-                },
-                "transport_mode": {
-                  "const": "pull_v2"
                 }
               },
               "required": [
-                "service_type",
-                "transport_mode"
+                "service_type"
               ]
             },
             "then": {
@@ -3696,6 +3597,7 @@
                 ]
               },
               "required": [
+                "transport_mode",
                 "execution_host_id",
                 "ownership_epoch"
               ]
@@ -3845,12 +3747,8 @@
             ]
           },
           "transport_mode": {
-            "default": "ssh_v1",
-            "description": "Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url.",
-            "enum": [
-              "ssh_v1",
-              "pull_v2"
-            ]
+            "const": "pull_v2",
+            "description": "Protocol-major-2 transport for update_agent records. An update_agent omits host, port, and public_url."
           },
           "updated_at": {
             "format": "date-time",
@@ -4829,6 +4727,8 @@
         "required": [
           "service_id",
           "stream_id",
+          "archive_run_id",
+          "archive_started_at",
           "artifacts"
         ],
         "type": "object"
@@ -4991,21 +4891,12 @@
         "additionalProperties": false,
         "allOf": [
           {
-            "if": {
-              "required": [
-                "transport_mode"
-              ]
-            },
-            "then": {
-              "properties": {
-                "service_type": {
-                  "const": "update_agent"
-                }
-              }
-            }
-          },
-          {
             "else": {
+              "not": {
+                "required": [
+                  "transport_mode"
+                ]
+              },
               "required": [
                 "public_url"
               ]
@@ -5014,14 +4905,10 @@
               "properties": {
                 "service_type": {
                   "const": "update_agent"
-                },
-                "transport_mode": {
-                  "const": "pull_v2"
                 }
               },
               "required": [
-                "service_type",
-                "transport_mode"
+                "service_type"
               ]
             },
             "then": {
@@ -5043,7 +4930,10 @@
                     ]
                   }
                 ]
-              }
+              },
+              "required": [
+                "transport_mode"
+              ]
             }
           }
         ],
@@ -5104,12 +4994,8 @@
             "type": "boolean"
           },
           "transport_mode": {
-            "default": "ssh_v1",
-            "description": "Existing payloads that omit transport_mode are interpreted as ssh_v1. An update_agent with transport_mode pull_v2 must omit host, port, and public_url. Server-owned execution_host_id and ownership_epoch are never accepted from registration input.",
-            "enum": [
-              "ssh_v1",
-              "pull_v2"
-            ]
+            "const": "pull_v2",
+            "description": "Required protocol-major-2 transport for update_agent registration. An update_agent must omit host, port, and public_url. Server-owned execution_host_id and ownership_epoch are never accepted from registration input."
           },
           "version": {
             "type": "string"
@@ -5187,6 +5073,11 @@
                 "archive_config": {
                   "additionalProperties": true,
                   "description": "Non-secret archive dispatch config. Secret material is represented by *_secret_name fields only.",
+                  "not": {
+                    "required": [
+                      "base_path"
+                    ]
+                  },
                   "properties": {
                     "archive_profile_id": {
                       "type": "string"
@@ -5195,11 +5086,6 @@
                       "enum": [
                         "oauth2"
                       ],
-                      "type": "string"
-                    },
-                    "base_path": {
-                      "deprecated": true,
-                      "description": "Ignored legacy value. folder_id is the archive root.",
                       "type": "string"
                     },
                     "client_id": {
@@ -6043,10 +5929,10 @@
             "type": "string"
           },
           "relative_path": {
-            "description": "Logical legacy final/{stream_id}/{name} or run-scoped final/{stream_id}/{archive_run_id}/{name} path; the server verifies the embedded identifiers and file name.",
+            "description": "Run-scoped final/{stream_id}/{archive_run_id}/{name} path; the server verifies the embedded identifiers and file name.",
             "maxLength": 1024,
             "minLength": 1,
-            "pattern": "^final/[^/\\\\]+/(?:[^/\\\\]+/)?[^/\\\\]+$",
+            "pattern": "^final/[^/\\\\]+/[^/\\\\]+/[^/\\\\]+$",
             "type": "string"
           },
           "size_bytes": {
@@ -6677,8 +6563,12 @@
             ],
             "type": "string"
           },
+          "fence": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
           "host_id": {
-            "description": "Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior.",
             "maxLength": 191,
             "minLength": 1,
             "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
@@ -6696,12 +6586,6 @@
             "type": "string",
             "writeOnly": true
           },
-          "service_id": {
-            "maxLength": 191,
-            "minLength": 1,
-            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
-            "type": "string"
-          },
           "target_id": {
             "maxLength": 191,
             "minLength": 1,
@@ -6713,12 +6597,20 @@
             "minLength": 1,
             "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
             "type": "string"
+          },
+          "updater_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
           }
         },
         "required": [
-          "service_id",
+          "updater_id",
+          "host_id",
           "lease_token",
           "lease_generation",
+          "fence",
           "target_id",
           "target_version",
           "deployment_mode"
@@ -6735,14 +6627,23 @@
             "pattern": "\\S",
             "type": "string"
           },
+          "fence": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
           "host_id": {
-            "description": "Optional execution-host identity. It is required for central multi-host operation; omission retains legacy per-host updater behavior.",
             "maxLength": 191,
             "minLength": 1,
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
             "type": "string"
           },
-          "service_id": {
+          "lease_generation": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "updater_id": {
             "maxLength": 128,
             "minLength": 1,
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
@@ -6750,7 +6651,10 @@
           }
         },
         "required": [
-          "service_id"
+          "updater_id",
+          "host_id",
+          "lease_generation",
+          "fence"
         ],
         "type": "object"
       },
@@ -7040,10 +6944,7 @@
             "type": "string"
           },
           "transport_mode": {
-            "enum": [
-              "ssh_v1",
-              "pull_v2"
-            ],
+            "const": "pull_v2",
             "type": "string"
           }
         },
@@ -7273,10 +7174,7 @@
             "type": "string"
           },
           "transport_mode": {
-            "enum": [
-              "ssh_v1",
-              "pull_v2"
-            ],
+            "const": "pull_v2",
             "type": "string"
           }
         },
@@ -7386,6 +7284,17 @@
             "pattern": "^[a-z0-9_.-]+$",
             "type": "string"
           },
+          "fence": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "host_id": {
+            "maxLength": 191,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
+            "type": "string"
+          },
           "lease_generation": {
             "format": "int64",
             "minimum": 1,
@@ -7432,12 +7341,6 @@
             "minimum": 1,
             "type": "integer"
           },
-          "service_id": {
-            "maxLength": 128,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
-            "type": "string"
-          },
           "status": {
             "enum": [
               "claimed",
@@ -7455,12 +7358,20 @@
               "failed"
             ],
             "type": "string"
+          },
+          "updater_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
           }
         },
         "required": [
-          "service_id",
+          "updater_id",
+          "host_id",
           "lease_token",
           "lease_generation",
+          "fence",
           "sequence",
           "status"
         ],
@@ -11028,63 +10939,7 @@
       "system-update-agent-status.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
-        "allOf": [
-          {
-            "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "ssh_client_public_keys"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "ssh_client_key_fingerprints"
-                    ]
-                  }
-                ]
-              },
-              "properties": {
-                "applied_revision": {
-                  "minimum": 0
-                },
-                "desired_revision": {
-                  "minimum": 1
-                },
-                "fence": {
-                  "minimum": 1
-                },
-                "transport_mode": {
-                  "const": "pull_v2"
-                }
-              },
-              "required": [
-                "protocol_version",
-                "updater_id",
-                "host_id",
-                "service_id",
-                "name",
-                "transport_mode",
-                "authentication",
-                "status",
-                "online",
-                "version",
-                "heartbeat_sequence",
-                "capabilities",
-                "desired_revision",
-                "applied_revision",
-                "fence"
-              ]
-            }
-          }
-        ],
-        "description": "Updater heartbeat and capability projection. Payloads declaring protocol_version 2 are strict pull_v2 records. Payloads without protocol_version are temporary legacy compatibility owned by V2-COMPAT-EOL-CONTRACTS-001 and removed in Execution Bundle 8.",
+        "description": "Strict protocol-major-2 Updater heartbeat and capability projection.",
         "properties": {
           "applied_revision": {
             "minimum": 0,
@@ -11119,7 +10974,7 @@
             "uniqueItems": true
           },
           "desired_revision": {
-            "minimum": 0,
+            "minimum": 1,
             "type": "integer"
           },
           "execution_host_id": {
@@ -11162,8 +11017,6 @@
             "enum": [
               "policy_fetch_failed",
               "policy_invalid",
-              "ssh_identity_failed",
-              "ssh_connectivity_failed",
               "policy_snapshot_failed",
               "coordinator_start_failed",
               "active_job_pending"
@@ -11185,40 +11038,13 @@
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
             "type": "string"
           },
-          "ssh_client_key_fingerprints": {
-            "additionalProperties": {
-              "maxLength": 50,
-              "pattern": "^SHA256:[A-Za-z0-9+/]{43}$",
-              "type": "string"
-            },
-            "propertyNames": {
-              "maxLength": 191,
-              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
-            },
-            "type": "object"
-          },
-          "ssh_client_public_keys": {
-            "additionalProperties": {
-              "maxLength": 80,
-              "pattern": "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$",
-              "type": "string"
-            },
-            "propertyNames": {
-              "maxLength": 191,
-              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
-            },
-            "type": "object"
-          },
           "status": {
             "maxLength": 64,
             "minLength": 1,
             "type": "string"
           },
           "transport_mode": {
-            "enum": [
-              "ssh_v1",
-              "pull_v2"
-            ]
+            "const": "pull_v2"
           },
           "updater_id": {
             "maxLength": 128,
@@ -11232,20 +11058,25 @@
           }
         },
         "required": [
+          "protocol_version",
           "updater_id",
+          "host_id",
+          "service_id",
           "name",
+          "transport_mode",
+          "authentication",
           "status",
           "online",
-          "version"
+          "version",
+          "heartbeat_sequence",
+          "capabilities",
+          "desired_revision",
+          "applied_revision",
+          "fence"
         ],
         "title": "System Update Agent Status",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "system-update-create-request.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -11347,59 +11178,46 @@
             }
           },
           {
-            "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "operation": {
-                      "const": "port_reconfigure"
-                    },
-                    "required_capability": {
-                      "const": "host.port"
-                    }
+            "oneOf": [
+              {
+                "properties": {
+                  "operation": {
+                    "const": "port_reconfigure"
                   },
+                  "required_capability": {
+                    "const": "host.port"
+                  }
+                },
+                "required": [
+                  "operation"
+                ]
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "software_update"
+                  },
+                  "required_capability": {
+                    "const": "host.update"
+                  }
+                },
+                "required": [
+                  "operation"
+                ]
+              },
+              {
+                "not": {
                   "required": [
                     "operation"
                   ]
                 },
-                {
-                  "properties": {
-                    "operation": {
-                      "const": "software_update"
-                    },
-                    "required_capability": {
-                      "const": "host.update"
-                    }
-                  },
-                  "required": [
-                    "operation"
-                  ]
-                },
-                {
-                  "not": {
-                    "required": [
-                      "operation"
-                    ]
-                  },
-                  "properties": {
-                    "required_capability": {
-                      "const": "host.update"
-                    }
+                "properties": {
+                  "required_capability": {
+                    "const": "host.update"
                   }
                 }
-              ],
-              "required": [
-                "protocol_version",
-                "desired_revision",
-                "fence",
-                "required_capability"
-              ]
-            }
+              }
+            ]
           }
         ],
         "description": "Control Panel orchestration intent. protocol_version 2 carries only typed revision-fenced intent and never accepts host execution details.",
@@ -11476,17 +11294,16 @@
           }
         },
         "required": [
+          "protocol_version",
           "target_id",
-          "idempotency_key"
+          "idempotency_key",
+          "desired_revision",
+          "fence",
+          "required_capability"
         ],
         "title": "System Update Create Request",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "system-update-host-status.schema": {
         "$defs": {
@@ -11566,36 +11383,6 @@
         },
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
-        "allOf": [
-          {
-            "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "not": {
-                "anyOf": [
-                  {
-                    "required": [
-                      "ssh_client_public_key"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "ssh_client_key_fingerprint"
-                    ]
-                  }
-                ]
-              },
-              "required": [
-                "protocol_version",
-                "updater_health",
-                "application_probe"
-              ]
-            }
-          }
-        ],
         "description": "Host readiness projection. Updater health and the target application's runtime identity probe are independent evidence and may not substitute for one another.",
         "properties": {
           "application_probe": {
@@ -11631,16 +11418,6 @@
             "pattern": "^[a-z0-9_.-]+$",
             "type": "string"
           },
-          "ssh_client_key_fingerprint": {
-            "maxLength": 50,
-            "pattern": "^SHA256:[A-Za-z0-9+/]{43}$",
-            "type": "string"
-          },
-          "ssh_client_public_key": {
-            "maxLength": 80,
-            "pattern": "^ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI[A-Za-z0-9+/]{43}$",
-            "type": "string"
-          },
           "updater_health": {
             "$ref": "#/components/schemas/updaterHealth"
           },
@@ -11652,19 +11429,17 @@
           }
         },
         "required": [
+          "protocol_version",
           "host_id",
           "name",
           "updater_id",
-          "reachability"
+          "reachability",
+          "updater_health",
+          "application_probe"
         ],
         "title": "System Update Host Status",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "system-update-job.schema": {
         "$defs": {
@@ -12056,198 +11831,161 @@
             }
           },
           {
-            "if": {
-              "required": [
-                "protocol_version"
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "code"
+                  ]
+                },
+                {
+                  "required": [
+                    "message"
+                  ]
+                }
               ]
             },
-            "then": {
-              "not": {
-                "anyOf": [
-                  {
+            "oneOf": [
+              {
+                "properties": {
+                  "operation": {
+                    "const": "port_reconfigure"
+                  },
+                  "required_capability": {
+                    "const": "host.port"
+                  }
+                },
+                "required": [
+                  "operation"
+                ]
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "software_update"
+                  },
+                  "required_capability": {
+                    "const": "host.update"
+                  }
+                },
+                "required": [
+                  "operation"
+                ]
+              },
+              {
+                "not": {
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "properties": {
+                  "required_capability": {
+                    "const": "host.update"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "oneOf": [
+              {
+                "not": {
+                  "required": [
+                    "safe_error"
+                  ]
+                },
+                "properties": {
+                  "outcome": {
+                    "const": "pending"
+                  },
+                  "status": {
+                    "enum": [
+                      "queued",
+                      "claimed",
+                      "downloading",
+                      "verifying",
+                      "staging",
+                      "stopping",
+                      "installing",
+                      "starting",
+                      "health_checking",
+                      "rolling_back"
+                    ]
+                  }
+                }
+              },
+              {
+                "not": {
+                  "required": [
+                    "safe_error"
+                  ]
+                },
+                "properties": {
+                  "outcome": {
+                    "const": "succeeded"
+                  },
+                  "status": {
+                    "const": "succeeded"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "outcome": {
+                    "const": "rolled_back"
+                  },
+                  "status": {
+                    "const": "rolled_back"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "outcome": {
+                    "const": "canceled"
+                  },
+                  "status": {
+                    "const": "canceled"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "outcome": {
+                    "const": "failed"
+                  },
+                  "status": {
+                    "const": "failed"
+                  }
+                },
+                "required": [
+                  "safe_error"
+                ]
+              },
+              {
+                "properties": {
+                  "outcome": {
+                    "const": "ambiguous"
+                  },
+                  "safe_error": {
+                    "properties": {
+                      "code": {
+                        "const": "outcome_ambiguous"
+                      }
+                    },
                     "required": [
                       "code"
                     ]
                   },
-                  {
-                    "required": [
-                      "message"
-                    ]
+                  "status": {
+                    "const": "reconciling"
                   }
+                },
+                "required": [
+                  "safe_error"
                 ]
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "operation": {
-                      "const": "port_reconfigure"
-                    },
-                    "required_capability": {
-                      "const": "host.port"
-                    }
-                  },
-                  "required": [
-                    "operation"
-                  ]
-                },
-                {
-                  "properties": {
-                    "operation": {
-                      "const": "software_update"
-                    },
-                    "required_capability": {
-                      "const": "host.update"
-                    }
-                  },
-                  "required": [
-                    "operation"
-                  ]
-                },
-                {
-                  "not": {
-                    "required": [
-                      "operation"
-                    ]
-                  },
-                  "properties": {
-                    "required_capability": {
-                      "const": "host.update"
-                    }
-                  }
-                }
-              ],
-              "properties": {
-                "fence": {
-                  "minimum": 1
-                },
-                "lease_generation": {
-                  "minimum": 1
-                },
-                "transport_mode": {
-                  "const": "pull_v2"
-                }
-              },
-              "required": [
-                "protocol_version",
-                "transport_mode",
-                "updater_id",
-                "desired_revision",
-                "fence",
-                "outcome",
-                "required_capability",
-                "authorization_id",
-                "canonical_payload_digest",
-                "automatic_resend_allowed"
-              ]
-            }
-          },
-          {
-            "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "oneOf": [
-                {
-                  "not": {
-                    "required": [
-                      "safe_error"
-                    ]
-                  },
-                  "properties": {
-                    "outcome": {
-                      "const": "pending"
-                    },
-                    "status": {
-                      "enum": [
-                        "queued",
-                        "claimed",
-                        "downloading",
-                        "verifying",
-                        "staging",
-                        "stopping",
-                        "installing",
-                        "starting",
-                        "health_checking",
-                        "rolling_back"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "not": {
-                    "required": [
-                      "safe_error"
-                    ]
-                  },
-                  "properties": {
-                    "outcome": {
-                      "const": "succeeded"
-                    },
-                    "status": {
-                      "const": "succeeded"
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "outcome": {
-                      "const": "rolled_back"
-                    },
-                    "status": {
-                      "const": "rolled_back"
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "outcome": {
-                      "const": "canceled"
-                    },
-                    "status": {
-                      "const": "canceled"
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "outcome": {
-                      "const": "failed"
-                    },
-                    "status": {
-                      "const": "failed"
-                    }
-                  },
-                  "required": [
-                    "safe_error"
-                  ]
-                },
-                {
-                  "properties": {
-                    "outcome": {
-                      "const": "ambiguous"
-                    },
-                    "safe_error": {
-                      "properties": {
-                        "code": {
-                          "const": "outcome_ambiguous"
-                        }
-                      },
-                      "required": [
-                        "code"
-                      ]
-                    },
-                    "status": {
-                      "const": "reconciling"
-                    }
-                  },
-                  "required": [
-                    "safe_error"
-                  ]
-                }
-              ]
-            }
+              }
+            ]
           }
         ],
         "description": "Control Panel job projection. protocol_version 2 is pull-only, capability-bound, revision-fenced, and represents ambiguous execution outcomes explicitly.",
@@ -12331,7 +12069,7 @@
             "type": "string"
           },
           "lease_generation": {
-            "minimum": 0,
+            "minimum": 1,
             "type": "integer"
           },
           "message": {
@@ -12443,10 +12181,7 @@
             "type": "string"
           },
           "transport_mode": {
-            "enum": [
-              "ssh_v1",
-              "pull_v2"
-            ]
+            "const": "pull_v2"
           },
           "updated_at": {
             "format": "date-time",
@@ -12460,6 +12195,16 @@
           }
         },
         "required": [
+          "protocol_version",
+          "transport_mode",
+          "updater_id",
+          "desired_revision",
+          "fence",
+          "outcome",
+          "required_capability",
+          "authorization_id",
+          "canonical_payload_digest",
+          "automatic_resend_allowed",
           "id",
           "target_id",
           "target_type",
@@ -12478,34 +12223,11 @@
         ],
         "title": "System Update Job",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "system-update-pull-ownership-activate-request.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
-        "allOf": [
-          {
-            "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "required": [
-                "protocol_version",
-                "idempotency_key",
-                "desired_revision",
-                "fence",
-                "required_capability"
-              ]
-            }
-          }
-        ],
         "description": "Administrative compare-and-swap request that activates one already-verified pull_v2 Host Agent. Every expected value is required and no client-selected replacement owner or epoch is accepted.",
         "properties": {
           "desired_revision": {
@@ -12555,6 +12277,11 @@
           }
         },
         "required": [
+          "protocol_version",
+          "idempotency_key",
+          "desired_revision",
+          "fence",
+          "required_capability",
           "expected_execution_host_id",
           "expected_ownership_epoch",
           "expected_source_policy_revision",
@@ -12564,35 +12291,11 @@
         ],
         "title": "SystemUpdatePullOwnershipActivateRequest",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "system-update-pull-ownership-activate-response.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
-        "allOf": [
-          {
-            "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "required": [
-                "protocol_version",
-                "idempotency_key",
-                "desired_revision",
-                "applied_revision",
-                "fence",
-                "capability"
-              ]
-            }
-          }
-        ],
         "description": "Server-owned pull_v2 ownership and policy fences returned after atomic activation. The response contains no credential or secret.",
         "properties": {
           "agent_service_id": {
@@ -12656,6 +12359,12 @@
           }
         },
         "required": [
+          "protocol_version",
+          "idempotency_key",
+          "desired_revision",
+          "applied_revision",
+          "fence",
+          "capability",
           "updater_id",
           "execution_host_id",
           "transport_mode",
@@ -12668,35 +12377,12 @@
         ],
         "title": "SystemUpdatePullOwnershipActivateResponse",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "system-update-pull-ownership-deactivate-request.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
-        "allOf": [
-          {
-            "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "required": [
-                "protocol_version",
-                "idempotency_key",
-                "desired_revision",
-                "fence",
-                "required_capability"
-              ]
-            }
-          }
-        ],
-        "description": "Administrative compare-and-swap request that returns one active pull_v2 Host Agent to observer mode and restores the server-preserved ssh_v1 owner. Every expected value is required; a replacement owner, transport, epoch, credential, or grant cannot be supplied by the client.",
+        "description": "Administrative compare-and-swap request that returns one active pull_v2 Host Agent to observer mode. Every expected value is required; a replacement owner, transport, epoch, credential, or grant cannot be supplied by the client.",
         "properties": {
           "desired_revision": {
             "minimum": 1,
@@ -12745,6 +12431,11 @@
           }
         },
         "required": [
+          "protocol_version",
+          "idempotency_key",
+          "desired_revision",
+          "fence",
+          "required_capability",
           "expected_execution_host_id",
           "expected_ownership_epoch",
           "expected_source_policy_revision",
@@ -12754,38 +12445,12 @@
         ],
         "title": "SystemUpdatePullOwnershipDeactivateRequest",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "purpose": "whole_release_rollback_only",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "system-update-pull-ownership-deactivate-response.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
-        "allOf": [
-          {
-            "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "required": [
-                "protocol_version",
-                "idempotency_key",
-                "desired_revision",
-                "applied_revision",
-                "fence",
-                "capability",
-                "rollback_transition"
-              ]
-            }
-          }
-        ],
-        "description": "Server-owned ssh_v1 execution-host ownership and unchanged pull policy fences returned after atomic deactivation. agent_service_id is the server-preserved legacy updater, while the pull updater identified by updater_id is returned to observer epoch zero. No credential or secret is returned.",
+        "description": "Server-owned pull_v2 execution-host identity and unchanged policy fences returned after atomic deactivation. The updater identified by updater_id is returned to observer epoch zero. No credential or secret is returned.",
         "properties": {
           "agent_ownership_epoch": {
             "const": 0
@@ -12838,15 +12503,12 @@
           "protocol_version": {
             "const": 2
           },
-          "rollback_transition": {
-            "const": true
-          },
           "source_policy_revision": {
             "minimum": 1,
             "type": "integer"
           },
           "transport_mode": {
-            "const": "ssh_v1"
+            "const": "pull_v2"
           },
           "updater_id": {
             "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
@@ -12854,6 +12516,12 @@
           }
         },
         "required": [
+          "protocol_version",
+          "idempotency_key",
+          "desired_revision",
+          "applied_revision",
+          "fence",
+          "capability",
           "updater_id",
           "execution_host_id",
           "transport_mode",
@@ -12867,13 +12535,7 @@
         ],
         "title": "SystemUpdatePullOwnershipDeactivateResponse",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "purpose": "whole_release_rollback_only",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "system-update-target.schema": {
         "$defs": {
@@ -13063,31 +12725,6 @@
         "allOf": [
           {
             "if": {
-              "required": [
-                "protocol_version"
-              ]
-            },
-            "then": {
-              "not": {
-                "required": [
-                  "update_check_error"
-                ]
-              },
-              "required": [
-                "protocol_version",
-                "host_id",
-                "updater_id",
-                "capabilities",
-                "desired_revision",
-                "applied_revision",
-                "fence",
-                "updater_health",
-                "application_probe"
-              ]
-            }
-          },
-          {
-            "if": {
               "properties": {
                 "updater_health": {
                   "properties": {
@@ -13104,7 +12741,6 @@
                 }
               },
               "required": [
-                "protocol_version",
                 "updater_health"
               ]
             },
@@ -13113,24 +12749,14 @@
                 "safe_error"
               ]
             }
-          },
-          {
-            "if": {
-              "required": [
-                "protocol_version",
-                "safe_error"
-              ]
-            },
-            "then": {
-              "not": {
-                "required": [
-                  "update_check_error"
-                ]
-              }
-            }
           }
         ],
         "description": "Control Panel target projection. protocol_version 2 requires capability, revision/fence, Updater health, and a distinct application-owned identity probe.",
+        "not": {
+          "required": [
+            "update_check_error"
+          ]
+        },
         "properties": {
           "application_probe": {
             "$ref": "#/components/schemas/systemUpdateTargetApplicationProbe"
@@ -13264,6 +12890,15 @@
           }
         },
         "required": [
+          "protocol_version",
+          "host_id",
+          "updater_id",
+          "capabilities",
+          "desired_revision",
+          "applied_revision",
+          "fence",
+          "updater_health",
+          "application_probe",
           "target_id",
           "target_type",
           "name",
@@ -13274,12 +12909,7 @@
         ],
         "title": "System Update Target",
         "type": "object",
-        "x-autostream-contract-major": 2,
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "absent",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "removal_wave": "Execution Bundle 8"
-        }
+        "x-autostream-contract-major": 2
       },
       "systemUpdateJobSafeError": {
         "additionalProperties": false,
@@ -14912,35 +14542,7 @@
         {
           "$ref": "#/components/parameters/contractMajor"
         }
-      ],
-      "post": {
-        "deprecated": true,
-        "description": "Connected operational accounts must be created through /integrations/oauth-accounts/start and /integrations/oauth-accounts/callback. Manual refresh token import is disabled for normal clients and returns 403 manual_oauth_account_create_disabled.\n",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OAuthAccountWriteRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "403": {
-            "description": "manual OAuth account creation is disabled",
-            "headers": {
-              "X-AutoStream-Contract-Major": {
-                "$ref": "#/components/headers/contractMajor"
-              }
-            }
-          },
-          "426": {
-            "$ref": "#/components/responses/contractMajorUnsupported"
-          }
-        },
-        "summary": "Manual OAuth connected account creation is disabled"
-      }
+      ]
     },
     "/integrations/oauth-accounts/callback": {
       "get": {
@@ -16547,12 +16149,7 @@
           {
             "bearerToken": []
           }
-        ],
-        "x-autostream-v2-transition-compatibility": {
-          "final_state": "v2_only",
-          "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-          "removal_wave": "Execution Bundle 8"
-        }
+        ]
       }
     },
     "/services/host-agent/policy": {
@@ -16562,7 +16159,7 @@
         }
       ],
       "post": {
-        "description": "Fetches the dedicated pull_v2 observe-only policy for the authenticated Host Agent. Requires service.config.read. Server-owned host binding fields are never accepted from the request. This endpoint is separate from the legacy /services/update-agent/policy contract.",
+        "description": "Fetches the pull_v2 policy for the authenticated Host Agent. Requires service.config.read. Server-owned host binding fields are never accepted from the request.",
         "operationId": "fetchHostAgentPolicy",
         "requestBody": {
           "content": {
@@ -20237,7 +19834,7 @@
         }
       ],
       "post": {
-        "description": "Atomically transfers one execution host from the legacy ssh_v1 owner to the already-registered and readiness-verified pull_v2 Host Agent. Requires system_updates.execute. The id path parameter selects the pre-created updater; every request field is a compare-and-swap expectation. The server chooses the next ownership epoch and never accepts a replacement owner, credential, command, path, URL, image, or release input.\n",
+        "description": "Atomically activates the already-registered and readiness-verified pull_v2 Host Agent for one execution host. Requires system_updates.execute. The id path parameter selects the pre-created updater; every request field is a compare-and-swap expectation. The server chooses the next ownership epoch and never accepts a replacement owner, credential, command, path, URL, image, or release input.\n",
         "operationId": "activateSystemUpdatePullOwnership",
         "parameters": [
           {
@@ -20361,7 +19958,7 @@
         }
       ],
       "post": {
-        "description": "Atomically returns one active pull_v2 Host Agent to observer epoch zero and restores the ssh_v1 updater that the server preserved when ownership was activated. Requires system_updates.execute. The id path parameter selects the pull updater; every request field is a compare-and-swap expectation. The client cannot select the legacy owner, replacement transport, next epoch, credential, command, path, URL, image, or release.\n",
+        "description": "Atomically returns one active pull_v2 Host Agent to observer epoch zero. Requires system_updates.execute. The id path parameter selects the updater; every request field is a compare-and-swap expectation. The client cannot select a replacement owner, transport, next epoch, credential, command, path, URL, image, or release.\n",
         "operationId": "deactivateSystemUpdatePullOwnership",
         "parameters": [
           {
@@ -20390,7 +19987,7 @@
                 }
               }
             },
-            "description": "ssh_v1 ownership restored and the pull updater returned to observer epoch zero",
+            "description": "pull_v2 updater returned to observer epoch zero",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
@@ -20931,47 +20528,7 @@
         {
           "$ref": "#/components/parameters/contractMajor"
         }
-      ],
-      "post": {
-        "deprecated": true,
-        "description": "Manual subject entry is disabled to avoid linking a local account to an\nattacker-controlled provider subject. OAuth user links are created only\nby the OAuth callback ceremony after state, nonce, provider identity,\nand allowlist checks succeed. This endpoint is retained only for legacy\nclients and always returns 403 manual_oauth_link_disabled.\n",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/id"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OAuthUserLinkWriteRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "manual OAuth subject link creation is disabled",
-            "headers": {
-              "X-AutoStream-Contract-Major": {
-                "$ref": "#/components/headers/contractMajor"
-              }
-            }
-          },
-          "426": {
-            "$ref": "#/components/responses/contractMajorUnsupported"
-          }
-        },
-        "summary": "Manual OAuth login links are disabled"
-      }
+      ]
     },
     "/users/{id}/oauth-links/{link_id}": {
       "delete": {
@@ -22738,13 +22295,6 @@
       ],
       "title": "Updater Desired Operation",
       "type": "object"
-    },
-    "embedded_legacy_transition": {
-      "final_state": "absent",
-      "owner": "V2-COMPAT-EOL-CONTRACTS-001",
-      "removal_wave": "Execution Bundle 5",
-      "rollback_only_after_v2_activation": true,
-      "transport": "ssh_v1"
     },
     "heartbeat_schema": {
       "additionalProperties": false,

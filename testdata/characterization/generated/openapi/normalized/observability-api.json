@@ -54,11 +54,6 @@
             },
             "type": "array"
           },
-          "smtp_password_configured": {
-            "deprecated": true,
-            "description": "Deprecated direct-Observability SMTP compatibility status. False for global-SMTP channels.",
-            "type": "boolean"
-          },
           "type": {
             "enum": [
               "discord",
@@ -105,10 +100,14 @@
             },
             "then": {
               "properties": {
-                "email_recipients": {}
+                "email_recipients": {},
+                "uses_global_smtp": {
+                  "const": true
+                }
               },
               "required": [
-                "email_recipients"
+                "email_recipients",
+                "uses_global_smtp"
               ]
             }
           }
@@ -119,68 +118,11 @@
         "allOf": [
           {
             "if": {
-              "properties": {
-                "uses_global_smtp": {
-                  "const": true
-                }
-              },
               "required": [
                 "uses_global_smtp"
               ]
             },
             "then": {
-              "not": {
-                "anyOf": [
-                  {
-                    "properties": {
-                      "smtp_host": {}
-                    },
-                    "required": [
-                      "smtp_host"
-                    ]
-                  },
-                  {
-                    "properties": {
-                      "smtp_port": {}
-                    },
-                    "required": [
-                      "smtp_port"
-                    ]
-                  },
-                  {
-                    "properties": {
-                      "smtp_tls": {}
-                    },
-                    "required": [
-                      "smtp_tls"
-                    ]
-                  },
-                  {
-                    "properties": {
-                      "smtp_from": {}
-                    },
-                    "required": [
-                      "smtp_from"
-                    ]
-                  },
-                  {
-                    "properties": {
-                      "smtp_username": {}
-                    },
-                    "required": [
-                      "smtp_username"
-                    ]
-                  },
-                  {
-                    "properties": {
-                      "smtp_password": {}
-                    },
-                    "required": [
-                      "smtp_password"
-                    ]
-                  }
-                ]
-              },
               "properties": {
                 "type": {
                   "const": "email"
@@ -227,40 +169,6 @@
             },
             "type": "array"
           },
-          "smtp_from": {
-            "deprecated": true,
-            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
-            "format": "email",
-            "type": "string"
-          },
-          "smtp_host": {
-            "deprecated": true,
-            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
-            "type": "string"
-          },
-          "smtp_password": {
-            "deprecated": true,
-            "description": "Deprecated write-only direct-Observability SMTP password. Do not supply when uses_global_smtp is true; it is never returned raw.",
-            "type": "string",
-            "writeOnly": true
-          },
-          "smtp_port": {
-            "deprecated": true,
-            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
-            "maximum": 65535,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "smtp_tls": {
-            "deprecated": true,
-            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
-            "type": "boolean"
-          },
-          "smtp_username": {
-            "deprecated": true,
-            "description": "Deprecated direct-Observability SMTP compatibility field. Do not supply when uses_global_smtp is true.",
-            "type": "string"
-          },
           "type": {
             "enum": [
               "discord",
@@ -270,7 +178,8 @@
             ]
           },
           "uses_global_smtp": {
-            "description": "True delegates delivery to the Control Panel service relay and globally managed application SMTP settings; false selects deprecated direct-Observability SMTP compatibility. On update, omission preserves the existing mode.",
+            "const": true,
+            "description": "Email delivery is delegated to the authenticated Control Panel relay backed by globally managed SMTP settings.",
             "type": "boolean"
           },
           "webhook_url": {
