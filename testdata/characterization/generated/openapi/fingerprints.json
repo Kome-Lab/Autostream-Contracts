@@ -3,8 +3,8 @@
     {
       "api": "openapi/control-api.yaml",
       "normalized_file": "openapi/normalized/control-api.json",
-      "normalized_sha256": "9eb44b230a7b5c3853294c6998798f79531465419fd4f60bb9aca0c15eda8213",
-      "ref_layout_independent_sha256": "7dd783405926ebcb5db88c2d7d71cfc1402a2c33c69cb76fab6fe71ea5cfe8e9"
+      "normalized_sha256": "29822b9949852107366c972e4061bd12727d585e5c226b23881db48a57acbe52",
+      "ref_layout_independent_sha256": "d246e971458162cad629f99cd9b5d1fdb8ded56be6b53561824e0796c3c9d361"
     },
     {
       "api": "openapi/discord-bot-api.yaml",

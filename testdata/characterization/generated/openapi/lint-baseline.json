@@ -2,8 +2,8 @@
   "apis": [
     {
       "api": "openapi/control-api.yaml",
-      "error_count": 156,
-      "finding_count": 506,
+      "error_count": 155,
+      "finding_count": 502,
       "findings": [
         {
           "category": "openapi_lint",
@@ -323,18 +323,6 @@
           "locations": [
             {
               "pointer": "#/paths/~1system-updates~1hosts~1{host_id}~1self-updates/post/summary",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-summary",
-          "severity": "error"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "32ea17b23b7079c261dc172ddc63605e39e976dbcbbfff8a0093c19656d451d4",
-          "locations": [
-            {
-              "pointer": "#/paths/~1services~1update-jobs~1{id}~1authorize/post/summary",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -4003,34 +3991,10 @@
         },
         {
           "category": "openapi_lint",
-          "fingerprint": "b77ecd31084afd3ec9670756b7e2f6307116c9d9cddae30c31a53fd534a9c2f7",
-          "locations": [
-            {
-              "pointer": "#/components/schemas/UpdateAgentAuthorizeRequest",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "no-unused-components",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
           "fingerprint": "2ff1679e6c86403d1392d0b0ce66759ba0acbd5387443043d5f31199d9f980f9",
           "locations": [
             {
               "pointer": "#/paths/~1integrations~1oauth-accounts~1callback/get/responses",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-2xx-response",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "5c87a4a60f6557955f6f7d37d7276f220157c8195f8516153e11f59aa637b1d2",
-          "locations": [
-            {
-              "pointer": "#/paths/~1services~1update-jobs~1{id}~1authorize/post/responses",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -4883,18 +4847,6 @@
           "locations": [
             {
               "pointer": "#/paths/~1youtube~1outputs~1{id}/get/operationId",
-              "source": "openapi/control-api.yaml"
-            }
-          ],
-          "rule_id": "operation-operationId",
-          "severity": "warn"
-        },
-        {
-          "category": "openapi_lint",
-          "fingerprint": "69136bd0ce965efe3944576795df42e1664eb7f949bb5a119bbcdb7b049c6f9d",
-          "locations": [
-            {
-              "pointer": "#/paths/~1services~1update-jobs~1{id}~1authorize/post/operationId",
               "source": "openapi/control-api.yaml"
             }
           ],
@@ -6079,7 +6031,7 @@
         }
       ],
       "lint_exit_code": 1,
-      "warning_count": 350
+      "warning_count": 347
     },
     {
       "api": "openapi/discord-bot-api.yaml",

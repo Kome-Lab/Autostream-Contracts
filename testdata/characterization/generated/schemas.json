@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 118,
+  "schema_count": 117,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -3020,30 +3020,6 @@
           "fragment": ""
         }
       ],
-      "compiled": true
-    },
-    {
-      "path": "schemas/update-agent-authorize-request.schema.json",
-      "id": "",
-      "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "2d10be034d8d165808eea3799479625bebcb06c3afb5f88d269fe7f315ecfcb2",
-      "keywords": [
-        "$schema",
-        "additionalProperties",
-        "description",
-        "enum",
-        "maxLength",
-        "minLength",
-        "minimum",
-        "pattern",
-        "properties",
-        "required",
-        "title",
-        "type",
-        "writeOnly"
-      ],
-      "extension_keywords": [],
-      "refs": null,
       "compiled": true
     },
     {

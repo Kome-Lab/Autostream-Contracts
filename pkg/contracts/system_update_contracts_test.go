@@ -300,53 +300,6 @@ func TestUpdateAgentLeaseRecoverySchemasAreExplicit(t *testing.T) {
 		t.Fatal("report code constraints differ from Control Panel validation")
 	}
 
-	authorize := readContractSchema(t, "update-agent-authorize-request.schema.json")
-	requireContractFields(t, authorize.Required, "updater_id", "host_id", "lease_token", "lease_generation", "fence", "target_id", "target_version", "deployment_mode")
-	if authorize.AdditionalProperties != false || !authorize.Properties["lease_token"].WriteOnly || authorize.Properties["lease_token"].MinLength != 32 || authorize.Properties["lease_token"].MaxLength != 256 {
-		t.Fatalf("authorize lease token constraints changed: %#v", authorize.Properties["lease_token"])
-	}
-	if authorize.Properties["lease_generation"].Minimum != 1 || authorize.Properties["host_id"].MaxLength != 191 || authorize.Properties["target_id"].MaxLength != 128 || authorize.Properties["target_version"].MaxLength != 128 {
-		t.Fatal("authorize plan constraints differ from Control Panel validation")
-	}
-	if !contractSliceHas(authorize.Properties["deployment_mode"].Enum, "systemd") || !contractSliceHas(authorize.Properties["deployment_mode"].Enum, "docker") {
-		t.Fatal("authorize deployment_mode must support exact systemd and docker plans")
-	}
-	for _, marker := range []string{"/services/update-jobs/{id}/authorize:", "updates.authorize", "legacy_system_update_authorization_disabled", `"410":`} {
-		if !strings.Contains(string(openAPI), marker) {
-			t.Fatalf("control OpenAPI is missing disabled legacy authorization marker %q", marker)
-		}
-	}
-	legacyPathStart := strings.Index(string(openAPI), "  /services/update-jobs/{id}/authorize:")
-	grantPathStart := strings.Index(string(openAPI), "  /services/update-jobs/{id}/mutation-grants:")
-	if legacyPathStart < 0 || grantPathStart <= legacyPathStart || strings.Contains(string(openAPI)[legacyPathStart:grantPathStart], `"204":`) || strings.Contains(string(openAPI)[legacyPathStart:grantPathStart], "UpdateAgentAuthorizeRequest") {
-		t.Fatal("legacy authorization endpoint still advertises a successful mutation path")
-	}
-}
-
-func TestUpdateAgentAuthorizeSchemaValidatesOnlyTheExactMutationPlan(t *testing.T) {
-	schema := compileContractJSONSchema(t, "update-agent-authorize-request.schema.json")
-	assertValidation := func(body string, wantValid bool) {
-		t.Helper()
-		var instance any
-		if err := json.Unmarshal([]byte(body), &instance); err != nil {
-			t.Fatal(err)
-		}
-		err := schema.Validate(instance)
-		if wantValid && err != nil {
-			t.Fatalf("expected valid authorization contract for %s: %v", body, err)
-		}
-		if !wantValid && err == nil {
-			t.Fatalf("expected authorization contract rejection for %s", body)
-		}
-	}
-	valid := `{"updater_id":"updater-1","host_id":"host-1","lease_token":"` + strings.Repeat("a", 43) + `","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`
-	assertValidation(valid, true)
-	assertValidation(`{"updater_id":"updater-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, false)
-	assertValidation(`{"updater_id":"updater-1","host_id":"host-1","lease_token":"short","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, false)
-	assertValidation(`{"updater_id":"updater-1","host_id":"host-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":0,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"systemd"}`, false)
-	assertValidation(`{"updater_id":"updater-1","host_id":"host-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6","deployment_mode":"kubernetes"}`, false)
-	assertValidation(strings.TrimSuffix(valid, "}")+`,"command":"systemctl restart"}`, false)
-	assertValidation(`{"updater_id":"updater-1","host_id":"host-1","lease_token":"`+strings.Repeat("a", 43)+`","lease_generation":2,"fence":3,"target_id":"control-panel","target_version":"v1.6.6"}`, false)
 }
 
 func TestUpdateAgentClaimSchemasValidateExactRecoveryShapes(t *testing.T) {
@@ -468,18 +421,6 @@ func TestSystemUpdateGoTypesPreserveRequiredZerosAndOmitOptionalFields(t *testin
 	}
 	if string(clearBody) != `{"clear_active_job_id":true}` {
 		t.Fatalf("clear response must contain only the explicit sentinel: %s", clearBody)
-	}
-	authorizeBody, err := json.Marshal(UpdateAgentAuthorizeRequest{
-		UpdaterID: "updater-1", HostID: "host-1", LeaseToken: strings.Repeat("a", 43), LeaseGeneration: 2, Fence: 3,
-		TargetID: "control-panel", TargetVersion: "v1.6.6", DeploymentMode: SystemUpdateDeploymentSystemd,
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	for _, marker := range []string{`"updater_id":"updater-1"`, `"lease_generation":2`, `"fence":3`, `"host_id":"host-1"`, `"target_id":"control-panel"`, `"target_version":"v1.6.6"`, `"deployment_mode":"systemd"`} {
-		if !strings.Contains(string(authorizeBody), marker) {
-			t.Fatalf("authorize JSON is missing %s: %s", marker, authorizeBody)
-		}
 	}
 }
 

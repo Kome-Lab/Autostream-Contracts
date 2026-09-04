@@ -106,7 +106,6 @@ func TestSystemUpdateContractsKeepExecutionDetailsServerSide(t *testing.T) {
 		"system-update-create-request.schema.json",
 		"update-agent-claim-request.schema.json",
 		"update-agent-report-request.schema.json",
-		"update-agent-authorize-request.schema.json",
 		"update-agent-mutation-grant-issue-request.schema.json",
 		"update-agent-mutation-grant-consume-request.schema.json",
 	} {
@@ -143,13 +142,11 @@ func TestSystemUpdateContractsKeepExecutionDetailsServerSide(t *testing.T) {
 		"/system-updates/{id}/cancel:",
 		"/services/update-jobs/claim:",
 		"/services/update-jobs/{id}/report:",
-		"/services/update-jobs/{id}/authorize:",
 		"/services/update-jobs/{id}/mutation-grants:",
 		"/services/update-jobs/{id}/mutation-grants/consume:",
 		"The request cannot supply a URL, path, image, command, digest, version, or systemd unit.",
 		"Atomically claims the next eligible job",
 		"Idempotently reports monotonic progress",
-		"Permanently disabled legacy per-host mutation authorization endpoint",
 		"one-time mutation grant",
 		"The grant token is never accepted in the JSON body.",
 	} {

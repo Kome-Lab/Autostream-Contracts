@@ -294,29 +294,35 @@ func TestPhysicalEOLNotificationCreateRequiresGlobalEmailRelayInSchemaAndOpenAPI
 	}
 }
 
-func TestPhysicalEOLAuthorizeUpdaterIdentityMatchesSchemaAndOpenAPI(t *testing.T) {
-	control := readNormalizedOpenAPICharacterization(t, "control-api.json")
-	schemas := []*jsonschema.Schema{
-		compileContractJSONSchema(t, "update-agent-authorize-request.schema.json"),
-		compilePhysicalEOLDocumentFragment(t, "control-authorize.json", control, "/components/schemas/UpdateAgentAuthorizeRequest"),
+func TestPhysicalEOLLegacyUpdateAuthorizationContractIsAbsent(t *testing.T) {
+	schemaPath := filepath.Join("..", "..", "schemas", "update-agent-authorize-request.schema.json")
+	if _, err := os.Stat(schemaPath); err == nil {
+		t.Fatalf("removed legacy authorization schema still exists: %s", schemaPath)
+	} else if !os.IsNotExist(err) {
+		t.Fatalf("stat removed legacy authorization schema: %v", err)
 	}
-	valid := map[string]any{
-		"updater_id": "updater-1", "host_id": "host-1", "lease_token": strings.Repeat("a", 43),
-		"lease_generation": 1, "fence": 2, "target_id": "worker-1", "target_version": "v2.0.0", "deployment_mode": "systemd",
+
+	raw, err := os.ReadFile(filepath.Join("..", "..", "openapi", "control-api.yaml"))
+	if err != nil {
+		t.Fatal(err)
 	}
-	for _, schema := range schemas {
-		assertV2SchemaFixture(t, schema, valid, true)
-		maximum := cloneV2Fixture(t, valid)
-		maximum["updater_id"] = strings.Repeat("a", 128)
-		assertV2SchemaFixture(t, schema, maximum, true)
-		for _, id := range []string{"", strings.Repeat("a", 129), "updater 1", " updater-1", "updater-1\n"} {
-			candidate := cloneV2Fixture(t, valid)
-			candidate["updater_id"] = id
-			assertV2SchemaFixture(t, schema, candidate, false)
+	for _, marker := range []string{
+		"  /services/update-jobs/{id}/authorize:",
+		"    UpdateAgentAuthorizeRequest:",
+	} {
+		if strings.Contains(string(raw), marker) {
+			t.Fatalf("raw control OpenAPI retains removed legacy authorization contract %q", marker)
 		}
-		legacy := cloneV2Fixture(t, valid)
-		delete(legacy, "updater_id")
-		legacy["service_id"] = "updater-1"
-		assertV2SchemaFixture(t, schema, legacy, false)
+	}
+
+	control := readNormalizedOpenAPICharacterization(t, "control-api.json")
+	paths := control["paths"].(map[string]any)
+	if _, ok := paths["/services/update-jobs/{id}/authorize"]; ok {
+		t.Fatal("bundled control OpenAPI retains removed legacy authorization route")
+	}
+	components := control["components"].(map[string]any)
+	schemas := components["schemas"].(map[string]any)
+	if _, ok := schemas["UpdateAgentAuthorizeRequest"]; ok {
+		t.Fatal("bundled control OpenAPI retains removed legacy authorization schema")
 	}
 }

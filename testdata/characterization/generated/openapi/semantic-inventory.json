@@ -10,7 +10,7 @@
       ],
       "duplicate_method_paths": [],
       "duplicate_operation_ids": [],
-      "explicit_security_count": 29,
+      "explicit_security_count": 28,
       "inherited_security_count": 149,
       "inline_schema_count": 33,
       "method_counts": {
@@ -19,13 +19,13 @@
         "head": 0,
         "options": 0,
         "patch": 0,
-        "post": 80,
+        "post": 79,
         "put": 17,
         "trace": 0
       },
-      "normalized_bundle_sha256": "9eb44b230a7b5c3853294c6998798f79531465419fd4f60bb9aca0c15eda8213",
+      "normalized_bundle_sha256": "29822b9949852107366c972e4061bd12727d585e5c226b23881db48a57acbe52",
       "openapi_version": "3.1.0",
-      "operation_count": 178,
+      "operation_count": 177,
       "operation_id_count": 15,
       "operations": [
         {
@@ -5582,54 +5582,6 @@
           "tags": []
         },
         {
-          "deprecated": true,
-          "effective_security": [
-            {
-              "bearerToken": []
-            }
-          ],
-          "exposure_classification": "authenticated",
-          "method": "post",
-          "operation_id": "",
-          "path": "/services/update-jobs/{id}/authorize",
-          "request_body_content_types": [],
-          "request_schemas": [],
-          "responses": [
-            {
-              "content_types": [],
-              "schemas": [],
-              "status": "401"
-            },
-            {
-              "content_types": [],
-              "schemas": [],
-              "status": "403"
-            },
-            {
-              "content_types": [],
-              "schemas": [],
-              "status": "410"
-            },
-            {
-              "content_types": [
-                "application/json"
-              ],
-              "schemas": [
-                {
-                  "kind": "ref",
-                  "name": "V2ContractError",
-                  "ref": "#/components/schemas/V2ContractError",
-                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
-                }
-              ],
-              "status": "426"
-            }
-          ],
-          "security_source": "explicit",
-          "summary_present": false,
-          "tags": []
-        },
-        {
           "deprecated": false,
           "effective_security": [
             {
@@ -9606,14 +9558,9 @@
           "method": "get",
           "operation_id": "",
           "path": "/integrations/oauth-accounts/callback"
-        },
-        {
-          "method": "post",
-          "operation_id": "",
-          "path": "/services/update-jobs/{id}/authorize"
         }
       ],
-      "path_count": 136,
+      "path_count": 135,
       "public_operation_count": 6,
       "public_operations": [
         {
@@ -9653,7 +9600,7 @@
           "path": "/setup/first-admin"
         }
       ],
-      "ref_layout_independent_sha256": "7dd783405926ebcb5db88c2d7d71cfc1402a2c33c69cb76fab6fe71ea5cfe8e9",
+      "ref_layout_independent_sha256": "d246e971458162cad629f99cd9b5d1fdb8ded56be6b53561824e0796c3c9d361",
       "request_body_count": 53,
       "response_status_distribution": {
         "200": 138,
@@ -9662,19 +9609,19 @@
         "204": 4,
         "303": 1,
         "400": 26,
-        "401": 15,
-        "403": 29,
+        "401": 14,
+        "403": 28,
         "404": 26,
         "405": 1,
         "409": 40,
-        "410": 3,
-        "426": 177,
+        "410": 2,
+        "426": 176,
         "429": 4,
         "500": 15,
         "502": 11,
         "503": 12
       },
-      "schema_count": 178,
+      "schema_count": 177,
       "security_scheme_count": 2,
       "title": "AutoStream Control API",
       "unauthenticated_operation_count": 11,

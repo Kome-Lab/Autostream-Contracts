@@ -3051,33 +3051,6 @@ paths:
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:
       - $ref: "#/components/parameters/contractMajor"
-  /services/update-jobs/{id}/authorize:
-    post:
-      security:
-        - bearerToken: []
-      deprecated: true
-      description: Permanently disabled legacy per-host mutation authorization endpoint. Central Updater must use the short-lived mutation-grant issue and consume endpoints. Authenticated callers with updates.authorize always receive 410 and no mutation is authorized.
-      parameters: [ { $ref: "#/components/parameters/id" } ]
-      responses:
-        "401":
-          description: missing or invalid service token
-          headers:
-            X-AutoStream-Contract-Major:
-              $ref: "#/components/headers/contractMajor"
-        "403":
-          description: token lacks updates.authorize
-          headers:
-            X-AutoStream-Contract-Major:
-              $ref: "#/components/headers/contractMajor"
-        "410":
-          description: legacy_system_update_authorization_disabled; use mutation grants
-          headers:
-            X-AutoStream-Contract-Major:
-              $ref: "#/components/headers/contractMajor"
-        "426":
-          $ref: "#/components/responses/contractMajorUnsupported"
-    parameters:
-      - $ref: "#/components/parameters/contractMajor"
   /services/update-jobs/{id}/mutation-grants:
     post:
       security:
@@ -5800,42 +5773,6 @@ components:
             result:
               type: string
               enum: [ applied, rolled_back, unchanged, rollback_failed ]
-    UpdateAgentAuthorizeRequest:
-      type: object
-      additionalProperties: false
-      required: [ updater_id, host_id, lease_token, lease_generation, fence, target_id, target_version, deployment_mode ]
-      properties:
-        updater_id:
-          type: string
-          minLength: 1
-          maxLength: 128
-          pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'
-        lease_token:
-          type: string
-          minLength: 32
-          maxLength: 256
-          pattern: '^[^\u0000-\u001F\u007F]+$'
-          writeOnly: true
-        lease_generation: { type: integer, format: int64, minimum: 1 }
-        fence: { type: integer, format: int64, minimum: 1 }
-        host_id:
-          type: string
-          minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
-        target_id:
-          type: string
-          minLength: 1
-          maxLength: 191
-          pattern: '^[^\u0000-\u001F\u007F]+$'
-        target_version:
-          type: string
-          minLength: 1
-          maxLength: 128
-          pattern: '^[^\u0000-\u001F\u007F]+$'
-        deployment_mode:
-          type: string
-          enum: [ systemd, docker ]
     UpdateAgentMutationGrantIssueRequest:
       type: object
       additionalProperties: false

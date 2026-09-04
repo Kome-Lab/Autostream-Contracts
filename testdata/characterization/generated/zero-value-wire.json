@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 190,
+  "struct_count": 189,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -6850,64 +6850,6 @@
             "name": "updaters",
             "shape": {
               "kind": "null"
-            }
-          }
-        ],
-        "kind": "object"
-      }
-    },
-    {
-      "name": "UpdateAgentAuthorizeRequest",
-      "wire_json": "{\"updater_id\":\"\",\"host_id\":\"\",\"lease_token\":\"\",\"lease_generation\":0,\"fence\":0,\"target_id\":\"\",\"target_version\":\"\",\"deployment_mode\":\"\"}",
-      "wire_sha256": "86feddd686c31cdb3fcbe3639391def7b59e3d461e6297d5215a228d5d72c2d9",
-      "shape": {
-        "fields": [
-          {
-            "name": "deployment_mode",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "fence",
-            "shape": {
-              "kind": "number"
-            }
-          },
-          {
-            "name": "host_id",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "lease_generation",
-            "shape": {
-              "kind": "number"
-            }
-          },
-          {
-            "name": "lease_token",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "target_id",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "target_version",
-            "shape": {
-              "kind": "string"
-            }
-          },
-          {
-            "name": "updater_id",
-            "shape": {
-              "kind": "string"
             }
           }
         ],

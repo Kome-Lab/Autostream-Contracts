@@ -1773,21 +1773,6 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/headers/contractMajor"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/headers/contractMajor"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/headers/contractMajor"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
       "value": "#/components/headers/noStore"
     },
     {
@@ -2678,11 +2663,6 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/parameters/contractMajor"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
       "value": "#/components/parameters/csrfToken"
     },
     {
@@ -2744,11 +2724,6 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/parameters/csrfToken"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/parameters/id"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -3289,11 +3264,6 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/pathItems/listCreateProfile/post"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/responses/contractMajorUnsupported"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -6324,7 +6294,7 @@
   "source_file_count": 37,
   "source_files": [
     {
-      "normalized_source_sha256": "a209f9ce053506194578ad2c493e083471993323f030c36f175c5642bef0ddd2",
+      "normalized_source_sha256": "fdd2097538e869a0fd1e7fd7993f9f83cb4f68c5d313bc846176cab9f85c2494",
       "path": "openapi/control-api.yaml"
     },
     {

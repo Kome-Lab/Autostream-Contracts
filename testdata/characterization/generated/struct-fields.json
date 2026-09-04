@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 190,
+  "struct_count": 189,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -13785,100 +13785,6 @@
           "type": "[]SystemUpdateJob",
           "struct_tag": "json:\"jobs\"",
           "json_name": "jobs",
-          "json_ignored": false,
-          "omitempty": false
-        }
-      ]
-    },
-    {
-      "name": "UpdateAgentAuthorizeRequest",
-      "alias": false,
-      "fields": [
-        {
-          "index": 0,
-          "name": "UpdaterID",
-          "exported": true,
-          "embedded": false,
-          "type": "string",
-          "struct_tag": "json:\"updater_id\"",
-          "json_name": "updater_id",
-          "json_ignored": false,
-          "omitempty": false
-        },
-        {
-          "index": 1,
-          "name": "HostID",
-          "exported": true,
-          "embedded": false,
-          "type": "string",
-          "struct_tag": "json:\"host_id\"",
-          "json_name": "host_id",
-          "json_ignored": false,
-          "omitempty": false
-        },
-        {
-          "index": 2,
-          "name": "LeaseToken",
-          "exported": true,
-          "embedded": false,
-          "type": "string",
-          "struct_tag": "json:\"lease_token\"",
-          "json_name": "lease_token",
-          "json_ignored": false,
-          "omitempty": false
-        },
-        {
-          "index": 3,
-          "name": "LeaseGeneration",
-          "exported": true,
-          "embedded": false,
-          "type": "int64",
-          "struct_tag": "json:\"lease_generation\"",
-          "json_name": "lease_generation",
-          "json_ignored": false,
-          "omitempty": false
-        },
-        {
-          "index": 4,
-          "name": "Fence",
-          "exported": true,
-          "embedded": false,
-          "type": "int64",
-          "struct_tag": "json:\"fence\"",
-          "json_name": "fence",
-          "json_ignored": false,
-          "omitempty": false
-        },
-        {
-          "index": 5,
-          "name": "TargetID",
-          "exported": true,
-          "embedded": false,
-          "type": "string",
-          "struct_tag": "json:\"target_id\"",
-          "json_name": "target_id",
-          "json_ignored": false,
-          "omitempty": false
-        },
-        {
-          "index": 6,
-          "name": "TargetVersion",
-          "exported": true,
-          "embedded": false,
-          "type": "string",
-          "struct_tag": "json:\"target_version\"",
-          "json_name": "target_version",
-          "json_ignored": false,
-          "omitempty": false
-        },
-        {
-          "index": 7,
-          "name": "DeploymentMode",
-          "exported": true,
-          "embedded": false,
-          "type": "SystemUpdateDeploymentMode",
-          "struct_tag": "json:\"deployment_mode\"",
-          "json_name": "deployment_mode",
           "json_ignored": false,
           "omitempty": false
         }

@@ -742,17 +742,6 @@ type UpdateAgentReportRequest struct {
 	PortReconfigure *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
 }
 
-type UpdateAgentAuthorizeRequest struct {
-	UpdaterID       string                     `json:"updater_id"`
-	HostID          string                     `json:"host_id"`
-	LeaseToken      string                     `json:"lease_token"`
-	LeaseGeneration int64                      `json:"lease_generation"`
-	Fence           int64                      `json:"fence"`
-	TargetID        string                     `json:"target_id"`
-	TargetVersion   string                     `json:"target_version"`
-	DeploymentMode  SystemUpdateDeploymentMode `json:"deployment_mode"`
-}
-
 type UpdateAgentMutationGrantIssueRequest struct {
 	ServiceID       string                           `json:"service_id"`
 	LeaseToken      string                           `json:"lease_token"`
