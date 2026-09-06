@@ -488,13 +488,27 @@ func TestV2UpdaterCrossPlaneAuthority(t *testing.T) {
 	} {
 		operation := resolveCharacterizationSchema(t, control,
 			requireCharacterizationMap(t, requireCharacterizationMap(t, paths, pathName), "post"))
-		encoded, err := json.Marshal(operation)
-		if err != nil {
-			t.Fatal(err)
+		requestBody := requireCharacterizationMap(t, operation, "requestBody")
+		content := requireCharacterizationMap(t, requestBody, "content")
+		media := requireCharacterizationMap(t, content, "application/json")
+		requestSchema := requireCharacterizationMap(t, media, "schema")
+		alternatives, ok := requestSchema["oneOf"].([]any)
+		if !ok || len(alternatives) != len(required) {
+			t.Fatalf("%s must expose exactly %d mixed-fleet request alternatives", pathName, len(required))
 		}
+		schemas := requireCharacterizationMap(t, requireCharacterizationMap(t, control, "components"), "schemas")
 		for _, schemaName := range required {
-			if !strings.Contains(string(encoded), schemaName) {
-				t.Fatalf("%s does not expose mixed-fleet schema %s: %s", pathName, schemaName, encoded)
+			// Bundling may replace a named component alias with its canonical ref.
+			// Require each expected schema once after resolving those references.
+			expected := resolveCharacterizationSchema(t, control, schemas[schemaName])
+			matches := 0
+			for _, alternative := range alternatives {
+				if reflect.DeepEqual(resolveCharacterizationSchema(t, control, alternative), expected) {
+					matches++
+				}
+			}
+			if matches != 1 {
+				t.Errorf("%s exposes mixed-fleet schema %s %d times, want exactly once", pathName, schemaName, matches)
 			}
 		}
 	}
