@@ -6299,208 +6299,28 @@
         "type": "object"
       },
       "SystemUpdatePortMutationGrantBinding": {
-        "additionalProperties": false,
-        "properties": {
-          "docker": {
-            "$ref": "#/components/schemas/SystemUpdateDockerPortReconfiguration"
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/portReconfigurationPlan"
           },
-          "expected_config_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_config_sha256": {
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "expected_endpoint_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_executor_policy_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_executor_policy_sha256": {
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "expected_source_policy_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_updater_policy_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "network_namespace": {
-            "const": "host",
-            "type": "string"
-          },
-          "new_port": {
-            "maximum": 65535,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "old_port": {
-            "maximum": 65535,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "port_plan_sha256": {
-            "description": "Lease/session-bound executor plan digest; it must equal the top-level plan_sha256.",
-            "pattern": "^[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "protocol": {
-            "const": "tcp",
-            "type": "string"
-          },
-          "target_config_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "target_config_sha256": {
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "target_endpoint_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
+          {
+            "not": {
+              "required": [
+                "result"
+              ]
+            }
           }
-        },
-        "required": [
-          "network_namespace",
-          "protocol",
-          "old_port",
-          "new_port",
-          "expected_endpoint_revision",
-          "target_endpoint_revision",
-          "expected_config_revision",
-          "target_config_revision",
-          "expected_config_sha256",
-          "target_config_sha256",
-          "expected_source_policy_revision",
-          "expected_updater_policy_revision",
-          "expected_executor_policy_revision",
-          "expected_executor_policy_sha256",
-          "port_plan_sha256"
         ],
-        "type": "object"
+        "description": "Version 2 binds immutable B/T/R intent. The transport plan_sha256 is a distinct lease/session-bound digest; reconcile never repeats the initial B-to-T consume."
       },
       "SystemUpdatePortReconfiguration": {
-        "additionalProperties": false,
-        "properties": {
-          "docker": {
-            "$ref": "#/components/schemas/SystemUpdateDockerPortReconfiguration"
-          },
-          "expected_config_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_config_sha256": {
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "expected_endpoint_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_executor_policy_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_executor_policy_sha256": {
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "expected_source_policy_revision": {
-            "description": "Source updater policy revision retained separately for derivation and audit binding.",
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_updater_policy_revision": {
-            "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence.",
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "network_namespace": {
-            "const": "host",
-            "type": "string"
-          },
-          "new_port": {
-            "maximum": 65535,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "old_port": {
-            "maximum": 65535,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "port_plan_sha256": {
-            "description": "In a job or claim this authenticates the stable server-derived intent.",
-            "pattern": "^[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "protocol": {
-            "const": "tcp",
-            "type": "string"
-          },
-          "result": {
-            "description": "Present only after a terminal port-reconfiguration report has been accepted.",
-            "enum": [
-              "applied",
-              "rolled_back",
-              "unchanged",
-              "rollback_failed"
-            ],
-            "type": "string"
-          },
-          "target_config_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "target_config_sha256": {
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "target_endpoint_revision": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          }
-        },
-        "required": [
-          "network_namespace",
-          "protocol",
-          "old_port",
-          "new_port",
-          "expected_endpoint_revision",
-          "target_endpoint_revision",
-          "expected_config_revision",
-          "target_config_revision",
-          "expected_config_sha256",
-          "target_config_sha256",
-          "expected_source_policy_revision",
-          "expected_updater_policy_revision",
-          "expected_executor_policy_revision",
-          "expected_executor_policy_sha256",
-          "port_plan_sha256"
-        ],
-        "type": "object"
+        "$ref": "#/components/schemas/portReconfigurationPlan"
+      },
+      "SystemUpdatePortResultV2": {
+        "$ref": "#/components/schemas/result"
+      },
+      "SystemUpdatePortSnapshotRef": {
+        "$ref": "#/components/schemas/snapshotRef"
       },
       "SystemUpdatePullOwnershipActivateRequest": {
         "$ref": "#/components/schemas/system-update-pull-ownership-activate-request.schema"
@@ -6680,453 +6500,10 @@
         "type": "object"
       },
       "UpdateAgentMutationGrantConsumeRequest": {
-        "additionalProperties": false,
-        "allOf": [
-          {
-            "else": {
-              "not": {
-                "required": [
-                  "port_reconfigure"
-                ]
-              },
-              "properties": {
-                "job_operation": {
-                  "const": "software_update"
-                }
-              }
-            },
-            "if": {
-              "properties": {
-                "operation": {
-                  "enum": [
-                    "port_reconfigure",
-                    "port_reconfigure_reconcile"
-                  ]
-                }
-              },
-              "required": [
-                "operation"
-              ]
-            },
-            "then": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "deployment_mode": {
-                      "const": "systemd"
-                    },
-                    "port_reconfigure": {
-                      "not": {
-                        "required": [
-                          "docker"
-                        ]
-                      },
-                      "properties": {
-                        "new_port": {
-                          "minimum": 1024
-                        },
-                        "old_port": {
-                          "minimum": 1024
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "deployment_mode": {
-                      "const": "docker"
-                    },
-                    "port_reconfigure": {
-                      "required": [
-                        "docker"
-                      ]
-                    }
-                  }
-                }
-              ],
-              "properties": {
-                "job_operation": {
-                  "const": "port_reconfigure"
-                },
-                "policy_revision": {
-                  "minimum": 1
-                },
-                "service_type": {
-                  "enum": [
-                    "discord_bot",
-                    "encoder_recorder",
-                    "observability",
-                    "worker"
-                  ]
-                },
-                "transport_mode": {
-                  "const": "pull_v2"
-                }
-              },
-              "required": [
-                "job_operation",
-                "port_reconfigure",
-                "transport_mode",
-                "service_type",
-                "ownership_epoch",
-                "policy_revision"
-              ]
-            }
-          },
-          {
-            "if": {
-              "properties": {
-                "transport_mode": {
-                  "const": "pull_v2"
-                }
-              },
-              "required": [
-                "transport_mode"
-              ]
-            },
-            "then": {
-              "properties": {
-                "policy_revision": {
-                  "minimum": 1
-                }
-              },
-              "required": [
-                "ownership_epoch",
-                "policy_revision"
-              ]
-            }
-          }
-        ],
-        "properties": {
-          "deployment_mode": {
-            "enum": [
-              "systemd",
-              "docker"
-            ],
-            "type": "string"
-          },
-          "host_id": {
-            "maxLength": 191,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
-            "type": "string"
-          },
-          "job_operation": {
-            "enum": [
-              "software_update",
-              "port_reconfigure"
-            ],
-            "type": "string"
-          },
-          "lease_generation": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "operation": {
-            "enum": [
-              "apply",
-              "reconcile",
-              "port_reconfigure",
-              "port_reconfigure_reconcile"
-            ],
-            "type": "string"
-          },
-          "ownership_epoch": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "plan_sha256": {
-            "description": "Lease/session-bound executor plan digest. For port operations it must equal port_reconfigure.port_plan_sha256.",
-            "pattern": "^[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "policy_revision": {
-            "format": "int64",
-            "minimum": 0,
-            "type": "integer"
-          },
-          "port_reconfigure": {
-            "$ref": "#/components/schemas/SystemUpdatePortMutationGrantBinding"
-          },
-          "service_type": {
-            "enum": [
-              "control_panel",
-              "discord_bot",
-              "encoder_recorder",
-              "observability",
-              "worker"
-            ],
-            "type": "string"
-          },
-          "session_id": {
-            "maxLength": 128,
-            "minLength": 16,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$",
-            "type": "string"
-          },
-          "target_id": {
-            "maxLength": 128,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
-            "type": "string"
-          },
-          "target_version": {
-            "maxLength": 128,
-            "minLength": 1,
-            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
-            "type": "string"
-          },
-          "transport_mode": {
-            "const": "pull_v2",
-            "type": "string"
-          }
-        },
-        "required": [
-          "lease_generation",
-          "host_id",
-          "target_id",
-          "target_version",
-          "deployment_mode",
-          "operation",
-          "plan_sha256",
-          "session_id"
-        ],
-        "type": "object"
+        "$ref": "#/components/schemas/update-agent-mutation-grant-consume-request.schema"
       },
       "UpdateAgentMutationGrantIssueRequest": {
-        "additionalProperties": false,
-        "allOf": [
-          {
-            "else": {
-              "not": {
-                "required": [
-                  "port_reconfigure"
-                ]
-              },
-              "properties": {
-                "job_operation": {
-                  "const": "software_update"
-                }
-              }
-            },
-            "if": {
-              "properties": {
-                "operation": {
-                  "enum": [
-                    "port_reconfigure",
-                    "port_reconfigure_reconcile"
-                  ]
-                }
-              },
-              "required": [
-                "operation"
-              ]
-            },
-            "then": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "deployment_mode": {
-                      "const": "systemd"
-                    },
-                    "port_reconfigure": {
-                      "not": {
-                        "required": [
-                          "docker"
-                        ]
-                      },
-                      "properties": {
-                        "new_port": {
-                          "minimum": 1024
-                        },
-                        "old_port": {
-                          "minimum": 1024
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "deployment_mode": {
-                      "const": "docker"
-                    },
-                    "port_reconfigure": {
-                      "required": [
-                        "docker"
-                      ]
-                    }
-                  }
-                }
-              ],
-              "properties": {
-                "job_operation": {
-                  "const": "port_reconfigure"
-                },
-                "policy_revision": {
-                  "minimum": 1
-                },
-                "service_type": {
-                  "enum": [
-                    "discord_bot",
-                    "encoder_recorder",
-                    "observability",
-                    "worker"
-                  ]
-                },
-                "transport_mode": {
-                  "const": "pull_v2"
-                }
-              },
-              "required": [
-                "job_operation",
-                "port_reconfigure",
-                "transport_mode",
-                "service_type",
-                "ownership_epoch",
-                "policy_revision"
-              ]
-            }
-          },
-          {
-            "if": {
-              "properties": {
-                "transport_mode": {
-                  "const": "pull_v2"
-                }
-              },
-              "required": [
-                "transport_mode"
-              ]
-            },
-            "then": {
-              "properties": {
-                "policy_revision": {
-                  "minimum": 1
-                }
-              },
-              "required": [
-                "ownership_epoch",
-                "policy_revision"
-              ]
-            }
-          }
-        ],
-        "properties": {
-          "deployment_mode": {
-            "enum": [
-              "systemd",
-              "docker"
-            ],
-            "type": "string"
-          },
-          "host_id": {
-            "maxLength": 191,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
-            "type": "string"
-          },
-          "job_operation": {
-            "enum": [
-              "software_update",
-              "port_reconfigure"
-            ],
-            "type": "string"
-          },
-          "lease_generation": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "lease_token": {
-            "maxLength": 256,
-            "minLength": 32,
-            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
-            "type": "string",
-            "writeOnly": true
-          },
-          "operation": {
-            "enum": [
-              "apply",
-              "reconcile",
-              "port_reconfigure",
-              "port_reconfigure_reconcile"
-            ],
-            "type": "string"
-          },
-          "ownership_epoch": {
-            "format": "int64",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "plan_sha256": {
-            "description": "Lease/session-bound executor plan digest. For port operations it must equal port_reconfigure.port_plan_sha256.",
-            "pattern": "^[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "policy_revision": {
-            "format": "int64",
-            "minimum": 0,
-            "type": "integer"
-          },
-          "port_reconfigure": {
-            "$ref": "#/components/schemas/SystemUpdatePortMutationGrantBinding"
-          },
-          "service_id": {
-            "maxLength": 128,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
-            "type": "string"
-          },
-          "service_type": {
-            "enum": [
-              "control_panel",
-              "discord_bot",
-              "encoder_recorder",
-              "observability",
-              "worker"
-            ],
-            "type": "string"
-          },
-          "session_id": {
-            "maxLength": 128,
-            "minLength": 16,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$",
-            "type": "string"
-          },
-          "target_id": {
-            "maxLength": 128,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
-            "type": "string"
-          },
-          "target_version": {
-            "maxLength": 128,
-            "minLength": 1,
-            "pattern": "^[^\\u0000-\\u001F\\u007F]+$",
-            "type": "string"
-          },
-          "transport_mode": {
-            "const": "pull_v2",
-            "type": "string"
-          }
-        },
-        "required": [
-          "service_id",
-          "lease_token",
-          "lease_generation",
-          "host_id",
-          "target_id",
-          "target_version",
-          "deployment_mode",
-          "operation",
-          "plan_sha256",
-          "session_id"
-        ],
-        "type": "object"
+        "$ref": "#/components/schemas/update-agent-mutation-grant-issue-request.schema"
       },
       "UpdateAgentMutationGrantIssueResponse": {
         "additionalProperties": false,
@@ -7589,7 +6966,36 @@
       },
       "UpdaterHeartbeat": {
         "additionalProperties": false,
-        "description": "Updater health and capability evidence only; it cannot satisfy an application runtime identity probe.",
+        "allOf": [
+          {
+            "if": {
+              "anyOf": [
+                {
+                  "required": [
+                    "port_contract_version"
+                  ]
+                },
+                {
+                  "required": [
+                    "policy_transition_version"
+                  ]
+                },
+                {
+                  "required": [
+                    "port_policy_baseline"
+                  ]
+                }
+              ]
+            },
+            "then": {
+              "required": [
+                "port_contract_version",
+                "policy_transition_version"
+              ]
+            }
+          }
+        ],
+        "description": "Updater health and capability evidence only; it cannot satisfy an application runtime identity probe. Port baseline metadata is accepted only against the already-bound installed root policy digest, never as a new trust anchor or arbitrary root policy.",
         "properties": {
           "applied_revision": {
             "format": "int64",
@@ -7635,6 +7041,17 @@
           "observed_at": {
             "format": "date-time",
             "type": "string"
+          },
+          "policy_transition_version": {
+            "const": 1,
+            "type": "integer"
+          },
+          "port_contract_version": {
+            "const": 2,
+            "type": "integer"
+          },
+          "port_policy_baseline": {
+            "$ref": "#/components/schemas/policyBaseline"
           },
           "protocol_version": {
             "const": 2,
@@ -8113,6 +7530,9 @@
         "description": "Exact no-store secret-bearing response. The opaque token is bounded, short-lived, never logged or persisted, and its expiry may not exceed the authorizing lease or mutation authorization.",
         "x-autostream-behavioral-validator": "contracts.ValidateUpdaterMutationGrantIssueResponse"
       },
+      "UpdaterPortPolicyBaseline": {
+        "$ref": "#/components/schemas/policyBaseline"
+      },
       "UpdaterProgressEnvelope": {
         "additionalProperties": false,
         "description": "Bounded typed progress only. Raw command output and arbitrary log payloads are not representable.",
@@ -8252,6 +7672,21 @@
                 }
               },
               {
+                "not": {
+                  "required": [
+                    "port_reconfigure"
+                  ]
+                },
+                "properties": {
+                  "outcome": {
+                    "const": "canceled"
+                  },
+                  "status": {
+                    "const": "canceled"
+                  }
+                }
+              },
+              {
                 "properties": {
                   "outcome": {
                     "const": "failed"
@@ -8290,7 +7725,7 @@
             ]
           }
         ],
-        "description": "Terminal result bound to the exact lease generation. Success requires applied_revision equal to desired_revision plus target-specific verification evidence; rollback requires rollback_verified evidence; ambiguous outcomes remain reconciling and automatic resend is always false.",
+        "description": "Result bound to the exact lease generation. Version 2 port results preserve applied, unchanged and rolled_back with complete observed snapshot evidence. Rolled-back applied_revision is immutable R.C, while desired_revision remains T.C. rollback_failed is an unaccepted recovery attempt that retains the host hold; accepted result identity and its first observation time cannot be overwritten. Ambiguous outcomes remain reconciling and automatic resend is always false.",
         "properties": {
           "applied_revision": {
             "format": "int64",
@@ -8375,9 +7810,13 @@
               "succeeded",
               "failed",
               "rolled_back",
-              "ambiguous"
+              "ambiguous",
+              "canceled"
             ],
             "type": "string"
+          },
+          "port_reconfigure": {
+            "$ref": "#/components/schemas/result"
           },
           "protocol_version": {
             "const": 2,
@@ -8391,7 +7830,8 @@
               "reconciling",
               "succeeded",
               "failed",
-              "rolled_back"
+              "rolled_back",
+              "canceled"
             ],
             "type": "string"
           },
@@ -9401,6 +8841,61 @@
         ],
         "type": "object"
       },
+      "acceptedResult": {
+        "additionalProperties": false,
+        "properties": {
+          "observation": {
+            "$ref": "#/components/schemas/verifiedObservation"
+          },
+          "observed_config_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "observed_config_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "observed_executor_policy_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "observed_executor_policy_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "observed_snapshot_id": {
+            "pattern": "^ps1:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "observed_snapshot_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "result": {
+            "enum": [
+              "applied",
+              "unchanged",
+              "rolled_back"
+            ]
+          },
+          "runtime_instance": {
+            "$ref": "#/components/schemas/runtimeInstance"
+          }
+        },
+        "required": [
+          "result",
+          "observed_snapshot_id",
+          "observed_snapshot_sha256",
+          "observed_config_revision",
+          "observed_config_sha256",
+          "observed_executor_policy_revision",
+          "observed_executor_policy_sha256",
+          "observation"
+        ],
+        "type": "object"
+      },
       "applicationProbe": {
         "additionalProperties": false,
         "properties": {
@@ -9445,6 +8940,100 @@
         ],
         "type": "object"
       },
+      "baselineTarget": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "docker"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "docker_root"
+                    ]
+                  }
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "deployment_mode": {
+                  "const": "docker"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "docker",
+                "docker_root"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "config_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "config_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "deployment_mode": {
+            "enum": [
+              "systemd",
+              "docker"
+            ]
+          },
+          "docker": {
+            "$ref": "#/components/schemas/dockerSnapshot"
+          },
+          "docker_root": {
+            "$ref": "#/components/schemas/dockerRootBaseline"
+          },
+          "endpoint_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "local_listen_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "service_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "service_type": {
+            "enum": [
+              "control_panel",
+              "worker",
+              "encoder_recorder",
+              "discord_bot",
+              "observability"
+            ]
+          }
+        },
+        "required": [
+          "service_id",
+          "service_type",
+          "deployment_mode",
+          "endpoint_revision",
+          "config_revision",
+          "config_sha256",
+          "local_listen_port"
+        ],
+        "type": "object"
+      },
       "bootstrap": {
         "additionalProperties": false,
         "properties": {
@@ -9458,6 +9047,156 @@
         "required": [
           "expected_state",
           "target_version"
+        ],
+        "type": "object"
+      },
+      "createRequest": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "new_published_port"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "new_container_port"
+                      ]
+                    }
+                  ]
+                },
+                "required": [
+                  "new_local_listen_port"
+                ]
+              },
+              {
+                "not": {
+                  "required": [
+                    "new_local_listen_port"
+                  ]
+                },
+                "required": [
+                  "new_published_port",
+                  "new_container_port"
+                ]
+              }
+            ]
+          },
+          {
+            "oneOf": [
+              {
+                "not": {
+                  "required": [
+                    "new_advertised_port"
+                  ]
+                },
+                "properties": {
+                  "mode": {
+                    "const": "local_only"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "mode": {
+                    "const": "local_and_advertised"
+                  }
+                },
+                "required": [
+                  "new_advertised_port"
+                ]
+              }
+            ]
+          }
+        ],
+        "properties": {
+          "desired_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_endpoint_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_snapshot_id": {
+            "pattern": "^ps1:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "fence": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "local_only",
+              "local_and_advertised"
+            ]
+          },
+          "new_advertised_port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "new_container_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "new_local_listen_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "new_published_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "operation": {
+            "const": "port_reconfigure"
+          },
+          "port_contract_version": {
+            "const": 2
+          },
+          "protocol_version": {
+            "const": 2
+          },
+          "required_capability": {
+            "const": "host.port"
+          },
+          "target_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "protocol_version",
+          "operation",
+          "port_contract_version",
+          "mode",
+          "target_id",
+          "expected_snapshot_id",
+          "expected_endpoint_revision",
+          "desired_revision",
+          "fence",
+          "required_capability",
+          "idempotency_key"
         ],
         "type": "object"
       },
@@ -9575,6 +9314,45 @@
         ],
         "type": "object"
       },
+      "dockerBaseline": {
+        "additionalProperties": false,
+        "properties": {
+          "approved_compose_config_sha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "approved_compose_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_container_id": {
+            "pattern": "^[a-f0-9]{12,64}$",
+            "type": "string"
+          },
+          "expected_image_id": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expected_repository_digest": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expected_version_env_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_container_id",
+          "expected_image_id",
+          "expected_repository_digest",
+          "expected_version_env_sha256",
+          "approved_compose_config_sha256",
+          "approved_compose_revision"
+        ],
+        "type": "object"
+      },
       "dockerPortReconfiguration": {
         "additionalProperties": false,
         "description": "Immutable Docker runtime binding. The server additionally requires old_health_port to equal old_published_port, new_health_port to equal new_published_port, and at least one of advertised, published, or container port to change.",
@@ -9651,6 +9429,159 @@
           "expected_container_id",
           "expected_image_id",
           "expected_repository_digest"
+        ],
+        "type": "object"
+      },
+      "dockerPortReconfiguration-2": {
+        "additionalProperties": false,
+        "description": "Immutable Docker runtime binding. The server additionally checks health/published equality and rejects a no-op across advertised, published, and container ports.",
+        "properties": {
+          "approved_compose_config_sha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "approved_compose_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_container_id": {
+            "pattern": "^[a-f0-9]{12,64}$",
+            "type": "string"
+          },
+          "expected_image_id": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expected_repository_digest": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expected_version_env_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "new_container_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "new_health_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "new_published_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "old_container_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "old_health_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "old_published_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "published_host_ip": {
+            "const": "127.0.0.1"
+          }
+        },
+        "required": [
+          "published_host_ip",
+          "old_published_port",
+          "new_published_port",
+          "old_container_port",
+          "new_container_port",
+          "old_health_port",
+          "new_health_port",
+          "approved_compose_config_sha256",
+          "approved_compose_revision",
+          "expected_version_env_sha256",
+          "expected_container_id",
+          "expected_image_id",
+          "expected_repository_digest"
+        ],
+        "type": "object"
+      },
+      "dockerRootBaseline": {
+        "additionalProperties": false,
+        "properties": {
+          "compose_config_sha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "current_version": {
+            "maxLength": 128,
+            "pattern": "^(?:|v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?)$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "compose_config_sha256"
+        ],
+        "type": "object"
+      },
+      "dockerSnapshot": {
+        "additionalProperties": false,
+        "properties": {
+          "compose_policy_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "compose_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "container_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "health_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "image_id": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "published_host_ip": {
+            "const": "127.0.0.1"
+          },
+          "published_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "repository_digest": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "version_env_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "published_host_ip",
+          "published_port",
+          "container_port",
+          "health_port",
+          "compose_policy_sha256",
+          "compose_revision",
+          "version_env_sha256",
+          "image_id",
+          "repository_digest"
         ],
         "type": "object"
       },
@@ -10367,6 +10298,190 @@
         "title": "Incident",
         "type": "object"
       },
+      "legacyPortReconfigurationPlan": {
+        "additionalProperties": false,
+        "properties": {
+          "docker": {
+            "$ref": "#/components/schemas/dockerPortReconfiguration"
+          },
+          "expected_config_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_config_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expected_endpoint_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_executor_policy_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_executor_policy_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expected_source_policy_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_updater_policy_revision": {
+            "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "network_namespace": {
+            "const": "host"
+          },
+          "new_port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "old_port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "port_plan_sha256": {
+            "description": "Stable server-derived port intent digest in a job or claim.",
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "protocol": {
+            "const": "tcp"
+          },
+          "result": {
+            "enum": [
+              "applied",
+              "rolled_back",
+              "unchanged",
+              "rollback_failed"
+            ]
+          },
+          "target_config_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "target_config_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "target_endpoint_revision": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "network_namespace",
+          "protocol",
+          "old_port",
+          "new_port",
+          "expected_endpoint_revision",
+          "target_endpoint_revision",
+          "expected_config_revision",
+          "target_config_revision",
+          "expected_config_sha256",
+          "target_config_sha256",
+          "expected_source_policy_revision",
+          "expected_updater_policy_revision",
+          "expected_executor_policy_revision",
+          "expected_executor_policy_sha256",
+          "port_plan_sha256"
+        ],
+        "type": "object"
+      },
+      "legacyPortReconfigurationPlan-2": {
+        "additionalProperties": false,
+        "properties": {
+          "docker": {
+            "$ref": "#/components/schemas/dockerPortReconfiguration-2"
+          },
+          "expected_config_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_config_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expected_endpoint_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_executor_policy_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_executor_policy_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expected_source_policy_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_updater_policy_revision": {
+            "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "network_namespace": {
+            "const": "host"
+          },
+          "new_port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "old_port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "port_plan_sha256": {
+            "description": "Lease/session-bound executor plan digest; it must equal the top-level plan_sha256.",
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "protocol": {
+            "const": "tcp"
+          },
+          "target_config_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "target_config_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "target_endpoint_revision": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "network_namespace",
+          "protocol",
+          "old_port",
+          "new_port",
+          "expected_endpoint_revision",
+          "target_endpoint_revision",
+          "expected_config_revision",
+          "target_config_revision",
+          "expected_config_sha256",
+          "target_config_sha256",
+          "expected_source_policy_revision",
+          "expected_updater_policy_revision",
+          "expected_executor_policy_revision",
+          "expected_executor_policy_sha256",
+          "port_plan_sha256"
+        ],
+        "type": "object"
+      },
       "node-action-permission-projection.schema": {
         "$defs": {
           "permissionSet": {
@@ -10660,6 +10775,35 @@
         "title": "OAuthLoginProvider",
         "type": "object"
       },
+      "observation": {
+        "additionalProperties": false,
+        "properties": {
+          "agent_projection_verified": {
+            "type": "boolean"
+          },
+          "listener_verified": {
+            "type": "boolean"
+          },
+          "observed_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "policy_disk_verified": {
+            "type": "boolean"
+          },
+          "policy_memory_verified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "policy_disk_verified",
+          "policy_memory_verified",
+          "agent_projection_verified",
+          "listener_verified",
+          "observed_at"
+        ],
+        "type": "object"
+      },
       "permissionSet": {
         "items": {
           "enum": [
@@ -10676,6 +10820,172 @@
         "maxItems": 8,
         "type": "array",
         "uniqueItems": true
+      },
+      "plan": {
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "before": {
+                "required": [
+                  "docker"
+                ]
+              },
+              "rollback": {
+                "required": [
+                  "docker"
+                ]
+              },
+              "target": {
+                "required": [
+                  "docker"
+                ]
+              }
+            },
+            "required": [
+              "docker_baseline"
+            ]
+          },
+          {
+            "not": {
+              "required": [
+                "docker_baseline"
+              ]
+            },
+            "properties": {
+              "before": {
+                "not": {
+                  "required": [
+                    "docker"
+                  ]
+                }
+              },
+              "rollback": {
+                "not": {
+                  "required": [
+                    "docker"
+                  ]
+                }
+              },
+              "target": {
+                "not": {
+                  "required": [
+                    "docker"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "before": {
+            "$ref": "#/components/schemas/snapshotRef"
+          },
+          "docker_baseline": {
+            "$ref": "#/components/schemas/dockerBaseline"
+          },
+          "mode": {
+            "enum": [
+              "local_only",
+              "local_and_advertised"
+            ]
+          },
+          "network_namespace": {
+            "const": "host"
+          },
+          "port_contract_version": {
+            "const": 2
+          },
+          "port_plan_sha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "protocol": {
+            "const": "tcp"
+          },
+          "rollback": {
+            "$ref": "#/components/schemas/snapshotRef"
+          },
+          "target": {
+            "$ref": "#/components/schemas/snapshotRef"
+          }
+        },
+        "required": [
+          "port_contract_version",
+          "mode",
+          "network_namespace",
+          "protocol",
+          "before",
+          "target",
+          "rollback",
+          "port_plan_sha256"
+        ],
+        "type": "object"
+      },
+      "policyBaseline": {
+        "additionalProperties": false,
+        "properties": {
+          "agent_gid": {
+            "maximum": 4294967295,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "agent_uid": {
+            "maximum": 4294967295,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "executor_policy_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "executor_policy_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "observed_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "policy_transition_version": {
+            "const": 1
+          },
+          "port_contract_version": {
+            "const": 2
+          },
+          "projection_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "source_policy_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "targets": {
+            "items": {
+              "$ref": "#/components/schemas/baselineTarget"
+            },
+            "maxItems": 1024,
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "port_contract_version",
+          "policy_transition_version",
+          "agent_uid",
+          "agent_gid",
+          "source_policy_revision",
+          "projection_revision",
+          "executor_policy_revision",
+          "executor_policy_sha256",
+          "targets",
+          "observed_at"
+        ],
+        "type": "object"
       },
       "portMapping": {
         "additionalProperties": false,
@@ -10754,98 +11064,164 @@
         "type": "object"
       },
       "portReconfigurationPlan": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/legacyPortReconfigurationPlan"
+          },
+          {
+            "$ref": "#/components/schemas/plan"
+          }
+        ]
+      },
+      "portReconfigurationPlan-2": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/legacyPortReconfigurationPlan-2"
+          },
+          {
+            "$ref": "#/components/schemas/plan"
+          }
+        ]
+      },
+      "recoveryObservation": {
         "additionalProperties": false,
         "properties": {
-          "docker": {
-            "$ref": "#/components/schemas/dockerPortReconfiguration"
-          },
-          "expected_config_revision": {
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_config_sha256": {
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "expected_endpoint_revision": {
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_executor_policy_revision": {
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_executor_policy_sha256": {
-            "pattern": "^sha256:[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "expected_source_policy_revision": {
-            "minimum": 1,
-            "type": "integer"
-          },
-          "expected_updater_policy_revision": {
-            "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence.",
-            "minimum": 1,
-            "type": "integer"
-          },
-          "network_namespace": {
-            "const": "host"
-          },
-          "new_port": {
-            "maximum": 65535,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "old_port": {
-            "maximum": 65535,
-            "minimum": 1,
-            "type": "integer"
-          },
-          "port_plan_sha256": {
-            "description": "Stable server-derived port intent digest in a job or claim.",
-            "pattern": "^[a-f0-9]{64}$",
-            "type": "string"
-          },
-          "protocol": {
-            "const": "tcp"
-          },
-          "result": {
-            "enum": [
-              "applied",
-              "rolled_back",
-              "unchanged",
-              "rollback_failed"
+          "observation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/observation"
+              },
+              {
+                "not": {
+                  "$ref": "#/components/schemas/verifiedObservation"
+                }
+              }
             ]
           },
-          "target_config_revision": {
-            "minimum": 1,
-            "type": "integer"
+          "result": {
+            "const": "rollback_failed"
+          }
+        },
+        "required": [
+          "result",
+          "observation"
+        ],
+        "type": "object"
+      },
+      "result": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/acceptedResult"
           },
-          "target_config_sha256": {
+          {
+            "$ref": "#/components/schemas/recoveryObservation"
+          }
+        ]
+      },
+      "runtimeInstance": {
+        "additionalProperties": false,
+        "properties": {
+          "container_id": {
+            "pattern": "^[a-f0-9]{12,64}$",
+            "type": "string"
+          },
+          "image_id": {
             "pattern": "^sha256:[a-f0-9]{64}$",
             "type": "string"
           },
-          "target_endpoint_revision": {
+          "repository_digest": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "container_id",
+          "image_id",
+          "repository_digest"
+        ],
+        "type": "object"
+      },
+      "snapshotRef": {
+        "additionalProperties": false,
+        "properties": {
+          "advertised_endpoint_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "advertised_port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "applied_endpoint_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "config_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "config_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "docker": {
+            "$ref": "#/components/schemas/dockerSnapshot"
+          },
+          "endpoint_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "executor_policy_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "executor_policy_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "local_listen_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
+          },
+          "projection_revision": {
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "snapshot_id": {
+            "pattern": "^ps1:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "snapshot_sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "source_policy_revision": {
+            "maximum": 9007199254740991,
             "minimum": 1,
             "type": "integer"
           }
         },
         "required": [
-          "network_namespace",
-          "protocol",
-          "old_port",
-          "new_port",
-          "expected_endpoint_revision",
-          "target_endpoint_revision",
-          "expected_config_revision",
-          "target_config_revision",
-          "expected_config_sha256",
-          "target_config_sha256",
-          "expected_source_policy_revision",
-          "expected_updater_policy_revision",
-          "expected_executor_policy_revision",
-          "expected_executor_policy_sha256",
-          "port_plan_sha256"
+          "snapshot_id",
+          "snapshot_sha256",
+          "source_policy_revision",
+          "projection_revision",
+          "executor_policy_revision",
+          "executor_policy_sha256",
+          "endpoint_revision",
+          "applied_endpoint_revision",
+          "config_revision",
+          "config_sha256",
+          "advertised_port",
+          "advertised_endpoint_sha256",
+          "local_listen_port"
         ],
         "type": "object"
       },
@@ -10875,6 +11251,30 @@
       "system-update-agent-status.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "anyOf": [
+                {
+                  "required": [
+                    "port_contract_version"
+                  ]
+                },
+                {
+                  "required": [
+                    "policy_transition_version"
+                  ]
+                }
+              ]
+            },
+            "then": {
+              "required": [
+                "port_contract_version",
+                "policy_transition_version"
+              ]
+            }
+          }
+        ],
         "description": "Strict protocol-major-2 Updater heartbeat and capability projection.",
         "properties": {
           "applied_revision": {
@@ -10965,6 +11365,12 @@
               "failed"
             ]
           },
+          "policy_transition_version": {
+            "const": 1
+          },
+          "port_contract_version": {
+            "const": 2
+          },
           "protocol_version": {
             "const": 2
           },
@@ -11046,6 +11452,26 @@
                     "required": [
                       "expected_endpoint_revision"
                     ]
+                  },
+                  {
+                    "required": [
+                      "port_contract_version"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "mode"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "expected_snapshot_id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "new_local_listen_port"
+                    ]
                   }
                 ]
               },
@@ -11064,53 +11490,7 @@
               ]
             },
             "then": {
-              "not": {
-                "required": [
-                  "strategy"
-                ]
-              },
-              "oneOf": [
-                {
-                  "not": {
-                    "anyOf": [
-                      {
-                        "required": [
-                          "new_advertised_port"
-                        ]
-                      },
-                      {
-                        "required": [
-                          "new_published_port"
-                        ]
-                      },
-                      {
-                        "required": [
-                          "new_container_port"
-                        ]
-                      }
-                    ]
-                  },
-                  "required": [
-                    "new_port"
-                  ]
-                },
-                {
-                  "not": {
-                    "required": [
-                      "new_port"
-                    ]
-                  },
-                  "required": [
-                    "new_advertised_port",
-                    "new_published_port",
-                    "new_container_port"
-                  ]
-                }
-              ],
-              "required": [
-                "operation",
-                "expected_endpoint_revision"
-              ]
+              "$ref": "#/components/schemas/createRequest"
             }
           },
           {
@@ -11166,6 +11546,10 @@
             "minimum": 1,
             "type": "integer"
           },
+          "expected_snapshot_id": {
+            "pattern": "^ps1:[a-f0-9]{64}$",
+            "type": "string"
+          },
           "fence": {
             "minimum": 1,
             "type": "integer"
@@ -11175,6 +11559,12 @@
             "minLength": 1,
             "pattern": "^[^\\x00-\\x1F\\x7F]+$",
             "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "local_only",
+              "local_and_advertised"
+            ]
           },
           "new_advertised_port": {
             "maximum": 65535,
@@ -11186,7 +11576,7 @@
             "minimum": 1024,
             "type": "integer"
           },
-          "new_port": {
+          "new_local_listen_port": {
             "maximum": 65535,
             "minimum": 1024,
             "type": "integer"
@@ -11202,6 +11592,9 @@
               "software_update",
               "port_reconfigure"
             ]
+          },
+          "port_contract_version": {
+            "const": 2
           },
           "protocol_version": {
             "const": 2
@@ -11458,7 +11851,7 @@
             ],
             "type": "object"
           },
-          "portReconfigurationPlan": {
+          "legacyPortReconfigurationPlan": {
             "additionalProperties": false,
             "properties": {
               "docker": {
@@ -11554,6 +11947,16 @@
             ],
             "type": "object"
           },
+          "portReconfigurationPlan": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/legacyPortReconfigurationPlan"
+              },
+              {
+                "$ref": "#/components/schemas/plan"
+              }
+            ]
+          },
           "systemUpdateJobSafeError": {
             "additionalProperties": false,
             "properties": {
@@ -11628,8 +12031,17 @@
                     },
                     "port_reconfigure": {
                       "not": {
-                        "required": [
-                          "docker"
+                        "anyOf": [
+                          {
+                            "required": [
+                              "docker"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "docker_baseline"
+                            ]
+                          }
                         ]
                       },
                       "properties": {
@@ -11649,8 +12061,17 @@
                       "const": "docker"
                     },
                     "port_reconfigure": {
-                      "required": [
-                        "docker"
+                      "anyOf": [
+                        {
+                          "required": [
+                            "docker"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "docker_baseline"
+                          ]
+                        }
                       ]
                     }
                   }
@@ -11922,6 +12343,153 @@
                 ]
               }
             ]
+          },
+          {
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "port_result"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "recovery_required"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "last_recovery_observation"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "port_contract_version"
+                    ]
+                  }
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "port_reconfigure": {
+                  "properties": {
+                    "port_contract_version": {
+                      "const": 2
+                    }
+                  },
+                  "required": [
+                    "port_contract_version"
+                  ]
+                }
+              },
+              "required": [
+                "port_reconfigure"
+              ]
+            },
+            "then": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "succeeded",
+                          "rolled_back"
+                        ]
+                      }
+                    }
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "last_recovery_observation"
+                      ]
+                    },
+                    "properties": {
+                      "recovery_required": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "port_result"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "required": [
+                      "port_result"
+                    ]
+                  },
+                  "then": {
+                    "oneOf": [
+                      {
+                        "properties": {
+                          "port_result": {
+                            "properties": {
+                              "result": {
+                                "enum": [
+                                  "applied",
+                                  "unchanged"
+                                ]
+                              }
+                            }
+                          },
+                          "status": {
+                            "const": "succeeded"
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "port_result": {
+                            "properties": {
+                              "result": {
+                                "const": "rolled_back"
+                              }
+                            }
+                          },
+                          "status": {
+                            "const": "rolled_back"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "required": [
+                      "last_recovery_observation"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "port_result"
+                      ]
+                    },
+                    "properties": {
+                      "recovery_required": {
+                        "const": true
+                      },
+                      "status": {
+                        "enum": [
+                          "failed",
+                          "reconciling",
+                          "rolling_back"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "recovery_required"
+                    ]
+                  }
+                }
+              ]
+            }
           }
         ],
         "description": "Control Panel job projection. protocol_version 2 is pull-only, capability-bound, revision-fenced, and represents ambiguous execution outcomes explicitly.",
@@ -12000,6 +12568,9 @@
             "pattern": "^[^\\x00-\\x1F\\x7F]+$",
             "type": "string"
           },
+          "last_recovery_observation": {
+            "$ref": "#/components/schemas/recoveryObservation"
+          },
           "lease_expires_at": {
             "format": "date-time",
             "type": "string"
@@ -12037,8 +12608,14 @@
             "minimum": 0,
             "type": "integer"
           },
+          "port_contract_version": {
+            "const": 2
+          },
           "port_reconfigure": {
             "$ref": "#/components/schemas/portReconfigurationPlan"
+          },
+          "port_result": {
+            "$ref": "#/components/schemas/acceptedResult"
           },
           "previous_digest": {
             "pattern": "^sha256:[a-f0-9]{64}$",
@@ -12051,6 +12628,9 @@
           },
           "protocol_version": {
             "const": 2
+          },
+          "recovery_required": {
+            "type": "boolean"
           },
           "requested_by": {
             "type": "string"
@@ -12697,6 +13277,14 @@
           "application_probe": {
             "$ref": "#/components/schemas/systemUpdateTargetApplicationProbe"
           },
+          "applied_config_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "applied_endpoint_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
           "applied_revision": {
             "minimum": 0,
             "type": "integer"
@@ -12751,6 +13339,10 @@
             "type": "array",
             "uniqueItems": true
           },
+          "endpoint_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
           "fence": {
             "minimum": 1,
             "type": "integer"
@@ -12763,6 +13355,11 @@
           },
           "latest_version": {
             "type": "string"
+          },
+          "local_listen_port": {
+            "maximum": 65535,
+            "minimum": 1024,
+            "type": "integer"
           },
           "name": {
             "minLength": 1,
@@ -12780,8 +13377,31 @@
             },
             "type": "object"
           },
+          "ownership_epoch": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "port_contract_version": {
+            "const": 2
+          },
           "port_mapping": {
             "$ref": "#/components/schemas/portMapping"
+          },
+          "port_modes": {
+            "items": {
+              "enum": [
+                "local_only",
+                "local_and_advertised"
+              ]
+            },
+            "maxItems": 2,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "port_policy_snapshot_id": {
+            "pattern": "^ps1:[a-f0-9]{64}$",
+            "type": "string"
           },
           "protocol_version": {
             "const": 2
@@ -12963,6 +13583,839 @@
           "message",
           "retryable"
         ],
+        "type": "object"
+      },
+      "update-agent-mutation-grant-consume-request.schema": {
+        "$defs": {
+          "dockerPortReconfiguration": {
+            "additionalProperties": false,
+            "description": "Immutable Docker runtime binding. The server additionally checks health/published equality and rejects a no-op across advertised, published, and container ports.",
+            "properties": {
+              "approved_compose_config_sha256": {
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "approved_compose_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_container_id": {
+                "pattern": "^[a-f0-9]{12,64}$",
+                "type": "string"
+              },
+              "expected_image_id": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "expected_repository_digest": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "expected_version_env_sha256": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "new_container_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "new_health_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "new_published_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "old_container_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "old_health_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "old_published_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "published_host_ip": {
+                "const": "127.0.0.1"
+              }
+            },
+            "required": [
+              "published_host_ip",
+              "old_published_port",
+              "new_published_port",
+              "old_container_port",
+              "new_container_port",
+              "old_health_port",
+              "new_health_port",
+              "approved_compose_config_sha256",
+              "approved_compose_revision",
+              "expected_version_env_sha256",
+              "expected_container_id",
+              "expected_image_id",
+              "expected_repository_digest"
+            ],
+            "type": "object"
+          },
+          "legacyPortReconfigurationPlan": {
+            "additionalProperties": false,
+            "properties": {
+              "docker": {
+                "$ref": "#/components/schemas/dockerPortReconfiguration-2"
+              },
+              "expected_config_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_config_sha256": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "expected_endpoint_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_executor_policy_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_executor_policy_sha256": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "expected_source_policy_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_updater_policy_revision": {
+                "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence.",
+                "minimum": 1,
+                "type": "integer"
+              },
+              "network_namespace": {
+                "const": "host"
+              },
+              "new_port": {
+                "maximum": 65535,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "old_port": {
+                "maximum": 65535,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "port_plan_sha256": {
+                "description": "Lease/session-bound executor plan digest; it must equal the top-level plan_sha256.",
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "protocol": {
+                "const": "tcp"
+              },
+              "target_config_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "target_config_sha256": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "target_endpoint_revision": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "network_namespace",
+              "protocol",
+              "old_port",
+              "new_port",
+              "expected_endpoint_revision",
+              "target_endpoint_revision",
+              "expected_config_revision",
+              "target_config_revision",
+              "expected_config_sha256",
+              "target_config_sha256",
+              "expected_source_policy_revision",
+              "expected_updater_policy_revision",
+              "expected_executor_policy_revision",
+              "expected_executor_policy_sha256",
+              "port_plan_sha256"
+            ],
+            "type": "object"
+          },
+          "portReconfigurationPlan": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/legacyPortReconfigurationPlan-2"
+              },
+              {
+                "$ref": "#/components/schemas/plan"
+              }
+            ]
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "port_reconfigure"
+                ]
+              },
+              "properties": {
+                "job_operation": {
+                  "const": "software_update"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "operation": {
+                  "enum": [
+                    "port_reconfigure",
+                    "port_reconfigure_reconcile"
+                  ]
+                }
+              },
+              "required": [
+                "operation"
+              ]
+            },
+            "then": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "deployment_mode": {
+                      "const": "systemd"
+                    },
+                    "port_reconfigure": {
+                      "not": {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "docker"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "docker_baseline"
+                            ]
+                          }
+                        ]
+                      },
+                      "properties": {
+                        "new_port": {
+                          "minimum": 1024
+                        },
+                        "old_port": {
+                          "minimum": 1024
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "deployment_mode": {
+                      "const": "docker"
+                    },
+                    "port_reconfigure": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "docker"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "docker_baseline"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "properties": {
+                "job_operation": {
+                  "const": "port_reconfigure"
+                },
+                "policy_revision": {
+                  "minimum": 1
+                },
+                "service_type": {
+                  "enum": [
+                    "discord_bot",
+                    "encoder_recorder",
+                    "observability",
+                    "worker"
+                  ]
+                },
+                "transport_mode": {
+                  "const": "pull_v2"
+                }
+              },
+              "required": [
+                "job_operation",
+                "port_reconfigure",
+                "transport_mode",
+                "service_type",
+                "ownership_epoch",
+                "policy_revision"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "transport_mode": {
+                  "const": "pull_v2"
+                }
+              },
+              "required": [
+                "transport_mode"
+              ]
+            },
+            "then": {
+              "properties": {
+                "policy_revision": {
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "ownership_epoch",
+                "policy_revision"
+              ]
+            }
+          }
+        ],
+        "description": "Consumes the Bearer mutation grant against the exact immutable binding. The grant credential is carried only in Authorization, never in this body.",
+        "properties": {
+          "deployment_mode": {
+            "enum": [
+              "systemd",
+              "docker"
+            ]
+          },
+          "host_id": {
+            "maxLength": 191,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
+            "type": "string"
+          },
+          "job_operation": {
+            "enum": [
+              "software_update",
+              "port_reconfigure"
+            ]
+          },
+          "lease_generation": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "operation": {
+            "enum": [
+              "apply",
+              "reconcile",
+              "port_reconfigure",
+              "port_reconfigure_reconcile"
+            ]
+          },
+          "ownership_epoch": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "plan_sha256": {
+            "description": "Lease/session-bound executor digest. Version 2 port_reconfigure.port_plan_sha256 is the separate immutable intent digest.",
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "policy_revision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "port_reconfigure": {
+            "$ref": "#/components/schemas/portReconfigurationPlan-2"
+          },
+          "service_type": {
+            "enum": [
+              "control_panel",
+              "discord_bot",
+              "encoder_recorder",
+              "observability",
+              "worker"
+            ]
+          },
+          "session_id": {
+            "maxLength": 128,
+            "minLength": 16,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$",
+            "type": "string"
+          },
+          "target_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "target_version": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+            "type": "string"
+          },
+          "transport_mode": {
+            "const": "pull_v2"
+          }
+        },
+        "required": [
+          "lease_generation",
+          "host_id",
+          "target_id",
+          "target_version",
+          "deployment_mode",
+          "operation",
+          "plan_sha256",
+          "session_id"
+        ],
+        "title": "Update Agent Mutation Grant Consume Request",
+        "type": "object"
+      },
+      "update-agent-mutation-grant-issue-request.schema": {
+        "$defs": {
+          "dockerPortReconfiguration": {
+            "additionalProperties": false,
+            "description": "Immutable Docker runtime binding. The server additionally checks health/published equality and rejects a no-op across advertised, published, and container ports.",
+            "properties": {
+              "approved_compose_config_sha256": {
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "approved_compose_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_container_id": {
+                "pattern": "^[a-f0-9]{12,64}$",
+                "type": "string"
+              },
+              "expected_image_id": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "expected_repository_digest": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "expected_version_env_sha256": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "new_container_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "new_health_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "new_published_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "old_container_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "old_health_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "old_published_port": {
+                "maximum": 65535,
+                "minimum": 1024,
+                "type": "integer"
+              },
+              "published_host_ip": {
+                "const": "127.0.0.1"
+              }
+            },
+            "required": [
+              "published_host_ip",
+              "old_published_port",
+              "new_published_port",
+              "old_container_port",
+              "new_container_port",
+              "old_health_port",
+              "new_health_port",
+              "approved_compose_config_sha256",
+              "approved_compose_revision",
+              "expected_version_env_sha256",
+              "expected_container_id",
+              "expected_image_id",
+              "expected_repository_digest"
+            ],
+            "type": "object"
+          },
+          "legacyPortReconfigurationPlan": {
+            "additionalProperties": false,
+            "properties": {
+              "docker": {
+                "$ref": "#/components/schemas/dockerPortReconfiguration-2"
+              },
+              "expected_config_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_config_sha256": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "expected_endpoint_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_executor_policy_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_executor_policy_sha256": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "expected_source_policy_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expected_updater_policy_revision": {
+                "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence.",
+                "minimum": 1,
+                "type": "integer"
+              },
+              "network_namespace": {
+                "const": "host"
+              },
+              "new_port": {
+                "maximum": 65535,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "old_port": {
+                "maximum": 65535,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "port_plan_sha256": {
+                "description": "Lease/session-bound executor plan digest; it must equal the top-level plan_sha256.",
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "protocol": {
+                "const": "tcp"
+              },
+              "target_config_revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "target_config_sha256": {
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "target_endpoint_revision": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "network_namespace",
+              "protocol",
+              "old_port",
+              "new_port",
+              "expected_endpoint_revision",
+              "target_endpoint_revision",
+              "expected_config_revision",
+              "target_config_revision",
+              "expected_config_sha256",
+              "target_config_sha256",
+              "expected_source_policy_revision",
+              "expected_updater_policy_revision",
+              "expected_executor_policy_revision",
+              "expected_executor_policy_sha256",
+              "port_plan_sha256"
+            ],
+            "type": "object"
+          },
+          "portReconfigurationPlan": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/legacyPortReconfigurationPlan-2"
+              },
+              {
+                "$ref": "#/components/schemas/plan"
+              }
+            ]
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "port_reconfigure"
+                ]
+              },
+              "properties": {
+                "job_operation": {
+                  "const": "software_update"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "operation": {
+                  "enum": [
+                    "port_reconfigure",
+                    "port_reconfigure_reconcile"
+                  ]
+                }
+              },
+              "required": [
+                "operation"
+              ]
+            },
+            "then": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "deployment_mode": {
+                      "const": "systemd"
+                    },
+                    "port_reconfigure": {
+                      "not": {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "docker"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "docker_baseline"
+                            ]
+                          }
+                        ]
+                      },
+                      "properties": {
+                        "new_port": {
+                          "minimum": 1024
+                        },
+                        "old_port": {
+                          "minimum": 1024
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "deployment_mode": {
+                      "const": "docker"
+                    },
+                    "port_reconfigure": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "docker"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "docker_baseline"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "properties": {
+                "job_operation": {
+                  "const": "port_reconfigure"
+                },
+                "policy_revision": {
+                  "minimum": 1
+                },
+                "service_type": {
+                  "enum": [
+                    "discord_bot",
+                    "encoder_recorder",
+                    "observability",
+                    "worker"
+                  ]
+                },
+                "transport_mode": {
+                  "const": "pull_v2"
+                }
+              },
+              "required": [
+                "job_operation",
+                "port_reconfigure",
+                "transport_mode",
+                "service_type",
+                "ownership_epoch",
+                "policy_revision"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "transport_mode": {
+                  "const": "pull_v2"
+                }
+              },
+              "required": [
+                "transport_mode"
+              ]
+            },
+            "then": {
+              "properties": {
+                "policy_revision": {
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "ownership_epoch",
+                "policy_revision"
+              ]
+            }
+          }
+        ],
+        "description": "Requests a short-lived grant bound to one leased job, execution host, immutable plan and remote session. Host connection details and privileged execution configuration are never accepted.",
+        "properties": {
+          "deployment_mode": {
+            "enum": [
+              "systemd",
+              "docker"
+            ]
+          },
+          "host_id": {
+            "maxLength": 191,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$",
+            "type": "string"
+          },
+          "job_operation": {
+            "enum": [
+              "software_update",
+              "port_reconfigure"
+            ]
+          },
+          "lease_generation": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "lease_token": {
+            "maxLength": 256,
+            "minLength": 32,
+            "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+            "type": "string",
+            "writeOnly": true
+          },
+          "operation": {
+            "enum": [
+              "apply",
+              "reconcile",
+              "port_reconfigure",
+              "port_reconfigure_reconcile"
+            ]
+          },
+          "ownership_epoch": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "plan_sha256": {
+            "description": "Lease/session-bound executor digest. Version 2 port_reconfigure.port_plan_sha256 is the separate immutable intent digest.",
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "policy_revision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "port_reconfigure": {
+            "$ref": "#/components/schemas/portReconfigurationPlan-2"
+          },
+          "service_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "service_type": {
+            "enum": [
+              "control_panel",
+              "discord_bot",
+              "encoder_recorder",
+              "observability",
+              "worker"
+            ]
+          },
+          "session_id": {
+            "maxLength": 128,
+            "minLength": 16,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$",
+            "type": "string"
+          },
+          "target_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "target_version": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\x00-\\x1F\\x7F]+$",
+            "type": "string"
+          },
+          "transport_mode": {
+            "const": "pull_v2"
+          }
+        },
+        "required": [
+          "service_id",
+          "lease_token",
+          "lease_generation",
+          "host_id",
+          "target_id",
+          "target_version",
+          "deployment_mode",
+          "operation",
+          "plan_sha256",
+          "session_id"
+        ],
+        "title": "Update Agent Mutation Grant Issue Request",
         "type": "object"
       },
       "updater-desired-operation.schema": {
@@ -13199,6 +14652,35 @@
         "required": [
           "status",
           "revision"
+        ],
+        "type": "object"
+      },
+      "verifiedObservation": {
+        "additionalProperties": false,
+        "properties": {
+          "agent_projection_verified": {
+            "const": true
+          },
+          "listener_verified": {
+            "const": true
+          },
+          "observed_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "policy_disk_verified": {
+            "const": true
+          },
+          "policy_memory_verified": {
+            "const": true
+          }
+        },
+        "required": [
+          "policy_disk_verified",
+          "policy_memory_verified",
+          "agent_projection_verified",
+          "listener_verified",
+          "observed_at"
         ],
         "type": "object"
       },
@@ -17290,7 +18772,7 @@
                     "$ref": "#/components/schemas/UpdaterMutationGrantIssueRequest"
                   },
                   {
-                    "$ref": "#/components/schemas/UpdateAgentMutationGrantIssueRequest"
+                    "$ref": "#/components/schemas/update-agent-mutation-grant-issue-request.schema"
                   }
                 ]
               }
@@ -17393,7 +18875,7 @@
                     "$ref": "#/components/schemas/UpdaterMutationGrantConsumeRequest"
                   },
                   {
-                    "$ref": "#/components/schemas/UpdateAgentMutationGrantConsumeRequest"
+                    "$ref": "#/components/schemas/update-agent-mutation-grant-consume-request.schema"
                   }
                 ]
               }
@@ -22184,7 +23666,36 @@
     },
     "heartbeat_schema": {
       "additionalProperties": false,
-      "description": "Updater health and capability evidence only; it cannot satisfy an application runtime identity probe.",
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "port_contract_version"
+                ]
+              },
+              {
+                "required": [
+                  "policy_transition_version"
+                ]
+              },
+              {
+                "required": [
+                  "port_policy_baseline"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "required": [
+              "port_contract_version",
+              "policy_transition_version"
+            ]
+          }
+        }
+      ],
+      "description": "Updater health and capability evidence only; it cannot satisfy an application runtime identity probe. Port baseline metadata is accepted only against the already-bound installed root policy digest, never as a new trust anchor or arbitrary root policy.",
       "properties": {
         "applied_revision": {
           "format": "int64",
@@ -22230,6 +23741,17 @@
         "observed_at": {
           "format": "date-time",
           "type": "string"
+        },
+        "policy_transition_version": {
+          "const": 1,
+          "type": "integer"
+        },
+        "port_contract_version": {
+          "const": 2,
+          "type": "integer"
+        },
+        "port_policy_baseline": {
+          "$ref": "#/components/schemas/policyBaseline"
         },
         "protocol_version": {
           "const": 2,
@@ -22575,6 +24097,21 @@
               }
             },
             {
+              "not": {
+                "required": [
+                  "port_reconfigure"
+                ]
+              },
+              "properties": {
+                "outcome": {
+                  "const": "canceled"
+                },
+                "status": {
+                  "const": "canceled"
+                }
+              }
+            },
+            {
               "properties": {
                 "outcome": {
                   "const": "failed"
@@ -22613,7 +24150,7 @@
           ]
         }
       ],
-      "description": "Terminal result bound to the exact lease generation. Success requires applied_revision equal to desired_revision plus target-specific verification evidence; rollback requires rollback_verified evidence; ambiguous outcomes remain reconciling and automatic resend is always false.",
+      "description": "Result bound to the exact lease generation. Version 2 port results preserve applied, unchanged and rolled_back with complete observed snapshot evidence. Rolled-back applied_revision is immutable R.C, while desired_revision remains T.C. rollback_failed is an unaccepted recovery attempt that retains the host hold; accepted result identity and its first observation time cannot be overwritten. Ambiguous outcomes remain reconciling and automatic resend is always false.",
       "properties": {
         "applied_revision": {
           "format": "int64",
@@ -22698,9 +24235,13 @@
             "succeeded",
             "failed",
             "rolled_back",
-            "ambiguous"
+            "ambiguous",
+            "canceled"
           ],
           "type": "string"
+        },
+        "port_reconfigure": {
+          "$ref": "#/components/schemas/result"
         },
         "protocol_version": {
           "const": 2,
@@ -22714,7 +24255,8 @@
             "reconciling",
             "succeeded",
             "failed",
-            "rolled_back"
+            "rolled_back",
+            "canceled"
           ],
           "type": "string"
         },

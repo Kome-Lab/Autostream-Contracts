@@ -21,7 +21,7 @@
     "put": 17,
     "trace": 0
   },
-  "normalized_bundle_sha256": "29822b9949852107366c972e4061bd12727d585e5c226b23881db48a57acbe52",
+  "normalized_bundle_sha256": "507699ab368cd35ff020a87c818cd79f9a88334907b459eb7f9b216b8d803ab3",
   "openapi_version": "3.1.0",
   "operation_count": 177,
   "operation_id_count": 15,
@@ -4387,7 +4387,7 @@
         {
           "kind": "inline",
           "name": "",
-          "resolved_sha256": "1464d669184c7bbf39682515ba88e8ea1f02015909b4a3d9e2bdc79d202a7847",
+          "resolved_sha256": "ecff097281243f5fc1275981fdef6ebd82442c517b529a956f25a17768e5c4b5",
           "type": ""
         }
       ],
@@ -5544,7 +5544,7 @@
             {
               "kind": "inline",
               "name": "",
-              "resolved_sha256": "d4e7b78be0bc490e14e5ca41401f5d3e722aa95bb583c7eb7c36cff58dc69cbb",
+              "resolved_sha256": "df062553afa8355ef156b7b8fd80fd7dad95baef4158133e84a2e34e598bb0c8",
               "type": ""
             }
           ],
@@ -5597,7 +5597,7 @@
         {
           "kind": "inline",
           "name": "",
-          "resolved_sha256": "1b501699a3400d4a076e990d53a575e734b29a98b1f76ed0eaacd452452b36ab",
+          "resolved_sha256": "916735a05b3021b692dbc104e9e0edb3cdcb23422d31855805cdaf424aed76a2",
           "type": ""
         }
       ],
@@ -5678,7 +5678,7 @@
         {
           "kind": "inline",
           "name": "",
-          "resolved_sha256": "3c66fc647fe543c002cea3dabe70dba74feb5507e748559b5ffc4e263ecd10a7",
+          "resolved_sha256": "85ce1359eec3bc4e250287d35c992d662ec3b651ac665663205a698b120b3979",
           "type": ""
         }
       ],
@@ -5740,7 +5740,7 @@
         {
           "kind": "inline",
           "name": "",
-          "resolved_sha256": "cda3edbf8bbf9d692315d649d424894002e8110c7a9b9ec2ff49ab3be7548d74",
+          "resolved_sha256": "ed272b8a7e4c0bd87cb19491905bf768aefd2d71d0caf3234ae7c80a5f903e75",
           "type": ""
         }
       ],
@@ -5754,7 +5754,7 @@
               "kind": "ref",
               "name": "system-update-job.schema",
               "ref": "#/components/schemas/system-update-job.schema",
-              "resolved_sha256": "cbc0a0f091bf8d89282173100899b9eeb62d0ea93fee34c0da548a5713236a52"
+              "resolved_sha256": "7e21408d8056ce0fc19ef219588501a6405b63d99e31816a97965d406bc7c31e"
             }
           ],
           "status": "200"
@@ -7751,7 +7751,7 @@
               "kind": "ref",
               "name": "SystemUpdatesResponse",
               "ref": "#/components/schemas/SystemUpdatesResponse",
-              "resolved_sha256": "e4a9ca63a91408a0a453bac7f459d79cb4ced0f6f16afa21357055ef4c2dc43f"
+              "resolved_sha256": "b2379b4958bcd5f09984a6e0ce1438fda48395e3e76f370368d6c43c85b8d2e9"
             }
           ],
           "status": "200"
@@ -7794,7 +7794,7 @@
           "kind": "ref",
           "name": "system-update-create-request.schema",
           "ref": "#/components/schemas/system-update-create-request.schema",
-          "resolved_sha256": "c202576b706313ad220dfd2c869b6cf9588b90aefb29dd7de60a3fe301f580cf"
+          "resolved_sha256": "c04a27766c4276d95f129d67efeca8f35bc0d88992ba34e4635c1fa7c1d1aa84"
         }
       ],
       "responses": [
@@ -7807,7 +7807,7 @@
               "kind": "ref",
               "name": "system-update-job.schema",
               "ref": "#/components/schemas/system-update-job.schema",
-              "resolved_sha256": "cbc0a0f091bf8d89282173100899b9eeb62d0ea93fee34c0da548a5713236a52"
+              "resolved_sha256": "7e21408d8056ce0fc19ef219588501a6405b63d99e31816a97965d406bc7c31e"
             }
           ],
           "status": "202"
@@ -8452,7 +8452,7 @@
               "kind": "ref",
               "name": "system-update-job.schema",
               "ref": "#/components/schemas/system-update-job.schema",
-              "resolved_sha256": "cbc0a0f091bf8d89282173100899b9eeb62d0ea93fee34c0da548a5713236a52"
+              "resolved_sha256": "7e21408d8056ce0fc19ef219588501a6405b63d99e31816a97965d406bc7c31e"
             }
           ],
           "status": "200"
@@ -9598,7 +9598,7 @@
       "path": "/setup/first-admin"
     }
   ],
-  "ref_layout_independent_sha256": "d246e971458162cad629f99cd9b5d1fdb8ded56be6b53561824e0796c3c9d361",
+  "ref_layout_independent_sha256": "ab65a74baeebcbd93c5bef082898293891d8d9494961c51da0b8a00e247aa2d4",
   "request_body_count": 53,
   "response_status_distribution": {
     "200": 138,
@@ -9619,7 +9619,7 @@
     "502": 11,
     "503": 12
   },
-  "schema_count": 177,
+  "schema_count": 200,
   "security_scheme_count": 2,
   "title": "AutoStream Control API",
   "unauthenticated_operation_count": 11,

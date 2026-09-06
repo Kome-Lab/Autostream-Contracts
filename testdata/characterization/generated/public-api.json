@@ -2,7 +2,7 @@
   "format_version": 1,
   "package_import_path": "github.com/example/autostream-contracts/pkg/contracts",
   "package_name": "contracts",
-  "exported_identifier_count": 632,
+  "exported_identifier_count": 676,
   "exported_method_count": 2,
   "identifiers": [
     {
@@ -18,6 +18,12 @@
       "type": "ApplicationRuntimeIdentityProbe",
       "alias": false,
       "underlying": "struct{Version string \"json:\\\"version\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; ServiceType SystemUpdateTargetType \"json:\\\"service_type\\\"\"; ConfigRevision int64 \"json:\\\"config_revision\\\"\"}"
+    },
+    {
+      "name": "ApplySystemUpdatePortPolicyDelta",
+      "kind": "func",
+      "type": "func(payload []byte, serviceID string, before SystemUpdatePortSnapshotRef, after SystemUpdatePortSnapshotRef) ([]byte, error)",
+      "alias": false
     },
     {
       "name": "ArchiveMetadata",
@@ -108,6 +114,36 @@
       "type": "CaptionProfileConfig",
       "alias": false,
       "underlying": "struct{Provider string \"json:\\\"provider\\\"\"; Model string \"json:\\\"model\\\"\"; Language string \"json:\\\"language\\\"\"; APIKeySecretName string \"json:\\\"api_key_secret_name\\\"\"; EndpointingMS int \"json:\\\"endpointing_ms\\\"\"; UtteranceEndMS int \"json:\\\"utterance_end_ms\\\"\"; LocalFinalizeMS int \"json:\\\"local_finalize_ms\\\"\"; SpeakerIdleCloseSeconds int \"json:\\\"speaker_idle_close_seconds\\\"\"; KeepAliveIntervalSeconds int \"json:\\\"keepalive_interval_seconds\\\"\"; InterimResults bool \"json:\\\"interim_results\\\"\"; SmartFormat bool \"json:\\\"smart_format\\\"\"; Keyterms []string \"json:\\\"keyterms,omitempty\\\"\"; MIPOptOut bool \"json:\\\"mip_opt_out\\\"\"; ReplayBufferMaxMS int \"json:\\\"replay_buffer_max_ms\\\"\"; DelayMS int \"json:\\\"delay_ms\\\"\"; CaptionAudioFlushMS int \"json:\\\"caption_audio_flush_ms\\\"\"; CaptionAudioMaxBatchPackets int \"json:\\\"caption_audio_max_batch_packets\\\"\"; UnresolvedSSRCBufferMS int \"json:\\\"unresolved_ssrc_buffer_ms\\\"\"; ConversationMaxItems int \"json:\\\"conversation_max_items\\\"\"; ConversationReorderWindowMS int \"json:\\\"conversation_reorder_window_ms\\\"\"; VoiceInterimTTLSeconds int \"json:\\\"voice_interim_ttl_seconds\\\"\"; VoiceFinalTTLSeconds int \"json:\\\"voice_final_ttl_seconds\\\"\"; ShowVoiceTranscripts bool \"json:\\\"show_voice_transcripts\\\"\"; ShowLegacyCaptionBar bool \"json:\\\"show_legacy_caption_bar\\\"\"}"
+    },
+    {
+      "name": "ComputeSystemUpdatePortBytesSHA256",
+      "kind": "func",
+      "type": "func(payload []byte) string",
+      "alias": false
+    },
+    {
+      "name": "ComputeSystemUpdatePortEndpointSHA256",
+      "kind": "func",
+      "type": "func(endpoint SystemUpdatePortEndpoint) (string, error)",
+      "alias": false
+    },
+    {
+      "name": "ComputeSystemUpdatePortPlanSHA256",
+      "kind": "func",
+      "type": "func(plan SystemUpdatePortReconfiguration) (string, error)",
+      "alias": false
+    },
+    {
+      "name": "ComputeSystemUpdatePortRuntimePlanSHA256",
+      "kind": "func",
+      "type": "func(plan SystemUpdatePortReconfiguration, jobID string, hostID string, targetID string, serviceType string, ownershipEpoch int64, leaseGeneration uint64, sessionID string) (string, error)",
+      "alias": false
+    },
+    {
+      "name": "ComputeSystemUpdatePortSnapshotIdentity",
+      "kind": "func",
+      "type": "func(snapshot SystemUpdatePortPolicySnapshot) (string, string, error)",
+      "alias": false
     },
     {
       "name": "ComputeUpdaterCommandCanonicalDigest",
@@ -438,6 +474,18 @@
       "underlying": "struct{URL string \"json:\\\"url\\\"\"; Passphrase string \"json:\\\"passphrase\\\"\"; PBKeyLen int \"json:\\\"pbkeylen\\\"\"}"
     },
     {
+      "name": "EqualSystemUpdatePortPolicySnapshots",
+      "kind": "func",
+      "type": "func(left SystemUpdatePortPolicySnapshot, right SystemUpdatePortPolicySnapshot) bool",
+      "alias": false
+    },
+    {
+      "name": "EqualSystemUpdatePortResults",
+      "kind": "func",
+      "type": "func(left SystemUpdatePortResultV2, right SystemUpdatePortResultV2) bool",
+      "alias": false
+    },
+    {
       "name": "ErrorCodeYouTubeLiveAPIRequiresManagedOutputRelay",
       "kind": "const",
       "type": "untyped string",
@@ -641,6 +689,12 @@
       "underlying": "string"
     },
     {
+      "name": "IsAcceptedSystemUpdatePortResult",
+      "kind": "func",
+      "type": "func(result SystemUpdatePortResultV2) bool",
+      "alias": false
+    },
+    {
       "name": "KnownStartReadinessIssueCodes",
       "kind": "var",
       "type": "[]string",
@@ -657,6 +711,12 @@
       "name": "MarshalNodeListenerConfig",
       "kind": "func",
       "type": "func(config NodeListenerConfig) ([]byte, error)",
+      "alias": false
+    },
+    {
+      "name": "MarshalSystemUpdatePortPolicySnapshot",
+      "kind": "func",
+      "type": "func(snapshot SystemUpdatePortPolicySnapshot) ([]byte, error)",
       "alias": false
     },
     {
@@ -3005,7 +3065,7 @@
       "kind": "type",
       "type": "SystemUpdateAgentStatus",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; Authentication string \"json:\\\"authentication\\\"\"; Name string \"json:\\\"name\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id,omitempty\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch,omitempty\\\"\"; Status string \"json:\\\"status\\\"\"; Online bool \"json:\\\"online\\\"\"; Version string \"json:\\\"version\\\"\"; LastHeartbeatAt *time.Time \"json:\\\"last_heartbeat_at,omitempty\\\"\"; HeartbeatSequence int64 \"json:\\\"heartbeat_sequence\\\"\"; Capabilities []UpdaterCapability \"json:\\\"capabilities\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; PolicyStatus string \"json:\\\"policy_status,omitempty\\\"\"; PolicyErrorCode string \"json:\\\"policy_error_code,omitempty\\\"\"; BootstrapEncryptionPublicKey string \"json:\\\"bootstrap_encryption_public_key,omitempty\\\"\"; BootstrapEncryptionKeyFingerprint string \"json:\\\"bootstrap_encryption_key_fingerprint,omitempty\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; Authentication string \"json:\\\"authentication\\\"\"; Name string \"json:\\\"name\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode\\\"\"; ExecutionHostID string \"json:\\\"execution_host_id,omitempty\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch,omitempty\\\"\"; Status string \"json:\\\"status\\\"\"; Online bool \"json:\\\"online\\\"\"; Version string \"json:\\\"version\\\"\"; LastHeartbeatAt *time.Time \"json:\\\"last_heartbeat_at,omitempty\\\"\"; HeartbeatSequence int64 \"json:\\\"heartbeat_sequence\\\"\"; Capabilities []UpdaterCapability \"json:\\\"capabilities\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; PolicyStatus string \"json:\\\"policy_status,omitempty\\\"\"; PolicyErrorCode string \"json:\\\"policy_error_code,omitempty\\\"\"; BootstrapEncryptionPublicKey string \"json:\\\"bootstrap_encryption_public_key,omitempty\\\"\"; BootstrapEncryptionKeyFingerprint string \"json:\\\"bootstrap_encryption_key_fingerprint,omitempty\\\"\"; PortContractVersion int \"json:\\\"port_contract_version,omitempty\\\"\"; PolicyTransitionVersion int \"json:\\\"policy_transition_version,omitempty\\\"\"}"
     },
     {
       "name": "SystemUpdateCanceled",
@@ -3026,7 +3086,7 @@
       "kind": "type",
       "type": "SystemUpdateCreateRequest",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; Operation SystemUpdateOperation \"json:\\\"operation,omitempty\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; Strategy SystemUpdateStrategy \"json:\\\"strategy,omitempty\\\"\"; NewPort int \"json:\\\"new_port,omitempty\\\"\"; NewAdvertisedPort int \"json:\\\"new_advertised_port,omitempty\\\"\"; NewPublishedPort int \"json:\\\"new_published_port,omitempty\\\"\"; NewContainerPort int \"json:\\\"new_container_port,omitempty\\\"\"; ExpectedEndpointRevision int64 \"json:\\\"expected_endpoint_revision,omitempty\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; RequiredCapability UpdaterCapability \"json:\\\"required_capability\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; Operation SystemUpdateOperation \"json:\\\"operation,omitempty\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; Strategy SystemUpdateStrategy \"json:\\\"strategy,omitempty\\\"\"; NewPort int \"json:\\\"new_port,omitempty\\\"\"; PortContractVersion int \"json:\\\"port_contract_version,omitempty\\\"\"; Mode SystemUpdatePortMode \"json:\\\"mode,omitempty\\\"\"; ExpectedSnapshotID string \"json:\\\"expected_snapshot_id,omitempty\\\"\"; NewLocalListenPort int \"json:\\\"new_local_listen_port,omitempty\\\"\"; NewAdvertisedPort int \"json:\\\"new_advertised_port,omitempty\\\"\"; NewPublishedPort int \"json:\\\"new_published_port,omitempty\\\"\"; NewContainerPort int \"json:\\\"new_container_port,omitempty\\\"\"; ExpectedEndpointRevision int64 \"json:\\\"expected_endpoint_revision,omitempty\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; RequiredCapability UpdaterCapability \"json:\\\"required_capability\\\"\"}"
     },
     {
       "name": "SystemUpdateDeploymentDocker",
@@ -3048,6 +3108,12 @@
       "type": "SystemUpdateDeploymentMode",
       "alias": false,
       "value": "\"systemd\""
+    },
+    {
+      "name": "SystemUpdateDockerPortConfigSHA256",
+      "kind": "func",
+      "type": "func(serviceType SystemUpdateTargetType, publishedPort int, containerPort int, revision int64) (string, error)",
+      "alias": false
     },
     {
       "name": "SystemUpdateDockerPortReconfiguration",
@@ -3103,7 +3169,7 @@
       "kind": "type",
       "type": "SystemUpdateJob",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; ID string \"json:\\\"id\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; TargetType SystemUpdateTargetType \"json:\\\"target_type\\\"\"; ExecutionHostID string \"json:\\\"host_id\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch\\\"\"; PolicyRevision int64 \"json:\\\"policy_revision\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; CurrentVersion string \"json:\\\"current_version\\\"\"; TargetVersion string \"json:\\\"target_version\\\"\"; Strategy SystemUpdateStrategy \"json:\\\"strategy\\\"\"; Status SystemUpdateStatus \"json:\\\"status\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; AuthorizationID string \"json:\\\"authorization_id\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Outcome string \"json:\\\"outcome\\\"\"; RequiredCapability UpdaterCapability \"json:\\\"required_capability\\\"\"; AutomaticResendAllowed *bool \"json:\\\"automatic_resend_allowed\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"; RequestedBy string \"json:\\\"requested_by,omitempty\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; LeaseExpiresAt *time.Time \"json:\\\"lease_expires_at,omitempty\\\"\"; Sequence int64 \"json:\\\"sequence\\\"\"; Progress int \"json:\\\"progress\\\"\"; Code string \"json:\\\"code,omitempty\\\"\"; Message string \"json:\\\"message,omitempty\\\"\"; ArtifactDigest string \"json:\\\"artifact_digest,omitempty\\\"\"; PreviousDigest string \"json:\\\"previous_digest,omitempty\\\"\"; Operation SystemUpdateOperation \"json:\\\"operation,omitempty\\\"\"; PortReconfigure *SystemUpdatePortReconfiguration \"json:\\\"port_reconfigure,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"; ClaimedAt *time.Time \"json:\\\"claimed_at,omitempty\\\"\"; CompletedAt *time.Time \"json:\\\"completed_at,omitempty\\\"\"; CanceledAt *time.Time \"json:\\\"canceled_at,omitempty\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; ID string \"json:\\\"id\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; TargetType SystemUpdateTargetType \"json:\\\"target_type\\\"\"; ExecutionHostID string \"json:\\\"host_id\\\"\"; TransportMode UpdateTransportMode \"json:\\\"transport_mode\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch\\\"\"; PolicyRevision int64 \"json:\\\"policy_revision\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; CurrentVersion string \"json:\\\"current_version\\\"\"; TargetVersion string \"json:\\\"target_version\\\"\"; Strategy SystemUpdateStrategy \"json:\\\"strategy\\\"\"; Status SystemUpdateStatus \"json:\\\"status\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; AuthorizationID string \"json:\\\"authorization_id\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Outcome string \"json:\\\"outcome\\\"\"; RequiredCapability UpdaterCapability \"json:\\\"required_capability\\\"\"; AutomaticResendAllowed *bool \"json:\\\"automatic_resend_allowed\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"; RequestedBy string \"json:\\\"requested_by,omitempty\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; LeaseExpiresAt *time.Time \"json:\\\"lease_expires_at,omitempty\\\"\"; Sequence int64 \"json:\\\"sequence\\\"\"; Progress int \"json:\\\"progress\\\"\"; Code string \"json:\\\"code,omitempty\\\"\"; Message string \"json:\\\"message,omitempty\\\"\"; ArtifactDigest string \"json:\\\"artifact_digest,omitempty\\\"\"; PreviousDigest string \"json:\\\"previous_digest,omitempty\\\"\"; Operation SystemUpdateOperation \"json:\\\"operation,omitempty\\\"\"; PortReconfigure *SystemUpdatePortReconfiguration \"json:\\\"port_reconfigure,omitempty\\\"\"; PortResult *SystemUpdatePortResultV2 \"json:\\\"port_result,omitempty\\\"\"; RecoveryRequired bool \"json:\\\"recovery_required,omitempty\\\"\"; LastRecoveryObservation *SystemUpdatePortResultV2 \"json:\\\"last_recovery_observation,omitempty\\\"\"; CreatedAt time.Time \"json:\\\"created_at\\\"\"; UpdatedAt time.Time \"json:\\\"updated_at\\\"\"; ClaimedAt *time.Time \"json:\\\"claimed_at,omitempty\\\"\"; CompletedAt *time.Time \"json:\\\"completed_at,omitempty\\\"\"; CanceledAt *time.Time \"json:\\\"canceled_at,omitempty\\\"\"}"
     },
     {
       "name": "SystemUpdateMaintenance",
@@ -3169,6 +3235,53 @@
       "value": "\"software_update\""
     },
     {
+      "name": "SystemUpdatePortContractVersion",
+      "kind": "const",
+      "type": "untyped int",
+      "alias": false,
+      "value": "2"
+    },
+    {
+      "name": "SystemUpdatePortCreateRequestV2",
+      "kind": "type",
+      "type": "SystemUpdatePortCreateRequestV2",
+      "alias": false,
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; Operation SystemUpdateOperation \"json:\\\"operation\\\"\"; PortContractVersion int \"json:\\\"port_contract_version\\\"\"; Mode SystemUpdatePortMode \"json:\\\"mode\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; ExpectedSnapshotID string \"json:\\\"expected_snapshot_id\\\"\"; ExpectedEndpointRevision int64 \"json:\\\"expected_endpoint_revision\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; RequiredCapability UpdaterCapability \"json:\\\"required_capability\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; NewLocalListenPort *int \"json:\\\"new_local_listen_port,omitempty\\\"\"; NewAdvertisedPort *int \"json:\\\"new_advertised_port,omitempty\\\"\"; NewPublishedPort *int \"json:\\\"new_published_port,omitempty\\\"\"; NewContainerPort *int \"json:\\\"new_container_port,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortDockerBaseline",
+      "kind": "type",
+      "type": "SystemUpdatePortDockerBaseline",
+      "alias": false,
+      "underlying": "struct{ExpectedContainerID string \"json:\\\"expected_container_id\\\"\"; ExpectedImageID string \"json:\\\"expected_image_id\\\"\"; ExpectedRepositoryDigest string \"json:\\\"expected_repository_digest\\\"\"; ExpectedVersionEnvSHA256 string \"json:\\\"expected_version_env_sha256\\\"\"; ApprovedComposeConfigSHA256 string \"json:\\\"approved_compose_config_sha256\\\"\"; ApprovedComposeRevision int64 \"json:\\\"approved_compose_revision\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortDockerConfig",
+      "kind": "func",
+      "type": "func(serviceType SystemUpdateTargetType, publishedPort int, containerPort int, revision int64) ([]byte, error)",
+      "alias": false
+    },
+    {
+      "name": "SystemUpdatePortDockerSnapshot",
+      "kind": "type",
+      "type": "SystemUpdatePortDockerSnapshot",
+      "alias": false,
+      "underlying": "struct{PublishedHostIP string \"json:\\\"published_host_ip\\\"\"; PublishedPort int \"json:\\\"published_port\\\"\"; ContainerPort int \"json:\\\"container_port\\\"\"; HealthPort int \"json:\\\"health_port\\\"\"; ComposePolicySHA256 string \"json:\\\"compose_policy_sha256\\\"\"; ComposeRevision int64 \"json:\\\"compose_revision\\\"\"; VersionEnvSHA256 string \"json:\\\"version_env_sha256\\\"\"; ImageID string \"json:\\\"image_id\\\"\"; RepositoryDigest string \"json:\\\"repository_digest\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortEndpoint",
+      "kind": "type",
+      "type": "SystemUpdatePortEndpoint",
+      "alias": false,
+      "underlying": "struct{Host string \"json:\\\"host\\\"\"; Port int \"json:\\\"port\\\"\"; SSLEnabled bool \"json:\\\"ssl_enabled\\\"\"; PublicURL string \"json:\\\"public_url\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortListenerConfig",
+      "kind": "func",
+      "type": "func(serviceType SystemUpdateTargetType, deployment SystemUpdateDeploymentMode, port int, revision int64) ([]byte, error)",
+      "alias": false
+    },
+    {
       "name": "SystemUpdatePortMapping",
       "kind": "type",
       "type": "SystemUpdatePortMapping",
@@ -3204,6 +3317,75 @@
       "value": "\"unavailable\""
     },
     {
+      "name": "SystemUpdatePortMode",
+      "kind": "type",
+      "type": "SystemUpdatePortMode",
+      "alias": false,
+      "underlying": "string"
+    },
+    {
+      "name": "SystemUpdatePortModeLocalAndAdvertised",
+      "kind": "const",
+      "type": "SystemUpdatePortMode",
+      "alias": false,
+      "value": "\"local_and_advertised\""
+    },
+    {
+      "name": "SystemUpdatePortModeLocalOnly",
+      "kind": "const",
+      "type": "SystemUpdatePortMode",
+      "alias": false,
+      "value": "\"local_only\""
+    },
+    {
+      "name": "SystemUpdatePortObservation",
+      "kind": "type",
+      "type": "SystemUpdatePortObservation",
+      "alias": false,
+      "underlying": "struct{PolicyDiskVerified bool \"json:\\\"policy_disk_verified\\\"\"; PolicyMemoryVerified bool \"json:\\\"policy_memory_verified\\\"\"; AgentProjectionVerified bool \"json:\\\"agent_projection_verified\\\"\"; ListenerVerified bool \"json:\\\"listener_verified\\\"\"; ObservedAt time.Time \"json:\\\"observed_at\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortPlanIsNoOp",
+      "kind": "func",
+      "type": "func(plan SystemUpdatePortReconfiguration) bool",
+      "alias": false
+    },
+    {
+      "name": "SystemUpdatePortPolicyBinding",
+      "kind": "type",
+      "type": "SystemUpdatePortPolicyBinding",
+      "alias": false,
+      "underlying": "struct{TargetID string \"json:\\\"target_id\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; BindingPolicyRevision int64 \"json:\\\"binding_policy_revision\\\"\"; DatabaseName *string \"json:\\\"database_name,omitempty\\\"\"; LocalListenPort *int \"json:\\\"local_listen_port,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortPolicySnapshot",
+      "kind": "type",
+      "type": "SystemUpdatePortPolicySnapshot",
+      "alias": false,
+      "underlying": "struct{Policy encoding/json.RawMessage \"json:\\\"policy\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch\\\"\"; CredentialReferences []string \"json:\\\"credential_references\\\"\"; Bindings []SystemUpdatePortPolicyBinding \"json:\\\"bindings\\\"\"; Targets []SystemUpdatePortPolicyTargetState \"json:\\\"targets\\\"\"; RootPolicy encoding/json.RawMessage \"json:\\\"root_policy\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortPolicySnapshotMaxBytes",
+      "kind": "const",
+      "type": "untyped int",
+      "alias": false,
+      "value": "1048576"
+    },
+    {
+      "name": "SystemUpdatePortPolicyTargetState",
+      "kind": "type",
+      "type": "SystemUpdatePortPolicyTargetState",
+      "alias": false,
+      "underlying": "struct{TargetID string \"json:\\\"target_id\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; ServiceType SystemUpdateTargetType \"json:\\\"service_type\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; DesiredEndpoint SystemUpdatePortEndpoint \"json:\\\"desired_endpoint\\\"\"; AppliedEndpoint SystemUpdatePortEndpoint \"json:\\\"applied_endpoint\\\"\"; EndpointRevision int64 \"json:\\\"endpoint_revision\\\"\"; AppliedEndpointRevision int64 \"json:\\\"applied_endpoint_revision\\\"\"; ConfigRevision int64 \"json:\\\"config_revision\\\"\"; ConfigSHA256 string \"json:\\\"config_sha256\\\"\"; LocalListenPort int \"json:\\\"local_listen_port\\\"\"; Docker *SystemUpdatePortDockerSnapshot \"json:\\\"docker,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortPolicyTransitionVersion",
+      "kind": "const",
+      "type": "untyped int",
+      "alias": false,
+      "value": "1"
+    },
+    {
       "name": "SystemUpdatePortProtocol",
       "kind": "type",
       "type": "SystemUpdatePortProtocol",
@@ -3222,7 +3404,7 @@
       "kind": "type",
       "type": "SystemUpdatePortReconfiguration",
       "alias": false,
-      "underlying": "struct{NetworkNamespace string \"json:\\\"network_namespace,omitempty\\\"\"; Protocol SystemUpdatePortProtocol \"json:\\\"protocol,omitempty\\\"\"; OldPort int \"json:\\\"old_port,omitempty\\\"\"; NewPort int \"json:\\\"new_port,omitempty\\\"\"; ExpectedEndpointRevision int64 \"json:\\\"expected_endpoint_revision,omitempty\\\"\"; TargetEndpointRevision int64 \"json:\\\"target_endpoint_revision,omitempty\\\"\"; ExpectedConfigRevision int64 \"json:\\\"expected_config_revision,omitempty\\\"\"; TargetConfigRevision int64 \"json:\\\"target_config_revision,omitempty\\\"\"; ExpectedConfigSHA256 string \"json:\\\"expected_config_sha256,omitempty\\\"\"; TargetConfigSHA256 string \"json:\\\"target_config_sha256,omitempty\\\"\"; ExpectedSourcePolicyRevision int64 \"json:\\\"expected_source_policy_revision,omitempty\\\"\"; ExpectedUpdaterPolicyRevision int64 \"json:\\\"expected_updater_policy_revision,omitempty\\\"\"; ExpectedExecutorPolicyRevision int64 \"json:\\\"expected_executor_policy_revision,omitempty\\\"\"; ExpectedExecutorPolicySHA256 string \"json:\\\"expected_executor_policy_sha256,omitempty\\\"\"; PortPlanSHA256 string \"json:\\\"port_plan_sha256,omitempty\\\"\"; Docker *SystemUpdateDockerPortReconfiguration \"json:\\\"docker,omitempty\\\"\"; Result SystemUpdatePortReconfigurationResult \"json:\\\"result,omitempty\\\"\"}"
+      "underlying": "struct{PortContractVersion int \"json:\\\"port_contract_version,omitempty\\\"\"; Mode SystemUpdatePortMode \"json:\\\"mode,omitempty\\\"\"; Before *SystemUpdatePortSnapshotRef \"json:\\\"before,omitempty\\\"\"; Target *SystemUpdatePortSnapshotRef \"json:\\\"target,omitempty\\\"\"; Rollback *SystemUpdatePortSnapshotRef \"json:\\\"rollback,omitempty\\\"\"; DockerBaseline *SystemUpdatePortDockerBaseline \"json:\\\"docker_baseline,omitempty\\\"\"; NetworkNamespace string \"json:\\\"network_namespace,omitempty\\\"\"; Protocol SystemUpdatePortProtocol \"json:\\\"protocol,omitempty\\\"\"; OldPort int \"json:\\\"old_port,omitempty\\\"\"; NewPort int \"json:\\\"new_port,omitempty\\\"\"; ExpectedEndpointRevision int64 \"json:\\\"expected_endpoint_revision,omitempty\\\"\"; TargetEndpointRevision int64 \"json:\\\"target_endpoint_revision,omitempty\\\"\"; ExpectedConfigRevision int64 \"json:\\\"expected_config_revision,omitempty\\\"\"; TargetConfigRevision int64 \"json:\\\"target_config_revision,omitempty\\\"\"; ExpectedConfigSHA256 string \"json:\\\"expected_config_sha256,omitempty\\\"\"; TargetConfigSHA256 string \"json:\\\"target_config_sha256,omitempty\\\"\"; ExpectedSourcePolicyRevision int64 \"json:\\\"expected_source_policy_revision,omitempty\\\"\"; ExpectedUpdaterPolicyRevision int64 \"json:\\\"expected_updater_policy_revision,omitempty\\\"\"; ExpectedExecutorPolicyRevision int64 \"json:\\\"expected_executor_policy_revision,omitempty\\\"\"; ExpectedExecutorPolicySHA256 string \"json:\\\"expected_executor_policy_sha256,omitempty\\\"\"; PortPlanSHA256 string \"json:\\\"port_plan_sha256,omitempty\\\"\"; Docker *SystemUpdateDockerPortReconfiguration \"json:\\\"docker,omitempty\\\"\"; Result SystemUpdatePortReconfigurationResult \"json:\\\"result,omitempty\\\"\"}"
     },
     {
       "name": "SystemUpdatePortReconfigurationApplied",
@@ -3258,6 +3440,27 @@
       "type": "SystemUpdatePortReconfigurationResult",
       "alias": false,
       "value": "\"unchanged\""
+    },
+    {
+      "name": "SystemUpdatePortResultV2",
+      "kind": "type",
+      "type": "SystemUpdatePortResultV2",
+      "alias": false,
+      "underlying": "struct{Result SystemUpdatePortReconfigurationResult \"json:\\\"result\\\"\"; ObservedSnapshotID string \"json:\\\"observed_snapshot_id,omitempty\\\"\"; ObservedSnapshotSHA256 string \"json:\\\"observed_snapshot_sha256,omitempty\\\"\"; ObservedConfigRevision int64 \"json:\\\"observed_config_revision,omitempty\\\"\"; ObservedConfigSHA256 string \"json:\\\"observed_config_sha256,omitempty\\\"\"; ObservedExecutorPolicyRevision int64 \"json:\\\"observed_executor_policy_revision,omitempty\\\"\"; ObservedExecutorPolicySHA256 string \"json:\\\"observed_executor_policy_sha256,omitempty\\\"\"; Observation SystemUpdatePortObservation \"json:\\\"observation\\\"\"; RuntimeInstance *SystemUpdatePortRuntimeInstance \"json:\\\"runtime_instance,omitempty\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortRuntimeInstance",
+      "kind": "type",
+      "type": "SystemUpdatePortRuntimeInstance",
+      "alias": false,
+      "underlying": "struct{ContainerID string \"json:\\\"container_id\\\"\"; ImageID string \"json:\\\"image_id\\\"\"; RepositoryDigest string \"json:\\\"repository_digest\\\"\"}"
+    },
+    {
+      "name": "SystemUpdatePortSnapshotRef",
+      "kind": "type",
+      "type": "SystemUpdatePortSnapshotRef",
+      "alias": false,
+      "underlying": "struct{SnapshotID string \"json:\\\"snapshot_id\\\"\"; SnapshotSHA256 string \"json:\\\"snapshot_sha256\\\"\"; SourcePolicyRevision int64 \"json:\\\"source_policy_revision\\\"\"; ProjectionRevision int64 \"json:\\\"projection_revision\\\"\"; ExecutorPolicyRevision int64 \"json:\\\"executor_policy_revision\\\"\"; ExecutorPolicySHA256 string \"json:\\\"executor_policy_sha256\\\"\"; EndpointRevision int64 \"json:\\\"endpoint_revision\\\"\"; AppliedEndpointRevision int64 \"json:\\\"applied_endpoint_revision\\\"\"; ConfigRevision int64 \"json:\\\"config_revision\\\"\"; ConfigSHA256 string \"json:\\\"config_sha256\\\"\"; AdvertisedPort int \"json:\\\"advertised_port\\\"\"; AdvertisedEndpointSHA256 string \"json:\\\"advertised_endpoint_sha256\\\"\"; LocalListenPort int \"json:\\\"local_listen_port\\\"\"; Docker *SystemUpdatePortDockerSnapshot \"json:\\\"docker,omitempty\\\"\"}"
     },
     {
       "name": "SystemUpdatePullOwnershipActivateRequest",
@@ -3376,7 +3579,7 @@
       "kind": "type",
       "type": "SystemUpdateTarget",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; TargetType SystemUpdateTargetType \"json:\\\"target_type\\\"\"; Name string \"json:\\\"name\\\"\"; HostID string \"json:\\\"host_id\\\"\"; CurrentVersion string \"json:\\\"current_version,omitempty\\\"\"; LatestVersion string \"json:\\\"latest_version,omitempty\\\"\"; UpdateAvailable bool \"json:\\\"update_available\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode,omitempty\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; UpdaterOnline bool \"json:\\\"updater_online\\\"\"; Capabilities []UpdaterCapability \"json:\\\"capabilities\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; UpdaterHealth *UpdaterHealth \"json:\\\"updater_health\\\"\"; ApplicationProbe *ApplicationRuntimeIdentityProbe \"json:\\\"application_probe\\\"\"; Eligible bool \"json:\\\"eligible\\\"\"; BlockedReason string \"json:\\\"blocked_reason,omitempty\\\"\"; EligibleOperations []SystemUpdateOperation \"json:\\\"eligible_operations,omitempty\\\"\"; OperationBlockedReasons map[string]string \"json:\\\"operation_blocked_reasons,omitempty\\\"\"; Busy bool \"json:\\\"busy\\\"\"; CurrentStreamID string \"json:\\\"current_stream_id,omitempty\\\"\"; UpdateCheckSource string \"json:\\\"update_check_source,omitempty\\\"\"; UpdateCheckError string \"json:\\\"update_check_error,omitempty\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"; PortMapping *SystemUpdatePortMapping \"json:\\\"port_mapping,omitempty\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; TargetID string \"json:\\\"target_id\\\"\"; TargetType SystemUpdateTargetType \"json:\\\"target_type\\\"\"; Name string \"json:\\\"name\\\"\"; HostID string \"json:\\\"host_id\\\"\"; CurrentVersion string \"json:\\\"current_version,omitempty\\\"\"; LatestVersion string \"json:\\\"latest_version,omitempty\\\"\"; UpdateAvailable bool \"json:\\\"update_available\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode,omitempty\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; UpdaterOnline bool \"json:\\\"updater_online\\\"\"; Capabilities []UpdaterCapability \"json:\\\"capabilities\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; UpdaterHealth *UpdaterHealth \"json:\\\"updater_health\\\"\"; ApplicationProbe *ApplicationRuntimeIdentityProbe \"json:\\\"application_probe\\\"\"; Eligible bool \"json:\\\"eligible\\\"\"; BlockedReason string \"json:\\\"blocked_reason,omitempty\\\"\"; EligibleOperations []SystemUpdateOperation \"json:\\\"eligible_operations,omitempty\\\"\"; OperationBlockedReasons map[string]string \"json:\\\"operation_blocked_reasons,omitempty\\\"\"; Busy bool \"json:\\\"busy\\\"\"; CurrentStreamID string \"json:\\\"current_stream_id,omitempty\\\"\"; UpdateCheckSource string \"json:\\\"update_check_source,omitempty\\\"\"; UpdateCheckError string \"json:\\\"update_check_error,omitempty\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"; PortMapping *SystemUpdatePortMapping \"json:\\\"port_mapping,omitempty\\\"\"; PortContractVersion int \"json:\\\"port_contract_version,omitempty\\\"\"; PortPolicySnapshotID string \"json:\\\"port_policy_snapshot_id,omitempty\\\"\"; LocalListenPort int \"json:\\\"local_listen_port,omitempty\\\"\"; EndpointRevision int64 \"json:\\\"endpoint_revision,omitempty\\\"\"; AppliedEndpointRevision int64 \"json:\\\"applied_endpoint_revision,omitempty\\\"\"; AppliedConfigRevision int64 \"json:\\\"applied_config_revision,omitempty\\\"\"; OwnershipEpoch int64 \"json:\\\"ownership_epoch,omitempty\\\"\"; PortModes []SystemUpdatePortMode \"json:\\\"port_modes,omitempty\\\"\"}"
     },
     {
       "name": "SystemUpdateTargetControlPanel",
@@ -3656,7 +3859,7 @@
       "kind": "type",
       "type": "UpdaterHeartbeat",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; Authentication string \"json:\\\"authentication\\\"\"; Sequence int64 \"json:\\\"sequence\\\"\"; Capabilities []UpdaterCapability \"json:\\\"capabilities\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Status string \"json:\\\"status\\\"\"; ObservedAt time.Time \"json:\\\"observed_at\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; Authentication string \"json:\\\"authentication\\\"\"; Sequence int64 \"json:\\\"sequence\\\"\"; Capabilities []UpdaterCapability \"json:\\\"capabilities\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Status string \"json:\\\"status\\\"\"; ObservedAt time.Time \"json:\\\"observed_at\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"; PortContractVersion int \"json:\\\"port_contract_version,omitempty\\\"\"; PolicyTransitionVersion int \"json:\\\"policy_transition_version,omitempty\\\"\"; PortPolicyBaseline *UpdaterPortPolicyBaseline \"json:\\\"port_policy_baseline,omitempty\\\"\"}"
     },
     {
       "name": "UpdaterLeaseEnvelope",
@@ -3792,6 +3995,13 @@
       "value": "\"ambiguous\""
     },
     {
+      "name": "UpdaterOutcomeCanceled",
+      "kind": "const",
+      "type": "UpdaterOutcome",
+      "alias": false,
+      "value": "\"canceled\""
+    },
+    {
       "name": "UpdaterOutcomeFailed",
       "kind": "const",
       "type": "UpdaterOutcome",
@@ -3813,6 +4023,27 @@
       "value": "\"succeeded\""
     },
     {
+      "name": "UpdaterPortDockerRootBaseline",
+      "kind": "type",
+      "type": "UpdaterPortDockerRootBaseline",
+      "alias": false,
+      "underlying": "struct{ComposeConfigSHA256 string \"json:\\\"compose_config_sha256\\\"\"; CurrentVersion string \"json:\\\"current_version,omitempty\\\"\"}"
+    },
+    {
+      "name": "UpdaterPortPolicyBaseline",
+      "kind": "type",
+      "type": "UpdaterPortPolicyBaseline",
+      "alias": false,
+      "underlying": "struct{PortContractVersion int \"json:\\\"port_contract_version\\\"\"; PolicyTransitionVersion int \"json:\\\"policy_transition_version\\\"\"; AgentUID uint32 \"json:\\\"agent_uid\\\"\"; AgentGID uint32 \"json:\\\"agent_gid\\\"\"; SourcePolicyRevision int64 \"json:\\\"source_policy_revision\\\"\"; ProjectionRevision int64 \"json:\\\"projection_revision\\\"\"; ExecutorPolicyRevision int64 \"json:\\\"executor_policy_revision\\\"\"; ExecutorPolicySHA256 string \"json:\\\"executor_policy_sha256\\\"\"; Targets []UpdaterPortPolicyBaselineTarget \"json:\\\"targets\\\"\"; ObservedAt time.Time \"json:\\\"observed_at\\\"\"}"
+    },
+    {
+      "name": "UpdaterPortPolicyBaselineTarget",
+      "kind": "type",
+      "type": "UpdaterPortPolicyBaselineTarget",
+      "alias": false,
+      "underlying": "struct{ServiceID string \"json:\\\"service_id\\\"\"; ServiceType SystemUpdateTargetType \"json:\\\"service_type\\\"\"; DeploymentMode SystemUpdateDeploymentMode \"json:\\\"deployment_mode\\\"\"; EndpointRevision int64 \"json:\\\"endpoint_revision\\\"\"; ConfigRevision int64 \"json:\\\"config_revision\\\"\"; ConfigSHA256 string \"json:\\\"config_sha256\\\"\"; LocalListenPort int \"json:\\\"local_listen_port\\\"\"; Docker *SystemUpdatePortDockerSnapshot \"json:\\\"docker,omitempty\\\"\"; DockerRoot *UpdaterPortDockerRootBaseline \"json:\\\"docker_root,omitempty\\\"\"}"
+    },
+    {
       "name": "UpdaterProgressEnvelope",
       "kind": "type",
       "type": "UpdaterProgressEnvelope",
@@ -3824,7 +4055,7 @@
       "kind": "type",
       "type": "UpdaterResultEnvelope",
       "alias": false,
-      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; JobID string \"json:\\\"job_id\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; LeaseID string \"json:\\\"lease_id\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; AuthorizationID string \"json:\\\"authorization_id\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision,omitempty\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Outcome UpdaterOutcome \"json:\\\"outcome\\\"\"; Status SystemUpdateStatus \"json:\\\"status\\\"\"; AutomaticResendAllowed bool \"json:\\\"automatic_resend_allowed\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id\\\"\"; Evidence []UpdaterEvidence \"json:\\\"evidence\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"}"
+      "underlying": "struct{ProtocolVersion int \"json:\\\"protocol_version\\\"\"; CommandID string \"json:\\\"command_id\\\"\"; JobID string \"json:\\\"job_id\\\"\"; UpdaterID string \"json:\\\"updater_id\\\"\"; HostID string \"json:\\\"host_id\\\"\"; LeaseID string \"json:\\\"lease_id\\\"\"; LeaseGeneration int64 \"json:\\\"lease_generation\\\"\"; IdempotencyKey string \"json:\\\"idempotency_key\\\"\"; CanonicalPayloadDigest string \"json:\\\"canonical_payload_digest\\\"\"; AuthorizationID string \"json:\\\"authorization_id\\\"\"; DesiredRevision int64 \"json:\\\"desired_revision\\\"\"; AppliedRevision int64 \"json:\\\"applied_revision,omitempty\\\"\"; Fence int64 \"json:\\\"fence\\\"\"; Outcome UpdaterOutcome \"json:\\\"outcome\\\"\"; Status SystemUpdateStatus \"json:\\\"status\\\"\"; AutomaticResendAllowed bool \"json:\\\"automatic_resend_allowed\\\"\"; AuditCorrelationID string \"json:\\\"audit_correlation_id\\\"\"; Evidence []UpdaterEvidence \"json:\\\"evidence\\\"\"; SafeError *V2UpdaterSafeError \"json:\\\"safe_error,omitempty\\\"\"; PortReconfigure *SystemUpdatePortResultV2 \"json:\\\"port_reconfigure,omitempty\\\"\"}"
     },
     {
       "name": "UpdaterRuntimeTokenRotationCredentialClaimRequest",
@@ -3901,6 +4132,48 @@
       "alias": false
     },
     {
+      "name": "ValidateSystemUpdatePortCreate",
+      "kind": "func",
+      "type": "func(request SystemUpdatePortCreateRequestV2) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateSystemUpdatePortCreateRequest",
+      "kind": "func",
+      "type": "func(payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateSystemUpdatePortPlan",
+      "kind": "func",
+      "type": "func(plan SystemUpdatePortReconfiguration) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateSystemUpdatePortPlanJSON",
+      "kind": "func",
+      "type": "func(payload []byte) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateSystemUpdatePortPolicySnapshot",
+      "kind": "func",
+      "type": "func(snapshot SystemUpdatePortPolicySnapshot) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateSystemUpdatePortResult",
+      "kind": "func",
+      "type": "func(plan SystemUpdatePortReconfiguration, result SystemUpdatePortResultV2) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateSystemUpdatePortResultJSON",
+      "kind": "func",
+      "type": "func(plan SystemUpdatePortReconfiguration, payload []byte) error",
+      "alias": false
+    },
+    {
       "name": "ValidateUpdateAgentClearActiveJobResponse",
       "kind": "func",
       "type": "func(payload []byte) error",
@@ -3958,6 +4231,18 @@
       "name": "ValidateUpdaterMutationGrantIssueResponseForLease",
       "kind": "func",
       "type": "func(now time.Time, lease UpdaterLeaseEnvelope, response UpdaterMutationGrantIssueResponse) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterPortPolicyBaseline",
+      "kind": "func",
+      "type": "func(baseline UpdaterPortPolicyBaseline) error",
+      "alias": false
+    },
+    {
+      "name": "ValidateUpdaterPortPolicyBaselineJSON",
+      "kind": "func",
+      "type": "func(payload []byte) error",
       "alias": false
     },
     {

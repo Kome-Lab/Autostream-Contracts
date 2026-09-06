@@ -79,7 +79,7 @@ func dockerPortReconfigurationJobJSON() string {
 func TestDockerPortCreateRequestIsDisjointFromSystemdPortRequest(t *testing.T) {
 	schema := compileContractJSONSchema(t, "system-update-create-request.schema.json")
 
-	dockerRequest := `{` + portContractV2CreateFields + `
+	dockerRequest := `{` + strings.Replace(portContractV2CreateFields, `"mode":"local_only"`, `"mode":"local_and_advertised"`, 1) + `
 		"operation":"port_reconfigure",
 		"target_id":"worker-a",
 		"new_advertised_port":18080,
@@ -221,6 +221,9 @@ func TestSystemUpdateTargetDockerPortMappingIsAllowlisted(t *testing.T) {
 func TestDockerPortGoTypesAndOpenAPIAreAdditive(t *testing.T) {
 	body, err := json.Marshal(SystemUpdateCreateRequest{
 		ProtocolVersion: 2, DesiredRevision: 12, Fence: 3, RequiredCapability: UpdaterCapabilityPort,
+		PortContractVersion:      2,
+		Mode:                     SystemUpdatePortModeLocalAndAdvertised,
+		ExpectedSnapshotID:       "ps1:" + strings.Repeat("a", 64),
 		Operation:                SystemUpdateOperationPortReconfigure,
 		TargetID:                 "worker-a",
 		NewAdvertisedPort:        18080,

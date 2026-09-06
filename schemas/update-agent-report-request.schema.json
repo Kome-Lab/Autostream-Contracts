@@ -3,74 +3,182 @@
   "title": "Update Agent Report Request",
   "type": "object",
   "additionalProperties": false,
-  "required": ["updater_id", "host_id", "lease_token", "lease_generation", "fence", "sequence", "status"],
+  "required": [
+    "updater_id",
+    "host_id",
+    "lease_token",
+    "lease_generation",
+    "fence",
+    "sequence",
+    "status"
+  ],
   "allOf": [
     {
-      "if": { "required": ["port_reconfigure"] },
+      "if": {
+        "required": [
+          "port_reconfigure"
+        ]
+      },
       "then": {
         "oneOf": [
           {
             "properties": {
-              "status": { "const": "succeeded" },
+              "status": {
+                "const": "succeeded"
+              },
               "port_reconfigure": {
                 "properties": {
-                  "result": { "enum": ["applied", "unchanged"] }
+                  "result": {
+                    "enum": [
+                      "applied",
+                      "unchanged"
+                    ]
+                  }
                 }
               }
             }
           },
           {
             "properties": {
-              "status": { "const": "rolled_back" },
+              "status": {
+                "const": "rolled_back"
+              },
               "port_reconfigure": {
                 "properties": {
-                  "result": { "const": "rolled_back" }
+                  "result": {
+                    "const": "rolled_back"
+                  }
                 }
               }
             }
           },
           {
             "properties": {
-              "status": { "const": "failed" },
+              "status": {
+                "const": "failed"
+              },
               "port_reconfigure": {
                 "properties": {
-                  "result": { "const": "rollback_failed" }
+                  "result": {
+                    "const": "rollback_failed"
+                  }
                 }
               }
             }
           }
         ]
       }
+    },
+    {
+      "if": {
+        "required": [
+          "port_contract_version"
+        ]
+      },
+      "then": {
+        "properties": {
+          "port_reconfigure": {
+            "$ref": "system-update-port-v2.schema.json#/$defs/result"
+          }
+        }
+      }
     }
   ],
   "properties": {
-    "updater_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
-    "host_id": { "type": "string", "minLength": 1, "maxLength": 191, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$" },
-    "lease_token": { "type": "string", "minLength": 32, "writeOnly": true },
-    "lease_generation": { "type": "integer", "minimum": 1 },
-    "fence": { "type": "integer", "minimum": 1 },
-    "sequence": { "type": "integer", "minimum": 1 },
+    "updater_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "host_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
+    },
+    "lease_token": {
+      "type": "string",
+      "minLength": 32,
+      "writeOnly": true
+    },
+    "lease_generation": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "fence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
     "status": {
       "enum": [
-        "claimed", "downloading", "verifying", "staging", "stopping", "installing",
-        "starting", "health_checking", "rolling_back", "reconciling", "succeeded",
-        "rolled_back", "failed"
+        "claimed",
+        "downloading",
+        "verifying",
+        "staging",
+        "stopping",
+        "installing",
+        "starting",
+        "health_checking",
+        "rolling_back",
+        "reconciling",
+        "succeeded",
+        "rolled_back",
+        "failed"
       ]
     },
-    "progress": { "type": "integer", "minimum": 0, "maximum": 100 },
-    "code": { "type": "string", "maxLength": 128, "pattern": "^[a-z0-9_.-]+$" },
-    "message": { "type": "string", "maxLength": 500 },
-    "artifact_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "previous_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "progress": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "code": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "message": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "artifact_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "previous_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
     "port_reconfigure": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["result"],
-      "properties": {
-        "result": {
-          "enum": ["applied", "rolled_back", "unchanged", "rollback_failed"]
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "result"
+          ],
+          "properties": {
+            "result": {
+              "enum": [
+                "applied",
+                "rolled_back",
+                "unchanged",
+                "rollback_failed"
+              ]
+            }
+          }
+        },
+        {
+          "$ref": "system-update-port-v2.schema.json#/$defs/result"
         }
-      }
+      ]
+    },
+    "port_contract_version": {
+      "const": 2
     }
   }
 }

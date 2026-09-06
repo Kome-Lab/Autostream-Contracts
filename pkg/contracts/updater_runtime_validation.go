@@ -37,6 +37,7 @@ const (
 	updaterSystemUpdateSchemaName           = "system-update-job.schema.json"
 	updaterSelfUpdateSchemaName             = "host-agent-self-update-directive.schema.json"
 	updaterReleaseBindingSchemaName         = "host-self-update-release-binding.schema.json"
+	updaterPortV2SchemaName                 = "system-update-port-v2.schema.json"
 	updaterSchemaCanonicalBase              = "https://schemas.autostream.example.com/"
 	updaterMaxJCSSafeInteger        float64 = 9007199254740991
 )
@@ -220,6 +221,10 @@ func ValidateUpdaterCommand(command UpdaterCommandEnvelope) error {
 		!validUpdaterPortTargetBinding(authorization.Target, command.DesiredOperation.PortReconfigure) {
 		return errUpdaterCommandInvalid
 	}
+	if plan := command.DesiredOperation.PortReconfigure; plan != nil && plan.PortContractVersion == 2 &&
+		(authorization.DesiredRevision != plan.Target.ConfigRevision || authorization.Target.ExpectedConfigRevision != plan.Before.ConfigRevision) {
+		return errUpdaterCommandInvalid
+	}
 	digest, err := ComputeUpdaterCommandCanonicalDigest(
 		authorization.Target,
 		authorization.DesiredRevision,
@@ -285,6 +290,9 @@ func ValidateUpdaterResult(lease UpdaterLeaseEnvelope, result UpdaterResultEnvel
 		(result.SafeError != nil && !validUpdaterSafeError(result.SafeError, result.AuditCorrelationID)) {
 		return errUpdaterResultInvalid
 	}
+	if !validateUpdaterPortResultBinding(lease, result) {
+		return errUpdaterResultInvalid
+	}
 
 	switch result.Outcome {
 	case UpdaterOutcomeSucceeded:
@@ -312,6 +320,11 @@ func ValidateUpdaterResult(lease UpdaterLeaseEnvelope, result UpdaterResultEnvel
 		if result.Status != SystemUpdateReconciling || !validUpdaterSafeError(result.SafeError, result.AuditCorrelationID) ||
 			result.SafeError.Code != "outcome_ambiguous" ||
 			!hasUpdaterEvidence(result.Evidence, "outcome_ambiguous") {
+			return errUpdaterResultInvalid
+		}
+	case UpdaterOutcomeCanceled:
+		plan := lease.Command.DesiredOperation.PortReconfigure
+		if plan == nil || plan.PortContractVersion != 2 || result.Status != SystemUpdateCanceled || result.PortReconfigure != nil || result.AppliedRevision != 0 {
 			return errUpdaterResultInvalid
 		}
 	default:
@@ -402,6 +415,12 @@ func validateUpdaterDesiredOperation(desired UpdaterDesiredOperation) error {
 	}
 	if desired.Operation == UpdaterDesiredPortReconfigure && desired.PortReconfigure != nil {
 		plan := desired.PortReconfigure
+		if plan.PortContractVersion == 2 {
+			return ValidateSystemUpdatePortPlan(*plan)
+		}
+		if plan.PortContractVersion != 0 || plan.Mode != "" || plan.Before != nil || plan.Target != nil || plan.Rollback != nil || plan.DockerBaseline != nil {
+			return errUpdaterCommandInvalid
+		}
 		if plan.Result != "" || plan.OldPort == plan.NewPort {
 			return errUpdaterCommandInvalid
 		}
@@ -448,6 +467,11 @@ func validUpdaterDeploymentMode(mode SystemUpdateDeploymentMode) bool {
 func validUpdaterPortTargetBinding(target UpdaterTargetIdentity, plan *SystemUpdatePortReconfiguration) bool {
 	if plan == nil || !validUpdaterPortPlanDigest(*plan) {
 		return false
+	}
+	if plan.PortContractVersion == 2 {
+		return target.ServiceType != SystemUpdateTargetControlPanel && target.ServiceType != SystemUpdateTargetUpdateAgent &&
+			ValidateSystemUpdatePortPlan(*plan) == nil &&
+			(target.DeploymentMode == SystemUpdateDeploymentDocker) == (plan.DockerBaseline != nil)
 	}
 	switch target.DeploymentMode {
 	case SystemUpdateDeploymentSystemd:
@@ -658,6 +682,12 @@ func validateUpdaterResultDocument(document any) bool {
 			return false
 		}
 	}
+	if port, present := result["port_reconfigure"]; present {
+		object, ok := port.(map[string]any)
+		if !ok || !validateSystemUpdatePortResultDocument(object) {
+			return false
+		}
+	}
 	evidence, ok := result["evidence"].([]any)
 	if !ok || len(evidence) < 1 || len(evidence) > 32 {
 		return false
@@ -708,6 +738,7 @@ func loadUpdaterDesiredCanonicalSchema() (*jsonschema.Schema, error) {
 			updaterSystemUpdateSchemaName,
 			updaterSelfUpdateSchemaName,
 			updaterReleaseBindingSchemaName,
+			updaterPortV2SchemaName,
 		} {
 			body, err := contractschemas.RuntimeValidationFS.ReadFile(name)
 			if err != nil {

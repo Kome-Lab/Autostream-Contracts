@@ -11,83 +11,114 @@
       "additionalProperties": false,
       "required": [
         "published_host_ip",
-        "old_published_port", "new_published_port",
-        "old_container_port", "new_container_port",
-        "old_health_port", "new_health_port",
-        "approved_compose_config_sha256", "approved_compose_revision",
-        "expected_version_env_sha256", "expected_container_id",
-        "expected_image_id", "expected_repository_digest"
+        "old_published_port",
+        "new_published_port",
+        "old_container_port",
+        "new_container_port",
+        "old_health_port",
+        "new_health_port",
+        "approved_compose_config_sha256",
+        "approved_compose_revision",
+        "expected_version_env_sha256",
+        "expected_container_id",
+        "expected_image_id",
+        "expected_repository_digest"
       ],
       "properties": {
-        "published_host_ip": { "const": "127.0.0.1" },
-        "old_published_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
-        "new_published_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
-        "old_container_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
-        "new_container_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
-        "old_health_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
-        "new_health_port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
-        "approved_compose_config_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-        "approved_compose_revision": { "type": "integer", "minimum": 1 },
-        "expected_version_env_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-        "expected_container_id": { "type": "string", "pattern": "^[a-f0-9]{12,64}$" },
-        "expected_image_id": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-        "expected_repository_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+        "published_host_ip": {
+          "const": "127.0.0.1"
+        },
+        "old_published_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "new_published_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "old_container_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "new_container_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "old_health_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "new_health_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "approved_compose_config_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "approved_compose_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expected_version_env_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "expected_container_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{12,64}$"
+        },
+        "expected_image_id": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "expected_repository_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
       },
       "description": "Immutable Docker runtime binding. The server additionally requires old_health_port to equal old_published_port, new_health_port to equal new_published_port, and at least one of advertised, published, or container port to change."
     },
     "portReconfigurationPlan": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "network_namespace", "protocol", "old_port", "new_port",
-        "expected_endpoint_revision", "target_endpoint_revision",
-        "expected_config_revision", "target_config_revision",
-        "expected_config_sha256", "target_config_sha256",
-        "expected_source_policy_revision", "expected_updater_policy_revision",
-        "expected_executor_policy_revision", "expected_executor_policy_sha256",
-        "port_plan_sha256"
-      ],
-      "properties": {
-        "network_namespace": { "const": "host" },
-        "protocol": { "const": "tcp" },
-        "old_port": { "type": "integer", "minimum": 1, "maximum": 65535 },
-        "new_port": { "type": "integer", "minimum": 1, "maximum": 65535 },
-        "expected_endpoint_revision": { "type": "integer", "minimum": 1 },
-        "target_endpoint_revision": { "type": "integer", "minimum": 1 },
-        "expected_config_revision": { "type": "integer", "minimum": 1 },
-        "target_config_revision": { "type": "integer", "minimum": 1 },
-        "expected_config_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-        "target_config_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-        "expected_source_policy_revision": { "type": "integer", "minimum": 1 },
-        "expected_updater_policy_revision": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence."
+      "oneOf": [
+        {
+          "$ref": "#/$defs/legacyPortReconfigurationPlan"
         },
-        "expected_executor_policy_revision": { "type": "integer", "minimum": 1 },
-        "expected_executor_policy_sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-        "port_plan_sha256": {
-          "type": "string",
-          "pattern": "^[a-f0-9]{64}$",
-          "description": "Stable server-derived port intent digest in a job or claim."
-        },
-        "docker": { "$ref": "#/$defs/dockerPortReconfiguration" },
-        "result": {
-          "enum": ["applied", "rolled_back", "unchanged", "rollback_failed"]
+        {
+          "$ref": "system-update-port-v2.schema.json#/$defs/plan"
         }
-      }
+      ]
     },
     "systemUpdateJobSafeError": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["code", "message", "retryable"],
+      "required": [
+        "code",
+        "message",
+        "retryable"
+      ],
       "properties": {
         "code": {
           "enum": [
-            "protocol_version_unsupported", "issuer_authentication_failed", "updater_identity_mismatch",
-            "authorization_expired", "authorization_replayed", "idempotency_payload_conflict",
-            "capability_missing", "revision_conflict", "stale_fence", "command_expired",
-            "outcome_ambiguous", "local_journal_unavailable", "execution_failed"
+            "protocol_version_unsupported",
+            "issuer_authentication_failed",
+            "updater_identity_mismatch",
+            "authorization_expired",
+            "authorization_replayed",
+            "idempotency_payload_conflict",
+            "capability_missing",
+            "revision_conflict",
+            "stale_fence",
+            "command_expired",
+            "outcome_ambiguous",
+            "local_journal_unavailable",
+            "execution_failed"
           ]
         },
         "message": {
@@ -96,7 +127,9 @@
           "maxLength": 240,
           "pattern": "^[^\\r\\n\\t]*$"
         },
-        "retryable": { "type": "boolean" },
+        "retryable": {
+          "type": "boolean"
+        },
         "audit_correlation_id": {
           "type": "string",
           "minLength": 1,
@@ -104,101 +137,281 @@
           "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
         }
       }
+    },
+    "legacyPortReconfigurationPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_namespace",
+        "protocol",
+        "old_port",
+        "new_port",
+        "expected_endpoint_revision",
+        "target_endpoint_revision",
+        "expected_config_revision",
+        "target_config_revision",
+        "expected_config_sha256",
+        "target_config_sha256",
+        "expected_source_policy_revision",
+        "expected_updater_policy_revision",
+        "expected_executor_policy_revision",
+        "expected_executor_policy_sha256",
+        "port_plan_sha256"
+      ],
+      "properties": {
+        "network_namespace": {
+          "const": "host"
+        },
+        "protocol": {
+          "const": "tcp"
+        },
+        "old_port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "new_port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "expected_endpoint_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "target_endpoint_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expected_config_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "target_config_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expected_config_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "target_config_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "expected_source_policy_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expected_updater_policy_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Host Agent projection revision used as the ownership, job, and mutation-grant fence."
+        },
+        "expected_executor_policy_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expected_executor_policy_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "port_plan_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Stable server-derived port intent digest in a job or claim."
+        },
+        "docker": {
+          "$ref": "#/$defs/dockerPortReconfiguration"
+        },
+        "result": {
+          "enum": [
+            "applied",
+            "rolled_back",
+            "unchanged",
+            "rollback_failed"
+          ]
+        }
+      }
     }
   },
   "allOf": [
     {
       "if": {
-        "required": ["operation"],
+        "required": [
+          "operation"
+        ],
         "properties": {
-          "operation": { "const": "port_reconfigure" }
+          "operation": {
+            "const": "port_reconfigure"
+          }
         }
       },
       "then": {
         "required": [
-          "port_reconfigure", "transport_mode", "ownership_epoch", "policy_revision"
+          "port_reconfigure",
+          "transport_mode",
+          "ownership_epoch",
+          "policy_revision"
         ],
         "properties": {
           "target_type": {
-            "enum": ["discord_bot", "encoder_recorder", "observability", "worker"]
+            "enum": [
+              "discord_bot",
+              "encoder_recorder",
+              "observability",
+              "worker"
+            ]
           },
-          "transport_mode": { "const": "pull_v2" },
-          "policy_revision": { "minimum": 1 }
+          "transport_mode": {
+            "const": "pull_v2"
+          },
+          "policy_revision": {
+            "minimum": 1
+          }
         },
         "oneOf": [
           {
             "properties": {
-              "deployment_mode": { "const": "systemd" },
+              "deployment_mode": {
+                "const": "systemd"
+              },
               "port_reconfigure": {
-                "not": { "required": ["docker"] },
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "docker"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "docker_baseline"
+                      ]
+                    }
+                  ]
+                },
                 "properties": {
-                  "old_port": { "minimum": 1024 },
-                  "new_port": { "minimum": 1024 }
+                  "old_port": {
+                    "minimum": 1024
+                  },
+                  "new_port": {
+                    "minimum": 1024
+                  }
                 }
               }
             }
           },
           {
             "properties": {
-              "deployment_mode": { "const": "docker" },
-              "port_reconfigure": { "required": ["docker"] }
+              "deployment_mode": {
+                "const": "docker"
+              },
+              "port_reconfigure": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "docker"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "docker_baseline"
+                    ]
+                  }
+                ]
+              }
             }
           }
         ]
       },
       "else": {
-        "not": { "required": ["port_reconfigure"] }
+        "not": {
+          "required": [
+            "port_reconfigure"
+          ]
+        }
       }
     },
     {
       "if": {
-        "required": ["transport_mode"],
+        "required": [
+          "transport_mode"
+        ],
         "properties": {
-          "transport_mode": { "const": "pull_v2" }
+          "transport_mode": {
+            "const": "pull_v2"
+          }
         }
       },
       "then": {
-        "required": ["ownership_epoch", "policy_revision"],
+        "required": [
+          "ownership_epoch",
+          "policy_revision"
+        ],
         "properties": {
-          "policy_revision": { "minimum": 1 }
+          "policy_revision": {
+            "minimum": 1
+          }
         }
       }
     },
     {
       "if": {
-        "required": ["port_reconfigure"],
+        "required": [
+          "port_reconfigure"
+        ],
         "properties": {
-          "port_reconfigure": { "required": ["result"] }
+          "port_reconfigure": {
+            "required": [
+              "result"
+            ]
+          }
         }
       },
       "then": {
         "oneOf": [
           {
             "properties": {
-              "status": { "const": "succeeded" },
+              "status": {
+                "const": "succeeded"
+              },
               "port_reconfigure": {
                 "properties": {
-                  "result": { "enum": ["applied", "unchanged"] }
+                  "result": {
+                    "enum": [
+                      "applied",
+                      "unchanged"
+                    ]
+                  }
                 }
               }
             }
           },
           {
             "properties": {
-              "status": { "const": "rolled_back" },
+              "status": {
+                "const": "rolled_back"
+              },
               "port_reconfigure": {
                 "properties": {
-                  "result": { "const": "rolled_back" }
+                  "result": {
+                    "const": "rolled_back"
+                  }
                 }
               }
             }
           },
           {
             "properties": {
-              "status": { "const": "failed" },
+              "status": {
+                "const": "failed"
+              },
               "port_reconfigure": {
                 "properties": {
-                  "result": { "const": "rollback_failed" }
+                  "result": {
+                    "const": "rollback_failed"
+                  }
                 }
               }
             }
@@ -208,93 +421,370 @@
     },
     {
       "oneOf": [
-          {
-            "required": ["operation"],
-            "properties": {
-              "operation": { "const": "port_reconfigure" },
-              "required_capability": { "const": "host.port" }
+        {
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "port_reconfigure"
+            },
+            "required_capability": {
+              "const": "host.port"
             }
-          },
-          {
-            "required": ["operation"],
-            "properties": {
-              "operation": { "const": "software_update" },
-              "required_capability": { "const": "host.update" }
-            }
-          },
-          {
-            "not": { "required": ["operation"] },
-            "properties": { "required_capability": { "const": "host.update" } }
           }
+        },
+        {
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "software_update"
+            },
+            "required_capability": {
+              "const": "host.update"
+            }
+          }
+        },
+        {
+          "not": {
+            "required": [
+              "operation"
+            ]
+          },
+          "properties": {
+            "required_capability": {
+              "const": "host.update"
+            }
+          }
+        }
       ],
       "not": {
-          "anyOf": [
-            { "required": ["code"] },
-            { "required": ["message"] }
-          ]
+        "anyOf": [
+          {
+            "required": [
+              "code"
+            ]
+          },
+          {
+            "required": [
+              "message"
+            ]
+          }
+        ]
       }
     },
     {
       "oneOf": [
-          {
+        {
+          "properties": {
+            "outcome": {
+              "const": "pending"
+            },
+            "status": {
+              "enum": [
+                "queued",
+                "claimed",
+                "downloading",
+                "verifying",
+                "staging",
+                "stopping",
+                "installing",
+                "starting",
+                "health_checking",
+                "rolling_back"
+              ]
+            }
+          },
+          "not": {
+            "required": [
+              "safe_error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "outcome": {
+              "const": "succeeded"
+            },
+            "status": {
+              "const": "succeeded"
+            }
+          },
+          "not": {
+            "required": [
+              "safe_error"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "outcome": {
+              "const": "rolled_back"
+            },
+            "status": {
+              "const": "rolled_back"
+            }
+          }
+        },
+        {
+          "properties": {
+            "outcome": {
+              "const": "canceled"
+            },
+            "status": {
+              "const": "canceled"
+            }
+          }
+        },
+        {
+          "properties": {
+            "outcome": {
+              "const": "failed"
+            },
+            "status": {
+              "const": "failed"
+            }
+          },
+          "required": [
+            "safe_error"
+          ]
+        },
+        {
+          "properties": {
+            "outcome": {
+              "const": "ambiguous"
+            },
+            "status": {
+              "const": "reconciling"
+            },
+            "safe_error": {
+              "required": [
+                "code"
+              ],
+              "properties": {
+                "code": {
+                  "const": "outcome_ambiguous"
+                }
+              }
+            }
+          },
+          "required": [
+            "safe_error"
+          ]
+        }
+      ]
+    },
+    {
+      "if": {
+        "required": [
+          "port_reconfigure"
+        ],
+        "properties": {
+          "port_reconfigure": {
+            "required": [
+              "port_contract_version"
+            ],
             "properties": {
-              "outcome": { "const": "pending" },
-              "status": {
-                "enum": [
-                  "queued", "claimed", "downloading", "verifying", "staging", "stopping",
-                  "installing", "starting", "health_checking", "rolling_back"
+              "port_contract_version": {
+                "const": 2
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "succeeded",
+                    "rolled_back"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "port_result"
+              ],
+              "properties": {
+                "recovery_required": {
+                  "const": false
+                }
+              },
+              "not": {
+                "required": [
+                  "last_recovery_observation"
                 ]
               }
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "port_result"
+              ]
             },
-            "not": { "required": ["safe_error"] }
+            "then": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "status": {
+                      "const": "succeeded"
+                    },
+                    "port_result": {
+                      "properties": {
+                        "result": {
+                          "enum": [
+                            "applied",
+                            "unchanged"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "status": {
+                      "const": "rolled_back"
+                    },
+                    "port_result": {
+                      "properties": {
+                        "result": {
+                          "const": "rolled_back"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
           },
           {
-            "properties": { "outcome": { "const": "succeeded" }, "status": { "const": "succeeded" } },
-            "not": { "required": ["safe_error"] }
-          },
-          {
-            "properties": { "outcome": { "const": "rolled_back" }, "status": { "const": "rolled_back" } }
-          },
-          {
-            "properties": { "outcome": { "const": "canceled" }, "status": { "const": "canceled" } }
-          },
-          {
-            "properties": { "outcome": { "const": "failed" }, "status": { "const": "failed" } },
-            "required": ["safe_error"]
-          },
-          {
-            "properties": {
-              "outcome": { "const": "ambiguous" },
-              "status": { "const": "reconciling" },
-              "safe_error": {
-                "required": ["code"],
-                "properties": { "code": { "const": "outcome_ambiguous" } }
+            "if": {
+              "required": [
+                "last_recovery_observation"
+              ]
+            },
+            "then": {
+              "required": [
+                "recovery_required"
+              ],
+              "properties": {
+                "recovery_required": {
+                  "const": true
+                },
+                "status": {
+                  "enum": [
+                    "failed",
+                    "reconciling",
+                    "rolling_back"
+                  ]
+                }
+              },
+              "not": {
+                "required": [
+                  "port_result"
+                ]
               }
-            },
-            "required": ["safe_error"]
+            }
           }
-      ]
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "port_result"
+              ]
+            },
+            {
+              "required": [
+                "recovery_required"
+              ]
+            },
+            {
+              "required": [
+                "last_recovery_observation"
+              ]
+            },
+            {
+              "required": [
+                "port_contract_version"
+              ]
+            }
+          ]
+        }
+      }
     }
   ],
   "required": [
-    "protocol_version", "transport_mode", "updater_id", "desired_revision",
-    "fence", "outcome", "required_capability", "authorization_id",
-    "canonical_payload_digest", "automatic_resend_allowed",
-    "id", "target_id", "target_type", "host_id", "deployment_mode", "current_version", "target_version",
-    "strategy", "status", "idempotency_key",
-    "lease_generation", "sequence", "progress", "created_at", "updated_at"
+    "protocol_version",
+    "transport_mode",
+    "updater_id",
+    "desired_revision",
+    "fence",
+    "outcome",
+    "required_capability",
+    "authorization_id",
+    "canonical_payload_digest",
+    "automatic_resend_allowed",
+    "id",
+    "target_id",
+    "target_type",
+    "host_id",
+    "deployment_mode",
+    "current_version",
+    "target_version",
+    "strategy",
+    "status",
+    "idempotency_key",
+    "lease_generation",
+    "sequence",
+    "progress",
+    "created_at",
+    "updated_at"
   ],
   "properties": {
-    "protocol_version": { "const": 2 },
+    "protocol_version": {
+      "const": 2
+    },
     "operation": {
-      "enum": ["software_update", "port_reconfigure"],
+      "enum": [
+        "software_update",
+        "port_reconfigure"
+      ],
       "default": "software_update"
     },
-    "port_reconfigure": { "$ref": "#/$defs/portReconfigurationPlan" },
-    "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
-    "target_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "port_reconfigure": {
+      "$ref": "#/$defs/portReconfigurationPlan"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
     "target_type": {
-      "enum": ["control_panel", "discord_bot", "encoder_recorder", "observability", "worker"]
+      "enum": [
+        "control_panel",
+        "discord_bot",
+        "encoder_recorder",
+        "observability",
+        "worker"
+      ]
     },
     "host_id": {
       "type": "string",
@@ -302,13 +792,37 @@
       "maxLength": 191,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
     },
-    "transport_mode": { "const": "pull_v2" },
-    "ownership_epoch": { "type": "integer", "minimum": 1 },
-    "policy_revision": { "type": "integer", "minimum": 0 },
-    "deployment_mode": { "enum": ["systemd", "docker"] },
-    "current_version": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$" },
-    "target_version": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$" },
-    "strategy": { "enum": ["when_idle", "maintenance"] },
+    "transport_mode": {
+      "const": "pull_v2"
+    },
+    "ownership_epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "policy_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "deployment_mode": {
+      "enum": [
+        "systemd",
+        "docker"
+      ]
+    },
+    "current_version": {
+      "type": "string",
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    },
+    "target_version": {
+      "type": "string",
+      "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$"
+    },
+    "strategy": {
+      "enum": [
+        "when_idle",
+        "maintenance"
+      ]
+    },
     "idempotency_key": {
       "type": "string",
       "minLength": 1,
@@ -317,38 +831,141 @@
     },
     "status": {
       "enum": [
-        "queued", "claimed", "downloading", "verifying", "staging", "stopping",
-        "installing", "starting", "health_checking", "rolling_back", "reconciling",
-        "succeeded", "rolled_back", "failed", "canceled"
+        "queued",
+        "claimed",
+        "downloading",
+        "verifying",
+        "staging",
+        "stopping",
+        "installing",
+        "starting",
+        "health_checking",
+        "rolling_back",
+        "reconciling",
+        "succeeded",
+        "rolled_back",
+        "failed",
+        "canceled"
       ]
     },
-    "progress": { "type": "integer", "minimum": 0, "maximum": 100 },
-    "sequence": { "type": "integer", "minimum": 0 },
-    "code": { "type": "string", "maxLength": 128, "pattern": "^[a-z0-9_.-]+$" },
-    "message": { "type": "string", "maxLength": 500 },
-    "artifact_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "previous_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "updater_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
-    "authorization_id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
-    "canonical_payload_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "automatic_resend_allowed": { "const": false },
-    "desired_revision": { "type": "integer", "minimum": 1 },
-    "fence": { "type": "integer", "minimum": 1 },
-    "outcome": { "enum": ["pending", "succeeded", "failed", "rolled_back", "canceled", "ambiguous"] },
+    "progress": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "code": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "message": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "artifact_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "previous_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "updater_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "authorization_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "canonical_payload_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "automatic_resend_allowed": {
+      "const": false
+    },
+    "desired_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "fence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "outcome": {
+      "enum": [
+        "pending",
+        "succeeded",
+        "failed",
+        "rolled_back",
+        "canceled",
+        "ambiguous"
+      ]
+    },
     "required_capability": {
       "enum": [
-        "host.systemd", "host.docker", "host.update", "host.bootstrap",
-        "host.port", "host.self_update"
+        "host.systemd",
+        "host.docker",
+        "host.update",
+        "host.bootstrap",
+        "host.port",
+        "host.self_update"
       ]
     },
-    "safe_error": { "$ref": "#/$defs/systemUpdateJobSafeError" },
-    "requested_by": { "type": "string" },
-    "lease_generation": { "type": "integer", "minimum": 1 },
-    "lease_expires_at": { "type": "string", "format": "date-time" },
-    "created_at": { "type": "string", "format": "date-time" },
-    "updated_at": { "type": "string", "format": "date-time" },
-    "claimed_at": { "type": "string", "format": "date-time" },
-    "completed_at": { "type": "string", "format": "date-time" },
-    "canceled_at": { "type": "string", "format": "date-time" }
+    "safe_error": {
+      "$ref": "#/$defs/systemUpdateJobSafeError"
+    },
+    "requested_by": {
+      "type": "string"
+    },
+    "lease_generation": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "lease_expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "claimed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "canceled_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "port_contract_version": {
+      "const": 2
+    },
+    "port_result": {
+      "$ref": "system-update-port-v2.schema.json#/$defs/acceptedResult"
+    },
+    "recovery_required": {
+      "type": "boolean"
+    },
+    "last_recovery_observation": {
+      "$ref": "system-update-port-v2.schema.json#/$defs/recoveryObservation"
+    }
   }
 }

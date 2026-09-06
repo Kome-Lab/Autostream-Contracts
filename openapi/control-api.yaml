@@ -4924,8 +4924,8 @@ components:
         desired_revision: { type: integer, format: int64, minimum: 1 }
         applied_revision: { type: integer, format: int64, minimum: 0 }
         fence: { type: integer, format: int64, minimum: 1 }
-        outcome: { type: string, enum: [ succeeded, failed, rolled_back, ambiguous ] }
-        status: { type: string, enum: [ reconciling, succeeded, failed, rolled_back ] }
+        outcome: { type: string, enum: [ succeeded, failed, rolled_back, ambiguous, canceled ] }
+        status: { type: string, enum: [ reconciling, succeeded, failed, rolled_back, canceled ] }
         automatic_resend_allowed: { type: boolean, const: false }
         audit_correlation_id: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$' }
         evidence:
@@ -4934,12 +4934,15 @@ components:
           maxItems: 32
           items: { $ref: '#/components/schemas/UpdaterEvidence' }
         safe_error: { $ref: '#/components/schemas/UpdaterSafeError' }
+        port_reconfigure: { $ref: '#/components/schemas/SystemUpdatePortResultV2' }
       allOf:
         - oneOf:
             - properties: { outcome: { const: succeeded }, status: { const: succeeded } }
               required: [ applied_revision ]
               not: { required: [ safe_error ] }
             - properties: { outcome: { const: rolled_back }, status: { const: rolled_back } }
+            - properties: { outcome: { const: canceled }, status: { const: canceled } }
+              not: { required: [ port_reconfigure ] }
             - properties: { outcome: { const: failed }, status: { const: failed } }
               required: [ safe_error ]
             - properties:
@@ -4950,7 +4953,7 @@ components:
                   properties: { code: { const: outcome_ambiguous } }
               required: [ safe_error ]
       x-autostream-behavioral-validator: contracts.ValidateUpdaterResultEnvelope
-      description: Terminal result bound to the exact lease generation. Success requires applied_revision equal to desired_revision plus target-specific verification evidence; rollback requires rollback_verified evidence; ambiguous outcomes remain reconciling and automatic resend is always false.
+      description: Result bound to the exact lease generation. Version 2 port results preserve applied, unchanged and rolled_back with complete observed snapshot evidence. Rolled-back applied_revision is immutable R.C, while desired_revision remains T.C. rollback_failed is an unaccepted recovery attempt that retains the host hold; accepted result identity and its first observation time cannot be overwritten. Ambiguous outcomes remain reconciling and automatic resend is always false.
     UpdaterRuntimeTokenRotationCredentialClaimRequest:
       type: object
       additionalProperties: false
@@ -5022,7 +5025,24 @@ components:
         status: { type: string, enum: [ ready, busy, not_ready, unknown ] }
         observed_at: { type: string, format: date-time }
         safe_error: { $ref: '#/components/schemas/UpdaterSafeError' }
-      description: Updater health and capability evidence only; it cannot satisfy an application runtime identity probe.
+        port_contract_version: { type: integer, const: 2 }
+        policy_transition_version: { type: integer, const: 1 }
+        port_policy_baseline: { $ref: '#/components/schemas/UpdaterPortPolicyBaseline' }
+      allOf:
+        - if:
+            anyOf:
+              - required: [ port_contract_version ]
+              - required: [ policy_transition_version ]
+              - required: [ port_policy_baseline ]
+          then:
+            required: [ port_contract_version, policy_transition_version ]
+      description: Updater health and capability evidence only; it cannot satisfy an application runtime identity probe. Port baseline metadata is accepted only against the already-bound installed root policy digest, never as a new trust anchor or arbitrary root policy.
+    UpdaterPortPolicyBaseline:
+      $ref: '../schemas/system-update-port-v2.schema.json#/$defs/policyBaseline'
+    SystemUpdatePortResultV2:
+      $ref: '../schemas/system-update-port-v2.schema.json#/$defs/result'
+    SystemUpdatePortSnapshotRef:
+      $ref: '../schemas/system-update-port-v2.schema.json#/$defs/snapshotRef'
     UpdaterSafeError:
       type: object
       additionalProperties: false
@@ -5554,101 +5574,12 @@ components:
           pattern: "^sha256:[a-f0-9]{64}$"
       description: Immutable Docker runtime binding. The server additionally requires health ports to equal their published ports and rejects a no-op across advertised, published, and container ports.
     SystemUpdatePortReconfiguration:
-      type: object
-      additionalProperties: false
-      required:
-        - network_namespace
-        - protocol
-        - old_port
-        - new_port
-        - expected_endpoint_revision
-        - target_endpoint_revision
-        - expected_config_revision
-        - target_config_revision
-        - expected_config_sha256
-        - target_config_sha256
-        - expected_source_policy_revision
-        - expected_updater_policy_revision
-        - expected_executor_policy_revision
-        - expected_executor_policy_sha256
-        - port_plan_sha256
-      properties:
-        network_namespace:
-          type: string
-          const: host
-        protocol:
-          type: string
-          const: tcp
-        old_port: { type: integer, minimum: 1, maximum: 65535 }
-        new_port: { type: integer, minimum: 1, maximum: 65535 }
-        expected_endpoint_revision: { type: integer, format: int64, minimum: 1 }
-        target_endpoint_revision: { type: integer, format: int64, minimum: 1 }
-        expected_config_revision: { type: integer, format: int64, minimum: 1 }
-        target_config_revision: { type: integer, format: int64, minimum: 1 }
-        expected_config_sha256: { type: string, pattern: "^sha256:[a-f0-9]{64}$" }
-        target_config_sha256: { type: string, pattern: "^sha256:[a-f0-9]{64}$" }
-        expected_source_policy_revision:
-          type: integer
-          format: int64
-          minimum: 1
-          description: Source updater policy revision retained separately for derivation and audit binding.
-        expected_updater_policy_revision:
-          type: integer
-          format: int64
-          minimum: 1
-          description: Host Agent projection revision used as the ownership, job, and mutation-grant fence.
-        expected_executor_policy_revision: { type: integer, format: int64, minimum: 1 }
-        expected_executor_policy_sha256: { type: string, pattern: "^sha256:[a-f0-9]{64}$" }
-        port_plan_sha256:
-          type: string
-          pattern: "^[a-f0-9]{64}$"
-          description: In a job or claim this authenticates the stable server-derived intent.
-        docker:
-          $ref: "#/components/schemas/SystemUpdateDockerPortReconfiguration"
-        result:
-          type: string
-          enum: [ applied, rolled_back, unchanged, rollback_failed ]
-          description: Present only after a terminal port-reconfiguration report has been accepted.
+      $ref: '../schemas/system-update-job.schema.json#/$defs/portReconfigurationPlan'
     SystemUpdatePortMutationGrantBinding:
-      type: object
-      additionalProperties: false
-      required:
-        - network_namespace
-        - protocol
-        - old_port
-        - new_port
-        - expected_endpoint_revision
-        - target_endpoint_revision
-        - expected_config_revision
-        - target_config_revision
-        - expected_config_sha256
-        - target_config_sha256
-        - expected_source_policy_revision
-        - expected_updater_policy_revision
-        - expected_executor_policy_revision
-        - expected_executor_policy_sha256
-        - port_plan_sha256
-      properties:
-        network_namespace: { type: string, const: host }
-        protocol: { type: string, const: tcp }
-        old_port: { type: integer, minimum: 1, maximum: 65535 }
-        new_port: { type: integer, minimum: 1, maximum: 65535 }
-        expected_endpoint_revision: { type: integer, format: int64, minimum: 1 }
-        target_endpoint_revision: { type: integer, format: int64, minimum: 1 }
-        expected_config_revision: { type: integer, format: int64, minimum: 1 }
-        target_config_revision: { type: integer, format: int64, minimum: 1 }
-        expected_config_sha256: { type: string, pattern: "^sha256:[a-f0-9]{64}$" }
-        target_config_sha256: { type: string, pattern: "^sha256:[a-f0-9]{64}$" }
-        expected_source_policy_revision: { type: integer, format: int64, minimum: 1 }
-        expected_updater_policy_revision: { type: integer, format: int64, minimum: 1 }
-        expected_executor_policy_revision: { type: integer, format: int64, minimum: 1 }
-        expected_executor_policy_sha256: { type: string, pattern: "^sha256:[a-f0-9]{64}$" }
-        port_plan_sha256:
-          type: string
-          pattern: "^[a-f0-9]{64}$"
-          description: Lease/session-bound executor plan digest; it must equal the top-level plan_sha256.
-        docker:
-          $ref: "#/components/schemas/SystemUpdateDockerPortReconfiguration"
+      allOf:
+        - $ref: '../schemas/system-update-job.schema.json#/$defs/portReconfigurationPlan'
+        - not: { required: [ result ] }
+      description: Version 2 binds immutable B/T/R intent. The transport plan_sha256 is a distinct lease/session-bound digest; reconcile never repeats the initial B-to-T consume.
     SystemUpdateJob:
       $ref: ../schemas/system-update-job.schema.json
     SystemUpdateAgentStatus:
@@ -5774,105 +5705,7 @@ components:
               type: string
               enum: [ applied, rolled_back, unchanged, rollback_failed ]
     UpdateAgentMutationGrantIssueRequest:
-      type: object
-      additionalProperties: false
-      allOf:
-        - if:
-            required: [ operation ]
-            properties:
-              operation:
-                enum: [ port_reconfigure, port_reconfigure_reconcile ]
-          then:
-            required: [ job_operation, port_reconfigure, transport_mode, service_type, ownership_epoch, policy_revision ]
-            properties:
-              job_operation: { const: port_reconfigure }
-              transport_mode: { const: pull_v2 }
-              service_type:
-                enum: [ discord_bot, encoder_recorder, observability, worker ]
-              policy_revision: { minimum: 1 }
-            oneOf:
-              - properties:
-                  deployment_mode: { const: systemd }
-                  port_reconfigure:
-                    not:
-                      required: [ docker ]
-                    properties:
-                      old_port: { minimum: 1024 }
-                      new_port: { minimum: 1024 }
-              - properties:
-                  deployment_mode: { const: docker }
-                  port_reconfigure:
-                    required: [ docker ]
-          else:
-            properties:
-              job_operation: { const: software_update }
-            not:
-              required: [ port_reconfigure ]
-        - if:
-            required: [ transport_mode ]
-            properties:
-              transport_mode: { const: pull_v2 }
-          then:
-            required: [ ownership_epoch, policy_revision ]
-            properties:
-              policy_revision: { minimum: 1 }
-      required: [ service_id, lease_token, lease_generation, host_id, target_id, target_version, deployment_mode, operation, plan_sha256, session_id ]
-      properties:
-        service_id:
-          type: string
-          minLength: 1
-          maxLength: 128
-          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
-        lease_token:
-          type: string
-          minLength: 32
-          maxLength: 256
-          pattern: '^[^\u0000-\u001F\u007F]+$'
-          writeOnly: true
-        lease_generation: { type: integer, format: int64, minimum: 1 }
-        host_id:
-          type: string
-          minLength: 1
-          maxLength: 191
-          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
-        transport_mode:
-          type: string
-          const: pull_v2
-        ownership_epoch: { type: integer, format: int64, minimum: 1 }
-        policy_revision: { type: integer, format: int64, minimum: 0 }
-        target_id:
-          type: string
-          minLength: 1
-          maxLength: 128
-          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
-        service_type:
-          type: string
-          enum: [ control_panel, discord_bot, encoder_recorder, observability, worker ]
-        target_version:
-          type: string
-          minLength: 1
-          maxLength: 128
-          pattern: '^[^\u0000-\u001F\u007F]+$'
-        deployment_mode:
-          type: string
-          enum: [ systemd, docker ]
-        job_operation:
-          type: string
-          enum: [ software_update, port_reconfigure ]
-        operation:
-          type: string
-          enum: [ apply, reconcile, port_reconfigure, port_reconfigure_reconcile ]
-        plan_sha256:
-          type: string
-          pattern: "^[a-f0-9]{64}$"
-          description: Lease/session-bound executor plan digest. For port operations it must equal port_reconfigure.port_plan_sha256.
-        port_reconfigure:
-          $ref: "#/components/schemas/SystemUpdatePortMutationGrantBinding"
-        session_id:
-          type: string
-          minLength: 16
-          maxLength: 128
-          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"
+      $ref: '../schemas/update-agent-mutation-grant-issue-request.schema.json'
     UpdateAgentMutationGrantIssueResponse:
       type: object
       additionalProperties: false
@@ -5887,94 +5720,7 @@ components:
           description: Returned once and supplied as the Bearer credential when the destination helper consumes the grant. It must not be logged or persisted.
         expires_at: { type: string, format: date-time }
     UpdateAgentMutationGrantConsumeRequest:
-      type: object
-      additionalProperties: false
-      allOf:
-        - if:
-            required: [ operation ]
-            properties:
-              operation:
-                enum: [ port_reconfigure, port_reconfigure_reconcile ]
-          then:
-            required: [ job_operation, port_reconfigure, transport_mode, service_type, ownership_epoch, policy_revision ]
-            properties:
-              job_operation: { const: port_reconfigure }
-              transport_mode: { const: pull_v2 }
-              service_type:
-                enum: [ discord_bot, encoder_recorder, observability, worker ]
-              policy_revision: { minimum: 1 }
-            oneOf:
-              - properties:
-                  deployment_mode: { const: systemd }
-                  port_reconfigure:
-                    not:
-                      required: [ docker ]
-                    properties:
-                      old_port: { minimum: 1024 }
-                      new_port: { minimum: 1024 }
-              - properties:
-                  deployment_mode: { const: docker }
-                  port_reconfigure:
-                    required: [ docker ]
-          else:
-            properties:
-              job_operation: { const: software_update }
-            not:
-              required: [ port_reconfigure ]
-        - if:
-            required: [ transport_mode ]
-            properties:
-              transport_mode: { const: pull_v2 }
-          then:
-            required: [ ownership_epoch, policy_revision ]
-            properties:
-              policy_revision: { minimum: 1 }
-      required: [ lease_generation, host_id, target_id, target_version, deployment_mode, operation, plan_sha256, session_id ]
-      properties:
-        lease_generation: { type: integer, format: int64, minimum: 1 }
-        host_id:
-          type: string
-          minLength: 1
-          maxLength: 191
-          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
-        transport_mode:
-          type: string
-          const: pull_v2
-        ownership_epoch: { type: integer, format: int64, minimum: 1 }
-        policy_revision: { type: integer, format: int64, minimum: 0 }
-        target_id:
-          type: string
-          minLength: 1
-          maxLength: 128
-          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
-        service_type:
-          type: string
-          enum: [ control_panel, discord_bot, encoder_recorder, observability, worker ]
-        target_version:
-          type: string
-          minLength: 1
-          maxLength: 128
-          pattern: '^[^\u0000-\u001F\u007F]+$'
-        deployment_mode:
-          type: string
-          enum: [ systemd, docker ]
-        job_operation:
-          type: string
-          enum: [ software_update, port_reconfigure ]
-        operation:
-          type: string
-          enum: [ apply, reconcile, port_reconfigure, port_reconfigure_reconcile ]
-        plan_sha256:
-          type: string
-          pattern: "^[a-f0-9]{64}$"
-          description: Lease/session-bound executor plan digest. For port operations it must equal port_reconfigure.port_plan_sha256.
-        port_reconfigure:
-          $ref: "#/components/schemas/SystemUpdatePortMutationGrantBinding"
-        session_id:
-          type: string
-          minLength: 16
-          maxLength: 128
-          pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"
+      $ref: '../schemas/update-agent-mutation-grant-consume-request.schema.json'
     ErrorResponse:
       type: object
       required: [ code ]

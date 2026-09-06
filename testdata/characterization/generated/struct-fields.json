@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 189,
+  "struct_count": 203,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -11663,6 +11663,28 @@
           "json_name": "bootstrap_encryption_key_fingerprint",
           "json_ignored": false,
           "omitempty": true
+        },
+        {
+          "index": 22,
+          "name": "PortContractVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"port_contract_version,omitempty\"",
+          "json_name": "port_contract_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 23,
+          "name": "PolicyTransitionVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"policy_transition_version,omitempty\"",
+          "json_name": "policy_transition_version",
+          "json_ignored": false,
+          "omitempty": true
         }
       ]
     },
@@ -11727,6 +11749,50 @@
         },
         {
           "index": 5,
+          "name": "PortContractVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"port_contract_version,omitempty\"",
+          "json_name": "port_contract_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
+          "name": "Mode",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdatePortMode",
+          "struct_tag": "json:\"mode,omitempty\"",
+          "json_name": "mode",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 7,
+          "name": "ExpectedSnapshotID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"expected_snapshot_id,omitempty\"",
+          "json_name": "expected_snapshot_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 8,
+          "name": "NewLocalListenPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"new_local_listen_port,omitempty\"",
+          "json_name": "new_local_listen_port",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 9,
           "name": "NewAdvertisedPort",
           "exported": true,
           "embedded": false,
@@ -11737,7 +11803,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 10,
           "name": "NewPublishedPort",
           "exported": true,
           "embedded": false,
@@ -11748,7 +11814,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 11,
           "name": "NewContainerPort",
           "exported": true,
           "embedded": false,
@@ -11759,7 +11825,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 12,
           "name": "ExpectedEndpointRevision",
           "exported": true,
           "embedded": false,
@@ -11770,7 +11836,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 13,
           "name": "IdempotencyKey",
           "exported": true,
           "embedded": false,
@@ -11781,7 +11847,7 @@
           "omitempty": false
         },
         {
-          "index": 10,
+          "index": 14,
           "name": "DesiredRevision",
           "exported": true,
           "embedded": false,
@@ -11792,7 +11858,7 @@
           "omitempty": false
         },
         {
-          "index": 11,
+          "index": 15,
           "name": "Fence",
           "exported": true,
           "embedded": false,
@@ -11803,7 +11869,7 @@
           "omitempty": false
         },
         {
-          "index": 12,
+          "index": 16,
           "name": "RequiredCapability",
           "exported": true,
           "embedded": false,
@@ -12477,6 +12543,39 @@
         },
         {
           "index": 34,
+          "name": "PortResult",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortResultV2",
+          "struct_tag": "json:\"port_result,omitempty\"",
+          "json_name": "port_result",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 35,
+          "name": "RecoveryRequired",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"recovery_required,omitempty\"",
+          "json_name": "recovery_required",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 36,
+          "name": "LastRecoveryObservation",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortResultV2",
+          "struct_tag": "json:\"last_recovery_observation,omitempty\"",
+          "json_name": "last_recovery_observation",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 37,
           "name": "CreatedAt",
           "exported": true,
           "embedded": false,
@@ -12487,7 +12586,7 @@
           "omitempty": false
         },
         {
-          "index": 35,
+          "index": 38,
           "name": "UpdatedAt",
           "exported": true,
           "embedded": false,
@@ -12498,7 +12597,7 @@
           "omitempty": false
         },
         {
-          "index": 36,
+          "index": 39,
           "name": "ClaimedAt",
           "exported": true,
           "embedded": false,
@@ -12509,7 +12608,7 @@
           "omitempty": true
         },
         {
-          "index": 37,
+          "index": 40,
           "name": "CompletedAt",
           "exported": true,
           "embedded": false,
@@ -12520,7 +12619,7 @@
           "omitempty": true
         },
         {
-          "index": 38,
+          "index": 41,
           "name": "CanceledAt",
           "exported": true,
           "embedded": false,
@@ -12529,6 +12628,404 @@
           "json_name": "canceled_at",
           "json_ignored": false,
           "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortCreateRequestV2",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ProtocolVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"protocol_version\"",
+          "json_name": "protocol_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Operation",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateOperation",
+          "struct_tag": "json:\"operation\"",
+          "json_name": "operation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "PortContractVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"port_contract_version\"",
+          "json_name": "port_contract_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "Mode",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdatePortMode",
+          "struct_tag": "json:\"mode\"",
+          "json_name": "mode",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "TargetID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"target_id\"",
+          "json_name": "target_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "ExpectedSnapshotID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"expected_snapshot_id\"",
+          "json_name": "expected_snapshot_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "ExpectedEndpointRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"expected_endpoint_revision\"",
+          "json_name": "expected_endpoint_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "DesiredRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"desired_revision\"",
+          "json_name": "desired_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "Fence",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"fence\"",
+          "json_name": "fence",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "RequiredCapability",
+          "exported": true,
+          "embedded": false,
+          "type": "UpdaterCapability",
+          "struct_tag": "json:\"required_capability\"",
+          "json_name": "required_capability",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "IdempotencyKey",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"idempotency_key\"",
+          "json_name": "idempotency_key",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "NewLocalListenPort",
+          "exported": true,
+          "embedded": false,
+          "type": "*int",
+          "struct_tag": "json:\"new_local_listen_port,omitempty\"",
+          "json_name": "new_local_listen_port",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 12,
+          "name": "NewAdvertisedPort",
+          "exported": true,
+          "embedded": false,
+          "type": "*int",
+          "struct_tag": "json:\"new_advertised_port,omitempty\"",
+          "json_name": "new_advertised_port",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 13,
+          "name": "NewPublishedPort",
+          "exported": true,
+          "embedded": false,
+          "type": "*int",
+          "struct_tag": "json:\"new_published_port,omitempty\"",
+          "json_name": "new_published_port",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 14,
+          "name": "NewContainerPort",
+          "exported": true,
+          "embedded": false,
+          "type": "*int",
+          "struct_tag": "json:\"new_container_port,omitempty\"",
+          "json_name": "new_container_port",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortDockerBaseline",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ExpectedContainerID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"expected_container_id\"",
+          "json_name": "expected_container_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ExpectedImageID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"expected_image_id\"",
+          "json_name": "expected_image_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ExpectedRepositoryDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"expected_repository_digest\"",
+          "json_name": "expected_repository_digest",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ExpectedVersionEnvSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"expected_version_env_sha256\"",
+          "json_name": "expected_version_env_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "ApprovedComposeConfigSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"approved_compose_config_sha256\"",
+          "json_name": "approved_compose_config_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "ApprovedComposeRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"approved_compose_revision\"",
+          "json_name": "approved_compose_revision",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortDockerSnapshot",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "PublishedHostIP",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"published_host_ip\"",
+          "json_name": "published_host_ip",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "PublishedPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"published_port\"",
+          "json_name": "published_port",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "ContainerPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"container_port\"",
+          "json_name": "container_port",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "HealthPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"health_port\"",
+          "json_name": "health_port",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "ComposePolicySHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"compose_policy_sha256\"",
+          "json_name": "compose_policy_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "ComposeRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"compose_revision\"",
+          "json_name": "compose_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "VersionEnvSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"version_env_sha256\"",
+          "json_name": "version_env_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "ImageID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"image_id\"",
+          "json_name": "image_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "RepositoryDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"repository_digest\"",
+          "json_name": "repository_digest",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortEndpoint",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Host",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host\"",
+          "json_name": "host",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Port",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"port\"",
+          "json_name": "port",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "SSLEnabled",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"ssl_enabled\"",
+          "json_name": "ssl_enabled",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "PublicURL",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"public_url\"",
+          "json_name": "public_url",
+          "json_ignored": false,
+          "omitempty": false
         }
       ]
     },
@@ -12638,11 +13135,453 @@
       ]
     },
     {
+      "name": "SystemUpdatePortObservation",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "PolicyDiskVerified",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"policy_disk_verified\"",
+          "json_name": "policy_disk_verified",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "PolicyMemoryVerified",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"policy_memory_verified\"",
+          "json_name": "policy_memory_verified",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "AgentProjectionVerified",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"agent_projection_verified\"",
+          "json_name": "agent_projection_verified",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ListenerVerified",
+          "exported": true,
+          "embedded": false,
+          "type": "bool",
+          "struct_tag": "json:\"listener_verified\"",
+          "json_name": "listener_verified",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "ObservedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"observed_at\"",
+          "json_name": "observed_at",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortPolicyBinding",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "TargetID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"target_id\"",
+          "json_name": "target_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "BindingPolicyRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"binding_policy_revision\"",
+          "json_name": "binding_policy_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "DatabaseName",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"database_name,omitempty\"",
+          "json_name": "database_name",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "LocalListenPort",
+          "exported": true,
+          "embedded": false,
+          "type": "*int",
+          "struct_tag": "json:\"local_listen_port,omitempty\"",
+          "json_name": "local_listen_port",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortPolicySnapshot",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Policy",
+          "exported": true,
+          "embedded": false,
+          "type": "encoding/json.RawMessage",
+          "struct_tag": "json:\"policy\"",
+          "json_name": "policy",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "UpdaterID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"updater_id\"",
+          "json_name": "updater_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "OwnershipEpoch",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"ownership_epoch\"",
+          "json_name": "ownership_epoch",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "CredentialReferences",
+          "exported": true,
+          "embedded": false,
+          "type": "[]string",
+          "struct_tag": "json:\"credential_references\"",
+          "json_name": "credential_references",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "Bindings",
+          "exported": true,
+          "embedded": false,
+          "type": "[]SystemUpdatePortPolicyBinding",
+          "struct_tag": "json:\"bindings\"",
+          "json_name": "bindings",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "Targets",
+          "exported": true,
+          "embedded": false,
+          "type": "[]SystemUpdatePortPolicyTargetState",
+          "struct_tag": "json:\"targets\"",
+          "json_name": "targets",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "RootPolicy",
+          "exported": true,
+          "embedded": false,
+          "type": "encoding/json.RawMessage",
+          "struct_tag": "json:\"root_policy\"",
+          "json_name": "root_policy",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortPolicyTargetState",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "TargetID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"target_id\"",
+          "json_name": "target_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "HostID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"host_id\"",
+          "json_name": "host_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ServiceType",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateTargetType",
+          "struct_tag": "json:\"service_type\"",
+          "json_name": "service_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "DeploymentMode",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateDeploymentMode",
+          "struct_tag": "json:\"deployment_mode\"",
+          "json_name": "deployment_mode",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "DesiredEndpoint",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdatePortEndpoint",
+          "struct_tag": "json:\"desired_endpoint\"",
+          "json_name": "desired_endpoint",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "AppliedEndpoint",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdatePortEndpoint",
+          "struct_tag": "json:\"applied_endpoint\"",
+          "json_name": "applied_endpoint",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "EndpointRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"endpoint_revision\"",
+          "json_name": "endpoint_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "AppliedEndpointRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_endpoint_revision\"",
+          "json_name": "applied_endpoint_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "ConfigRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"config_revision\"",
+          "json_name": "config_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "ConfigSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"config_sha256\"",
+          "json_name": "config_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "LocalListenPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"local_listen_port\"",
+          "json_name": "local_listen_port",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 12,
+          "name": "Docker",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortDockerSnapshot",
+          "struct_tag": "json:\"docker,omitempty\"",
+          "json_name": "docker",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
       "name": "SystemUpdatePortReconfiguration",
       "alias": false,
       "fields": [
         {
           "index": 0,
+          "name": "PortContractVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"port_contract_version,omitempty\"",
+          "json_name": "port_contract_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "Mode",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdatePortMode",
+          "struct_tag": "json:\"mode,omitempty\"",
+          "json_name": "mode",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "Before",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortSnapshotRef",
+          "struct_tag": "json:\"before,omitempty\"",
+          "json_name": "before",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "Target",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortSnapshotRef",
+          "struct_tag": "json:\"target,omitempty\"",
+          "json_name": "target",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "Rollback",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortSnapshotRef",
+          "struct_tag": "json:\"rollback,omitempty\"",
+          "json_name": "rollback",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "DockerBaseline",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortDockerBaseline",
+          "struct_tag": "json:\"docker_baseline,omitempty\"",
+          "json_name": "docker_baseline",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
           "name": "NetworkNamespace",
           "exported": true,
           "embedded": false,
@@ -12653,7 +13592,7 @@
           "omitempty": true
         },
         {
-          "index": 1,
+          "index": 7,
           "name": "Protocol",
           "exported": true,
           "embedded": false,
@@ -12664,7 +13603,7 @@
           "omitempty": true
         },
         {
-          "index": 2,
+          "index": 8,
           "name": "OldPort",
           "exported": true,
           "embedded": false,
@@ -12675,7 +13614,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 9,
           "name": "NewPort",
           "exported": true,
           "embedded": false,
@@ -12686,7 +13625,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 10,
           "name": "ExpectedEndpointRevision",
           "exported": true,
           "embedded": false,
@@ -12697,7 +13636,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 11,
           "name": "TargetEndpointRevision",
           "exported": true,
           "embedded": false,
@@ -12708,7 +13647,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 12,
           "name": "ExpectedConfigRevision",
           "exported": true,
           "embedded": false,
@@ -12719,7 +13658,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 13,
           "name": "TargetConfigRevision",
           "exported": true,
           "embedded": false,
@@ -12730,7 +13669,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 14,
           "name": "ExpectedConfigSHA256",
           "exported": true,
           "embedded": false,
@@ -12741,7 +13680,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 15,
           "name": "TargetConfigSHA256",
           "exported": true,
           "embedded": false,
@@ -12752,7 +13691,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 16,
           "name": "ExpectedSourcePolicyRevision",
           "exported": true,
           "embedded": false,
@@ -12763,7 +13702,7 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 17,
           "name": "ExpectedUpdaterPolicyRevision",
           "exported": true,
           "embedded": false,
@@ -12774,7 +13713,7 @@
           "omitempty": true
         },
         {
-          "index": 12,
+          "index": 18,
           "name": "ExpectedExecutorPolicyRevision",
           "exported": true,
           "embedded": false,
@@ -12785,7 +13724,7 @@
           "omitempty": true
         },
         {
-          "index": 13,
+          "index": 19,
           "name": "ExpectedExecutorPolicySHA256",
           "exported": true,
           "embedded": false,
@@ -12796,7 +13735,7 @@
           "omitempty": true
         },
         {
-          "index": 14,
+          "index": 20,
           "name": "PortPlanSHA256",
           "exported": true,
           "embedded": false,
@@ -12807,7 +13746,7 @@
           "omitempty": true
         },
         {
-          "index": 15,
+          "index": 21,
           "name": "Docker",
           "exported": true,
           "embedded": false,
@@ -12818,13 +13757,317 @@
           "omitempty": true
         },
         {
-          "index": 16,
+          "index": 22,
           "name": "Result",
           "exported": true,
           "embedded": false,
           "type": "SystemUpdatePortReconfigurationResult",
           "struct_tag": "json:\"result,omitempty\"",
           "json_name": "result",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortResultV2",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "Result",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdatePortReconfigurationResult",
+          "struct_tag": "json:\"result\"",
+          "json_name": "result",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ObservedSnapshotID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"observed_snapshot_id,omitempty\"",
+          "json_name": "observed_snapshot_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "ObservedSnapshotSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"observed_snapshot_sha256,omitempty\"",
+          "json_name": "observed_snapshot_sha256",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "ObservedConfigRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"observed_config_revision,omitempty\"",
+          "json_name": "observed_config_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "ObservedConfigSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"observed_config_sha256,omitempty\"",
+          "json_name": "observed_config_sha256",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "ObservedExecutorPolicyRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"observed_executor_policy_revision,omitempty\"",
+          "json_name": "observed_executor_policy_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
+          "name": "ObservedExecutorPolicySHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"observed_executor_policy_sha256,omitempty\"",
+          "json_name": "observed_executor_policy_sha256",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 7,
+          "name": "Observation",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdatePortObservation",
+          "struct_tag": "json:\"observation\"",
+          "json_name": "observation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "RuntimeInstance",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortRuntimeInstance",
+          "struct_tag": "json:\"runtime_instance,omitempty\"",
+          "json_name": "runtime_instance",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortRuntimeInstance",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ContainerID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"container_id\"",
+          "json_name": "container_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ImageID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"image_id\"",
+          "json_name": "image_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "RepositoryDigest",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"repository_digest\"",
+          "json_name": "repository_digest",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "SystemUpdatePortSnapshotRef",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "SnapshotID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"snapshot_id\"",
+          "json_name": "snapshot_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "SnapshotSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"snapshot_sha256\"",
+          "json_name": "snapshot_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "SourcePolicyRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"source_policy_revision\"",
+          "json_name": "source_policy_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ProjectionRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"projection_revision\"",
+          "json_name": "projection_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "ExecutorPolicyRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"executor_policy_revision\"",
+          "json_name": "executor_policy_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "ExecutorPolicySHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"executor_policy_sha256\"",
+          "json_name": "executor_policy_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "EndpointRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"endpoint_revision\"",
+          "json_name": "endpoint_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "AppliedEndpointRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_endpoint_revision\"",
+          "json_name": "applied_endpoint_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "ConfigRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"config_revision\"",
+          "json_name": "config_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "ConfigSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"config_sha256\"",
+          "json_name": "config_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 10,
+          "name": "AdvertisedPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"advertised_port\"",
+          "json_name": "advertised_port",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 11,
+          "name": "AdvertisedEndpointSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"advertised_endpoint_sha256\"",
+          "json_name": "advertised_endpoint_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 12,
+          "name": "LocalListenPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"local_listen_port\"",
+          "json_name": "local_listen_port",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 13,
+          "name": "Docker",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortDockerSnapshot",
+          "struct_tag": "json:\"docker,omitempty\"",
+          "json_name": "docker",
           "json_ignored": false,
           "omitempty": true
         }
@@ -13735,6 +14978,94 @@
           "type": "*SystemUpdatePortMapping",
           "struct_tag": "json:\"port_mapping,omitempty\"",
           "json_name": "port_mapping",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 27,
+          "name": "PortContractVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"port_contract_version,omitempty\"",
+          "json_name": "port_contract_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 28,
+          "name": "PortPolicySnapshotID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"port_policy_snapshot_id,omitempty\"",
+          "json_name": "port_policy_snapshot_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 29,
+          "name": "LocalListenPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"local_listen_port,omitempty\"",
+          "json_name": "local_listen_port",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 30,
+          "name": "EndpointRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"endpoint_revision,omitempty\"",
+          "json_name": "endpoint_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 31,
+          "name": "AppliedEndpointRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_endpoint_revision,omitempty\"",
+          "json_name": "applied_endpoint_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 32,
+          "name": "AppliedConfigRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"applied_config_revision,omitempty\"",
+          "json_name": "applied_config_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 33,
+          "name": "OwnershipEpoch",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"ownership_epoch,omitempty\"",
+          "json_name": "ownership_epoch",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 34,
+          "name": "PortModes",
+          "exported": true,
+          "embedded": false,
+          "type": "[]SystemUpdatePortMode",
+          "struct_tag": "json:\"port_modes,omitempty\"",
+          "json_name": "port_modes",
           "json_ignored": false,
           "omitempty": true
         }
@@ -14938,6 +16269,39 @@
           "json_name": "safe_error",
           "json_ignored": false,
           "omitempty": true
+        },
+        {
+          "index": 13,
+          "name": "PortContractVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"port_contract_version,omitempty\"",
+          "json_name": "port_contract_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 14,
+          "name": "PolicyTransitionVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"policy_transition_version,omitempty\"",
+          "json_name": "policy_transition_version",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 15,
+          "name": "PortPolicyBaseline",
+          "exported": true,
+          "embedded": false,
+          "type": "*UpdaterPortPolicyBaseline",
+          "struct_tag": "json:\"port_policy_baseline,omitempty\"",
+          "json_name": "port_policy_baseline",
+          "json_ignored": false,
+          "omitempty": true
         }
       ]
     },
@@ -15391,6 +16755,255 @@
       ]
     },
     {
+      "name": "UpdaterPortDockerRootBaseline",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ComposeConfigSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"compose_config_sha256\"",
+          "json_name": "compose_config_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "CurrentVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"current_version,omitempty\"",
+          "json_name": "current_version",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "UpdaterPortPolicyBaseline",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "PortContractVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"port_contract_version\"",
+          "json_name": "port_contract_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "PolicyTransitionVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"policy_transition_version\"",
+          "json_name": "policy_transition_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "AgentUID",
+          "exported": true,
+          "embedded": false,
+          "type": "uint32",
+          "struct_tag": "json:\"agent_uid\"",
+          "json_name": "agent_uid",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "AgentGID",
+          "exported": true,
+          "embedded": false,
+          "type": "uint32",
+          "struct_tag": "json:\"agent_gid\"",
+          "json_name": "agent_gid",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "SourcePolicyRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"source_policy_revision\"",
+          "json_name": "source_policy_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "ProjectionRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"projection_revision\"",
+          "json_name": "projection_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "ExecutorPolicyRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"executor_policy_revision\"",
+          "json_name": "executor_policy_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "ExecutorPolicySHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"executor_policy_sha256\"",
+          "json_name": "executor_policy_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 8,
+          "name": "Targets",
+          "exported": true,
+          "embedded": false,
+          "type": "[]UpdaterPortPolicyBaselineTarget",
+          "struct_tag": "json:\"targets\"",
+          "json_name": "targets",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 9,
+          "name": "ObservedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"observed_at\"",
+          "json_name": "observed_at",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "UpdaterPortPolicyBaselineTarget",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"service_id\"",
+          "json_name": "service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ServiceType",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateTargetType",
+          "struct_tag": "json:\"service_type\"",
+          "json_name": "service_type",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "DeploymentMode",
+          "exported": true,
+          "embedded": false,
+          "type": "SystemUpdateDeploymentMode",
+          "struct_tag": "json:\"deployment_mode\"",
+          "json_name": "deployment_mode",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "EndpointRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"endpoint_revision\"",
+          "json_name": "endpoint_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "ConfigRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "int64",
+          "struct_tag": "json:\"config_revision\"",
+          "json_name": "config_revision",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 5,
+          "name": "ConfigSHA256",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"config_sha256\"",
+          "json_name": "config_sha256",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 6,
+          "name": "LocalListenPort",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"local_listen_port\"",
+          "json_name": "local_listen_port",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 7,
+          "name": "Docker",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortDockerSnapshot",
+          "struct_tag": "json:\"docker,omitempty\"",
+          "json_name": "docker",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 8,
+          "name": "DockerRoot",
+          "exported": true,
+          "embedded": false,
+          "type": "*UpdaterPortDockerRootBaseline",
+          "struct_tag": "json:\"docker_root,omitempty\"",
+          "json_name": "docker_root",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
       "name": "UpdaterProgressEnvelope",
       "alias": false,
       "fields": [
@@ -15760,6 +17373,17 @@
           "type": "*V2UpdaterSafeError",
           "struct_tag": "json:\"safe_error,omitempty\"",
           "json_name": "safe_error",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 19,
+          "name": "PortReconfigure",
+          "exported": true,
+          "embedded": false,
+          "type": "*SystemUpdatePortResultV2",
+          "struct_tag": "json:\"port_reconfigure,omitempty\"",
+          "json_name": "port_reconfigure",
           "json_ignored": false,
           "omitempty": true
         }

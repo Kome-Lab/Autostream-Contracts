@@ -55,7 +55,7 @@ func compileContractJSONSchema(t *testing.T, name string, dependencies ...string
 	t.Helper()
 	compiler := jsonschema.NewCompiler()
 	compiler.AssertFormat()
-	resources := append([]string{name}, dependencies...)
+	resources := append([]string{name, "system-update-port-v2.schema.json"}, dependencies...)
 	canonicalRootID := ""
 	for _, resourceName := range resources {
 		body, err := os.ReadFile(filepath.Join("..", "..", "schemas", resourceName))

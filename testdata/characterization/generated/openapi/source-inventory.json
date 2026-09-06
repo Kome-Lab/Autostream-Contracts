@@ -5143,16 +5143,6 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/SystemUpdateDockerPortReconfiguration"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/SystemUpdateDockerPortReconfiguration"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/SystemUpdateHostStatus"
     },
     {
@@ -5183,12 +5173,7 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/SystemUpdatePortMutationGrantBinding"
-    },
-    {
-      "source": "openapi/control-api.yaml",
-      "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/SystemUpdatePortMutationGrantBinding"
+      "value": "#/components/schemas/SystemUpdatePortResultV2"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -5369,6 +5354,11 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/UpdaterMutationGrantIssueResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/UpdaterPortPolicyBaseline"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -5587,6 +5577,31 @@
     },
     {
       "source": "openapi/control-api.yaml",
+      "target": "schemas/system-update-job.schema.json",
+      "value": "../schemas/system-update-job.schema.json#/$defs/portReconfigurationPlan"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/system-update-job.schema.json",
+      "value": "../schemas/system-update-job.schema.json#/$defs/portReconfigurationPlan"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "../schemas/system-update-port-v2.schema.json#/$defs/policyBaseline"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "../schemas/system-update-port-v2.schema.json#/$defs/result"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "../schemas/system-update-port-v2.schema.json#/$defs/snapshotRef"
+    },
+    {
+      "source": "openapi/control-api.yaml",
       "target": "schemas/system-update-pull-ownership-activate-request.schema.json",
       "value": "../schemas/system-update-pull-ownership-activate-request.schema.json"
     },
@@ -5609,6 +5624,16 @@
       "source": "openapi/control-api.yaml",
       "target": "schemas/system-update-target.schema.json",
       "value": "../schemas/system-update-target.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "value": "../schemas/update-agent-mutation-grant-consume-request.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "value": "../schemas/update-agent-mutation-grant-issue-request.schema.json"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -6211,6 +6236,11 @@
       "value": "oauth-login-provider.schema.json"
     },
     {
+      "source": "schemas/system-update-create-request.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "system-update-port-v2.schema.json#/$defs/createRequest"
+    },
+    {
       "source": "schemas/system-update-host-status.schema.json",
       "target": "schemas/system-update-host-status.schema.json",
       "value": "#/$defs/applicationProbe"
@@ -6228,12 +6258,107 @@
     {
       "source": "schemas/system-update-job.schema.json",
       "target": "schemas/system-update-job.schema.json",
+      "value": "#/$defs/legacyPortReconfigurationPlan"
+    },
+    {
+      "source": "schemas/system-update-job.schema.json",
+      "target": "schemas/system-update-job.schema.json",
       "value": "#/$defs/portReconfigurationPlan"
     },
     {
       "source": "schemas/system-update-job.schema.json",
       "target": "schemas/system-update-job.schema.json",
       "value": "#/$defs/systemUpdateJobSafeError"
+    },
+    {
+      "source": "schemas/system-update-job.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "system-update-port-v2.schema.json#/$defs/acceptedResult"
+    },
+    {
+      "source": "schemas/system-update-job.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "system-update-port-v2.schema.json#/$defs/plan"
+    },
+    {
+      "source": "schemas/system-update-job.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "system-update-port-v2.schema.json#/$defs/recoveryObservation"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/acceptedResult"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/baselineTarget"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/dockerBaseline"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/dockerRootBaseline"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/dockerSnapshot"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/dockerSnapshot"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/observation"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/plan"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/recoveryObservation"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/runtimeInstance"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/snapshotRef"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/snapshotRef"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/snapshotRef"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/verifiedObservation"
+    },
+    {
+      "source": "schemas/system-update-port-v2.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "#/$defs/verifiedObservation"
     },
     {
       "source": "schemas/system-update-target.schema.json",
@@ -6254,6 +6379,46 @@
       "source": "schemas/system-update-target.schema.json",
       "target": "schemas/system-update-target.schema.json",
       "value": "#/$defs/updaterHealth"
+    },
+    {
+      "source": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "target": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "value": "#/$defs/dockerPortReconfiguration"
+    },
+    {
+      "source": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "target": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "value": "#/$defs/legacyPortReconfigurationPlan"
+    },
+    {
+      "source": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "target": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "value": "#/$defs/portReconfigurationPlan"
+    },
+    {
+      "source": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "system-update-port-v2.schema.json#/$defs/plan"
+    },
+    {
+      "source": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "target": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "value": "#/$defs/dockerPortReconfiguration"
+    },
+    {
+      "source": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "target": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "value": "#/$defs/legacyPortReconfigurationPlan"
+    },
+    {
+      "source": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "target": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "value": "#/$defs/portReconfigurationPlan"
+    },
+    {
+      "source": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+      "target": "schemas/system-update-port-v2.schema.json",
+      "value": "system-update-port-v2.schema.json#/$defs/plan"
     },
     {
       "source": "schemas/updater-desired-operation.schema.json",
@@ -6291,10 +6456,10 @@
       "value": "system-update-job.schema.json#/$defs/portReconfigurationPlan"
     }
   ],
-  "source_file_count": 37,
+  "source_file_count": 40,
   "source_files": [
     {
-      "normalized_source_sha256": "fdd2097538e869a0fd1e7fd7993f9f83cb4f68c5d313bc846176cab9f85c2494",
+      "normalized_source_sha256": "a6b12221ba6972317f3d9bbd6044126ae364bd0e0fc739cbbd4e214e134f5bad",
       "path": "openapi/control-api.yaml"
     },
     {
@@ -6390,11 +6555,11 @@
       "path": "schemas/oauth-login-provider.schema.json"
     },
     {
-      "normalized_source_sha256": "b42b89cef88157b62cb1f8aa0b8b228c988140f8d1a3da3df8d8ac2ce707647d",
+      "normalized_source_sha256": "6b1d96f5960b1556340bbdf08899710e63def7faf1201b4079cc1f41cc11fc9b",
       "path": "schemas/system-update-agent-status.schema.json"
     },
     {
-      "normalized_source_sha256": "613a4a4aed54ee59ba10fbadbad4d0a05b0a9a1a439c9d978b6acc753d05e29b",
+      "normalized_source_sha256": "38e7911467dadcff9a60c30a14f7b9ce099cd859398a53941a6e412f751cd039",
       "path": "schemas/system-update-create-request.schema.json"
     },
     {
@@ -6402,8 +6567,12 @@
       "path": "schemas/system-update-host-status.schema.json"
     },
     {
-      "normalized_source_sha256": "5ab3c9e3b234143cc9c0aacef00a05f4d44a5a2f3f921c784616373cfe0b3ca9",
+      "normalized_source_sha256": "eb7954e3dea0a98b3b3f60b2d8278fe4c894b72e4f45c47ff05919a2811402aa",
       "path": "schemas/system-update-job.schema.json"
+    },
+    {
+      "normalized_source_sha256": "cbf544c47552af8e8cb32aaadf7a48b4084594597d0f7c132128c7026a3c60f1",
+      "path": "schemas/system-update-port-v2.schema.json"
     },
     {
       "normalized_source_sha256": "8c04a2dc2f56c5f531d9573b237361690aeaf4bf175955922d2724b103209305",
@@ -6422,8 +6591,16 @@
       "path": "schemas/system-update-pull-ownership-deactivate-response.schema.json"
     },
     {
-      "normalized_source_sha256": "f61b1a3939fadcbb03f84739f064a80f0e40f3d3ed4bcf524d4a14d314147075",
+      "normalized_source_sha256": "2c2a76c615f08fb05e8c5ab38ee76b1f5448fdb3f554fe8ecffc9b6325590daf",
       "path": "schemas/system-update-target.schema.json"
+    },
+    {
+      "normalized_source_sha256": "81f73e452f26e75803cb981534e2f6b82adc95926c5a109e933bc862052d7680",
+      "path": "schemas/update-agent-mutation-grant-consume-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "113bc0418f1fe5674fc21a06a7a4edeed40455db4b46d7a7af89d1e03b248dad",
+      "path": "schemas/update-agent-mutation-grant-issue-request.schema.json"
     },
     {
       "normalized_source_sha256": "793b40a198dd4e384564878df57c03c3ccd91e5d21683897d11f4413ad02ac2e",

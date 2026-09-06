@@ -173,12 +173,17 @@ type SystemUpdateDockerPortReconfiguration struct {
 	ExpectedRepositoryDigest    string `json:"expected_repository_digest,omitempty"`
 }
 
-// SystemUpdatePortReconfiguration is the nested wire shape shared by a
-// port-reconfiguration job, claim, mutation grant and terminal report. Jobs
-// and grants carry the immutable plan fields, terminal jobs may also expose the
-// accepted Result, and reports carry Result only. Software-update payloads omit
-// this object entirely.
+// SystemUpdatePortReconfiguration is a versioned immutable job/command plan.
+// Version 2 uses Before/Target/Rollback and a separate SystemUpdatePortResultV2.
+// Flat fields and Result remain solely for exact decoding/recovery of saved
+// legacy plans; validators reject every mixed-version payload.
 type SystemUpdatePortReconfiguration struct {
+	PortContractVersion            int                                    `json:"port_contract_version,omitempty"`
+	Mode                           SystemUpdatePortMode                   `json:"mode,omitempty"`
+	Before                         *SystemUpdatePortSnapshotRef           `json:"before,omitempty"`
+	Target                         *SystemUpdatePortSnapshotRef           `json:"target,omitempty"`
+	Rollback                       *SystemUpdatePortSnapshotRef           `json:"rollback,omitempty"`
+	DockerBaseline                 *SystemUpdatePortDockerBaseline        `json:"docker_baseline,omitempty"`
 	NetworkNamespace               string                                 `json:"network_namespace,omitempty"`
 	Protocol                       SystemUpdatePortProtocol               `json:"protocol,omitempty"`
 	OldPort                        int                                    `json:"old_port,omitempty"`
@@ -287,6 +292,7 @@ const (
 	UpdaterOutcomeFailed     UpdaterOutcome = "failed"
 	UpdaterOutcomeRolledBack UpdaterOutcome = "rolled_back"
 	UpdaterOutcomeAmbiguous  UpdaterOutcome = "ambiguous"
+	UpdaterOutcomeCanceled   UpdaterOutcome = "canceled"
 )
 
 type V2UpdaterSafeError struct {
@@ -400,25 +406,26 @@ type UpdaterProgressEnvelope struct {
 }
 
 type UpdaterResultEnvelope struct {
-	ProtocolVersion        int                 `json:"protocol_version"`
-	CommandID              string              `json:"command_id"`
-	JobID                  string              `json:"job_id"`
-	UpdaterID              string              `json:"updater_id"`
-	HostID                 string              `json:"host_id"`
-	LeaseID                string              `json:"lease_id"`
-	LeaseGeneration        int64               `json:"lease_generation"`
-	IdempotencyKey         string              `json:"idempotency_key"`
-	CanonicalPayloadDigest string              `json:"canonical_payload_digest"`
-	AuthorizationID        string              `json:"authorization_id"`
-	DesiredRevision        int64               `json:"desired_revision"`
-	AppliedRevision        int64               `json:"applied_revision,omitempty"`
-	Fence                  int64               `json:"fence"`
-	Outcome                UpdaterOutcome      `json:"outcome"`
-	Status                 SystemUpdateStatus  `json:"status"`
-	AutomaticResendAllowed bool                `json:"automatic_resend_allowed"`
-	AuditCorrelationID     string              `json:"audit_correlation_id"`
-	Evidence               []UpdaterEvidence   `json:"evidence"`
-	SafeError              *V2UpdaterSafeError `json:"safe_error,omitempty"`
+	ProtocolVersion        int                       `json:"protocol_version"`
+	CommandID              string                    `json:"command_id"`
+	JobID                  string                    `json:"job_id"`
+	UpdaterID              string                    `json:"updater_id"`
+	HostID                 string                    `json:"host_id"`
+	LeaseID                string                    `json:"lease_id"`
+	LeaseGeneration        int64                     `json:"lease_generation"`
+	IdempotencyKey         string                    `json:"idempotency_key"`
+	CanonicalPayloadDigest string                    `json:"canonical_payload_digest"`
+	AuthorizationID        string                    `json:"authorization_id"`
+	DesiredRevision        int64                     `json:"desired_revision"`
+	AppliedRevision        int64                     `json:"applied_revision,omitempty"`
+	Fence                  int64                     `json:"fence"`
+	Outcome                UpdaterOutcome            `json:"outcome"`
+	Status                 SystemUpdateStatus        `json:"status"`
+	AutomaticResendAllowed bool                      `json:"automatic_resend_allowed"`
+	AuditCorrelationID     string                    `json:"audit_correlation_id"`
+	Evidence               []UpdaterEvidence         `json:"evidence"`
+	SafeError              *V2UpdaterSafeError       `json:"safe_error,omitempty"`
+	PortReconfigure        *SystemUpdatePortResultV2 `json:"port_reconfigure,omitempty"`
 }
 
 // UpdaterRuntimeTokenRotationCredentialClaimRequest is the only shared wire
@@ -455,19 +462,22 @@ type UpdaterMutationGrantConsumeRequest struct {
 }
 
 type UpdaterHeartbeat struct {
-	ProtocolVersion int                 `json:"protocol_version"`
-	UpdaterID       string              `json:"updater_id"`
-	HostID          string              `json:"host_id"`
-	ServiceID       string              `json:"service_id"`
-	Authentication  string              `json:"authentication"`
-	Sequence        int64               `json:"sequence"`
-	Capabilities    []UpdaterCapability `json:"capabilities"`
-	DesiredRevision int64               `json:"desired_revision"`
-	AppliedRevision int64               `json:"applied_revision"`
-	Fence           int64               `json:"fence"`
-	Status          string              `json:"status"`
-	ObservedAt      time.Time           `json:"observed_at"`
-	SafeError       *V2UpdaterSafeError `json:"safe_error,omitempty"`
+	ProtocolVersion         int                        `json:"protocol_version"`
+	UpdaterID               string                     `json:"updater_id"`
+	HostID                  string                     `json:"host_id"`
+	ServiceID               string                     `json:"service_id"`
+	Authentication          string                     `json:"authentication"`
+	Sequence                int64                      `json:"sequence"`
+	Capabilities            []UpdaterCapability        `json:"capabilities"`
+	DesiredRevision         int64                      `json:"desired_revision"`
+	AppliedRevision         int64                      `json:"applied_revision"`
+	Fence                   int64                      `json:"fence"`
+	Status                  string                     `json:"status"`
+	ObservedAt              time.Time                  `json:"observed_at"`
+	SafeError               *V2UpdaterSafeError        `json:"safe_error,omitempty"`
+	PortContractVersion     int                        `json:"port_contract_version,omitempty"`
+	PolicyTransitionVersion int                        `json:"policy_transition_version,omitempty"`
+	PortPolicyBaseline      *UpdaterPortPolicyBaseline `json:"port_policy_baseline,omitempty"`
 }
 
 type UpdaterLocalJournalBoundary struct {
@@ -491,6 +501,10 @@ type SystemUpdateCreateRequest struct {
 	TargetID                 string                `json:"target_id"`
 	Strategy                 SystemUpdateStrategy  `json:"strategy,omitempty"`
 	NewPort                  int                   `json:"new_port,omitempty"`
+	PortContractVersion      int                   `json:"port_contract_version,omitempty"`
+	Mode                     SystemUpdatePortMode  `json:"mode,omitempty"`
+	ExpectedSnapshotID       string                `json:"expected_snapshot_id,omitempty"`
+	NewLocalListenPort       int                   `json:"new_local_listen_port,omitempty"`
 	NewAdvertisedPort        int                   `json:"new_advertised_port,omitempty"`
 	NewPublishedPort         int                   `json:"new_published_port,omitempty"`
 	NewContainerPort         int                   `json:"new_container_port,omitempty"`
@@ -612,48 +626,59 @@ type SystemUpdateTarget struct {
 	UpdateCheckError        string                           `json:"update_check_error,omitempty"`
 	SafeError               *V2UpdaterSafeError              `json:"safe_error,omitempty"`
 	PortMapping             *SystemUpdatePortMapping         `json:"port_mapping,omitempty"`
+	PortContractVersion     int                              `json:"port_contract_version,omitempty"`
+	PortPolicySnapshotID    string                           `json:"port_policy_snapshot_id,omitempty"`
+	LocalListenPort         int                              `json:"local_listen_port,omitempty"`
+	EndpointRevision        int64                            `json:"endpoint_revision,omitempty"`
+	AppliedEndpointRevision int64                            `json:"applied_endpoint_revision,omitempty"`
+	AppliedConfigRevision   int64                            `json:"applied_config_revision,omitempty"`
+	OwnershipEpoch          int64                            `json:"ownership_epoch,omitempty"`
+	PortModes               []SystemUpdatePortMode           `json:"port_modes,omitempty"`
 }
 
 type SystemUpdateJob struct {
-	ProtocolVersion        int                              `json:"protocol_version"`
-	ID                     string                           `json:"id"`
-	TargetID               string                           `json:"target_id"`
-	TargetType             SystemUpdateTargetType           `json:"target_type"`
-	ExecutionHostID        string                           `json:"host_id"`
-	TransportMode          UpdateTransportMode              `json:"transport_mode"`
-	OwnershipEpoch         int64                            `json:"ownership_epoch"`
-	PolicyRevision         int64                            `json:"policy_revision"`
-	DeploymentMode         SystemUpdateDeploymentMode       `json:"deployment_mode"`
-	CurrentVersion         string                           `json:"current_version"`
-	TargetVersion          string                           `json:"target_version"`
-	Strategy               SystemUpdateStrategy             `json:"strategy"`
-	Status                 SystemUpdateStatus               `json:"status"`
-	IdempotencyKey         string                           `json:"idempotency_key"`
-	UpdaterID              string                           `json:"updater_id"`
-	AuthorizationID        string                           `json:"authorization_id"`
-	CanonicalPayloadDigest string                           `json:"canonical_payload_digest"`
-	DesiredRevision        int64                            `json:"desired_revision"`
-	Fence                  int64                            `json:"fence"`
-	Outcome                string                           `json:"outcome"`
-	RequiredCapability     UpdaterCapability                `json:"required_capability"`
-	AutomaticResendAllowed *bool                            `json:"automatic_resend_allowed"`
-	SafeError              *V2UpdaterSafeError              `json:"safe_error,omitempty"`
-	RequestedBy            string                           `json:"requested_by,omitempty"`
-	LeaseGeneration        int64                            `json:"lease_generation"`
-	LeaseExpiresAt         *time.Time                       `json:"lease_expires_at,omitempty"`
-	Sequence               int64                            `json:"sequence"`
-	Progress               int                              `json:"progress"`
-	Code                   string                           `json:"code,omitempty"`
-	Message                string                           `json:"message,omitempty"`
-	ArtifactDigest         string                           `json:"artifact_digest,omitempty"`
-	PreviousDigest         string                           `json:"previous_digest,omitempty"`
-	Operation              SystemUpdateOperation            `json:"operation,omitempty"`
-	PortReconfigure        *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
-	CreatedAt              time.Time                        `json:"created_at"`
-	UpdatedAt              time.Time                        `json:"updated_at"`
-	ClaimedAt              *time.Time                       `json:"claimed_at,omitempty"`
-	CompletedAt            *time.Time                       `json:"completed_at,omitempty"`
-	CanceledAt             *time.Time                       `json:"canceled_at,omitempty"`
+	ProtocolVersion         int                              `json:"protocol_version"`
+	ID                      string                           `json:"id"`
+	TargetID                string                           `json:"target_id"`
+	TargetType              SystemUpdateTargetType           `json:"target_type"`
+	ExecutionHostID         string                           `json:"host_id"`
+	TransportMode           UpdateTransportMode              `json:"transport_mode"`
+	OwnershipEpoch          int64                            `json:"ownership_epoch"`
+	PolicyRevision          int64                            `json:"policy_revision"`
+	DeploymentMode          SystemUpdateDeploymentMode       `json:"deployment_mode"`
+	CurrentVersion          string                           `json:"current_version"`
+	TargetVersion           string                           `json:"target_version"`
+	Strategy                SystemUpdateStrategy             `json:"strategy"`
+	Status                  SystemUpdateStatus               `json:"status"`
+	IdempotencyKey          string                           `json:"idempotency_key"`
+	UpdaterID               string                           `json:"updater_id"`
+	AuthorizationID         string                           `json:"authorization_id"`
+	CanonicalPayloadDigest  string                           `json:"canonical_payload_digest"`
+	DesiredRevision         int64                            `json:"desired_revision"`
+	Fence                   int64                            `json:"fence"`
+	Outcome                 string                           `json:"outcome"`
+	RequiredCapability      UpdaterCapability                `json:"required_capability"`
+	AutomaticResendAllowed  *bool                            `json:"automatic_resend_allowed"`
+	SafeError               *V2UpdaterSafeError              `json:"safe_error,omitempty"`
+	RequestedBy             string                           `json:"requested_by,omitempty"`
+	LeaseGeneration         int64                            `json:"lease_generation"`
+	LeaseExpiresAt          *time.Time                       `json:"lease_expires_at,omitempty"`
+	Sequence                int64                            `json:"sequence"`
+	Progress                int                              `json:"progress"`
+	Code                    string                           `json:"code,omitempty"`
+	Message                 string                           `json:"message,omitempty"`
+	ArtifactDigest          string                           `json:"artifact_digest,omitempty"`
+	PreviousDigest          string                           `json:"previous_digest,omitempty"`
+	Operation               SystemUpdateOperation            `json:"operation,omitempty"`
+	PortReconfigure         *SystemUpdatePortReconfiguration `json:"port_reconfigure,omitempty"`
+	PortResult              *SystemUpdatePortResultV2        `json:"port_result,omitempty"`
+	RecoveryRequired        bool                             `json:"recovery_required,omitempty"`
+	LastRecoveryObservation *SystemUpdatePortResultV2        `json:"last_recovery_observation,omitempty"`
+	CreatedAt               time.Time                        `json:"created_at"`
+	UpdatedAt               time.Time                        `json:"updated_at"`
+	ClaimedAt               *time.Time                       `json:"claimed_at,omitempty"`
+	CompletedAt             *time.Time                       `json:"completed_at,omitempty"`
+	CanceledAt              *time.Time                       `json:"canceled_at,omitempty"`
 }
 
 type SystemUpdatesResponse struct {
@@ -686,6 +711,8 @@ type SystemUpdateAgentStatus struct {
 	PolicyErrorCode                   string              `json:"policy_error_code,omitempty"`
 	BootstrapEncryptionPublicKey      string              `json:"bootstrap_encryption_public_key,omitempty"`
 	BootstrapEncryptionKeyFingerprint string              `json:"bootstrap_encryption_key_fingerprint,omitempty"`
+	PortContractVersion               int                 `json:"port_contract_version,omitempty"`
+	PolicyTransitionVersion           int                 `json:"policy_transition_version,omitempty"`
 }
 
 type SystemUpdateHostStatus struct {

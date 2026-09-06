@@ -3,7 +3,10 @@
   "title": "Update Agent Mutation Grant Issue Response",
   "type": "object",
   "additionalProperties": false,
-  "required": ["grant_token", "expires_at"],
+  "required": [
+    "grant_token",
+    "expires_at"
+  ],
   "properties": {
     "grant_token": {
       "type": "string",
@@ -13,6 +16,10 @@
       "writeOnly": true,
       "description": "Returned once and supplied as the Bearer credential when the destination helper consumes the grant. It must not be logged or persisted."
     },
-    "expires_at": { "type": "string", "format": "date-time" }
-  }
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "description": "undefined Port version 2 uses the same response and does not expose CP consumed_at; the root records monotonic time immediately before consume."
 }

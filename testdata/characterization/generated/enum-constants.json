@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "constant_count": 375,
+  "constant_count": 381,
   "constants": [
     {
       "name": "AssignmentRolePrimary",
@@ -1665,6 +1665,11 @@
       "value": "\"software_update\""
     },
     {
+      "name": "SystemUpdatePortContractVersion",
+      "type": "untyped int",
+      "value": "2"
+    },
+    {
       "name": "SystemUpdatePortMappingApplied",
       "type": "SystemUpdatePortMappingState",
       "enum_type": "SystemUpdatePortMappingState",
@@ -1681,6 +1686,28 @@
       "type": "SystemUpdatePortMappingState",
       "enum_type": "SystemUpdatePortMappingState",
       "value": "\"unavailable\""
+    },
+    {
+      "name": "SystemUpdatePortModeLocalAndAdvertised",
+      "type": "SystemUpdatePortMode",
+      "enum_type": "SystemUpdatePortMode",
+      "value": "\"local_and_advertised\""
+    },
+    {
+      "name": "SystemUpdatePortModeLocalOnly",
+      "type": "SystemUpdatePortMode",
+      "enum_type": "SystemUpdatePortMode",
+      "value": "\"local_only\""
+    },
+    {
+      "name": "SystemUpdatePortPolicySnapshotMaxBytes",
+      "type": "untyped int",
+      "value": "1048576"
+    },
+    {
+      "name": "SystemUpdatePortPolicyTransitionVersion",
+      "type": "untyped int",
+      "value": "1"
     },
     {
       "name": "SystemUpdatePortProtocolTCP",
@@ -1951,6 +1978,12 @@
       "type": "UpdaterOutcome",
       "enum_type": "UpdaterOutcome",
       "value": "\"ambiguous\""
+    },
+    {
+      "name": "UpdaterOutcomeCanceled",
+      "type": "UpdaterOutcome",
+      "enum_type": "UpdaterOutcome",
+      "value": "\"canceled\""
     },
     {
       "name": "UpdaterOutcomeFailed",

@@ -5,77 +5,136 @@
   "x-autostream-contract-major": 2,
   "type": "object",
   "additionalProperties": false,
-  "required": ["protocol_version", "target_id", "idempotency_key", "desired_revision", "fence", "required_capability"],
+  "required": [
+    "protocol_version",
+    "target_id",
+    "idempotency_key",
+    "desired_revision",
+    "fence",
+    "required_capability"
+  ],
   "allOf": [
     {
       "if": {
-        "required": ["operation"],
+        "required": [
+          "operation"
+        ],
         "properties": {
-          "operation": { "const": "port_reconfigure" }
+          "operation": {
+            "const": "port_reconfigure"
+          }
         }
       },
       "then": {
-        "required": ["operation", "expected_endpoint_revision"],
-        "not": { "required": ["strategy"] },
-        "oneOf": [
-          {
-            "required": ["new_port"],
-            "not": {
-              "anyOf": [
-                { "required": ["new_advertised_port"] },
-                { "required": ["new_published_port"] },
-                { "required": ["new_container_port"] }
-              ]
-            }
-          },
-          {
-            "required": ["new_advertised_port", "new_published_port", "new_container_port"],
-            "not": { "required": ["new_port"] }
-          }
-        ]
+        "$ref": "system-update-port-v2.schema.json#/$defs/createRequest"
       },
       "else": {
-        "required": ["strategy"],
+        "required": [
+          "strategy"
+        ],
         "not": {
           "anyOf": [
-            { "required": ["new_port"] },
-            { "required": ["new_advertised_port"] },
-            { "required": ["new_published_port"] },
-            { "required": ["new_container_port"] },
-            { "required": ["expected_endpoint_revision"] }
+            {
+              "required": [
+                "new_port"
+              ]
+            },
+            {
+              "required": [
+                "new_advertised_port"
+              ]
+            },
+            {
+              "required": [
+                "new_published_port"
+              ]
+            },
+            {
+              "required": [
+                "new_container_port"
+              ]
+            },
+            {
+              "required": [
+                "expected_endpoint_revision"
+              ]
+            },
+            {
+              "required": [
+                "port_contract_version"
+              ]
+            },
+            {
+              "required": [
+                "mode"
+              ]
+            },
+            {
+              "required": [
+                "expected_snapshot_id"
+              ]
+            },
+            {
+              "required": [
+                "new_local_listen_port"
+              ]
+            }
           ]
         }
       }
     },
     {
       "oneOf": [
-          {
-            "required": ["operation"],
-            "properties": {
-              "operation": { "const": "port_reconfigure" },
-              "required_capability": { "const": "host.port" }
-            }
-          },
-          {
-            "required": ["operation"],
-            "properties": {
-              "operation": { "const": "software_update" },
-              "required_capability": { "const": "host.update" }
-            }
-          },
-          {
-            "not": { "required": ["operation"] },
-            "properties": {
-              "required_capability": { "const": "host.update" }
+        {
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "port_reconfigure"
+            },
+            "required_capability": {
+              "const": "host.port"
             }
           }
+        },
+        {
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "software_update"
+            },
+            "required_capability": {
+              "const": "host.update"
+            }
+          }
+        },
+        {
+          "not": {
+            "required": [
+              "operation"
+            ]
+          },
+          "properties": {
+            "required_capability": {
+              "const": "host.update"
+            }
+          }
+        }
       ]
     }
   ],
   "properties": {
-    "protocol_version": { "const": 2 },
+    "protocol_version": {
+      "const": 2
+    },
     "operation": {
-      "enum": ["software_update", "port_reconfigure"],
+      "enum": [
+        "software_update",
+        "port_reconfigure"
+      ],
       "default": "software_update"
     },
     "target_id": {
@@ -84,11 +143,11 @@
       "maxLength": 128,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
     },
-    "strategy": { "enum": ["when_idle", "maintenance"] },
-    "new_port": {
-      "type": "integer",
-      "minimum": 1024,
-      "maximum": 65535
+    "strategy": {
+      "enum": [
+        "when_idle",
+        "maintenance"
+      ]
     },
     "new_advertised_port": {
       "type": "integer",
@@ -115,13 +174,41 @@
       "maxLength": 128,
       "pattern": "^[^\\x00-\\x1F\\x7F]+$"
     },
-    "desired_revision": { "type": "integer", "minimum": 1 },
-    "fence": { "type": "integer", "minimum": 1 },
+    "desired_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "fence": {
+      "type": "integer",
+      "minimum": 1
+    },
     "required_capability": {
       "enum": [
-        "host.systemd", "host.docker", "host.update", "host.bootstrap",
-        "host.port", "host.self_update"
+        "host.systemd",
+        "host.docker",
+        "host.update",
+        "host.bootstrap",
+        "host.port",
+        "host.self_update"
       ]
+    },
+    "port_contract_version": {
+      "const": 2
+    },
+    "mode": {
+      "enum": [
+        "local_only",
+        "local_and_advertised"
+      ]
+    },
+    "expected_snapshot_id": {
+      "type": "string",
+      "pattern": "^ps1:[a-f0-9]{64}$"
+    },
+    "new_local_listen_port": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 65535
     }
   }
 }

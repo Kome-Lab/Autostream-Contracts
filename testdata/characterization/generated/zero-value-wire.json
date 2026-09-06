@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 189,
+  "struct_count": 203,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -6328,6 +6328,226 @@
       }
     },
     {
+      "name": "SystemUpdatePortCreateRequestV2",
+      "wire_json": "{\"protocol_version\":0,\"operation\":\"\",\"port_contract_version\":0,\"mode\":\"\",\"target_id\":\"\",\"expected_snapshot_id\":\"\",\"expected_endpoint_revision\":0,\"desired_revision\":0,\"fence\":0,\"required_capability\":\"\",\"idempotency_key\":\"\"}",
+      "wire_sha256": "717abc46527e8fa989620548d70f05d3ba75dece4a1701c64a472c84f3615cbb",
+      "shape": {
+        "fields": [
+          {
+            "name": "desired_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_endpoint_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_snapshot_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "fence",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "idempotency_key",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "operation",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "port_contract_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "protocol_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "required_capability",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortDockerBaseline",
+      "wire_json": "{\"expected_container_id\":\"\",\"expected_image_id\":\"\",\"expected_repository_digest\":\"\",\"expected_version_env_sha256\":\"\",\"approved_compose_config_sha256\":\"\",\"approved_compose_revision\":0}",
+      "wire_sha256": "c8c564142e40b8bc33655dafee5239c02a384d888dafebea1bd9868c83a51b42",
+      "shape": {
+        "fields": [
+          {
+            "name": "approved_compose_config_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "approved_compose_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "expected_container_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_image_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_repository_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "expected_version_env_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortDockerSnapshot",
+      "wire_json": "{\"published_host_ip\":\"\",\"published_port\":0,\"container_port\":0,\"health_port\":0,\"compose_policy_sha256\":\"\",\"compose_revision\":0,\"version_env_sha256\":\"\",\"image_id\":\"\",\"repository_digest\":\"\"}",
+      "wire_sha256": "fc44540ddede18b9a004021c9074848db2d3c215cb9b2a8b11f6e39d7bdaa3ad",
+      "shape": {
+        "fields": [
+          {
+            "name": "compose_policy_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "compose_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "container_port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "health_port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "image_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "published_host_ip",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "published_port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "repository_digest",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "version_env_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortEndpoint",
+      "wire_json": "{\"host\":\"\",\"port\":0,\"ssl_enabled\":false,\"public_url\":\"\"}",
+      "wire_sha256": "88a1e47391c85223ffc5907d557a1da0c9bb327c66d22dda0be8e351728dbc6f",
+      "shape": {
+        "fields": [
+          {
+            "name": "host",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "public_url",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ssl_enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "SystemUpdatePortMapping",
       "wire_json": "{\"mode\":\"\",\"state\":\"\"}",
       "wire_sha256": "b98f1fb164520319a4c2fa14168441b1f25f4c4a2601f8195566ec641a3f6488",
@@ -6350,11 +6570,447 @@
       }
     },
     {
+      "name": "SystemUpdatePortObservation",
+      "wire_json": "{\"policy_disk_verified\":false,\"policy_memory_verified\":false,\"agent_projection_verified\":false,\"listener_verified\":false,\"observed_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "8fddf0149c464db0779192695e84f145bdb796b6f62cc723a8b5f1afa876634f",
+      "shape": {
+        "fields": [
+          {
+            "name": "agent_projection_verified",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "listener_verified",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "observed_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "policy_disk_verified",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "policy_memory_verified",
+            "shape": {
+              "kind": "boolean"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortPolicyBinding",
+      "wire_json": "{\"target_id\":\"\",\"service_id\":\"\",\"host_id\":\"\",\"binding_policy_revision\":0}",
+      "wire_sha256": "74a08709c4c657fc74d43837d564fdbb7720d01ba4337e988e3bd7149255de2d",
+      "shape": {
+        "fields": [
+          {
+            "name": "binding_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortPolicySnapshot",
+      "wire_json": "{\"policy\":null,\"updater_id\":\"\",\"host_id\":\"\",\"ownership_epoch\":0,\"credential_references\":null,\"bindings\":null,\"targets\":null,\"root_policy\":null}",
+      "wire_sha256": "aafae311b1a0ff84cc1f78855dab8066b49c1a4dab838924a13a01744451f15f",
+      "shape": {
+        "fields": [
+          {
+            "name": "bindings",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "credential_references",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "ownership_epoch",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "policy",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "root_policy",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "targets",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "updater_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortPolicyTargetState",
+      "wire_json": "{\"target_id\":\"\",\"service_id\":\"\",\"host_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\",\"desired_endpoint\":{\"host\":\"\",\"port\":0,\"ssl_enabled\":false,\"public_url\":\"\"},\"applied_endpoint\":{\"host\":\"\",\"port\":0,\"ssl_enabled\":false,\"public_url\":\"\"},\"endpoint_revision\":0,\"applied_endpoint_revision\":0,\"config_revision\":0,\"config_sha256\":\"\",\"local_listen_port\":0}",
+      "wire_sha256": "f4949750b2aab52c68adc52f0bb6940ff709708888fcfafbfb48f6a1116e9b78",
+      "shape": {
+        "fields": [
+          {
+            "name": "applied_endpoint",
+            "shape": {
+              "fields": [
+                {
+                  "name": "host",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "port",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "public_url",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "ssl_enabled",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "applied_endpoint_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "config_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "config_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "desired_endpoint",
+            "shape": {
+              "fields": [
+                {
+                  "name": "host",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "port",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "public_url",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "ssl_enabled",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "endpoint_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "host_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "local_listen_port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "target_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "SystemUpdatePortReconfiguration",
       "wire_json": "{}",
       "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
       "shape": {
         "fields": [],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortResultV2",
+      "wire_json": "{\"result\":\"\",\"observation\":{\"policy_disk_verified\":false,\"policy_memory_verified\":false,\"agent_projection_verified\":false,\"listener_verified\":false,\"observed_at\":\"0001-01-01T00:00:00Z\"}}",
+      "wire_sha256": "fd2558bd1579ff48c6f91f0320fbf1c631447d7232f6f6647edb92a94305c510",
+      "shape": {
+        "fields": [
+          {
+            "name": "observation",
+            "shape": {
+              "fields": [
+                {
+                  "name": "agent_projection_verified",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "listener_verified",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "observed_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "policy_disk_verified",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                },
+                {
+                  "name": "policy_memory_verified",
+                  "shape": {
+                    "kind": "boolean"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "result",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortRuntimeInstance",
+      "wire_json": "{\"container_id\":\"\",\"image_id\":\"\",\"repository_digest\":\"\"}",
+      "wire_sha256": "0e652bca3a61a230dd8a28b04e6d5eaff3b0173334eb09c41bda3bc504d14dcd",
+      "shape": {
+        "fields": [
+          {
+            "name": "container_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "image_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "repository_digest",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SystemUpdatePortSnapshotRef",
+      "wire_json": "{\"snapshot_id\":\"\",\"snapshot_sha256\":\"\",\"source_policy_revision\":0,\"projection_revision\":0,\"executor_policy_revision\":0,\"executor_policy_sha256\":\"\",\"endpoint_revision\":0,\"applied_endpoint_revision\":0,\"config_revision\":0,\"config_sha256\":\"\",\"advertised_port\":0,\"advertised_endpoint_sha256\":\"\",\"local_listen_port\":0}",
+      "wire_sha256": "dafde1a854a47e3432007d5c13794d53054f64b1f0080578f9dfc067507c8f34",
+      "shape": {
+        "fields": [
+          {
+            "name": "advertised_endpoint_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "advertised_port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "applied_endpoint_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "config_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "config_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "endpoint_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "executor_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "executor_policy_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "local_listen_port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "projection_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "snapshot_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "snapshot_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "source_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
         "kind": "object"
       }
     },
@@ -8932,6 +9588,144 @@
           },
           {
             "name": "grant_token",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterPortDockerRootBaseline",
+      "wire_json": "{\"compose_config_sha256\":\"\"}",
+      "wire_sha256": "4d8b6c35c2f4413064baf66944e4983e47c53eeeebbb25946993a4539353f94e",
+      "shape": {
+        "fields": [
+          {
+            "name": "compose_config_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterPortPolicyBaseline",
+      "wire_json": "{\"port_contract_version\":0,\"policy_transition_version\":0,\"agent_uid\":0,\"agent_gid\":0,\"source_policy_revision\":0,\"projection_revision\":0,\"executor_policy_revision\":0,\"executor_policy_sha256\":\"\",\"targets\":null,\"observed_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "03f571b4bf2df407ea29e3a175e8447b2a6cda0af9215432a5ae0e833634117a",
+      "shape": {
+        "fields": [
+          {
+            "name": "agent_gid",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "agent_uid",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "executor_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "executor_policy_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "observed_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "policy_transition_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "port_contract_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "projection_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "source_policy_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "targets",
+            "shape": {
+              "kind": "null"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "UpdaterPortPolicyBaselineTarget",
+      "wire_json": "{\"service_id\":\"\",\"service_type\":\"\",\"deployment_mode\":\"\",\"endpoint_revision\":0,\"config_revision\":0,\"config_sha256\":\"\",\"local_listen_port\":0}",
+      "wire_sha256": "99512f27881a08ed11bc7bc79b77b2aac4d38494fe7c5ed1af83bc68f7a818de",
+      "shape": {
+        "fields": [
+          {
+            "name": "config_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "config_sha256",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "deployment_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "endpoint_revision",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "local_listen_port",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "service_type",
             "shape": {
               "kind": "string"
             }

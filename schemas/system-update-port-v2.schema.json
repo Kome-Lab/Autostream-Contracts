@@ -1,0 +1,786 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "System Update Port Contract Version 2",
+  "description": "Bounded local listener changes with independent advertised endpoint, immutable B/T/R snapshots and verified typed results. Cross-field revision, digest and no-op semantics are enforced by the shared Go validators.",
+  "$defs": {
+    "dockerSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "published_host_ip",
+        "published_port",
+        "container_port",
+        "health_port",
+        "compose_policy_sha256",
+        "compose_revision",
+        "version_env_sha256",
+        "image_id",
+        "repository_digest"
+      ],
+      "properties": {
+        "published_host_ip": {
+          "const": "127.0.0.1"
+        },
+        "published_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "container_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "health_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "compose_policy_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "compose_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "version_env_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "image_id": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "repository_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "snapshotRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_id",
+        "snapshot_sha256",
+        "source_policy_revision",
+        "projection_revision",
+        "executor_policy_revision",
+        "executor_policy_sha256",
+        "endpoint_revision",
+        "applied_endpoint_revision",
+        "config_revision",
+        "config_sha256",
+        "advertised_port",
+        "advertised_endpoint_sha256",
+        "local_listen_port"
+      ],
+      "properties": {
+        "snapshot_id": {
+          "type": "string",
+          "pattern": "^ps1:[a-f0-9]{64}$"
+        },
+        "snapshot_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "source_policy_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "projection_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "executor_policy_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "executor_policy_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "endpoint_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "applied_endpoint_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "config_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "config_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "advertised_port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "advertised_endpoint_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "local_listen_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "docker": {
+          "$ref": "#/$defs/dockerSnapshot"
+        }
+      }
+    },
+    "dockerBaseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_container_id",
+        "expected_image_id",
+        "expected_repository_digest",
+        "expected_version_env_sha256",
+        "approved_compose_config_sha256",
+        "approved_compose_revision"
+      ],
+      "properties": {
+        "expected_container_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{12,64}$"
+        },
+        "expected_image_id": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "expected_repository_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "expected_version_env_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "approved_compose_config_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "approved_compose_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "port_contract_version",
+        "mode",
+        "network_namespace",
+        "protocol",
+        "before",
+        "target",
+        "rollback",
+        "port_plan_sha256"
+      ],
+      "properties": {
+        "port_contract_version": {
+          "const": 2
+        },
+        "mode": {
+          "enum": [
+            "local_only",
+            "local_and_advertised"
+          ]
+        },
+        "network_namespace": {
+          "const": "host"
+        },
+        "protocol": {
+          "const": "tcp"
+        },
+        "before": {
+          "$ref": "#/$defs/snapshotRef"
+        },
+        "target": {
+          "$ref": "#/$defs/snapshotRef"
+        },
+        "rollback": {
+          "$ref": "#/$defs/snapshotRef"
+        },
+        "port_plan_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "docker_baseline": {
+          "$ref": "#/$defs/dockerBaseline"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "docker_baseline"
+          ],
+          "properties": {
+            "before": {
+              "required": [
+                "docker"
+              ]
+            },
+            "target": {
+              "required": [
+                "docker"
+              ]
+            },
+            "rollback": {
+              "required": [
+                "docker"
+              ]
+            }
+          }
+        },
+        {
+          "not": {
+            "required": [
+              "docker_baseline"
+            ]
+          },
+          "properties": {
+            "before": {
+              "not": {
+                "required": [
+                  "docker"
+                ]
+              }
+            },
+            "target": {
+              "not": {
+                "required": [
+                  "docker"
+                ]
+              }
+            },
+            "rollback": {
+              "not": {
+                "required": [
+                  "docker"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_disk_verified",
+        "policy_memory_verified",
+        "agent_projection_verified",
+        "listener_verified",
+        "observed_at"
+      ],
+      "properties": {
+        "policy_disk_verified": {
+          "type": "boolean"
+        },
+        "policy_memory_verified": {
+          "type": "boolean"
+        },
+        "agent_projection_verified": {
+          "type": "boolean"
+        },
+        "listener_verified": {
+          "type": "boolean"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "verifiedObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_disk_verified",
+        "policy_memory_verified",
+        "agent_projection_verified",
+        "listener_verified",
+        "observed_at"
+      ],
+      "properties": {
+        "policy_disk_verified": {
+          "const": true
+        },
+        "policy_memory_verified": {
+          "const": true
+        },
+        "agent_projection_verified": {
+          "const": true
+        },
+        "listener_verified": {
+          "const": true
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "runtimeInstance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "container_id",
+        "image_id",
+        "repository_digest"
+      ],
+      "properties": {
+        "container_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{12,64}$"
+        },
+        "image_id": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "repository_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "acceptedResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "observed_snapshot_id",
+        "observed_snapshot_sha256",
+        "observed_config_revision",
+        "observed_config_sha256",
+        "observed_executor_policy_revision",
+        "observed_executor_policy_sha256",
+        "observation"
+      ],
+      "properties": {
+        "result": {
+          "enum": [
+            "applied",
+            "unchanged",
+            "rolled_back"
+          ]
+        },
+        "observed_snapshot_id": {
+          "type": "string",
+          "pattern": "^ps1:[a-f0-9]{64}$"
+        },
+        "observed_snapshot_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "observed_config_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "observed_config_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "observed_executor_policy_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "observed_executor_policy_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "observation": {
+          "$ref": "#/$defs/verifiedObservation"
+        },
+        "runtime_instance": {
+          "$ref": "#/$defs/runtimeInstance"
+        }
+      }
+    },
+    "recoveryObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "observation"
+      ],
+      "properties": {
+        "result": {
+          "const": "rollback_failed"
+        },
+        "observation": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "not": {
+                "$ref": "#/$defs/verifiedObservation"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "result": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/acceptedResult"
+        },
+        {
+          "$ref": "#/$defs/recoveryObservation"
+        }
+      ]
+    },
+    "baselineTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "service_id",
+        "service_type",
+        "deployment_mode",
+        "endpoint_revision",
+        "config_revision",
+        "config_sha256",
+        "local_listen_port"
+      ],
+      "properties": {
+        "service_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "service_type": {
+          "enum": [
+            "control_panel",
+            "worker",
+            "encoder_recorder",
+            "discord_bot",
+            "observability"
+          ]
+        },
+        "deployment_mode": {
+          "enum": [
+            "systemd",
+            "docker"
+          ]
+        },
+        "endpoint_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "config_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "config_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "local_listen_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "docker": {
+          "$ref": "#/$defs/dockerSnapshot"
+        },
+        "docker_root": {
+          "$ref": "#/$defs/dockerRootBaseline"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "deployment_mode": {
+                "const": "docker"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "docker",
+              "docker_root"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "docker"
+                  ]
+                },
+                {
+                  "required": [
+                    "docker_root"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "policyBaseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "port_contract_version",
+        "policy_transition_version",
+        "agent_uid",
+        "agent_gid",
+        "source_policy_revision",
+        "projection_revision",
+        "executor_policy_revision",
+        "executor_policy_sha256",
+        "targets",
+        "observed_at"
+      ],
+      "properties": {
+        "port_contract_version": {
+          "const": 2
+        },
+        "policy_transition_version": {
+          "const": 1
+        },
+        "agent_uid": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "agent_gid": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "source_policy_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "projection_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "executor_policy_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "executor_policy_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/baselineTarget"
+          }
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "createRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "operation",
+        "port_contract_version",
+        "mode",
+        "target_id",
+        "expected_snapshot_id",
+        "expected_endpoint_revision",
+        "desired_revision",
+        "fence",
+        "required_capability",
+        "idempotency_key"
+      ],
+      "properties": {
+        "protocol_version": {
+          "const": 2
+        },
+        "operation": {
+          "const": "port_reconfigure"
+        },
+        "port_contract_version": {
+          "const": 2
+        },
+        "mode": {
+          "enum": [
+            "local_only",
+            "local_and_advertised"
+          ]
+        },
+        "target_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "expected_snapshot_id": {
+          "type": "string",
+          "pattern": "^ps1:[a-f0-9]{64}$"
+        },
+        "expected_endpoint_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "desired_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "fence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "required_capability": {
+          "const": "host.port"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+        },
+        "new_local_listen_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "new_advertised_port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "new_published_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        },
+        "new_container_port": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 65535
+        }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "required": [
+                "new_local_listen_port"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "new_published_port"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "new_container_port"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "required": [
+                "new_published_port",
+                "new_container_port"
+              ],
+              "not": {
+                "required": [
+                  "new_local_listen_port"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "mode": {
+                  "const": "local_only"
+                }
+              },
+              "not": {
+                "required": [
+                  "new_advertised_port"
+                ]
+              }
+            },
+            {
+              "properties": {
+                "mode": {
+                  "const": "local_and_advertised"
+                }
+              },
+              "required": [
+                "new_advertised_port"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "dockerRootBaseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compose_config_sha256"
+      ],
+      "properties": {
+        "compose_config_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "current_version": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^(?:|v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?)$"
+        }
+      }
+    }
+  },
+  "$ref": "#/$defs/plan"
+}

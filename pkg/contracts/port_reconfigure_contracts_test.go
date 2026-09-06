@@ -15,7 +15,7 @@ const (
 	portContractConfigDigest       = "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	portContractExecutorDigest     = "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
 	portContractPlanSHA256         = "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
-	portContractV2CreateFields     = `"protocol_version":2,"desired_revision":12,"fence":3,"required_capability":"host.port",`
+	portContractV2CreateFields     = `"protocol_version":2,"port_contract_version":2,"mode":"local_only","expected_snapshot_id":"ps1:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","desired_revision":12,"fence":3,"required_capability":"host.port",`
 	softwareContractV2CreateFields = `"protocol_version":2,"desired_revision":12,"fence":3,"required_capability":"host.update",`
 	portContractV2JobFields        = `"protocol_version":2,"updater_id":"host-agent-a","desired_revision":12,"fence":3,"outcome":"pending","required_capability":"host.port","authorization_id":"authorization-1","canonical_payload_digest":"` + portContractConfigDigest + `","automatic_resend_allowed":false,`
 	portContractV2TargetFields     = `"protocol_version":2,"updater_id":"host-agent-a","capabilities":["host.port"],"desired_revision":12,"applied_revision":11,"fence":3,"updater_health":{"status":"ready","revision":12},"application_probe":{"version":"v1.2.3","service_id":"worker-a","service_type":"worker","config_revision":11},`
@@ -98,7 +98,7 @@ func TestSystemUpdateCreateRequestSeparatesSoftwareAndPortOperations(t *testing.
 	validatePortContractJSON(t, schema, `{`+portContractV2CreateFields+`
 		"operation":"port_reconfigure",
 		"target_id":"worker-a",
-		"new_port":18084,
+		"new_local_listen_port":18084,
 		"expected_endpoint_revision":7,
 		"idempotency_key":"port-worker-a-18084"
 	}`, true)
@@ -330,7 +330,10 @@ func TestPortReconfigurationGoTypesPreserveV2SoftwareOperation(t *testing.T) {
 		ProtocolVersion: 2, DesiredRevision: 12, Fence: 3, RequiredCapability: UpdaterCapabilityPort,
 		Operation:                SystemUpdateOperationPortReconfigure,
 		TargetID:                 "worker-a",
-		NewPort:                  18084,
+		PortContractVersion:      2,
+		Mode:                     SystemUpdatePortModeLocalOnly,
+		ExpectedSnapshotID:       "ps1:" + strings.Repeat("a", 64),
+		NewLocalListenPort:       18084,
 		ExpectedEndpointRevision: 7,
 		IdempotencyKey:           "port-worker-a-18084",
 	})
@@ -500,9 +503,10 @@ func TestPortPolicyProjectionAndAppliedConfigFieldsAreAdditive(t *testing.T) {
 		"applied_config_revision:",
 		"applied_config_sha256:",
 		"const: host",
-		"const: tcp",
+		"../schemas/system-update-port-v2.schema.json#/$defs/result",
+		"../schemas/system-update-job.schema.json#/$defs/portReconfigurationPlan",
 		"port_reconfigure_reconcile",
-		"For port operations it must equal port_reconfigure.port_plan_sha256",
+		"Version 2 binds immutable B/T/R intent",
 	} {
 		if !strings.Contains(string(openAPI), marker) {
 			t.Fatalf("control OpenAPI is missing port-reconfiguration marker %q", marker)

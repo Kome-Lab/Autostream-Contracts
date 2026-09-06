@@ -5,9 +5,27 @@
   "x-autostream-contract-major": 2,
   "type": "object",
   "additionalProperties": false,
-  "required": ["protocol_version", "updater_id", "host_id", "service_id", "name", "transport_mode", "authentication", "status", "online", "version", "heartbeat_sequence", "capabilities", "desired_revision", "applied_revision", "fence"],
+  "required": [
+    "protocol_version",
+    "updater_id",
+    "host_id",
+    "service_id",
+    "name",
+    "transport_mode",
+    "authentication",
+    "status",
+    "online",
+    "version",
+    "heartbeat_sequence",
+    "capabilities",
+    "desired_revision",
+    "applied_revision",
+    "fence"
+  ],
   "properties": {
-    "protocol_version": { "const": 2 },
+    "protocol_version": {
+      "const": 2
+    },
     "updater_id": {
       "type": "string",
       "minLength": 1,
@@ -26,36 +44,81 @@
       "maxLength": 128,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
     },
-    "authentication": { "const": "assignment_bound_rotating_service_identity" },
-    "name": { "type": "string", "minLength": 1, "maxLength": 191 },
-    "transport_mode": { "const": "pull_v2" },
+    "authentication": {
+      "const": "assignment_bound_rotating_service_identity"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 191
+    },
+    "transport_mode": {
+      "const": "pull_v2"
+    },
     "execution_host_id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 191,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,190}$"
     },
-    "ownership_epoch": { "type": "integer", "minimum": 0 },
-    "status": { "type": "string", "minLength": 1, "maxLength": 64 },
-    "online": { "type": "boolean" },
-    "version": { "type": "string", "maxLength": 128 },
-    "last_heartbeat_at": { "type": "string", "format": "date-time" },
-    "heartbeat_sequence": { "type": "integer", "minimum": 0 },
+    "ownership_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "online": {
+      "type": "boolean"
+    },
+    "version": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "last_heartbeat_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "heartbeat_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
     "capabilities": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
       "items": {
         "enum": [
-          "host.systemd", "host.docker", "host.update", "host.bootstrap",
-          "host.port", "host.self_update"
+          "host.systemd",
+          "host.docker",
+          "host.update",
+          "host.bootstrap",
+          "host.port",
+          "host.self_update"
         ]
       }
     },
-    "desired_revision": { "type": "integer", "minimum": 1 },
-    "applied_revision": { "type": "integer", "minimum": 0 },
-    "fence": { "type": "integer", "minimum": 1 },
-    "policy_status": { "enum": ["applied", "pending", "failed"] },
+    "desired_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "applied_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "fence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "policy_status": {
+      "enum": [
+        "applied",
+        "pending",
+        "failed"
+      ]
+    },
     "policy_error_code": {
       "enum": [
         "policy_fetch_failed",
@@ -74,6 +137,36 @@
       "type": "string",
       "maxLength": 50,
       "pattern": "^SHA256:[A-Za-z0-9+/]{43}$"
+    },
+    "port_contract_version": {
+      "const": 2
+    },
+    "policy_transition_version": {
+      "const": 1
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "anyOf": [
+          {
+            "required": [
+              "port_contract_version"
+            ]
+          },
+          {
+            "required": [
+              "policy_transition_version"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "required": [
+          "port_contract_version",
+          "policy_transition_version"
+        ]
+      }
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 117,
+  "schema_count": 118,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -2654,14 +2654,17 @@
       "path": "schemas/system-update-agent-status.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "a360cadd63fd122dee4f3b599437258007277afebea5893edea0da0c8819572a",
+      "normalized_sha256": "53d843de19b27b6d2e027da3b548ad7a4048d02111fbcf74a679bf9dc0075763",
       "keywords": [
         "$schema",
         "additionalProperties",
+        "allOf",
+        "anyOf",
         "const",
         "description",
         "enum",
         "format",
+        "if",
         "items",
         "maxLength",
         "minItems",
@@ -2670,6 +2673,7 @@
         "pattern",
         "properties",
         "required",
+        "then",
         "title",
         "type",
         "uniqueItems"
@@ -2684,8 +2688,9 @@
       "path": "schemas/system-update-create-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "c202576b706313ad220dfd2c869b6cf9588b90aefb29dd7de60a3fe301f580cf",
+      "normalized_sha256": "ad83c20fb43a8c6d1588877eb7565a28b06fba2cbe29aa26420ffed0cdbfe11a",
       "keywords": [
+        "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
@@ -2712,7 +2717,14 @@
       "extension_keywords": [
         "x-autostream-contract-major"
       ],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/allOf/0/then/$ref",
+          "value": "system-update-port-v2.schema.json#/$defs/createRequest",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/createRequest"
+        }
+      ],
       "compiled": true
     },
     {
@@ -2761,7 +2773,7 @@
       "path": "schemas/system-update-job.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "496edc88b94565649f78a1ff2adf199e15466f29225c1a7f236786b781bc149f",
+      "normalized_sha256": "b3ab40b15394a0df23819576189bf9e86d78f6fe0a99d9fbf1f24cdfc954ef75",
       "keywords": [
         "$defs",
         "$ref",
@@ -2794,10 +2806,28 @@
       ],
       "refs": [
         {
-          "pointer": "/$defs/portReconfigurationPlan/properties/docker/$ref",
+          "pointer": "/$defs/legacyPortReconfigurationPlan/properties/docker/$ref",
           "value": "#/$defs/dockerPortReconfiguration",
           "target": "schemas/system-update-job.schema.json",
           "fragment": "/$defs/dockerPortReconfiguration"
+        },
+        {
+          "pointer": "/$defs/portReconfigurationPlan/oneOf/0/$ref",
+          "value": "#/$defs/legacyPortReconfigurationPlan",
+          "target": "schemas/system-update-job.schema.json",
+          "fragment": "/$defs/legacyPortReconfigurationPlan"
+        },
+        {
+          "pointer": "/$defs/portReconfigurationPlan/oneOf/1/$ref",
+          "value": "system-update-port-v2.schema.json#/$defs/plan",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/plan"
+        },
+        {
+          "pointer": "/properties/last_recovery_observation/$ref",
+          "value": "system-update-port-v2.schema.json#/$defs/recoveryObservation",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/recoveryObservation"
         },
         {
           "pointer": "/properties/port_reconfigure/$ref",
@@ -2806,10 +2836,145 @@
           "fragment": "/$defs/portReconfigurationPlan"
         },
         {
+          "pointer": "/properties/port_result/$ref",
+          "value": "system-update-port-v2.schema.json#/$defs/acceptedResult",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/acceptedResult"
+        },
+        {
           "pointer": "/properties/safe_error/$ref",
           "value": "#/$defs/systemUpdateJobSafeError",
           "target": "schemas/system-update-job.schema.json",
           "fragment": "/$defs/systemUpdateJobSafeError"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-update-port-v2.schema.json",
+      "id": "",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "9f9a3b1301e6fc10a85f769e3418298071fd1bd0defff0d4095e13ce0cb9ad91",
+      "keywords": [
+        "$defs",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "description",
+        "else",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "maxItems",
+        "maxLength",
+        "maximum",
+        "minItems",
+        "minLength",
+        "minimum",
+        "not",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$defs/acceptedResult/properties/observation/$ref",
+          "value": "#/$defs/verifiedObservation",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/verifiedObservation"
+        },
+        {
+          "pointer": "/$defs/acceptedResult/properties/runtime_instance/$ref",
+          "value": "#/$defs/runtimeInstance",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/runtimeInstance"
+        },
+        {
+          "pointer": "/$defs/baselineTarget/properties/docker/$ref",
+          "value": "#/$defs/dockerSnapshot",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/dockerSnapshot"
+        },
+        {
+          "pointer": "/$defs/baselineTarget/properties/docker_root/$ref",
+          "value": "#/$defs/dockerRootBaseline",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/dockerRootBaseline"
+        },
+        {
+          "pointer": "/$defs/plan/properties/before/$ref",
+          "value": "#/$defs/snapshotRef",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/snapshotRef"
+        },
+        {
+          "pointer": "/$defs/plan/properties/docker_baseline/$ref",
+          "value": "#/$defs/dockerBaseline",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/dockerBaseline"
+        },
+        {
+          "pointer": "/$defs/plan/properties/rollback/$ref",
+          "value": "#/$defs/snapshotRef",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/snapshotRef"
+        },
+        {
+          "pointer": "/$defs/plan/properties/target/$ref",
+          "value": "#/$defs/snapshotRef",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/snapshotRef"
+        },
+        {
+          "pointer": "/$defs/policyBaseline/properties/targets/items/$ref",
+          "value": "#/$defs/baselineTarget",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/baselineTarget"
+        },
+        {
+          "pointer": "/$defs/recoveryObservation/properties/observation/allOf/0/$ref",
+          "value": "#/$defs/observation",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/observation"
+        },
+        {
+          "pointer": "/$defs/recoveryObservation/properties/observation/allOf/1/not/$ref",
+          "value": "#/$defs/verifiedObservation",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/verifiedObservation"
+        },
+        {
+          "pointer": "/$defs/result/oneOf/0/$ref",
+          "value": "#/$defs/acceptedResult",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/acceptedResult"
+        },
+        {
+          "pointer": "/$defs/result/oneOf/1/$ref",
+          "value": "#/$defs/recoveryObservation",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/recoveryObservation"
+        },
+        {
+          "pointer": "/$defs/snapshotRef/properties/docker/$ref",
+          "value": "#/$defs/dockerSnapshot",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/dockerSnapshot"
+        },
+        {
+          "pointer": "/$ref",
+          "value": "#/$defs/plan",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/plan"
         }
       ],
       "compiled": true
@@ -2920,7 +3085,7 @@
       "path": "schemas/system-update-target.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "066c9368714a373018e836221d9f3ada4bb2152ec84c401e9b23ac59125c958b",
+      "normalized_sha256": "e5a0e5b9126c9b57755d7d10bf097af62bc4547d8af81b034cc4d43bc247079a",
       "keywords": [
         "$defs",
         "$ref",
@@ -2933,6 +3098,7 @@
         "format",
         "if",
         "items",
+        "maxItems",
         "maxLength",
         "maximum",
         "minItems",
@@ -3081,13 +3247,14 @@
       "path": "schemas/update-agent-mutation-grant-consume-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "090ccdd700b80d48231e2bafc00f4feb0b3e2728b879c1b0bd5151939890d554",
+      "normalized_sha256": "e0484d5007a376fc983114d0c55ea36469d8307031e0eaf58b6f558b70638055",
       "keywords": [
         "$defs",
         "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
+        "anyOf",
         "const",
         "description",
         "else",
@@ -3109,10 +3276,22 @@
       "extension_keywords": [],
       "refs": [
         {
-          "pointer": "/$defs/portReconfigurationPlan/properties/docker/$ref",
+          "pointer": "/$defs/legacyPortReconfigurationPlan/properties/docker/$ref",
           "value": "#/$defs/dockerPortReconfiguration",
           "target": "schemas/update-agent-mutation-grant-consume-request.schema.json",
           "fragment": "/$defs/dockerPortReconfiguration"
+        },
+        {
+          "pointer": "/$defs/portReconfigurationPlan/oneOf/0/$ref",
+          "value": "#/$defs/legacyPortReconfigurationPlan",
+          "target": "schemas/update-agent-mutation-grant-consume-request.schema.json",
+          "fragment": "/$defs/legacyPortReconfigurationPlan"
+        },
+        {
+          "pointer": "/$defs/portReconfigurationPlan/oneOf/1/$ref",
+          "value": "system-update-port-v2.schema.json#/$defs/plan",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/plan"
         },
         {
           "pointer": "/properties/port_reconfigure/$ref",
@@ -3127,13 +3306,14 @@
       "path": "schemas/update-agent-mutation-grant-issue-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "1160a9d47417d1e3f401c77ed99dddb631e506f554695b6f0b481be2ec35e72e",
+      "normalized_sha256": "1d21c2a82c8e00821da1477e9b0c528c4f0c8c6f8b2ce9b3643f1887ce16ad69",
       "keywords": [
         "$defs",
         "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
+        "anyOf",
         "const",
         "description",
         "else",
@@ -3156,10 +3336,22 @@
       "extension_keywords": [],
       "refs": [
         {
-          "pointer": "/$defs/portReconfigurationPlan/properties/docker/$ref",
+          "pointer": "/$defs/legacyPortReconfigurationPlan/properties/docker/$ref",
           "value": "#/$defs/dockerPortReconfiguration",
           "target": "schemas/update-agent-mutation-grant-issue-request.schema.json",
           "fragment": "/$defs/dockerPortReconfiguration"
+        },
+        {
+          "pointer": "/$defs/portReconfigurationPlan/oneOf/0/$ref",
+          "value": "#/$defs/legacyPortReconfigurationPlan",
+          "target": "schemas/update-agent-mutation-grant-issue-request.schema.json",
+          "fragment": "/$defs/legacyPortReconfigurationPlan"
+        },
+        {
+          "pointer": "/$defs/portReconfigurationPlan/oneOf/1/$ref",
+          "value": "system-update-port-v2.schema.json#/$defs/plan",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/plan"
         },
         {
           "pointer": "/properties/port_reconfigure/$ref",
@@ -3174,7 +3366,7 @@
       "path": "schemas/update-agent-mutation-grant-issue-response.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "7e55c4a7c80b0d9dd7e34257606bf63237375d0d33b4080c87cabc31adae0142",
+      "normalized_sha256": "4cba388e5d5bb3d7346e0f5e8f06b2aa198c499214c844fdeff3750443b76be6",
       "keywords": [
         "$schema",
         "additionalProperties",
@@ -3197,8 +3389,9 @@
       "path": "schemas/update-agent-report-request.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "119f8aba2d58859be882b7abf04fdd4e6d1d0856b1e0af4296f4bc51e8c12d57",
+      "normalized_sha256": "0bb31999f8ce1632c4eafd3a7f3d75de2ca82b58e7adf20f14cede0de6b1bf76",
       "keywords": [
+        "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
@@ -3219,7 +3412,20 @@
         "writeOnly"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/allOf/1/then/properties/port_reconfigure/$ref",
+          "value": "system-update-port-v2.schema.json#/$defs/result",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/result"
+        },
+        {
+          "pointer": "/properties/port_reconfigure/oneOf/1/$ref",
+          "value": "system-update-port-v2.schema.json#/$defs/result",
+          "target": "schemas/system-update-port-v2.schema.json",
+          "fragment": "/$defs/result"
+        }
+      ],
       "compiled": true
     },
     {
