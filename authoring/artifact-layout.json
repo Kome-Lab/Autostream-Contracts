@@ -1,0 +1,67 @@
+{
+  "format_version": 1,
+  "repository": "Autostream-Contracts",
+  "artifacts": [
+    {
+      "target_id": "B9-M001",
+      "output": "openapi/control-api.yaml",
+      "fragments": [
+        "authoring/control-api/document-policy.yaml.inc",
+        "authoring/control-api/paths-health-bootstrap.yaml.inc",
+        "authoring/control-api/paths-authentication.yaml.inc",
+        "authoring/control-api/paths-users-roles.yaml.inc",
+        "authoring/control-api/paths-stream-configuration.yaml.inc",
+        "authoring/control-api/paths-youtube-lifecycle.yaml.inc",
+        "authoring/control-api/paths-stream-preview-recovery.yaml.inc",
+        "authoring/control-api/paths-stream-events-profiles.yaml.inc",
+        "authoring/control-api/paths-discord-youtube-configuration.yaml.inc",
+        "authoring/control-api/paths-workers.yaml.inc",
+        "authoring/control-api/paths-system-updates.yaml.inc",
+        "authoring/control-api/paths-node-token-permissions.yaml.inc",
+        "authoring/control-api/paths-service-registration-host-policy.yaml.inc",
+        "authoring/control-api/paths-service-runtime-notification.yaml.inc",
+        "authoring/control-api/paths-service-update-lease-grant.yaml.inc",
+        "authoring/control-api/paths-service-reports-actions.yaml.inc",
+        "authoring/control-api/paths-security-settings.yaml.inc",
+        "authoring/control-api/paths-observability.yaml.inc",
+        "authoring/control-api/paths-oauth-archive.yaml.inc",
+        "authoring/control-api/components-http-authorization.yaml.inc",
+        "authoring/control-api/schemas-core-protocol.yaml.inc",
+        "authoring/control-api/schemas-updater-command.yaml.inc",
+        "authoring/control-api/schemas-updater-lease-evidence.yaml.inc",
+        "authoring/control-api/schemas-remediation.yaml.inc",
+        "authoring/control-api/schemas-host-ownership-self-update.yaml.inc",
+        "authoring/control-api/schemas-system-update-jobs.yaml.inc",
+        "authoring/control-api/schemas-error-authentication.yaml.inc",
+        "authoring/control-api/schemas-settings.yaml.inc",
+        "authoring/control-api/schemas-service-registration.yaml.inc",
+        "authoring/control-api/schemas-host-policy.yaml.inc",
+        "authoring/control-api/schemas-service-token-identity.yaml.inc",
+        "authoring/control-api/schemas-service-signal-assignment.yaml.inc",
+        "authoring/control-api/schemas-discord-youtube.yaml.inc",
+        "authoring/control-api/schemas-runtime-config-secrets.yaml.inc",
+        "authoring/control-api/schemas-notification-artifact.yaml.inc",
+        "authoring/control-api/schemas-oauth-drive.yaml.inc",
+        "authoring/control-api/schemas-stream-start-readiness.yaml.inc"
+      ]
+    },
+    {
+      "target_id": "B9-M005",
+      "output": "schemas/discord-bot-start-job-request.schema.json",
+      "fragments": [
+        "authoring/discord-start-job/envelope-catalog.json.inc",
+        "authoring/discord-start-job/readiness-safe-error.json.inc",
+        "authoring/discord-start-job/theme-media-assets.json.inc",
+        "authoring/discord-start-job/scene-appearance.json.inc",
+        "authoring/discord-start-job/discord-targets.json.inc",
+        "authoring/discord-start-job/visual-invariants.json.inc",
+        "authoring/discord-start-job/cover-state.json.inc",
+        "authoring/discord-start-job/cover-start-apply.json.inc",
+        "authoring/discord-start-job/cover-response.json.inc",
+        "authoring/discord-start-job/cover-runtime.json.inc",
+        "authoring/discord-start-job/generation-validation.json.inc",
+        "authoring/discord-start-job/audio-caption-job-properties.json.inc"
+      ]
+    }
+  ]
+}

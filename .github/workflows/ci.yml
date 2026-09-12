@@ -18,6 +18,14 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Verify Bundle 9 authored sources and raw distributions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s scripts/ci -p 'test_artifact_assembly.py' -v
+          python3 -m unittest discover -s scripts/ci -p 'test_verify_bundle9_sources.py' -v
+          python3 scripts/ci/verify_bundle9_sources.py \
+            --repository Autostream-Contracts --tree "$(git rev-parse HEAD)"
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version-file: go.mod
@@ -38,7 +46,11 @@ jobs:
         with:
           node-version: 26
       - name: Verify all OpenAPI contracts and characterizations
-        run: node scripts/characterize-contracts.mjs verify
+        run: |
+          python3 scripts/assemble-control-api.py --check
+          python3 scripts/test_control_api_assembly.py
+          node --test scripts/test-openapi-model.mjs
+          node scripts/characterize-contracts.mjs verify
       - name: Lint Discord Bot OpenAPI
         run: |
           npx --yes @redocly/cli@2.39.0 lint \

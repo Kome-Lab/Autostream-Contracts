@@ -1,0 +1,1022 @@
+[
+  {
+    "target_id": "B9-M001",
+    "repository": "Kome-Lab/Autostream-Contracts",
+    "original_path": "openapi/control-api.yaml",
+    "original_sha256": "a6b12221ba6972317f3d9bbd6044126ae364bd0e0fc739cbbd4e214e134f5bad",
+    "before_physical_lines": 8330,
+    "disposition": "generated-from-bounded-authoring",
+    "responsibility": "top-level metadata/security;route domains;component/schema domains",
+    "destinations": [
+      {
+        "path": "authoring/control-api/components-http-authorization.yaml.inc",
+        "sha256": "2a94b2dc03247a1d931697c93627d8248a009929734a7c9005b3c38fa8b73cf8",
+        "symbols": [],
+        "physical_lines": 314
+      },
+      {
+        "path": "authoring/control-api/document-policy.yaml.inc",
+        "sha256": "c582f20bfc77879bb3d078b80d148a2be12f978d7e6a468bcabe3ce268e54010",
+        "symbols": [],
+        "physical_lines": 91
+      },
+      {
+        "path": "authoring/control-api/paths-authentication.yaml.inc",
+        "sha256": "05b3047287a7a42dc2ad506e0e0758f7ffc5412ef615229287bbb943ac0228a7",
+        "symbols": [],
+        "physical_lines": 353
+      },
+      {
+        "path": "authoring/control-api/paths-discord-youtube-configuration.yaml.inc",
+        "sha256": "08e1c17ff9985c9003a734e25e90751a7ce3d6295540935a163c5e7981f1f52a",
+        "symbols": [],
+        "physical_lines": 204
+      },
+      {
+        "path": "authoring/control-api/paths-health-bootstrap.yaml.inc",
+        "sha256": "0b6143ae3f4871173787acfb016a2e3214feeea9f94a5175d0c5b7280d26f2a4",
+        "symbols": [],
+        "physical_lines": 102
+      },
+      {
+        "path": "authoring/control-api/paths-node-token-permissions.yaml.inc",
+        "sha256": "8a1bad619afcc93d11b315a8062886c5f4e9855a8d423cb27d66377427e3f116",
+        "symbols": [],
+        "physical_lines": 154
+      },
+      {
+        "path": "authoring/control-api/paths-oauth-archive.yaml.inc",
+        "sha256": "c855083ef398683113ce2f18130ab8d6cddfc6b2063626fb861e8c13b397faf8",
+        "symbols": [],
+        "physical_lines": 359
+      },
+      {
+        "path": "authoring/control-api/paths-observability.yaml.inc",
+        "sha256": "65505351aaccb4976d8dd20cce163b709f2beb270af67f0486fae720ecbf547f",
+        "symbols": [],
+        "physical_lines": 308
+      },
+      {
+        "path": "authoring/control-api/paths-security-settings.yaml.inc",
+        "sha256": "d2ce6701e69839cfec54296184d528325d85b5594c73da7dc21faa7c593b61e8",
+        "symbols": [],
+        "physical_lines": 169
+      },
+      {
+        "path": "authoring/control-api/paths-service-registration-host-policy.yaml.inc",
+        "sha256": "1f1b58eb61a43be5d198d42c2d11f4142c0174c6ec9c30d058f389fd6900315e",
+        "symbols": [],
+        "physical_lines": 232
+      },
+      {
+        "path": "authoring/control-api/paths-service-reports-actions.yaml.inc",
+        "sha256": "924357662fa132acfccb649212c1094486aa3677ef331c8bdb77e843393ce8c6",
+        "symbols": [],
+        "physical_lines": 292
+      },
+      {
+        "path": "authoring/control-api/paths-service-runtime-notification.yaml.inc",
+        "sha256": "cecf6791b299dd7ec0fb813d43913b970f2db2b708becb537936eaab0406d39d",
+        "symbols": [],
+        "physical_lines": 193
+      },
+      {
+        "path": "authoring/control-api/paths-service-update-lease-grant.yaml.inc",
+        "sha256": "4ff0dff6cda8b99445bd3a44f166515129b0e1817a931cad6ad4aed69fd797ca",
+        "symbols": [],
+        "physical_lines": 193
+      },
+      {
+        "path": "authoring/control-api/paths-stream-configuration.yaml.inc",
+        "sha256": "17bb48aed33ae2d988e56f2ea5cd161d446353280c1d05379435408ea4a8eb9d",
+        "symbols": [],
+        "physical_lines": 241
+      },
+      {
+        "path": "authoring/control-api/paths-stream-events-profiles.yaml.inc",
+        "sha256": "d28381e5be7715b0c73f2c9d8f19413ff16ea9ae2423a44ea556200edc4b4bd4",
+        "symbols": [],
+        "physical_lines": 142
+      },
+      {
+        "path": "authoring/control-api/paths-stream-preview-recovery.yaml.inc",
+        "sha256": "daf887c3801382e2e214e9332cab21c9e7ba48928ac311ed08513c24ea0751a3",
+        "symbols": [],
+        "physical_lines": 257
+      },
+      {
+        "path": "authoring/control-api/paths-system-updates.yaml.inc",
+        "sha256": "a7f7d9e80a5f9f9bcef90b4723ae6de984259c2ca5b8c7d7570e0f63a33b35f8",
+        "symbols": [],
+        "physical_lines": 406
+      },
+      {
+        "path": "authoring/control-api/paths-users-roles.yaml.inc",
+        "sha256": "9d7f09a9153c7e960a2be6a310ced86866415dda9e0cd207308e6c14e56e165a",
+        "symbols": [],
+        "physical_lines": 242
+      },
+      {
+        "path": "authoring/control-api/paths-workers.yaml.inc",
+        "sha256": "f8c06f0b34e0ceecfff6bffd9d0c2bdba36dd7c2a6af804c0ff8ca3fbf089e9b",
+        "symbols": [],
+        "physical_lines": 74
+      },
+      {
+        "path": "authoring/control-api/paths-youtube-lifecycle.yaml.inc",
+        "sha256": "911de774e214e6c23475d279fa35f7f97e17fa6ada7492d1956533d80ba1ecb0",
+        "symbols": [],
+        "physical_lines": 269
+      },
+      {
+        "path": "authoring/control-api/schemas-core-protocol.yaml.inc",
+        "sha256": "9bea00b1526576d964e86d3667d905379e9dc3da66d530d94acc797e8eb9903c",
+        "symbols": [],
+        "physical_lines": 93
+      },
+      {
+        "path": "authoring/control-api/schemas-discord-youtube.yaml.inc",
+        "sha256": "4b93ca8ddda33e8edc48b4057138a52b6c2c760bb8eea1f76a6b7083dda1b320",
+        "symbols": [],
+        "physical_lines": 294
+      },
+      {
+        "path": "authoring/control-api/schemas-error-authentication.yaml.inc",
+        "sha256": "b74320c9bc27e815551639b4bb94a252e0f9bdd471b328cff0c40d841fcec0cf",
+        "symbols": [],
+        "physical_lines": 323
+      },
+      {
+        "path": "authoring/control-api/schemas-host-ownership-self-update.yaml.inc",
+        "sha256": "aab7acf2a6308cb5d7c7c8f76951d4b4d4a80cee7eac721310e7364542bebe8c",
+        "symbols": [],
+        "physical_lines": 214
+      },
+      {
+        "path": "authoring/control-api/schemas-host-policy.yaml.inc",
+        "sha256": "6880d3f8291840a058e12ccdcfc0ae3fccbda571055c38f605a292a5ff80007d",
+        "symbols": [],
+        "physical_lines": 176
+      },
+      {
+        "path": "authoring/control-api/schemas-notification-artifact.yaml.inc",
+        "sha256": "6fa711a5c5e6edcc9315e9196c20de1683a4b9595adec7ab9620b056f2e70b43",
+        "symbols": [],
+        "physical_lines": 226
+      },
+      {
+        "path": "authoring/control-api/schemas-oauth-drive.yaml.inc",
+        "sha256": "d4f88451c702ae08fa31a80668aa2bb4cb385c11dec454c0daf4829790aefc73",
+        "symbols": [],
+        "physical_lines": 264
+      },
+      {
+        "path": "authoring/control-api/schemas-remediation.yaml.inc",
+        "sha256": "ede769d06064aae3d358aac52ff57b038639c0f4f7b9b39ce4277c6645690251",
+        "symbols": [],
+        "physical_lines": 195
+      },
+      {
+        "path": "authoring/control-api/schemas-runtime-config-secrets.yaml.inc",
+        "sha256": "92c77d06348a5e68158bcbd41517b63414238929ef0d2eb48736b9c1b9e5ffd2",
+        "symbols": [],
+        "physical_lines": 306
+      },
+      {
+        "path": "authoring/control-api/schemas-service-registration.yaml.inc",
+        "sha256": "a8c21c6a47f085f34ae57ba859fc0863731eddcc66b270374e88ef949c01e048",
+        "symbols": [],
+        "physical_lines": 141
+      },
+      {
+        "path": "authoring/control-api/schemas-service-signal-assignment.yaml.inc",
+        "sha256": "23a0540a772f0feb79bca94d1136808c8d40ef264a24585b3ff31b8113630743",
+        "symbols": [],
+        "physical_lines": 73
+      },
+      {
+        "path": "authoring/control-api/schemas-service-token-identity.yaml.inc",
+        "sha256": "be628969b72ee562c3ed51055089770b12943ab972bfb3e8cac2e47334fc792a",
+        "symbols": [],
+        "physical_lines": 227
+      },
+      {
+        "path": "authoring/control-api/schemas-settings.yaml.inc",
+        "sha256": "747bfbb3c7304b273fa9e04184e11bf183447fbd9f467a91dfa7c417dc1b08b2",
+        "symbols": [],
+        "physical_lines": 196
+      },
+      {
+        "path": "authoring/control-api/schemas-stream-start-readiness.yaml.inc",
+        "sha256": "e248b6764ac55c5debcb4210c98d5ecd606febdb5dd96e06b4508e05cbe58860",
+        "symbols": [],
+        "physical_lines": 381
+      },
+      {
+        "path": "authoring/control-api/schemas-system-update-jobs.yaml.inc",
+        "sha256": "75864a1f6de5b8bb8bc49e53ce0f58366c5cd393e688a7af0146f7587a1ae66d",
+        "symbols": [],
+        "physical_lines": 224
+      },
+      {
+        "path": "authoring/control-api/schemas-updater-command.yaml.inc",
+        "sha256": "b88dd2e501f928f5d5cb8af4df3ff2f30a9b17171af99f6ae270a72217f82f19",
+        "symbols": [],
+        "physical_lines": 170
+      },
+      {
+        "path": "authoring/control-api/schemas-updater-lease-evidence.yaml.inc",
+        "sha256": "b531059f67c2bd7c150ec6a3f5038ca3afec3ef4f90ea363b7893513d20c58a9",
+        "symbols": [],
+        "physical_lines": 232
+      },
+      {
+        "path": "openapi/control-api.yaml",
+        "sha256": "a6b12221ba6972317f3d9bbd6044126ae364bd0e0fc739cbbd4e214e134f5bad",
+        "symbols": [],
+        "physical_lines": 8330
+      }
+    ]
+  },
+  {
+    "target_id": "B9-M002",
+    "repository": "Kome-Lab/Autostream-Contracts",
+    "original_path": "pkg/contracts/types.go",
+    "original_sha256": "76925a099ea9909b671734b6b39884526a08996379fda284e88159fd9ed50919",
+    "before_physical_lines": 2847,
+    "disposition": "responsibility-split",
+    "responsibility": "stream/run/status;service/node/assignment;runtime/audio/caption;archive/artifact;notification;updater/policy/grant/ownership",
+    "destinations": [
+      {
+        "path": "pkg/contracts/types.go",
+        "sha256": "d56fd28e6186d865e0199074d1dbcc2205dbc7c8dbb486cc543e0597b18e3dfa",
+        "symbols": [
+          "AssignmentRolePrimary,AssignmentRoleStandby",
+          "CapabilitySceneFramesMJPEGSRT,CapabilityWorkerFrameIngestMJPEGSRT,CapabilitySceneAppearanceV1,CapabilityLiveVideoCoverV1,CapabilityDiscordResolvedTargetV2",
+          "ErrorResponse",
+          "ScopeServiceRegister,ScopeServiceHeartbeat,ScopeServiceLogsWrite,ScopeServiceStatusWrite,ScopeServiceConfigRead,ScopeServiceSecretResolve,ScopeWorkerEventsWrite,ScopeEncoderStatusWrite,ScopeDiscordStatusWrite,ScopeStreamsStart,ScopeStreamsStop,ScopeObservabilityIngest,ScopeNotificationsEmailSend,ScopeRemediationExecute,ScopeUpdatesClaim,ScopeUpdatesReport,ScopeUpdatesAuthorize",
+          "ServiceDiscordBot,ServiceEncoderRecorder,ServiceWorker,ServiceObservability,ServiceUpdateAgent",
+          "ServiceScope",
+          "ServiceStatus",
+          "ServiceStatusUnknown,ServiceStatusPending,ServiceStatusRegistered,ServiceStatusAssigned,ServiceStatusRestartRequested,ServiceStatusOnline,ServiceStatusDegraded,ServiceStatusOffline,ServiceStatusUpdating",
+          "ServiceType",
+          "StreamCreated,StreamStarting,StreamLive,StreamStopping,StreamCompleted,StreamFailed",
+          "StreamStatus",
+          "SupportsDiscordResolvedTargetV2",
+          "UpdateTransportMode",
+          "UpdateTransportPullV2"
+        ],
+        "physical_lines": 90
+      },
+      {
+        "path": "pkg/contracts/types_auth_settings.go",
+        "sha256": "1e283328cd99bb599c039c7e804d10d53777e32b173e8bb532db6e59e14f9906",
+        "symbols": [
+          "AppSettingsWriteRequest",
+          "ManagedAppSettings",
+          "OAuthAccount",
+          "OAuthAccountConnectionCallbackRequest",
+          "OAuthAccountConnectionStartRequest",
+          "OAuthAccountConnectionStartResponse",
+          "OAuthAccountPurpose",
+          "OAuthAccountPurposeDrive,OAuthAccountPurposeYouTube,OAuthAccountPurposeDriveYouTube,OAuthAccountPurposeUnknown",
+          "OAuthLoginCallbackRequest",
+          "OAuthLoginProvider",
+          "OAuthLoginStartRequest",
+          "OAuthLoginStartResponse",
+          "OAuthProvider",
+          "OAuthProviderWriteRequest",
+          "OAuthUserLink",
+          "PasskeyAuthenticatorSelection",
+          "PasskeyCreationOptions",
+          "PasskeyCredential",
+          "PasskeyCredentialParameter",
+          "PasskeyLoginFinishRequest",
+          "PasskeyLoginStartRequest",
+          "PasskeyLoginStartResponse",
+          "PasskeyRegistrationFinishRequest",
+          "PasskeyRegistrationStartRequest",
+          "PasskeyRegistrationStartResponse",
+          "PasskeyRelyingParty",
+          "PasskeyUser",
+          "PublicAppSettings",
+          "SecretStatus",
+          "SecretUpdateRequest",
+          "SecuritySettings",
+          "SessionRefreshResponse"
+        ],
+        "physical_lines": 290
+      },
+      {
+        "path": "pkg/contracts/types_host_policy.go",
+        "sha256": "41b6f2d5eadb5f6c7535b89502e5fb81bb98c56f204fe6c2af1924cb53ad01d9",
+        "symbols": [
+          "HostAgentPolicyRequest",
+          "HostAgentPolicyResponse",
+          "HostAgentPolicyTarget",
+          "HostAgentRuntimeRequirement",
+          "HostAgentSelfUpdateDirective",
+          "HostSelfUpdateGrant",
+          "HostSelfUpdateReleaseBinding",
+          "SystemUpdatePullOwnershipActivateRequest",
+          "SystemUpdatePullOwnershipActivateResponse",
+          "SystemUpdatePullOwnershipDeactivateRequest",
+          "SystemUpdatePullOwnershipDeactivateResponse"
+        ],
+        "physical_lines": 196
+      },
+      {
+        "path": "pkg/contracts/types_notifications.go",
+        "sha256": "62d2534f87f83821472bc0a56e7574211bbe56b5c09459a711eec56372d4c190",
+        "symbols": [
+          "ControlNotificationChannelCreateRequest",
+          "ControlNotificationChannelUpdateRequest",
+          "NotificationChannel",
+          "NotificationChannelWriteRequest",
+          "NotificationDelivery",
+          "NotificationDeliveryResult",
+          "NotificationEventType",
+          "NotificationEventWriteRequest",
+          "NotificationStreamStarted,NotificationStreamLive,NotificationStreamCompleted,NotificationStreamFailed,NotificationStreamWarning,NotificationStreamError,NotificationIncidentOpened,NotificationIncidentUpdated,NotificationIncidentResolved,NotificationDiagnosticCreated,NotificationRemediationPendingApproval,NotificationRemediationExecuted,NotificationArchiveUploadCompleted,NotificationArchiveUploadFailed,NotificationServiceOffline,NotificationServiceRecovered,NotificationAdminAudit",
+          "ServiceNotificationEmailRequest",
+          "ServiceNotificationEmailResponse",
+          "ServiceNotificationError",
+          "YouTubeLiveNotificationRequest",
+          "YouTubeLiveNotificationResponse"
+        ],
+        "physical_lines": 146
+      },
+      {
+        "path": "pkg/contracts/types_observability.go",
+        "sha256": "225b3a020fbe419f179786f92f8325f79f4d5a004a5127fc9b2b232c915cb7a6",
+        "symbols": [
+          "AuditEvent",
+          "DiagnosticReport",
+          "DiagnosticRerunOutcome",
+          "DiagnosticRerunOutcomeEvaluated,DiagnosticRerunOutcomeInconclusive",
+          "DiagnosticRerunReason",
+          "DiagnosticRerunReasonSavedSignalMissing,DiagnosticRerunReasonSavedSignalNotFound,DiagnosticRerunReasonSavedSignalNoLongerMatches,DiagnosticRerunReasonIncidentUpdatedDuringRerun",
+          "DiagnosticRerunResponse",
+          "Incident",
+          "IncidentOpen,IncidentAcknowledged,IncidentInvestigating,IncidentMitigated,IncidentResolved,IncidentIgnored",
+          "IncidentRule",
+          "IncidentSeverity",
+          "IncidentStatus",
+          "MetricName",
+          "MetricStreamStatus,MetricStreamStartDurationMS,MetricStreamLiveDurationSec,MetricStreamStopDurationMS,MetricStreamRestartCount,MetricEncoderProcessAlive,MetricEncoderOutputFPS,MetricEncoderOutputBitrateKbps,MetricEncoderDroppedFramesTotal,MetricEncoderEncodeLagMS,MetricEncoderAudioLevelDB,MetricEncoderAudioSilenceSec,MetricEncoderAudioClippingTotal,MetricEncoderRTMPReconnectCount,MetricRecorderFileSizeBytes,MetricRecorderWriteBitrateKbps,MetricRecorderDiskFreeBytes,MetricRecorderRemuxDurationMS,MetricSRTPacketLossPercent,MetricSRTRTTMS,MetricSRTJitterMS,MetricSRTBandwidthMbps,MetricRTPPacketLossPercent,MetricRTPJitterMS,MetricMediaInputBitrateKbps,MetricMediaInputTimeoutSec,MetricDiscordGatewayConnected,MetricDiscordVoiceConnected,MetricDiscordAudioReceiving,MetricDiscordAudioPacketsTotal,MetricDiscordAudioForwardedTotal,MetricDiscordAudioForwardErrors,MetricDiscordAudioLastPacketAge,MetricDiscordAudioLastForwardAge,MetricDiscordParticipantCount,MetricDiscordWorkerEventFailures,MetricDiscordReconnectCount,MetricDiscordVoiceDisconnects,MetricDiscordCaptionAudioPacketsTotal,MetricDiscordCaptionAudioForwardedTotal,MetricDiscordCaptionAudioForwardErrors,MetricDiscordCaptionAudioLastForwardAge,MetricDiscordCaptionUnresolvedSSRC,MetricWorkerHeartbeatAgeSec,MetricWorkerOverlayEventsTotal,MetricWorkerCaptionEventsTotal,MetricWorkerSceneUpdatesTotal,MetricWorkerEventSendFailures,MetricWorkerCaptionInterimTotal,MetricWorkerCaptionFinalTotal,MetricWorkerCaptionProviderErrors,MetricWorkerCaptionReconnectsTotal,MetricWorkerCaptionFinalizeTotal,MetricWorkerCaptionUtteranceEndTotal,MetricWorkerCaptionAudioToInterimMS,MetricWorkerCaptionAudioToFinalMS,MetricEncoderCaptionArchiveFinalTotal,MetricEncoderCaptionArchiveDedupedTotal,MetricArchiveFinalMKVExists,MetricArchiveFinalMP4Exists,MetricArchivePackageStatus,MetricGDriveUploadStatus,MetricGDriveUploadProgress,MetricGDriveUploadRetryCount,MetricGDriveUploadDurationSec,MetricGDriveUploadFileCount,MetricGDriveUploadFolderProof,MetricGDriveUploadFinalMP4Proof,MetricGDriveUploadMetadataProof,MetricHostCPUPercent,MetricHostMemoryPercent,MetricHostDiskFreeBytes,MetricHostNetworkTxBPS,MetricHostNetworkRxBPS",
+          "ObservabilitySignal",
+          "RuleHeartbeatTimeout,RuleEncoderProcessExited,RuleRecorderNotWriting,RuleArchiveRemuxSlow,RuleArchivePackageFailed,RuleGDriveUploadFailed,RuleGDriveUploadRetryHigh,RuleHighPacketLoss,RuleRTMPSReconnectLoop,RuleEncoderLowFPS,RuleEncoderBitrateLow,RuleEncoderDroppedFrames,RuleAudioSilence,RuleAudioClipping,RuleDiscordAudioNotReceiving,RuleDiscordAudioForwardFailed,RuleDiscordReconnectLoop,RuleDiscordVoiceDisconnected,RuleMediaInputTimeout,RuleDiskLow,RuleStreamStartTimeout,RuleStreamStopTimeout,RuleUnexpectedStopped,RuleWorkerEventSendFailed",
+          "SeverityInfo,SeverityWarning,SeverityError,SeverityCritical",
+          "SignalHeartbeat,SignalMetric,SignalLog,SignalEvent,SignalWarning,SignalError,SignalIncident,SignalDiagnosticReport,SignalRemediationAction,SignalNotificationEvent",
+          "SignalType"
+        ],
+        "physical_lines": 226
+      },
+      {
+        "path": "pkg/contracts/types_remediation.go",
+        "sha256": "f14b2fca2b5c255d017b8c599ccda5b2800370f4fdb9a0664e935dcf5045a2cf",
+        "symbols": [
+          "RemediationAction",
+          "RemediationActionHostSystemd,RemediationActionHostDocker,RemediationActionHostUpdate,RemediationActionHostBootstrap,RemediationActionHostPort,RemediationActionHostSelfUpdate,RemediationActionRetryGDriveUpload,RemediationActionRetryPackageRemux,RemediationActionRefreshServiceStatus,RemediationActionRerunDiagnostics,RemediationActionClearStaleWarning",
+          "RemediationActionType",
+          "RemediationAuthorityUpdater,RemediationAuthorityTargetApplication",
+          "RemediationDetectorIdentity",
+          "RemediationDisabled,RemediationSuggestOnly,RemediationSafeAuto,RemediationManualApproval",
+          "RemediationEvidence",
+          "RemediationExecutionAuthority",
+          "RemediationExecutionScope",
+          "RemediationExecutorIdentity",
+          "RemediationGrant",
+          "RemediationMode",
+          "RemediationProposal",
+          "RemediationRequestOrigin",
+          "RemediationResult",
+          "RemediationResultEvidence",
+          "RemediationResultSucceeded,RemediationResultFailed,RemediationResultRolledBack,RemediationResultAmbiguous",
+          "RemediationSafeError",
+          "RemediationScopeHostSystem,RemediationScopeApplicationLocal",
+          "RemediationTargetIdentity",
+          "ServiceRemediationExecuteRequest"
+        ],
+        "physical_lines": 176
+      },
+      {
+        "path": "pkg/contracts/types_services.go",
+        "sha256": "8ae600eaae20e9faf34cb6a2a46c2ca154b9254aef994f4d533de6916cc79b3b",
+        "symbols": [
+          "Heartbeat",
+          "NodeAgentAPI",
+          "RegisteredService",
+          "ServiceAssignmentWriteRequest",
+          "ServiceEndpoint",
+          "ServicePreflightCheck",
+          "ServicePreflightResponse",
+          "ServiceRegistration",
+          "ServiceRuntimeArchiveConfig",
+          "ServiceRuntimeConfig",
+          "ServiceRuntimeDiscordConfig",
+          "ServiceRuntimeSecretResolveRequest",
+          "ServiceRuntimeSecretResolveResponse",
+          "ServiceRuntimeYouTubeConfig",
+          "ServiceStreamEvent",
+          "ServiceToken",
+          "ServiceTokenCreateRequest",
+          "StreamServiceAssignment"
+        ],
+        "physical_lines": 193
+      },
+      {
+        "path": "pkg/contracts/types_stream_archive.go",
+        "sha256": "a89cf56da0bc661c813cf60606fa87f2b18b21be8f55f62393ae89becac8fcf2",
+        "symbols": [
+          "ArchiveMetadata",
+          "ArchiveRuntimeConfig",
+          "ArchiveUploadResult",
+          "DriveDestination",
+          "DriveDestinationWriteRequest",
+          "EncoderPackageStreamRequest",
+          "KnownStartReadinessIssueCodes",
+          "MissingStreamAssignmentsResponse",
+          "ReadinessIssue",
+          "ReadinessIssueMissingStreamAssignment,ReadinessIssueServiceCallTokenMissing,ReadinessIssueServicePublicURLInvalid,ReadinessIssueServicePublicURLBlocked,ReadinessIssueEncoderPublicURLMissing,ReadinessIssueEncoderPublicURLInvalid,ReadinessIssueEncoderPublicURLBlocked,ReadinessIssueServiceOffline,ReadinessIssueServiceHeartbeatStale,ReadinessIssueDiscordAudioForwardUnavailable,ReadinessIssueDiscordAudioCaptureUnavailable,ReadinessIssueDiscordConfigRequired,ReadinessIssueDiscordConfigNotFound,ReadinessIssueDiscordConfigInvalid,ReadinessIssueDiscordConfigServiceMismatch,ReadinessIssueYouTubeOutputNotFound,ReadinessIssueYouTubeOutputInvalidConfig,ReadinessIssueYouTubeStreamKeyUnavailable,ReadinessIssueYouTubeLiveAPIUnavailable,ReadinessIssueYouTubeOAuthAccountUnavailable,ReadinessIssueYouTubeRelayStaticUnavailable,ReadinessIssueYouTubeRelayStaticBindingUnavailable,ReadinessIssueYouTubeRelayBindingStoreUnavailable,ReadinessIssueYouTubeRelayBindingInUse,ReadinessIssueYouTubeRelayStaticRecoveryRequired,ReadinessIssueArchiveProfileNotFound,ReadinessIssueArchiveProfileInvalidConfig,ReadinessIssueDriveDestinationNotFound,ReadinessIssueDriveDestinationUnavailable,ReadinessIssueDriveOAuthAccountUnavailable",
+          "ServiceArtifactReport",
+          "StartReadinessResponse",
+          "StartStreamRequest",
+          "StreamArtifact",
+          "StreamJob",
+          "StreamPreviewLink",
+          "StreamSettingsWriteRequest",
+          "StreamWriteRequest"
+        ],
+        "physical_lines": 233
+      },
+      {
+        "path": "pkg/contracts/types_system_updates.go",
+        "sha256": "72b6c62c75bc67236735b11851eee2d8b80bab917eed6b8e9baf425ec53995d6",
+        "symbols": [
+          "ReleaseArtifact",
+          "ReleaseChannel",
+          "ReleaseChannelHost,ReleaseChannelDocker",
+          "ReleaseManifest",
+          "ReleaseManifestComponent",
+          "SystemUpdateCreateRequest",
+          "SystemUpdateDeploymentMode",
+          "SystemUpdateDeploymentSystemd,SystemUpdateDeploymentDocker",
+          "SystemUpdateDockerPortReconfiguration",
+          "SystemUpdateJob",
+          "SystemUpdateMutationApply,SystemUpdateMutationReconcile,SystemUpdateMutationPortReconfigure,SystemUpdateMutationPortReconfigureReconcile",
+          "SystemUpdateMutationOperation",
+          "SystemUpdateOperation",
+          "SystemUpdateOperationSoftwareUpdate,SystemUpdateOperationPortReconfigure",
+          "SystemUpdatePortMapping",
+          "SystemUpdatePortMappingApplied,SystemUpdatePortMappingDrifted,SystemUpdatePortMappingUnavailable",
+          "SystemUpdatePortMappingState",
+          "SystemUpdatePortProtocol",
+          "SystemUpdatePortProtocolTCP",
+          "SystemUpdatePortReconfiguration",
+          "SystemUpdatePortReconfigurationApplied,SystemUpdatePortReconfigurationRolledBack,SystemUpdatePortReconfigurationUnchanged,SystemUpdatePortReconfigurationRollbackFailed",
+          "SystemUpdatePortReconfigurationResult",
+          "SystemUpdateQueued,SystemUpdateClaimed,SystemUpdateDownloading,SystemUpdateVerifying,SystemUpdateStaging,SystemUpdateStopping,SystemUpdateInstalling,SystemUpdateStarting,SystemUpdateHealthChecking,SystemUpdateReconciling,SystemUpdateRollingBack,SystemUpdateSucceeded,SystemUpdateRolledBack,SystemUpdateFailed,SystemUpdateCanceled",
+          "SystemUpdateReachability",
+          "SystemUpdateReachable,SystemUpdateUnreachable,SystemUpdateUnknown",
+          "SystemUpdateStatus",
+          "SystemUpdateStrategy",
+          "SystemUpdateTarget",
+          "SystemUpdateTargetControlPanel,SystemUpdateTargetDiscordBot,SystemUpdateTargetEncoderRecorder,SystemUpdateTargetObservability,SystemUpdateTargetUpdateAgent,SystemUpdateTargetWorker",
+          "SystemUpdateTargetType",
+          "SystemUpdateWhenIdle,SystemUpdateMaintenance",
+          "SystemUpdatesResponse"
+        ],
+        "physical_lines": 303
+      },
+      {
+        "path": "pkg/contracts/types_updater_protocol.go",
+        "sha256": "105ee286c57c9d86b94b9ef5cab271fcfb363618433256accf230f5f50b83bc4",
+        "symbols": [
+          "ApplicationRuntimeIdentityProbe",
+          "SystemUpdateAgentStatus",
+          "SystemUpdateHostApplicationProbe",
+          "SystemUpdateHostStatus",
+          "UpdateAgentClaimRequest",
+          "UpdateAgentClaimResponse",
+          "UpdateAgentClearActiveJobResponse",
+          "UpdateAgentMutationGrantConsumeRequest",
+          "UpdateAgentMutationGrantIssueRequest",
+          "UpdateAgentMutationGrantIssueResponse",
+          "UpdateAgentReportRequest",
+          "UpdaterBootstrapDesiredOperation",
+          "UpdaterCapability",
+          "UpdaterCapabilitySystemd,UpdaterCapabilityDocker,UpdaterCapabilityUpdate,UpdaterCapabilityBootstrap,UpdaterCapabilityPort,UpdaterCapabilitySelfUpdate",
+          "UpdaterCommandEnvelope",
+          "UpdaterCommandIssuer",
+          "UpdaterDesiredOperation",
+          "UpdaterDesiredOperationType",
+          "UpdaterDesiredSoftwareUpdate,UpdaterDesiredBootstrap,UpdaterDesiredPortReconfigure,UpdaterDesiredHostSelfUpdate",
+          "UpdaterEvidence",
+          "UpdaterHealth",
+          "UpdaterHeartbeat",
+          "UpdaterLeaseEnvelope",
+          "UpdaterLocalJournalBoundary",
+          "UpdaterMutationApply,UpdaterMutationReconcile,UpdaterMutationPortReconfigure,UpdaterMutationPortReconfigureReconcile,UpdaterMutationBootstrap,UpdaterMutationBootstrapReconcile,UpdaterMutationHostSelfUpdateStage,UpdaterMutationHostSelfUpdateActivate,UpdaterMutationHostSelfUpdateReconcile",
+          "UpdaterMutationAuthorization",
+          "UpdaterMutationGrantBinding",
+          "UpdaterMutationGrantConsumeRequest",
+          "UpdaterMutationGrantIssueRequest",
+          "UpdaterMutationGrantIssueResponse",
+          "UpdaterMutationOperation",
+          "UpdaterOutcome",
+          "UpdaterOutcomeSucceeded,UpdaterOutcomeFailed,UpdaterOutcomeRolledBack,UpdaterOutcomeAmbiguous,UpdaterOutcomeCanceled",
+          "UpdaterProgressEnvelope",
+          "UpdaterResultEnvelope",
+          "UpdaterRuntimeTokenRotationCredentialClaimRequest",
+          "UpdaterSoftwareUpdateDesiredOperation",
+          "UpdaterTargetApplication,UpdaterTargetUpdateAgent,UpdaterTargetHostRuntime",
+          "UpdaterTargetIdentity",
+          "UpdaterTargetKind",
+          "V2UpdaterSafeError"
+        ],
+        "physical_lines": 399
+      },
+      {
+        "path": "pkg/contracts/types_visual.go",
+        "sha256": "8915cbd37c03c8e030c5efa0c5b8c73757251871d8376f90b4d8e70319e6fbb7",
+        "symbols": [
+          "EncoderRuntimeSettingsRequest",
+          "EncoderStartStreamRequest",
+          "EncoderStartStreamResponse",
+          "EncoderVideoCoverApplyOutcome",
+          "EncoderVideoCoverApplyOutcomeApplied,EncoderVideoCoverApplyOutcomeRejected,EncoderVideoCoverApplyOutcomeAmbiguous",
+          "EncoderVideoCoverApplyRequest",
+          "EncoderVideoCoverApplyResponse",
+          "EncoderVideoCoverUnavailableResponse",
+          "EncoderVideoIngest",
+          "MediaAssetDescriptor",
+          "SceneAppearance",
+          "VideoCoverAppliedState",
+          "VideoCoverAppliedWitness",
+          "VideoCoverDesiredState",
+          "VideoCoverRuntimeState",
+          "VideoCoverStartSnapshot",
+          "VideoVisualLayerState",
+          "VisualAudioContinuity",
+          "VisualErrorInvalidThemeID,VisualErrorMediaAssetFormatUnsupported,VisualErrorMediaAssetTooLarge,VisualErrorMediaAssetDecodeFailed,VisualErrorMediaAssetAspectRatioInvalid,VisualErrorMediaAssetVariantProcessing,VisualErrorMediaAssetVariantFailed,VisualErrorMediaAssetUnauthorized,VisualErrorMediaAssetNotFound,VisualErrorMediaAssetHashMismatch,VisualErrorMediaAssetDimensionMismatch,VisualErrorMediaAssetTimeout,VisualErrorDiscordTargetInvalid,VisualErrorPresetNotFound,VisualErrorPresetRevisionConflict,VisualErrorStaleJobGeneration,VisualErrorStaleCoverGeneration,VisualErrorStaleCoverRevision,VisualErrorIdempotencyConflict,VisualErrorCoverApplyAmbiguous,VisualErrorCoverGraphUnavailable,VisualErrorRevisionPayloadConflict,VisualErrorCapabilityRequired",
+          "VisualPipelineInvariant",
+          "VisualReadiness",
+          "VisualReadinessReady,VisualReadinessNotReady,VisualReadinessUnknown",
+          "VisualSafeError",
+          "VisualSafeErrorCode"
+        ],
+        "physical_lines": 260
+      },
+      {
+        "path": "pkg/contracts/types_worker_discord.go",
+        "sha256": "e05a0eac909e81563cc5e0d18e42a1c5c16d73370090918f3f17e9b0f6286295",
+        "symbols": [
+          "CaptionProfileConfig",
+          "DiscordAudioBridgeStatus",
+          "DiscordBotStartJobRequest",
+          "DiscordBotStartJobV2Request",
+          "DiscordConfig",
+          "DiscordConfigWriteRequest",
+          "DiscordOpusIngestRequest",
+          "DiscordOpusIngestResponse",
+          "DiscordOpusPacket",
+          "DiscordTargetSnapshot",
+          "DiscordVoiceJob",
+          "EncoderInputMode",
+          "EncoderInputModeExternal,EncoderInputModeDiscordOpusRTP,EncoderInputModeWorkerSceneSRTLegacy,EncoderInputModeWorkerSceneFramesSRT",
+          "EncoderProfile",
+          "Profile",
+          "ProfileEncoder,ProfileArchive,ProfileCaption,ProfileOverlay,ProfileDiscordConfig,ProfileYouTubeOutput",
+          "ProfileKind",
+          "ProfileWriteRequest",
+          "ResolvedDiscordTarget",
+          "WorkerCaptionRuntimeSettingsRequest",
+          "WorkerEvent",
+          "WorkerEventCurrentTime,WorkerEventParticipants,WorkerEventActiveSpeaker,WorkerEventDiscordChat,WorkerEventCaptionTelop,WorkerEventCaptionFinal",
+          "WorkerEventType",
+          "WorkerStartJobRequest",
+          "WorkerStreamContext"
+        ],
+        "physical_lines": 245
+      },
+      {
+        "path": "pkg/contracts/types_youtube.go",
+        "sha256": "8e75197ed7b861bdd864c212956c70741da9f8988cd67fcad850d83367bbf73b",
+        "symbols": [
+          "EncoderOutputRelayCapabilities",
+          "EncoderOutputRelayMode",
+          "EncoderOutputRelayModeDirect,EncoderOutputRelayModeLiveAPIRelayStatic",
+          "ErrorCodeYouTubeRelayBindingClaimCheckFailed,ErrorCodeYouTubeRelayBindingReleasePending,ErrorCodeYouTubeRelayStaticConfigChangedReload,ErrorCodeYouTubeLiveAPIRequiresManagedOutputRelay,ErrorCodeYouTubeRelayStaticCompletionRequiresCompletedStream,ErrorCodeYouTubeRelayStaticRecoveryEncoderStopUnavailable,ErrorCodeYouTubeRelayStaticRecoveryEncoderStopUnconfirmed,ErrorCodeYouTubeRelayStaticRecoveryBroadcastUnknown,ErrorCodeYouTubeRelayStaticRecoveryDispatchStateInvalid,ErrorCodeYouTubeRelayStaticRecoveryCompleteFailed",
+          "RelayBindingIDPattern",
+          "YouTubeOutput",
+          "YouTubeOutputMode",
+          "YouTubeOutputModeStreamKey,YouTubeOutputModeLiveAPIDryRun,YouTubeOutputModeLiveAPI,YouTubeOutputModeLiveAPIRelayStatic",
+          "YouTubeOutputWriteRequest",
+          "YouTubeRelayStaticRecoveryResolveRequest",
+          "YouTubeRelayStaticRecoveryResolveResponse",
+          "YouTubeRuntimeConfig"
+        ],
+        "physical_lines": 148
+      }
+    ]
+  },
+  {
+    "target_id": "B9-M003",
+    "repository": "Kome-Lab/Autostream-Contracts",
+    "original_path": "pkg/contracts/schema_files_test.go",
+    "original_sha256": "4d30ffb1a67bbae2588283d18cad510731b2521d21854091937fcb3bdde28a16",
+    "before_physical_lines": 2361,
+    "disposition": "responsibility-split",
+    "responsibility": "schema loading/helpers;auth/session/MFA;service/runtime;Discord/audio/caption;archive;YouTube relay;notifications;settings",
+    "destinations": [
+      {
+        "path": "pkg/contracts/schema_audio_caption_test.go",
+        "sha256": "f009e9eca858f5dd2e8870abf06e942ecf7863fc458d00c7332fbe2223520f56",
+        "symbols": [
+          "TestDeepgramCaptionAndSessionRefreshContracts",
+          "TestDiscordBotStartJobGoJSONUsesUint64Generation",
+          "TestDiscordBotStartJobRequiresPositiveJobGeneration",
+          "TestDiscordOpusIngestV2RequiresGenerationFences",
+          "TestWorkerEventSchemaDocumentsDiscordChatOverlay",
+          "TestWorkerEventSchemaValidatesDiscordChatPayloadCompatibility"
+        ],
+        "physical_lines": 319
+      },
+      {
+        "path": "pkg/contracts/schema_auth_settings_test.go",
+        "sha256": "d4fadff0af5091bf76704e1ac7e2e0bd3ec31a7541fcd19299e5e57cc41fddf6",
+        "symbols": [
+          "TestAppSettingsContractsSeparatePublicAndManagedViews",
+          "TestControlOpenAPIDocumentsMFARolePolicy",
+          "TestControlOpenAPIDocumentsPasskeyCSRF",
+          "TestDriveDestinationWriteSchemaAllowsUpdateWithoutRawFolderID",
+          "TestIntegrationWriteSchemasDocumentSecretBoundaries",
+          "TestOAuthAccountSchemaIncludesOperatorDisplayNames",
+          "TestOAuthLoginSchemasDocumentProviderAndSecretBoundaries",
+          "TestSecretStatusSchemaDocumentsManagedRuntimeSecretPrefixes"
+        ],
+        "physical_lines": 348
+      },
+      {
+        "path": "pkg/contracts/schema_files_test.go",
+        "sha256": "d3987cf2b8a8bc3086cfd5c4235df977c6800758476ca72ca0562379ba7e6a0d",
+        "symbols": [
+          "TestSchemaFilesAreValidJSONAndDoNotExposeRawSecrets",
+          "TestURLSchemasRestrictHTTPOnly",
+          "stringSliceContainsForSchemaTest"
+        ],
+        "physical_lines": 84
+      },
+      {
+        "path": "pkg/contracts/schema_notifications_test.go",
+        "sha256": "276bf7f3914d4490150fdff092d182eec19c18af0661b109c8f28042d596417a",
+        "symbols": [
+          "TestAdministrativeNotificationEventContracts",
+          "TestControlNotificationChannelWriteContractsExcludeLegacySMTP",
+          "TestControlNotificationComponentSectionIncludesNestedProperties",
+          "TestNotificationChannelSchemasDocumentEmailSecretBoundary",
+          "TestServiceNotificationEmailRelayContracts",
+          "requireControlNotificationComponentSection"
+        ],
+        "physical_lines": 472
+      },
+      {
+        "path": "pkg/contracts/schema_services_test.go",
+        "sha256": "5198ab2d698a9d4288dc830e9026622aba1887cdb064cd7898857e1d1469a920",
+        "symbols": [
+          "TestControlOpenAPIDocumentsRuntimeSecretLease",
+          "TestControlOpenAPIIncludesServiceRegistrationContracts",
+          "TestDiagnosticRerunContractsRemainReportOnly",
+          "TestExternalE2EConfigContractsDocumentSecretBoundary",
+          "TestRegisteredServiceSchemaDoesNotExposeTokenBindingID",
+          "TestServiceAssignmentRoleSchemas",
+          "TestServiceRuntimeConfigSchemaDocumentsSecretBoundary",
+          "TestStartReadinessContractsDocumentIntegrationIssueCodes"
+        ],
+        "physical_lines": 303
+      },
+      {
+        "path": "pkg/contracts/schema_stream_archive_test.go",
+        "sha256": "a9adc173905555a1d31dbc4aaf2046aaf3398e04aca456563e977de6699e514d",
+        "symbols": [
+          "TestArchiveMetadataSchemaRedactsDriveIDs",
+          "TestEncoderPackageSchemaUsesOnlyRunScopedRuntimeAssignment",
+          "TestPreviewAndDiscordNotificationContracts",
+          "TestStreamSchemasDocumentDiscordChannelOverrides"
+        ],
+        "physical_lines": 160
+      },
+      {
+        "path": "pkg/contracts/schema_updater_test.go",
+        "sha256": "c03129a1695fe3f480d09286734a711a3f2d59f36d34c8a2e7b1b77691493a47",
+        "symbols": [
+          "TestHeartbeatContractCarriesVerifiedBuildIdentity",
+          "TestSystemUpdateContractsKeepExecutionDetailsServerSide",
+          "TestUpdaterVersionEndpointContractIsUnauthenticatedAndStrict"
+        ],
+        "physical_lines": 137
+      },
+      {
+        "path": "pkg/contracts/schema_youtube_lifecycle_test.go",
+        "sha256": "a2382b561bc205c4ae38b48dcf5800c5c0a01dece76c65d86e8d996ac8618c6a",
+        "symbols": [
+          "TestYouTubeRelayStaticRecoveryContractsRequireExplicitSafeResolution",
+          "TestYouTubeRelayStaticWriteRejectsIngestFields",
+          "TestYouTubeSchemasDocumentLiveAPILifecycle"
+        ],
+        "physical_lines": 308
+      },
+      {
+        "path": "pkg/contracts/schema_youtube_runtime_test.go",
+        "sha256": "0451e71f2593a17656a6688a51d684f87ae8a6b78b418df70a80a2094f220666",
+        "symbols": [
+          "TestYouTubeOutputWatchURLContractIsBackwardCompatible",
+          "TestYouTubeRelayBindingMutationErrorsArePublicContracts",
+          "TestYouTubeRelayStaticRuntimeConfigExcludesIngestFields"
+        ],
+        "physical_lines": 302
+      }
+    ]
+  },
+  {
+    "target_id": "B9-M004",
+    "repository": "Kome-Lab/Autostream-Contracts",
+    "original_path": "pkg/contracts/openapi_characterization_test.go",
+    "original_sha256": "90e2de4361f304c13f0b9cdd5c24e297e6f517f5ff0909e571c439aae6a68ae0",
+    "before_physical_lines": 1329,
+    "disposition": "responsibility-split",
+    "responsibility": "source/semantic inventory;authority;negative sensitivity;schema/reference helpers;canonical JSON",
+    "destinations": [
+      {
+        "path": "pkg/contracts/openapi_authority_contracts_test.go",
+        "sha256": "378abd9c3df223eaa2fc8c4fc68b81d975508b42eaefc318eda6b209eb02e310",
+        "symbols": [
+          "TestApplicationRuntimeIdentityProbeContract",
+          "TestV2CleanBreakContractPolicy",
+          "TestV2UpdaterCrossPlaneAuthority",
+          "TestV2UpdaterProtocolAndRemediationAuthority"
+        ],
+        "physical_lines": 418
+      },
+      {
+        "path": "pkg/contracts/openapi_characterization_test.go",
+        "sha256": "d6ef6712352afef74e94242877639ce415179c9d46d28748242a8fc69e61cb53",
+        "symbols": [
+          "TestCanonicalCharacterizationJSONMatchesJavaScriptLineSeparatorEncoding",
+          "TestCharacterizationReportsAreMachineReadable",
+          "TestOpenAPICharacterizationArtifacts",
+          "assertCharacterizationRequired",
+          "assertExactCharacterizationProperties",
+          "assertExactGoJSONSchemaParity",
+          "assertGoJSONFields",
+          "canonicalCharacterizationJSON",
+          "characterizationStringSlice",
+          "compileNormalizedOpenAPISchema",
+          "containsJSONText",
+          "countAsInt",
+          "normalizeJavaScriptJSONLineSeparators",
+          "openAPIFingerprintAPI",
+          "openAPIFingerprintManifest",
+          "openAPILintAPI",
+          "openAPILintBaseline",
+          "openAPISourceFile",
+          "openAPISourceInventory",
+          "pinnedRedoclyVersion",
+          "readCharacterizationJSON",
+          "readNormalizedOpenAPICharacterization",
+          "requireCharacterizationMap",
+          "requireCharacterizationStringSet",
+          "resolveCharacterizationSchema",
+          "validSHA256",
+          "verifyBundledJobGenerationContract",
+          "verifyControlAPISemanticProjection",
+          "verifyOpenAPILintBaseline",
+          "verifyOpenAPISemanticInventory",
+          "verifyOpenAPISourceInventory"
+        ],
+        "physical_lines": 614
+      },
+      {
+        "path": "pkg/contracts/openapi_negative_sensitivity_test.go",
+        "sha256": "7edf529b59a6a7a5ff21b7a61d4c20e41726883e7054face4f6721ef38b91556",
+        "symbols": [
+          "TestV2CoreContractNegativeSensitivity"
+        ],
+        "physical_lines": 311
+      }
+    ]
+  },
+  {
+    "target_id": "B9-M005",
+    "repository": "Kome-Lab/Autostream-Contracts",
+    "original_path": "schemas/discord-bot-start-job-request.schema.json",
+    "original_sha256": "b78d10beb31818c5edbb6e7c5ee617d7df183adef9a585622d9127feafe5b35b",
+    "before_physical_lines": 1290,
+    "disposition": "generated-from-bounded-authoring",
+    "responsibility": "job identity/generation;resolved target;video/appearance;audio/caption;validation properties",
+    "destinations": [
+      {
+        "path": "authoring/discord-start-job/audio-caption-job-properties.json.inc",
+        "sha256": "81c4b4f81600837818a175537187face6657a111e37c6569a535904227439678",
+        "symbols": [],
+        "physical_lines": 84
+      },
+      {
+        "path": "authoring/discord-start-job/cover-response.json.inc",
+        "sha256": "74f595ef32dbb29d8df89e9e7cb5237fa5e4dbbb83be5c828ebcea0d70ee8aba",
+        "symbols": [],
+        "physical_lines": 131
+      },
+      {
+        "path": "authoring/discord-start-job/cover-runtime.json.inc",
+        "sha256": "76e4129f97f787a387b95dec754781578e0c75f4dc0cf60c3b960cb739f3dde3",
+        "symbols": [],
+        "physical_lines": 144
+      },
+      {
+        "path": "authoring/discord-start-job/cover-start-apply.json.inc",
+        "sha256": "84425b04ee4452f87d52ff973cc2083cbce2cdbbf103614774f0f8317d8356b6",
+        "symbols": [],
+        "physical_lines": 174
+      },
+      {
+        "path": "authoring/discord-start-job/cover-state.json.inc",
+        "sha256": "b7efb1cbc2c1ce69c33750dde648d3e16be07e7c95f656c5e3f516f8902593b3",
+        "symbols": [],
+        "physical_lines": 154
+      },
+      {
+        "path": "authoring/discord-start-job/discord-targets.json.inc",
+        "sha256": "2e5e5f75f46eb3eda0ef870143812fa8e87b1a7c70d1cfdb22949665350184a5",
+        "symbols": [],
+        "physical_lines": 97
+      },
+      {
+        "path": "authoring/discord-start-job/envelope-catalog.json.inc",
+        "sha256": "f08ffbe57bd6a18ca6aa796e3b5206a7dc3da96af818660d46116fabd1e6ab9c",
+        "symbols": [],
+        "physical_lines": 42
+      },
+      {
+        "path": "authoring/discord-start-job/generation-validation.json.inc",
+        "sha256": "a64ee49d85832803b7f45492ad234c8273f2e5de520174ebef8cf885dd5d2d8f",
+        "symbols": [],
+        "physical_lines": 19
+      },
+      {
+        "path": "authoring/discord-start-job/readiness-safe-error.json.inc",
+        "sha256": "1dbaa26a4357821725552b63c876e6761707fea38aa8c494441d63989ee590e7",
+        "symbols": [],
+        "physical_lines": 43
+      },
+      {
+        "path": "authoring/discord-start-job/scene-appearance.json.inc",
+        "sha256": "03f6218f87d33750d4d21ed63daa4ebd911f954700a4d999fc819b5cfcb265bd",
+        "symbols": [],
+        "physical_lines": 131
+      },
+      {
+        "path": "authoring/discord-start-job/theme-media-assets.json.inc",
+        "sha256": "f66bab31b724ada025d610770b5e76c03c5d89b0003cb3dc7154a2203ed7d5ff",
+        "symbols": [],
+        "physical_lines": 172
+      },
+      {
+        "path": "authoring/discord-start-job/visual-invariants.json.inc",
+        "sha256": "df4b2915b1712f54cdd6e4da9b96ec84e0fd227dafcf2a4165c5af747607ad70",
+        "symbols": [],
+        "physical_lines": 99
+      },
+      {
+        "path": "schemas/discord-bot-start-job-request.schema.json",
+        "sha256": "b78d10beb31818c5edbb6e7c5ee617d7df183adef9a585622d9127feafe5b35b",
+        "symbols": [],
+        "physical_lines": 1290
+      }
+    ]
+  },
+  {
+    "target_id": "B9-M006",
+    "repository": "Kome-Lab/Autostream-Contracts",
+    "original_path": "pkg/contracts/system_update_contracts_test.go",
+    "original_sha256": "358c7fe654c0d326775a063b01cfdf7a299165514a3cd1872abc43c659d53d86",
+    "before_physical_lines": 1071,
+    "disposition": "responsibility-split",
+    "responsibility": "claim/recovery;public inventory;grant/ownership;release manifests;shared schema helpers",
+    "destinations": [
+      {
+        "path": "pkg/contracts/system_update_contracts_test.go",
+        "sha256": "5b3639ce48f5cae997ce00277b1ac0b5fad77e9a928938d61c9816f5d794e73c",
+        "symbols": [
+          "TestSystemUpdateGoTypesPreserveRequiredZerosAndOmitOptionalFields",
+          "TestSystemUpdateInventoryHostContractsMatchGETShape",
+          "TestSystemUpdatePublicSchemasMatchControlPanelWireShape",
+          "TestUpdateAgentClaimSchemasValidateExactRecoveryShapes",
+          "TestUpdateAgentLeaseRecoverySchemasAreExplicit",
+          "compileContractJSONSchema",
+          "contractSchemaNode",
+          "contractSliceHas",
+          "readContractSchema",
+          "requireContractFields",
+          "systemUpdateAutomaticResendDisabledFixture",
+          "systemUpdateV2JobFixture"
+        ],
+        "physical_lines": 653
+      },
+      {
+        "path": "pkg/contracts/system_update_grant_contracts_test.go",
+        "sha256": "09d1b861586da912349d6ffe20a34271220f85be76283030344a2e1c91c67af5",
+        "symbols": [
+          "TestMutationGrantContractsBindExactRemoteSessionAndRejectUnknownFields",
+          "TestUpdaterRegistrationScopesHeartbeatAndEmailHTMLContracts"
+        ],
+        "physical_lines": 227
+      },
+      {
+        "path": "pkg/contracts/system_update_release_contracts_test.go",
+        "sha256": "ef99af4ec346f1988cda0c7c943445f66f55db22099e2b38473df35a02b3f16b",
+        "symbols": [
+          "TestDockerReleaseManifestGeneratorShapeValidatesAgainstSchema",
+          "TestReleaseManifestSchemasSeparateHostAndDockerChannels",
+          "readReleaseDescription"
+        ],
+        "physical_lines": 212
+      }
+    ]
+  },
+  {
+    "target_id": "B9-M007",
+    "repository": "Kome-Lab/Autostream-Contracts",
+    "original_path": "scripts/characterize-contracts.mjs",
+    "original_sha256": "256dad10cd6339731328acc28c016baf14ce4da6c83247040a92bf7ae7d96a60",
+    "before_physical_lines": 1003,
+    "disposition": "responsibility-split",
+    "responsibility": "CLI/config;Go/schema capture;OpenAPI capture;reference/normalization;comparison;filesystem cleanup",
+    "destinations": [
+      {
+        "path": "scripts/characterization/openapi-model.mjs",
+        "sha256": "25ab50b3b80f3e3c8d19ae91c9192674acc885c58910c5e6b36a4785a4d77822",
+        "symbols": [
+          "analyzeOpenAPI",
+          "buildRefLayoutIndependentProjection",
+          "canonicalCompact",
+          "characterizeContent",
+          "characterizeSchema",
+          "collectUnresolvedRefs",
+          "compareStatusCodes",
+          "compareText",
+          "decodeReferenceName",
+          "dereferenceOnce",
+          "escapeJSONPointerToken",
+          "fullyResolveValue",
+          "normalizeBundle",
+          "operationIdentity",
+          "resolveJSONReference",
+          "securityAllowsNoAuthentication",
+          "sha256",
+          "walkValue"
+        ],
+        "physical_lines": 383
+      },
+      {
+        "path": "scripts/characterize-contracts.mjs",
+        "sha256": "b0d9aeed53a7b39335510a177bdf1d30056511337aad1294ddfa47af4080711b",
+        "symbols": [
+          "assertExactManagedRoot",
+          "assertNoAbsolutePaths",
+          "assertRepositoryFile",
+          "buildOpenAPISourceInventory",
+          "captureGoAndSchemaCharacterization",
+          "captureOpenAPICharacterization",
+          "captureSnapshot",
+          "commandFailure",
+          "compareDirectoriesExactly",
+          "compareMoveOnlySnapshots",
+          "extractRefs",
+          "isWithin",
+          "listFiles",
+          "loadMoveOnlyProjection",
+          "makeExternalTempDirectory",
+          "normalizeLineEndings",
+          "normalizeLintLocation",
+          "normalizeLintResult",
+          "parseOptions",
+          "readJSON",
+          "removeExternalTempDirectory",
+          "requireAbsolutePath",
+          "runProcess",
+          "runRedocly",
+          "stripLayoutSensitiveOpenAPIFields",
+          "toRepositoryPath",
+          "updateCommittedCharacterization",
+          "usage",
+          "verifyCommittedCharacterization",
+          "visit",
+          "writeCanonicalJSON"
+        ],
+        "physical_lines": 623
+      }
+    ]
+  }
+]
