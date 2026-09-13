@@ -45,12 +45,15 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 26
-      - name: Verify all OpenAPI contracts and characterizations
+      - name: Verify control API assembly and OpenAPI model
+        shell: bash
         run: |
+          set -euo pipefail
           python3 scripts/assemble-control-api.py --check
           python3 scripts/test_control_api_assembly.py
           node --test scripts/test-openapi-model.mjs
-          node scripts/characterize-contracts.mjs verify
+      - name: Verify all OpenAPI contracts and characterizations
+        run: node scripts/characterize-contracts.mjs verify
       - name: Lint Discord Bot OpenAPI
         run: |
           npx --yes @redocly/cli@2.39.0 lint \

@@ -2,12 +2,8 @@ package contracts
 
 import (
 	"encoding/json"
-	"go/ast"
-	"go/parser"
-	"go/token"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"testing"
 )
@@ -110,37 +106,12 @@ func TestVisualSafeErrorCodeSchemaGoParity(t *testing.T) {
 		schemaCodes[text] = struct{}{}
 	}
 
-	parsed, err := parser.ParseFile(token.NewFileSet(), "types.go", nil, 0)
+	if len(schemaCodes) == 0 || len(schemaCodes) != len(schemaValues) {
+		t.Fatal("safeError enum must be nonempty with unique values")
+	}
+	goCodes, err := readVisualSafeErrorCodes(visualSafeErrorSourceForTest)
 	if err != nil {
 		t.Fatal(err)
-	}
-	goCodes := make(map[string]struct{})
-	for _, declaration := range parsed.Decls {
-		constants, ok := declaration.(*ast.GenDecl)
-		if !ok || constants.Tok != token.CONST {
-			continue
-		}
-		for _, specification := range constants.Specs {
-			value, ok := specification.(*ast.ValueSpec)
-			if !ok {
-				continue
-			}
-			typeName, ok := value.Type.(*ast.Ident)
-			if !ok || typeName.Name != "VisualSafeErrorCode" {
-				continue
-			}
-			for _, expression := range value.Values {
-				literal, ok := expression.(*ast.BasicLit)
-				if !ok || literal.Kind != token.STRING {
-					t.Fatalf("VisualSafeErrorCode constant must be a string literal: %T", expression)
-				}
-				decoded, err := strconv.Unquote(literal.Value)
-				if err != nil {
-					t.Fatal(err)
-				}
-				goCodes[decoded] = struct{}{}
-			}
-		}
 	}
 	if len(goCodes) != len(schemaCodes) {
 		t.Fatalf("VisualSafeErrorCode count=%d, schema safeError enum count=%d; go=%v schema=%v", len(goCodes), len(schemaCodes), goCodes, schemaCodes)
