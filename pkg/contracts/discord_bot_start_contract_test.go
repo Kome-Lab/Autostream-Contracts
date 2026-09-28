@@ -236,7 +236,7 @@ func discordBufferMS(value int) *int {
 	return &value
 }
 
-func TestDiscordBotSchemaDescribesBundle8LegacyCompatibility(t *testing.T) {
+func TestDiscordBotSchemaDescribesLegacyRemovalCompatibility(t *testing.T) {
 	document := readContractJSONMap(t, "schemas", visualCatalogSchema)
 	description, ok := document["description"].(string)
 	if !ok {
