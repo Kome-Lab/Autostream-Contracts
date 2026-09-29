@@ -15,8 +15,8 @@
     {
       "api": "openapi/encoder-recorder-api.yaml",
       "normalized_file": "openapi/normalized/encoder-recorder-api.json",
-      "normalized_sha256": "305ff521d416558205933bb9615773e07c0c8bf4b45bf75a77e1867c442ad5ab",
-      "ref_layout_independent_sha256": "120d823f69e3e4645613f6aa8d0522eb9c6d167e7ad6cd185a4f1131401a328c"
+      "normalized_sha256": "dd26025dcf98a708b356cfcfd6f910f32f18fe21a4cfbb0b224e8cb7d740d5fb",
+      "ref_layout_independent_sha256": "8f696701fe72b294cc28976bd6bae7f81d2648b517f9135cea06d342b384be51"
     },
     {
       "api": "openapi/observability-api.yaml",

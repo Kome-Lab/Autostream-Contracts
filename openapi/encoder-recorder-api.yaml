@@ -121,6 +121,9 @@ paths:
         Internal generation and node bound start transaction. Prepare is starting,
         never running or applied. Commit requires a real Cover feed and output
         advance witness. Only prepare returns secret video_ingest transport.
+        Connection material belongs only in this internal service-to-service response.
+        The dispatcher must remove video_ingest before writing status, audit
+        metadata, logs, or any public Control Panel response.
         Unknown ownership is not permission to retry or stop another attempt.
       x-autostream-capability: stream_start_prepare_commit_v2
       requestBody:

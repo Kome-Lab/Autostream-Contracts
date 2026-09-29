@@ -10069,7 +10069,7 @@
         "put": 2,
         "trace": 0
       },
-      "normalized_bundle_sha256": "305ff521d416558205933bb9615773e07c0c8bf4b45bf75a77e1867c442ad5ab",
+      "normalized_bundle_sha256": "dd26025dcf98a708b356cfcfd6f910f32f18fe21a4cfbb0b224e8cb7d740d5fb",
       "openapi_version": "3.1.0",
       "operation_count": 10,
       "operation_id_count": 10,
@@ -10778,7 +10778,7 @@
       "path_count": 9,
       "public_operation_count": 0,
       "public_operations": [],
-      "ref_layout_independent_sha256": "120d823f69e3e4645613f6aa8d0522eb9c6d167e7ad6cd185a4f1131401a328c",
+      "ref_layout_independent_sha256": "8f696701fe72b294cc28976bd6bae7f81d2648b517f9135cea06d342b384be51",
       "request_body_count": 6,
       "response_status_distribution": {
         "200": 8,

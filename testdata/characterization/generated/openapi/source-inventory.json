@@ -6532,7 +6532,7 @@
       "path": "openapi/discord-bot-api.yaml"
     },
     {
-      "normalized_source_sha256": "b80694acd13ff88b03e8b0ccb6c400ecca3d0394e45f5429d14a66e09e0569f8",
+      "normalized_source_sha256": "2e0107b2b1151966cb009130f8ba125a74db50e4440a876b1914c7579ae98d52",
       "path": "openapi/encoder-recorder-api.yaml"
     },
     {
