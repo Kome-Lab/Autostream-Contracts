@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-start-preparation-prepared.schema.json",
+  "title": "EncoderStartPreparationPrepared",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "identity",
+    "phase",
+    "expires_at",
+    "video_ingest"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "identity": {
+      "$ref": "encoder-start-preparation-identity.schema.json"
+    },
+    "phase": {
+      "const": "prepared"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "video_ingest": {
+      "$ref": "encoder-start-stream-response.schema.json#/properties/video_ingest"
+    }
+  }
+}

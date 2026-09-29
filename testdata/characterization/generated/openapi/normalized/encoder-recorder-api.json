@@ -373,6 +373,296 @@
         "title": "EncoderRuntimeSettingsRequest",
         "type": "object"
       },
+      "encoder-start-preparation-action.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-start-preparation-action.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "encoder_service_id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "job_generation": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "schema_version": {
+            "const": 2
+          },
+          "start_id": {
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "stream_id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema_version",
+          "stream_id",
+          "start_id",
+          "encoder_service_id",
+          "job_generation"
+        ],
+        "title": "EncoderStartPreparationAction",
+        "type": "object",
+        "x-autostream-path-body-equality": {
+          "id": "stream_id",
+          "start_id": "start_id"
+        }
+      },
+      "encoder-start-preparation-identity.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-start-preparation-identity.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "archive_run_id": {
+            "not": {
+              "pattern": "\\.\\."
+            },
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$",
+            "type": "string"
+          },
+          "encoder_service_id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "job_generation": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "start_id": {
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "stream_id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stream_id",
+          "start_id",
+          "encoder_service_id",
+          "job_generation",
+          "archive_run_id"
+        ],
+        "title": "EncoderStartPreparationIdentity",
+        "type": "object"
+      },
+      "encoder-start-preparation-prepared.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-start-preparation-prepared.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "expires_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "identity": {
+            "$ref": "#/components/schemas/encoder-start-preparation-identity.schema"
+          },
+          "phase": {
+            "const": "prepared"
+          },
+          "schema_version": {
+            "const": 2
+          },
+          "video_ingest": {
+            "$ref": "#/components/schemas/video_ingest"
+          }
+        },
+        "required": [
+          "schema_version",
+          "identity",
+          "phase",
+          "expires_at",
+          "video_ingest"
+        ],
+        "title": "EncoderStartPreparationPrepared",
+        "type": "object"
+      },
+      "encoder-start-preparation-request.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-start-preparation-request.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "encoder_service_id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": 2
+          },
+          "start_id": {
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "start_request": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/encoder-start-stream-request.schema"
+              },
+              {
+                "properties": {
+                  "dry_run": {
+                    "const": false
+                  },
+                  "worker_video_ingest": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "archive_run_id",
+                  "started_at",
+                  "video_cover_start",
+                  "worker_video_ingest",
+                  "worker_video_ingest_token",
+                  "encoder_profile_id"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "schema_version",
+          "start_id",
+          "encoder_service_id",
+          "start_request"
+        ],
+        "title": "EncoderStartPreparationRequest",
+        "type": "object"
+      },
+      "encoder-start-preparation-status.schema": {
+        "$id": "https://schemas.autostream.example.com/encoder-start-preparation-status.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "properties": {
+                      "process": {}
+                    },
+                    "required": [
+                      "process"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "cover_state": {}
+                    },
+                    "required": [
+                      "cover_state"
+                    ]
+                  }
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "phase": {
+                  "const": "running"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "cover_state": {
+                  "properties": {
+                    "applied": {
+                      "properties": {
+                        "state": {
+                          "const": "known"
+                        }
+                      }
+                    },
+                    "applied_witness": {
+                      "properties": {
+                        "graph_applied": {
+                          "const": true
+                        }
+                      }
+                    },
+                    "readiness": {
+                      "const": "ready"
+                    }
+                  },
+                  "required": [
+                    "applied_witness"
+                  ]
+                },
+                "process": {}
+              },
+              "required": [
+                "process",
+                "cover_state"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "code": {
+            "pattern": "^[a-z][a-z0-9_]{0,95}$",
+            "type": "string"
+          },
+          "cover_state": {
+            "$ref": "#/components/schemas/videoCoverRuntimeState"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "identity": {
+            "$ref": "#/components/schemas/encoder-start-preparation-identity.schema"
+          },
+          "phase": {
+            "enum": [
+              "prepared",
+              "committing",
+              "running",
+              "aborted",
+              "expired",
+              "failed"
+            ]
+          },
+          "process": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/encoder-start-stream-response.schema"
+              },
+              {
+                "not": {
+                  "properties": {
+                    "video_ingest": {}
+                  },
+                  "required": [
+                    "video_ingest"
+                  ]
+                },
+                "properties": {
+                  "status": {
+                    "const": "running"
+                  }
+                }
+              }
+            ]
+          },
+          "schema_version": {
+            "const": 2
+          }
+        },
+        "required": [
+          "schema_version",
+          "identity",
+          "phase"
+        ],
+        "title": "EncoderStartPreparationStatus",
+        "type": "object"
+      },
       "encoder-start-stream-request.schema": {
         "$id": "https://schemas.autostream.example.com/encoder-start-stream-request.schema.json",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -1610,6 +1900,39 @@
         ],
         "type": "object"
       },
+      "video_ingest": {
+        "additionalProperties": false,
+        "description": "Internal service-to-service response data for the assigned Worker. Never copy this object into process status, dispatch results, audit metadata, or public Control Panel responses.",
+        "properties": {
+          "passphrase": {
+            "description": "Per-job SRT passphrase. It must be consumed only by the internal dispatcher and never serialized to any public response or log.",
+            "maxLength": 79,
+            "minLength": 32,
+            "pattern": "^[A-Za-z0-9_-]{32,79}$",
+            "readOnly": true,
+            "type": "string"
+          },
+          "pbkeylen": {
+            "description": "SRT AES key length in bytes. Version 1 requires AES-256.",
+            "enum": [
+              32
+            ],
+            "type": "integer"
+          },
+          "url": {
+            "description": "Secret-free SRT listener URL. Userinfo, query parameters, and fragments are prohibited.",
+            "format": "uri",
+            "pattern": "^srt://(?:\\[[0-9A-Fa-f:.]+\\]|[^:/?#@\\s]+):(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "passphrase",
+          "pbkeylen"
+        ],
+        "type": "object"
+      },
       "visualPipelineInvariant": {
         "additionalProperties": false,
         "properties": {
@@ -1873,7 +2196,7 @@
   "paths": {
     "/streams/start": {
       "post": {
-        "description": "Internal Control Panel dispatch. When worker_video_ingest is true, the Encoder/Recorder allocates a job-scoped SRT listener for Worker JPEG scene frames and returns its connection material only in this internal service-to-service response. The dispatcher must remove video_ingest before writing status, audit metadata, logs, or any public Control Panel response.\n",
+        "description": "Synchronous legacy dispatch for independent non-managed inputs. Managed Worker input is rejected with 409 start_preparation_required before config, secret resolution, bridge allocation or process creation. Managed producers must negotiate stream_start_prepare_commit_v2 and use prepare, normal Worker start, commit, Bot start, then final CP live.\n",
         "operationId": "startStream",
         "requestBody": {
           "content": {
@@ -1913,6 +2236,133 @@
           }
         },
         "summary": "Start an Encoder/Recorder stream"
+      }
+    },
+    "/streams/start-preparations": {
+      "post": {
+        "description": "Internal generation and node bound start transaction. Prepare is starting, never running or applied. Commit requires a real Cover feed and output advance witness. Only prepare returns secret video_ingest transport. Unknown ownership is not permission to retry or stop another attempt.\n",
+        "operationId": "prepareStreamStart",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/encoder-start-preparation-request.schema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/encoder-start-preparation-prepared.schema"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Exact phase and identity; prepared is not final success",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Strict body or path identity invalid",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service token missing or invalid",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Service transport or identity denied",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown preparation; no positive outcome",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Wrong identity, phase, generation or owner conflict",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bounded runtime failure",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Required runtime unavailable",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "prepareStreamStart",
+        "x-autostream-capability": "stream_start_prepare_commit_v2"
       }
     },
     "/streams/{id}/preview/{name}": {
@@ -2036,6 +2486,459 @@
           }
         },
         "summary": "Change per-stream Encoder gain and watermark without restarting FFmpeg"
+      }
+    },
+    "/streams/{id}/start-preparations/{start_id}": {
+      "get": {
+        "description": "Internal generation and node bound start transaction. Prepare is starting, never running or applied. Commit requires a real Cover feed and output advance witness. Only prepare returns secret video_ingest transport. Unknown ownership is not permission to retry or stop another attempt.\n",
+        "operationId": "getStreamStartPreparation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "start_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/encoder-start-preparation-status.schema"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Exact phase and identity; prepared is not final success",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Strict body or path identity invalid",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service token missing or invalid",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Service transport or identity denied",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown preparation; no positive outcome",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Wrong identity, phase, generation or owner conflict",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bounded runtime failure",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Required runtime unavailable",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "getStreamStartPreparation",
+        "x-autostream-capability": "stream_start_prepare_commit_v2"
+      }
+    },
+    "/streams/{id}/start-preparations/{start_id}/abort": {
+      "post": {
+        "description": "Internal generation and node bound start transaction. Prepare is starting, never running or applied. Commit requires a real Cover feed and output advance witness. Only prepare returns secret video_ingest transport. Unknown ownership is not permission to retry or stop another attempt.\n",
+        "operationId": "abortStreamStartPreparation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "start_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/encoder-start-preparation-action.schema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/encoder-start-preparation-status.schema"
+                    },
+                    {
+                      "properties": {
+                        "phase": {
+                          "const": "aborted"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Exact phase and identity; prepared is not final success",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Strict body or path identity invalid",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service token missing or invalid",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Service transport or identity denied",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown preparation; no positive outcome",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Wrong identity, phase, generation or owner conflict",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bounded runtime failure",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Required runtime unavailable",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "abortStreamStartPreparation",
+        "x-autostream-capability": "stream_start_prepare_commit_v2",
+        "x-autostream-path-body-equality": {
+          "id": "stream_id",
+          "start_id": "start_id"
+        }
+      }
+    },
+    "/streams/{id}/start-preparations/{start_id}/commit": {
+      "post": {
+        "description": "Internal generation and node bound start transaction. Prepare is starting, never running or applied. Commit requires a real Cover feed and output advance witness. Only prepare returns secret video_ingest transport. Unknown ownership is not permission to retry or stop another attempt.\n",
+        "operationId": "commitStreamStartPreparation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "start_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/encoder-start-preparation-action.schema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/encoder-start-preparation-status.schema"
+                    },
+                    {
+                      "properties": {
+                        "phase": {
+                          "const": "running"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Exact phase and identity; prepared is not final success",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Strict body or path identity invalid",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Service token missing or invalid",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Service transport or identity denied",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown preparation; no positive outcome",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Wrong identity, phase, generation or owner conflict",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bounded runtime failure",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Required runtime unavailable",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "commitStreamStartPreparation",
+        "x-autostream-capability": "stream_start_prepare_commit_v2",
+        "x-autostream-path-body-equality": {
+          "id": "stream_id",
+          "start_id": "start_id"
+        }
       }
     },
     "/streams/{id}/video-cover-state": {

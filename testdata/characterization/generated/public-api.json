@@ -2,7 +2,7 @@
   "format_version": 1,
   "package_import_path": "github.com/example/autostream-contracts/pkg/contracts",
   "package_name": "contracts",
-  "exported_identifier_count": 676,
+  "exported_identifier_count": 688,
   "exported_method_count": 2,
   "identifiers": [
     {
@@ -102,6 +102,13 @@
       "value": "\"scene_frames_mjpeg_srt\""
     },
     {
+      "name": "CapabilityStreamStartPrepareCommitV2",
+      "kind": "const",
+      "type": "untyped string",
+      "alias": false,
+      "value": "\"stream_start_prepare_commit_v2\""
+    },
+    {
       "name": "CapabilityWorkerFrameIngestMJPEGSRT",
       "kind": "const",
       "type": "untyped string",
@@ -164,6 +171,30 @@
       "type": "ControlNotificationChannelUpdateRequest",
       "alias": false,
       "underlying": "struct{Name string \"json:\\\"name\\\"\"; Type string \"json:\\\"type\\\"\"; Enabled bool \"json:\\\"enabled\\\"\"; WebhookURL string \"json:\\\"webhook_url,omitempty\\\"\"; EmailRecipients []string \"json:\\\"email_recipients,omitempty\\\"\"; SeverityFilter []string \"json:\\\"severity_filter,omitempty\\\"\"; EventTypeFilter []string \"json:\\\"event_type_filter,omitempty\\\"\"}"
+    },
+    {
+      "name": "DecodeEncoderStartPreparation",
+      "kind": "func",
+      "type": "func(data []byte) (EncoderStartPreparationRequest, error)",
+      "alias": false
+    },
+    {
+      "name": "DecodeEncoderStartPreparationAction",
+      "kind": "func",
+      "type": "func(data []byte, streamID string, startID string) (EncoderStartPreparationAction, error)",
+      "alias": false
+    },
+    {
+      "name": "DecodeEncoderStartPreparationPrepared",
+      "kind": "func",
+      "type": "func(data []byte, expected EncoderStartPreparationIdentity) (EncoderStartPreparationPrepared, error)",
+      "alias": false
+    },
+    {
+      "name": "DecodeEncoderStartPreparationStatus",
+      "kind": "func",
+      "type": "func(data []byte, expected EncoderStartPreparationIdentity) (EncoderStartPreparationStatus, error)",
+      "alias": false
     },
     {
       "name": "DiagnosticReport",
@@ -390,6 +421,20 @@
       "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; ArchiveRunID string \"json:\\\"archive_run_id\\\"\"; Name string \"json:\\\"name\\\"\"; StartedAt time.Time \"json:\\\"started_at\\\"\"; DryRun bool \"json:\\\"dry_run,omitempty\\\"\"}"
     },
     {
+      "name": "EncoderPreparationStreamRequest",
+      "kind": "type",
+      "type": "EncoderPreparationStreamRequest",
+      "alias": false,
+      "underlying": "struct{EncoderStartStreamRequest; YouTubeRuntime *EncoderPreparationYouTubeRuntime \"json:\\\"youtube_runtime,omitempty\\\"\"}"
+    },
+    {
+      "name": "EncoderPreparationYouTubeRuntime",
+      "kind": "type",
+      "type": "EncoderPreparationYouTubeRuntime",
+      "alias": false,
+      "underlying": "struct{YouTubeRuntimeConfig; RTMPURL string \"json:\\\"rtmp_url,omitempty\\\"\"}"
+    },
+    {
       "name": "EncoderProfile",
       "kind": "type",
       "type": "EncoderProfile",
@@ -402,6 +447,41 @@
       "type": "EncoderRuntimeSettingsRequest",
       "alias": false,
       "underlying": "struct{EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id\\\"\"}"
+    },
+    {
+      "name": "EncoderStartPreparationAction",
+      "kind": "type",
+      "type": "EncoderStartPreparationAction",
+      "alias": false,
+      "underlying": "struct{SchemaVersion int \"json:\\\"schema_version\\\"\"; StreamID string \"json:\\\"stream_id\\\"\"; StartID string \"json:\\\"start_id\\\"\"; EncoderServiceID string \"json:\\\"encoder_service_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"}"
+    },
+    {
+      "name": "EncoderStartPreparationIdentity",
+      "kind": "type",
+      "type": "EncoderStartPreparationIdentity",
+      "alias": false,
+      "underlying": "struct{StreamID string \"json:\\\"stream_id\\\"\"; StartID string \"json:\\\"start_id\\\"\"; EncoderServiceID string \"json:\\\"encoder_service_id\\\"\"; JobGeneration uint64 \"json:\\\"job_generation\\\"\"; ArchiveRunID string \"json:\\\"archive_run_id\\\"\"}"
+    },
+    {
+      "name": "EncoderStartPreparationPrepared",
+      "kind": "type",
+      "type": "EncoderStartPreparationPrepared",
+      "alias": false,
+      "underlying": "struct{SchemaVersion int \"json:\\\"schema_version\\\"\"; Identity EncoderStartPreparationIdentity \"json:\\\"identity\\\"\"; Phase string \"json:\\\"phase\\\"\"; ExpiresAt time.Time \"json:\\\"expires_at\\\"\"; VideoIngest EncoderVideoIngest \"json:\\\"video_ingest\\\"\"}"
+    },
+    {
+      "name": "EncoderStartPreparationRequest",
+      "kind": "type",
+      "type": "EncoderStartPreparationRequest",
+      "alias": false,
+      "underlying": "struct{SchemaVersion int \"json:\\\"schema_version\\\"\"; StartID string \"json:\\\"start_id\\\"\"; EncoderServiceID string \"json:\\\"encoder_service_id\\\"\"; StartRequest EncoderPreparationStreamRequest \"json:\\\"start_request\\\"\"}"
+    },
+    {
+      "name": "EncoderStartPreparationStatus",
+      "kind": "type",
+      "type": "EncoderStartPreparationStatus",
+      "alias": false,
+      "underlying": "struct{SchemaVersion int \"json:\\\"schema_version\\\"\"; Identity EncoderStartPreparationIdentity \"json:\\\"identity\\\"\"; Phase string \"json:\\\"phase\\\"\"; ExpiresAt *time.Time \"json:\\\"expires_at,omitempty\\\"\"; Process *EncoderStartStreamResponse \"json:\\\"process,omitempty\\\"\"; CoverState *VideoCoverRuntimeState \"json:\\\"cover_state,omitempty\\\"\"; Code string \"json:\\\"code,omitempty\\\"\"}"
     },
     {
       "name": "EncoderStartStreamRequest",

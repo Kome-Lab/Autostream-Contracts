@@ -5792,6 +5792,41 @@
     },
     {
       "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-preparation-action.schema.json",
+      "value": "../schemas/encoder-start-preparation-action.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-preparation-action.schema.json",
+      "value": "../schemas/encoder-start-preparation-action.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-preparation-prepared.schema.json",
+      "value": "../schemas/encoder-start-preparation-prepared.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-preparation-request.schema.json",
+      "value": "../schemas/encoder-start-preparation-request.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-preparation-status.schema.json",
+      "value": "../schemas/encoder-start-preparation-status.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-preparation-status.schema.json",
+      "value": "../schemas/encoder-start-preparation-status.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
+      "target": "schemas/encoder-start-preparation-status.schema.json",
+      "value": "../schemas/encoder-start-preparation-status.schema.json"
+    },
+    {
+      "source": "openapi/encoder-recorder-api.yaml",
       "target": "schemas/encoder-start-stream-request.schema.json",
       "value": "../schemas/encoder-start-stream-request.schema.json"
     },
@@ -6161,6 +6196,36 @@
       "value": "#/$defs/visualPipelineInvariant"
     },
     {
+      "source": "schemas/encoder-start-preparation-prepared.schema.json",
+      "target": "schemas/encoder-start-preparation-identity.schema.json",
+      "value": "encoder-start-preparation-identity.schema.json"
+    },
+    {
+      "source": "schemas/encoder-start-preparation-prepared.schema.json",
+      "target": "schemas/encoder-start-stream-response.schema.json",
+      "value": "encoder-start-stream-response.schema.json#/properties/video_ingest"
+    },
+    {
+      "source": "schemas/encoder-start-preparation-request.schema.json",
+      "target": "schemas/encoder-start-stream-request.schema.json",
+      "value": "encoder-start-stream-request.schema.json"
+    },
+    {
+      "source": "schemas/encoder-start-preparation-status.schema.json",
+      "target": "schemas/encoder-start-preparation-identity.schema.json",
+      "value": "encoder-start-preparation-identity.schema.json"
+    },
+    {
+      "source": "schemas/encoder-start-preparation-status.schema.json",
+      "target": "schemas/encoder-start-stream-response.schema.json",
+      "value": "encoder-start-stream-response.schema.json"
+    },
+    {
+      "source": "schemas/encoder-start-preparation-status.schema.json",
+      "target": "schemas/encoder-video-cover-runtime-state.schema.json",
+      "value": "encoder-video-cover-runtime-state.schema.json"
+    },
+    {
       "source": "schemas/encoder-start-stream-request.schema.json",
       "target": "schemas/discord-bot-start-job-request.schema.json",
       "value": "discord-bot-start-job-request.schema.json#/$defs/videoCoverStartSnapshot"
@@ -6456,7 +6521,7 @@
       "value": "system-update-job.schema.json#/$defs/portReconfigurationPlan"
     }
   ],
-  "source_file_count": 40,
+  "source_file_count": 45,
   "source_files": [
     {
       "normalized_source_sha256": "a6b12221ba6972317f3d9bbd6044126ae364bd0e0fc739cbbd4e214e134f5bad",
@@ -6467,7 +6532,7 @@
       "path": "openapi/discord-bot-api.yaml"
     },
     {
-      "normalized_source_sha256": "28c60540f5df1545e48a1b5f3182c970382200ae0788b400e7a2fa5d92d36b99",
+      "normalized_source_sha256": "b80694acd13ff88b03e8b0ccb6c400ecca3d0394e45f5429d14a66e09e0569f8",
       "path": "openapi/encoder-recorder-api.yaml"
     },
     {
@@ -6485,6 +6550,26 @@
     {
       "normalized_source_sha256": "3a5fb1db46a5b4a93946f0cf16ca0ae4618534a284a8b2daf325fcb7b7a14453",
       "path": "schemas/encoder-runtime-settings-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "29c205ad4066e898a2d0624457b7a07a53227eff4c968edc46a4803796c32beb",
+      "path": "schemas/encoder-start-preparation-action.schema.json"
+    },
+    {
+      "normalized_source_sha256": "3730c0395d6d075829061b506bb04fde4f66740cf323c3650b2814a9dbc8d4ff",
+      "path": "schemas/encoder-start-preparation-identity.schema.json"
+    },
+    {
+      "normalized_source_sha256": "d27ad22af42062cbb8c69403375f89276a770d02c4f137507156c75731d35c2d",
+      "path": "schemas/encoder-start-preparation-prepared.schema.json"
+    },
+    {
+      "normalized_source_sha256": "17e8fac78d115f7a4ae18cdf31ed00e32618c87d2b7cae9dfb27051993be187f",
+      "path": "schemas/encoder-start-preparation-request.schema.json"
+    },
+    {
+      "normalized_source_sha256": "5441209ab94d114ebcda494a6a757c17f4204844ec2736c1ed487373d65b7b09",
+      "path": "schemas/encoder-start-preparation-status.schema.json"
     },
     {
       "normalized_source_sha256": "eea777427647a8bf121cf10df98e3b2f4ae822d6e88b743cb23e0e8c78cdfa46",

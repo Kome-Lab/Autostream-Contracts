@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 118,
+  "schema_count": 123,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -679,6 +679,161 @@
       ],
       "extension_keywords": [],
       "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-start-preparation-action.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-start-preparation-action.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "518cbf6bc811bdee64f6d4146613157a340312918e4dec007308e109fa13aa22",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [
+        "x-autostream-path-body-equality"
+      ],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-start-preparation-identity.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-start-preparation-identity.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "03a8b9f37c2afc39042538ccf187b293491526093b27cf7941ea8bab1ead1f91",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-start-preparation-prepared.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-start-preparation-prepared.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "74665e74e31f0a7cdb54eb4e832eb7cee365439599af77dbb2d5439457d53c70",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "format",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/identity/$ref",
+          "value": "encoder-start-preparation-identity.schema.json",
+          "target": "schemas/encoder-start-preparation-identity.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/video_ingest/$ref",
+          "value": "encoder-start-stream-response.schema.json#/properties/video_ingest",
+          "target": "schemas/encoder-start-stream-response.schema.json",
+          "fragment": "/properties/video_ingest"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-start-preparation-request.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-start-preparation-request.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "d796015142b0d59479c505024a7d43bb9b5a609e48ca3cc4b7a649f87844990d",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/start_request/allOf/0/$ref",
+          "value": "encoder-start-stream-request.schema.json",
+          "target": "schemas/encoder-start-stream-request.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/encoder-start-preparation-status.schema.json",
+      "id": "https://schemas.autostream.example.com/encoder-start-preparation-status.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "3a736e9f7bf15aea675dbb6582ffe5942a75268c6f5d921c9afda10dfe3e2f12",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "anyOf",
+        "const",
+        "else",
+        "enum",
+        "format",
+        "if",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/cover_state/$ref",
+          "value": "encoder-video-cover-runtime-state.schema.json",
+          "target": "schemas/encoder-video-cover-runtime-state.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/identity/$ref",
+          "value": "encoder-start-preparation-identity.schema.json",
+          "target": "schemas/encoder-start-preparation-identity.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/process/allOf/0/$ref",
+          "value": "encoder-start-stream-response.schema.json",
+          "target": "schemas/encoder-start-stream-response.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {

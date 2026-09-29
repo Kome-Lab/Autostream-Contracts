@@ -10057,22 +10057,22 @@
       "duplicate_method_paths": [],
       "duplicate_operation_ids": [],
       "explicit_security_count": 1,
-      "inherited_security_count": 5,
-      "inline_schema_count": 6,
+      "inherited_security_count": 9,
+      "inline_schema_count": 10,
       "method_counts": {
         "delete": 0,
-        "get": 3,
+        "get": 4,
         "head": 0,
         "options": 0,
         "patch": 0,
-        "post": 1,
+        "post": 4,
         "put": 2,
         "trace": 0
       },
-      "normalized_bundle_sha256": "b467c38f347b8fd88020608c0ad56945fd00529f9aef318ec9aa81d49aa77ebe",
+      "normalized_bundle_sha256": "305ff521d416558205933bb9615773e07c0c8bf4b45bf75a77e1867c442ad5ab",
       "openapi_version": "3.1.0",
-      "operation_count": 6,
-      "operation_id_count": 6,
+      "operation_count": 10,
+      "operation_id_count": 10,
       "operations": [
         {
           "deprecated": false,
@@ -10130,6 +10130,83 @@
               "content_types": [],
               "schemas": [],
               "status": "500"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "503"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "serviceToken": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "post",
+          "operation_id": "prepareStreamStart",
+          "path": "/streams/start-preparations",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "encoder-start-preparation-request.schema",
+              "ref": "#/components/schemas/encoder-start-preparation-request.schema",
+              "resolved_sha256": "4b667f8fd3553bc1fb6e44f773999ff0f33079d2aef4f2a55bbc075c224aaff2"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "fca042e798a7df64fc4d6c03c42b9fa36b52bffd3fa603ae55ddda0bdcbc2381",
+                  "type": ""
+                }
+              ],
+              "status": "202"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "401"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "404"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "502"
             },
             {
               "content_types": [],
@@ -10257,6 +10334,228 @@
               "content_types": [],
               "schemas": [],
               "status": "502"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "serviceToken": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getStreamStartPreparation",
+          "path": "/streams/{id}/start-preparations/{start_id}",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "c9468c9b367ceb6c3a7e77373ec7b020834964a4f311f8fb20d33a0974952d69",
+                  "type": ""
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "401"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "404"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "502"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "503"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "serviceToken": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "post",
+          "operation_id": "abortStreamStartPreparation",
+          "path": "/streams/{id}/start-preparations/{start_id}/abort",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "encoder-start-preparation-action.schema",
+              "ref": "#/components/schemas/encoder-start-preparation-action.schema",
+              "resolved_sha256": "518cbf6bc811bdee64f6d4146613157a340312918e4dec007308e109fa13aa22"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "0ddf644622db46b75af8a1ada264880640030d5b977c8796f86471c7a081b42a",
+                  "type": ""
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "401"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "404"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "502"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "503"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "serviceToken": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "post",
+          "operation_id": "commitStreamStartPreparation",
+          "path": "/streams/{id}/start-preparations/{start_id}/commit",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "encoder-start-preparation-action.schema",
+              "ref": "#/components/schemas/encoder-start-preparation-action.schema",
+              "resolved_sha256": "518cbf6bc811bdee64f6d4146613157a340312918e4dec007308e109fa13aa22"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "776902109668e7c6535097a157058f8c42671db484b4d47756043369563adf22",
+                  "type": ""
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "401"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "404"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "502"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "503"
             }
           ],
           "security_source": "inherited",
@@ -10476,25 +10775,26 @@
       "operations_without_responses": [],
       "operations_without_security_definition": [],
       "operations_without_success_response": [],
-      "path_count": 5,
+      "path_count": 9,
       "public_operation_count": 0,
       "public_operations": [],
-      "ref_layout_independent_sha256": "5c018180a8e1f37e1c07d22d9da476e9d8176b49847cdf6166c0fe678cf783ed",
-      "request_body_count": 3,
+      "ref_layout_independent_sha256": "120d823f69e3e4645613f6aa8d0522eb9c6d167e7ad6cd185a4f1131401a328c",
+      "request_body_count": 6,
       "response_status_distribution": {
-        "200": 5,
-        "202": 2,
+        "200": 8,
+        "202": 3,
         "206": 1,
-        "400": 4,
-        "401": 5,
-        "404": 3,
+        "400": 8,
+        "401": 9,
+        "403": 4,
+        "404": 7,
         "405": 1,
-        "409": 3,
+        "409": 7,
         "500": 1,
-        "502": 2,
-        "503": 2
+        "502": 6,
+        "503": 6
       },
-      "schema_count": 30,
+      "schema_count": 36,
       "security_scheme_count": 1,
       "title": "AutoStream Encoder Recorder API",
       "unauthenticated_operation_count": 1,

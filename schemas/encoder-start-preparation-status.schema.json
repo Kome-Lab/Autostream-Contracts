@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-start-preparation-status.schema.json",
+  "title": "EncoderStartPreparationStatus",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "identity",
+    "phase"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "identity": {
+      "$ref": "encoder-start-preparation-identity.schema.json"
+    },
+    "phase": {
+      "enum": [
+        "prepared",
+        "committing",
+        "running",
+        "aborted",
+        "expired",
+        "failed"
+      ]
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "process": {
+      "allOf": [
+        {
+          "$ref": "encoder-start-stream-response.schema.json"
+        },
+        {
+          "properties": {
+            "status": {
+              "const": "running"
+            }
+          },
+          "not": {
+            "required": [
+              "video_ingest"
+            ],
+            "properties": {
+              "video_ingest": {}
+            }
+          }
+        }
+      ]
+    },
+    "cover_state": {
+      "$ref": "encoder-video-cover-runtime-state.schema.json"
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,95}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "running"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "process",
+          "cover_state"
+        ],
+        "properties": {
+          "cover_state": {
+            "required": [
+              "applied_witness"
+            ],
+            "properties": {
+              "readiness": {
+                "const": "ready"
+              },
+              "applied": {
+                "properties": {
+                  "state": {
+                    "const": "known"
+                  }
+                }
+              },
+              "applied_witness": {
+                "properties": {
+                  "graph_applied": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "process": {}
+        }
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "process"
+              ],
+              "properties": {
+                "process": {}
+              }
+            },
+            {
+              "required": [
+                "cover_state"
+              ],
+              "properties": {
+                "cover_state": {}
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

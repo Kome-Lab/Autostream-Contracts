@@ -84,12 +84,11 @@ paths:
       operationId: startStream
       summary: Start an Encoder/Recorder stream
       description: >
-        Internal Control Panel dispatch. When worker_video_ingest is true, the
-        Encoder/Recorder allocates a job-scoped SRT listener for Worker JPEG
-        scene frames and returns its
-        connection material only in this internal service-to-service response.
-        The dispatcher must remove video_ingest before writing status, audit
-        metadata, logs, or any public Control Panel response.
+        Synchronous legacy dispatch for independent non-managed inputs.
+        Managed Worker input is rejected with 409 start_preparation_required
+        before config, secret resolution, bridge allocation or process creation.
+        Managed producers must negotiate stream_start_prepare_commit_v2 and use
+        prepare, normal Worker start, commit, Bot start, then final CP live.
       requestBody:
         required: true
         content:
@@ -113,6 +112,315 @@ paths:
           description: Encoder/Recorder could not allocate or start the stream
         "503":
           description: Worker video ingest is unavailable or could not allocate its encrypted SRT listener
+
+  /streams/start-preparations:
+    post:
+      operationId: prepareStreamStart
+      summary: prepareStreamStart
+      description: >
+        Internal generation and node bound start transaction. Prepare is starting,
+        never running or applied. Commit requires a real Cover feed and output
+        advance witness. Only prepare returns secret video_ingest transport.
+        Unknown ownership is not permission to retry or stop another attempt.
+      x-autostream-capability: stream_start_prepare_commit_v2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/encoder-start-preparation-request.schema.json"
+      responses:
+        "202":
+          description: Exact phase and identity; prepared is not final success
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "../schemas/encoder-start-preparation-prepared.schema.json"
+        "400":
+          description: Strict body or path identity invalid
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "401":
+          description: Service token missing or invalid
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "403":
+          description: Service transport or identity denied
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "404":
+          description: Unknown preparation; no positive outcome
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "409":
+          description: Wrong identity, phase, generation or owner conflict
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "502":
+          description: Bounded runtime failure
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "503":
+          description: Required runtime unavailable
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+
+  /streams/{id}/start-preparations/{start_id}:
+    get:
+      operationId: getStreamStartPreparation
+      summary: getStreamStartPreparation
+      description: >
+        Internal generation and node bound start transaction. Prepare is starting,
+        never running or applied. Commit requires a real Cover feed and output
+        advance witness. Only prepare returns secret video_ingest transport.
+        Unknown ownership is not permission to retry or stop another attempt.
+      x-autostream-capability: stream_start_prepare_commit_v2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: string, minLength: 1}
+        - name: start_id
+          in: path
+          required: true
+          schema: {type: string, format: uuid}
+      responses:
+        "200":
+          description: Exact phase and identity; prepared is not final success
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "../schemas/encoder-start-preparation-status.schema.json"
+        "400":
+          description: Strict body or path identity invalid
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "401":
+          description: Service token missing or invalid
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "403":
+          description: Service transport or identity denied
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "404":
+          description: Unknown preparation; no positive outcome
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "409":
+          description: Wrong identity, phase, generation or owner conflict
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "502":
+          description: Bounded runtime failure
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "503":
+          description: Required runtime unavailable
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+
+  /streams/{id}/start-preparations/{start_id}/commit:
+    post:
+      operationId: commitStreamStartPreparation
+      summary: commitStreamStartPreparation
+      description: >
+        Internal generation and node bound start transaction. Prepare is starting,
+        never running or applied. Commit requires a real Cover feed and output
+        advance witness. Only prepare returns secret video_ingest transport.
+        Unknown ownership is not permission to retry or stop another attempt.
+      x-autostream-capability: stream_start_prepare_commit_v2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: string, minLength: 1}
+        - name: start_id
+          in: path
+          required: true
+          schema: {type: string, format: uuid}
+      x-autostream-path-body-equality: {id: stream_id, start_id: start_id}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/encoder-start-preparation-action.schema.json"
+      responses:
+        "200":
+          description: Exact phase and identity; prepared is not final success
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "../schemas/encoder-start-preparation-status.schema.json"
+                  - properties: {phase: {const: running}}
+        "400":
+          description: Strict body or path identity invalid
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "401":
+          description: Service token missing or invalid
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "403":
+          description: Service transport or identity denied
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "404":
+          description: Unknown preparation; no positive outcome
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "409":
+          description: Wrong identity, phase, generation or owner conflict
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "502":
+          description: Bounded runtime failure
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "503":
+          description: Required runtime unavailable
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+
+  /streams/{id}/start-preparations/{start_id}/abort:
+    post:
+      operationId: abortStreamStartPreparation
+      summary: abortStreamStartPreparation
+      description: >
+        Internal generation and node bound start transaction. Prepare is starting,
+        never running or applied. Commit requires a real Cover feed and output
+        advance witness. Only prepare returns secret video_ingest transport.
+        Unknown ownership is not permission to retry or stop another attempt.
+      x-autostream-capability: stream_start_prepare_commit_v2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: string, minLength: 1}
+        - name: start_id
+          in: path
+          required: true
+          schema: {type: string, format: uuid}
+      x-autostream-path-body-equality: {id: stream_id, start_id: start_id}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/encoder-start-preparation-action.schema.json"
+      responses:
+        "200":
+          description: Exact phase and identity; prepared is not final success
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "../schemas/encoder-start-preparation-status.schema.json"
+                  - properties: {phase: {const: aborted}}
+        "400":
+          description: Strict body or path identity invalid
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "401":
+          description: Service token missing or invalid
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "403":
+          description: Service transport or identity denied
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "404":
+          description: Unknown preparation; no positive outcome
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "409":
+          description: Wrong identity, phase, generation or owner conflict
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "502":
+          description: Bounded runtime failure
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
+        "503":
+          description: Required runtime unavailable
+          headers:
+            Cache-Control:
+              required: true
+              schema: {type: string, const: no-store}
 
   /streams/{id}/video-cover-state:
     get:

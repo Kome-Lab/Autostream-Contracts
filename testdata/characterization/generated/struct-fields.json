@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 203,
+  "struct_count": 210,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -2628,6 +2628,62 @@
       ]
     },
     {
+      "name": "EncoderPreparationStreamRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "EncoderStartStreamRequest",
+          "exported": true,
+          "embedded": true,
+          "type": "EncoderStartStreamRequest",
+          "struct_tag": "",
+          "json_name": "EncoderStartStreamRequest",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "YouTubeRuntime",
+          "exported": true,
+          "embedded": false,
+          "type": "*EncoderPreparationYouTubeRuntime",
+          "struct_tag": "json:\"youtube_runtime,omitempty\"",
+          "json_name": "youtube_runtime",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
+      "name": "EncoderPreparationYouTubeRuntime",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "YouTubeRuntimeConfig",
+          "exported": true,
+          "embedded": true,
+          "type": "YouTubeRuntimeConfig",
+          "struct_tag": "",
+          "json_name": "YouTubeRuntimeConfig",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "RTMPURL",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"rtmp_url,omitempty\"",
+          "json_name": "rtmp_url",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
       "name": "EncoderProfile",
       "alias": false,
       "fields": [
@@ -2779,6 +2835,322 @@
           "json_name": "overlay_profile_id",
           "json_ignored": false,
           "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "EncoderStartPreparationAction",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "SchemaVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"schema_version\"",
+          "json_name": "schema_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "StreamID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"stream_id\"",
+          "json_name": "stream_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "StartID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"start_id\"",
+          "json_name": "start_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "EncoderServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"encoder_service_id\"",
+          "json_name": "encoder_service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "JobGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"job_generation\"",
+          "json_name": "job_generation",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "EncoderStartPreparationIdentity",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "StreamID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"stream_id\"",
+          "json_name": "stream_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "StartID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"start_id\"",
+          "json_name": "start_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "EncoderServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"encoder_service_id\"",
+          "json_name": "encoder_service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "JobGeneration",
+          "exported": true,
+          "embedded": false,
+          "type": "uint64",
+          "struct_tag": "json:\"job_generation\"",
+          "json_name": "job_generation",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "ArchiveRunID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"archive_run_id\"",
+          "json_name": "archive_run_id",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "EncoderStartPreparationPrepared",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "SchemaVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"schema_version\"",
+          "json_name": "schema_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Identity",
+          "exported": true,
+          "embedded": false,
+          "type": "EncoderStartPreparationIdentity",
+          "struct_tag": "json:\"identity\"",
+          "json_name": "identity",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Phase",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"phase\"",
+          "json_name": "phase",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ExpiresAt",
+          "exported": true,
+          "embedded": false,
+          "type": "time.Time",
+          "struct_tag": "json:\"expires_at\"",
+          "json_name": "expires_at",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
+          "name": "VideoIngest",
+          "exported": true,
+          "embedded": false,
+          "type": "EncoderVideoIngest",
+          "struct_tag": "json:\"video_ingest\"",
+          "json_name": "video_ingest",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "EncoderStartPreparationRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "SchemaVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"schema_version\"",
+          "json_name": "schema_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "StartID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"start_id\"",
+          "json_name": "start_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "EncoderServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"encoder_service_id\"",
+          "json_name": "encoder_service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "StartRequest",
+          "exported": true,
+          "embedded": false,
+          "type": "EncoderPreparationStreamRequest",
+          "struct_tag": "json:\"start_request\"",
+          "json_name": "start_request",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
+      "name": "EncoderStartPreparationStatus",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "SchemaVersion",
+          "exported": true,
+          "embedded": false,
+          "type": "int",
+          "struct_tag": "json:\"schema_version\"",
+          "json_name": "schema_version",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "Identity",
+          "exported": true,
+          "embedded": false,
+          "type": "EncoderStartPreparationIdentity",
+          "struct_tag": "json:\"identity\"",
+          "json_name": "identity",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "Phase",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"phase\"",
+          "json_name": "phase",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 3,
+          "name": "ExpiresAt",
+          "exported": true,
+          "embedded": false,
+          "type": "*time.Time",
+          "struct_tag": "json:\"expires_at,omitempty\"",
+          "json_name": "expires_at",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "Process",
+          "exported": true,
+          "embedded": false,
+          "type": "*EncoderStartStreamResponse",
+          "struct_tag": "json:\"process,omitempty\"",
+          "json_name": "process",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "CoverState",
+          "exported": true,
+          "embedded": false,
+          "type": "*VideoCoverRuntimeState",
+          "struct_tag": "json:\"cover_state,omitempty\"",
+          "json_name": "cover_state",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
+          "name": "Code",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"code,omitempty\"",
+          "json_name": "code",
+          "json_ignored": false,
+          "omitempty": true
         }
       ]
     },

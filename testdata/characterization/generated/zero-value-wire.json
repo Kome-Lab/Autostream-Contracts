@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 203,
+  "struct_count": 210,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -1097,6 +1097,56 @@
       }
     },
     {
+      "name": "EncoderPreparationStreamRequest",
+      "wire_json": "{\"stream_id\":\"\",\"name\":\"\",\"rtmp_url\":\"\",\"started_at\":\"0001-01-01T00:00:00Z\"}",
+      "wire_sha256": "51231503db4b0ad49c7502036aa9a0d1a8d56a3da0f87028156f7201810fa457",
+      "shape": {
+        "fields": [
+          {
+            "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "rtmp_url",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "started_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderPreparationYouTubeRuntime",
+      "wire_json": "{\"mode\":\"\"}",
+      "wire_sha256": "f38d8d7346d3b73371fbb8b07b77f1a696d0ec47f93b9ad84d6f4b95c945e9f5",
+      "shape": {
+        "fields": [
+          {
+            "name": "mode",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
       "name": "EncoderProfile",
       "wire_json": "{\"id\":\"\",\"name\":\"\",\"width\":0,\"height\":0,\"fps\":0,\"video_codec\":\"\",\"audio_codec\":\"\",\"video_bitrate_kbps\":0,\"audio_bitrate_kbps\":0,\"audio_sample_rate_hz\":0,\"keyframe_interval_sec\":0}",
       "wire_sha256": "360012e06b1c9bc7688a09053d764f44c130d798dab26d6fcd43122a17f8f078",
@@ -1188,6 +1238,298 @@
             "name": "overlay_profile_id",
             "shape": {
               "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderStartPreparationAction",
+      "wire_json": "{\"schema_version\":0,\"stream_id\":\"\",\"start_id\":\"\",\"encoder_service_id\":\"\",\"job_generation\":0}",
+      "wire_sha256": "c50879af074862ed8d37d0e40e61aac65236fb9ab725c5db06109c937ace3d9b",
+      "shape": {
+        "fields": [
+          {
+            "name": "encoder_service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "schema_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "start_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderStartPreparationIdentity",
+      "wire_json": "{\"stream_id\":\"\",\"start_id\":\"\",\"encoder_service_id\":\"\",\"job_generation\":0,\"archive_run_id\":\"\"}",
+      "wire_sha256": "20eeb523ff4b0fe348babb5caeb1ba78a13f0bf8f7606595f753b82737f0e6d2",
+      "shape": {
+        "fields": [
+          {
+            "name": "archive_run_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "encoder_service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "job_generation",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "start_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "stream_id",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderStartPreparationPrepared",
+      "wire_json": "{\"schema_version\":0,\"identity\":{\"stream_id\":\"\",\"start_id\":\"\",\"encoder_service_id\":\"\",\"job_generation\":0,\"archive_run_id\":\"\"},\"phase\":\"\",\"expires_at\":\"0001-01-01T00:00:00Z\",\"video_ingest\":{\"url\":\"\",\"passphrase\":\"\",\"pbkeylen\":0}}",
+      "wire_sha256": "737623e1a538fedbc9e3bbf95b9f32de10c1e8d770dbe732aea9ad722d7928e8",
+      "shape": {
+        "fields": [
+          {
+            "name": "expires_at",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "identity",
+            "shape": {
+              "fields": [
+                {
+                  "name": "archive_run_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "encoder_service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "job_generation",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "start_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "stream_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "phase",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "schema_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "video_ingest",
+            "shape": {
+              "fields": [
+                {
+                  "name": "passphrase",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "pbkeylen",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "url",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderStartPreparationRequest",
+      "wire_json": "{\"schema_version\":0,\"start_id\":\"\",\"encoder_service_id\":\"\",\"start_request\":{\"stream_id\":\"\",\"name\":\"\",\"rtmp_url\":\"\",\"started_at\":\"0001-01-01T00:00:00Z\"}}",
+      "wire_sha256": "35cc9d3f1287a4497646c340b28d3032914fe7f4571f2a4c639ad049815e09d0",
+      "shape": {
+        "fields": [
+          {
+            "name": "encoder_service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "schema_version",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "start_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "start_request",
+            "shape": {
+              "fields": [
+                {
+                  "name": "name",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "rtmp_url",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "started_at",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "stream_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "EncoderStartPreparationStatus",
+      "wire_json": "{\"schema_version\":0,\"identity\":{\"stream_id\":\"\",\"start_id\":\"\",\"encoder_service_id\":\"\",\"job_generation\":0,\"archive_run_id\":\"\"},\"phase\":\"\"}",
+      "wire_sha256": "36885c44d320cd07a8ab8dd251877ef941aec907e975e56fa9cbb3e9b09c7f77",
+      "shape": {
+        "fields": [
+          {
+            "name": "identity",
+            "shape": {
+              "fields": [
+                {
+                  "name": "archive_run_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "encoder_service_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "job_generation",
+                  "shape": {
+                    "kind": "number"
+                  }
+                },
+                {
+                  "name": "start_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                },
+                {
+                  "name": "stream_id",
+                  "shape": {
+                    "kind": "string"
+                  }
+                }
+              ],
+              "kind": "object"
+            }
+          },
+          {
+            "name": "phase",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "schema_version",
+            "shape": {
+              "kind": "number"
             }
           }
         ],

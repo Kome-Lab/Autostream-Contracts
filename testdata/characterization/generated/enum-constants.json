@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "constant_count": 381,
+  "constant_count": 382,
   "constants": [
     {
       "name": "AssignmentRolePrimary",
@@ -31,6 +31,11 @@
       "name": "CapabilitySceneFramesMJPEGSRT",
       "type": "untyped string",
       "value": "\"scene_frames_mjpeg_srt\""
+    },
+    {
+      "name": "CapabilityStreamStartPrepareCommitV2",
+      "type": "untyped string",
+      "value": "\"stream_start_prepare_commit_v2\""
     },
     {
       "name": "CapabilityWorkerFrameIngestMJPEGSRT",

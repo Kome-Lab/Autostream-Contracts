@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/encoder-start-preparation-request.schema.json",
+  "title": "EncoderStartPreparationRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "start_id",
+    "encoder_service_id",
+    "start_request"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "start_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "encoder_service_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "start_request": {
+      "allOf": [
+        {
+          "$ref": "encoder-start-stream-request.schema.json"
+        },
+        {
+          "required": [
+            "archive_run_id",
+            "started_at",
+            "video_cover_start",
+            "worker_video_ingest",
+            "worker_video_ingest_token",
+            "encoder_profile_id"
+          ],
+          "properties": {
+            "worker_video_ingest": {
+              "const": true
+            },
+            "dry_run": {
+              "const": false
+            }
+          }
+        }
+      ]
+    }
+  }
+}

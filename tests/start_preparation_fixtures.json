@@ -1,0 +1,157 @@
+{
+  "prepare": {
+    "schema_version": 2,
+    "start_id": "11111111-1111-4111-8111-111111111111",
+    "encoder_service_id": "encoder-01",
+    "start_request": {
+      "stream_id": "stream-01",
+      "name": "Synthetic",
+      "rtmp_url": "",
+      "archive_run_id": "archive-01",
+      "started_at": "2026-09-29T00:00:00Z",
+      "worker_video_ingest": true,
+      "worker_video_ingest_token": "synthetic-test-token",
+      "encoder_profile_id": "profile-01",
+      "video_cover_start": {
+        "job_generation": 7,
+        "revision": 1,
+        "active": false,
+        "idempotency_key": "initial-7"
+      }
+    }
+  },
+  "action": {
+    "schema_version": 2,
+    "stream_id": "stream-01",
+    "start_id": "11111111-1111-4111-8111-111111111111",
+    "encoder_service_id": "encoder-01",
+    "job_generation": 7
+  },
+  "prepared": {
+    "schema_version": 2,
+    "identity": {
+      "stream_id": "stream-01",
+      "start_id": "11111111-1111-4111-8111-111111111111",
+      "encoder_service_id": "encoder-01",
+      "job_generation": 7,
+      "archive_run_id": "archive-01"
+    },
+    "phase": "prepared",
+    "expires_at": "2030-01-01T00:00:00Z",
+    "video_ingest": {
+      "url": "srt://encoder.example.com:19000",
+      "passphrase": "synthetic_worker_video_passphrase_32bytes",
+      "pbkeylen": 32
+    }
+  },
+  "running": {
+    "schema_version": 2,
+    "identity": {
+      "stream_id": "stream-01",
+      "start_id": "11111111-1111-4111-8111-111111111111",
+      "encoder_service_id": "encoder-01",
+      "job_generation": 7,
+      "archive_run_id": "archive-01"
+    },
+    "phase": "running",
+    "process": {
+      "stream_id": "stream-01",
+      "name": "Synthetic",
+      "status": "running",
+      "started_at_jst": "2026-09-29T09:00:00+09:00",
+      "archive": {}
+    },
+    "cover_state": {
+      "stream_id": "stream-01",
+      "job_generation": 7,
+      "generation": 3,
+      "capability": "live_video_cover_v1",
+      "readiness": "ready",
+      "desired": {
+        "active": false,
+        "revision": 1,
+        "source": "none"
+      },
+      "applied": {
+        "state": "known",
+        "active": false,
+        "revision": 1
+      },
+      "cover": {
+        "enabled": false,
+        "revision": 1
+      },
+      "watermark": {
+        "enabled": false,
+        "revision": 1
+      },
+      "pipeline": {
+        "layers": [
+          "base_or_worker_scene",
+          "video_cover",
+          "watermark",
+          "video_encode",
+          "tee_live_archive_preview"
+        ],
+        "watermark_topmost": true,
+        "cover_watermark_independent": true,
+        "output_parity": [
+          "live",
+          "archive",
+          "preview"
+        ],
+        "audio_continuity": {
+          "process_restart": 0,
+          "audio_encoder_restart": 0,
+          "audio_mux_restart": 0,
+          "graph_rebuild": 0,
+          "reconnect": 0,
+          "sequence_loss": 0,
+          "timestamp_discontinuity": 0,
+          "intentional_mute_insertion": 0
+        }
+      },
+      "no_automatic_resend": true,
+      "applied_witness": {
+        "graph_applied": true,
+        "generation": 3,
+        "revision": 1,
+        "active": false,
+        "cover": {
+          "enabled": false,
+          "revision": 1
+        },
+        "watermark": {
+          "enabled": false,
+          "revision": 1
+        },
+        "pipeline": {
+          "layers": [
+            "base_or_worker_scene",
+            "video_cover",
+            "watermark",
+            "video_encode",
+            "tee_live_archive_preview"
+          ],
+          "watermark_topmost": true,
+          "cover_watermark_independent": true,
+          "output_parity": [
+            "live",
+            "archive",
+            "preview"
+          ],
+          "audio_continuity": {
+            "process_restart": 0,
+            "audio_encoder_restart": 0,
+            "audio_mux_restart": 0,
+            "graph_rebuild": 0,
+            "reconnect": 0,
+            "sequence_loss": 0,
+            "timestamp_discontinuity": 0,
+            "intentional_mute_insertion": 0
+          }
+        }
+      }
+    }
+  }
+}
