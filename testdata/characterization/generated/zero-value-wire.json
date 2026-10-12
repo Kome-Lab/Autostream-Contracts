@@ -6236,12 +6236,30 @@
     },
     {
       "name": "StreamWriteRequest",
-      "wire_json": "{\"name\":\"\"}",
-      "wire_sha256": "1390696a77e5d6f4375e9b36450c26bb67e99662fcd31b71cecd8ceda332040e",
+      "wire_json": "{\"encoder_service_id\":\"\",\"worker_service_id\":\"\",\"visual_settings\":null,\"name\":\"\"}",
+      "wire_sha256": "9947a406896bd9f8b1686e5f647905aecde7c6240f64da3c972aa1667c0329e5",
       "shape": {
         "fields": [
           {
+            "name": "encoder_service_id",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
             "name": "name",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "visual_settings",
+            "shape": {
+              "kind": "null"
+            }
+          },
+          {
+            "name": "worker_service_id",
             "shape": {
               "kind": "string"
             }

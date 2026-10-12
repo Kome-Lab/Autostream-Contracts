@@ -805,6 +805,266 @@
         ],
         "type": "object"
       },
+      "CoverAction": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "candidate_variant_id": {
+                  "$ref": "#/components/schemas/candidate_variant_id"
+                }
+              },
+              "required": [
+                "candidate_variant_id"
+              ]
+            },
+            "then": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "active": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "hide_confirmed": {
+                  "const": true
+                }
+              },
+              "required": [
+                "hide_confirmed"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "active": {
+                  "const": true
+                }
+              },
+              "required": [
+                "active"
+              ]
+            },
+            "then": {
+              "not": {
+                "properties": {
+                  "hide_confirmed": {
+                    "$ref": "#/components/schemas/hide_confirmed"
+                  }
+                },
+                "required": [
+                  "hide_confirmed"
+                ]
+              }
+            }
+          }
+        ],
+        "dependentRequired": {
+          "candidate_variant_id": [
+            "expected_visual_revision"
+          ],
+          "expected_visual_revision": [
+            "candidate_variant_id"
+          ]
+        },
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "candidate_variant_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "expected_job_generation": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expected_visual_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "hide_confirmed": {
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[^\\s                 　﻿\u0000-\u001f](?:[^\u0000-\u001f]*[^\\s                 　﻿\u0000-\u001f])?$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "active",
+          "expected_job_generation",
+          "expected_revision",
+          "idempotency_key"
+        ],
+        "type": "object"
+      },
+      "CoverCandidate": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "source": {
+                  "const": "preset"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "preset_id": {
+                  "$ref": "#/components/schemas/preset_id"
+                },
+                "preset_revision": {
+                  "$ref": "#/components/schemas/preset_revision"
+                }
+              },
+              "required": [
+                "preset_id",
+                "preset_revision"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "asset_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "preset_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "preset_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "source": {
+            "enum": [
+              "upload",
+              "preset"
+            ]
+          },
+          "variant_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "source",
+          "asset_id",
+          "variant_id"
+        ],
+        "type": "object"
+      },
+      "CoverState": {
+        "additionalProperties": false,
+        "properties": {
+          "applied_active": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "applied_asset_variant_id": {
+            "type": "string"
+          },
+          "applied_revision": {
+            "minimum": 1,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "asset_variant_id": {
+            "type": "string"
+          },
+          "cover_watermark_independent": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "desired_active": {
+            "type": "boolean"
+          },
+          "desired_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "job_generation": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "last_error_code": {
+            "type": "string"
+          },
+          "pipeline_order": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "status": {
+            "enum": [
+              "idle",
+              "confirming",
+              "applied",
+              "failed"
+            ]
+          },
+          "stream_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stream_id",
+          "job_generation",
+          "desired_active",
+          "desired_revision",
+          "applied_active",
+          "applied_revision",
+          "status",
+          "pipeline_order",
+          "cover_watermark_independent"
+        ],
+        "type": "object"
+      },
       "DiagnosticRerunResponse": {
         "$ref": "#/components/schemas/diagnostic-rerun-response.schema"
       },
@@ -928,6 +1188,40 @@
         },
         "required": [
           "name"
+        ],
+        "type": "object"
+      },
+      "DiscordTarget": {
+        "additionalProperties": false,
+        "properties": {
+          "guild_id": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "inherit",
+              "preset",
+              "manual"
+            ]
+          },
+          "preset_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "preset_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "text_channel_id": {
+            "type": "string"
+          },
+          "voice_channel_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode"
         ],
         "type": "object"
       },
@@ -3363,6 +3657,139 @@
           "registration_token",
           "expires_at",
           "public_key"
+        ],
+        "type": "object"
+      },
+      "Preset": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "asset_variant_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by_user_id": {
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "low_resolution_warning": {
+            "type": "boolean"
+          },
+          "name": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "release_key": {
+            "type": "string"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "system_preset": {
+            "type": "boolean"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by_user_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "asset_id",
+          "asset_variant_id",
+          "enabled",
+          "id",
+          "revision",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object"
+      },
+      "PresetDelete": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_revision": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expected_revision"
+        ],
+        "type": "object"
+      },
+      "PresetList": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Preset"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "PresetWrite": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "asset_variant_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "name": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "asset_id",
+          "asset_variant_id",
+          "enabled"
         ],
         "type": "object"
       },
@@ -5858,6 +6285,38 @@
         },
         "type": "object"
       },
+      "StopOutcome": {
+        "additionalProperties": false,
+        "properties": {
+          "source_updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "stop_confirmed": {
+            "type": "boolean"
+          },
+          "stream": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "stream",
+          "stop_confirmed",
+          "source_updated_at"
+        ],
+        "type": "object"
+      },
+      "StopRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
       "StreamArtifact": {
         "additionalProperties": false,
         "oneOf": [
@@ -6011,119 +6470,10 @@
         "type": "object"
       },
       "StreamSettingsWriteRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "archive_profile_id": {
-            "type": "string"
-          },
-          "auto_start_trigger": {
-            "description": "Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start.",
-            "enum": [
-              "",
-              "discord_voice_join"
-            ],
-            "type": "string"
-          },
-          "caption_profile_id": {
-            "type": "string"
-          },
-          "discord_config_id": {
-            "description": "Control Panel managed Discord Bot Config. Required when Discord guild/channel overrides are provided.",
-            "type": "string"
-          },
-          "discord_guild_id": {
-            "description": "Stream-specific Discord guild ID override. Valid only with discord_config_id.",
-            "type": "string"
-          },
-          "discord_text_channel_id": {
-            "description": "Optional stream-specific Discord text channel ID override. Valid only with discord_config_id.",
-            "type": "string"
-          },
-          "discord_voice_channel_id": {
-            "description": "Stream-specific Discord voice channel ID override. Valid only with discord_config_id.",
-            "type": "string"
-          },
-          "encoder_audio_gain_db": {
-            "default": 0,
-            "maximum": 24,
-            "minimum": -60,
-            "type": "number"
-          },
-          "encoder_input_url": {
-            "type": "string"
-          },
-          "encoder_profile_id": {
-            "type": "string"
-          },
-          "overlay_profile_id": {
-            "type": "string"
-          },
-          "youtube_output_id": {
-            "type": "string"
-          }
-        },
-        "type": "object"
+        "$ref": "#/components/schemas/stream-settings-write.schema"
       },
       "StreamWriteRequest": {
-        "additionalProperties": false,
-        "properties": {
-          "archive_profile_id": {
-            "type": "string"
-          },
-          "auto_start_trigger": {
-            "description": "Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start.",
-            "enum": [
-              "",
-              "discord_voice_join"
-            ],
-            "type": "string"
-          },
-          "caption_profile_id": {
-            "type": "string"
-          },
-          "discord_config_id": {
-            "description": "Control Panel managed Discord Bot Config. Required when Discord guild/channel overrides are provided.",
-            "type": "string"
-          },
-          "discord_guild_id": {
-            "description": "Stream-specific Discord guild ID override. Valid only with discord_config_id.",
-            "type": "string"
-          },
-          "discord_text_channel_id": {
-            "description": "Optional stream-specific Discord text channel ID override. Valid only with discord_config_id.",
-            "type": "string"
-          },
-          "discord_voice_channel_id": {
-            "description": "Stream-specific Discord voice channel ID override. Valid only with discord_config_id.",
-            "type": "string"
-          },
-          "encoder_audio_gain_db": {
-            "default": 0,
-            "maximum": 24,
-            "minimum": -60,
-            "type": "number"
-          },
-          "encoder_input_url": {
-            "type": "string"
-          },
-          "encoder_profile_id": {
-            "type": "string"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "overlay_profile_id": {
-            "type": "string"
-          },
-          "youtube_output_id": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name"
-        ],
-        "type": "object"
+        "$ref": "#/components/schemas/stream-write.schema"
       },
       "SystemUpdateAgentStatus": {
         "$ref": "#/components/schemas/system-update-agent-status.schema"
@@ -8349,6 +8699,336 @@
         ],
         "type": "object"
       },
+      "VisualCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "background_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "background_mode": {
+            "enum": [
+              "default",
+              "image",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "background_variant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CoverCandidate"
+            },
+            "maxItems": 32,
+            "type": "array"
+          },
+          "cover_preset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_source": {
+            "enum": [
+              "none",
+              "preset",
+              "upload",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_start_active": {
+            "type": "boolean"
+          },
+          "cover_variant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "discord_target": {
+            "$ref": "#/components/schemas/DiscordTarget"
+          },
+          "expected_revision": {
+            "const": 0,
+            "type": "integer"
+          },
+          "header_title_mode": {
+            "enum": [
+              "default",
+              "custom",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "header_title_value": {
+            "maxLength": 80,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "VisualSettings": {
+        "additionalProperties": false,
+        "properties": {
+          "background_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "background_mode": {
+            "enum": [
+              "default",
+              "image"
+            ]
+          },
+          "background_variant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CoverCandidate"
+            },
+            "maxItems": 32,
+            "type": "array"
+          },
+          "cover_preset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_preset_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "cover_source": {
+            "enum": [
+              "none",
+              "preset",
+              "upload"
+            ]
+          },
+          "cover_start_active": {
+            "type": "boolean"
+          },
+          "cover_variant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "discord_guild_id": {
+            "type": "string"
+          },
+          "discord_preset_deleted": {
+            "type": "boolean"
+          },
+          "discord_snapshot_revision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "discord_target_mode": {
+            "enum": [
+              "inherit",
+              "manual",
+              "preset"
+            ]
+          },
+          "discord_target_preset_id": {
+            "type": "string"
+          },
+          "discord_target_preset_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "discord_text_channel_id": {
+            "type": "string"
+          },
+          "discord_voice_channel_id": {
+            "type": "string"
+          },
+          "header_title_mode": {
+            "enum": [
+              "default",
+              "custom"
+            ]
+          },
+          "header_title_value": {
+            "maxLength": 80,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "stream_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stream_id",
+          "revision",
+          "background_mode",
+          "header_title_mode",
+          "cover_source",
+          "cover_start_active",
+          "cover_candidates",
+          "discord_snapshot_revision",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object"
+      },
+      "VisualUpdate": {
+        "additionalProperties": false,
+        "properties": {
+          "background_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "background_mode": {
+            "enum": [
+              "default",
+              "image",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "background_variant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CoverCandidate"
+            },
+            "maxItems": 32,
+            "type": "array"
+          },
+          "cover_preset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_source": {
+            "enum": [
+              "none",
+              "preset",
+              "upload",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_start_active": {
+            "type": "boolean"
+          },
+          "cover_variant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "discord_target": {
+            "$ref": "#/components/schemas/DiscordTarget"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "header_title_mode": {
+            "enum": [
+              "default",
+              "custom",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "header_title_value": {
+            "maxLength": 80,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "upload_session_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_revision"
+        ],
+        "type": "object"
+      },
       "WorkerApplicationRuntimeIdentityProbe": {
         "additionalProperties": false,
         "description": "Application-owned Worker probe consumed by Local Executor verification. This is independent from Updater health.",
@@ -9050,6 +9730,11 @@
         ],
         "type": "object"
       },
+      "candidate_variant_id": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
       "createRequest": {
         "additionalProperties": false,
         "allOf": [
@@ -9607,6 +10292,9 @@
         ],
         "title": "EncoderRuntimeSettingsRequest",
         "type": "object"
+      },
+      "hide_confirmed": {
+        "type": "boolean"
       },
       "host-agent-self-update-directive.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -11083,6 +11771,15 @@
           }
         ]
       },
+      "preset_id": {
+        "minLength": 1,
+        "pattern": "\\S",
+        "type": "string"
+      },
+      "preset_revision": {
+        "minimum": 1,
+        "type": "integer"
+      },
       "recoveryObservation": {
         "additionalProperties": false,
         "properties": {
@@ -11246,6 +11943,158 @@
           "target_version",
           "strategy"
         ],
+        "type": "object"
+      },
+      "stream-settings-write.schema": {
+        "$id": "https://schemas.autostream.example.com/stream-settings-write.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "archive_profile_id": {
+            "type": "string"
+          },
+          "auto_start_trigger": {
+            "description": "Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start.",
+            "enum": [
+              "",
+              "discord_voice_join"
+            ],
+            "type": "string"
+          },
+          "caption_profile_id": {
+            "type": "string"
+          },
+          "discord_config_id": {
+            "description": "Control Panel managed Discord Bot Config. Required when stream-specific Discord guild/channel overrides are provided.",
+            "type": "string"
+          },
+          "discord_guild_id": {
+            "description": "Stream-specific Discord guild override. Valid only with discord_config_id.",
+            "type": "string"
+          },
+          "discord_text_channel_id": {
+            "description": "Optional stream-specific Discord text channel override. Valid only with discord_config_id.",
+            "type": "string"
+          },
+          "discord_voice_channel_id": {
+            "description": "Stream-specific Discord voice channel override. Valid only with discord_config_id.",
+            "type": "string"
+          },
+          "encoder_audio_gain_db": {
+            "default": 0,
+            "maximum": 24,
+            "minimum": -60,
+            "type": "number"
+          },
+          "encoder_input_url": {
+            "type": "string"
+          },
+          "encoder_profile_id": {
+            "type": "string"
+          },
+          "encoder_service_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "overlay_profile_id": {
+            "type": "string"
+          },
+          "worker_service_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "youtube_output_id": {
+            "type": "string"
+          }
+        },
+        "title": "StreamSettingsWriteRequest",
+        "type": "object"
+      },
+      "stream-write.schema": {
+        "$id": "https://schemas.autostream.example.com/stream-write.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "archive_profile_id": {
+            "type": "string"
+          },
+          "auto_start_trigger": {
+            "description": "Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start.",
+            "enum": [
+              "",
+              "discord_voice_join"
+            ],
+            "type": "string"
+          },
+          "caption_profile_id": {
+            "type": "string"
+          },
+          "discord_config_id": {
+            "description": "Control Panel managed Discord Bot Config. Required when stream-specific Discord guild/channel overrides are provided.",
+            "type": "string"
+          },
+          "discord_guild_id": {
+            "description": "Stream-specific Discord guild override. Valid only with discord_config_id.",
+            "type": "string"
+          },
+          "discord_text_channel_id": {
+            "description": "Optional stream-specific Discord text channel override. Valid only with discord_config_id.",
+            "type": "string"
+          },
+          "discord_voice_channel_id": {
+            "description": "Stream-specific Discord voice channel override. Valid only with discord_config_id.",
+            "type": "string"
+          },
+          "encoder_audio_gain_db": {
+            "default": 0,
+            "maximum": 24,
+            "minimum": -60,
+            "type": "number"
+          },
+          "encoder_input_url": {
+            "type": "string"
+          },
+          "encoder_profile_id": {
+            "type": "string"
+          },
+          "encoder_service_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "overlay_profile_id": {
+            "type": "string"
+          },
+          "upload_session_id": {
+            "type": "string"
+          },
+          "visual_settings": {
+            "$ref": "#/components/schemas/VisualCreate"
+          },
+          "worker_service_id": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "youtube_output_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "encoder_service_id",
+          "worker_service_id",
+          "visual_settings"
+        ],
+        "title": "StreamWriteRequest",
         "type": "object"
       },
       "system-update-agent-status.schema": {
@@ -19472,11 +20321,12 @@
         }
       ],
       "post": {
+        "description": "Create a stream, its visual settings and both primary assignments atomically. Requires streams.create, services.assign and workers.assign. Offline services may be reserved; missing, wrong-type or occupied services are rejected without partial persistence.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StreamWriteRequest"
+                "$ref": "#/components/schemas/stream-write.schema"
               }
             }
           },
@@ -19484,7 +20334,7 @@
         },
         "responses": {
           "201": {
-            "description": "create stream",
+            "description": "stream and both assignments committed",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
@@ -19499,7 +20349,7 @@
     },
     "/streams/{id}": {
       "delete": {
-        "description": "Delete a non-active stream, its persisted settings, logs, artifacts, runtime state, and service assignments. Requires streams.delete. Active streams remain protected and return 409 until stopped.\n",
+        "description": "Soft-delete a stopped or unstarted stream and release only its own assignments. Requires streams.delete. Active/uncertain execution, recording finalization and relay claims remain protected; retained recordings and other streams are not deleted.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -19823,6 +20673,68 @@
         }
       }
     },
+    "/streams/{id}/media-assets/{variant_id}": {
+      "get": {
+        "description": "Read only image variants referenced by this stream with streams.read.",
+        "operationId": "getStreamMediaAsset",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "in": "path",
+            "name": "variant_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "image/png": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Authorized image bytes",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "stale revision, pending action, foreign image or protected execution",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Read an authorized stream image"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ]
+    },
     "/streams/{id}/preview-links": {
       "parameters": [
         {
@@ -20101,7 +21013,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StreamSettingsWriteRequest"
+                "$ref": "#/components/schemas/stream-settings-write.schema"
               }
             }
           },
@@ -20269,9 +21181,19 @@
             "$ref": "#/components/parameters/id"
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StopRequest"
+              }
+            }
+          },
+          "required": false
+        },
         "responses": {
           "200": {
-            "description": "stream stopped",
+            "description": "all assigned services acknowledged Stop; stream is completed and optional waiting_stream is the canonical rearmed state",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
@@ -20286,7 +21208,7 @@
                 }
               }
             },
-            "description": "required service assignments are missing; no stop dispatch is attempted",
+            "description": "required assignments missing, lifecycle not stoppable or stop_source_version_changed; no stop dispatch is attempted",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
@@ -20297,6 +21219,278 @@
             "$ref": "#/components/responses/contractMajorUnsupported"
           }
         }
+      }
+    },
+    "/streams/{id}/stop-outcome": {
+      "get": {
+        "description": "Read the durable positive normal-stop receipt for the exact pre-request updated_at. ready alone does not prove a stop. No automatic stop resend is performed.",
+        "operationId": "getStreamStopOutcome",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "in": "query",
+            "name": "expected_updated_at",
+            "required": true,
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StopOutcome"
+                }
+              }
+            },
+            "description": "streams.read-authorized exact source-version receipt and current stream",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Reconcile an exact normal stop request"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ]
+    },
+    "/streams/{id}/video-cover-state": {
+      "get": {
+        "description": "Read requested and Encoder-confirmed state with streams.read. A pending action is reconciled by a generation/revision/image-matched Encoder GET without resending.",
+        "operationId": "getStreamVideoCoverState",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoverState"
+                }
+              }
+            },
+            "description": "Validated canonical state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "stale revision, pending action, foreign image or protected execution",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Read and reconcile stream cover state"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ],
+      "put": {
+        "description": "Show or switch one saved candidate with streams.show_cover; hide requires streams.hide_cover and hide_confirmed. Permission, capability, generation, revisions and duplicate fencing remain authoritative.",
+        "operationId": "updateStreamVideoCoverState",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoverAction"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoverState"
+                }
+              }
+            },
+            "description": "Validated canonical state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "stale revision, pending action, foreign image or protected execution",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Show switch or hide a stream cover"
+      }
+    },
+    "/streams/{id}/visual-settings": {
+      "get": {
+        "description": "Read saved visual configuration with streams.read.",
+        "operationId": "getStreamVisualSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisualSettings"
+                }
+              }
+            },
+            "description": "Validated canonical state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "stale revision, pending action, foreign image or protected execution",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Read saved stream visual settings"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ],
+      "put": {
+        "description": "Save candidates and immutable preset snapshots with streams.update. Running or uncertain execution remains protected.",
+        "operationId": "updateStreamVisualSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisualUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisualSettings"
+                }
+              }
+            },
+            "description": "Validated canonical state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "stale revision, pending action, foreign image or protected execution",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Save stream visual settings"
       }
     },
     "/streams/{id}/worker-events": {
@@ -21986,6 +23180,320 @@
           }
         }
       }
+    },
+    "/video-cover-presets": {
+      "get": {
+        "description": "Requires video_cover_presets.read. Preserves permission, expected revision and asset ownership checks.",
+        "operationId": "listVideoCoverPresets",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PresetList"
+                }
+              }
+            },
+            "description": "Canonical preset state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "revision or asset ownership conflict",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "List saved cover presets"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ],
+      "post": {
+        "description": "Requires video_cover_presets.create. Preserves permission, expected revision and asset ownership checks.",
+        "operationId": "createVideoCoverPreset",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresetWrite"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preset"
+                }
+              }
+            },
+            "description": "Canonical preset state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "revision or asset ownership conflict",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Create a cover preset"
+      }
+    },
+    "/video-cover-presets/{id}": {
+      "delete": {
+        "description": "Requires video_cover_presets.delete. Preserves permission, expected revision and asset ownership checks.",
+        "operationId": "deleteVideoCoverPreset",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresetDelete"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preset"
+                }
+              }
+            },
+            "description": "Canonical preset state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "revision or asset ownership conflict",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Delete a cover preset"
+      },
+      "get": {
+        "description": "Requires video_cover_presets.read. Preserves permission, expected revision and asset ownership checks.",
+        "operationId": "getVideoCoverPreset",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preset"
+                }
+              }
+            },
+            "description": "Canonical preset state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "revision or asset ownership conflict",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Read a saved cover preset"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/id"
+        },
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ],
+      "put": {
+        "description": "Requires video_cover_presets.update. Preserves permission, expected revision and asset ownership checks.",
+        "operationId": "updateVideoCoverPreset",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresetWrite"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preset"
+                }
+              }
+            },
+            "description": "Canonical preset state",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "revision or asset ownership conflict",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Update a cover preset"
+      }
+    },
+    "/video-cover-presets/{id}/media-assets/{variant_id}": {
+      "get": {
+        "description": "Read current saved preset image with video_cover_presets.read, independent of streams.create.",
+        "operationId": "getVideoCoverPresetMediaAsset",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "in": "path",
+            "name": "variant_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "image/png": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Authorized image bytes",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "403": {
+            "description": "permission denied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "409": {
+            "description": "stale revision, pending action, foreign image or protected execution",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Read an authorized cover preset image"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ]
     },
     "/workers": {
       "get": {

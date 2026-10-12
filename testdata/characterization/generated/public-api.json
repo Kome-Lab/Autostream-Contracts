@@ -3104,7 +3104,7 @@
       "kind": "type",
       "type": "StreamSettingsWriteRequest",
       "alias": false,
-      "underlying": "struct{DiscordConfigID string \"json:\\\"discord_config_id,omitempty\\\"\"; DiscordGuildID string \"json:\\\"discord_guild_id,omitempty\\\"\"; DiscordVoiceChannelID string \"json:\\\"discord_voice_channel_id,omitempty\\\"\"; DiscordTextChannelID string \"json:\\\"discord_text_channel_id,omitempty\\\"\"; AutoStartTrigger string \"json:\\\"auto_start_trigger,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; YouTubeOutputID string \"json:\\\"youtube_output_id,omitempty\\\"\"; EncoderInputURL string \"json:\\\"encoder_input_url,omitempty\\\"\"}"
+      "underlying": "struct{EncoderServiceID *string \"json:\\\"encoder_service_id,omitempty\\\"\"; WorkerServiceID *string \"json:\\\"worker_service_id,omitempty\\\"\"; DiscordConfigID string \"json:\\\"discord_config_id,omitempty\\\"\"; DiscordGuildID string \"json:\\\"discord_guild_id,omitempty\\\"\"; DiscordVoiceChannelID string \"json:\\\"discord_voice_channel_id,omitempty\\\"\"; DiscordTextChannelID string \"json:\\\"discord_text_channel_id,omitempty\\\"\"; AutoStartTrigger string \"json:\\\"auto_start_trigger,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; YouTubeOutputID string \"json:\\\"youtube_output_id,omitempty\\\"\"; EncoderInputURL string \"json:\\\"encoder_input_url,omitempty\\\"\"}"
     },
     {
       "name": "StreamStarting",
@@ -3132,7 +3132,7 @@
       "kind": "type",
       "type": "StreamWriteRequest",
       "alias": false,
-      "underlying": "struct{Name string \"json:\\\"name\\\"\"; StreamSettingsWriteRequest}"
+      "underlying": "struct{EncoderServiceID string \"json:\\\"encoder_service_id\\\"\"; WorkerServiceID string \"json:\\\"worker_service_id\\\"\"; UploadSessionID string \"json:\\\"upload_session_id,omitempty\\\"\"; VisualSettings encoding/json.RawMessage \"json:\\\"visual_settings\\\"\"; Name string \"json:\\\"name\\\"\"; StreamSettingsWriteRequest}"
     },
     {
       "name": "SupportsDiscordResolvedTargetV2",

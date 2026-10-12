@@ -1,6 +1,7 @@
 package contracts
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -35,6 +36,8 @@ type StartStreamRequest struct {
 }
 
 type StreamSettingsWriteRequest struct {
+	EncoderServiceID      *string `json:"encoder_service_id,omitempty"`
+	WorkerServiceID       *string `json:"worker_service_id,omitempty"`
 	DiscordConfigID       string  `json:"discord_config_id,omitempty"`
 	DiscordGuildID        string  `json:"discord_guild_id,omitempty"`
 	DiscordVoiceChannelID string  `json:"discord_voice_channel_id,omitempty"`
@@ -50,7 +53,11 @@ type StreamSettingsWriteRequest struct {
 }
 
 type StreamWriteRequest struct {
-	Name string `json:"name"`
+	EncoderServiceID string          `json:"encoder_service_id"`
+	WorkerServiceID  string          `json:"worker_service_id"`
+	UploadSessionID  string          `json:"upload_session_id,omitempty"`
+	VisualSettings   json.RawMessage `json:"visual_settings"`
+	Name             string          `json:"name"`
 	StreamSettingsWriteRequest
 }
 

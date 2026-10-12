@@ -1,0 +1,786 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/stream-operations.schema.json",
+  "title": "Stream operations and visuals",
+  "$defs": {
+    "CoverCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "source",
+        "asset_id",
+        "variant_id"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "source": {
+          "enum": [
+            "upload",
+            "preset"
+          ]
+        },
+        "preset_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "preset_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "asset_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "variant_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": "preset"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "preset_id": { "$ref": "#/$defs/CoverCandidate/properties/preset_id" },
+              "preset_revision": { "$ref": "#/$defs/CoverCandidate/properties/preset_revision" }
+            },
+            "required": [
+              "preset_id",
+              "preset_revision"
+            ]
+          }
+        }
+      ]
+    },
+    "DiscordTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "inherit",
+            "preset",
+            "manual"
+          ]
+        },
+        "preset_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "preset_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "guild_id": {
+          "type": "string"
+        },
+        "text_channel_id": {
+          "type": "string"
+        },
+        "voice_channel_id": {
+          "type": "string"
+        }
+      }
+    },
+    "VisualCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "background_mode": {
+          "enum": [
+            "default",
+            "image",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "background_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "background_variant_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "header_title_mode": {
+          "enum": [
+            "default",
+            "custom",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "header_title_value": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 80
+        },
+        "discord_target": {
+          "$ref": "#/$defs/DiscordTarget"
+        },
+        "cover_source": {
+          "enum": [
+            "none",
+            "preset",
+            "upload",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_preset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_variant_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_start_active": {
+          "type": "boolean"
+        },
+        "cover_candidates": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/CoverCandidate"
+          }
+        },
+        "expected_revision": {
+          "type": "integer",
+          "const": 0
+        }
+      }
+    },
+    "VisualUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_revision"
+      ],
+      "properties": {
+        "background_mode": {
+          "enum": [
+            "default",
+            "image",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "background_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "background_variant_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "header_title_mode": {
+          "enum": [
+            "default",
+            "custom",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "header_title_value": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 80
+        },
+        "discord_target": {
+          "$ref": "#/$defs/DiscordTarget"
+        },
+        "cover_source": {
+          "enum": [
+            "none",
+            "preset",
+            "upload",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_preset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_variant_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_start_active": {
+          "type": "boolean"
+        },
+        "cover_candidates": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/CoverCandidate"
+          }
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "upload_session_id": {
+          "type": "string"
+        }
+      }
+    },
+    "VisualSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stream_id",
+        "revision",
+        "background_mode",
+        "header_title_mode",
+        "cover_source",
+        "cover_start_active",
+        "cover_candidates",
+        "discord_snapshot_revision",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "background_mode": {
+          "enum": [
+            "default",
+            "image"
+          ]
+        },
+        "background_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "background_variant_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "header_title_mode": {
+          "enum": [
+            "default",
+            "custom"
+          ]
+        },
+        "header_title_value": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 80
+        },
+        "cover_source": {
+          "enum": [
+            "none",
+            "preset",
+            "upload"
+          ]
+        },
+        "cover_preset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_variant_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cover_start_active": {
+          "type": "boolean"
+        },
+        "cover_candidates": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/CoverCandidate"
+          }
+        },
+        "stream_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cover_preset_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "discord_target_mode": {
+          "enum": [
+            "inherit",
+            "manual",
+            "preset"
+          ]
+        },
+        "discord_target_preset_id": {
+          "type": "string"
+        },
+        "discord_target_preset_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "discord_snapshot_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "discord_guild_id": {
+          "type": "string"
+        },
+        "discord_text_channel_id": {
+          "type": "string"
+        },
+        "discord_voice_channel_id": {
+          "type": "string"
+        },
+        "discord_preset_deleted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CoverAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active",
+        "expected_job_generation",
+        "expected_revision",
+        "idempotency_key"
+      ],
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "expected_job_generation": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[^\\s                 　﻿\u0000-\u001f](?:[^\u0000-\u001f]*[^\\s                 　﻿\u0000-\u001f])?$"
+        },
+        "hide_confirmed": {
+          "type": "boolean"
+        },
+        "candidate_variant_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_visual_revision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "dependentRequired": {
+        "candidate_variant_id": [
+          "expected_visual_revision"
+        ],
+        "expected_visual_revision": [
+          "candidate_variant_id"
+        ]
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "candidate_variant_id"
+            ],
+            "properties": {
+              "candidate_variant_id": { "$ref": "#/$defs/CoverAction/properties/candidate_variant_id" }
+            }
+          },
+          "then": {
+            "properties": {
+              "active": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "active": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "hide_confirmed"
+            ],
+            "properties": {
+              "hide_confirmed": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "active": {
+                "const": true
+              }
+            },
+            "required": [
+              "active"
+            ]
+          },
+          "then": {
+            "not": {
+              "properties": { "hide_confirmed": { "$ref": "#/$defs/CoverAction/properties/hide_confirmed" } },
+              "required": [
+                "hide_confirmed"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CoverState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stream_id",
+        "job_generation",
+        "desired_active",
+        "desired_revision",
+        "applied_active",
+        "applied_revision",
+        "status",
+        "pipeline_order",
+        "cover_watermark_independent"
+      ],
+      "properties": {
+        "stream_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "job_generation": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "desired_active": {
+          "type": "boolean"
+        },
+        "desired_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "applied_active": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "applied_revision": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "asset_variant_id": {
+          "type": "string"
+        },
+        "applied_asset_variant_id": {
+          "type": "string"
+        },
+        "last_error_code": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "idle",
+            "confirming",
+            "applied",
+            "failed"
+          ]
+        },
+        "pipeline_order": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cover_watermark_independent": {
+          "type": "boolean"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "PresetWrite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "asset_id",
+        "asset_variant_id",
+        "enabled"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "asset_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "asset_variant_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "StopRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "expected_updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "StopOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stream",
+        "stop_confirmed",
+        "source_updated_at"
+      ],
+      "properties": {
+        "stream": {
+          "type": "object"
+        },
+        "stop_confirmed": {
+          "type": "boolean"
+        },
+        "source_updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Preset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "asset_id",
+        "asset_variant_id",
+        "enabled",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "asset_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "asset_variant_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "created_by_user_id": {
+          "type": "string"
+        },
+        "updated_by_user_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "system_preset": {
+          "type": "boolean"
+        },
+        "release_key": {
+          "type": "string"
+        },
+        "low_resolution_warning": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PresetList": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Preset"
+          }
+        }
+      }
+    },
+    "PresetDelete": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_revision"
+      ],
+      "properties": {
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

@@ -88,9 +88,9 @@
       },
       {
         "path": "authoring/control-api/paths-stream-configuration.yaml.inc",
-        "sha256": "17bb48aed33ae2d988e56f2ea5cd161d446353280c1d05379435408ea4a8eb9d",
+        "sha256": "4b05be6bb3439c97a3ee001bad7416104a49511b1bb303cc11df39ab1693206b",
         "symbols": [],
-        "physical_lines": 241
+        "physical_lines": 540
       },
       {
         "path": "authoring/control-api/paths-stream-events-profiles.yaml.inc",
@@ -124,9 +124,9 @@
       },
       {
         "path": "authoring/control-api/paths-youtube-lifecycle.yaml.inc",
-        "sha256": "911de774e214e6c23475d279fa35f7f97e17fa6ada7492d1956533d80ba1ecb0",
+        "sha256": "69f37120749c6b5e54b8b3f393f8addc245b0d01271d177f9db365115d71a5c5",
         "symbols": [],
-        "physical_lines": 269
+        "physical_lines": 274
       },
       {
         "path": "authoring/control-api/schemas-core-protocol.yaml.inc",
@@ -208,9 +208,9 @@
       },
       {
         "path": "authoring/control-api/schemas-stream-start-readiness.yaml.inc",
-        "sha256": "e248b6764ac55c5debcb4210c98d5ecd606febdb5dd96e06b4508e05cbe58860",
+        "sha256": "d91b67521aeb390fa9d705e0772bdf0286fbe4f91c3eede323e32013e4c5f26b",
         "symbols": [],
-        "physical_lines": 381
+        "physical_lines": 307
       },
       {
         "path": "authoring/control-api/schemas-system-update-jobs.yaml.inc",
@@ -232,9 +232,9 @@
       },
       {
         "path": "openapi/control-api.yaml",
-        "sha256": "a6b12221ba6972317f3d9bbd6044126ae364bd0e0fc739cbbd4e214e134f5bad",
+        "sha256": "bd4c2c3925fb0fa8ec0b969c603cbfdac2906ff5446d58cd1edf44a707208a33",
         "symbols": [],
-        "physical_lines": 8330
+        "physical_lines": 8560
       }
     ]
   },
@@ -427,7 +427,7 @@
       },
       {
         "path": "pkg/contracts/types_stream_archive.go",
-        "sha256": "a89cf56da0bc661c813cf60606fa87f2b18b21be8f55f62393ae89becac8fcf2",
+        "sha256": "486ddd7b129474b8548ca62418424bb581ed88204b15b13944e922611a13d39a",
         "symbols": [
           "ArchiveMetadata",
           "ArchiveRuntimeConfig",
@@ -448,7 +448,7 @@
           "StreamSettingsWriteRequest",
           "StreamWriteRequest"
         ],
-        "physical_lines": 233
+        "physical_lines": 240
       },
       {
         "path": "pkg/contracts/types_system_updates.go",

@@ -131,14 +131,19 @@
   /streams/{id}/stop:
     post:
       parameters: [ { $ref: "#/components/parameters/id" } ]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { $ref: "../schemas/stream-operations.schema.json#/$defs/StopRequest" }
       responses:
         "200":
-          description: stream stopped
+          description: all assigned services acknowledged Stop; stream is completed and optional waiting_stream is the canonical rearmed state
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
         "409":
-          description: required service assignments are missing; no stop dispatch is attempted
+          description: required assignments missing, lifecycle not stoppable or stop_source_version_changed; no stop dispatch is attempted
           content:
             application/json:
               schema:

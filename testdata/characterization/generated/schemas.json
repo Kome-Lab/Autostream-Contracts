@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 123,
+  "schema_count": 124,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -2739,6 +2739,101 @@
       "compiled": true
     },
     {
+      "path": "schemas/stream-operations.schema.json",
+      "id": "https://schemas.autostream.example.com/stream-operations.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "30d85c959b1d643bd742fcd1440ac6f63d33af0afbff0a4a02331c8072cd15b2",
+      "keywords": [
+        "$defs",
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "dependentRequired",
+        "enum",
+        "format",
+        "if",
+        "items",
+        "maxItems",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "not",
+        "pattern",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/$defs/CoverAction/allOf/0/if/properties/candidate_variant_id/$ref",
+          "value": "#/$defs/CoverAction/properties/candidate_variant_id",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/CoverAction/properties/candidate_variant_id"
+        },
+        {
+          "pointer": "/$defs/CoverAction/allOf/2/then/not/properties/hide_confirmed/$ref",
+          "value": "#/$defs/CoverAction/properties/hide_confirmed",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/CoverAction/properties/hide_confirmed"
+        },
+        {
+          "pointer": "/$defs/CoverCandidate/allOf/0/then/properties/preset_id/$ref",
+          "value": "#/$defs/CoverCandidate/properties/preset_id",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/CoverCandidate/properties/preset_id"
+        },
+        {
+          "pointer": "/$defs/CoverCandidate/allOf/0/then/properties/preset_revision/$ref",
+          "value": "#/$defs/CoverCandidate/properties/preset_revision",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/CoverCandidate/properties/preset_revision"
+        },
+        {
+          "pointer": "/$defs/PresetList/properties/items/items/$ref",
+          "value": "#/$defs/Preset",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/Preset"
+        },
+        {
+          "pointer": "/$defs/VisualCreate/properties/cover_candidates/items/$ref",
+          "value": "#/$defs/CoverCandidate",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/CoverCandidate"
+        },
+        {
+          "pointer": "/$defs/VisualCreate/properties/discord_target/$ref",
+          "value": "#/$defs/DiscordTarget",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/DiscordTarget"
+        },
+        {
+          "pointer": "/$defs/VisualSettings/properties/cover_candidates/items/$ref",
+          "value": "#/$defs/CoverCandidate",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/CoverCandidate"
+        },
+        {
+          "pointer": "/$defs/VisualUpdate/properties/cover_candidates/items/$ref",
+          "value": "#/$defs/CoverCandidate",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/CoverCandidate"
+        },
+        {
+          "pointer": "/$defs/VisualUpdate/properties/discord_target/$ref",
+          "value": "#/$defs/DiscordTarget",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/DiscordTarget"
+        }
+      ],
+      "compiled": true
+    },
+    {
       "path": "schemas/stream-preview-link.schema.json",
       "id": "https://schemas.autostream.example.com/stream-preview-link.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
@@ -2763,7 +2858,7 @@
       "path": "schemas/stream-settings-write.schema.json",
       "id": "https://schemas.autostream.example.com/stream-settings-write.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "6082fd48139d606e230739af37e9d5193a07a4ab94069dda8c8f02d499d84dfd",
+      "normalized_sha256": "83083e74f948c931493f145e88ee71f9607c46f2c7487195e6363e2a5103ff8e",
       "keywords": [
         "$id",
         "$schema",
@@ -2785,9 +2880,10 @@
       "path": "schemas/stream-write.schema.json",
       "id": "https://schemas.autostream.example.com/stream-write.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "3a1b6e68b1f907f45d2fc97c1173a3f1d2c8a0ce78deb4d1636cf64484ea4e82",
+      "normalized_sha256": "1edd775e7f2d0c0b1345e30e32694a6cfa28efcdca1f2054c8b8a28f6c609aba",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "default",
@@ -2796,13 +2892,21 @@
         "maximum",
         "minLength",
         "minimum",
+        "pattern",
         "properties",
         "required",
         "title",
         "type"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/visual_settings/$ref",
+          "value": "stream-operations.schema.json#/$defs/VisualCreate",
+          "target": "schemas/stream-operations.schema.json",
+          "fragment": "/$defs/VisualCreate"
+        }
+      ],
       "compiled": true
     },
     {

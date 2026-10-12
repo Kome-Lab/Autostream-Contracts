@@ -4,20 +4,80 @@
   "title": "StreamWriteRequest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["name"],
+  "required": [
+    "name",
+    "encoder_service_id",
+    "worker_service_id",
+    "visual_settings"
+  ],
   "properties": {
-    "name": { "type": "string", "minLength": 1 },
-    "discord_config_id": { "type": "string", "description": "Control Panel managed Discord Bot Config. Required when stream-specific Discord guild/channel overrides are provided." },
-    "discord_guild_id": { "type": "string", "description": "Stream-specific Discord guild override. Valid only with discord_config_id." },
-    "discord_voice_channel_id": { "type": "string", "description": "Stream-specific Discord voice channel override. Valid only with discord_config_id." },
-    "discord_text_channel_id": { "type": "string", "description": "Optional stream-specific Discord text channel override. Valid only with discord_config_id." },
-    "auto_start_trigger": { "type": "string", "enum": ["", "discord_voice_join"], "description": "Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start." },
-    "encoder_profile_id": { "type": "string" },
-    "caption_profile_id": { "type": "string" },
-    "overlay_profile_id": { "type": "string" },
-    "encoder_audio_gain_db": { "type": "number", "minimum": -60, "maximum": 24, "default": 0 },
-    "archive_profile_id": { "type": "string" },
-    "youtube_output_id": { "type": "string" },
-    "encoder_input_url": { "type": "string" }
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "discord_config_id": {
+      "type": "string",
+      "description": "Control Panel managed Discord Bot Config. Required when stream-specific Discord guild/channel overrides are provided."
+    },
+    "discord_guild_id": {
+      "type": "string",
+      "description": "Stream-specific Discord guild override. Valid only with discord_config_id."
+    },
+    "discord_voice_channel_id": {
+      "type": "string",
+      "description": "Stream-specific Discord voice channel override. Valid only with discord_config_id."
+    },
+    "discord_text_channel_id": {
+      "type": "string",
+      "description": "Optional stream-specific Discord text channel override. Valid only with discord_config_id."
+    },
+    "auto_start_trigger": {
+      "type": "string",
+      "enum": [
+        "",
+        "discord_voice_join"
+      ],
+      "description": "Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start."
+    },
+    "encoder_profile_id": {
+      "type": "string"
+    },
+    "caption_profile_id": {
+      "type": "string"
+    },
+    "overlay_profile_id": {
+      "type": "string"
+    },
+    "encoder_audio_gain_db": {
+      "type": "number",
+      "minimum": -60,
+      "maximum": 24,
+      "default": 0
+    },
+    "archive_profile_id": {
+      "type": "string"
+    },
+    "youtube_output_id": {
+      "type": "string"
+    },
+    "encoder_input_url": {
+      "type": "string"
+    },
+    "encoder_service_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "worker_service_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "upload_session_id": {
+      "type": "string"
+    },
+    "visual_settings": {
+      "$ref": "stream-operations.schema.json#/$defs/VisualCreate"
+    }
   }
 }

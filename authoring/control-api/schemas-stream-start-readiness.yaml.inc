@@ -117,83 +117,9 @@
           const: true
           description: Explicit operator attestation that the original request may already have posted to Discord.
     StreamSettingsWriteRequest:
-      type: object
-      additionalProperties: false
-      properties:
-        discord_config_id:
-          type: string
-          description: Control Panel managed Discord Bot Config. Required when Discord guild/channel overrides are provided.
-        discord_guild_id:
-          type: string
-          description: Stream-specific Discord guild ID override. Valid only with discord_config_id.
-        discord_voice_channel_id:
-          type: string
-          description: Stream-specific Discord voice channel ID override. Valid only with discord_config_id.
-        discord_text_channel_id:
-          type: string
-          description: Optional stream-specific Discord text channel ID override. Valid only with discord_config_id.
-        auto_start_trigger:
-          type: string
-          enum: [ "", discord_voice_join ]
-          description: Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start.
-        encoder_profile_id:
-          type: string
-        caption_profile_id:
-          type: string
-        overlay_profile_id:
-          type: string
-        encoder_audio_gain_db:
-          type: number
-          minimum: -60
-          maximum: 24
-          default: 0
-        archive_profile_id:
-          type: string
-        youtube_output_id:
-          type: string
-        encoder_input_url:
-          type: string
+      $ref: "../schemas/stream-settings-write.schema.json"
     StreamWriteRequest:
-      type: object
-      additionalProperties: false
-      required: [ name ]
-      properties:
-        name:
-          type: string
-          minLength: 1
-        discord_config_id:
-          type: string
-          description: Control Panel managed Discord Bot Config. Required when Discord guild/channel overrides are provided.
-        discord_guild_id:
-          type: string
-          description: Stream-specific Discord guild ID override. Valid only with discord_config_id.
-        discord_voice_channel_id:
-          type: string
-          description: Stream-specific Discord voice channel ID override. Valid only with discord_config_id.
-        discord_text_channel_id:
-          type: string
-          description: Optional stream-specific Discord text channel ID override. Valid only with discord_config_id.
-        auto_start_trigger:
-          type: string
-          enum: [ "", discord_voice_join ]
-          description: Set to discord_voice_join to allow this waiting stream to start automatically when a user joins the configured Discord voice channel. Empty or omitted disables automatic start.
-        encoder_profile_id:
-          type: string
-        caption_profile_id:
-          type: string
-        overlay_profile_id:
-          type: string
-        encoder_audio_gain_db:
-          type: number
-          minimum: -60
-          maximum: 24
-          default: 0
-        archive_profile_id:
-          type: string
-        youtube_output_id:
-          type: string
-        encoder_input_url:
-          type: string
+      $ref: "../schemas/stream-write.schema.json"
     EncoderRuntimeSettingsRequest:
       $ref: "../schemas/encoder-runtime-settings-request.schema.json"
     MissingStreamAssignmentsResponse:

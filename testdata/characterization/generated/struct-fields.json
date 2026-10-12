@@ -11630,6 +11630,28 @@
       "fields": [
         {
           "index": 0,
+          "name": "EncoderServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"encoder_service_id,omitempty\"",
+          "json_name": "encoder_service_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "WorkerServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"worker_service_id,omitempty\"",
+          "json_name": "worker_service_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
           "name": "DiscordConfigID",
           "exported": true,
           "embedded": false,
@@ -11640,7 +11662,7 @@
           "omitempty": true
         },
         {
-          "index": 1,
+          "index": 3,
           "name": "DiscordGuildID",
           "exported": true,
           "embedded": false,
@@ -11651,7 +11673,7 @@
           "omitempty": true
         },
         {
-          "index": 2,
+          "index": 4,
           "name": "DiscordVoiceChannelID",
           "exported": true,
           "embedded": false,
@@ -11662,7 +11684,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 5,
           "name": "DiscordTextChannelID",
           "exported": true,
           "embedded": false,
@@ -11673,7 +11695,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 6,
           "name": "AutoStartTrigger",
           "exported": true,
           "embedded": false,
@@ -11684,7 +11706,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 7,
           "name": "EncoderProfileID",
           "exported": true,
           "embedded": false,
@@ -11695,7 +11717,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 8,
           "name": "CaptionProfileID",
           "exported": true,
           "embedded": false,
@@ -11706,7 +11728,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 9,
           "name": "OverlayProfileID",
           "exported": true,
           "embedded": false,
@@ -11717,7 +11739,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 10,
           "name": "EncoderAudioGainDB",
           "exported": true,
           "embedded": false,
@@ -11728,7 +11750,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 11,
           "name": "ArchiveProfileID",
           "exported": true,
           "embedded": false,
@@ -11739,7 +11761,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 12,
           "name": "YouTubeOutputID",
           "exported": true,
           "embedded": false,
@@ -11750,7 +11772,7 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 13,
           "name": "EncoderInputURL",
           "exported": true,
           "embedded": false,
@@ -11768,6 +11790,50 @@
       "fields": [
         {
           "index": 0,
+          "name": "EncoderServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"encoder_service_id\"",
+          "json_name": "encoder_service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "WorkerServiceID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"worker_service_id\"",
+          "json_name": "worker_service_id",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "UploadSessionID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"upload_session_id,omitempty\"",
+          "json_name": "upload_session_id",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "VisualSettings",
+          "exported": true,
+          "embedded": false,
+          "type": "encoding/json.RawMessage",
+          "struct_tag": "json:\"visual_settings\"",
+          "json_name": "visual_settings",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 4,
           "name": "Name",
           "exported": true,
           "embedded": false,
@@ -11778,7 +11844,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 5,
           "name": "StreamSettingsWriteRequest",
           "exported": true,
           "embedded": true,

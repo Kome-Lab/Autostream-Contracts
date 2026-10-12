@@ -1773,6 +1773,181 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/headers/noStore"
     },
     {
@@ -2663,7 +2838,37 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/parameters/csrfToken"
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -2724,6 +2929,51 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -3264,6 +3514,66 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/pathItems/listCreateProfile/post"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -5557,6 +5867,96 @@
     },
     {
       "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/CoverAction"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/CoverState"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/CoverState"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/Preset"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/Preset"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/Preset"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/Preset"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/PresetDelete"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/PresetList"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/PresetWrite"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/PresetWrite"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/StopOutcome"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/StopRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/VisualSettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/VisualSettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "../schemas/stream-operations.schema.json#/$defs/VisualUpdate"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-settings-write.schema.json",
+      "value": "../schemas/stream-settings-write.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-write.schema.json",
+      "value": "../schemas/stream-write.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
       "target": "schemas/system-update-agent-status.schema.json",
       "value": "../schemas/system-update-agent-status.schema.json"
     },
@@ -6301,6 +6701,61 @@
       "value": "oauth-login-provider.schema.json"
     },
     {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/CoverAction/properties/candidate_variant_id"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/CoverAction/properties/hide_confirmed"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/CoverCandidate"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/CoverCandidate"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/CoverCandidate"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/CoverCandidate/properties/preset_id"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/CoverCandidate/properties/preset_revision"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/DiscordTarget"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/DiscordTarget"
+    },
+    {
+      "source": "schemas/stream-operations.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "#/$defs/Preset"
+    },
+    {
+      "source": "schemas/stream-write.schema.json",
+      "target": "schemas/stream-operations.schema.json",
+      "value": "stream-operations.schema.json#/$defs/VisualCreate"
+    },
+    {
       "source": "schemas/system-update-create-request.schema.json",
       "target": "schemas/system-update-port-v2.schema.json",
       "value": "system-update-port-v2.schema.json#/$defs/createRequest"
@@ -6521,10 +6976,10 @@
       "value": "system-update-job.schema.json#/$defs/portReconfigurationPlan"
     }
   ],
-  "source_file_count": 45,
+  "source_file_count": 48,
   "source_files": [
     {
-      "normalized_source_sha256": "a6b12221ba6972317f3d9bbd6044126ae364bd0e0fc739cbbd4e214e134f5bad",
+      "normalized_source_sha256": "bd4c2c3925fb0fa8ec0b969c603cbfdac2906ff5446d58cd1edf44a707208a33",
       "path": "openapi/control-api.yaml"
     },
     {
@@ -6638,6 +7093,18 @@
     {
       "normalized_source_sha256": "729166fd936f673bd30fb65a4c5fd3a2ecf200328828189b3b911fe21f9aacb6",
       "path": "schemas/oauth-login-provider.schema.json"
+    },
+    {
+      "normalized_source_sha256": "b920571ff8865664148554d4fd7fe60c1b5b5cf0cfced52c54b83f951d0bd405",
+      "path": "schemas/stream-operations.schema.json"
+    },
+    {
+      "normalized_source_sha256": "34cc128add5f7ae60d7679a1f20803fa19d1c341c21c85a3e763746e5d815a24",
+      "path": "schemas/stream-settings-write.schema.json"
+    },
+    {
+      "normalized_source_sha256": "7b279ed1b9dbc42be7d9de96b419ee865eb9d02104cd664d28ab1842052cf4a1",
+      "path": "schemas/stream-write.schema.json"
     },
     {
       "normalized_source_sha256": "6b1d96f5960b1556340bbdf08899710e63def7faf1201b4079cc1f41cc11fc9b",

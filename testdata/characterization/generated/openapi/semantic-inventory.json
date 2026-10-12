@@ -6,27 +6,28 @@
       "content_type_inventory": [
         "application/json",
         "application/vnd.apple.mpegurl",
+        "image/png",
         "video/mp2t"
       ],
       "duplicate_method_paths": [],
       "duplicate_operation_ids": [],
       "explicit_security_count": 28,
-      "inherited_security_count": 149,
-      "inline_schema_count": 33,
+      "inherited_security_count": 161,
+      "inline_schema_count": 35,
       "method_counts": {
-        "delete": 18,
-        "get": 63,
+        "delete": 19,
+        "get": 70,
         "head": 0,
         "options": 0,
         "patch": 0,
-        "post": 79,
-        "put": 17,
+        "post": 80,
+        "put": 20,
         "trace": 0
       },
-      "normalized_bundle_sha256": "507699ab368cd35ff020a87c818cd79f9a88334907b459eb7f9b216b8d803ab3",
+      "normalized_bundle_sha256": "cf41442beccfd0884baa97d644a4ddcc7d0be0c5aaa816b59174649d45f9340a",
       "openapi_version": "3.1.0",
-      "operation_count": 177,
-      "operation_id_count": 15,
+      "operation_count": 189,
+      "operation_id_count": 27,
       "operations": [
         {
           "deprecated": false,
@@ -6299,9 +6300,9 @@
           "request_schemas": [
             {
               "kind": "ref",
-              "name": "StreamWriteRequest",
-              "ref": "#/components/schemas/StreamWriteRequest",
-              "resolved_sha256": "163ad3556962b1f07dc573182ecd4f8efde79ecfc1910fcdfb9d6792d791e0da"
+              "name": "stream-write.schema",
+              "ref": "#/components/schemas/stream-write.schema",
+              "resolved_sha256": "945c09cce81e29bf9e18f84d3b649888cbdcb059a404d7428d1ad001c4297468"
             }
           ],
           "responses": [
@@ -6717,6 +6718,63 @@
             }
           ],
           "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getStreamMediaAsset",
+          "path": "/streams/{id}/media-assets/{variant_id}",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "image/png"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "2db098654a77dbd75ff3dd3bda2aa4fec4c1bb261ed413634b61832152672d3e",
+                  "type": "string"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
           "method": "post",
           "operation_id": "",
           "path": "/streams/{id}/preview-links",
@@ -6976,9 +7034,9 @@
           "request_schemas": [
             {
               "kind": "ref",
-              "name": "StreamSettingsWriteRequest",
-              "ref": "#/components/schemas/StreamSettingsWriteRequest",
-              "resolved_sha256": "6053d4af6b958cb08c47514bf3d2c4dc21c052337078cd28e80007a70cec2f6e"
+              "name": "stream-settings-write.schema",
+              "ref": "#/components/schemas/stream-settings-write.schema",
+              "resolved_sha256": "83083e74f948c931493f145e88ee71f9607c46f2c7487195e6363e2a5103ff8e"
             }
           ],
           "responses": [
@@ -7167,8 +7225,17 @@
           "method": "post",
           "operation_id": "",
           "path": "/streams/{id}/stop",
-          "request_body_content_types": [],
-          "request_schemas": [],
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "StopRequest",
+              "ref": "#/components/schemas/StopRequest",
+              "resolved_sha256": "4168a1de373b5932d5c5fd863d6208b6d67a50aba5de88cb2f69640ebca6979b"
+            }
+          ],
           "responses": [
             {
               "content_types": [],
@@ -7206,6 +7273,304 @@
           ],
           "security_source": "inherited",
           "summary_present": false,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getStreamStopOutcome",
+          "path": "/streams/{id}/stop-outcome",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "StopOutcome",
+                  "ref": "#/components/schemas/StopOutcome",
+                  "resolved_sha256": "cd066f679a57716e948def43f5737ca9ec7fdeec6e2044207d30a7044a18e572"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getStreamVideoCoverState",
+          "path": "/streams/{id}/video-cover-state",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "CoverState",
+                  "ref": "#/components/schemas/CoverState",
+                  "resolved_sha256": "28b286fbcad9554cbb825e10ffe595faf20612886539b4e01792bc70031d0b7e"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "put",
+          "operation_id": "updateStreamVideoCoverState",
+          "path": "/streams/{id}/video-cover-state",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "CoverAction",
+              "ref": "#/components/schemas/CoverAction",
+              "resolved_sha256": "accfc5c4255f1fa15765bac6a0856b612316f3dc0ef86c32ea7ca1d46c76c5d8"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "CoverState",
+                  "ref": "#/components/schemas/CoverState",
+                  "resolved_sha256": "28b286fbcad9554cbb825e10ffe595faf20612886539b4e01792bc70031d0b7e"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getStreamVisualSettings",
+          "path": "/streams/{id}/visual-settings",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "VisualSettings",
+                  "ref": "#/components/schemas/VisualSettings",
+                  "resolved_sha256": "8a51113bf3e02bf07b26188e68d4aaf3e14113d8965fc8b2e57da2b877dc5e97"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "put",
+          "operation_id": "updateStreamVisualSettings",
+          "path": "/streams/{id}/visual-settings",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "VisualUpdate",
+              "ref": "#/components/schemas/VisualUpdate",
+              "resolved_sha256": "ee9be0acb4091bcaa3c83b6c4668dfdb990e9f7b44fb82c09d2fe2bef09f3a43"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "VisualSettings",
+                  "ref": "#/components/schemas/VisualSettings",
+                  "resolved_sha256": "8a51113bf3e02bf07b26188e68d4aaf3e14113d8965fc8b2e57da2b877dc5e97"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
           "tags": []
         },
         {
@@ -9044,6 +9409,375 @@
           ],
           "exposure_classification": "authenticated",
           "method": "get",
+          "operation_id": "listVideoCoverPresets",
+          "path": "/video-cover-presets",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "PresetList",
+                  "ref": "#/components/schemas/PresetList",
+                  "resolved_sha256": "bed8c015a257ce92b5af5b0ca78b2e2b2a9c7e3a70cc066994d94276af28ab53"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "post",
+          "operation_id": "createVideoCoverPreset",
+          "path": "/video-cover-presets",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "PresetWrite",
+              "ref": "#/components/schemas/PresetWrite",
+              "resolved_sha256": "4595fbd45b0b4b593094976b54f8bee6b1724ed044a61f33327574cbbcfecb09"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "Preset",
+                  "ref": "#/components/schemas/Preset",
+                  "resolved_sha256": "e05ab639306d1be14448754e8e62a602fcf806733f1d95840613b7f9f99386da"
+                }
+              ],
+              "status": "201"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "delete",
+          "operation_id": "deleteVideoCoverPreset",
+          "path": "/video-cover-presets/{id}",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "PresetDelete",
+              "ref": "#/components/schemas/PresetDelete",
+              "resolved_sha256": "6780ff6b1a21952007976fe6c37e8b1f5684fc4d602fabc25fb2c442071b2c30"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "Preset",
+                  "ref": "#/components/schemas/Preset",
+                  "resolved_sha256": "e05ab639306d1be14448754e8e62a602fcf806733f1d95840613b7f9f99386da"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getVideoCoverPreset",
+          "path": "/video-cover-presets/{id}",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "Preset",
+                  "ref": "#/components/schemas/Preset",
+                  "resolved_sha256": "e05ab639306d1be14448754e8e62a602fcf806733f1d95840613b7f9f99386da"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "put",
+          "operation_id": "updateVideoCoverPreset",
+          "path": "/video-cover-presets/{id}",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "PresetWrite",
+              "ref": "#/components/schemas/PresetWrite",
+              "resolved_sha256": "4595fbd45b0b4b593094976b54f8bee6b1724ed044a61f33327574cbbcfecb09"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "Preset",
+                  "ref": "#/components/schemas/Preset",
+                  "resolved_sha256": "e05ab639306d1be14448754e8e62a602fcf806733f1d95840613b7f9f99386da"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "getVideoCoverPresetMediaAsset",
+          "path": "/video-cover-presets/{id}/media-assets/{variant_id}",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "image/png"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "2db098654a77dbd75ff3dd3bda2aa4fec4c1bb261ed413634b61832152672d3e",
+                  "type": "string"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
           "operation_id": "",
           "path": "/workers",
           "request_body_content_types": [],
@@ -9560,7 +10294,7 @@
           "path": "/integrations/oauth-accounts/callback"
         }
       ],
-      "path_count": 135,
+      "path_count": 142,
       "public_operation_count": 6,
       "public_operations": [
         {
@@ -9600,28 +10334,28 @@
           "path": "/setup/first-admin"
         }
       ],
-      "ref_layout_independent_sha256": "ab65a74baeebcbd93c5bef082898293891d8d9494961c51da0b8a00e247aa2d4",
-      "request_body_count": 53,
+      "ref_layout_independent_sha256": "340abe272d90174c360fc7f443116b491825056c6ba705ca620f903ba3040af7",
+      "request_body_count": 59,
       "response_status_distribution": {
-        "200": 138,
-        "201": 21,
+        "200": 149,
+        "201": 22,
         "202": 19,
         "204": 4,
         "303": 1,
         "400": 26,
         "401": 14,
-        "403": 28,
+        "403": 40,
         "404": 26,
         "405": 1,
-        "409": 40,
+        "409": 51,
         "410": 2,
-        "426": 176,
+        "426": 188,
         "429": 4,
         "500": 15,
         "502": 11,
         "503": 12
       },
-      "schema_count": 200,
+      "schema_count": 219,
       "security_scheme_count": 2,
       "title": "AutoStream Control API",
       "unauthenticated_operation_count": 11,

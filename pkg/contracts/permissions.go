@@ -3,7 +3,8 @@ package contracts
 var Permissions = []string{
 	"users.read", "users.create", "users.update", "users.disable", "users.delete", "users.reset_password", "users.manage_mfa",
 	"roles.read", "roles.create", "roles.update", "roles.delete", "roles.assign",
-	"streams.read", "streams.create", "streams.update", "streams.start", "streams.stop", "streams.retry_upload", "streams.delete",
+	"streams.read", "streams.create", "streams.update", "streams.start", "streams.stop", "streams.retry_upload", "streams.delete", "streams.show_cover", "streams.hide_cover",
+	"video_cover_presets.read", "video_cover_presets.create", "video_cover_presets.update", "video_cover_presets.delete",
 	"encoder_profiles.read", "encoder_profiles.create", "encoder_profiles.update", "encoder_profiles.delete",
 	"archive_profiles.read", "archive_profiles.create", "archive_profiles.update", "archive_profiles.delete",
 	"caption_profiles.read", "caption_profiles.create", "caption_profiles.update", "caption_profiles.delete",
