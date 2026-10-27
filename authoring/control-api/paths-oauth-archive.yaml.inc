@@ -339,10 +339,12 @@
               $ref: "#/components/schemas/DriveDestinationWriteRequest"
       responses:
         "200":
-          description: Drive archive destination updated
+          description: Drive archive destination and encrypted folder ID updated atomically under optional expected_updated_at.
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; the destination and encrypted folder ID were not changed
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete:

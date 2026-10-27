@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/media-upload-operation-response.schema.json",
+  "title": "MediaUploadOperationResponse",
+  "description": "Read-only committed metadata for one authenticated owner's exact session and operation UUID. Empty assets is not proof of non-application: an earlier upload may still commit. Session owner_type, claimed_stream_id and expires_at distinguish claimed/expired state. No automatic new upload or slot creation is authorized by this response.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "session",
+    "operation_id",
+    "assets"
+  ],
+  "properties": {
+    "session": {
+      "$ref": "media-upload-session.schema.json"
+    },
+    "operation_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Optional client-generated UUID bound to this upload session and usage. Replays return the same committed asset while that draft remains valid. A deleted nonce is never reused to create a replacement."
+    },
+    "assets": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset",
+          "variants"
+        ],
+        "properties": {
+          "asset": {
+            "$ref": "panel-media-asset.schema.json"
+          },
+          "variants": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "$ref": "panel-media-variant.schema.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}

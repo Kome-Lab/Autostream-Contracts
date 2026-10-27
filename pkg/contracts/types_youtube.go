@@ -103,6 +103,7 @@ type YouTubeOutput struct {
 }
 
 type YouTubeOutputWriteRequest struct {
+	ExpectedUpdatedAt      *string           `json:"expected_updated_at,omitempty"`
 	Name                   string            `json:"name"`
 	Mode                   YouTubeOutputMode `json:"mode"`
 	RTMPURL                string            `json:"rtmp_url,omitempty"`

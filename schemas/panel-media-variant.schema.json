@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/panel-media-variant.schema.json",
+  "title": "PanelMediaVariant",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "asset_id",
+    "target_width",
+    "target_height",
+    "crop_mode",
+    "processor_revision",
+    "status",
+    "opaque",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "asset_id": {
+      "type": "string"
+    },
+    "target_width": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "target_height": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "crop_mode": {
+      "type": "string"
+    },
+    "processor_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "enum": [
+        "queued",
+        "processing",
+        "ready",
+        "failed"
+      ]
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "media_type": {
+      "type": "string"
+    },
+    "byte_size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "opaque": {
+      "type": "boolean"
+    },
+    "last_error_code": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

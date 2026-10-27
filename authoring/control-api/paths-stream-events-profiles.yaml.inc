@@ -109,6 +109,11 @@
     get: { $ref: "#/components/pathItems/itemProfile/get" }
     put:
       parameters: [ { $ref: "#/components/parameters/id" } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProfileWriteRequest" }
       responses:
         "200":
           description: caption profile updated; any referencing live streams were refreshed successfully
@@ -124,6 +129,8 @@
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; no profile change or live-runtime dispatch was applied
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete: { $ref: "#/components/pathItems/itemProfile/delete" }

@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 210,
+  "struct_count": 213,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -8,6 +8,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ExpectedUpdatedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_updated_at,omitempty\"",
+          "json_name": "expected_updated_at",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "AppName",
           "exported": true,
           "embedded": false,
@@ -18,7 +29,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "Timezone",
           "exported": true,
           "embedded": false,
@@ -29,7 +40,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "GoogleAnalyticsEnabled",
           "exported": true,
           "embedded": false,
@@ -40,7 +51,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "GoogleAnalyticsMeasurementID",
           "exported": true,
           "embedded": false,
@@ -51,7 +62,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "SMTPEnabled",
           "exported": true,
           "embedded": false,
@@ -62,7 +73,7 @@
           "omitempty": false
         },
         {
-          "index": 5,
+          "index": 6,
           "name": "SMTPHost",
           "exported": true,
           "embedded": false,
@@ -73,7 +84,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 7,
           "name": "SMTPPort",
           "exported": true,
           "embedded": false,
@@ -84,7 +95,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "SMTPStartTLS",
           "exported": true,
           "embedded": false,
@@ -95,7 +106,7 @@
           "omitempty": false
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "SMTPFrom",
           "exported": true,
           "embedded": false,
@@ -106,7 +117,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 10,
           "name": "SMTPUsername",
           "exported": true,
           "embedded": false,
@@ -117,7 +128,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 11,
           "name": "SMTPPassword",
           "exported": true,
           "embedded": false,
@@ -128,7 +139,7 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 12,
           "name": "TurnstileEnabled",
           "exported": true,
           "embedded": false,
@@ -139,7 +150,7 @@
           "omitempty": true
         },
         {
-          "index": 12,
+          "index": 13,
           "name": "TurnstileSiteKey",
           "exported": true,
           "embedded": false,
@@ -150,7 +161,7 @@
           "omitempty": true
         },
         {
-          "index": 13,
+          "index": 14,
           "name": "TurnstileSecret",
           "exported": true,
           "embedded": false,
@@ -1781,6 +1792,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ExpectedUpdatedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_updated_at,omitempty\"",
+          "json_name": "expected_updated_at",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "Name",
           "exported": true,
           "embedded": false,
@@ -1791,7 +1813,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "ServiceID",
           "exported": true,
           "embedded": false,
@@ -1802,7 +1824,7 @@
           "omitempty": true
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "GuildID",
           "exported": true,
           "embedded": false,
@@ -1813,7 +1835,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "VoiceChannelID",
           "exported": true,
           "embedded": false,
@@ -1824,7 +1846,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "TextChannelID",
           "exported": true,
           "embedded": false,
@@ -1835,7 +1857,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 6,
           "name": "BotToken",
           "exported": true,
           "embedded": false,
@@ -1846,7 +1868,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 7,
           "name": "CaptionEnabled",
           "exported": true,
           "embedded": false,
@@ -1857,7 +1879,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "STTProfileID",
           "exported": true,
           "embedded": false,
@@ -1868,7 +1890,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "ReconnectEnabled",
           "exported": true,
           "embedded": false,
@@ -1879,7 +1901,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 10,
           "name": "ReconnectMaxAttempts",
           "exported": true,
           "embedded": false,
@@ -1890,7 +1912,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 11,
           "name": "ReconnectBaseDelay",
           "exported": true,
           "embedded": false,
@@ -1901,7 +1923,7 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 12,
           "name": "ReconnectMaxDelay",
           "exported": true,
           "embedded": false,
@@ -1912,7 +1934,7 @@
           "omitempty": true
         },
         {
-          "index": 12,
+          "index": 13,
           "name": "AudioForwardEnabled",
           "exported": true,
           "embedded": false,
@@ -2428,6 +2450,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ExpectedUpdatedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_updated_at,omitempty\"",
+          "json_name": "expected_updated_at",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "Name",
           "exported": true,
           "embedded": false,
@@ -2438,7 +2471,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "AuthMode",
           "exported": true,
           "embedded": false,
@@ -2449,7 +2482,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "OAuthAccountID",
           "exported": true,
           "embedded": false,
@@ -2460,7 +2493,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "FolderID",
           "exported": true,
           "embedded": false,
@@ -2471,7 +2504,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "SharedDrive",
           "exported": true,
           "embedded": false,
@@ -5602,6 +5635,100 @@
       ]
     },
     {
+      "name": "NodeMetadataWriteRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ExpectedMetadataRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_metadata_revision,omitempty\"",
+          "json_name": "expected_metadata_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "Name",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"name,omitempty\"",
+          "json_name": "name",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 2,
+          "name": "ServiceName",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"service_name,omitempty\"",
+          "json_name": "service_name",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 3,
+          "name": "Description",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"description,omitempty\"",
+          "json_name": "description",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 4,
+          "name": "Host",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"host,omitempty\"",
+          "json_name": "host",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 5,
+          "name": "Port",
+          "exported": true,
+          "embedded": false,
+          "type": "*int",
+          "struct_tag": "json:\"port,omitempty\"",
+          "json_name": "port",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 6,
+          "name": "SSLEnabled",
+          "exported": true,
+          "embedded": false,
+          "type": "*bool",
+          "struct_tag": "json:\"ssl_enabled,omitempty\"",
+          "json_name": "ssl_enabled",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 7,
+          "name": "PublicURL",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"public_url,omitempty\"",
+          "json_name": "public_url",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
       "name": "NotificationChannel",
       "alias": false,
       "fields": [
@@ -7211,6 +7338,45 @@
       ]
     },
     {
+      "name": "PanelEncoderRuntimeSettingsWriteRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "ExpectedSettingsRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_settings_revision,omitempty\"",
+          "json_name": "expected_settings_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
+          "name": "EncoderAudioGainDB",
+          "exported": true,
+          "embedded": false,
+          "type": "float64",
+          "struct_tag": "json:\"encoder_audio_gain_db\"",
+          "json_name": "encoder_audio_gain_db",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 2,
+          "name": "OverlayProfileID",
+          "exported": true,
+          "embedded": false,
+          "type": "string",
+          "struct_tag": "json:\"overlay_profile_id\"",
+          "json_name": "overlay_profile_id",
+          "json_ignored": false,
+          "omitempty": false
+        }
+      ]
+    },
+    {
       "name": "PasskeyAuthenticatorSelection",
       "alias": false,
       "fields": [
@@ -7811,6 +7977,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ExpectedUpdatedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_updated_at,omitempty\"",
+          "json_name": "expected_updated_at",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "Name",
           "exported": true,
           "embedded": false,
@@ -7821,7 +7998,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "Config",
           "exported": true,
           "embedded": false,
@@ -9775,6 +9952,34 @@
       ]
     },
     {
+      "name": "SecuritySettingsWriteRequest",
+      "alias": false,
+      "fields": [
+        {
+          "index": 0,
+          "name": "SecuritySettings",
+          "exported": true,
+          "embedded": true,
+          "type": "SecuritySettings",
+          "struct_tag": "",
+          "json_name": "SecuritySettings",
+          "json_ignored": false,
+          "omitempty": false
+        },
+        {
+          "index": 1,
+          "name": "ExpectedUpdatedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_updated_at,omitempty\"",
+          "json_name": "expected_updated_at",
+          "json_ignored": false,
+          "omitempty": true
+        }
+      ]
+    },
+    {
       "name": "ServiceArtifactReport",
       "alias": false,
       "fields": [
@@ -11630,6 +11835,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ExpectedSettingsRevision",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_settings_revision,omitempty\"",
+          "json_name": "expected_settings_revision",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "DiscordConfigID",
           "exported": true,
           "embedded": false,
@@ -11640,7 +11856,7 @@
           "omitempty": true
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "DiscordGuildID",
           "exported": true,
           "embedded": false,
@@ -11651,7 +11867,7 @@
           "omitempty": true
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "DiscordVoiceChannelID",
           "exported": true,
           "embedded": false,
@@ -11662,7 +11878,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "DiscordTextChannelID",
           "exported": true,
           "embedded": false,
@@ -11673,7 +11889,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "AutoStartTrigger",
           "exported": true,
           "embedded": false,
@@ -11684,7 +11900,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 6,
           "name": "EncoderProfileID",
           "exported": true,
           "embedded": false,
@@ -11695,7 +11911,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 7,
           "name": "CaptionProfileID",
           "exported": true,
           "embedded": false,
@@ -11706,7 +11922,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "OverlayProfileID",
           "exported": true,
           "embedded": false,
@@ -11717,7 +11933,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "EncoderAudioGainDB",
           "exported": true,
           "embedded": false,
@@ -11728,7 +11944,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 10,
           "name": "ArchiveProfileID",
           "exported": true,
           "embedded": false,
@@ -11739,7 +11955,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 11,
           "name": "YouTubeOutputID",
           "exported": true,
           "embedded": false,
@@ -11750,7 +11966,7 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 12,
           "name": "EncoderInputURL",
           "exported": true,
           "embedded": false,
@@ -19284,6 +19500,17 @@
       "fields": [
         {
           "index": 0,
+          "name": "ExpectedUpdatedAt",
+          "exported": true,
+          "embedded": false,
+          "type": "*string",
+          "struct_tag": "json:\"expected_updated_at,omitempty\"",
+          "json_name": "expected_updated_at",
+          "json_ignored": false,
+          "omitempty": true
+        },
+        {
+          "index": 1,
           "name": "Name",
           "exported": true,
           "embedded": false,
@@ -19294,7 +19521,7 @@
           "omitempty": false
         },
         {
-          "index": 1,
+          "index": 2,
           "name": "Mode",
           "exported": true,
           "embedded": false,
@@ -19305,7 +19532,7 @@
           "omitempty": false
         },
         {
-          "index": 2,
+          "index": 3,
           "name": "RTMPURL",
           "exported": true,
           "embedded": false,
@@ -19316,7 +19543,7 @@
           "omitempty": true
         },
         {
-          "index": 3,
+          "index": 4,
           "name": "StreamKey",
           "exported": true,
           "embedded": false,
@@ -19327,7 +19554,7 @@
           "omitempty": true
         },
         {
-          "index": 4,
+          "index": 5,
           "name": "WatchURL",
           "exported": true,
           "embedded": false,
@@ -19338,7 +19565,7 @@
           "omitempty": true
         },
         {
-          "index": 5,
+          "index": 6,
           "name": "OAuthAccountID",
           "exported": true,
           "embedded": false,
@@ -19349,7 +19576,7 @@
           "omitempty": true
         },
         {
-          "index": 6,
+          "index": 7,
           "name": "RelayBindingID",
           "exported": true,
           "embedded": false,
@@ -19360,7 +19587,7 @@
           "omitempty": true
         },
         {
-          "index": 7,
+          "index": 8,
           "name": "ReusableLiveStreamID",
           "exported": true,
           "embedded": false,
@@ -19371,7 +19598,7 @@
           "omitempty": true
         },
         {
-          "index": 8,
+          "index": 9,
           "name": "BroadcastTitleTemplate",
           "exported": true,
           "embedded": false,
@@ -19382,7 +19609,7 @@
           "omitempty": true
         },
         {
-          "index": 9,
+          "index": 10,
           "name": "BroadcastDescription",
           "exported": true,
           "embedded": false,
@@ -19393,7 +19620,7 @@
           "omitempty": true
         },
         {
-          "index": 10,
+          "index": 11,
           "name": "PrivacyStatus",
           "exported": true,
           "embedded": false,
@@ -19404,7 +19631,7 @@
           "omitempty": true
         },
         {
-          "index": 11,
+          "index": 12,
           "name": "LatencyPreference",
           "exported": true,
           "embedded": false,
@@ -19415,7 +19642,7 @@
           "omitempty": true
         },
         {
-          "index": 12,
+          "index": 13,
           "name": "EnableAutoStart",
           "exported": true,
           "embedded": false,
@@ -19426,7 +19653,7 @@
           "omitempty": true
         },
         {
-          "index": 13,
+          "index": 14,
           "name": "EnableAutoStop",
           "exported": true,
           "embedded": false,
@@ -19437,7 +19664,7 @@
           "omitempty": true
         },
         {
-          "index": 14,
+          "index": 15,
           "name": "CompleteOnStop",
           "exported": true,
           "embedded": false,

@@ -117,20 +117,21 @@ type ManagedAppSettings struct {
 }
 
 type AppSettingsWriteRequest struct {
-	AppName                      string `json:"app_name"`
-	Timezone                     string `json:"timezone"`
-	GoogleAnalyticsEnabled       bool   `json:"google_analytics_enabled,omitempty"`
-	GoogleAnalyticsMeasurementID string `json:"google_analytics_measurement_id,omitempty"`
-	SMTPEnabled                  bool   `json:"smtp_enabled"`
-	SMTPHost                     string `json:"smtp_host,omitempty"`
-	SMTPPort                     int    `json:"smtp_port,omitempty"`
-	SMTPStartTLS                 bool   `json:"smtp_starttls"`
-	SMTPFrom                     string `json:"smtp_from,omitempty"`
-	SMTPUsername                 string `json:"smtp_username,omitempty"`
-	SMTPPassword                 string `json:"smtp_password,omitempty"`
-	TurnstileEnabled             bool   `json:"turnstile_enabled,omitempty"`
-	TurnstileSiteKey             string `json:"turnstile_site_key,omitempty"`
-	TurnstileSecret              string `json:"turnstile_secret,omitempty"`
+	ExpectedUpdatedAt            *string `json:"expected_updated_at,omitempty"`
+	AppName                      string  `json:"app_name"`
+	Timezone                     string  `json:"timezone"`
+	GoogleAnalyticsEnabled       bool    `json:"google_analytics_enabled,omitempty"`
+	GoogleAnalyticsMeasurementID string  `json:"google_analytics_measurement_id,omitempty"`
+	SMTPEnabled                  bool    `json:"smtp_enabled"`
+	SMTPHost                     string  `json:"smtp_host,omitempty"`
+	SMTPPort                     int     `json:"smtp_port,omitempty"`
+	SMTPStartTLS                 bool    `json:"smtp_starttls"`
+	SMTPFrom                     string  `json:"smtp_from,omitempty"`
+	SMTPUsername                 string  `json:"smtp_username,omitempty"`
+	SMTPPassword                 string  `json:"smtp_password,omitempty"`
+	TurnstileEnabled             bool    `json:"turnstile_enabled,omitempty"`
+	TurnstileSiteKey             string  `json:"turnstile_site_key,omitempty"`
+	TurnstileSecret              string  `json:"turnstile_secret,omitempty"`
 }
 
 type SecuritySettings struct {
@@ -145,6 +146,11 @@ type SecuritySettings struct {
 	MFASupportedMethods      []string `json:"mfa_supported_methods,omitempty"`
 	PasskeyStatus            string   `json:"passkey_status,omitempty"`
 	UpdatedAt                string   `json:"updated_at,omitempty"`
+}
+
+type SecuritySettingsWriteRequest struct {
+	SecuritySettings
+	ExpectedUpdatedAt *string `json:"expected_updated_at,omitempty"`
 }
 
 type SecretStatus struct {

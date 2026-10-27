@@ -37,6 +37,7 @@
     }
   ],
   "properties": {
+    "expected_updated_at": { "$ref": "resource-updated-at.schema.json" },
     "name": {
       "type": "string",
       "minLength": 1

@@ -3,7 +3,7 @@
     {
       "api": "openapi/control-api.yaml",
       "error_count": 155,
-      "finding_count": 537,
+      "finding_count": 538,
       "findings": [
         {
           "category": "openapi_lint",
@@ -4351,6 +4351,18 @@
         },
         {
           "category": "openapi_lint",
+          "fingerprint": "477235c02603f7450b970bdfd0b88aaf683e3a3e1caa10f25b34eaf3ee6dbd17",
+          "locations": [
+            {
+              "pointer": "#/components/schemas/StreamWriteRequest",
+              "source": "openapi/control-api.yaml"
+            }
+          ],
+          "rule_id": "no-unused-components",
+          "severity": "warn"
+        },
+        {
+          "category": "openapi_lint",
           "fingerprint": "47929f06eeb98255f78dfa4423a4d4ccbc7bb80c4a16dc4e4ce8b8643114bfef",
           "locations": [
             {
@@ -6451,7 +6463,7 @@
         }
       ],
       "lint_exit_code": 1,
-      "warning_count": 382
+      "warning_count": 383
     },
     {
       "api": "openapi/discord-bot-api.yaml",

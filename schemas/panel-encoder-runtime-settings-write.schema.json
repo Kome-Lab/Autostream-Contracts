@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/panel-encoder-runtime-settings-write.schema.json",
+  "title": "PanelEncoderRuntimeSettingsWriteRequest",
+  "description": "Control Panel-only desired settings and optional editing CAS. The expected revision is never forwarded to the Encoder Node API.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "encoder_audio_gain_db",
+    "overlay_profile_id"
+  ],
+  "properties": {
+    "expected_settings_revision": {
+      "$ref": "stream-settings-revision.schema.json"
+    },
+    "encoder_audio_gain_db": {
+      "type": "number",
+      "minimum": -60,
+      "maximum": 24
+    },
+    "overlay_profile_id": {
+      "type": "string"
+    }
+  }
+}

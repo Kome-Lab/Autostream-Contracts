@@ -281,11 +281,22 @@
           }
         },
         "put": {
+          "description": "Optional expected_updated_at compares the original editing baseline under the profile row lock. A mismatch returns revision_conflict before writes; polling does not authorize adopting a newer baseline.",
           "parameters": [
             {
               "$ref": "#/components/parameters/id"
             }
           ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/profile-write.schema"
+                }
+              }
+            },
+            "required": true
+          },
           "responses": {
             "200": {
               "description": "resource updated",
@@ -294,6 +305,9 @@
                   "$ref": "#/components/headers/contractMajor"
                 }
               }
+            },
+            "409": {
+              "description": "revision_conflict; no configuration or secret changes were applied"
             },
             "426": {
               "$ref": "#/components/responses/contractMajorUnsupported"
@@ -638,6 +652,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "expected_updated_at": {
+            "$ref": "#/components/schemas/system-settings-revision.schema"
+          },
           "google_analytics_enabled": {
             "type": "boolean"
           },
@@ -891,6 +908,9 @@
           "caption_enabled": {
             "type": "boolean"
           },
+          "expected_updated_at": {
+            "$ref": "#/components/schemas/resource-updated-at.schema"
+          },
           "guild_id": {
             "type": "string"
           },
@@ -1115,6 +1135,9 @@
               "oauth2"
             ]
           },
+          "expected_updated_at": {
+            "$ref": "#/components/schemas/resource-updated-at.schema"
+          },
           "folder_id": {
             "description": "required when creating a destination, optional when updating an existing destination, encrypted at rest, and never returned by API",
             "type": "string",
@@ -1228,6 +1251,14 @@
           "code": {
             "description": "Stable, secret-safe Control API error or readiness issue code. Start-readiness checks are side-effect-free and do not read or return raw secrets. cover_upload_limit is HTTP 409 when a stream-specific cover upload or draft claim would exceed four distinct uploaded source assets. Presets and generated variants do not consume this quota. Existing over-limit candidate sets remain readable and may be preserved or reduced; additions or replacement sets must satisfy the limit. Concurrent writes enforce the same quota atomically. DELETE /media-assets/{id} accepts an optional expected_upload_session_id query parameter for conditional draft cleanup. Omitting it preserves the existing generic deletion behavior. When supplied, it must have exactly one nonempty value, and deletion atomically requires the caller's upload_draft asset, the exact expected upload session, and an unclaimed session. An empty or repeated query value returns HTTP 400 bad_request. A claimed session returns HTTP 409 upload_session_claimed. Asset scope, ownership, or session mismatches return HTTP 403 forbidden. Conditional cleanup never falls back to generic deletion after a claim or scope conflict.\n",
             "enum": [
+              "name_too_long",
+              "stream_visual_operation_failed",
+              "media_asset_operation_failed",
+              "invalid_metadata_revision",
+              "node_metadata_conflict",
+              "node_endpoint_managed_by_updater",
+              "node_endpoint_ownership_unavailable",
+              "stream_settings_archive_revision_unsupported",
               "missing_stream_assignments",
               "service_call_token_missing",
               "service_public_url_invalid",
@@ -2483,8 +2514,7 @@
             "type": "string"
           },
           "updated_at": {
-            "format": "date-time",
-            "type": "string"
+            "$ref": "#/components/schemas/system-settings-revision.schema"
           }
         },
         "required": [
@@ -2494,6 +2524,12 @@
           "smtp_starttls"
         ],
         "type": "object"
+      },
+      "MediaUploadOperationResponse": {
+        "$ref": "#/components/schemas/media-upload-operation-response.schema"
+      },
+      "MediaUploadSession": {
+        "$ref": "#/components/schemas/media-upload-session.schema"
       },
       "MissingStreamAssignmentsResponse": {
         "additionalProperties": false,
@@ -2521,6 +2557,12 @@
           "missing_service_types"
         ],
         "type": "object"
+      },
+      "NodeMetadataView": {
+        "$ref": "#/components/schemas/node-metadata-view.schema"
+      },
+      "NodeMetadataWriteRequest": {
+        "$ref": "#/components/schemas/node-metadata-write.schema"
       },
       "NotificationChannel": {
         "additionalProperties": false,
@@ -3129,6 +3171,15 @@
         ],
         "type": "object"
       },
+      "PanelEncoderRuntimeSettingsWriteRequest": {
+        "$ref": "#/components/schemas/panel-encoder-runtime-settings-write.schema"
+      },
+      "PanelMediaAsset": {
+        "$ref": "#/components/schemas/panel-media-asset.schema"
+      },
+      "PanelMediaVariant": {
+        "$ref": "#/components/schemas/panel-media-variant.schema"
+      },
       "PasskeyCredential": {
         "description": "Public WebAuthn credential metadata. Raw credential ID and public key material are never returned.",
         "properties": {
@@ -3411,6 +3462,9 @@
         ],
         "type": "object"
       },
+      "ProfileWriteRequest": {
+        "$ref": "#/components/schemas/profile-write.schema"
+      },
       "PublicAppSettings": {
         "additionalProperties": false,
         "description": "Public browser bootstrap settings. SMTP and all secret values are excluded.",
@@ -3446,8 +3500,7 @@
             "type": "string"
           },
           "updated_at": {
-            "format": "date-time",
-            "type": "string"
+            "$ref": "#/components/schemas/system-settings-revision.schema"
           }
         },
         "required": [
@@ -4607,6 +4660,9 @@
         ],
         "type": "object"
       },
+      "ResourceUpdatedAt": {
+        "$ref": "#/components/schemas/resource-updated-at.schema"
+      },
       "SecuritySettings": {
         "additionalProperties": false,
         "properties": {
@@ -4669,8 +4725,7 @@
             "type": "integer"
           },
           "updated_at": {
-            "format": "date-time",
-            "type": "string"
+            "$ref": "#/components/schemas/system-settings-revision.schema"
           }
         },
         "required": [
@@ -4683,6 +4738,9 @@
           "mfa_mode"
         ],
         "type": "object"
+      },
+      "SecuritySettingsWriteRequest": {
+        "$ref": "#/components/schemas/security-settings-write.schema"
       },
       "ServiceArtifactReport": {
         "additionalProperties": false,
@@ -5951,6 +6009,12 @@
         ],
         "type": "object"
       },
+      "StreamCoverCandidate": {
+        "$ref": "#/components/schemas/stream-cover-candidate.schema"
+      },
+      "StreamCreateV2Request": {
+        "$ref": "#/components/schemas/stream-create-v2.schema"
+      },
       "StreamPreviewLink": {
         "additionalProperties": false,
         "description": "The URL is a bearer capability and must not be written to access logs, tickets, chat, screenshots, or audit metadata.",
@@ -6013,6 +6077,9 @@
         ],
         "type": "object"
       },
+      "StreamSettingsRevision": {
+        "$ref": "#/components/schemas/stream-settings-revision.schema"
+      },
       "StreamSettingsWriteRequest": {
         "additionalProperties": false,
         "properties": {
@@ -6058,6 +6125,9 @@
           "encoder_profile_id": {
             "type": "string"
           },
+          "expected_settings_revision": {
+            "$ref": "#/components/schemas/stream-settings-revision.schema"
+          },
           "overlay_profile_id": {
             "type": "string"
           },
@@ -6066,6 +6136,9 @@
           }
         },
         "type": "object"
+      },
+      "StreamVisualWriteSettings": {
+        "$ref": "#/components/schemas/stream-visual-write.schema"
       },
       "StreamWriteRequest": {
         "additionalProperties": false,
@@ -6127,6 +6200,9 @@
           "name"
         ],
         "type": "object"
+      },
+      "SystemSettingsRevision": {
+        "$ref": "#/components/schemas/system-settings-revision.schema"
       },
       "SystemUpdateAgentStatus": {
         "$ref": "#/components/schemas/system-update-agent-status.schema"
@@ -8643,6 +8719,9 @@
           "enable_auto_stop": {
             "type": "boolean"
           },
+          "expected_updated_at": {
+            "$ref": "#/components/schemas/resource-updated-at.schema"
+          },
           "latency_preference": {
             "enum": [
               "normal",
@@ -8942,6 +9021,10 @@
           "config_revision"
         ],
         "type": "object"
+      },
+      "asset_id": {
+        "minLength": 1,
+        "type": "string"
       },
       "baselineTarget": {
         "additionalProperties": false,
@@ -10485,6 +10568,127 @@
         ],
         "type": "object"
       },
+      "login_lockout_threshold": {
+        "minimum": 3,
+        "type": "integer"
+      },
+      "media-upload-operation-response.schema": {
+        "$id": "https://schemas.autostream.example.com/media-upload-operation-response.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "description": "Read-only committed metadata for one authenticated owner's exact session and operation UUID. Empty assets is not proof of non-application: an earlier upload may still commit. Session owner_type, claimed_stream_id and expires_at distinguish claimed/expired state. No automatic new upload or slot creation is authorized by this response.",
+        "properties": {
+          "assets": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "asset": {
+                  "$ref": "#/components/schemas/panel-media-asset.schema"
+                },
+                "variants": {
+                  "items": {
+                    "$ref": "#/components/schemas/panel-media-variant.schema"
+                  },
+                  "maxItems": 64,
+                  "type": "array"
+                }
+              },
+              "required": [
+                "asset",
+                "variants"
+              ],
+              "type": "object"
+            },
+            "maxItems": 1,
+            "type": "array"
+          },
+          "operation_id": {
+            "description": "Optional client-generated UUID bound to this upload session and usage. Replays return the same committed asset while that draft remains valid. A deleted nonce is never reused to create a replacement.",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "session": {
+            "$ref": "#/components/schemas/media-upload-session.schema"
+          }
+        },
+        "required": [
+          "session",
+          "operation_id",
+          "assets"
+        ],
+        "title": "MediaUploadOperationResponse",
+        "type": "object"
+      },
+      "media-upload-session.schema": {
+        "$id": "https://schemas.autostream.example.com/media-upload-session.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "claimed_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "claimed_stream_id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "owner_type": {
+            "enum": [
+              "upload_draft",
+              "stream"
+            ]
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "owner_type",
+          "expires_at",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "MediaUploadSession",
+        "type": "object"
+      },
+      "mfa_mode": {
+        "enum": [
+          "disabled",
+          "totp",
+          "passkey"
+        ]
+      },
+      "mfa_required_roles": {
+        "description": "When empty, an enabled mfa_mode applies to all users. When set, only users with one of these roles are required to complete that MFA policy.",
+        "items": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "mfa_supported_methods": {
+        "description": "MFA methods currently implemented by the Control Panel. Passkey must not be shown as enabled until present here.",
+        "items": {
+          "enum": [
+            "totp",
+            "passkey"
+          ]
+        },
+        "readOnly": true,
+        "type": "array"
+      },
       "node-action-permission-projection.schema": {
         "$defs": {
           "permissionSet": {
@@ -10668,6 +10872,88 @@
         "title": "Node action permission projection",
         "type": "object"
       },
+      "node-metadata-view.schema": {
+        "$id": "https://schemas.autostream.example.com/node-metadata-view.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": true,
+        "description": "Node metadata authority projection alongside existing endpoint and monitoring fields. Consumers may retain monitoring fields, but must not use them as the editing baseline or infer endpoint ownership from heartbeat freshness.",
+        "properties": {
+          "current_stream_id": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "metadata_revision": {
+            "description": "Always supplied by the current Control Panel Node projection; optional in this consumer schema for legacy projections. Opaque authority over configuration and ownership, independent of volatile monitoring observations.",
+            "pattern": "^[0-9a-f]{64}$",
+            "readOnly": true,
+            "type": "string"
+          },
+          "service_id": {
+            "type": "string"
+          },
+          "service_name": {
+            "type": "string"
+          },
+          "service_type": {
+            "type": "string"
+          },
+          "transport_mode": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "service_id",
+          "service_type",
+          "service_name"
+        ],
+        "title": "NodeMetadataView",
+        "type": "object"
+      },
+      "node-metadata-write.schema": {
+        "$id": "https://schemas.autostream.example.com/node-metadata-write.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "description": "Control Panel Node metadata edit. With an expected baseline, an actual endpoint change coordinates its final updater ownership check and metadata CAS with the write. Name/description edits and exact endpoint no-ops retain ordinary metadata CAS. Malformed authority returns 400 invalid_metadata_revision; changed metadata returns 409 node_metadata_conflict. Confirmed updater management returns 409 node_endpoint_managed_by_updater. Unsupported, mismatched, inconsistent or unavailable ownership authority returns 503 node_endpoint_ownership_unavailable before writes. Legacy omitted baselines retain their preliminary ownership guard.",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "expected_metadata_revision": {
+            "description": "Opaque semantic metadata authority copied exactly from the original Node editing baseline. It binds the target service's configuration, endpoint revision, transport, execution ownership and current stream ownership, while excluding heartbeat, metrics, status and updated_at. Omission preserves the legacy preliminary ownership guard.",
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "port": {
+            "maximum": 65535,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "public_url": {
+            "type": "string"
+          },
+          "service_name": {
+            "type": "string"
+          },
+          "ssl_enabled": {
+            "type": "boolean"
+          }
+        },
+        "title": "NodeMetadataWriteRequest",
+        "type": "object"
+      },
       "oauth-account-connection-start-response.schema": {
         "$id": "https://schemas.autostream.example.com/oauth-account-connection-start-response.schema.json",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -10806,6 +11092,224 @@
           "observed_at"
         ],
         "type": "object"
+      },
+      "panel-encoder-runtime-settings-write.schema": {
+        "$id": "https://schemas.autostream.example.com/panel-encoder-runtime-settings-write.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "description": "Control Panel-only desired settings and optional editing CAS. The expected revision is never forwarded to the Encoder Node API.",
+        "properties": {
+          "encoder_audio_gain_db": {
+            "maximum": 24,
+            "minimum": -60,
+            "type": "number"
+          },
+          "expected_settings_revision": {
+            "$ref": "#/components/schemas/stream-settings-revision.schema"
+          },
+          "overlay_profile_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "encoder_audio_gain_db",
+          "overlay_profile_id"
+        ],
+        "title": "PanelEncoderRuntimeSettingsWriteRequest",
+        "type": "object"
+      },
+      "panel-media-asset.schema": {
+        "$id": "https://schemas.autostream.example.com/panel-media-asset.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "description": "Owner-authorized public asset metadata. Does not expose owner_user_id, storage keys or raw image bytes.",
+        "properties": {
+          "byte_size": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "client_operation_id": {
+            "description": "Optional client-generated UUID bound to this upload session and usage. Replays return the same committed asset while that draft remains valid. A deleted nonce is never reused to create a replacement.",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "height": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          },
+          "media_type": {
+            "type": "string"
+          },
+          "opaque": {
+            "type": "boolean"
+          },
+          "owner_id": {
+            "type": "string"
+          },
+          "owner_type": {
+            "enum": [
+              "upload_draft",
+              "stream",
+              "preset"
+            ]
+          },
+          "processor_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "retention_until": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "upload_session_id": {
+            "type": "string"
+          },
+          "usage_type": {
+            "enum": [
+              "scene_background",
+              "video_cover"
+            ]
+          },
+          "width": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "owner_type",
+          "owner_id",
+          "usage_type",
+          "sha256",
+          "media_type",
+          "byte_size",
+          "width",
+          "height",
+          "opaque",
+          "processor_revision",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "PanelMediaAsset",
+        "type": "object"
+      },
+      "panel-media-variant.schema": {
+        "$id": "https://schemas.autostream.example.com/panel-media-variant.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "type": "string"
+          },
+          "byte_size": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "crop_mode": {
+            "type": "string"
+          },
+          "height": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          },
+          "last_error_code": {
+            "type": "string"
+          },
+          "media_type": {
+            "type": "string"
+          },
+          "opaque": {
+            "type": "boolean"
+          },
+          "processor_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "processing",
+              "ready",
+              "failed"
+            ]
+          },
+          "target_height": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "target_width": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "width": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "asset_id",
+          "target_width",
+          "target_height",
+          "crop_mode",
+          "processor_revision",
+          "status",
+          "opaque",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "PanelMediaVariant",
+        "type": "object"
+      },
+      "passkey_status": {
+        "description": "available means WebAuthn registration, passwordless login, and passkey-required login policy are available.",
+        "enum": [
+          "planned",
+          "credential_store_ready",
+          "available"
+        ],
+        "readOnly": true
+      },
+      "password_hash": {
+        "enum": [
+          "argon2id"
+        ]
+      },
+      "password_min_length": {
+        "minimum": 8,
+        "type": "integer"
       },
       "permissionSet": {
         "items": {
@@ -11086,6 +11590,33 @@
           }
         ]
       },
+      "preset_id": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "profile-write.schema": {
+        "$id": "https://schemas.autostream.example.com/profile-write.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "config": {
+            "type": "object"
+          },
+          "expected_updated_at": {
+            "$ref": "#/components/schemas/resource-updated-at.schema"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "config"
+        ],
+        "title": "ProfileWriteRequest",
+        "type": "object"
+      },
       "recoveryObservation": {
         "additionalProperties": false,
         "properties": {
@@ -11110,6 +11641,22 @@
           "observation"
         ],
         "type": "object"
+      },
+      "remember_me_enabled": {
+        "const": false,
+        "type": "boolean"
+      },
+      "resource-updated-at.schema": {
+        "$id": "https://schemas.autostream.example.com/resource-updated-at.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "description": "Optional PUT editing baseline copied exactly from the original resource updated_at. Canonical UTC RFC3339Nano at microsecond precision; empty, offsets, trailing fractional zero and sub-microsecond values are invalid. Mismatch returns 409 revision_conflict before any configuration or secret write. Omitting the field retains legacy behavior.",
+        "format": "date-time",
+        "not": {
+          "const": "0001-01-01T00:00:00Z"
+        },
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{0,5}[1-9])?Z$",
+        "title": "ResourceUpdatedAt",
+        "type": "string"
       },
       "result": {
         "oneOf": [
@@ -11143,6 +11690,68 @@
           "repository_digest"
         ],
         "type": "object"
+      },
+      "security-settings-write.schema": {
+        "$id": "https://schemas.autostream.example.com/security-settings-write.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "expected_updated_at": {
+            "$ref": "#/components/schemas/system-settings-revision.schema"
+          },
+          "login_lockout_threshold": {
+            "$ref": "#/components/schemas/login_lockout_threshold"
+          },
+          "mfa_mode": {
+            "$ref": "#/components/schemas/mfa_mode"
+          },
+          "mfa_required_roles": {
+            "$ref": "#/components/schemas/mfa_required_roles"
+          },
+          "mfa_supported_methods": {
+            "$ref": "#/components/schemas/mfa_supported_methods"
+          },
+          "passkey_status": {
+            "$ref": "#/components/schemas/passkey_status"
+          },
+          "password_hash": {
+            "$ref": "#/components/schemas/password_hash"
+          },
+          "password_min_length": {
+            "$ref": "#/components/schemas/password_min_length"
+          },
+          "remember_me_enabled": {
+            "$ref": "#/components/schemas/remember_me_enabled"
+          },
+          "session_absolute_lifetime_h": {
+            "$ref": "#/components/schemas/session_absolute_lifetime_h"
+          },
+          "session_idle_timeout_min": {
+            "$ref": "#/components/schemas/session_idle_timeout_min"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/system-settings-revision.schema"
+          }
+        },
+        "required": [
+          "password_min_length",
+          "password_hash",
+          "login_lockout_threshold",
+          "session_idle_timeout_min",
+          "session_absolute_lifetime_h",
+          "remember_me_enabled",
+          "mfa_mode"
+        ],
+        "title": "SecuritySettingsWriteRequest",
+        "type": "object"
+      },
+      "session_absolute_lifetime_h": {
+        "minimum": 1,
+        "type": "integer"
+      },
+      "session_idle_timeout_min": {
+        "minimum": 5,
+        "type": "integer"
       },
       "snapshotRef": {
         "additionalProperties": false,
@@ -11250,6 +11859,393 @@
           "strategy"
         ],
         "type": "object"
+      },
+      "stream-cover-candidate.schema": {
+        "$id": "https://schemas.autostream.example.com/stream-cover-candidate.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "source": {
+                  "const": "upload"
+                }
+              },
+              "required": [
+                "source"
+              ]
+            },
+            "then": {
+              "properties": {
+                "asset_id": {
+                  "$ref": "#/components/schemas/asset_id"
+                },
+                "variant_id": {
+                  "$ref": "#/components/schemas/variant_id"
+                }
+              },
+              "required": [
+                "asset_id",
+                "variant_id"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "source": {
+                  "const": "preset"
+                }
+              },
+              "required": [
+                "source"
+              ]
+            },
+            "then": {
+              "properties": {
+                "preset_id": {
+                  "$ref": "#/components/schemas/preset_id"
+                }
+              },
+              "required": [
+                "preset_id"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "asset_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "description": "Full uploaded filename or preset display name; preserved through save/reload without truncation.",
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "preset_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "preset_revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "source": {
+            "enum": [
+              "upload",
+              "preset"
+            ]
+          },
+          "variant_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "source"
+        ],
+        "title": "StreamCoverCandidate",
+        "type": "object"
+      },
+      "stream-create-v2.schema": {
+        "$id": "https://schemas.autostream.example.com/stream-create-v2.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "auto_start_trigger": {
+                  "const": "discord_voice_join"
+                }
+              },
+              "required": [
+                "auto_start_trigger"
+              ]
+            },
+            "then": {
+              "properties": {
+                "discord_config_id": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "discord_config_id"
+              ]
+            }
+          }
+        ],
+        "description": "Current POST /streams request. Configuration, visual settings, selected upload claims and Encoder/Worker/optional selected Bot primary reservations commit atomically. The selected discord_config service_id owns Bot authentication; a destination preset cannot authorize a Bot. Creation never moves an occupied service. expected_settings_revision is edit-only and rejected here.",
+        "properties": {
+          "archive_profile_id": {
+            "type": "string"
+          },
+          "auto_start_trigger": {
+            "enum": [
+              "",
+              "discord_voice_join"
+            ]
+          },
+          "caption_profile_id": {
+            "type": "string"
+          },
+          "discord_config_id": {
+            "type": "string"
+          },
+          "encoder_audio_gain_db": {
+            "maximum": 24,
+            "minimum": -60,
+            "type": "number"
+          },
+          "encoder_input_url": {
+            "type": "string"
+          },
+          "encoder_profile_id": {
+            "type": "string"
+          },
+          "encoder_service_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "overlay_profile_id": {
+            "type": "string"
+          },
+          "scheduled_end_at": {
+            "type": "string"
+          },
+          "scheduled_start_at": {
+            "type": "string"
+          },
+          "upload_session_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "visual_settings": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/stream-visual-write.schema"
+              },
+              {
+                "properties": {
+                  "expected_revision": {
+                    "const": 0
+                  }
+                }
+              }
+            ]
+          },
+          "worker_service_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "youtube_output_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "encoder_service_id",
+          "worker_service_id",
+          "visual_settings"
+        ],
+        "title": "StreamCreateV2Request",
+        "type": "object"
+      },
+      "stream-settings-revision.schema": {
+        "$id": "https://schemas.autostream.example.com/stream-settings-revision.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "description": "Settings-only authority captured when editing starts. The canonical UTC RFC3339Nano value has microsecond precision and no trailing fractional zero. The literal unconfigured represents a legacy stream without a settings row. Lifecycle and heartbeat timestamps are independent.",
+        "oneOf": [
+          {
+            "const": "unconfigured"
+          },
+          {
+            "format": "date-time",
+            "not": {
+              "const": "0001-01-01T00:00:00Z"
+            },
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{0,5}[1-9])?Z$",
+            "type": "string"
+          }
+        ],
+        "title": "StreamSettingsRevision"
+      },
+      "stream-visual-write.schema": {
+        "$id": "https://schemas.autostream.example.com/stream-visual-write.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "background_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "background_mode": {
+            "enum": [
+              "default",
+              "image",
+              null
+            ]
+          },
+          "background_variant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_candidates": {
+            "description": "Every retained candidate, including unselected images. Only one selected start image exists. Four distinct uploaded originals per stream; presets/backgrounds/variants do not consume the cover quota. Existing over-limit sets remain readable and may be retained or reduced.",
+            "items": {
+              "$ref": "#/components/schemas/stream-cover-candidate.schema"
+            },
+            "maxItems": 32,
+            "type": "array"
+          },
+          "cover_preset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cover_source": {
+            "enum": [
+              "none",
+              "preset",
+              "upload",
+              null
+            ]
+          },
+          "cover_start_active": {
+            "type": "boolean"
+          },
+          "cover_variant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "discord_target": {
+            "description": "Destination selection only. Bot authentication and primary authority come from the separate discord_config_id profile.",
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "mode": {
+                    "const": "inherit"
+                  }
+                },
+                "required": [
+                  "mode"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "mode": {
+                    "const": "preset"
+                  },
+                  "preset_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "preset_revision": {
+                    "minimum": 1,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "mode",
+                  "preset_id",
+                  "preset_revision"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "guild_id": {
+                    "pattern": "^[0-9]{1,32}$",
+                    "type": "string"
+                  },
+                  "mode": {
+                    "const": "manual"
+                  },
+                  "text_channel_id": {
+                    "pattern": "^[0-9]{1,32}$",
+                    "type": "string"
+                  },
+                  "voice_channel_id": {
+                    "pattern": "^[0-9]{1,32}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "mode",
+                  "guild_id",
+                  "text_channel_id",
+                  "voice_channel_id"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "header_title_mode": {
+            "enum": [
+              "default",
+              "custom",
+              null
+            ]
+          },
+          "header_title_value": {
+            "maxLength": 80,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "upload_session_id": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "title": "StreamVisualWriteSettings",
+        "type": "object"
+      },
+      "system-settings-revision.schema": {
+        "$id": "https://schemas.autostream.example.com/system-settings-revision.schema.json",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "description": "Original APP or Security editing baseline. A missing named settings row is unconfigured; saved settings use the exact canonical UTC microsecond updated_at from GET. Polling does not replace the draft baseline. A stale PUT returns 409 revision_conflict before any configuration or secret changes; omission retains legacy behavior.",
+        "oneOf": [
+          {
+            "const": "unconfigured"
+          },
+          {
+            "$ref": "#/components/schemas/resource-updated-at.schema"
+          }
+        ],
+        "title": "SystemSettingsRevision"
       },
       "system-update-agent-status.schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -14658,6 +15654,10 @@
         ],
         "type": "object"
       },
+      "variant_id": {
+        "minLength": 1,
+        "type": "string"
+      },
       "verifiedObservation": {
         "additionalProperties": false,
         "properties": {
@@ -15047,12 +16047,15 @@
         },
         "responses": {
           "200": {
-            "description": "Drive archive destination updated",
+            "description": "Drive archive destination and encrypted folder ID updated atomically under optional expected_updated_at.",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
               }
             }
+          },
+          "409": {
+            "description": "revision_conflict; the destination and encrypted folder ID were not changed"
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -15909,12 +16912,15 @@
                 }
               }
             },
-            "description": "update Discord Bot config",
+            "description": "Update Discord Bot config and its optional encrypted token in the same transaction. expected_updated_at protects the original editing baseline.",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
               }
             }
+          },
+          "409": {
+            "description": "revision_conflict; neither profile nor token was changed"
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -16436,6 +17442,224 @@
         }
       }
     },
+    "/media-assets": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ],
+      "post": {
+        "description": "Metadata parts precede the file. Optional client_operation_id is a lowercase UUID bound to the session, user and usage. Repeating the same operation while the draft is valid returns its existing asset; it does not consume another cover slot. A deleted operation is not reused. Four distinct video_cover originals are enforced atomically, including concurrent requests; background assets, shared presets and generated variants do not consume the cover quota. A missing response is unknown, not evidence of failure. Inspect the exact session and operation before an explicit retry; never create a new operation merely because the earlier response was lost.\n",
+        "operationId": "uploadMediaAsset",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "client_operation_id": {
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                    "type": "string"
+                  },
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  },
+                  "session_id": {
+                    "format": "uuid",
+                    "type": "string"
+                  },
+                  "usage_type": {
+                    "enum": [
+                      "scene_background",
+                      "video_cover"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "session_id",
+                  "usage_type",
+                  "file"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/panel-media-asset.schema"
+                }
+              }
+            },
+            "description": "Validated original asset; variant conversion and stream save are separate"
+          },
+          "400": {
+            "description": "Invalid image, metadata, operation UUID or multipart field order"
+          },
+          "403": {
+            "description": "Owner, session or usage mismatch"
+          },
+          "409": {
+            "description": "Expired or claimed session, integrity conflict, or cover_upload_limit"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "media_asset_operation_failed; result may be unknown and must be reconciled by reads"
+          }
+        },
+        "summary": "Upload one original image to a temporary session",
+        "x-autostream-permissions-any": [
+          "streams.create",
+          "streams.update"
+        ]
+      }
+    },
+    "/media-assets/upload-sessions": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ],
+      "post": {
+        "operationId": "createMediaUploadSession",
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/media-upload-session.schema"
+                }
+              }
+            },
+            "description": "A temporary draft; creating it does not create a stream"
+          },
+          "403": {
+            "description": "required stream permission or CSRF validation failed"
+          }
+        },
+        "summary": "Create an owner-bound temporary image upload session",
+        "x-autostream-permissions-any": [
+          "streams.create",
+          "streams.update"
+        ]
+      }
+    },
+    "/media-assets/upload-sessions/{session_id}/assets": {
+      "get": {
+        "description": "Cookie-authenticated and restricted to the session owner. Returns committed asset/variant metadata even when the session has expired or been claimed, so callers can distinguish those states from a valid draft. An empty assets array is not proof that the upload was unapplied: an in-flight request can commit later. This endpoint does not authorize automatic upload or create.\n",
+        "operationId": "inspectMediaUploadOperation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Exactly one canonical lowercase UUID",
+            "in": "query",
+            "name": "operation_id",
+            "required": true,
+            "schema": {
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/media-upload-operation-response.schema"
+                }
+              }
+            },
+            "description": "Owner-bound committed metadata; never a terminal non-application receipt",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing, repeated or invalid operation_id"
+          },
+          "403": {
+            "description": "Required stream permission missing"
+          },
+          "404": {
+            "description": "The owner's upload session was not found"
+          },
+          "500": {
+            "description": "media_asset_operation_failed; no mutation is performed by inspection"
+          }
+        },
+        "summary": "Inspect one upload operation without mutating it",
+        "x-autostream-permissions-any": [
+          "streams.create",
+          "streams.update"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ]
+    },
+    "/nodes": {
+      "get": {
+        "operationId": "listNodesWithMetadataRevision",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/node-metadata-view.schema"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Node metadata and current monitoring observations",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          }
+        },
+        "summary": "Read registered Nodes with semantic metadata editing authority",
+        "x-autostream-required-permission": "api_tokens.create"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ]
+    },
     "/nodes/action-permissions": {
       "get": {
         "description": "Read-only, audit-free projection that reuses the Node credential mutation authority. The response never returns a Node, service-token, credential, raw scope, or private endpoint identifier. evaluated_at is diagnostic only; projection_revision is the opaque authority value used by the UI for pre-submit revalidation.\n",
@@ -16553,6 +17777,66 @@
           "$ref": "#/components/parameters/contractMajor"
         }
       ]
+    },
+    "/nodes/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ],
+      "put": {
+        "description": "With expected_metadata_revision, an actual endpoint change checks the latest updater ownership and metadata baseline in the same coordinated write. Name/description edits and exact endpoint no-ops retain the ordinary metadata CAS. Omitting the expectation preserves the legacy preliminary ownership guard; it does not disable that guard.",
+        "operationId": "updateNodeMetadata",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/csrfToken"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/node-metadata-write.schema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/node-metadata-view.schema"
+                }
+              }
+            },
+            "description": "Node metadata saved; existing endpoint management guards remain in force",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "400": {
+            "description": "invalid_metadata_revision for a malformed supplied baseline, or an existing Node input validation error"
+          },
+          "409": {
+            "description": "node_metadata_conflict before metadata changes, or node_endpoint_managed_by_updater when updater management is confirmed"
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
+          },
+          "503": {
+            "description": "node_endpoint_ownership_unavailable before writes when a stamped endpoint change cannot obtain a supported, matching and consistent ownership authority"
+          }
+        },
+        "summary": "Edit Node metadata under its original optional semantic baseline",
+        "x-autostream-required-permission": "api_tokens.create"
+      }
     },
     "/observability/diagnostics": {
       "get": {
@@ -17201,6 +18485,16 @@
             "$ref": "#/components/parameters/id"
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/profile-write.schema"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "caption profile updated; any referencing live streams were refreshed successfully",
@@ -17209,6 +18503,9 @@
                 "$ref": "#/components/headers/contractMajor"
               }
             }
+          },
+          "409": {
+            "description": "revision_conflict; no profile change or live-runtime dispatch was applied"
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -17480,7 +18777,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SecuritySettings"
+                "$ref": "#/components/schemas/security-settings-write.schema"
               }
             }
           }
@@ -17494,12 +18791,15 @@
                 }
               }
             },
-            "description": "security settings updated",
+            "description": "Security settings updated under the original optional expected_updated_at baseline. The missing-row baseline is unconfigured; saved revisions use canonical UTC microseconds. Production MFA constraints remain required.",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
               }
             }
+          },
+          "409": {
+            "description": "revision_conflict; no security configuration changes were applied"
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -19149,6 +20449,7 @@
         }
       ],
       "put": {
+        "description": "The original optional expected_updated_at baseline is checked under the settings row lock. Application settings and SMTP/Turnstile secret changes commit in one transaction. A missing row uses unconfigured; omission preserves legacy callers.",
         "parameters": [
           {
             "$ref": "#/components/parameters/csrfToken"
@@ -19187,6 +20488,9 @@
                 "$ref": "#/components/headers/contractMajor"
               }
             }
+          },
+          "409": {
+            "description": "revision_conflict; application configuration and SMTP/Turnstile secrets were not changed"
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -19457,6 +20761,24 @@
       "get": {
         "responses": {
           "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "settings_revision": {
+                        "$ref": "#/components/schemas/stream-settings-revision.schema"
+                      }
+                    },
+                    "required": [
+                      "settings_revision"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
             "description": "list streams",
             "headers": {
               "X-AutoStream-Contract-Major": {
@@ -19479,7 +20801,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StreamWriteRequest"
+                "$ref": "#/components/schemas/stream-create-v2.schema"
               }
             }
           },
@@ -19487,7 +20809,7 @@
         },
         "responses": {
           "201": {
-            "description": "create stream",
+            "description": "Configuration, visuals, selected image claims and primary Node/Bot reservations committed together. A lost response is not safe to automatically repeat.",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
@@ -19599,6 +20921,21 @@
         ],
         "responses": {
           "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "settings_revision": {
+                      "$ref": "#/components/schemas/stream-settings-revision.schema"
+                    }
+                  },
+                  "required": [
+                    "settings_revision"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
             "description": "stream detail",
             "headers": {
               "X-AutoStream-Contract-Major": {
@@ -20034,7 +21371,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/encoder-runtime-settings-request.schema"
+                "$ref": "#/components/schemas/panel-encoder-runtime-settings-write.schema"
               }
             }
           },
@@ -20066,7 +21403,7 @@
             }
           },
           "409": {
-            "description": "stream is starting or stopping",
+            "description": "revision_conflict or stream is starting or stopping; a stale editing baseline never overwrites the current settings",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
@@ -20112,12 +21449,15 @@
         },
         "responses": {
           "200": {
-            "description": "stream settings updated",
+            "description": "Stream settings updated. settings_revision is the settings-only editing authority; polling lifecycle and heartbeat values do not replace the editing baseline. Conditional edits use managed archive destinations/profiles updated under their own CAS, followed by a stream reference edit; the legacy direct-archive materialization request cannot be combined with expected_settings_revision.",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
               }
             }
+          },
+          "400": {
+            "description": "stream_settings_archive_revision_unsupported before writes when expected_settings_revision is supplied together with a requested legacy direct-archive materialization. Omitted legacy revisions and empty clearing fields retain their prior behavior."
           },
           "404": {
             "description": "stream not found",
@@ -20135,7 +21475,7 @@
                 }
               }
             },
-            "description": "stream_status_not_editable or youtube_relay_binding_release_pending; a fixed relay binding must be released through its safe lifecycle before changing the selected YouTube output.",
+            "description": "revision_conflict, stream_status_not_editable or youtube_relay_binding_release_pending; settings conflicts preserve the draft and require explicit reconciliation.",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
@@ -20300,6 +21640,77 @@
             "$ref": "#/components/responses/contractMajorUnsupported"
           }
         }
+      }
+    },
+    "/streams/{id}/visual-settings": {
+      "get": {
+        "operationId": "getStreamVisualSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Saved visual settings including all cover candidates and selected start image"
+          },
+          "403": {
+            "description": "Required streams.read permission missing"
+          },
+          "404": {
+            "description": "The stream or its visual settings were not found"
+          }
+        },
+        "summary": "Read a stream's saved visual settings and cover candidates",
+        "x-autostream-required-permission": "streams.read"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/contractMajor"
+        }
+      ],
+      "put": {
+        "description": "Requires streams.update. The saved visual revision remains a separate CAS authority. Full candidate names support 255 Unicode characters. Existing over-limit upload collections may be retained or reduced; no implicit deletion or quota bypass is introduced.\n",
+        "operationId": "updateStreamVisualSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/stream-visual-write.schema"
+                  },
+                  {
+                    "required": [
+                      "expected_revision"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Visual settings and exact draft claims committed"
+          },
+          "400": {
+            "description": "Known invalid_visual_settings rejection; draft remains editable"
+          },
+          "409": {
+            "description": "Revision, state, claim or uploaded-cover quota conflict"
+          },
+          "500": {
+            "description": "stream_visual_operation_failed; a missing or ambiguous commit receipt must not be automatically resent"
+          }
+        },
+        "summary": "Update saved visual settings and exact draft image claims"
       }
     },
     "/streams/{id}/worker-events": {
@@ -22309,7 +23720,7 @@
                 }
               }
             },
-            "description": "update YouTube output",
+            "description": "Update YouTube output and its optional encrypted stream-key change together under the original expected_updated_at baseline.",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"
@@ -22324,7 +23735,7 @@
                 }
               }
             },
-            "description": "youtube_relay_binding_release_pending; the fixed relay binding must be released through its safe lifecycle before this output changes.",
+            "description": "revision_conflict or youtube_relay_binding_release_pending; neither output configuration nor its encrypted key changes on these rejections.",
             "headers": {
               "X-AutoStream-Contract-Major": {
                 "$ref": "#/components/headers/contractMajor"

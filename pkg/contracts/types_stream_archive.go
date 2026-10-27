@@ -35,18 +35,19 @@ type StartStreamRequest struct {
 }
 
 type StreamSettingsWriteRequest struct {
-	DiscordConfigID       string  `json:"discord_config_id,omitempty"`
-	DiscordGuildID        string  `json:"discord_guild_id,omitempty"`
-	DiscordVoiceChannelID string  `json:"discord_voice_channel_id,omitempty"`
-	DiscordTextChannelID  string  `json:"discord_text_channel_id,omitempty"`
-	AutoStartTrigger      string  `json:"auto_start_trigger,omitempty"`
-	EncoderProfileID      string  `json:"encoder_profile_id,omitempty"`
-	CaptionProfileID      string  `json:"caption_profile_id,omitempty"`
-	OverlayProfileID      string  `json:"overlay_profile_id,omitempty"`
-	EncoderAudioGainDB    float64 `json:"encoder_audio_gain_db,omitempty"`
-	ArchiveProfileID      string  `json:"archive_profile_id,omitempty"`
-	YouTubeOutputID       string  `json:"youtube_output_id,omitempty"`
-	EncoderInputURL       string  `json:"encoder_input_url,omitempty"`
+	ExpectedSettingsRevision *string `json:"expected_settings_revision,omitempty"`
+	DiscordConfigID          string  `json:"discord_config_id,omitempty"`
+	DiscordGuildID           string  `json:"discord_guild_id,omitempty"`
+	DiscordVoiceChannelID    string  `json:"discord_voice_channel_id,omitempty"`
+	DiscordTextChannelID     string  `json:"discord_text_channel_id,omitempty"`
+	AutoStartTrigger         string  `json:"auto_start_trigger,omitempty"`
+	EncoderProfileID         string  `json:"encoder_profile_id,omitempty"`
+	CaptionProfileID         string  `json:"caption_profile_id,omitempty"`
+	OverlayProfileID         string  `json:"overlay_profile_id,omitempty"`
+	EncoderAudioGainDB       float64 `json:"encoder_audio_gain_db,omitempty"`
+	ArchiveProfileID         string  `json:"archive_profile_id,omitempty"`
+	YouTubeOutputID          string  `json:"youtube_output_id,omitempty"`
+	EncoderInputURL          string  `json:"encoder_input_url,omitempty"`
 }
 
 type StreamWriteRequest struct {
@@ -225,9 +226,10 @@ type DriveDestination struct {
 }
 
 type DriveDestinationWriteRequest struct {
-	Name           string `json:"name"`
-	AuthMode       string `json:"auth_mode"`
-	OAuthAccountID string `json:"oauth_account_id,omitempty"`
-	FolderID       string `json:"folder_id,omitempty"`
-	SharedDrive    bool   `json:"shared_drive"`
+	ExpectedUpdatedAt *string `json:"expected_updated_at,omitempty"`
+	Name              string  `json:"name"`
+	AuthMode          string  `json:"auth_mode"`
+	OAuthAccountID    string  `json:"oauth_account_id,omitempty"`
+	FolderID          string  `json:"folder_id,omitempty"`
+	SharedDrive       bool    `json:"shared_drive"`
 }

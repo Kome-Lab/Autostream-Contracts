@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/resource-updated-at.schema.json",
+  "title": "ResourceUpdatedAt",
+  "type": "string",
+  "format": "date-time",
+  "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{0,5}[1-9])?Z$",
+  "not": {
+    "const": "0001-01-01T00:00:00Z"
+  },
+  "description": "Optional PUT editing baseline copied exactly from the original resource updated_at. Canonical UTC RFC3339Nano at microsecond precision; empty, offsets, trailing fractional zero and sub-microsecond values are invalid. Mismatch returns 409 revision_conflict before any configuration or secret write. Omitting the field retains legacy behavior."
+}

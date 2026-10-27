@@ -6,27 +6,28 @@
       "content_type_inventory": [
         "application/json",
         "application/vnd.apple.mpegurl",
+        "multipart/form-data",
         "video/mp2t"
       ],
       "duplicate_method_paths": [],
       "duplicate_operation_ids": [],
       "explicit_security_count": 28,
-      "inherited_security_count": 149,
-      "inline_schema_count": 33,
+      "inherited_security_count": 156,
+      "inline_schema_count": 38,
       "method_counts": {
         "delete": 18,
-        "get": 63,
+        "get": 66,
         "head": 0,
         "options": 0,
         "patch": 0,
-        "post": 79,
-        "put": 17,
+        "post": 81,
+        "put": 19,
         "trace": 0
       },
-      "normalized_bundle_sha256": "6ca63f57db9d1c8ccd841fd3905533282f0508bb554fc4ac61b3faed0186ef4b",
+      "normalized_bundle_sha256": "50aa1967493af90ca4edb47397cc919ffb0a76064d2603d503f61fb06a73b6e7",
       "openapi_version": "3.1.0",
-      "operation_count": 177,
-      "operation_id_count": 15,
+      "operation_count": 184,
+      "operation_id_count": 22,
       "operations": [
         {
           "deprecated": false,
@@ -121,7 +122,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -220,7 +221,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -234,7 +235,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -324,7 +325,7 @@
               "kind": "ref",
               "name": "DriveDestinationWriteRequest",
               "ref": "#/components/schemas/DriveDestinationWriteRequest",
-              "resolved_sha256": "455850faaf3d83b03512dea0cbdad21fa93cc9e338be9de353735049409c2cc8"
+              "resolved_sha256": "01207355ad347afc6fe2b8cee83c064bb3eba0e6232d48b324d511b7cae1ef01"
             }
           ],
           "responses": [
@@ -447,7 +448,7 @@
               "kind": "ref",
               "name": "DriveDestinationWriteRequest",
               "ref": "#/components/schemas/DriveDestinationWriteRequest",
-              "resolved_sha256": "455850faaf3d83b03512dea0cbdad21fa93cc9e338be9de353735049409c2cc8"
+              "resolved_sha256": "01207355ad347afc6fe2b8cee83c064bb3eba0e6232d48b324d511b7cae1ef01"
             }
           ],
           "responses": [
@@ -455,6 +456,11 @@
               "content_types": [],
               "schemas": [],
               "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
             },
             {
               "content_types": [
@@ -1442,7 +1448,7 @@
               "kind": "ref",
               "name": "DiscordConfigWriteRequest",
               "ref": "#/components/schemas/DiscordConfigWriteRequest",
-              "resolved_sha256": "1c0255d61d779565e504c81ab81e2dab8e23ff4afcd8cd850e4f0f29da6e6572"
+              "resolved_sha256": "915b7f9cd6bd1539630ac6c06fc578cc923c108b075fc4bb02ecba3c9578ac41"
             }
           ],
           "responses": [
@@ -1583,7 +1589,7 @@
               "kind": "ref",
               "name": "DiscordConfigWriteRequest",
               "ref": "#/components/schemas/DiscordConfigWriteRequest",
-              "resolved_sha256": "1c0255d61d779565e504c81ab81e2dab8e23ff4afcd8cd850e4f0f29da6e6572"
+              "resolved_sha256": "915b7f9cd6bd1539630ac6c06fc578cc923c108b075fc4bb02ecba3c9578ac41"
             }
           ],
           "responses": [
@@ -1600,6 +1606,11 @@
                 }
               ],
               "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
             },
             {
               "content_types": [
@@ -2274,6 +2285,215 @@
             }
           ],
           "exposure_classification": "authenticated",
+          "method": "post",
+          "operation_id": "uploadMediaAsset",
+          "path": "/media-assets",
+          "request_body_content_types": [
+            "multipart/form-data"
+          ],
+          "request_schemas": [
+            {
+              "kind": "inline",
+              "name": "",
+              "resolved_sha256": "83e2414ddbc808f385aa375724b68a2209076e54c6f23525b031dd14f5799355",
+              "type": "object"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "panel-media-asset.schema",
+                  "ref": "#/components/schemas/panel-media-asset.schema",
+                  "resolved_sha256": "3bf287e9276521d32340be5edb39e666509152b93e9fabc67894b89ded54ac6d"
+                }
+              ],
+              "status": "201"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "ErrorResponse",
+                  "ref": "#/components/schemas/ErrorResponse",
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
+                }
+              ],
+              "status": "500"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "post",
+          "operation_id": "createMediaUploadSession",
+          "path": "/media-assets/upload-sessions",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "media-upload-session.schema",
+                  "ref": "#/components/schemas/media-upload-session.schema",
+                  "resolved_sha256": "55a8f5867f3d6e7823127ecfbef012fd588c0cb1515620f8c1cd17f46b0edaeb"
+                }
+              ],
+              "status": "201"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "inspectMediaUploadOperation",
+          "path": "/media-assets/upload-sessions/{session_id}/assets",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "media-upload-operation-response.schema",
+                  "ref": "#/components/schemas/media-upload-operation-response.schema",
+                  "resolved_sha256": "490a51cfd488c41665abda25191416393bd5bc5e32dc77a28ef4aa9b0ccd3857"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "404"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "500"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
+          "operation_id": "listNodesWithMetadataRevision",
+          "path": "/nodes",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "d95a00b315be47a6b684db871641802f198ce4d6cfeae09e64d986eb43fc5bec",
+                  "type": "array"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
           "method": "get",
           "operation_id": "getNodeActionPermissionProjection",
           "path": "/nodes/action-permissions",
@@ -2390,6 +2610,77 @@
                   "type": "object"
                 }
               ],
+              "status": "503"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "put",
+          "operation_id": "updateNodeMetadata",
+          "path": "/nodes/{id}",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "node-metadata-write.schema",
+              "ref": "#/components/schemas/node-metadata-write.schema",
+              "resolved_sha256": "defabfb7ae177ecf9380d29ecf32933747672be2fece8762d62171413e1c9069"
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "node-metadata-view.schema",
+                  "ref": "#/components/schemas/node-metadata-view.schema",
+                  "resolved_sha256": "8b353108e47d74f43789c61f120c5b00ac43b69fb49209b20c12138895c16872"
+                }
+              ],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
               "status": "503"
             }
           ],
@@ -3353,13 +3644,27 @@
           "method": "put",
           "operation_id": "",
           "path": "/profiles/archive/{id}",
-          "request_body_content_types": [],
-          "request_schemas": [],
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "profile-write.schema",
+              "ref": "#/components/schemas/profile-write.schema",
+              "resolved_sha256": "9a2e4cc0e160e1423350fdfe6523770b6d7bf92bed8c3689f5d789a6bd99913e"
+            }
+          ],
           "responses": [
             {
               "content_types": [],
               "schemas": [],
               "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
             },
             {
               "content_types": [
@@ -3543,13 +3848,27 @@
           "method": "put",
           "operation_id": "",
           "path": "/profiles/caption/{id}",
-          "request_body_content_types": [],
-          "request_schemas": [],
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "profile-write.schema",
+              "ref": "#/components/schemas/profile-write.schema",
+              "resolved_sha256": "9a2e4cc0e160e1423350fdfe6523770b6d7bf92bed8c3689f5d789a6bd99913e"
+            }
+          ],
           "responses": [
             {
               "content_types": [],
               "schemas": [],
               "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
             },
             {
               "content_types": [
@@ -3574,7 +3893,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "502"
@@ -3747,13 +4066,27 @@
           "method": "put",
           "operation_id": "",
           "path": "/profiles/encoder/{id}",
-          "request_body_content_types": [],
-          "request_schemas": [],
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "profile-write.schema",
+              "ref": "#/components/schemas/profile-write.schema",
+              "resolved_sha256": "9a2e4cc0e160e1423350fdfe6523770b6d7bf92bed8c3689f5d789a6bd99913e"
+            }
+          ],
           "responses": [
             {
               "content_types": [],
               "schemas": [],
               "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
             },
             {
               "content_types": [
@@ -3937,13 +4270,27 @@
           "method": "put",
           "operation_id": "",
           "path": "/profiles/overlay/{id}",
-          "request_body_content_types": [],
-          "request_schemas": [],
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "ref",
+              "name": "profile-write.schema",
+              "ref": "#/components/schemas/profile-write.schema",
+              "resolved_sha256": "9a2e4cc0e160e1423350fdfe6523770b6d7bf92bed8c3689f5d789a6bd99913e"
+            }
+          ],
           "responses": [
             {
               "content_types": [],
               "schemas": [],
               "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
             },
             {
               "content_types": [
@@ -4253,7 +4600,7 @@
                   "kind": "ref",
                   "name": "SecuritySettings",
                   "ref": "#/components/schemas/SecuritySettings",
-                  "resolved_sha256": "b218f3a437cdc8196712c7f9fd793caa05226fdadb60c6bf0a92422f435d7d7b"
+                  "resolved_sha256": "663ef7d0f02005c6e45c456dff0c81336d4637f488c19fb3f2d0cd25ebf18ac9"
                 }
               ],
               "status": "200"
@@ -4294,9 +4641,9 @@
           "request_schemas": [
             {
               "kind": "ref",
-              "name": "SecuritySettings",
-              "ref": "#/components/schemas/SecuritySettings",
-              "resolved_sha256": "b218f3a437cdc8196712c7f9fd793caa05226fdadb60c6bf0a92422f435d7d7b"
+              "name": "security-settings-write.schema",
+              "ref": "#/components/schemas/security-settings-write.schema",
+              "resolved_sha256": "1cee23a9525bada7d0d9a3382d87534482d8ceaf082b8fc8e9ac660dee771ccf"
             }
           ],
           "responses": [
@@ -4309,10 +4656,15 @@
                   "kind": "ref",
                   "name": "SecuritySettings",
                   "ref": "#/components/schemas/SecuritySettings",
-                  "resolved_sha256": "b218f3a437cdc8196712c7f9fd793caa05226fdadb60c6bf0a92422f435d7d7b"
+                  "resolved_sha256": "663ef7d0f02005c6e45c456dff0c81336d4637f488c19fb3f2d0cd25ebf18ac9"
                 }
               ],
               "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
             },
             {
               "content_types": [
@@ -4469,7 +4821,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -4483,7 +4835,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "401"
@@ -4497,7 +4849,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -4511,7 +4863,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -4577,7 +4929,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -4591,7 +4943,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -4661,7 +5013,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -4675,7 +5027,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "401"
@@ -4689,7 +5041,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -4703,7 +5055,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -4717,7 +5069,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -4787,7 +5139,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -4801,7 +5153,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "401"
@@ -4815,7 +5167,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -4829,7 +5181,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -4857,7 +5209,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "429"
@@ -4871,7 +5223,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -4885,7 +5237,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "502"
@@ -4899,7 +5251,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "503"
@@ -5022,7 +5374,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -5145,7 +5497,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -5215,7 +5567,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -5229,7 +5581,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -5243,7 +5595,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -5314,7 +5666,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -5342,7 +5694,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -5356,7 +5708,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "503"
@@ -5813,7 +6165,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -5950,7 +6302,7 @@
                   "kind": "ref",
                   "name": "PublicAppSettings",
                   "ref": "#/components/schemas/PublicAppSettings",
-                  "resolved_sha256": "b410351bcf69260e8383543b71505295ec03cdcf7aa7149aace0dd11450a473c"
+                  "resolved_sha256": "1b62b52f0e318094cc219c0a03be3f76d9e0b488fe4b4db77e176360cd0318d9"
                 }
               ],
               "status": "200"
@@ -5993,7 +6345,7 @@
               "kind": "ref",
               "name": "AppSettingsWriteRequest",
               "ref": "#/components/schemas/AppSettingsWriteRequest",
-              "resolved_sha256": "74a9a28494c39991b11f61da953c596a34fe54a19439b47f67b13dc03ecf913f"
+              "resolved_sha256": "712f818d0a98ca6fb3f77479f0360ddd751a0dc23fcbcd1d61de03f5207c032b"
             }
           ],
           "responses": [
@@ -6006,7 +6358,7 @@
                   "kind": "ref",
                   "name": "ManagedAppSettings",
                   "ref": "#/components/schemas/ManagedAppSettings",
-                  "resolved_sha256": "e2befff078fa1e837517c6c1e77a368bbee50ec75824483c99c51a7c32b387b9"
+                  "resolved_sha256": "a103203dc6145070d84fc513d20301f4656101d7e8b95f4ee8a2e282f9d344c9"
                 }
               ],
               "status": "200"
@@ -6015,6 +6367,11 @@
               "content_types": [],
               "schemas": [],
               "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
             },
             {
               "content_types": [
@@ -6058,7 +6415,7 @@
                   "kind": "ref",
                   "name": "ManagedAppSettings",
                   "ref": "#/components/schemas/ManagedAppSettings",
-                  "resolved_sha256": "e2befff078fa1e837517c6c1e77a368bbee50ec75824483c99c51a7c32b387b9"
+                  "resolved_sha256": "a103203dc6145070d84fc513d20301f4656101d7e8b95f4ee8a2e282f9d344c9"
                 }
               ],
               "status": "200"
@@ -6259,8 +6616,17 @@
           "request_schemas": [],
           "responses": [
             {
-              "content_types": [],
-              "schemas": [],
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "0d846ed632b4153fac2c091ab9395d360a58f2505c5c7c618f26b4757009c1da",
+                  "type": "array"
+                }
+              ],
               "status": "200"
             },
             {
@@ -6299,9 +6665,9 @@
           "request_schemas": [
             {
               "kind": "ref",
-              "name": "StreamWriteRequest",
-              "ref": "#/components/schemas/StreamWriteRequest",
-              "resolved_sha256": "163ad3556962b1f07dc573182ecd4f8efde79ecfc1910fcdfb9d6792d791e0da"
+              "name": "stream-create-v2.schema",
+              "ref": "#/components/schemas/stream-create-v2.schema",
+              "resolved_sha256": "2d9da89cd5fa4ac64f02109b254b22b7e934fbe59664a8d32426d8d739bb18ee"
             }
           ],
           "responses": [
@@ -6376,7 +6742,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -6404,7 +6770,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -6429,8 +6795,17 @@
           "request_schemas": [],
           "responses": [
             {
-              "content_types": [],
-              "schemas": [],
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "inline",
+                  "name": "",
+                  "resolved_sha256": "c1869612679273dba68fe9a5324f418673c325d232ceaccfb662f77785b492c0",
+                  "type": "object"
+                }
+              ],
               "status": "200"
             },
             {
@@ -6909,9 +7284,9 @@
           "request_schemas": [
             {
               "kind": "ref",
-              "name": "encoder-runtime-settings-request.schema",
-              "ref": "#/components/schemas/encoder-runtime-settings-request.schema",
-              "resolved_sha256": "8bb5d3126c49d855b671efb556b6e3022e125eef7353388a723d1dd669155819"
+              "name": "panel-encoder-runtime-settings-write.schema",
+              "ref": "#/components/schemas/panel-encoder-runtime-settings-write.schema",
+              "resolved_sha256": "18c24c20b1f0c84a8e0dfd391b060f414acc994634aaa20a664d284526f6ca6e"
             }
           ],
           "responses": [
@@ -6978,7 +7353,7 @@
               "kind": "ref",
               "name": "StreamSettingsWriteRequest",
               "ref": "#/components/schemas/StreamSettingsWriteRequest",
-              "resolved_sha256": "6053d4af6b958cb08c47514bf3d2c4dc21c052337078cd28e80007a70cec2f6e"
+              "resolved_sha256": "b44bc86568c2efef1869e25a432645a89a2bd1adac8e20ff78f9b36092e28854"
             }
           ],
           "responses": [
@@ -6986,6 +7361,11 @@
               "content_types": [],
               "schemas": [],
               "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
             },
             {
               "content_types": [],
@@ -7001,7 +7381,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -7029,7 +7409,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -7217,6 +7597,88 @@
           ],
           "exposure_classification": "authenticated",
           "method": "get",
+          "operation_id": "getStreamVisualSettings",
+          "path": "/streams/{id}/visual-settings",
+          "request_body_content_types": [],
+          "request_schemas": [],
+          "responses": [
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "403"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "404"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "put",
+          "operation_id": "updateStreamVisualSettings",
+          "path": "/streams/{id}/visual-settings",
+          "request_body_content_types": [
+            "application/json"
+          ],
+          "request_schemas": [
+            {
+              "kind": "inline",
+              "name": "",
+              "resolved_sha256": "3ff45247bdf741b19d5e65f68445228d2d36d44f4bbde051ddb765159e9aab4b",
+              "type": ""
+            }
+          ],
+          "responses": [
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "200"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "400"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "409"
+            },
+            {
+              "content_types": [],
+              "schemas": [],
+              "status": "500"
+            }
+          ],
+          "security_source": "inherited",
+          "summary_present": true,
+          "tags": []
+        },
+        {
+          "deprecated": false,
+          "effective_security": [
+            {
+              "cookieSession": []
+            }
+          ],
+          "exposure_classification": "authenticated",
+          "method": "get",
           "operation_id": "",
           "path": "/streams/{id}/worker-events",
           "request_body_content_types": [],
@@ -7336,7 +7798,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -7364,7 +7826,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -7378,7 +7840,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "503"
@@ -7434,7 +7896,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -7453,7 +7915,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -7467,7 +7929,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -7495,7 +7957,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -7509,7 +7971,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "503"
@@ -7547,7 +8009,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -7622,7 +8084,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -7636,7 +8098,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -7650,7 +8112,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -7664,7 +8126,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -7692,7 +8154,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -7706,7 +8168,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "502"
@@ -7720,7 +8182,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "503"
@@ -7931,7 +8393,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -7945,7 +8407,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -7959,7 +8421,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -8029,7 +8491,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -8043,7 +8505,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -8057,7 +8519,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -8127,7 +8589,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -8141,7 +8603,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -8155,7 +8617,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -8225,7 +8687,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -8239,7 +8701,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -8253,7 +8715,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -8267,7 +8729,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -8295,7 +8757,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -8351,7 +8813,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "400"
@@ -8365,7 +8827,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "403"
@@ -8379,7 +8841,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "404"
@@ -8393,7 +8855,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -8421,7 +8883,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -9309,7 +9771,7 @@
               "kind": "ref",
               "name": "YouTubeOutputWriteRequest",
               "ref": "#/components/schemas/YouTubeOutputWriteRequest",
-              "resolved_sha256": "0c5f48b18d74b492b8966ca8259174733e707b2d072b9e317cfe2b69b5542665"
+              "resolved_sha256": "5a362548f3fcf7478a859935e2c0c322192d1eea5dfe58a62be1f4618f952668"
             }
           ],
           "responses": [
@@ -9374,7 +9836,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -9402,7 +9864,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -9478,7 +9940,7 @@
               "kind": "ref",
               "name": "YouTubeOutputWriteRequest",
               "ref": "#/components/schemas/YouTubeOutputWriteRequest",
-              "resolved_sha256": "0c5f48b18d74b492b8966ca8259174733e707b2d072b9e317cfe2b69b5542665"
+              "resolved_sha256": "5a362548f3fcf7478a859935e2c0c322192d1eea5dfe58a62be1f4618f952668"
             }
           ],
           "responses": [
@@ -9505,7 +9967,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "409"
@@ -9533,7 +9995,7 @@
                   "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
-                  "resolved_sha256": "e991129d5c32d21b8ece7521f2c7c1ca2729199073d540b0d0fb5a6a1abefcd8"
+                  "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
                 }
               ],
               "status": "500"
@@ -9560,7 +10022,7 @@
           "path": "/integrations/oauth-accounts/callback"
         }
       ],
-      "path_count": 135,
+      "path_count": 141,
       "public_operation_count": 6,
       "public_operations": [
         {
@@ -9600,28 +10062,28 @@
           "path": "/setup/first-admin"
         }
       ],
-      "ref_layout_independent_sha256": "ac792bc445a3b294a8e5de1eca21840ec55c671bfc3eae1ff333b24fdbc713c0",
-      "request_body_count": 53,
+      "ref_layout_independent_sha256": "5a1b25d50a5db6bf625f3df294bc3c4af8e8c62e01387aacfa1dd483699c9d3a",
+      "request_body_count": 60,
       "response_status_distribution": {
-        "200": 138,
-        "201": 21,
+        "200": 143,
+        "201": 23,
         "202": 19,
         "204": 4,
         "303": 1,
-        "400": 26,
+        "400": 31,
         "401": 14,
-        "403": 28,
-        "404": 26,
+        "403": 32,
+        "404": 28,
         "405": 1,
-        "409": 40,
+        "409": 51,
         "410": 2,
-        "426": 176,
+        "426": 178,
         "429": 4,
-        "500": 15,
+        "500": 18,
         "502": 11,
-        "503": 12
+        "503": 13
       },
-      "schema_count": 200,
+      "schema_count": 243,
       "security_scheme_count": 2,
       "title": "AutoStream Control API",
       "unauthenticated_operation_count": 11,

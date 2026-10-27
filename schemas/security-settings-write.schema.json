@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/security-settings-write.schema.json",
+  "title": "SecuritySettingsWriteRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["password_min_length", "password_hash", "login_lockout_threshold", "session_idle_timeout_min", "session_absolute_lifetime_h", "remember_me_enabled", "mfa_mode"],
+  "properties": {
+    "expected_updated_at": { "$ref": "system-settings-revision.schema.json" },
+    "password_min_length": { "$ref": "security-settings.schema.json#/properties/password_min_length" },
+    "password_hash": { "$ref": "security-settings.schema.json#/properties/password_hash" },
+    "login_lockout_threshold": { "$ref": "security-settings.schema.json#/properties/login_lockout_threshold" },
+    "session_idle_timeout_min": { "$ref": "security-settings.schema.json#/properties/session_idle_timeout_min" },
+    "session_absolute_lifetime_h": { "$ref": "security-settings.schema.json#/properties/session_absolute_lifetime_h" },
+    "remember_me_enabled": { "$ref": "security-settings.schema.json#/properties/remember_me_enabled" },
+    "mfa_mode": { "$ref": "security-settings.schema.json#/properties/mfa_mode" },
+    "mfa_required_roles": { "$ref": "security-settings.schema.json#/properties/mfa_required_roles" },
+    "mfa_supported_methods": { "$ref": "security-settings.schema.json#/properties/mfa_supported_methods" },
+    "passkey_status": { "$ref": "security-settings.schema.json#/properties/passkey_status" },
+    "updated_at": { "$ref": "system-settings-revision.schema.json" }
+  }
+}

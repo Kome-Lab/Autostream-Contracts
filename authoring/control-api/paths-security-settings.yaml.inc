@@ -82,10 +82,10 @@
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SecuritySettings"
+              $ref: "#/components/schemas/SecuritySettingsWriteRequest"
       responses:
         "200":
-          description: security settings updated
+          description: Security settings updated under the original optional expected_updated_at baseline. The missing-row baseline is unconfigured; saved revisions use canonical UTC microseconds. Production MFA constraints remain required.
           content:
             application/json:
               schema:
@@ -93,6 +93,8 @@
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; no security configuration changes were applied
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:
@@ -117,6 +119,7 @@
           $ref: "#/components/responses/contractMajorUnsupported"
     put:
       summary: Update managed application settings
+      description: The original optional expected_updated_at baseline is checked under the settings row lock. Application settings and SMTP/Turnstile secret changes commit in one transaction. A missing row uses unconfigured; omission preserves legacy callers.
       parameters:
         - $ref: "#/components/parameters/csrfToken"
       requestBody:
@@ -140,6 +143,8 @@
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; application configuration and SMTP/Turnstile secrets were not changed
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:

@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "struct_count": 210,
+  "struct_count": 213,
   "structs": [
     {
       "name": "AppSettingsWriteRequest",
@@ -3143,6 +3143,15 @@
       }
     },
     {
+      "name": "NodeMetadataWriteRequest",
+      "wire_json": "{}",
+      "wire_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "shape": {
+        "fields": [],
+        "kind": "object"
+      }
+    },
+    {
       "name": "NotificationChannel",
       "wire_json": "{\"id\":\"\",\"name\":\"\",\"type\":\"\",\"enabled\":false,\"uses_global_smtp\":false,\"created_at\":\"0001-01-01T00:00:00Z\",\"updated_at\":\"0001-01-01T00:00:00Z\"}",
       "wire_sha256": "397b7863be67239158bb3ba68723eac018293b81b79222164f7fc8eec5dd8c7c",
@@ -3870,6 +3879,28 @@
           },
           {
             "name": "type",
+            "shape": {
+              "kind": "string"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "PanelEncoderRuntimeSettingsWriteRequest",
+      "wire_json": "{\"encoder_audio_gain_db\":0,\"overlay_profile_id\":\"\"}",
+      "wire_sha256": "14a3237f7f536250f2e647dcdfe747cd4c40d215853b45695d7783768ee8cdc4",
+      "shape": {
+        "fields": [
+          {
+            "name": "encoder_audio_gain_db",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "overlay_profile_id",
             "shape": {
               "kind": "string"
             }
@@ -5314,6 +5345,58 @@
     },
     {
       "name": "SecuritySettings",
+      "wire_json": "{\"password_min_length\":0,\"password_hash\":\"\",\"login_lockout_threshold\":0,\"session_idle_timeout_min\":0,\"session_absolute_lifetime_h\":0,\"remember_me_enabled\":false,\"mfa_mode\":\"\"}",
+      "wire_sha256": "0d08e1ef80e60b9805a4e45037611271216f00383a2d70fb1a50213a142376b9",
+      "shape": {
+        "fields": [
+          {
+            "name": "login_lockout_threshold",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "mfa_mode",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "password_hash",
+            "shape": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "password_min_length",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "remember_me_enabled",
+            "shape": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "session_absolute_lifetime_h",
+            "shape": {
+              "kind": "number"
+            }
+          },
+          {
+            "name": "session_idle_timeout_min",
+            "shape": {
+              "kind": "number"
+            }
+          }
+        ],
+        "kind": "object"
+      }
+    },
+    {
+      "name": "SecuritySettingsWriteRequest",
       "wire_json": "{\"password_min_length\":0,\"password_hash\":\"\",\"login_lockout_threshold\":0,\"session_idle_timeout_min\":0,\"session_absolute_lifetime_h\":0,\"remember_me_enabled\":false,\"mfa_mode\":\"\"}",
       "wire_sha256": "0d08e1ef80e60b9805a4e45037611271216f00383a2d70fb1a50213a142376b9",
       "shape": {

@@ -64,7 +64,7 @@ func TestYouTubeSchemasDocumentLiveAPILifecycle(t *testing.T) {
 }
 
 func TestYouTubeRelayStaticWriteRejectsIngestFields(t *testing.T) {
-	validator := compileContractJSONSchema(t, "youtube-output-write.schema.json")
+	validator := compileContractJSONSchema(t, "youtube-output-write.schema.json", "resource-updated-at.schema.json")
 	tests := []struct {
 		name  string
 		body  string

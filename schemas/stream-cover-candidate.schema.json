@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/stream-cover-candidate.schema.json",
+  "title": "StreamCoverCandidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "source"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Full uploaded filename or preset display name; preserved through save/reload without truncation."
+    },
+    "source": {
+      "enum": [
+        "upload",
+        "preset"
+      ]
+    },
+    "preset_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "preset_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "variant_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "const": "upload"
+          }
+        },
+        "required": [
+          "source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "asset_id": { "$ref": "#/properties/asset_id" },
+          "variant_id": { "$ref": "#/properties/variant_id" }
+        },
+        "required": [
+          "asset_id",
+          "variant_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "const": "preset"
+          }
+        },
+        "required": [
+          "source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "preset_id": { "$ref": "#/properties/preset_id" }
+        },
+        "required": [
+          "preset_id"
+        ]
+      }
+    }
+  ]
+}

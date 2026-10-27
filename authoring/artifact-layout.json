@@ -11,6 +11,7 @@
         "authoring/control-api/paths-authentication.yaml.inc",
         "authoring/control-api/paths-users-roles.yaml.inc",
         "authoring/control-api/paths-stream-configuration.yaml.inc",
+        "authoring/control-api/paths-media-assets.yaml.inc",
         "authoring/control-api/paths-youtube-lifecycle.yaml.inc",
         "authoring/control-api/paths-stream-preview-recovery.yaml.inc",
         "authoring/control-api/paths-stream-events-profiles.yaml.inc",
@@ -18,6 +19,7 @@
         "authoring/control-api/paths-workers.yaml.inc",
         "authoring/control-api/paths-system-updates.yaml.inc",
         "authoring/control-api/paths-node-token-permissions.yaml.inc",
+        "authoring/control-api/paths-node-metadata.yaml.inc",
         "authoring/control-api/paths-service-registration-host-policy.yaml.inc",
         "authoring/control-api/paths-service-runtime-notification.yaml.inc",
         "authoring/control-api/paths-service-update-lease-grant.yaml.inc",
@@ -34,6 +36,7 @@
         "authoring/control-api/schemas-system-update-jobs.yaml.inc",
         "authoring/control-api/schemas-error-authentication.yaml.inc",
         "authoring/control-api/schemas-settings.yaml.inc",
+        "authoring/control-api/schemas-node-metadata.yaml.inc",
         "authoring/control-api/schemas-service-registration.yaml.inc",
         "authoring/control-api/schemas-host-policy.yaml.inc",
         "authoring/control-api/schemas-service-token-identity.yaml.inc",
@@ -42,7 +45,8 @@
         "authoring/control-api/schemas-runtime-config-secrets.yaml.inc",
         "authoring/control-api/schemas-notification-artifact.yaml.inc",
         "authoring/control-api/schemas-oauth-drive.yaml.inc",
-        "authoring/control-api/schemas-stream-start-readiness.yaml.inc"
+        "authoring/control-api/schemas-stream-start-readiness.yaml.inc",
+        "authoring/control-api/schemas-media-assets.yaml.inc"
       ]
     },
     {

@@ -62,9 +62,6 @@
       "type": "boolean",
       "description": "Configured status only. The Turnstile secret is never returned."
     },
-    "updated_at": {
-      "type": "string",
-      "format": "date-time"
-    }
+    "updated_at": { "$ref": "system-settings-revision.schema.json" }
   }
 }

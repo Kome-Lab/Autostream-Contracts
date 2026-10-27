@@ -28,8 +28,7 @@
           pattern: "^G-[A-Z0-9]{4,22}$"
           description: Public GA4 measurement ID, present only when analytics is enabled and valid.
         updated_at:
-          type: string
-          format: date-time
+          $ref: "#/components/schemas/SystemSettingsRevision"
     ManagedAppSettings:
       type: object
       additionalProperties: false
@@ -78,8 +77,7 @@
           type: boolean
           description: Configured status only. The Turnstile secret is never returned.
         updated_at:
-          type: string
-          format: date-time
+          $ref: "#/components/schemas/SystemSettingsRevision"
     AppSettingsWriteRequest:
       type: object
       additionalProperties: false
@@ -93,6 +91,8 @@
           then:
             required: [ google_analytics_measurement_id ]
       properties:
+        expected_updated_at:
+          $ref: "#/components/schemas/SystemSettingsRevision"
         app_name:
           type: string
           minLength: 1
@@ -192,5 +192,8 @@
           readOnly: true
           description: available means WebAuthn registration, passwordless login, and passkey-required login policy are available.
         updated_at:
-          type: string
-          format: date-time
+          $ref: "#/components/schemas/SystemSettingsRevision"
+    SystemSettingsRevision:
+      $ref: "../schemas/system-settings-revision.schema.json"
+    SecuritySettingsWriteRequest:
+      $ref: "../schemas/security-settings-write.schema.json"

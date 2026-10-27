@@ -36,6 +36,6 @@
       "readOnly": true,
       "description": "available means WebAuthn registration, passwordless login, and passkey-required login policy are available."
     },
-    "updated_at": { "type": "string", "format": "date-time" }
+    "updated_at": { "$ref": "system-settings-revision.schema.json" }
   }
 }

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/stream-settings-revision.schema.json",
+  "title": "StreamSettingsRevision",
+  "description": "Settings-only authority captured when editing starts. The canonical UTC RFC3339Nano value has microsecond precision and no trailing fractional zero. The literal unconfigured represents a legacy stream without a settings row. Lifecycle and heartbeat timestamps are independent.",
+  "oneOf": [
+    {
+      "const": "unconfigured"
+    },
+    {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{0,5}[1-9])?Z$",
+      "not": {
+        "const": "0001-01-01T00:00:00Z"
+      }
+    }
+  ]
+}

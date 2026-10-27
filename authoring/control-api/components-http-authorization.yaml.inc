@@ -293,12 +293,20 @@ components:
             $ref: "#/components/responses/contractMajorUnsupported"
       put:
         parameters: [ { $ref: "#/components/parameters/id" } ]
+        description: Optional expected_updated_at compares the original editing baseline under the profile row lock. A mismatch returns revision_conflict before writes; polling does not authorize adopting a newer baseline.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProfileWriteRequest" }
         responses:
           "200":
             description: resource updated
             headers:
               X-AutoStream-Contract-Major:
                 $ref: "#/components/headers/contractMajor"
+          "409":
+            description: revision_conflict; no configuration or secret changes were applied
           "426":
             $ref: "#/components/responses/contractMajorUnsupported"
       delete:

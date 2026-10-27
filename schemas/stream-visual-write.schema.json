@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/stream-visual-write.schema.json",
+  "title": "StreamVisualWriteSettings",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "expected_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "upload_session_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "background_mode": {
+      "enum": [
+        "default",
+        "image",
+        null
+      ]
+    },
+    "background_asset_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "background_variant_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "header_title_mode": {
+      "enum": [
+        "default",
+        "custom",
+        null
+      ]
+    },
+    "header_title_value": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 80
+    },
+    "discord_target": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "mode": {
+              "const": "inherit"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "preset_id",
+            "preset_revision"
+          ],
+          "properties": {
+            "mode": {
+              "const": "preset"
+            },
+            "preset_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "preset_revision": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "guild_id",
+            "text_channel_id",
+            "voice_channel_id"
+          ],
+          "properties": {
+            "mode": {
+              "const": "manual"
+            },
+            "guild_id": {
+              "type": "string",
+              "pattern": "^[0-9]{1,32}$"
+            },
+            "text_channel_id": {
+              "type": "string",
+              "pattern": "^[0-9]{1,32}$"
+            },
+            "voice_channel_id": {
+              "type": "string",
+              "pattern": "^[0-9]{1,32}$"
+            }
+          }
+        }
+      ],
+      "description": "Destination selection only. Bot authentication and primary authority come from the separate discord_config_id profile."
+    },
+    "cover_source": {
+      "enum": [
+        "none",
+        "preset",
+        "upload",
+        null
+      ]
+    },
+    "cover_preset_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "cover_asset_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "cover_variant_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "cover_start_active": {
+      "type": "boolean"
+    },
+    "cover_candidates": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "$ref": "stream-cover-candidate.schema.json"
+      },
+      "description": "Every retained candidate, including unselected images. Only one selected start image exists. Four distinct uploaded originals per stream; presets/backgrounds/variants do not consume the cover quota. Existing over-limit sets remain readable and may be retained or reduced."
+    }
+  }
+}

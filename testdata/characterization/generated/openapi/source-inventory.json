@@ -1773,6 +1773,16 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/headers/noStore"
     },
     {
@@ -2663,7 +2673,32 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/parameters/csrfToken"
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/contractMajor"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -2724,6 +2759,31 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/csrfToken"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/parameters/id"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -4078,6 +4138,16 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/responses/nodeProjectionBadRequest"
     },
     {
@@ -4233,7 +4303,7 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/EncoderRuntimeSettingsRequest"
+      "value": "#/components/schemas/ErrorResponse"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -4723,7 +4793,12 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/MissingStreamAssignmentsResponse"
+      "value": "#/components/schemas/MediaUploadOperationResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/MediaUploadSession"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -4734,6 +4809,26 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/MissingStreamAssignmentsResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/MissingStreamAssignmentsResponse"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/NodeMetadataView"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/NodeMetadataView"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/NodeMetadataWriteRequest"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -4843,6 +4938,16 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PanelEncoderRuntimeSettingsWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/PanelMediaAsset"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/PasskeyCredential"
     },
     {
@@ -4879,6 +4984,16 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/Profile"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ProfileWriteRequest"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ProfileWriteRequest"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -4963,7 +5078,17 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/SecuritySettings"
+      "value": "#/components/schemas/ResourceUpdatedAt"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ResourceUpdatedAt"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/ResourceUpdatedAt"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -4974,6 +5099,11 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/SecuritySettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SecuritySettingsWriteRequest"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -5113,6 +5243,11 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamCreateV2Request"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/StreamPreviewLink"
     },
     {
@@ -5123,12 +5258,47 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamSettingsRevision"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamSettingsRevision"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/StreamSettingsRevision"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/schemas/StreamSettingsWriteRequest"
     },
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
-      "value": "#/components/schemas/StreamWriteRequest"
+      "value": "#/components/schemas/StreamVisualWriteSettings"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemSettingsRevision"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemSettingsRevision"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemSettingsRevision"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/schemas/SystemSettingsRevision"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -5547,13 +5717,88 @@
     },
     {
       "source": "openapi/control-api.yaml",
+      "target": "schemas/media-upload-operation-response.schema.json",
+      "value": "../schemas/media-upload-operation-response.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/media-upload-session.schema.json",
+      "value": "../schemas/media-upload-session.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
       "target": "schemas/node-action-permission-projection.schema.json",
       "value": "../schemas/node-action-permission-projection.schema.json"
     },
     {
       "source": "openapi/control-api.yaml",
+      "target": "schemas/node-metadata-view.schema.json",
+      "value": "../schemas/node-metadata-view.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/node-metadata-write.schema.json",
+      "value": "../schemas/node-metadata-write.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
       "target": "schemas/oauth-account-connection-start-response.schema.json",
       "value": "../schemas/oauth-account-connection-start-response.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/panel-encoder-runtime-settings-write.schema.json",
+      "value": "../schemas/panel-encoder-runtime-settings-write.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/panel-media-asset.schema.json",
+      "value": "../schemas/panel-media-asset.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/panel-media-variant.schema.json",
+      "value": "../schemas/panel-media-variant.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/profile-write.schema.json",
+      "value": "../schemas/profile-write.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/resource-updated-at.schema.json",
+      "value": "../schemas/resource-updated-at.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/security-settings-write.schema.json",
+      "value": "../schemas/security-settings-write.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-cover-candidate.schema.json",
+      "value": "../schemas/stream-cover-candidate.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-create-v2.schema.json",
+      "value": "../schemas/stream-create-v2.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-settings-revision.schema.json",
+      "value": "../schemas/stream-settings-revision.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/stream-visual-write.schema.json",
+      "value": "../schemas/stream-visual-write.schema.json"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "schemas/system-settings-revision.schema.json",
+      "value": "../schemas/system-settings-revision.schema.json"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -6286,6 +6531,21 @@
       "value": "#/$defs/diagnostic_report"
     },
     {
+      "source": "schemas/media-upload-operation-response.schema.json",
+      "target": "schemas/media-upload-session.schema.json",
+      "value": "media-upload-session.schema.json"
+    },
+    {
+      "source": "schemas/media-upload-operation-response.schema.json",
+      "target": "schemas/panel-media-asset.schema.json",
+      "value": "panel-media-asset.schema.json"
+    },
+    {
+      "source": "schemas/media-upload-operation-response.schema.json",
+      "target": "schemas/panel-media-variant.schema.json",
+      "value": "panel-media-variant.schema.json"
+    },
+    {
       "source": "schemas/node-action-permission-projection.schema.json",
       "target": "schemas/node-action-permission-projection.schema.json",
       "value": "#/$defs/permissionSet"
@@ -6299,6 +6559,111 @@
       "source": "schemas/oauth-account-connection-start-response.schema.json",
       "target": "schemas/oauth-login-provider.schema.json",
       "value": "oauth-login-provider.schema.json"
+    },
+    {
+      "source": "schemas/panel-encoder-runtime-settings-write.schema.json",
+      "target": "schemas/stream-settings-revision.schema.json",
+      "value": "stream-settings-revision.schema.json"
+    },
+    {
+      "source": "schemas/profile-write.schema.json",
+      "target": "schemas/resource-updated-at.schema.json",
+      "value": "resource-updated-at.schema.json"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/login_lockout_threshold"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/mfa_mode"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/mfa_required_roles"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/mfa_supported_methods"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/passkey_status"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/password_hash"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/password_min_length"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/remember_me_enabled"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/session_absolute_lifetime_h"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/security-settings.schema.json",
+      "value": "security-settings.schema.json#/properties/session_idle_timeout_min"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/system-settings-revision.schema.json",
+      "value": "system-settings-revision.schema.json"
+    },
+    {
+      "source": "schemas/security-settings-write.schema.json",
+      "target": "schemas/system-settings-revision.schema.json",
+      "value": "system-settings-revision.schema.json"
+    },
+    {
+      "source": "schemas/security-settings.schema.json",
+      "target": "schemas/system-settings-revision.schema.json",
+      "value": "system-settings-revision.schema.json"
+    },
+    {
+      "source": "schemas/stream-cover-candidate.schema.json",
+      "target": "schemas/stream-cover-candidate.schema.json",
+      "value": "#/properties/asset_id"
+    },
+    {
+      "source": "schemas/stream-cover-candidate.schema.json",
+      "target": "schemas/stream-cover-candidate.schema.json",
+      "value": "#/properties/preset_id"
+    },
+    {
+      "source": "schemas/stream-cover-candidate.schema.json",
+      "target": "schemas/stream-cover-candidate.schema.json",
+      "value": "#/properties/variant_id"
+    },
+    {
+      "source": "schemas/stream-create-v2.schema.json",
+      "target": "schemas/stream-visual-write.schema.json",
+      "value": "stream-visual-write.schema.json"
+    },
+    {
+      "source": "schemas/stream-visual-write.schema.json",
+      "target": "schemas/stream-cover-candidate.schema.json",
+      "value": "stream-cover-candidate.schema.json"
+    },
+    {
+      "source": "schemas/system-settings-revision.schema.json",
+      "target": "schemas/resource-updated-at.schema.json",
+      "value": "resource-updated-at.schema.json"
     },
     {
       "source": "schemas/system-update-create-request.schema.json",
@@ -6521,10 +6886,10 @@
       "value": "system-update-job.schema.json#/$defs/portReconfigurationPlan"
     }
   ],
-  "source_file_count": 45,
+  "source_file_count": 61,
   "source_files": [
     {
-      "normalized_source_sha256": "a0139391a3ad3917598f37236292615634f7595852a7a2ff8cce0af7527a1088",
+      "normalized_source_sha256": "500d9650672f4b84b049a4228869261bd53e6a5262868f940dd056a3f858450b",
       "path": "openapi/control-api.yaml"
     },
     {
@@ -6628,8 +6993,24 @@
       "path": "schemas/incident.schema.json"
     },
     {
+      "normalized_source_sha256": "f08cf2292962ecae08e9adaf5012d3639a9041a68dbac264c4448aba4d06699b",
+      "path": "schemas/media-upload-operation-response.schema.json"
+    },
+    {
+      "normalized_source_sha256": "265bff1dbe935619f96232c39f6a466ce138fddbb64e74ecba8eb5688cf4618a",
+      "path": "schemas/media-upload-session.schema.json"
+    },
+    {
       "normalized_source_sha256": "6fe7b921584f0c5d09204029c7d5a4d1fe40fdb7c5a983afa4ba3277f7365de8",
       "path": "schemas/node-action-permission-projection.schema.json"
+    },
+    {
+      "normalized_source_sha256": "5285f5e4dd85e32a0a1a12208e2fe500e59df25fd83ee4d27c5ac6b480fb7e19",
+      "path": "schemas/node-metadata-view.schema.json"
+    },
+    {
+      "normalized_source_sha256": "966ccf29cc8a00678a32a308f2ba6b9c1f0859a29ec692b2191a6d57c198b43e",
+      "path": "schemas/node-metadata-write.schema.json"
     },
     {
       "normalized_source_sha256": "aad18d65f7e389dd273e2e98ef18a9703fff83ac625a22909e2e2613c84a6b7d",
@@ -6638,6 +7019,54 @@
     {
       "normalized_source_sha256": "729166fd936f673bd30fb65a4c5fd3a2ecf200328828189b3b911fe21f9aacb6",
       "path": "schemas/oauth-login-provider.schema.json"
+    },
+    {
+      "normalized_source_sha256": "c7f58bd37ff78dfee7943715ef0c0439ec12ec0a38ce11e1e25e3e76560d3420",
+      "path": "schemas/panel-encoder-runtime-settings-write.schema.json"
+    },
+    {
+      "normalized_source_sha256": "8ad6021cb502c6171786b61d26ecc5ba2d27203a13010a1663d2bdce63e5ea3b",
+      "path": "schemas/panel-media-asset.schema.json"
+    },
+    {
+      "normalized_source_sha256": "cbf33f6dec419c0d7788142e5e62e37675e3a938c5ab2c2ef89cac34f488574b",
+      "path": "schemas/panel-media-variant.schema.json"
+    },
+    {
+      "normalized_source_sha256": "4a337e4d04134b84b2b3dbcc167c77e8fdec2357c4d63538af7588ed229d0c4d",
+      "path": "schemas/profile-write.schema.json"
+    },
+    {
+      "normalized_source_sha256": "b97a5917435cecb4a5848f488879f47776cc2846f7c1eeb3978f1e877c8f9009",
+      "path": "schemas/resource-updated-at.schema.json"
+    },
+    {
+      "normalized_source_sha256": "3f39bc53159ba1b9fcc4f2ae3bb0b1ec267da73448ffd9a228df522b69c36cdb",
+      "path": "schemas/security-settings-write.schema.json"
+    },
+    {
+      "normalized_source_sha256": "ac211f5ebdb49d1b0a576ea6eb7f8f0e14019c897f7cbbe0ecf36fa46391ff26",
+      "path": "schemas/security-settings.schema.json"
+    },
+    {
+      "normalized_source_sha256": "78c8620b1ee4dd5bde617bbbc11783a86089afc94017df7cd674b5f40d8e2a90",
+      "path": "schemas/stream-cover-candidate.schema.json"
+    },
+    {
+      "normalized_source_sha256": "a6801ec318911d9770f1608103f5544366c9715aaa0047a6090451e45995eb2b",
+      "path": "schemas/stream-create-v2.schema.json"
+    },
+    {
+      "normalized_source_sha256": "7c050620521cfc9826dfe1cbbb79a85ceb4bb1a903568822c7fa6b81127f9b03",
+      "path": "schemas/stream-settings-revision.schema.json"
+    },
+    {
+      "normalized_source_sha256": "7512778719061f3d0000a147ecc9eb866d1c80da814ba2dbf3d6160bf1065904",
+      "path": "schemas/stream-visual-write.schema.json"
+    },
+    {
+      "normalized_source_sha256": "9ca410167a8c6ebf4791a63292f0405cd247da20cdfc3c98dcc199f981bfcb49",
+      "path": "schemas/system-settings-revision.schema.json"
     },
     {
       "normalized_source_sha256": "6b1d96f5960b1556340bbdf08899710e63def7faf1201b4079cc1f41cc11fc9b",

@@ -29,10 +29,11 @@ func TestRelayBindingIDFormatContracts(t *testing.T) {
 			invalid: `{"output_relay_mode":"live_api_relay_static","output_relay_binding_id":"relay-binding-1"}`,
 		},
 		{
-			name:    "YouTube output write",
-			schema:  "youtube-output-write.schema.json",
-			valid:   `{"name":"fixed relay","mode":"live_api_relay_static","oauth_account_id":"oauth-1","relay_binding_id":"` + validRelayBindingID + `","reusable_live_stream_id":"live-stream-1"}`,
-			invalid: `{"name":"fixed relay","mode":"live_api_relay_static","oauth_account_id":"oauth-1","relay_binding_id":"relay-binding-1","reusable_live_stream_id":"live-stream-1"}`,
+			name:         "YouTube output write",
+			schema:       "youtube-output-write.schema.json",
+			dependencies: []string{"resource-updated-at.schema.json"},
+			valid:        `{"name":"fixed relay","mode":"live_api_relay_static","oauth_account_id":"oauth-1","relay_binding_id":"` + validRelayBindingID + `","reusable_live_stream_id":"live-stream-1"}`,
+			invalid:      `{"name":"fixed relay","mode":"live_api_relay_static","oauth_account_id":"oauth-1","relay_binding_id":"relay-binding-1","reusable_live_stream_id":"live-stream-1"}`,
 		},
 		{
 			name:    "YouTube output read",
@@ -71,7 +72,7 @@ func TestRelayBindingIDFormatContracts(t *testing.T) {
 		})
 	}
 
-	legacyStreamKey := compileContractJSONSchema(t, "youtube-output-write.schema.json")
+	legacyStreamKey := compileContractJSONSchema(t, "youtube-output-write.schema.json", "resource-updated-at.schema.json")
 	validateEncoderOutputRelayModeInstance(t, legacyStreamKey, `{"name":"legacy key output","mode":"stream_key"}`, true)
 
 	capabilities := compileContractJSONSchema(t, "encoder-output-relay-capabilities.schema.json")

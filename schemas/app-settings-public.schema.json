@@ -37,9 +37,6 @@
       "pattern": "^G-[A-Z0-9]{4,22}$",
       "description": "Public GA4 measurement ID. Present only when analytics is enabled and the saved ID is valid."
     },
-    "updated_at": {
-      "type": "string",
-      "format": "date-time"
-    }
+    "updated_at": { "$ref": "system-settings-revision.schema.json" }
   }
 }

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/node-metadata-view.schema.json",
+  "title": "NodeMetadataView",
+  "type": "object",
+  "required": ["id", "service_id", "service_type", "service_name"],
+  "properties": {
+    "id": { "type": "string" },
+    "service_id": { "type": "string" },
+    "service_type": { "type": "string" },
+    "service_name": { "type": "string" },
+    "metadata_revision": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "readOnly": true,
+      "description": "Always supplied by the current Control Panel Node projection; optional in this consumer schema for legacy projections. Opaque authority over configuration and ownership, independent of volatile monitoring observations."
+    },
+    "transport_mode": { "type": "string" },
+    "current_stream_id": { "type": "string" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": true,
+  "description": "Node metadata authority projection alongside existing endpoint and monitoring fields. Consumers may retain monitoring fields, but must not use them as the editing baseline or infer endpoint ownership from heartbeat freshness."
+}

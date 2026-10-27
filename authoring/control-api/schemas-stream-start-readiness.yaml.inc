@@ -120,6 +120,8 @@
       type: object
       additionalProperties: false
       properties:
+        expected_settings_revision:
+          $ref: "#/components/schemas/StreamSettingsRevision"
         discord_config_id:
           type: string
           description: Control Panel managed Discord Bot Config. Required when Discord guild/channel overrides are provided.

@@ -10,9 +10,9 @@
     "destinations": [
       {
         "path": "authoring/control-api/components-http-authorization.yaml.inc",
-        "sha256": "2a94b2dc03247a1d931697c93627d8248a009929734a7c9005b3c38fa8b73cf8",
+        "sha256": "9e09dacac0af43d74eb144d3b2dfc2f69652cd7c20a163a28c0615da89c9a77b",
         "symbols": [],
-        "physical_lines": 314
+        "physical_lines": 322
       },
       {
         "path": "authoring/control-api/document-policy.yaml.inc",
@@ -28,9 +28,9 @@
       },
       {
         "path": "authoring/control-api/paths-discord-youtube-configuration.yaml.inc",
-        "sha256": "08e1c17ff9985c9003a734e25e90751a7ce3d6295540935a163c5e7981f1f52a",
+        "sha256": "1617287b147febdd6871f4c25f2ee7db2f64f4cea08f1ed7fcec43553c67af44",
         "symbols": [],
-        "physical_lines": 204
+        "physical_lines": 206
       },
       {
         "path": "authoring/control-api/paths-health-bootstrap.yaml.inc",
@@ -46,9 +46,9 @@
       },
       {
         "path": "authoring/control-api/paths-oauth-archive.yaml.inc",
-        "sha256": "c855083ef398683113ce2f18130ab8d6cddfc6b2063626fb861e8c13b397faf8",
+        "sha256": "31cfa5f931e1cea7c26880489c69ce9035828515f9ddaf232200c4657def3caf",
         "symbols": [],
-        "physical_lines": 359
+        "physical_lines": 361
       },
       {
         "path": "authoring/control-api/paths-observability.yaml.inc",
@@ -58,9 +58,9 @@
       },
       {
         "path": "authoring/control-api/paths-security-settings.yaml.inc",
-        "sha256": "d2ce6701e69839cfec54296184d528325d85b5594c73da7dc21faa7c593b61e8",
+        "sha256": "c5659c2b86df31d8e2b319643148d823f7f1c241b0c6db8286a9126416e10603",
         "symbols": [],
-        "physical_lines": 169
+        "physical_lines": 174
       },
       {
         "path": "authoring/control-api/paths-service-registration-host-policy.yaml.inc",
@@ -88,15 +88,15 @@
       },
       {
         "path": "authoring/control-api/paths-stream-configuration.yaml.inc",
-        "sha256": "17bb48aed33ae2d988e56f2ea5cd161d446353280c1d05379435408ea4a8eb9d",
+        "sha256": "d8d0f5d3831a3fae106494854050e5dd23e2ef5b867faad6d1029107a4339c03",
         "symbols": [],
-        "physical_lines": 241
+        "physical_lines": 259
       },
       {
         "path": "authoring/control-api/paths-stream-events-profiles.yaml.inc",
-        "sha256": "d28381e5be7715b0c73f2c9d8f19413ff16ea9ae2423a44ea556200edc4b4bd4",
+        "sha256": "53a3620443ed2c0906b4dda7d7d056dda33dc164d105a6093e6c621b19bf1658",
         "symbols": [],
-        "physical_lines": 142
+        "physical_lines": 149
       },
       {
         "path": "authoring/control-api/paths-stream-preview-recovery.yaml.inc",
@@ -136,15 +136,15 @@
       },
       {
         "path": "authoring/control-api/schemas-discord-youtube.yaml.inc",
-        "sha256": "4b93ca8ddda33e8edc48b4057138a52b6c2c760bb8eea1f76a6b7083dda1b320",
+        "sha256": "c7392bb922ac38a3656758873e18ecb44e75c92127a493e59040b9cdaa17aa5a",
         "symbols": [],
-        "physical_lines": 294
+        "physical_lines": 296
       },
       {
         "path": "authoring/control-api/schemas-error-authentication.yaml.inc",
-        "sha256": "d97810722369e47ee43f544b5970c71b56efced35870afc3d705de0d711fcdc2",
+        "sha256": "ebbbc769f9b4e2b4fa46d7b1566c76b349667ab2b493f68842ebc6d8f11420bb",
         "symbols": [],
-        "physical_lines": 342
+        "physical_lines": 350
       },
       {
         "path": "authoring/control-api/schemas-host-ownership-self-update.yaml.inc",
@@ -166,9 +166,9 @@
       },
       {
         "path": "authoring/control-api/schemas-oauth-drive.yaml.inc",
-        "sha256": "d4f88451c702ae08fa31a80668aa2bb4cb385c11dec454c0daf4829790aefc73",
+        "sha256": "21b9b32cf8eb7091b9ad3e0721d01dd57b7c9880bff9f11437b2b83c7b52216a",
         "symbols": [],
-        "physical_lines": 264
+        "physical_lines": 265
       },
       {
         "path": "authoring/control-api/schemas-remediation.yaml.inc",
@@ -202,15 +202,15 @@
       },
       {
         "path": "authoring/control-api/schemas-settings.yaml.inc",
-        "sha256": "747bfbb3c7304b273fa9e04184e11bf183447fbd9f467a91dfa7c417dc1b08b2",
+        "sha256": "b16371305a4c6056f578bf4611079c161e729f7f60fc400591e77bf61e10c3e1",
         "symbols": [],
-        "physical_lines": 196
+        "physical_lines": 199
       },
       {
         "path": "authoring/control-api/schemas-stream-start-readiness.yaml.inc",
-        "sha256": "e248b6764ac55c5debcb4210c98d5ecd606febdb5dd96e06b4508e05cbe58860",
+        "sha256": "1cf7dd9494eca5e47b1051d3f1fcde6fbfeb55521953a7e4dd01487f84017294",
         "symbols": [],
-        "physical_lines": 381
+        "physical_lines": 383
       },
       {
         "path": "authoring/control-api/schemas-system-update-jobs.yaml.inc",
@@ -232,9 +232,9 @@
       },
       {
         "path": "openapi/control-api.yaml",
-        "sha256": "a0139391a3ad3917598f37236292615634f7595852a7a2ff8cce0af7527a1088",
+        "sha256": "500d9650672f4b84b049a4228869261bd53e6a5262868f940dd056a3f858450b",
         "symbols": [],
-        "physical_lines": 8349
+        "physical_lines": 8610
       }
     ]
   },
@@ -270,7 +270,7 @@
       },
       {
         "path": "pkg/contracts/types_auth_settings.go",
-        "sha256": "1e283328cd99bb599c039c7e804d10d53777e32b173e8bb532db6e59e14f9906",
+        "sha256": "fc5d84a80766b0cd953bd2f1c5b46ad7a8bc40af5347a2add6c020724b967829",
         "symbols": [
           "AppSettingsWriteRequest",
           "ManagedAppSettings",
@@ -305,7 +305,7 @@
           "SecuritySettings",
           "SessionRefreshResponse"
         ],
-        "physical_lines": 290
+        "physical_lines": 296
       },
       {
         "path": "pkg/contracts/types_host_policy.go",
@@ -427,7 +427,7 @@
       },
       {
         "path": "pkg/contracts/types_stream_archive.go",
-        "sha256": "a89cf56da0bc661c813cf60606fa87f2b18b21be8f55f62393ae89becac8fcf2",
+        "sha256": "5fcadce116652d0b0529ad309b57c9b217ad53a29952f43586a485d2a92f3a53",
         "symbols": [
           "ArchiveMetadata",
           "ArchiveRuntimeConfig",
@@ -448,7 +448,7 @@
           "StreamSettingsWriteRequest",
           "StreamWriteRequest"
         ],
-        "physical_lines": 233
+        "physical_lines": 235
       },
       {
         "path": "pkg/contracts/types_system_updates.go",
@@ -570,7 +570,7 @@
       },
       {
         "path": "pkg/contracts/types_worker_discord.go",
-        "sha256": "e05a0eac909e81563cc5e0d18e42a1c5c16d73370090918f3f17e9b0f6286295",
+        "sha256": "dd7dcd3a9d965cb185a7a28dd92cad6aafd2ce69d039d140e6faf04edf745cda",
         "symbols": [
           "CaptionProfileConfig",
           "DiscordAudioBridgeStatus",
@@ -598,11 +598,11 @@
           "WorkerStartJobRequest",
           "WorkerStreamContext"
         ],
-        "physical_lines": 245
+        "physical_lines": 247
       },
       {
         "path": "pkg/contracts/types_youtube.go",
-        "sha256": "8e75197ed7b861bdd864c212956c70741da9f8988cd67fcad850d83367bbf73b",
+        "sha256": "6aa403597c4df67d7d81198ecee35632150c6d1312752647395b59121b47a153",
         "symbols": [
           "EncoderOutputRelayCapabilities",
           "EncoderOutputRelayMode",
@@ -617,7 +617,7 @@
           "YouTubeRelayStaticRecoveryResolveResponse",
           "YouTubeRuntimeConfig"
         ],
-        "physical_lines": 148
+        "physical_lines": 149
       }
     ]
   },
@@ -719,7 +719,7 @@
       },
       {
         "path": "pkg/contracts/schema_youtube_lifecycle_test.go",
-        "sha256": "a2382b561bc205c4ae38b48dcf5800c5c0a01dece76c65d86e8d996ac8618c6a",
+        "sha256": "a5e969fdb8b94134f9685880d8a9b7165d98a947d6279ecf76b9df76a5b5ed13",
         "symbols": [
           "TestYouTubeRelayStaticRecoveryContractsRequireExplicitSafeResolution",
           "TestYouTubeRelayStaticWriteRejectsIngestFields",

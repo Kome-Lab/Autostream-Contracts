@@ -3,6 +3,15 @@
       responses:
         "200":
           description: list streams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required: [ settings_revision ]
+                  properties:
+                    settings_revision: { $ref: "#/components/schemas/StreamSettingsRevision" }
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -14,10 +23,10 @@
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/StreamWriteRequest"
+              $ref: "#/components/schemas/StreamCreateV2Request"
       responses:
         "201":
-          description: create stream
+          description: Configuration, visuals, selected image claims and primary Node/Bot reservations committed together. A lost response is not safe to automatically repeat.
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -31,6 +40,13 @@
       responses:
         "200":
           description: stream detail
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ settings_revision ]
+                properties:
+                  settings_revision: { $ref: "#/components/schemas/StreamSettingsRevision" }
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -101,17 +117,19 @@
               $ref: "#/components/schemas/StreamSettingsWriteRequest"
       responses:
         "200":
-          description: stream settings updated
+          description: Stream settings updated. settings_revision is the settings-only editing authority; polling lifecycle and heartbeat values do not replace the editing baseline. Conditional edits use managed archive destinations/profiles updated under their own CAS, followed by a stream reference edit; the legacy direct-archive materialization request cannot be combined with expected_settings_revision.
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "400":
+          description: stream_settings_archive_revision_unsupported before writes when expected_settings_revision is supplied together with a requested legacy direct-archive materialization. Omitted legacy revisions and empty clearing fields retain their prior behavior.
         "404":
           description: stream not found
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
         "409":
-          description: stream_status_not_editable or youtube_relay_binding_release_pending; a fixed relay binding must be released through its safe lifecycle before changing the selected YouTube output.
+          description: revision_conflict, stream_status_not_editable or youtube_relay_binding_release_pending; settings conflicts preserve the draft and require explicit reconciliation.
           content:
             application/json:
               schema:
@@ -141,12 +159,12 @@
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/EncoderRuntimeSettingsRequest"
+              $ref: "#/components/schemas/PanelEncoderRuntimeSettingsWriteRequest"
       responses:
         "200": { description: settings persisted and applied when the stream is live, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "400": { description: invalid gain or watermark profile, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "404": { description: stream not found, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
-        "409": { description: stream is starting or stopping, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "409": { description: revision_conflict or stream is starting or stopping; a stale editing baseline never overwrites the current settings, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "502": { description: assigned Encoder could not apply the live settings; desired settings remain persisted, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"

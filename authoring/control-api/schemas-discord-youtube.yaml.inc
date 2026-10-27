@@ -48,6 +48,7 @@
       additionalProperties: false
       required: [ name ]
       properties:
+        expected_updated_at: { $ref: "#/components/schemas/ResourceUpdatedAt" }
         name:
           type: string
           minLength: 1
@@ -183,6 +184,7 @@
               - required: [ stream_key ]
               - required: [ watch_url ]
       properties:
+        expected_updated_at: { $ref: "#/components/schemas/ResourceUpdatedAt" }
         name:
           type: string
           minLength: 1

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/stream-create-v2.schema.json",
+  "title": "StreamCreateV2Request",
+  "description": "Current POST /streams request. Configuration, visual settings, selected upload claims and Encoder/Worker/optional selected Bot primary reservations commit atomically. The selected discord_config service_id owns Bot authentication; a destination preset cannot authorize a Bot. Creation never moves an occupied service. expected_settings_revision is edit-only and rejected here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "encoder_service_id",
+    "worker_service_id",
+    "visual_settings"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "discord_config_id": {
+      "type": "string"
+    },
+    "auto_start_trigger": {
+      "enum": [
+        "",
+        "discord_voice_join"
+      ]
+    },
+    "encoder_profile_id": {
+      "type": "string"
+    },
+    "caption_profile_id": {
+      "type": "string"
+    },
+    "overlay_profile_id": {
+      "type": "string"
+    },
+    "encoder_audio_gain_db": {
+      "type": "number",
+      "minimum": -60,
+      "maximum": 24
+    },
+    "archive_profile_id": {
+      "type": "string"
+    },
+    "youtube_output_id": {
+      "type": "string"
+    },
+    "encoder_service_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "worker_service_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scheduled_start_at": {
+      "type": "string"
+    },
+    "scheduled_end_at": {
+      "type": "string"
+    },
+    "encoder_input_url": {
+      "type": "string"
+    },
+    "upload_session_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "visual_settings": {
+      "allOf": [
+        {
+          "$ref": "stream-visual-write.schema.json"
+        },
+        {
+          "properties": {
+            "expected_revision": {
+              "const": 0
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "auto_start_trigger"
+        ],
+        "properties": {
+          "auto_start_trigger": {
+            "const": "discord_voice_join"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "discord_config_id"
+        ],
+        "properties": {
+          "discord_config_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}

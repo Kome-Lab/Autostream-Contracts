@@ -249,6 +249,7 @@
       additionalProperties: false
       required: [ name, auth_mode, oauth_account_id ]
       properties:
+        expected_updated_at: { $ref: "#/components/schemas/ResourceUpdatedAt" }
         name: { type: string }
         auth_mode:
           enum: [ oauth2 ]

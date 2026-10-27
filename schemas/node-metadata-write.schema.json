@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/node-metadata-write.schema.json",
+  "title": "NodeMetadataWriteRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "expected_metadata_revision": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Opaque semantic metadata authority copied exactly from the original Node editing baseline. It binds the target service's configuration, endpoint revision, transport, execution ownership and current stream ownership, while excluding heartbeat, metrics, status and updated_at. Omission preserves the legacy preliminary ownership guard."
+    },
+    "name": { "type": "string" },
+    "service_name": { "type": "string" },
+    "description": { "type": "string" },
+    "host": { "type": "string" },
+    "port": { "type": "integer", "minimum": 0, "maximum": 65535 },
+    "ssl_enabled": { "type": "boolean" },
+    "public_url": { "type": "string" }
+  },
+  "description": "Control Panel Node metadata edit. With an expected baseline, an actual endpoint change coordinates its final updater ownership check and metadata CAS with the write. Name/description edits and exact endpoint no-ops retain ordinary metadata CAS. Malformed authority returns 400 invalid_metadata_revision; changed metadata returns 409 node_metadata_conflict. Confirmed updater management returns 409 node_endpoint_managed_by_updater. Unsupported, mismatched, inconsistent or unavailable ownership authority returns 503 node_endpoint_ownership_unavailable before writes. Legacy omitted baselines retain their preliminary ownership guard."
+}

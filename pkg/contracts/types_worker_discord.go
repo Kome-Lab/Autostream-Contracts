@@ -163,19 +163,20 @@ type DiscordConfig struct {
 }
 
 type DiscordConfigWriteRequest struct {
-	Name                 string `json:"name"`
-	ServiceID            string `json:"service_id,omitempty"`
-	GuildID              string `json:"guild_id,omitempty"`
-	VoiceChannelID       string `json:"voice_channel_id,omitempty"`
-	TextChannelID        string `json:"text_channel_id,omitempty"`
-	BotToken             string `json:"bot_token,omitempty"`
-	CaptionEnabled       *bool  `json:"caption_enabled,omitempty"`
-	STTProfileID         string `json:"stt_profile_id,omitempty"`
-	ReconnectEnabled     *bool  `json:"reconnect_enabled,omitempty"`
-	ReconnectMaxAttempts int    `json:"reconnect_max_attempts,omitempty"`
-	ReconnectBaseDelay   string `json:"reconnect_base_delay,omitempty"`
-	ReconnectMaxDelay    string `json:"reconnect_max_delay,omitempty"`
-	AudioForwardEnabled  *bool  `json:"audio_forward_enabled,omitempty"`
+	ExpectedUpdatedAt    *string `json:"expected_updated_at,omitempty"`
+	Name                 string  `json:"name"`
+	ServiceID            string  `json:"service_id,omitempty"`
+	GuildID              string  `json:"guild_id,omitempty"`
+	VoiceChannelID       string  `json:"voice_channel_id,omitempty"`
+	TextChannelID        string  `json:"text_channel_id,omitempty"`
+	BotToken             string  `json:"bot_token,omitempty"`
+	CaptionEnabled       *bool   `json:"caption_enabled,omitempty"`
+	STTProfileID         string  `json:"stt_profile_id,omitempty"`
+	ReconnectEnabled     *bool   `json:"reconnect_enabled,omitempty"`
+	ReconnectMaxAttempts int     `json:"reconnect_max_attempts,omitempty"`
+	ReconnectBaseDelay   string  `json:"reconnect_base_delay,omitempty"`
+	ReconnectMaxDelay    string  `json:"reconnect_max_delay,omitempty"`
+	AudioForwardEnabled  *bool   `json:"audio_forward_enabled,omitempty"`
 }
 
 type EncoderProfile struct {
@@ -213,8 +214,9 @@ type Profile struct {
 }
 
 type ProfileWriteRequest struct {
-	Name   string         `json:"name"`
-	Config map[string]any `json:"config"`
+	ExpectedUpdatedAt *string        `json:"expected_updated_at,omitempty"`
+	Name              string         `json:"name"`
+	Config            map[string]any `json:"config"`
 }
 
 type CaptionProfileConfig struct {

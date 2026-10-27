@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "schema_count": 123,
+  "schema_count": 138,
   "supported_drafts": [
     "https://json-schema.org/draft/2020-12/schema"
   ],
@@ -15,13 +15,13 @@
       "path": "schemas/app-settings-manage.schema.json",
       "id": "https://schemas.autostream.example.com/app-settings-manage.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "a106718f8712f2f2724f9145837e93f19196987da041bd4c32f5a530047bfd09",
+      "normalized_sha256": "788ed4a85c39c5f55bf09bf8b1d5463539c62e2d12fceaa2c716219bcbfff319",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "description",
-        "format",
         "maxLength",
         "maximum",
         "minLength",
@@ -33,20 +33,27 @@
         "type"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/updated_at/$ref",
+          "value": "system-settings-revision.schema.json",
+          "target": "schemas/system-settings-revision.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
       "path": "schemas/app-settings-public.schema.json",
       "id": "https://schemas.autostream.example.com/app-settings-public.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "6b37dde988a08b9663ef71b73ed5b697922b5bc4c03061852aeba1ef17951b59",
+      "normalized_sha256": "7a3903911785ae6810fee60d27ea2ab9a02db68322a2170e68c4960bd4d1bc72",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "description",
-        "format",
         "maxLength",
         "minLength",
         "pattern",
@@ -56,16 +63,24 @@
         "type"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/updated_at/$ref",
+          "value": "system-settings-revision.schema.json",
+          "target": "schemas/system-settings-revision.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
       "path": "schemas/app-settings-write.schema.json",
       "id": "https://schemas.autostream.example.com/app-settings-write.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "5f4827fb7107a69f220dedd801d559f57f09c4dce56102b586e062ecd50a20a8",
+      "normalized_sha256": "a8b10860b7c70266ae3979b35adcdf5ab912e29a152369b78b4ba79560a6c1e0",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
@@ -85,7 +100,14 @@
         "writeOnly"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/expected_updated_at/$ref",
+          "value": "system-settings-revision.schema.json",
+          "target": "schemas/system-settings-revision.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
@@ -476,9 +498,10 @@
       "path": "schemas/discord-config-write.schema.json",
       "id": "https://schemas.autostream.example.com/discord-config-write.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "947c1b22d032af6729f08d5fc1a845b97ddf6410803d635e94ff64eea47d596f",
+      "normalized_sha256": "ca5e124b61ae9350a86e5ea5bbda43d9a225576ebfb54b919e55705506c9233c",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "description",
@@ -491,7 +514,14 @@
         "writeOnly"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/expected_updated_at/$ref",
+          "value": "resource-updated-at.schema.json",
+          "target": "schemas/resource-updated-at.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
@@ -567,9 +597,10 @@
       "path": "schemas/drive-destination-write.schema.json",
       "id": "https://schemas.autostream.example.com/drive-destination-write.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "f80a62cfcb2854ebbab0f9169adccfbc147c9ce5eaf9110779d10edfd8170464",
+      "normalized_sha256": "953b7dd39409551a75358258cff08af377ec9e861dcc1adce59299bd2bbaadb4",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
@@ -586,7 +617,14 @@
         "writeOnly"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/expected_updated_at/$ref",
+          "value": "resource-updated-at.schema.json",
+          "target": "schemas/resource-updated-at.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
@@ -1597,6 +1635,68 @@
       "compiled": true
     },
     {
+      "path": "schemas/media-upload-operation-response.schema.json",
+      "id": "https://schemas.autostream.example.com/media-upload-operation-response.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "03ccc530e9db26590946d99b576edbc2855db100a3d37595aa0bd2fc33c596c1",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "items",
+        "maxItems",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/assets/items/properties/asset/$ref",
+          "value": "panel-media-asset.schema.json",
+          "target": "schemas/panel-media-asset.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/assets/items/properties/variants/items/$ref",
+          "value": "panel-media-variant.schema.json",
+          "target": "schemas/panel-media-variant.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/session/$ref",
+          "value": "media-upload-session.schema.json",
+          "target": "schemas/media-upload-session.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/media-upload-session.schema.json",
+      "id": "https://schemas.autostream.example.com/media-upload-session.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "55a8f5867f3d6e7823127ecfbef012fd588c0cb1515620f8c1cd17f46b0edaeb",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "enum",
+        "format",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
       "path": "schemas/node-action-permission-projection.schema.json",
       "id": "https://contracts.autostream.invalid/node-action-permission-projection.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
@@ -1662,6 +1762,49 @@
         "pattern",
         "properties",
         "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/node-metadata-view.schema.json",
+      "id": "https://schemas.autostream.example.com/node-metadata-view.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "8b353108e47d74f43789c61f120c5b00ac43b69fb49209b20c12138895c16872",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "format",
+        "pattern",
+        "properties",
+        "readOnly",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/node-metadata-write.schema.json",
+      "id": "https://schemas.autostream.example.com/node-metadata-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "defabfb7ae177ecf9380d29ecf32933747672be2fece8762d62171413e1c9069",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maximum",
+        "minimum",
+        "pattern",
+        "properties",
         "title",
         "type"
       ],
@@ -2072,6 +2215,79 @@
       "compiled": true
     },
     {
+      "path": "schemas/panel-encoder-runtime-settings-write.schema.json",
+      "id": "https://schemas.autostream.example.com/panel-encoder-runtime-settings-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "7955357961341aba7c002c0599d246ad260948c3aca1655ec5c96023214e49a1",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "maximum",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/expected_settings_revision/$ref",
+          "value": "stream-settings-revision.schema.json",
+          "target": "schemas/stream-settings-revision.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/panel-media-asset.schema.json",
+      "id": "https://schemas.autostream.example.com/panel-media-asset.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "3bf287e9276521d32340be5edb39e666509152b93e9fabc67894b89ded54ac6d",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "description",
+        "enum",
+        "format",
+        "minimum",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/panel-media-variant.schema.json",
+      "id": "https://schemas.autostream.example.com/panel-media-variant.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "e87bc2921aa4e4180d7aa7f65375c2093b2119cc7d04aa0037d3b616040a0afa",
+      "keywords": [
+        "$id",
+        "$schema",
+        "additionalProperties",
+        "enum",
+        "format",
+        "minimum",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
       "path": "schemas/passkey-credential.schema.json",
       "id": "https://schemas.autostream.example.com/passkey-credential.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
@@ -2114,6 +2330,33 @@
       ],
       "extension_keywords": [],
       "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/profile-write.schema.json",
+      "id": "https://schemas.autostream.example.com/profile-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "fd9aa884a4271ad344ecb37754dad91b66bc880583ce58a887a737bef6bfc5c9",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "minLength",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/expected_updated_at/$ref",
+          "value": "resource-updated-at.schema.json",
+          "target": "schemas/resource-updated-at.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
@@ -2259,6 +2502,26 @@
       "compiled": true
     },
     {
+      "path": "schemas/resource-updated-at.schema.json",
+      "id": "https://schemas.autostream.example.com/resource-updated-at.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "ae4ee284c1ca0771cdda562db64b1a524f8cefc2d25233a6a8d3a12a9c1c6a38",
+      "keywords": [
+        "$id",
+        "$schema",
+        "const",
+        "description",
+        "format",
+        "not",
+        "pattern",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
       "path": "schemas/secret-status.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
@@ -2279,17 +2542,109 @@
       "compiled": true
     },
     {
+      "path": "schemas/security-settings-write.schema.json",
+      "id": "https://schemas.autostream.example.com/security-settings-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "7683998a98f1f426ff266ab5ff84be9bd325824d2a7472b8d10da20f1454dfcb",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/expected_updated_at/$ref",
+          "value": "system-settings-revision.schema.json",
+          "target": "schemas/system-settings-revision.schema.json",
+          "fragment": ""
+        },
+        {
+          "pointer": "/properties/login_lockout_threshold/$ref",
+          "value": "security-settings.schema.json#/properties/login_lockout_threshold",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/login_lockout_threshold"
+        },
+        {
+          "pointer": "/properties/mfa_mode/$ref",
+          "value": "security-settings.schema.json#/properties/mfa_mode",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/mfa_mode"
+        },
+        {
+          "pointer": "/properties/mfa_required_roles/$ref",
+          "value": "security-settings.schema.json#/properties/mfa_required_roles",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/mfa_required_roles"
+        },
+        {
+          "pointer": "/properties/mfa_supported_methods/$ref",
+          "value": "security-settings.schema.json#/properties/mfa_supported_methods",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/mfa_supported_methods"
+        },
+        {
+          "pointer": "/properties/passkey_status/$ref",
+          "value": "security-settings.schema.json#/properties/passkey_status",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/passkey_status"
+        },
+        {
+          "pointer": "/properties/password_hash/$ref",
+          "value": "security-settings.schema.json#/properties/password_hash",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/password_hash"
+        },
+        {
+          "pointer": "/properties/password_min_length/$ref",
+          "value": "security-settings.schema.json#/properties/password_min_length",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/password_min_length"
+        },
+        {
+          "pointer": "/properties/remember_me_enabled/$ref",
+          "value": "security-settings.schema.json#/properties/remember_me_enabled",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/remember_me_enabled"
+        },
+        {
+          "pointer": "/properties/session_absolute_lifetime_h/$ref",
+          "value": "security-settings.schema.json#/properties/session_absolute_lifetime_h",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/session_absolute_lifetime_h"
+        },
+        {
+          "pointer": "/properties/session_idle_timeout_min/$ref",
+          "value": "security-settings.schema.json#/properties/session_idle_timeout_min",
+          "target": "schemas/security-settings.schema.json",
+          "fragment": "/properties/session_idle_timeout_min"
+        },
+        {
+          "pointer": "/properties/updated_at/$ref",
+          "value": "system-settings-revision.schema.json",
+          "target": "schemas/system-settings-revision.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
       "path": "schemas/security-settings.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "64786335c21b4aa6d5379dd298d2ff41507d2553fc07a9930bd287ab2b845852",
+      "normalized_sha256": "591d625c5ec4c309c2a782e27e84428f970d163b3eedd789889d3a9f01aef38c",
       "keywords": [
+        "$ref",
         "$schema",
         "additionalProperties",
         "const",
         "description",
         "enum",
-        "format",
         "items",
         "minLength",
         "minimum",
@@ -2300,7 +2655,14 @@
         "type"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/updated_at/$ref",
+          "value": "system-settings-revision.schema.json",
+          "target": "schemas/system-settings-revision.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
@@ -2712,6 +3074,90 @@
       "compiled": true
     },
     {
+      "path": "schemas/stream-cover-candidate.schema.json",
+      "id": "https://schemas.autostream.example.com/stream-cover-candidate.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "d844732748406f9c636cdb49c3597b4378061af8cd2d740a1a357a9b54425ef5",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "enum",
+        "if",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/allOf/0/then/properties/asset_id/$ref",
+          "value": "#/properties/asset_id",
+          "target": "schemas/stream-cover-candidate.schema.json",
+          "fragment": "/properties/asset_id"
+        },
+        {
+          "pointer": "/allOf/0/then/properties/variant_id/$ref",
+          "value": "#/properties/variant_id",
+          "target": "schemas/stream-cover-candidate.schema.json",
+          "fragment": "/properties/variant_id"
+        },
+        {
+          "pointer": "/allOf/1/then/properties/preset_id/$ref",
+          "value": "#/properties/preset_id",
+          "target": "schemas/stream-cover-candidate.schema.json",
+          "fragment": "/properties/preset_id"
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/stream-create-v2.schema.json",
+      "id": "https://schemas.autostream.example.com/stream-create-v2.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "c03d3305e1c13175410105b69edabad4b8d5a1dd709619efb6b8f914912760b0",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "allOf",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "if",
+        "maxLength",
+        "maximum",
+        "minLength",
+        "minimum",
+        "properties",
+        "required",
+        "then",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/visual_settings/allOf/0/$ref",
+          "value": "stream-visual-write.schema.json",
+          "target": "schemas/stream-visual-write.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
       "path": "schemas/stream-job.schema.json",
       "id": "",
       "draft": "https://json-schema.org/draft/2020-12/schema",
@@ -2760,12 +3206,34 @@
       "compiled": true
     },
     {
+      "path": "schemas/stream-settings-revision.schema.json",
+      "id": "https://schemas.autostream.example.com/stream-settings-revision.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "76536cb40db104bc7a63e04854c5590c9e981b483a22b1b53269179a0dfda08e",
+      "keywords": [
+        "$id",
+        "$schema",
+        "const",
+        "description",
+        "format",
+        "not",
+        "oneOf",
+        "pattern",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": null,
+      "compiled": true
+    },
+    {
       "path": "schemas/stream-settings-write.schema.json",
       "id": "https://schemas.autostream.example.com/stream-settings-write.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "6082fd48139d606e230739af37e9d5193a07a4ab94069dda8c8f02d499d84dfd",
+      "normalized_sha256": "95bd458b4736a7df257ca384b90b0ea8eb3542b2f57bc1a83bb2b1dac1c88cf1",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "default",
@@ -2778,7 +3246,51 @@
         "type"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/expected_settings_revision/$ref",
+          "value": "stream-settings-revision.schema.json",
+          "target": "schemas/stream-settings-revision.schema.json",
+          "fragment": ""
+        }
+      ],
+      "compiled": true
+    },
+    {
+      "path": "schemas/stream-visual-write.schema.json",
+      "id": "https://schemas.autostream.example.com/stream-visual-write.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "ab5e7323c24a036742991d4937cbf8a975cf9050e133bf9ad5b74a8b1f331116",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "additionalProperties",
+        "const",
+        "description",
+        "enum",
+        "format",
+        "items",
+        "maxItems",
+        "maxLength",
+        "minLength",
+        "minimum",
+        "oneOf",
+        "pattern",
+        "properties",
+        "required",
+        "title",
+        "type"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/properties/cover_candidates/items/$ref",
+          "value": "stream-cover-candidate.schema.json",
+          "target": "schemas/stream-cover-candidate.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
@@ -2803,6 +3315,31 @@
       ],
       "extension_keywords": [],
       "refs": null,
+      "compiled": true
+    },
+    {
+      "path": "schemas/system-settings-revision.schema.json",
+      "id": "https://schemas.autostream.example.com/system-settings-revision.schema.json",
+      "draft": "https://json-schema.org/draft/2020-12/schema",
+      "normalized_sha256": "29f94233df6cec78f4ae4f226dc9e4f2053790b94e6306328476681cf7c2a072",
+      "keywords": [
+        "$id",
+        "$ref",
+        "$schema",
+        "const",
+        "description",
+        "oneOf",
+        "title"
+      ],
+      "extension_keywords": [],
+      "refs": [
+        {
+          "pointer": "/oneOf/1/$ref",
+          "value": "resource-updated-at.schema.json",
+          "target": "schemas/resource-updated-at.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {
@@ -3802,9 +4339,10 @@
       "path": "schemas/youtube-output-write.schema.json",
       "id": "https://schemas.autostream.example.com/youtube-output-write.schema.json",
       "draft": "https://json-schema.org/draft/2020-12/schema",
-      "normalized_sha256": "ce8a6824e6c0d0a878b69aa39992692be677b9f9e54d903b440db0900acad8fd",
+      "normalized_sha256": "2bcceee2406b6be34aa8797e4fe4856911a0d6a94190983c906a7f1ae91a2fcf",
       "keywords": [
         "$id",
+        "$ref",
         "$schema",
         "additionalProperties",
         "allOf",
@@ -3825,7 +4363,14 @@
         "writeOnly"
       ],
       "extension_keywords": [],
-      "refs": null,
+      "refs": [
+        {
+          "pointer": "/properties/expected_updated_at/$ref",
+          "value": "resource-updated-at.schema.json",
+          "target": "schemas/resource-updated-at.schema.json",
+          "fragment": ""
+        }
+      ],
       "compiled": true
     },
     {

@@ -791,6 +791,15 @@ paths:
       responses:
         "200":
           description: list streams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required: [ settings_revision ]
+                  properties:
+                    settings_revision: { $ref: "#/components/schemas/StreamSettingsRevision" }
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -802,10 +811,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/StreamWriteRequest"
+              $ref: "#/components/schemas/StreamCreateV2Request"
       responses:
         "201":
-          description: create stream
+          description: Configuration, visuals, selected image claims and primary Node/Bot reservations committed together. A lost response is not safe to automatically repeat.
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -819,6 +828,13 @@ paths:
       responses:
         "200":
           description: stream detail
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ settings_revision ]
+                properties:
+                  settings_revision: { $ref: "#/components/schemas/StreamSettingsRevision" }
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
@@ -889,17 +905,19 @@ paths:
               $ref: "#/components/schemas/StreamSettingsWriteRequest"
       responses:
         "200":
-          description: stream settings updated
+          description: Stream settings updated. settings_revision is the settings-only editing authority; polling lifecycle and heartbeat values do not replace the editing baseline. Conditional edits use managed archive destinations/profiles updated under their own CAS, followed by a stream reference edit; the legacy direct-archive materialization request cannot be combined with expected_settings_revision.
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "400":
+          description: stream_settings_archive_revision_unsupported before writes when expected_settings_revision is supplied together with a requested legacy direct-archive materialization. Omitted legacy revisions and empty clearing fields retain their prior behavior.
         "404":
           description: stream not found
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
         "409":
-          description: stream_status_not_editable or youtube_relay_binding_release_pending; a fixed relay binding must be released through its safe lifecycle before changing the selected YouTube output.
+          description: revision_conflict, stream_status_not_editable or youtube_relay_binding_release_pending; settings conflicts preserve the draft and require explicit reconciliation.
           content:
             application/json:
               schema:
@@ -929,12 +947,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/EncoderRuntimeSettingsRequest"
+              $ref: "#/components/schemas/PanelEncoderRuntimeSettingsWriteRequest"
       responses:
         "200": { description: settings persisted and applied when the stream is live, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "400": { description: invalid gain or watermark profile, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "404": { description: stream not found, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
-        "409": { description: stream is starting or stopping, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "409": { description: revision_conflict or stream is starting or stopping; a stale editing baseline never overwrites the current settings, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "502": { description: assigned Encoder could not apply the live settings; desired settings remain persisted, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
@@ -1027,6 +1045,134 @@ paths:
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:
       - $ref: "#/components/parameters/contractMajor"
+  /media-assets/upload-sessions:
+    parameters: [ { $ref: "#/components/parameters/contractMajor" } ]
+    post:
+      operationId: createMediaUploadSession
+      summary: Create an owner-bound temporary image upload session
+      x-autostream-permissions-any: [ streams.create, streams.update ]
+      responses:
+        "201":
+          description: A temporary draft; creating it does not create a stream
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MediaUploadSession" }
+        "403": { description: required stream permission or CSRF validation failed }
+  /media-assets:
+    parameters: [ { $ref: "#/components/parameters/contractMajor" } ]
+    post:
+      operationId: uploadMediaAsset
+      summary: Upload one original image to a temporary session
+      x-autostream-permissions-any: [ streams.create, streams.update ]
+      description: >
+        Metadata parts precede the file. Optional client_operation_id is a lowercase
+        UUID bound to the session, user and usage. Repeating the same operation while
+        the draft is valid returns its existing asset; it does not consume another
+        cover slot. A deleted operation is not reused. Four distinct video_cover
+        originals are enforced atomically, including concurrent requests; background
+        assets, shared presets and generated variants do not consume the cover quota.
+        A missing response is unknown, not evidence of failure. Inspect the exact
+        session and operation before an explicit retry; never create a new operation
+        merely because the earlier response was lost.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [ session_id, usage_type, file ]
+              properties:
+                session_id: { type: string, format: uuid }
+                usage_type: { type: string, enum: [ scene_background, video_cover ] }
+                client_operation_id:
+                  type: string
+                  pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+                file: { type: string, format: binary }
+      responses:
+        "201":
+          description: Validated original asset; variant conversion and stream save are separate
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PanelMediaAsset" }
+        "400": { description: "Invalid image, metadata, operation UUID or multipart field order" }
+        "403": { description: "Owner, session or usage mismatch" }
+        "409": { description: "Expired or claimed session, integrity conflict, or cover_upload_limit" }
+        "500":
+          description: media_asset_operation_failed; result may be unknown and must be reconciled by reads
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ErrorResponse" }
+  /media-assets/upload-sessions/{session_id}/assets:
+    parameters: [ { $ref: "#/components/parameters/contractMajor" } ]
+    get:
+      operationId: inspectMediaUploadOperation
+      summary: Inspect one upload operation without mutating it
+      x-autostream-permissions-any: [ streams.create, streams.update ]
+      description: >
+        Cookie-authenticated and restricted to the session owner. Returns committed
+        asset/variant metadata even when the session has expired or been claimed, so
+        callers can distinguish those states from a valid draft. An empty assets
+        array is not proof that the upload was unapplied: an in-flight request can
+        commit later. This endpoint does not authorize automatic upload or create.
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - name: operation_id
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+          description: Exactly one canonical lowercase UUID
+      responses:
+        "200":
+          description: Owner-bound committed metadata; never a terminal non-application receipt
+          headers:
+            Cache-Control: { schema: { type: string, const: no-store } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MediaUploadOperationResponse" }
+        "400": { description: "Missing, repeated or invalid operation_id" }
+        "403": { description: Required stream permission missing }
+        "404": { description: The owner's upload session was not found }
+        "500": { description: media_asset_operation_failed; no mutation is performed by inspection }
+  /streams/{id}/visual-settings:
+    parameters: [ { $ref: "#/components/parameters/contractMajor" } ]
+    get:
+      operationId: getStreamVisualSettings
+      summary: Read a stream's saved visual settings and cover candidates
+      x-autostream-required-permission: streams.read
+      parameters: [ { $ref: "#/components/parameters/id" } ]
+      responses:
+        "200":
+          description: Saved visual settings including all cover candidates and selected start image
+        "403": { description: Required streams.read permission missing }
+        "404": { description: The stream or its visual settings were not found }
+    put:
+      operationId: updateStreamVisualSettings
+      summary: Update saved visual settings and exact draft image claims
+      parameters: [ { $ref: "#/components/parameters/id" } ]
+      description: >
+        Requires streams.update. The saved visual revision remains a separate CAS
+        authority. Full candidate names support 255 Unicode characters. Existing
+        over-limit upload collections may be retained or reduced; no implicit
+        deletion or quota bypass is introduced.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/StreamVisualWriteSettings"
+                - required: [ expected_revision ]
+      responses:
+        "200": { description: Visual settings and exact draft claims committed }
+        "400": { description: Known invalid_visual_settings rejection; draft remains editable }
+        "409": { description: "Revision, state, claim or uploaded-cover quota conflict" }
+        "500": { description: stream_visual_operation_failed; a missing or ambiguous commit receipt must not be automatically resent }
   /streams/{id}/youtube-live-notification:
     get:
       operationId: getDiscordYouTubeLiveNotification
@@ -1664,6 +1810,11 @@ paths:
     get: { $ref: "#/components/pathItems/itemProfile/get" }
     put:
       parameters: [ { $ref: "#/components/parameters/id" } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProfileWriteRequest" }
       responses:
         "200":
           description: caption profile updated; any referencing live streams were refreshed successfully
@@ -1679,6 +1830,8 @@ paths:
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; no profile change or live-runtime dispatch was applied
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete: { $ref: "#/components/pathItems/itemProfile/delete" }
@@ -1757,7 +1910,7 @@ paths:
               $ref: "#/components/schemas/DiscordConfigWriteRequest"
       responses:
         "200":
-          description: update Discord Bot config
+          description: Update Discord Bot config and its optional encrypted token in the same transaction. expected_updated_at protects the original editing baseline.
           content:
             application/json:
               schema:
@@ -1765,6 +1918,8 @@ paths:
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; neither profile nor token was changed
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete:
@@ -1841,7 +1996,7 @@ paths:
               $ref: "#/components/schemas/YouTubeOutputWriteRequest"
       responses:
         "200":
-          description: update YouTube output
+          description: Update YouTube output and its optional encrypted stream-key change together under the original expected_updated_at baseline.
           content:
             application/json:
               schema:
@@ -1850,7 +2005,7 @@ paths:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
         "409":
-          description: youtube_relay_binding_release_pending; the fixed relay binding must be released through its safe lifecycle before this output changes.
+          description: revision_conflict or youtube_relay_binding_release_pending; neither output configuration nor its encrypted key changes on these rejections.
           content:
             application/json:
               schema:
@@ -2531,6 +2686,55 @@ paths:
               $ref: "#/components/headers/contractMajor"
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
+    parameters:
+      - $ref: "#/components/parameters/contractMajor"
+  /nodes:
+    get:
+      operationId: listNodesWithMetadataRevision
+      summary: Read registered Nodes with semantic metadata editing authority
+      x-autostream-required-permission: api_tokens.create
+      responses:
+        "200":
+          description: Node metadata and current monitoring observations
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/NodeMetadataView" }
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
+        "426": { $ref: "#/components/responses/contractMajorUnsupported" }
+    parameters:
+      - $ref: "#/components/parameters/contractMajor"
+  /nodes/{id}:
+    put:
+      operationId: updateNodeMetadata
+      summary: Edit Node metadata under its original optional semantic baseline
+      description: With expected_metadata_revision, an actual endpoint change checks the latest updater ownership and metadata baseline in the same coordinated write. Name/description edits and exact endpoint no-ops retain the ordinary metadata CAS. Omitting the expectation preserves the legacy preliminary ownership guard; it does not disable that guard.
+      x-autostream-required-permission: api_tokens.create
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/csrfToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NodeMetadataWriteRequest" }
+      responses:
+        "200":
+          description: Node metadata saved; existing endpoint management guards remain in force
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NodeMetadataView" }
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
+        "400":
+          description: invalid_metadata_revision for a malformed supplied baseline, or an existing Node input validation error
+        "409":
+          description: node_metadata_conflict before metadata changes, or node_endpoint_managed_by_updater when updater management is confirmed
+        "503":
+          description: node_endpoint_ownership_unavailable before writes when a stamped endpoint change cannot obtain a supported, matching and consistent ownership authority
+        "426": { $ref: "#/components/responses/contractMajorUnsupported" }
     parameters:
       - $ref: "#/components/parameters/contractMajor"
   /services/register:
@@ -3527,10 +3731,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SecuritySettings"
+              $ref: "#/components/schemas/SecuritySettingsWriteRequest"
       responses:
         "200":
-          description: security settings updated
+          description: Security settings updated under the original optional expected_updated_at baseline. The missing-row baseline is unconfigured; saved revisions use canonical UTC microseconds. Production MFA constraints remain required.
           content:
             application/json:
               schema:
@@ -3538,6 +3742,8 @@ paths:
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; no security configuration changes were applied
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:
@@ -3562,6 +3768,7 @@ paths:
           $ref: "#/components/responses/contractMajorUnsupported"
     put:
       summary: Update managed application settings
+      description: The original optional expected_updated_at baseline is checked under the settings row lock. Application settings and SMTP/Turnstile secret changes commit in one transaction. A missing row uses unconfigured; omission preserves legacy callers.
       parameters:
         - $ref: "#/components/parameters/csrfToken"
       requestBody:
@@ -3585,6 +3792,8 @@ paths:
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; application configuration and SMTP/Turnstile secrets were not changed
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:
@@ -4261,10 +4470,12 @@ paths:
               $ref: "#/components/schemas/DriveDestinationWriteRequest"
       responses:
         "200":
-          description: Drive archive destination updated
+          description: Drive archive destination and encrypted folder ID updated atomically under optional expected_updated_at.
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; the destination and encrypted folder ID were not changed
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete:
@@ -4574,12 +4785,20 @@ components:
             $ref: "#/components/responses/contractMajorUnsupported"
       put:
         parameters: [ { $ref: "#/components/parameters/id" } ]
+        description: Optional expected_updated_at compares the original editing baseline under the profile row lock. A mismatch returns revision_conflict before writes; polling does not authorize adopting a newer baseline.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProfileWriteRequest" }
         responses:
           "200":
             description: resource updated
             headers:
               X-AutoStream-Contract-Major:
                 $ref: "#/components/headers/contractMajor"
+          "409":
+            description: revision_conflict; no configuration or secret changes were applied
           "426":
             $ref: "#/components/responses/contractMajorUnsupported"
       delete:
@@ -5747,6 +5966,14 @@ components:
             session mismatches return HTTP 403 forbidden. Conditional
             cleanup never falls back to generic deletion after a claim or scope conflict.
           enum:
+            - name_too_long
+            - stream_visual_operation_failed
+            - media_asset_operation_failed
+            - invalid_metadata_revision
+            - node_metadata_conflict
+            - node_endpoint_managed_by_updater
+            - node_endpoint_ownership_unavailable
+            - stream_settings_archive_revision_unsupported
             - missing_stream_assignments
             - service_call_token_missing
             - service_public_url_invalid
@@ -6093,8 +6320,7 @@ components:
           pattern: "^G-[A-Z0-9]{4,22}$"
           description: Public GA4 measurement ID, present only when analytics is enabled and valid.
         updated_at:
-          type: string
-          format: date-time
+          $ref: "#/components/schemas/SystemSettingsRevision"
     ManagedAppSettings:
       type: object
       additionalProperties: false
@@ -6143,8 +6369,7 @@ components:
           type: boolean
           description: Configured status only. The Turnstile secret is never returned.
         updated_at:
-          type: string
-          format: date-time
+          $ref: "#/components/schemas/SystemSettingsRevision"
     AppSettingsWriteRequest:
       type: object
       additionalProperties: false
@@ -6158,6 +6383,8 @@ components:
           then:
             required: [ google_analytics_measurement_id ]
       properties:
+        expected_updated_at:
+          $ref: "#/components/schemas/SystemSettingsRevision"
         app_name:
           type: string
           minLength: 1
@@ -6257,8 +6484,15 @@ components:
           readOnly: true
           description: available means WebAuthn registration, passwordless login, and passkey-required login policy are available.
         updated_at:
-          type: string
-          format: date-time
+          $ref: "#/components/schemas/SystemSettingsRevision"
+    SystemSettingsRevision:
+      $ref: "../schemas/system-settings-revision.schema.json"
+    SecuritySettingsWriteRequest:
+      $ref: "../schemas/security-settings-write.schema.json"
+    NodeMetadataView:
+      $ref: "../schemas/node-metadata-view.schema.json"
+    NodeMetadataWriteRequest:
+      $ref: "../schemas/node-metadata-write.schema.json"
     EncoderOutputRelayMode:
       type: string
       enum: [ direct, live_api_relay_static ]
@@ -6926,6 +7160,7 @@ components:
       additionalProperties: false
       required: [ name ]
       properties:
+        expected_updated_at: { $ref: "#/components/schemas/ResourceUpdatedAt" }
         name:
           type: string
           minLength: 1
@@ -7061,6 +7296,7 @@ components:
               - required: [ stream_key ]
               - required: [ watch_url ]
       properties:
+        expected_updated_at: { $ref: "#/components/schemas/ResourceUpdatedAt" }
         name:
           type: string
           minLength: 1
@@ -7953,6 +8189,7 @@ components:
       additionalProperties: false
       required: [ name, auth_mode, oauth_account_id ]
       properties:
+        expected_updated_at: { $ref: "#/components/schemas/ResourceUpdatedAt" }
         name: { type: string }
         auth_mode:
           enum: [ oauth2 ]
@@ -8088,6 +8325,8 @@ components:
       type: object
       additionalProperties: false
       properties:
+        expected_settings_revision:
+          $ref: "#/components/schemas/StreamSettingsRevision"
         discord_config_id:
           type: string
           description: Control Panel managed Discord Bot Config. Required when Discord guild/channel overrides are provided.
@@ -8347,3 +8586,25 @@ components:
               type: array
               items:
                 type: string
+    StreamCreateV2Request:
+      $ref: "../schemas/stream-create-v2.schema.json"
+    ResourceUpdatedAt:
+      $ref: "../schemas/resource-updated-at.schema.json"
+    ProfileWriteRequest:
+      $ref: "../schemas/profile-write.schema.json"
+    PanelEncoderRuntimeSettingsWriteRequest:
+      $ref: "../schemas/panel-encoder-runtime-settings-write.schema.json"
+    StreamVisualWriteSettings:
+      $ref: "../schemas/stream-visual-write.schema.json"
+    StreamCoverCandidate:
+      $ref: "../schemas/stream-cover-candidate.schema.json"
+    StreamSettingsRevision:
+      $ref: "../schemas/stream-settings-revision.schema.json"
+    PanelMediaAsset:
+      $ref: "../schemas/panel-media-asset.schema.json"
+    PanelMediaVariant:
+      $ref: "../schemas/panel-media-variant.schema.json"
+    MediaUploadSession:
+      $ref: "../schemas/media-upload-session.schema.json"
+    MediaUploadOperationResponse:
+      $ref: "../schemas/media-upload-operation-response.schema.json"

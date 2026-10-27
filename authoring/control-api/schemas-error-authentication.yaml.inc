@@ -24,6 +24,14 @@
             session mismatches return HTTP 403 forbidden. Conditional
             cleanup never falls back to generic deletion after a claim or scope conflict.
           enum:
+            - name_too_long
+            - stream_visual_operation_failed
+            - media_asset_operation_failed
+            - invalid_metadata_revision
+            - node_metadata_conflict
+            - node_endpoint_managed_by_updater
+            - node_endpoint_ownership_unavailable
+            - stream_settings_archive_revision_unsupported
             - missing_stream_assignments
             - service_call_token_missing
             - service_public_url_invalid

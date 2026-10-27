@@ -60,7 +60,7 @@
               $ref: "#/components/schemas/DiscordConfigWriteRequest"
       responses:
         "200":
-          description: update Discord Bot config
+          description: Update Discord Bot config and its optional encrypted token in the same transaction. expected_updated_at protects the original editing baseline.
           content:
             application/json:
               schema:
@@ -68,6 +68,8 @@
           headers:
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
+        "409":
+          description: revision_conflict; neither profile nor token was changed
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete:
@@ -144,7 +146,7 @@
               $ref: "#/components/schemas/YouTubeOutputWriteRequest"
       responses:
         "200":
-          description: update YouTube output
+          description: Update YouTube output and its optional encrypted stream-key change together under the original expected_updated_at baseline.
           content:
             application/json:
               schema:
@@ -153,7 +155,7 @@
             X-AutoStream-Contract-Major:
               $ref: "#/components/headers/contractMajor"
         "409":
-          description: youtube_relay_binding_release_pending; the fixed relay binding must be released through its safe lifecycle before this output changes.
+          description: revision_conflict or youtube_relay_binding_release_pending; neither output configuration nor its encrypted key changes on these rejections.
           content:
             application/json:
               schema:

@@ -2,7 +2,7 @@
   "format_version": 1,
   "package_import_path": "github.com/example/autostream-contracts/pkg/contracts",
   "package_name": "contracts",
-  "exported_identifier_count": 688,
+  "exported_identifier_count": 691,
   "exported_method_count": 2,
   "identifiers": [
     {
@@ -10,7 +10,7 @@
       "kind": "type",
       "type": "AppSettingsWriteRequest",
       "alias": false,
-      "underlying": "struct{AppName string \"json:\\\"app_name\\\"\"; Timezone string \"json:\\\"timezone\\\"\"; GoogleAnalyticsEnabled bool \"json:\\\"google_analytics_enabled,omitempty\\\"\"; GoogleAnalyticsMeasurementID string \"json:\\\"google_analytics_measurement_id,omitempty\\\"\"; SMTPEnabled bool \"json:\\\"smtp_enabled\\\"\"; SMTPHost string \"json:\\\"smtp_host,omitempty\\\"\"; SMTPPort int \"json:\\\"smtp_port,omitempty\\\"\"; SMTPStartTLS bool \"json:\\\"smtp_starttls\\\"\"; SMTPFrom string \"json:\\\"smtp_from,omitempty\\\"\"; SMTPUsername string \"json:\\\"smtp_username,omitempty\\\"\"; SMTPPassword string \"json:\\\"smtp_password,omitempty\\\"\"; TurnstileEnabled bool \"json:\\\"turnstile_enabled,omitempty\\\"\"; TurnstileSiteKey string \"json:\\\"turnstile_site_key,omitempty\\\"\"; TurnstileSecret string \"json:\\\"turnstile_secret,omitempty\\\"\"}"
+      "underlying": "struct{ExpectedUpdatedAt *string \"json:\\\"expected_updated_at,omitempty\\\"\"; AppName string \"json:\\\"app_name\\\"\"; Timezone string \"json:\\\"timezone\\\"\"; GoogleAnalyticsEnabled bool \"json:\\\"google_analytics_enabled,omitempty\\\"\"; GoogleAnalyticsMeasurementID string \"json:\\\"google_analytics_measurement_id,omitempty\\\"\"; SMTPEnabled bool \"json:\\\"smtp_enabled\\\"\"; SMTPHost string \"json:\\\"smtp_host,omitempty\\\"\"; SMTPPort int \"json:\\\"smtp_port,omitempty\\\"\"; SMTPStartTLS bool \"json:\\\"smtp_starttls\\\"\"; SMTPFrom string \"json:\\\"smtp_from,omitempty\\\"\"; SMTPUsername string \"json:\\\"smtp_username,omitempty\\\"\"; SMTPPassword string \"json:\\\"smtp_password,omitempty\\\"\"; TurnstileEnabled bool \"json:\\\"turnstile_enabled,omitempty\\\"\"; TurnstileSiteKey string \"json:\\\"turnstile_site_key,omitempty\\\"\"; TurnstileSecret string \"json:\\\"turnstile_secret,omitempty\\\"\"}"
     },
     {
       "name": "ApplicationRuntimeIdentityProbe",
@@ -299,7 +299,7 @@
       "kind": "type",
       "type": "DiscordConfigWriteRequest",
       "alias": false,
-      "underlying": "struct{Name string \"json:\\\"name\\\"\"; ServiceID string \"json:\\\"service_id,omitempty\\\"\"; GuildID string \"json:\\\"guild_id,omitempty\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id,omitempty\\\"\"; TextChannelID string \"json:\\\"text_channel_id,omitempty\\\"\"; BotToken string \"json:\\\"bot_token,omitempty\\\"\"; CaptionEnabled *bool \"json:\\\"caption_enabled,omitempty\\\"\"; STTProfileID string \"json:\\\"stt_profile_id,omitempty\\\"\"; ReconnectEnabled *bool \"json:\\\"reconnect_enabled,omitempty\\\"\"; ReconnectMaxAttempts int \"json:\\\"reconnect_max_attempts,omitempty\\\"\"; ReconnectBaseDelay string \"json:\\\"reconnect_base_delay,omitempty\\\"\"; ReconnectMaxDelay string \"json:\\\"reconnect_max_delay,omitempty\\\"\"; AudioForwardEnabled *bool \"json:\\\"audio_forward_enabled,omitempty\\\"\"}"
+      "underlying": "struct{ExpectedUpdatedAt *string \"json:\\\"expected_updated_at,omitempty\\\"\"; Name string \"json:\\\"name\\\"\"; ServiceID string \"json:\\\"service_id,omitempty\\\"\"; GuildID string \"json:\\\"guild_id,omitempty\\\"\"; VoiceChannelID string \"json:\\\"voice_channel_id,omitempty\\\"\"; TextChannelID string \"json:\\\"text_channel_id,omitempty\\\"\"; BotToken string \"json:\\\"bot_token,omitempty\\\"\"; CaptionEnabled *bool \"json:\\\"caption_enabled,omitempty\\\"\"; STTProfileID string \"json:\\\"stt_profile_id,omitempty\\\"\"; ReconnectEnabled *bool \"json:\\\"reconnect_enabled,omitempty\\\"\"; ReconnectMaxAttempts int \"json:\\\"reconnect_max_attempts,omitempty\\\"\"; ReconnectBaseDelay string \"json:\\\"reconnect_base_delay,omitempty\\\"\"; ReconnectMaxDelay string \"json:\\\"reconnect_max_delay,omitempty\\\"\"; AudioForwardEnabled *bool \"json:\\\"audio_forward_enabled,omitempty\\\"\"}"
     },
     {
       "name": "DiscordOpusIngestRequest",
@@ -348,7 +348,7 @@
       "kind": "type",
       "type": "DriveDestinationWriteRequest",
       "alias": false,
-      "underlying": "struct{Name string \"json:\\\"name\\\"\"; AuthMode string \"json:\\\"auth_mode\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; FolderID string \"json:\\\"folder_id,omitempty\\\"\"; SharedDrive bool \"json:\\\"shared_drive\\\"\"}"
+      "underlying": "struct{ExpectedUpdatedAt *string \"json:\\\"expected_updated_at,omitempty\\\"\"; Name string \"json:\\\"name\\\"\"; AuthMode string \"json:\\\"auth_mode\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; FolderID string \"json:\\\"folder_id,omitempty\\\"\"; SharedDrive bool \"json:\\\"shared_drive\\\"\"}"
     },
     {
       "name": "EncoderInputMode",
@@ -1353,6 +1353,13 @@
       "underlying": "struct{SchemaVersion int \"json:\\\"schema_version\\\"\"; ServiceType string \"json:\\\"service_type\\\"\"; BindAddress string \"json:\\\"bind_address\\\"\"; ConfigRevision int64 \"json:\\\"config_revision\\\"\"}"
     },
     {
+      "name": "NodeMetadataWriteRequest",
+      "kind": "type",
+      "type": "NodeMetadataWriteRequest",
+      "alias": false,
+      "underlying": "struct{ExpectedMetadataRevision *string \"json:\\\"expected_metadata_revision,omitempty\\\"\"; Name *string \"json:\\\"name,omitempty\\\"\"; ServiceName *string \"json:\\\"service_name,omitempty\\\"\"; Description *string \"json:\\\"description,omitempty\\\"\"; Host *string \"json:\\\"host,omitempty\\\"\"; Port *int \"json:\\\"port,omitempty\\\"\"; SSLEnabled *bool \"json:\\\"ssl_enabled,omitempty\\\"\"; PublicURL *string \"json:\\\"public_url,omitempty\\\"\"}"
+    },
+    {
       "name": "NotificationAdminAudit",
       "kind": "const",
       "type": "NotificationEventType",
@@ -1633,6 +1640,13 @@
       "underlying": "struct{Type SignalType \"json:\\\"type\\\"\"; Name string \"json:\\\"name\\\"\"; ServiceID string \"json:\\\"service_id\\\"\"; ServiceType ServiceType \"json:\\\"service_type\\\"\"; StreamID string \"json:\\\"stream_id,omitempty\\\"\"; Status string \"json:\\\"status,omitempty\\\"\"; Value *float64 \"json:\\\"value,omitempty\\\"\"; Metrics map[string]float64 \"json:\\\"metrics,omitempty\\\"\"; Attributes map[string]any \"json:\\\"attributes,omitempty\\\"\"; Timestamp time.Time \"json:\\\"timestamp\\\"\"}"
     },
     {
+      "name": "PanelEncoderRuntimeSettingsWriteRequest",
+      "kind": "type",
+      "type": "PanelEncoderRuntimeSettingsWriteRequest",
+      "alias": false,
+      "underlying": "struct{ExpectedSettingsRevision *string \"json:\\\"expected_settings_revision,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id\\\"\"}"
+    },
+    {
       "name": "ParseNodeListenerConfig",
       "kind": "func",
       "type": "func(payload []byte) (NodeListenerConfig, error)",
@@ -1788,7 +1802,7 @@
       "kind": "type",
       "type": "ProfileWriteRequest",
       "alias": false,
-      "underlying": "struct{Name string \"json:\\\"name\\\"\"; Config map[string]any \"json:\\\"config\\\"\"}"
+      "underlying": "struct{ExpectedUpdatedAt *string \"json:\\\"expected_updated_at,omitempty\\\"\"; Name string \"json:\\\"name\\\"\"; Config map[string]any \"json:\\\"config\\\"\"}"
     },
     {
       "name": "ProfileYouTubeOutput",
@@ -2666,6 +2680,13 @@
       "underlying": "struct{PasswordMinLength int \"json:\\\"password_min_length\\\"\"; PasswordHash string \"json:\\\"password_hash\\\"\"; LoginLockoutThreshold int \"json:\\\"login_lockout_threshold\\\"\"; SessionIdleTimeoutMin int \"json:\\\"session_idle_timeout_min\\\"\"; SessionAbsoluteLifetimeH int \"json:\\\"session_absolute_lifetime_h\\\"\"; RememberMeEnabled bool \"json:\\\"remember_me_enabled\\\"\"; MFAMode string \"json:\\\"mfa_mode\\\"\"; MFARequiredRoles []string \"json:\\\"mfa_required_roles,omitempty\\\"\"; MFASupportedMethods []string \"json:\\\"mfa_supported_methods,omitempty\\\"\"; PasskeyStatus string \"json:\\\"passkey_status,omitempty\\\"\"; UpdatedAt string \"json:\\\"updated_at,omitempty\\\"\"}"
     },
     {
+      "name": "SecuritySettingsWriteRequest",
+      "kind": "type",
+      "type": "SecuritySettingsWriteRequest",
+      "alias": false,
+      "underlying": "struct{SecuritySettings; ExpectedUpdatedAt *string \"json:\\\"expected_updated_at,omitempty\\\"\"}"
+    },
+    {
       "name": "ServiceArtifactReport",
       "kind": "type",
       "type": "ServiceArtifactReport",
@@ -3104,7 +3125,7 @@
       "kind": "type",
       "type": "StreamSettingsWriteRequest",
       "alias": false,
-      "underlying": "struct{DiscordConfigID string \"json:\\\"discord_config_id,omitempty\\\"\"; DiscordGuildID string \"json:\\\"discord_guild_id,omitempty\\\"\"; DiscordVoiceChannelID string \"json:\\\"discord_voice_channel_id,omitempty\\\"\"; DiscordTextChannelID string \"json:\\\"discord_text_channel_id,omitempty\\\"\"; AutoStartTrigger string \"json:\\\"auto_start_trigger,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; YouTubeOutputID string \"json:\\\"youtube_output_id,omitempty\\\"\"; EncoderInputURL string \"json:\\\"encoder_input_url,omitempty\\\"\"}"
+      "underlying": "struct{ExpectedSettingsRevision *string \"json:\\\"expected_settings_revision,omitempty\\\"\"; DiscordConfigID string \"json:\\\"discord_config_id,omitempty\\\"\"; DiscordGuildID string \"json:\\\"discord_guild_id,omitempty\\\"\"; DiscordVoiceChannelID string \"json:\\\"discord_voice_channel_id,omitempty\\\"\"; DiscordTextChannelID string \"json:\\\"discord_text_channel_id,omitempty\\\"\"; AutoStartTrigger string \"json:\\\"auto_start_trigger,omitempty\\\"\"; EncoderProfileID string \"json:\\\"encoder_profile_id,omitempty\\\"\"; CaptionProfileID string \"json:\\\"caption_profile_id,omitempty\\\"\"; OverlayProfileID string \"json:\\\"overlay_profile_id,omitempty\\\"\"; EncoderAudioGainDB float64 \"json:\\\"encoder_audio_gain_db,omitempty\\\"\"; ArchiveProfileID string \"json:\\\"archive_profile_id,omitempty\\\"\"; YouTubeOutputID string \"json:\\\"youtube_output_id,omitempty\\\"\"; EncoderInputURL string \"json:\\\"encoder_input_url,omitempty\\\"\"}"
     },
     {
       "name": "StreamStarting",
@@ -4746,7 +4767,7 @@
       "kind": "type",
       "type": "YouTubeOutputWriteRequest",
       "alias": false,
-      "underlying": "struct{Name string \"json:\\\"name\\\"\"; Mode YouTubeOutputMode \"json:\\\"mode\\\"\"; RTMPURL string \"json:\\\"rtmp_url,omitempty\\\"\"; StreamKey string \"json:\\\"stream_key,omitempty\\\"\"; WatchURL string \"json:\\\"watch_url,omitempty\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; RelayBindingID string \"json:\\\"relay_binding_id,omitempty\\\"\"; ReusableLiveStreamID string \"json:\\\"reusable_live_stream_id,omitempty\\\"\"; BroadcastTitleTemplate string \"json:\\\"broadcast_title_template,omitempty\\\"\"; BroadcastDescription string \"json:\\\"broadcast_description,omitempty\\\"\"; PrivacyStatus string \"json:\\\"privacy_status,omitempty\\\"\"; LatencyPreference string \"json:\\\"latency_preference,omitempty\\\"\"; EnableAutoStart *bool \"json:\\\"enable_auto_start,omitempty\\\"\"; EnableAutoStop *bool \"json:\\\"enable_auto_stop,omitempty\\\"\"; CompleteOnStop *bool \"json:\\\"complete_on_stop,omitempty\\\"\"}"
+      "underlying": "struct{ExpectedUpdatedAt *string \"json:\\\"expected_updated_at,omitempty\\\"\"; Name string \"json:\\\"name\\\"\"; Mode YouTubeOutputMode \"json:\\\"mode\\\"\"; RTMPURL string \"json:\\\"rtmp_url,omitempty\\\"\"; StreamKey string \"json:\\\"stream_key,omitempty\\\"\"; WatchURL string \"json:\\\"watch_url,omitempty\\\"\"; OAuthAccountID string \"json:\\\"oauth_account_id,omitempty\\\"\"; RelayBindingID string \"json:\\\"relay_binding_id,omitempty\\\"\"; ReusableLiveStreamID string \"json:\\\"reusable_live_stream_id,omitempty\\\"\"; BroadcastTitleTemplate string \"json:\\\"broadcast_title_template,omitempty\\\"\"; BroadcastDescription string \"json:\\\"broadcast_description,omitempty\\\"\"; PrivacyStatus string \"json:\\\"privacy_status,omitempty\\\"\"; LatencyPreference string \"json:\\\"latency_preference,omitempty\\\"\"; EnableAutoStart *bool \"json:\\\"enable_auto_start,omitempty\\\"\"; EnableAutoStop *bool \"json:\\\"enable_auto_stop,omitempty\\\"\"; CompleteOnStop *bool \"json:\\\"complete_on_stop,omitempty\\\"\"}"
     },
     {
       "name": "YouTubeRelayStaticRecoveryResolveRequest",

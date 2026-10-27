@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/profile-write.schema.json",
+  "title": "ProfileWriteRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "config"
+  ],
+  "properties": {
+    "expected_updated_at": {
+      "$ref": "resource-updated-at.schema.json"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "config": {
+      "type": "object"
+    }
+  }
+}

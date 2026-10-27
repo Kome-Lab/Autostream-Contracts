@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/panel-media-asset.schema.json",
+  "title": "PanelMediaAsset",
+  "description": "Owner-authorized public asset metadata. Does not expose owner_user_id, storage keys or raw image bytes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "owner_type",
+    "owner_id",
+    "usage_type",
+    "sha256",
+    "media_type",
+    "byte_size",
+    "width",
+    "height",
+    "opaque",
+    "processor_revision",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "owner_type": {
+      "enum": [
+        "upload_draft",
+        "stream",
+        "preset"
+      ]
+    },
+    "owner_id": {
+      "type": "string"
+    },
+    "upload_session_id": {
+      "type": "string"
+    },
+    "client_operation_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Optional client-generated UUID bound to this upload session and usage. Replays return the same committed asset while that draft remains valid. A deleted nonce is never reused to create a replacement."
+    },
+    "usage_type": {
+      "enum": [
+        "scene_background",
+        "video_cover"
+      ]
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "media_type": {
+      "type": "string"
+    },
+    "byte_size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "opaque": {
+      "type": "boolean"
+    },
+    "processor_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "deleted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "retention_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

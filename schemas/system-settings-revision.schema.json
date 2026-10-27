@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.autostream.example.com/system-settings-revision.schema.json",
+  "title": "SystemSettingsRevision",
+  "oneOf": [
+    { "const": "unconfigured" },
+    { "$ref": "resource-updated-at.schema.json" }
+  ],
+  "description": "Original APP or Security editing baseline. A missing named settings row is unconfigured; saved settings use the exact canonical UTC microsecond updated_at from GET. Polling does not replace the draft baseline. A stale PUT returns 409 revision_conflict before any configuration or secret changes; omission retains legacy behavior."
+}
