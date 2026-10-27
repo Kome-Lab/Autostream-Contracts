@@ -6524,7 +6524,7 @@
   "source_file_count": 45,
   "source_files": [
     {
-      "normalized_source_sha256": "a6b12221ba6972317f3d9bbd6044126ae364bd0e0fc739cbbd4e214e134f5bad",
+      "normalized_source_sha256": "a0139391a3ad3917598f37236292615634f7595852a7a2ff8cce0af7527a1088",
       "path": "openapi/control-api.yaml"
     },
     {

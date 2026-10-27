@@ -142,9 +142,9 @@
       },
       {
         "path": "authoring/control-api/schemas-error-authentication.yaml.inc",
-        "sha256": "b74320c9bc27e815551639b4bb94a252e0f9bdd471b328cff0c40d841fcec0cf",
+        "sha256": "d97810722369e47ee43f544b5970c71b56efced35870afc3d705de0d711fcdc2",
         "symbols": [],
-        "physical_lines": 323
+        "physical_lines": 342
       },
       {
         "path": "authoring/control-api/schemas-host-ownership-self-update.yaml.inc",
@@ -232,9 +232,9 @@
       },
       {
         "path": "openapi/control-api.yaml",
-        "sha256": "a6b12221ba6972317f3d9bbd6044126ae364bd0e0fc739cbbd4e214e134f5bad",
+        "sha256": "a0139391a3ad3917598f37236292615634f7595852a7a2ff8cce0af7527a1088",
         "symbols": [],
-        "physical_lines": 8330
+        "physical_lines": 8349
       }
     ]
   },
