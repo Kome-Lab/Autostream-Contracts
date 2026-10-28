@@ -40,10 +40,16 @@
             X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "400":
           description: invalid_metadata_revision for a malformed supplied baseline, or an existing Node input validation error
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "409":
           description: node_metadata_conflict before metadata changes, or node_endpoint_managed_by_updater when updater management is confirmed
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "503":
           description: node_endpoint_ownership_unavailable before writes when a stamped endpoint change cannot obtain a supported, matching and consistent ownership authority
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "426": { $ref: "#/components/responses/contractMajorUnsupported" }
     parameters:
       - $ref: "#/components/parameters/contractMajor"

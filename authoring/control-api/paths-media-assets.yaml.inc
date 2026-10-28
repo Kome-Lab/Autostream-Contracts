@@ -7,10 +7,13 @@
       responses:
         "201":
           description: A temporary draft; creating it does not create a stream
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
           content:
             application/json:
               schema: { $ref: "#/components/schemas/MediaUploadSession" }
-        "403": { description: required stream permission or CSRF validation failed }
+        "403": { description: required stream permission or CSRF validation failed, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "426": { $ref: "#/components/responses/contractMajorUnsupported" }
   /media-assets:
     parameters: [ { $ref: "#/components/parameters/contractMajor" } ]
     post:
@@ -45,17 +48,22 @@
       responses:
         "201":
           description: Validated original asset; variant conversion and stream save are separate
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
           content:
             application/json:
               schema: { $ref: "#/components/schemas/PanelMediaAsset" }
-        "400": { description: "Invalid image, metadata, operation UUID or multipart field order" }
-        "403": { description: "Owner, session or usage mismatch" }
-        "409": { description: "Expired or claimed session, integrity conflict, or cover_upload_limit" }
+        "400": { description: "Invalid image, metadata, operation UUID or multipart field order", headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "403": { description: "Owner, session or usage mismatch", headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "409": { description: "Expired or claimed session, integrity conflict, or cover_upload_limit", headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
         "500":
           description: media_asset_operation_failed; result may be unknown and must be reconciled by reads
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
           content:
             application/json:
               schema: { $ref: "#/components/schemas/ErrorResponse" }
+        "426": { $ref: "#/components/responses/contractMajorUnsupported" }
   /media-assets/upload-sessions/{session_id}/assets:
     parameters: [ { $ref: "#/components/parameters/contractMajor" } ]
     get:
@@ -85,13 +93,15 @@
           description: Owner-bound committed metadata; never a terminal non-application receipt
           headers:
             Cache-Control: { schema: { type: string, const: no-store } }
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
           content:
             application/json:
               schema: { $ref: "#/components/schemas/MediaUploadOperationResponse" }
-        "400": { description: "Missing, repeated or invalid operation_id" }
-        "403": { description: Required stream permission missing }
-        "404": { description: The owner's upload session was not found }
-        "500": { description: media_asset_operation_failed; no mutation is performed by inspection }
+        "400": { description: "Missing, repeated or invalid operation_id", headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "403": { description: Required stream permission missing, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "404": { description: The owner's upload session was not found, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "500": { description: media_asset_operation_failed; no mutation is performed by inspection, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "426": { $ref: "#/components/responses/contractMajorUnsupported" }
   /streams/{id}/visual-settings:
     parameters: [ { $ref: "#/components/parameters/contractMajor" } ]
     get:
@@ -102,8 +112,11 @@
       responses:
         "200":
           description: Saved visual settings including all cover candidates and selected start image
-        "403": { description: Required streams.read permission missing }
-        "404": { description: The stream or its visual settings were not found }
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
+        "403": { description: Required streams.read permission missing, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "404": { description: The stream or its visual settings were not found, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "426": { $ref: "#/components/responses/contractMajorUnsupported" }
     put:
       operationId: updateStreamVisualSettings
       summary: Update saved visual settings and exact draft image claims
@@ -122,7 +135,8 @@
                 - $ref: "#/components/schemas/StreamVisualWriteSettings"
                 - required: [ expected_revision ]
       responses:
-        "200": { description: Visual settings and exact draft claims committed }
-        "400": { description: Known invalid_visual_settings rejection; draft remains editable }
-        "409": { description: "Revision, state, claim or uploaded-cover quota conflict" }
-        "500": { description: stream_visual_operation_failed; a missing or ambiguous commit receipt must not be automatically resent }
+        "200": { description: Visual settings and exact draft claims committed, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "400": { description: Known invalid_visual_settings rejection; draft remains editable, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "409": { description: "Revision, state, claim or uploaded-cover quota conflict", headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "500": { description: stream_visual_operation_failed; a missing or ambiguous commit receipt must not be automatically resent, headers: { X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" } } }
+        "426": { $ref: "#/components/responses/contractMajorUnsupported" }

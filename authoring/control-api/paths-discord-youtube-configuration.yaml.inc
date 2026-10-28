@@ -70,6 +70,8 @@
               $ref: "#/components/headers/contractMajor"
         "409":
           description: revision_conflict; neither profile nor token was changed
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete:

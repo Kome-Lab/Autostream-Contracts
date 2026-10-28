@@ -72,6 +72,10 @@ func TestControlOpenAPIAdditiveV2CompatibilityMutationSensitivity(t *testing.T) 
 		{name: "deactivation_unknown_allowed", wantFailure: "SystemUpdatePullOwnershipDeactivateRequest is not a strict object"},
 		{name: "standby_removed", wantFailure: "enum=[primary]"},
 		{name: "passkey_removed", wantFailure: "enum=[disabled totp]"},
+		{name: "passkey_write_removed", wantFailure: "enum=[disabled totp]"},
+		{name: "mfa_roles_write_items_changed", wantFailure: "SecuritySettings request.mfa_required_roles must be an array of strings"},
+		{name: "mfa_roles_read_items_changed", wantFailure: "SecuritySettings response.mfa_required_roles must be an array of strings"},
+		{name: "security_read_schema_used_for_write", wantFailure: "PUT /security/settings request does not reference SecuritySettingsWriteRequest"},
 		{name: "email_removed", wantFailure: "enum=[discord slack generic]"},
 		{name: "relay_rtmp_exclusion_removed", wantFailure: "rtmp_url"},
 		{name: "transport_const_removed", wantFailure: "must be pull_v2"},
@@ -179,13 +183,26 @@ func requireControlOpenAPIMFAPolicy(t *testing.T) {
 	t.Helper()
 	control := readMutatedControlOpenAPI(t)
 	request := requireControlOpenAPIRequestComponentSchema(
-		t, control, "/security/settings", "put", "SecuritySettings")
+		t, control, "/security/settings", "put", "SecuritySettingsWriteRequest")
 	response := requireControlOpenAPIResponseComponentSchema(
 		t, control, "/security/settings", "get", "200", "SecuritySettings")
 	for label, schema := range map[string]map[string]any{"request": request, "response": response} {
+		properties := requireCharacterizationMap(t, schema, "properties")
+		want := []string{"password_min_length", "password_hash", "login_lockout_threshold", "session_idle_timeout_min", "session_absolute_lifetime_h", "remember_me_enabled", "mfa_mode", "mfa_required_roles", "mfa_supported_methods", "passkey_status", "updated_at"}
+		if label == "request" {
+			want = append(want, "expected_updated_at")
+		}
+		assertExactControlOpenAPIKeys(t, properties, want)
 		assertControlOpenAPIExactEnum(t,
-			requireControlOpenAPIProperty(t, schema, "SecuritySettings "+label, "mfa_mode"),
+			resolveCharacterizationSchema(t, control,
+				requireControlOpenAPIProperty(t, schema, "SecuritySettings "+label, "mfa_mode")),
 			[]string{"disabled", "totp", "passkey"})
+		roles := resolveCharacterizationSchema(t, control,
+			requireControlOpenAPIProperty(t, schema, "SecuritySettings "+label, "mfa_required_roles"))
+		items := resolveCharacterizationSchema(t, control, roles["items"])
+		if roles["type"] != "array" || items["type"] != "string" {
+			t.Fatalf("SecuritySettings %s.mfa_required_roles must be an array of strings", label)
+		}
 	}
 }
 
@@ -328,6 +345,7 @@ func applyControlOpenAPITestMutant(t *testing.T, control map[string]any, mutant 
 		if !ok {
 			t.Fatalf("mutant target property %s.%s is missing", componentName, propertyName)
 		}
+		schema = resolveCharacterizationSchema(t, control, schema)
 		enum := make([]any, len(values))
 		for index, value := range values {
 			enum[index] = value
@@ -348,6 +366,19 @@ func applyControlOpenAPITestMutant(t *testing.T, control map[string]any, mutant 
 		setEnum("ServiceAssignmentWriteRequest", "assignment_role", "primary")
 	case "passkey_removed":
 		setEnum("SecuritySettings", "mfa_mode", "disabled", "totp")
+	case "passkey_write_removed":
+		setEnum("SecuritySettingsWriteRequest", "mfa_mode", "disabled", "totp")
+	case "mfa_roles_write_items_changed", "mfa_roles_read_items_changed":
+		name := "SecuritySettings"
+		if mutant == "mfa_roles_write_items_changed" {
+			name = "SecuritySettingsWriteRequest"
+		}
+		roles := resolveCharacterizationSchema(t, control,
+			requireControlOpenAPIProperty(t, component(name), name, "mfa_required_roles"))
+		roles["items"] = map[string]any{"type": "integer"}
+	case "security_read_schema_used_for_write":
+		slot := controlOpenAPIRequestSchemaSlot(t, control, "/security/settings", "put")
+		slot["schema"] = map[string]any{"$ref": "#/components/schemas/SecuritySettings"}
 	case "email_removed":
 		setEnum("ControlNotificationChannelUpdateRequest", "type", "discord", "slack", "generic")
 	case "relay_rtmp_exclusion_removed":

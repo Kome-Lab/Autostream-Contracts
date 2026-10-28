@@ -131,6 +131,8 @@
               $ref: "#/components/headers/contractMajor"
         "409":
           description: revision_conflict; no profile change or live-runtime dispatch was applied
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete: { $ref: "#/components/pathItems/itemProfile/delete" }

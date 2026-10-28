@@ -95,6 +95,8 @@
               $ref: "#/components/headers/contractMajor"
         "409":
           description: revision_conflict; no security configuration changes were applied
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:
@@ -145,6 +147,8 @@
               $ref: "#/components/headers/contractMajor"
         "409":
           description: revision_conflict; application configuration and SMTP/Turnstile secrets were not changed
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     parameters:

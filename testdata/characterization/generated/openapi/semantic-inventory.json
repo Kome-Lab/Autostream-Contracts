@@ -24,7 +24,7 @@
         "put": 19,
         "trace": 0
       },
-      "normalized_bundle_sha256": "50aa1967493af90ca4edb47397cc919ffb0a76064d2603d503f61fb06a73b6e7",
+      "normalized_bundle_sha256": "d743d32d402cd4e2981bac494c7b4d3e98356b7467c6032b1c9740334e7ce3f9",
       "openapi_version": "3.1.0",
       "operation_count": 184,
       "operation_id_count": 22,
@@ -2336,6 +2336,20 @@
               "schemas": [
                 {
                   "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
                   "name": "ErrorResponse",
                   "ref": "#/components/schemas/ErrorResponse",
                   "resolved_sha256": "b81434fee5904346db94af65dda35e3b41855859ed910e9207b94d3313e20fc4"
@@ -2380,6 +2394,20 @@
               "content_types": [],
               "schemas": [],
               "status": "403"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
             }
           ],
           "security_source": "inherited",
@@ -2428,6 +2456,20 @@
               "content_types": [],
               "schemas": [],
               "status": "404"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
             },
             {
               "content_types": [],
@@ -7616,6 +7658,20 @@
               "content_types": [],
               "schemas": [],
               "status": "404"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
             }
           ],
           "security_source": "inherited",
@@ -7659,6 +7715,20 @@
               "content_types": [],
               "schemas": [],
               "status": "409"
+            },
+            {
+              "content_types": [
+                "application/json"
+              ],
+              "schemas": [
+                {
+                  "kind": "ref",
+                  "name": "V2ContractError",
+                  "ref": "#/components/schemas/V2ContractError",
+                  "resolved_sha256": "4481a9f7bfdae9051f1828903ee8a1a1682e38b79d8f4c3c35705a5aeb88cb72"
+                }
+              ],
+              "status": "426"
             },
             {
               "content_types": [],
@@ -10062,7 +10132,7 @@
           "path": "/setup/first-admin"
         }
       ],
-      "ref_layout_independent_sha256": "5a1b25d50a5db6bf625f3df294bc3c4af8e8c62e01387aacfa1dd483699c9d3a",
+      "ref_layout_independent_sha256": "6f3d8877708ac672a1cad99f092eb81e3ed74f3399e1b0ba6def04f1b0a96017",
       "request_body_count": 60,
       "response_status_distribution": {
         "200": 143,
@@ -10077,7 +10147,7 @@
         "405": 1,
         "409": 51,
         "410": 2,
-        "426": 178,
+        "426": 183,
         "429": 4,
         "500": 18,
         "502": 11,

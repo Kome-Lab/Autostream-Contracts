@@ -307,7 +307,12 @@
               }
             },
             "409": {
-              "description": "revision_conflict; no configuration or secret changes were applied"
+              "description": "revision_conflict; no configuration or secret changes were applied",
+              "headers": {
+                "X-AutoStream-Contract-Major": {
+                  "$ref": "#/components/headers/contractMajor"
+                }
+              }
             },
             "426": {
               "$ref": "#/components/responses/contractMajorUnsupported"
@@ -16055,7 +16060,12 @@
             }
           },
           "409": {
-            "description": "revision_conflict; the destination and encrypted folder ID were not changed"
+            "description": "revision_conflict; the destination and encrypted folder ID were not changed",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -16920,7 +16930,12 @@
             }
           },
           "409": {
-            "description": "revision_conflict; neither profile nor token was changed"
+            "description": "revision_conflict; neither profile nor token was changed",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -17497,16 +17512,39 @@
                 }
               }
             },
-            "description": "Validated original asset; variant conversion and stream save are separate"
+            "description": "Validated original asset; variant conversion and stream save are separate",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "400": {
-            "description": "Invalid image, metadata, operation UUID or multipart field order"
+            "description": "Invalid image, metadata, operation UUID or multipart field order",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "403": {
-            "description": "Owner, session or usage mismatch"
+            "description": "Owner, session or usage mismatch",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "409": {
-            "description": "Expired or claimed session, integrity conflict, or cover_upload_limit"
+            "description": "Expired or claimed session, integrity conflict, or cover_upload_limit",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
           },
           "500": {
             "content": {
@@ -17516,7 +17554,12 @@
                 }
               }
             },
-            "description": "media_asset_operation_failed; result may be unknown and must be reconciled by reads"
+            "description": "media_asset_operation_failed; result may be unknown and must be reconciled by reads",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           }
         },
         "summary": "Upload one original image to a temporary session",
@@ -17543,10 +17586,23 @@
                 }
               }
             },
-            "description": "A temporary draft; creating it does not create a stream"
+            "description": "A temporary draft; creating it does not create a stream",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "403": {
-            "description": "required stream permission or CSRF validation failed"
+            "description": "required stream permission or CSRF validation failed",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
           }
         },
         "summary": "Create an owner-bound temporary image upload session",
@@ -17597,20 +17653,46 @@
                   "const": "no-store",
                   "type": "string"
                 }
+              },
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
               }
             }
           },
           "400": {
-            "description": "Missing, repeated or invalid operation_id"
+            "description": "Missing, repeated or invalid operation_id",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "403": {
-            "description": "Required stream permission missing"
+            "description": "Required stream permission missing",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "404": {
-            "description": "The owner's upload session was not found"
+            "description": "The owner's upload session was not found",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
           },
           "500": {
-            "description": "media_asset_operation_failed; no mutation is performed by inspection"
+            "description": "media_asset_operation_failed; no mutation is performed by inspection",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           }
         },
         "summary": "Inspect one upload operation without mutating it",
@@ -17822,16 +17904,31 @@
             }
           },
           "400": {
-            "description": "invalid_metadata_revision for a malformed supplied baseline, or an existing Node input validation error"
+            "description": "invalid_metadata_revision for a malformed supplied baseline, or an existing Node input validation error",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "409": {
-            "description": "node_metadata_conflict before metadata changes, or node_endpoint_managed_by_updater when updater management is confirmed"
+            "description": "node_metadata_conflict before metadata changes, or node_endpoint_managed_by_updater when updater management is confirmed",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
           },
           "503": {
-            "description": "node_endpoint_ownership_unavailable before writes when a stamped endpoint change cannot obtain a supported, matching and consistent ownership authority"
+            "description": "node_endpoint_ownership_unavailable before writes when a stamped endpoint change cannot obtain a supported, matching and consistent ownership authority",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           }
         },
         "summary": "Edit Node metadata under its original optional semantic baseline",
@@ -18505,7 +18602,12 @@
             }
           },
           "409": {
-            "description": "revision_conflict; no profile change or live-runtime dispatch was applied"
+            "description": "revision_conflict; no profile change or live-runtime dispatch was applied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -18799,7 +18901,12 @@
             }
           },
           "409": {
-            "description": "revision_conflict; no security configuration changes were applied"
+            "description": "revision_conflict; no security configuration changes were applied",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -20490,7 +20597,12 @@
             }
           },
           "409": {
-            "description": "revision_conflict; application configuration and SMTP/Turnstile secrets were not changed"
+            "description": "revision_conflict; application configuration and SMTP/Turnstile secrets were not changed",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "426": {
             "$ref": "#/components/responses/contractMajorUnsupported"
@@ -21457,7 +21569,12 @@
             }
           },
           "400": {
-            "description": "stream_settings_archive_revision_unsupported before writes when expected_settings_revision is supplied together with a requested legacy direct-archive materialization. Omitted legacy revisions and empty clearing fields retain their prior behavior."
+            "description": "stream_settings_archive_revision_unsupported before writes when expected_settings_revision is supplied together with a requested legacy direct-archive materialization. Omitted legacy revisions and empty clearing fields retain their prior behavior.",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "404": {
             "description": "stream not found",
@@ -21652,13 +21769,31 @@
         ],
         "responses": {
           "200": {
-            "description": "Saved visual settings including all cover candidates and selected start image"
+            "description": "Saved visual settings including all cover candidates and selected start image",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "403": {
-            "description": "Required streams.read permission missing"
+            "description": "Required streams.read permission missing",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "404": {
-            "description": "The stream or its visual settings were not found"
+            "description": "The stream or its visual settings were not found",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
           }
         },
         "summary": "Read a stream's saved visual settings and cover candidates",
@@ -21698,16 +21833,39 @@
         },
         "responses": {
           "200": {
-            "description": "Visual settings and exact draft claims committed"
+            "description": "Visual settings and exact draft claims committed",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "400": {
-            "description": "Known invalid_visual_settings rejection; draft remains editable"
+            "description": "Known invalid_visual_settings rejection; draft remains editable",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           },
           "409": {
-            "description": "Revision, state, claim or uploaded-cover quota conflict"
+            "description": "Revision, state, claim or uploaded-cover quota conflict",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
+          },
+          "426": {
+            "$ref": "#/components/responses/contractMajorUnsupported"
           },
           "500": {
-            "description": "stream_visual_operation_failed; a missing or ambiguous commit receipt must not be automatically resent"
+            "description": "stream_visual_operation_failed; a missing or ambiguous commit receipt must not be automatically resent",
+            "headers": {
+              "X-AutoStream-Contract-Major": {
+                "$ref": "#/components/headers/contractMajor"
+              }
+            }
           }
         },
         "summary": "Update saved visual settings and exact draft image claims"

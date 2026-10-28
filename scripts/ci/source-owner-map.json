@@ -10,9 +10,9 @@
     "destinations": [
       {
         "path": "authoring/control-api/components-http-authorization.yaml.inc",
-        "sha256": "9e09dacac0af43d74eb144d3b2dfc2f69652cd7c20a163a28c0615da89c9a77b",
+        "sha256": "ac6ea68c06c129db5db312a83862d79f5e43a43dc2bbe07de628ffcd9a0773de",
         "symbols": [],
-        "physical_lines": 322
+        "physical_lines": 324
       },
       {
         "path": "authoring/control-api/document-policy.yaml.inc",
@@ -28,9 +28,9 @@
       },
       {
         "path": "authoring/control-api/paths-discord-youtube-configuration.yaml.inc",
-        "sha256": "1617287b147febdd6871f4c25f2ee7db2f64f4cea08f1ed7fcec43553c67af44",
+        "sha256": "d0d8daefda6897473f0d95831226d40cb220de8bbfaf80bbf708d99c66411386",
         "symbols": [],
-        "physical_lines": 206
+        "physical_lines": 208
       },
       {
         "path": "authoring/control-api/paths-health-bootstrap.yaml.inc",
@@ -46,9 +46,9 @@
       },
       {
         "path": "authoring/control-api/paths-oauth-archive.yaml.inc",
-        "sha256": "31cfa5f931e1cea7c26880489c69ce9035828515f9ddaf232200c4657def3caf",
+        "sha256": "c10106795125fb806a18203ed011c778352c1239c0e01f531c99a52a18b28a06",
         "symbols": [],
-        "physical_lines": 361
+        "physical_lines": 363
       },
       {
         "path": "authoring/control-api/paths-observability.yaml.inc",
@@ -58,9 +58,9 @@
       },
       {
         "path": "authoring/control-api/paths-security-settings.yaml.inc",
-        "sha256": "c5659c2b86df31d8e2b319643148d823f7f1c241b0c6db8286a9126416e10603",
+        "sha256": "c97e3805cd523cdbd261c245d051eedf1a6ca36a0e12deae5bdecb1cb19f9035",
         "symbols": [],
-        "physical_lines": 174
+        "physical_lines": 178
       },
       {
         "path": "authoring/control-api/paths-service-registration-host-policy.yaml.inc",
@@ -88,15 +88,15 @@
       },
       {
         "path": "authoring/control-api/paths-stream-configuration.yaml.inc",
-        "sha256": "d8d0f5d3831a3fae106494854050e5dd23e2ef5b867faad6d1029107a4339c03",
+        "sha256": "77a53d69e2b0974497307f50abc02e7c6eff3aae07ab783e31301bb193345286",
         "symbols": [],
-        "physical_lines": 259
+        "physical_lines": 261
       },
       {
         "path": "authoring/control-api/paths-stream-events-profiles.yaml.inc",
-        "sha256": "53a3620443ed2c0906b4dda7d7d056dda33dc164d105a6093e6c621b19bf1658",
+        "sha256": "ccc531ed99d1edf72a4870f164d6c2e86d389c89f82e3f1d00359afe938e1ebd",
         "symbols": [],
-        "physical_lines": 149
+        "physical_lines": 151
       },
       {
         "path": "authoring/control-api/paths-stream-preview-recovery.yaml.inc",
@@ -232,9 +232,9 @@
       },
       {
         "path": "openapi/control-api.yaml",
-        "sha256": "500d9650672f4b84b049a4228869261bd53e6a5262868f940dd056a3f858450b",
+        "sha256": "d4c292ff84cd057dc1c45cd910cd445fdac2f8e8a88f2a6fb3ce684168e13e21",
         "symbols": [],
-        "physical_lines": 8610
+        "physical_lines": 8644
       }
     ]
   },

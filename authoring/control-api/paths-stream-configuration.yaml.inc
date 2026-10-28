@@ -123,6 +123,8 @@
               $ref: "#/components/headers/contractMajor"
         "400":
           description: stream_settings_archive_revision_unsupported before writes when expected_settings_revision is supplied together with a requested legacy direct-archive materialization. Omitted legacy revisions and empty clearing fields retain their prior behavior.
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "404":
           description: stream not found
           headers:

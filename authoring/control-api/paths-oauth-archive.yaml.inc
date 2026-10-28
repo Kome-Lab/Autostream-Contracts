@@ -345,6 +345,8 @@
               $ref: "#/components/headers/contractMajor"
         "409":
           description: revision_conflict; the destination and encrypted folder ID were not changed
+          headers:
+            X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
         "426":
           $ref: "#/components/responses/contractMajorUnsupported"
     delete:

@@ -307,6 +307,8 @@ components:
                 $ref: "#/components/headers/contractMajor"
           "409":
             description: revision_conflict; no configuration or secret changes were applied
+            headers:
+              X-AutoStream-Contract-Major: { $ref: "#/components/headers/contractMajor" }
           "426":
             $ref: "#/components/responses/contractMajorUnsupported"
       delete:

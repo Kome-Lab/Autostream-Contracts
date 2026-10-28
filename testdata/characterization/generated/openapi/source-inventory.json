@@ -1783,6 +1783,151 @@
     {
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/headers/contractMajor"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
       "value": "#/components/headers/noStore"
     },
     {
@@ -3324,6 +3469,31 @@
       "source": "openapi/control-api.yaml",
       "target": "openapi/control-api.yaml",
       "value": "#/components/pathItems/listCreateProfile/post"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
+    },
+    {
+      "source": "openapi/control-api.yaml",
+      "target": "openapi/control-api.yaml",
+      "value": "#/components/responses/contractMajorUnsupported"
     },
     {
       "source": "openapi/control-api.yaml",
@@ -6889,7 +7059,7 @@
   "source_file_count": 61,
   "source_files": [
     {
-      "normalized_source_sha256": "500d9650672f4b84b049a4228869261bd53e6a5262868f940dd056a3f858450b",
+      "normalized_source_sha256": "d4c292ff84cd057dc1c45cd910cd445fdac2f8e8a88f2a6fb3ce684168e13e21",
       "path": "openapi/control-api.yaml"
     },
     {
