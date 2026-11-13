@@ -43,18 +43,6 @@ jobs:
           test "$(awk '$1 == "go" { print $2 }' go.mod)" = 1.26.5
           test "$(go list -m)" = github.com/Kome-Lab/Autostream-Contracts/v3evidence
           go version
-      - name: Prepare reviewed canonical formatting
-        shell: bash
-        run: |
-          set -euo pipefail
-          gofmt -w request.go request_test.go codec.go ../scripts/ci/canonical_*_interop_test.go
-          python3 - <<'PY'
-          from pathlib import Path
-          for path in [Path('request.go'), Path('request_test.go'), Path('codec.go'), *sorted(Path('../scripts/ci').glob('canonical_*_interop_test.go'))]:
-              print('CANON_FORMAT_BEGIN '+str(path))
-              print(path.read_text(),end='')
-              print('CANON_FORMAT_END '+str(path))
-          PY
       - name: Check gofmt
         shell: bash
         run: test -z "$(gofmt -l . ../scripts/ci/canonical_*_interop_test.go)"

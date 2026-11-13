@@ -18,13 +18,13 @@ const requestTestGoldenCommand = `{"Schema":1,"Operation":"registry.reference_on
 func requestTestCommand() Command {
 	return Command{
 		Schema: CanonicalRequestVersion, Operation: "registry.reference_only",
-		Scope: Scope{Realm: "realm-1", Host: "host-1", Resource: "resource-1", Backend: "backend-1"},
-		Execution: Execution{RequestID: "request-1", ExecutionKey: "execution-1", OperationID: "operation-1", AttemptID: "attempt-1", StepID: "step-1"},
+		Scope:               Scope{Realm: "realm-1", Host: "host-1", Resource: "resource-1", Backend: "backend-1"},
+		Execution:           Execution{RequestID: "request-1", ExecutionKey: "execution-1", OperationID: "operation-1", AttemptID: "attempt-1", StepID: "step-1"},
 		RequestingPrincipal: "operator-1", AuthorizationIssuer: "cp-1",
 		CandidateRevision: "candidate-1", CandidateContentPin: "content-1",
-		Expected: ExpectedReference{Revision: "previous-1", StateVersion: 7},
+		Expected:      ExpectedReference{Revision: "previous-1", StateVersion: 7},
 		RequiredGuard: RequiredGuard{Policy: "policy-1", Trust: "trust-1", Membership: "membership-1", OwnershipEpoch: "owner-1", FenceEpoch: "fence-1", Generation: "generation-1", BootID: "boot-1", ProcessIncarnation: "process-1"},
-		Timing: CommandTiming{TimeBase: "clock-1", DeadlineTick: 100}, OriginalBudget: "budget-1",
+		Timing:        CommandTiming{TimeBase: "clock-1", DeadlineTick: 100}, OriginalBudget: "budget-1",
 	}
 }
 
@@ -129,32 +129,32 @@ func TestCanonicalRequestJSONMethodsUseQualifiedCodec(t *testing.T) {
 
 func TestCanonicalBindingEveryMeaningFieldIsBound(t *testing.T) {
 	mutations := map[string]func(*Command){
-		"scope.realm": func(c *Command) { c.Scope.Realm = "realm-2" },
-		"scope.host": func(c *Command) { c.Scope.Host = "host-2" },
-		"scope.resource": func(c *Command) { c.Scope.Resource = "resource-2" },
-		"scope.backend": func(c *Command) { c.Scope.Backend = "backend-2" },
-		"execution.request": func(c *Command) { c.Execution.RequestID = "request-2" },
-		"execution.key": func(c *Command) { c.Execution.ExecutionKey = "execution-2" },
-		"execution.operation": func(c *Command) { c.Execution.OperationID = "operation-2" },
-		"execution.attempt": func(c *Command) { c.Execution.AttemptID = "attempt-2" },
-		"execution.step": func(c *Command) { c.Execution.StepID = "step-2" },
-		"requesting-principal": func(c *Command) { c.RequestingPrincipal = "operator-2" },
-		"authorization-issuer": func(c *Command) { c.AuthorizationIssuer = "cp-2" },
-		"candidate-revision": func(c *Command) { c.CandidateRevision = "candidate-2" },
-		"candidate-content-pin": func(c *Command) { c.CandidateContentPin = "content-2" },
-		"expected-revision": func(c *Command) { c.Expected.Revision = "previous-2" },
+		"scope.realm":            func(c *Command) { c.Scope.Realm = "realm-2" },
+		"scope.host":             func(c *Command) { c.Scope.Host = "host-2" },
+		"scope.resource":         func(c *Command) { c.Scope.Resource = "resource-2" },
+		"scope.backend":          func(c *Command) { c.Scope.Backend = "backend-2" },
+		"execution.request":      func(c *Command) { c.Execution.RequestID = "request-2" },
+		"execution.key":          func(c *Command) { c.Execution.ExecutionKey = "execution-2" },
+		"execution.operation":    func(c *Command) { c.Execution.OperationID = "operation-2" },
+		"execution.attempt":      func(c *Command) { c.Execution.AttemptID = "attempt-2" },
+		"execution.step":         func(c *Command) { c.Execution.StepID = "step-2" },
+		"requesting-principal":   func(c *Command) { c.RequestingPrincipal = "operator-2" },
+		"authorization-issuer":   func(c *Command) { c.AuthorizationIssuer = "cp-2" },
+		"candidate-revision":     func(c *Command) { c.CandidateRevision = "candidate-2" },
+		"candidate-content-pin":  func(c *Command) { c.CandidateContentPin = "content-2" },
+		"expected-revision":      func(c *Command) { c.Expected.Revision = "previous-2" },
 		"expected-state-version": func(c *Command) { c.Expected.StateVersion++ },
-		"guard-policy": func(c *Command) { c.RequiredGuard.Policy = "policy-2" },
-		"guard-trust": func(c *Command) { c.RequiredGuard.Trust = "trust-2" },
-		"guard-membership": func(c *Command) { c.RequiredGuard.Membership = "membership-2" },
-		"guard-owner": func(c *Command) { c.RequiredGuard.OwnershipEpoch = "owner-2" },
-		"guard-fence": func(c *Command) { c.RequiredGuard.FenceEpoch = "fence-2" },
-		"guard-generation": func(c *Command) { c.RequiredGuard.Generation = "generation-2" },
-		"guard-boot": func(c *Command) { c.RequiredGuard.BootID = "boot-2" },
-		"guard-process": func(c *Command) { c.RequiredGuard.ProcessIncarnation = "process-2" },
-		"time-base": func(c *Command) { c.Timing.TimeBase = "clock-2" },
-		"deadline": func(c *Command) { c.Timing.DeadlineTick++ },
-		"original-budget": func(c *Command) { c.OriginalBudget = "budget-2" },
+		"guard-policy":           func(c *Command) { c.RequiredGuard.Policy = "policy-2" },
+		"guard-trust":            func(c *Command) { c.RequiredGuard.Trust = "trust-2" },
+		"guard-membership":       func(c *Command) { c.RequiredGuard.Membership = "membership-2" },
+		"guard-owner":            func(c *Command) { c.RequiredGuard.OwnershipEpoch = "owner-2" },
+		"guard-fence":            func(c *Command) { c.RequiredGuard.FenceEpoch = "fence-2" },
+		"guard-generation":       func(c *Command) { c.RequiredGuard.Generation = "generation-2" },
+		"guard-boot":             func(c *Command) { c.RequiredGuard.BootID = "boot-2" },
+		"guard-process":          func(c *Command) { c.RequiredGuard.ProcessIncarnation = "process-2" },
+		"time-base":              func(c *Command) { c.Timing.TimeBase = "clock-2" },
+		"deadline":               func(c *Command) { c.Timing.DeadlineTick++ },
+		"original-budget":        func(c *Command) { c.OriginalBudget = "budget-2" },
 	}
 	for name, mutate := range mutations {
 		t.Run(name, func(t *testing.T) {
@@ -203,13 +203,13 @@ func TestCanonicalBindingVersionAndOriginalBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 	for name, mutate := range map[string]func(*CanonicalForm){
-		"request-version": func(f *CanonicalForm) { f.RequestVersion++ },
-		"binding-version": func(f *CanonicalForm) { f.BindingVersion++ },
+		"request-version":      func(f *CanonicalForm) { f.RequestVersion++ },
+		"binding-version":      func(f *CanonicalForm) { f.BindingVersion++ },
 		"zero-request-version": func(f *CanonicalForm) { f.RequestVersion = 0 },
 		"zero-binding-version": func(f *CanonicalForm) { f.BindingVersion = 0 },
-		"canonical-bytes": func(f *CanonicalForm) { f.Bytes = []byte(`{"Schema":1}`) },
-		"binding": func(f *CanonicalForm) { f.Binding = "different" },
-		"absent-canonical": func(f *CanonicalForm) { f.Bytes = nil },
+		"canonical-bytes":      func(f *CanonicalForm) { f.Bytes = []byte(`{"Schema":1}`) },
+		"binding":              func(f *CanonicalForm) { f.Binding = "different" },
+		"absent-canonical":     func(f *CanonicalForm) { f.Bytes = nil },
 	} {
 		t.Run(name, func(t *testing.T) {
 			changed := form
@@ -302,29 +302,29 @@ func TestCanonicalRequestNumericBoundaries(t *testing.T) {
 func TestCanonicalRequestStrictShape(t *testing.T) {
 	wire := requestTestWire(t, requestTestRequest(t, requestTestCommand()))
 	mutations := map[string][]byte{
-		"empty": nil,
-		"unknown-root": append(bytes.Clone(wire[:len(wire)-1]), []byte(`,"Delivery":{}}`)...),
-		"unknown-command": bytes.Replace(wire, []byte(`"Schema":1`), []byte(`"Schema":1,"Evidence":{}`), 1),
-		"unknown-scope": bytes.Replace(wire, []byte(`"Realm":"realm-1"`), []byte(`"Realm":"realm-1","Unknown":"x"`), 1),
-		"wrong-case": bytes.Replace(wire, []byte(`"Command":`), []byte(`"command":`), 1),
-		"snake-case-scope": bytes.Replace(wire, []byte(`"Realm":`), []byte(`"realm":`), 1),
-		"duplicate-root": append(bytes.Clone(wire[:len(wire)-1]), []byte(`,"Binding":"other"}`)...),
-		"duplicate-command": bytes.Replace(wire, []byte(`"Schema":1`), []byte(`"Schema":1,"Schema":1`), 1),
-		"duplicate-escaped-key": bytes.Replace(wire, []byte(`"Realm":"realm-1"`), []byte(`"Realm":"realm-1","\u0052ealm":"realm-1"`), 1),
-		"null-command": []byte(`{"Command":null,"Binding":"x"}`),
-		"null-scope": bytes.Replace(wire, []byte(`"Scope":{"Realm":"realm-1","Host":"host-1","Resource":"resource-1","Backend":"backend-1"}`), []byte(`"Scope":null`), 1),
-		"null-binding": []byte(`{"Command":` + requestTestGoldenCommand + `,"Binding":null}`),
-		"missing-command": []byte(`{"Binding":"x"}`),
-		"missing-binding": []byte(`{"Command":` + requestTestGoldenCommand + `}`),
-		"missing-scalar": bytes.Replace(wire, []byte(`"OriginalBudget":"budget-1"`), nil, 1),
-		"trailing": append(bytes.Clone(wire), []byte(` {}`)...),
-		"binding-empty": []byte(`{"Command":` + requestTestGoldenCommand + `,"Binding":""}`),
-		"binding-reordered": []byte(`{"Command":` + requestTestGoldenCommand + `,"Binding":"different-order-is-not-equality"}`),
-		"invalid-utf8": bytes.Replace(wire, []byte(`"cp-1"`), []byte{'"', 0xff, '"'}, 1),
-		"unicode-id": bytes.Replace(wire, []byte(`"operator-1"`), []byte(`"日本語"`), 1),
-		"replacement-rune": bytes.Replace(wire, []byte(`"operator-1"`), []byte(`"\ufffd"`), 1),
+		"empty":                   nil,
+		"unknown-root":            append(bytes.Clone(wire[:len(wire)-1]), []byte(`,"Delivery":{}}`)...),
+		"unknown-command":         bytes.Replace(wire, []byte(`"Schema":1`), []byte(`"Schema":1,"Evidence":{}`), 1),
+		"unknown-scope":           bytes.Replace(wire, []byte(`"Realm":"realm-1"`), []byte(`"Realm":"realm-1","Unknown":"x"`), 1),
+		"wrong-case":              bytes.Replace(wire, []byte(`"Command":`), []byte(`"command":`), 1),
+		"snake-case-scope":        bytes.Replace(wire, []byte(`"Realm":`), []byte(`"realm":`), 1),
+		"duplicate-root":          append(bytes.Clone(wire[:len(wire)-1]), []byte(`,"Binding":"other"}`)...),
+		"duplicate-command":       bytes.Replace(wire, []byte(`"Schema":1`), []byte(`"Schema":1,"Schema":1`), 1),
+		"duplicate-escaped-key":   bytes.Replace(wire, []byte(`"Realm":"realm-1"`), []byte(`"Realm":"realm-1","\u0052ealm":"realm-1"`), 1),
+		"null-command":            []byte(`{"Command":null,"Binding":"x"}`),
+		"null-scope":              bytes.Replace(wire, []byte(`"Scope":{"Realm":"realm-1","Host":"host-1","Resource":"resource-1","Backend":"backend-1"}`), []byte(`"Scope":null`), 1),
+		"null-binding":            []byte(`{"Command":` + requestTestGoldenCommand + `,"Binding":null}`),
+		"missing-command":         []byte(`{"Binding":"x"}`),
+		"missing-binding":         []byte(`{"Command":` + requestTestGoldenCommand + `}`),
+		"missing-scalar":          bytes.Replace(wire, []byte(`"OriginalBudget":"budget-1"`), nil, 1),
+		"trailing":                append(bytes.Clone(wire), []byte(` {}`)...),
+		"binding-empty":           []byte(`{"Command":` + requestTestGoldenCommand + `,"Binding":""}`),
+		"binding-reordered":       []byte(`{"Command":` + requestTestGoldenCommand + `,"Binding":"different-order-is-not-equality"}`),
+		"invalid-utf8":            bytes.Replace(wire, []byte(`"cp-1"`), []byte{'"', 0xff, '"'}, 1),
+		"unicode-id":              bytes.Replace(wire, []byte(`"operator-1"`), []byte(`"日本語"`), 1),
+		"replacement-rune":        bytes.Replace(wire, []byte(`"operator-1"`), []byte(`"\ufffd"`), 1),
 		"unpaired-high-surrogate": bytes.Replace(wire, []byte(`"operator-1"`), []byte(`"\ud800"`), 1),
-		"unpaired-low-surrogate": bytes.Replace(wire, []byte(`"operator-1"`), []byte(`"\udc00"`), 1),
+		"unpaired-low-surrogate":  bytes.Replace(wire, []byte(`"operator-1"`), []byte(`"\udc00"`), 1),
 	}
 	for name, raw := range mutations {
 		t.Run(name, func(t *testing.T) {
@@ -348,10 +348,10 @@ func TestCanonicalRequestInputOrderingAndASCIIEscapes(t *testing.T) {
 	request := requestTestRequest(t, requestTestCommand())
 	wire := requestTestWire(t, request)
 	for name, changed := range map[string][]byte{
-		"command-order": bytes.Replace(wire, []byte(`"Schema":1,"Operation":"registry.reference_only"`), []byte(`"Operation":"registry.reference_only","Schema":1`), 1),
+		"command-order":       bytes.Replace(wire, []byte(`"Schema":1,"Operation":"registry.reference_only"`), []byte(`"Operation":"registry.reference_only","Schema":1`), 1),
 		"escaped-ascii-value": bytes.Replace(wire, []byte(`"Realm":"realm-1"`), []byte(`"Realm":"realm-\u0031"`), 1),
-		"escaped-ascii-key": bytes.Replace(wire, []byte(`"Scope":`), []byte(`"Scop\u0065":`), 1),
-		"whitespace": append([]byte("\n \t"), wire...),
+		"escaped-ascii-key":   bytes.Replace(wire, []byte(`"Scope":`), []byte(`"Scop\u0065":`), 1),
+		"whitespace":          append([]byte("\n \t"), wire...),
 	} {
 		t.Run(name, func(t *testing.T) {
 			decoded, err := DecodeRequest(changed)
@@ -426,10 +426,18 @@ func TestCanonicalRequestParallelDeterminism(t *testing.T) {
 }
 
 func TestCanonicalRequestTrustedTargetCorrelation(t *testing.T) {
- request:=requestTestRequest(t,requestTestCommand())
- if err:=ValidateRequestFor(request,request.Command.Scope,request.Command.Execution);err!=nil{t.Fatal(err)}
- scope:=request.Command.Scope;scope.Host="another-host"
- if ValidateRequestFor(request,scope,request.Command.Execution)==nil{t.Fatal("scope mismatch accepted")}
- execution:=request.Command.Execution;execution.AttemptID="another-attempt"
- if ValidateRequestFor(request,request.Command.Scope,execution)==nil{t.Fatal("execution mismatch accepted")}
+	request := requestTestRequest(t, requestTestCommand())
+	if err := ValidateRequestFor(request, request.Command.Scope, request.Command.Execution); err != nil {
+		t.Fatal(err)
+	}
+	scope := request.Command.Scope
+	scope.Host = "another-host"
+	if ValidateRequestFor(request, scope, request.Command.Execution) == nil {
+		t.Fatal("scope mismatch accepted")
+	}
+	execution := request.Command.Execution
+	execution.AttemptID = "another-attempt"
+	if ValidateRequestFor(request, request.Command.Scope, execution) == nil {
+		t.Fatal("execution mismatch accepted")
+	}
 }
