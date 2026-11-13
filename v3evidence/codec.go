@@ -10,6 +10,8 @@ import (
 	"unicode/utf8"
 )
 
+const maxEvidenceJSONDepth = 32
+
 func problem(code string) error { return &Error{Code: code} }
 
 // Decode accepts one bounded UTF-8 JSON object with exact field names. The
@@ -52,7 +54,7 @@ func Encode(value Envelope) ([]byte, error) {
 }
 
 func checkValue(decoder *json.Decoder, shape reflect.Type, depth int) error {
-	if depth > 32 {
+	if depth > maxEvidenceJSONDepth {
 		return problem("shape")
 	}
 	for shape.Kind() == reflect.Pointer {
