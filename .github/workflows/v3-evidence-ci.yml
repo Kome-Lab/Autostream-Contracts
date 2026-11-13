@@ -1,0 +1,124 @@
+name: v3 evidence contract CI
+on:
+  push:
+    branches: [v3-dev]
+  pull_request:
+    branches: [v3-dev]
+permissions:
+  contents: read
+concurrency:
+  group: v3-evidence-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  GOMAXPROCS: '2'
+  GOTOOLCHAIN: local
+  GOWORK: 'off'
+  GOFLAGS: -mod=readonly
+defaults:
+  run:
+    working-directory: v3evidence
+jobs:
+  v3-evidence-checks:
+    name: v3-evidence-checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          submodules: false
+          lfs: false
+      - name: Set up pinned Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version: '1.26.5'
+          check-latest: false
+          cache: false
+      - name: Verify module and Go version
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(go env GOVERSION)" = go1.26.5
+          test "$(awk '$1 == "go" { print $2 }' go.mod)" = 1.26.5
+          test "$(go list -m)" = github.com/Kome-Lab/Autostream-Contracts/v3evidence
+          go version
+      - name: Check gofmt
+        shell: bash
+        run: test -z "$(gofmt -l . ../scripts/ci/canonical_*_interop_test.go ../scripts/ci/request_api_compat_test.go)"
+      - name: Test canonical evidence contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          go test -p 1 -count=1 -json ./... | tee "${RUNNER_TEMP}/request-tests.json"
+      - name: Require Request diagnostic test execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r required; do
+            test -n "$required" || continue
+            test "$(jq -sr --arg name "$required" '[.[]|select(.Test==$name and .Action=="run")]|length' "${RUNNER_TEMP}/request-tests.json")" = 1
+            test "$(jq -sr --arg name "$required" '[.[]|select(.Test==$name and .Action=="pass")]|length' "${RUNNER_TEMP}/request-tests.json")" = 1
+            test "$(jq -sr --arg name "$required" '[.[]|select(.Test==$name and (.Action=="skip" or .Action=="fail"))]|length' "${RUNNER_TEMP}/request-tests.json")" = 0
+          done < ../scripts/ci/request-diagnostic-required-tests.txt
+      - name: Vet canonical evidence contracts
+        run: go vet -p 1 ./...
+      - name: Build canonical evidence module
+        run: go build -p 1 ./...
+      - name: Test without CGO
+        run: CGO_ENABLED=0 go test -p 1 -count=1 ./...
+      - name: Race-test canonical evidence contracts
+        run: CGO_ENABLED=1 go test -race -p 1 -count=1 ./...
+      - name: Cross-build Linux test binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          for arch in amd64 arm64; do
+            CGO_ENABLED=0 GOOS=linux GOARCH="${arch}" go test -p 1 -trimpath -c -o "${RUNNER_TEMP}/evidence-linux-${arch}.test"
+            sha256sum "${RUNNER_TEMP}/evidence-linux-${arch}.test"
+          done
+      - name: Verify module files unchanged
+        run: git diff --exit-code -- go.mod go.sum
+      - name: Acquire fixed disposable C10 source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: Kome-Lab/Autostream-Updater
+          ref: 6f71ee3a0906665f0a639abf69c27749ba211dc7
+          path: .canonical-updater
+          persist-credentials: false
+      - name: Acquire fixed disposable CP source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: Kome-Lab/Autostream-ControlPanel
+          ref: 9a673d052a9a954570de8901044f1eb68790a870
+          path: .canonical-cp
+          persist-credentials: false
+      - name: Actual C10 and CP shared request interop
+        working-directory: .
+        shell: bash
+        run: |
+          set -euo pipefail
+          export CANONICAL_INTEROP_DIR="$RUNNER_TEMP/canonical-request-interop"
+          mkdir -p "$CANONICAL_INTEROP_DIR"
+          candidate="$GITHUB_WORKSPACE/v3evidence"
+          test "$(git -C .canonical-updater rev-parse HEAD)" = 6f71ee3a0906665f0a639abf69c27749ba211dc7
+          test "$(git -C .canonical-cp rev-parse HEAD)" = 9a673d052a9a954570de8901044f1eb68790a870
+          cp scripts/ci/canonical_updater_interop_test.go .canonical-updater/internal/localexecutor/registry/zz_canonical_interop_test.go
+          cp scripts/ci/canonical_cp_interop_test.go .canonical-cp/internal/v3authorization/zz_canonical_interop_test.go
+          (cd .canonical-updater && go mod edit -replace "github.com/Kome-Lab/Autostream-Contracts/v3evidence=$candidate")
+          (cd .canonical-cp && go mod edit -replace "github.com/Kome-Lab/Autostream-Contracts/v3evidence=$candidate")
+          (cd .canonical-updater && go test -tags=canonical_request_interop -count=1 -v ./internal/localexecutor/registry -run '^TestCanonicalContracts(C10.*|ExportC10Fixture)$')
+          (cd .canonical-cp && go test -tags=canonical_request_interop -count=1 -v ./internal/v3authorization -run '^TestCanonicalSharedCP')
+          (cd .canonical-updater && go test -tags=canonical_request_interop -count=1 -v ./internal/localexecutor/registry -run '^TestCanonicalContractsImportCPEnvelope$')
+          (cd .canonical-cp && go test -race -tags=canonical_request_interop -count=1 ./internal/v3authorization -run '^TestCanonicalSharedCP')
+          git diff --exit-code -- go.mod go.sum v3evidence/go.mod v3evidence/go.sum
+      - name: Checkout unchanged Request API baseline
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: Kome-Lab/Autostream-Contracts
+          ref: 790be850e98c06119330907a8fc2ae091e2bdc85
+          path: .request-diagnostic-baseline
+          persist-credentials: false
+      - name: Verify original APIs and errors match reviewed baseline
+        working-directory: .
+        run: bash scripts/ci/request_api_compat.sh
