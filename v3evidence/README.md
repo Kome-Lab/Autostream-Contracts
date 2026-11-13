@@ -163,3 +163,39 @@ explicit typed conversions (no Updater internal import). The remaining CP
 Authority, Integrity, Validity/revocation, other12 Producers, storage collaborators
 and independent Continuity in the bridge remain synthetic test doubles. A green
 bridge does not make real CP issuance or C10 ELIGIBLE available in production.
+
+### Request-only rejection diagnostics
+
+DecodeRequestWithDiagnostic(data) returns (Request, RequestDiagnostic, error).
+Only existing DecodeRequest success returns a normal Request and
+RequestDiagnosticNone. Every refusal returns a zero Request and the original
+error, unchanged. Error's shape, Code and Error() text remain unchanged.
+
+RequestDiagnostic is a finite uint8 classification: None, Invalid,
+BindingInvalid or BindingConflict. It contains no raw JSON, input values, key
+names, Binding, Command, identity, authority, retry instruction or I/O.
+Request-only rejection analysis is bounded by MaxRequestBytes and reuses the
+unchanged Command walker at its original depth. It completes the entire closed
+shape and trailing check, validates Command, then classifies Binding. A leading
+Binding cannot hide a later unknown/duplicate/missing field or invalid Command.
+
+The diagnostic alone tolerates a decoded RuneError in the Binding string so a
+consumer can preserve its legacy conflict label for U+FFFD/unpaired surrogates.
+Existing DecodeRequest still refuses the same input with the same encoding
+error. Structural/Command errors, raw invalid UTF-8, unknown errors and
+contradictory source classifications stay Invalid. Verification/recomputation
+inside rejection analysis never repairs or returns a Request.
+
+CI compares all original module source/tests unchanged and runs an identical
+old-API snapshot against reviewed 790be850 and the final candidate, including
+normal bytes, Request/Command validation, original Code/Error() and all 13
+Envelope Kinds. New diagnostic roots must actually run/pass without skip/fail;
+existing full/CGO-free/Race/cross-build and historical interop gates remain.
+
+The earlier three-repository section records the original 790be checkpoint.
+Updater's product adapter and fixed CP product Resolver/Service bridge now live
+in their owning PRs. This diagnostic increment writes Contracts and Updater
+only; CP remains read-only. Synthetic verification is not real Evidence
+issuance, CP management bootstrap, a key/clock/revocation choice, Continuity or
+Mutation authority. Product-wide acceptance remains NOT_RUN, Phase 1 closure
+on hold, production migration unauthorized and formal v2 return NOT_CERTIFIED.

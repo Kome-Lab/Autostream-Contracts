@@ -45,9 +45,22 @@ jobs:
           go version
       - name: Check gofmt
         shell: bash
-        run: test -z "$(gofmt -l . ../scripts/ci/canonical_*_interop_test.go)"
+        run: test -z "$(gofmt -l . ../scripts/ci/canonical_*_interop_test.go ../scripts/ci/request_api_compat_test.go)"
       - name: Test canonical evidence contracts
-        run: go test -p 1 -count=1 -v ./...
+        shell: bash
+        run: |
+          set -euo pipefail
+          go test -p 1 -count=1 -json ./... | tee "${RUNNER_TEMP}/request-tests.json"
+      - name: Require Request diagnostic test execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r required; do
+            test -n "$required" || continue
+            test "$(jq -sr --arg name "$required" '[.[]|select(.Test==$name and .Action=="run")]|length' "${RUNNER_TEMP}/request-tests.json")" = 1
+            test "$(jq -sr --arg name "$required" '[.[]|select(.Test==$name and .Action=="pass")]|length' "${RUNNER_TEMP}/request-tests.json")" = 1
+            test "$(jq -sr --arg name "$required" '[.[]|select(.Test==$name and (.Action=="skip" or .Action=="fail"))]|length' "${RUNNER_TEMP}/request-tests.json")" = 0
+          done < ../scripts/ci/request-diagnostic-required-tests.txt
       - name: Vet canonical evidence contracts
         run: go vet -p 1 ./...
       - name: Build canonical evidence module
@@ -99,3 +112,13 @@ jobs:
           (cd .canonical-updater && go test -tags=canonical_request_interop -count=1 -v ./internal/localexecutor/registry -run '^TestCanonicalContractsImportCPEnvelope$')
           (cd .canonical-cp && go test -race -tags=canonical_request_interop -count=1 ./internal/v3authorization -run '^TestCanonicalSharedCP')
           git diff --exit-code -- go.mod go.sum v3evidence/go.mod v3evidence/go.sum
+      - name: Checkout unchanged Request API baseline
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: Kome-Lab/Autostream-Contracts
+          ref: 790be850e98c06119330907a8fc2ae091e2bdc85
+          path: .request-diagnostic-baseline
+          persist-credentials: false
+      - name: Verify original APIs and errors match reviewed baseline
+        working-directory: .
+        run: bash scripts/ci/request_api_compat.sh
