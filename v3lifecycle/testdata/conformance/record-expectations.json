@@ -1,0 +1,76 @@
+{
+  "SpecRef": "G0-LOGICAL-20261115-R1",
+  "TestOnly": true,
+  "ProductionQualified": false,
+  "Records": [
+    {
+      "Contract": "CC01",
+      "Input": "fixtureRecord(CC01) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    },
+    {
+      "Contract": "CC02",
+      "Input": "fixtureRecord(CC02) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    },
+    {
+      "Contract": "CC03",
+      "Input": "fixtureRecord(CC03) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    },
+    {
+      "Contract": "CC04",
+      "Input": "fixtureRecord(CC04) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    },
+    {
+      "Contract": "CC05",
+      "Input": "fixtureRecord(CC05) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    },
+    {
+      "Contract": "CC06",
+      "Input": "fixtureRecord(CC06) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    },
+    {
+      "Contract": "CC07",
+      "Input": "fixtureRecord(CC07) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    },
+    {
+      "Contract": "CC08",
+      "Input": "fixtureRecord(CC08) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    },
+    {
+      "Contract": "CC09",
+      "Input": "fixtureRecord(CC09) in fixture_test.go",
+      "Expected": "STRUCTURALLY_COHERENT",
+      "ProductionQualified": false
+    }
+  ],
+  "ForbiddenFields": [
+    "Password",
+    "PasswordHash",
+    "MFASecret",
+    "RecoveryCode",
+    "SessionToken",
+    "CSRFToken",
+    "OAuthSecret",
+    "PrivateKey",
+    "EncryptionKey",
+    "RawPayload",
+    "RawAudio",
+    "NotificationBody",
+    "ConnectionURL"
+  ]
+}

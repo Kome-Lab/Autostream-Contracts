@@ -122,3 +122,95 @@ jobs:
       - name: Verify original APIs and errors match reviewed baseline
         working-directory: .
         run: bash scripts/ci/request_api_compat.sh
+
+  v3-lifecycle-contract-checks:
+    name: v3-lifecycle-contract-checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: v3lifecycle
+        shell: bash
+    steps:
+      - name: Checkout candidate and preservation baseline
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          submodules: false
+          lfs: false
+          fetch-depth: 0
+      - name: Set up pinned Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version: '1.26.5'
+          check-latest: false
+          cache: false
+      - name: Verify exact lifecycle module and isolated toolchain
+        run: |
+          set -euo pipefail
+          test "$(go env GOVERSION)" = go1.26.5
+          test "$(awk '$1 == "go" { print $2 }' go.mod)" = 1.26.5
+          test "$(go env GOWORK)" = off
+          test "$(go list -m)" = github.com/Kome-Lab/Autostream-Contracts/v3lifecycle
+          test "$(go list -m all)" = github.com/Kome-Lab/Autostream-Contracts/v3lifecycle
+          go version
+          printf 'CI_CHECKOUT_COMMIT=%s\n' "$(git rev-parse HEAD)"
+          printf 'CI_CHECKOUT_TREE=%s\n' "$(git rev-parse 'HEAD^{tree}')"
+      - name: Preserve existing source and check pure SourceBoundary
+        run: |
+          set -euo pipefail
+          python3 -B ../scripts/ci/lifecycle_source_boundary.py
+          python3 -B ../scripts/ci/lifecycle_ci_test.py
+      - name: Check lifecycle gofmt
+        run: |
+          set -euo pipefail
+          test -z "$(gofmt -l .)"
+      - name: Native lifecycle conformance and all package tests
+        run: |
+          set -euo pipefail
+          go test -p 1 -count=1 -json ./... | tee "${RUNNER_TEMP}/lifecycle-native-tests.json"
+          python3 -B ../scripts/ci/lifecycle_test_events.py "${RUNNER_TEMP}/lifecycle-native-tests.json" ../scripts/ci/lifecycle-required-tests.txt
+      - name: Vet lifecycle module
+        run: go vet -p 1 ./...
+      - name: Build lifecycle module
+        run: go build -p 1 ./...
+      - name: Native lifecycle without CGO
+        run: |
+          set -euo pipefail
+          CGO_ENABLED=0 go test -p 1 -count=1 -json ./... | tee "${RUNNER_TEMP}/lifecycle-cgo-free-tests.json"
+          python3 -B ../scripts/ci/lifecycle_test_events.py "${RUNNER_TEMP}/lifecycle-cgo-free-tests.json" ../scripts/ci/lifecycle-required-tests.txt
+      - name: Native lifecycle Race
+        run: |
+          set -euo pipefail
+          CGO_ENABLED=1 go test -race -p 1 -count=1 -json ./... | tee "${RUNNER_TEMP}/lifecycle-race-tests.json"
+          python3 -B ../scripts/ci/lifecycle_test_events.py "${RUNNER_TEMP}/lifecycle-race-tests.json" ../scripts/ci/lifecycle-required-tests.txt
+      - name: Cross-build Linux amd64 and arm64 without execution
+        run: |
+          set -euo pipefail
+          packages="$(go list ./...)"
+          test -n "$packages"
+          for arch in amd64 arm64; do
+            printf 'CROSS_BUILD_ONLY=linux/%s (not native execution)\n' "$arch"
+            CGO_ENABLED=0 GOOS=linux GOARCH="$arch" go build -p 1 -trimpath ./...
+            index=0
+            while IFS= read -r package; do
+              binary="${RUNNER_TEMP}/lifecycle-linux-${arch}-${index}.test"
+              CGO_ENABLED=0 GOOS=linux GOARCH="$arch" go test -p 1 -trimpath -c -o "$binary" "$package"
+              sha256sum "$binary"
+              index=$((index + 1))
+            done <<< "$packages"
+          done
+      - name: Test unchanged root Go module on Linux
+        working-directory: .
+        run: |
+          set -euo pipefail
+          go test -p 1 -count=1 -json ./... | tee "${RUNNER_TEMP}/contracts-root-tests.json"
+          go vet -p 1 ./...
+          go build -p 1 ./...
+      - name: Verify module pins and preserved baseline after checks
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- ../go.mod ../go.sum ../v3evidence/go.mod ../v3evidence/go.sum go.mod go.sum
+          python3 -B ../scripts/ci/lifecycle_source_boundary.py
+          printf 'CI_CHECKOUT_COMMIT=%s\n' "$(git rev-parse HEAD)"
+          printf 'CI_CHECKOUT_TREE=%s\n' "$(git rev-parse 'HEAD^{tree}')"

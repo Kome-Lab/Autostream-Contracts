@@ -1,0 +1,2691 @@
+{
+  "SpecRef": "G0-LOGICAL-20261115-R1",
+  "TestOnly": true,
+  "ProductionQualified": false,
+  "Profiles": [
+    {
+      "Ref": {
+        "ProfileID": "G0-P-APPROVAL-LOCAL",
+        "Revision": 1
+      },
+      "AxisRules": [
+        {
+          "Key": {
+            "Axis": "A_REVISION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "C_EPOCH",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "IDENTITY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "MEMBERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "ADMISSION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "OWNERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "FENCE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RUN",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "JOB",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONNECTION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "WRITER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "EFFECT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "COVER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "POLICY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "TRUST",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "BOOT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "PROCESS",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RELEASE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONFIG",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        }
+      ],
+      "ResourceKinds": [
+        "RUN",
+        "PARTITION",
+        "SINK",
+        "HOST",
+        "PROJECTION"
+      ],
+      "Purposes": [
+        "APPROVAL_LOCAL"
+      ],
+      "RequiredBoundaries": [
+        {
+          "Kind": "CP_LIFECYCLE",
+          "OwnerID": "owner-1",
+          "Resource": {
+            "Kind": "RUN",
+            "OwnerID": "owner-1",
+            "ResourceID": "run-1"
+          },
+          "SubBoundary": "CP_APPLY"
+        }
+      ],
+      "TerminalPolicyRef": "test-terminal-policy-1",
+      "LimitsRef": "test-limits-1",
+      "Limits": {
+        "MaxIDBytes": 192,
+        "MaxMembers": 64,
+        "MaxAxes": 64,
+        "MaxRefs": 128,
+        "MaxObligations": 32,
+        "MaxPartitions": 16,
+        "MaxRanges": 32,
+        "MaxDepth": 32
+      }
+    },
+    {
+      "Ref": {
+        "ProfileID": "G0-P-MEDIA-INGRESS",
+        "Revision": 1
+      },
+      "AxisRules": [
+        {
+          "Key": {
+            "Axis": "A_REVISION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "C_EPOCH",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "IDENTITY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "MEMBERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "ADMISSION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "OWNERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "FENCE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RUN",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "JOB",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONNECTION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "WRITER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "EFFECT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "COVER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "POLICY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "TRUST",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "BOOT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "PROCESS",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RELEASE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONFIG",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        }
+      ],
+      "ResourceKinds": [
+        "RUN",
+        "PARTITION",
+        "SINK",
+        "HOST",
+        "PROJECTION"
+      ],
+      "Purposes": [
+        "MEDIA_INGRESS"
+      ],
+      "RequiredBoundaries": [
+        {
+          "Kind": "CP_LIFECYCLE",
+          "OwnerID": "owner-1",
+          "Resource": {
+            "Kind": "RUN",
+            "OwnerID": "owner-1",
+            "ResourceID": "run-1"
+          },
+          "SubBoundary": "CP_APPLY"
+        }
+      ],
+      "TerminalPolicyRef": "test-terminal-policy-1",
+      "LimitsRef": "test-limits-1",
+      "Limits": {
+        "MaxIDBytes": 192,
+        "MaxMembers": 64,
+        "MaxAxes": 64,
+        "MaxRefs": 128,
+        "MaxObligations": 32,
+        "MaxPartitions": 16,
+        "MaxRanges": 32,
+        "MaxDepth": 32
+      }
+    },
+    {
+      "Ref": {
+        "ProfileID": "G0-P-CLOSURE-ASSESS",
+        "Revision": 1
+      },
+      "AxisRules": [
+        {
+          "Key": {
+            "Axis": "A_REVISION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "C_EPOCH",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "IDENTITY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "MEMBERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "ADMISSION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "OWNERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "FENCE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RUN",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "JOB",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONNECTION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "WRITER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "EFFECT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "COVER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "POLICY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "TRUST",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "BOOT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "PROCESS",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RELEASE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONFIG",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        }
+      ],
+      "ResourceKinds": [
+        "RUN",
+        "PARTITION",
+        "SINK",
+        "HOST",
+        "PROJECTION"
+      ],
+      "Purposes": [
+        "CLOSURE_ASSESS"
+      ],
+      "RequiredBoundaries": [
+        {
+          "Kind": "CP_LIFECYCLE",
+          "OwnerID": "owner-1",
+          "Resource": {
+            "Kind": "RUN",
+            "OwnerID": "owner-1",
+            "ResourceID": "run-1"
+          },
+          "SubBoundary": "CP_APPLY"
+        }
+      ],
+      "TerminalPolicyRef": "test-terminal-policy-1",
+      "LimitsRef": "test-limits-1",
+      "Limits": {
+        "MaxIDBytes": 192,
+        "MaxMembers": 64,
+        "MaxAxes": 64,
+        "MaxRefs": 128,
+        "MaxObligations": 32,
+        "MaxPartitions": 16,
+        "MaxRanges": 32,
+        "MaxDepth": 32
+      }
+    },
+    {
+      "Ref": {
+        "ProfileID": "G0-P-STOP-LOOKUP",
+        "Revision": 1
+      },
+      "AxisRules": [
+        {
+          "Key": {
+            "Axis": "A_REVISION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "C_EPOCH",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "IDENTITY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "MEMBERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "ADMISSION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "OWNERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "FENCE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RUN",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "JOB",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONNECTION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "WRITER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "EFFECT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "COVER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "POLICY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "TRUST",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "BOOT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "PROCESS",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RELEASE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONFIG",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        }
+      ],
+      "ResourceKinds": [
+        "RUN",
+        "PARTITION",
+        "SINK",
+        "HOST",
+        "PROJECTION"
+      ],
+      "Purposes": [
+        "STOP_LOOKUP"
+      ],
+      "RequiredBoundaries": [
+        {
+          "Kind": "CP_LIFECYCLE",
+          "OwnerID": "owner-1",
+          "Resource": {
+            "Kind": "RUN",
+            "OwnerID": "owner-1",
+            "ResourceID": "run-1"
+          },
+          "SubBoundary": "CP_APPLY"
+        }
+      ],
+      "TerminalPolicyRef": "test-terminal-policy-1",
+      "LimitsRef": "test-limits-1",
+      "Limits": {
+        "MaxIDBytes": 192,
+        "MaxMembers": 64,
+        "MaxAxes": 64,
+        "MaxRefs": 128,
+        "MaxObligations": 32,
+        "MaxPartitions": 16,
+        "MaxRanges": 32,
+        "MaxDepth": 32
+      }
+    },
+    {
+      "Ref": {
+        "ProfileID": "G0-P-EFFECT-OUTCOME",
+        "Revision": 1
+      },
+      "AxisRules": [
+        {
+          "Key": {
+            "Axis": "A_REVISION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "C_EPOCH",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "IDENTITY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "MEMBERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "ADMISSION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "OWNERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "FENCE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RUN",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "JOB",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONNECTION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "WRITER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "EFFECT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "COVER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "POLICY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "TRUST",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "BOOT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "PROCESS",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RELEASE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONFIG",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        }
+      ],
+      "ResourceKinds": [
+        "RUN",
+        "PARTITION",
+        "SINK",
+        "HOST",
+        "PROJECTION"
+      ],
+      "Purposes": [
+        "EFFECT_OUTCOME"
+      ],
+      "RequiredBoundaries": [
+        {
+          "Kind": "CP_LIFECYCLE",
+          "OwnerID": "owner-1",
+          "Resource": {
+            "Kind": "RUN",
+            "OwnerID": "owner-1",
+            "ResourceID": "run-1"
+          },
+          "SubBoundary": "CP_APPLY"
+        }
+      ],
+      "TerminalPolicyRef": "test-terminal-policy-1",
+      "LimitsRef": "test-limits-1",
+      "Limits": {
+        "MaxIDBytes": 192,
+        "MaxMembers": 64,
+        "MaxAxes": 64,
+        "MaxRefs": 128,
+        "MaxObligations": 32,
+        "MaxPartitions": 16,
+        "MaxRanges": 32,
+        "MaxDepth": 32
+      }
+    },
+    {
+      "Ref": {
+        "ProfileID": "G0-P-RECORD-REPAIR",
+        "Revision": 1
+      },
+      "AxisRules": [
+        {
+          "Key": {
+            "Axis": "A_REVISION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "C_EPOCH",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "IDENTITY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "MEMBERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "ADMISSION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "OWNERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "FENCE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RUN",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "JOB",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONNECTION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "WRITER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "EFFECT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "COVER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "POLICY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "TRUST",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "BOOT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "PROCESS",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RELEASE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONFIG",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        }
+      ],
+      "ResourceKinds": [
+        "RUN",
+        "PARTITION",
+        "SINK",
+        "HOST",
+        "PROJECTION"
+      ],
+      "Purposes": [
+        "RECORD_PROJECTION_ONLY"
+      ],
+      "RequiredBoundaries": [
+        {
+          "Kind": "CP_LIFECYCLE",
+          "OwnerID": "owner-1",
+          "Resource": {
+            "Kind": "RUN",
+            "OwnerID": "owner-1",
+            "ResourceID": "run-1"
+          },
+          "SubBoundary": "CP_APPLY"
+        }
+      ],
+      "TerminalPolicyRef": "test-terminal-policy-1",
+      "LimitsRef": "test-limits-1",
+      "Limits": {
+        "MaxIDBytes": 192,
+        "MaxMembers": 64,
+        "MaxAxes": 64,
+        "MaxRefs": 128,
+        "MaxObligations": 32,
+        "MaxPartitions": 16,
+        "MaxRanges": 32,
+        "MaxDepth": 32
+      }
+    },
+    {
+      "Ref": {
+        "ProfileID": "G0-P-EXPLICIT-RESUME",
+        "Revision": 1
+      },
+      "AxisRules": [
+        {
+          "Key": {
+            "Axis": "A_REVISION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "C_EPOCH",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "IDENTITY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "MEMBERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "ADMISSION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "OWNERSHIP",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "FENCE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RUN",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "JOB",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONNECTION",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "WRITER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "EFFECT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "COVER",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_UINT64",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "POLICY",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "TRUST",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "BOOT",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "PROCESS",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "HOST",
+              "OwnerID": "owner-1",
+              "ResourceID": "host-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "RELEASE",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        },
+        {
+          "Key": {
+            "Axis": "CONFIG",
+            "OwnerID": "owner-1",
+            "Resource": {
+              "Kind": "RUN",
+              "OwnerID": "owner-1",
+              "ResourceID": "run-1"
+            }
+          },
+          "OwnerRole": "C01",
+          "ValueKind": "PRESENT_LITERAL",
+          "Required": true,
+          "Comparison": "EXACT"
+        }
+      ],
+      "ResourceKinds": [
+        "RUN",
+        "PARTITION",
+        "SINK",
+        "HOST",
+        "PROJECTION"
+      ],
+      "Purposes": [
+        "EXPLICIT_RESUME"
+      ],
+      "RequiredBoundaries": [
+        {
+          "Kind": "CP_LIFECYCLE",
+          "OwnerID": "owner-1",
+          "Resource": {
+            "Kind": "RUN",
+            "OwnerID": "owner-1",
+            "ResourceID": "run-1"
+          },
+          "SubBoundary": "CP_APPLY"
+        }
+      ],
+      "TerminalPolicyRef": "test-terminal-policy-1",
+      "LimitsRef": "test-limits-1",
+      "Limits": {
+        "MaxIDBytes": 192,
+        "MaxMembers": 64,
+        "MaxAxes": 64,
+        "MaxRefs": 128,
+        "MaxObligations": 32,
+        "MaxPartitions": 16,
+        "MaxRanges": 32,
+        "MaxDepth": 32
+      }
+    }
+  ],
+  "ExpectedVector": [
+    {
+      "Key": {
+        "Axis": "A_REVISION",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "C_EPOCH",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "IDENTITY",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "MEMBERSHIP",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "ADMISSION",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "admission-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "OWNERSHIP",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "HOST",
+          "OwnerID": "owner-1",
+          "ResourceID": "host-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "ownership-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "FENCE",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "HOST",
+          "OwnerID": "owner-1",
+          "ResourceID": "host-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "fence-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "RUN",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "run-epoch-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "JOB",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "CONNECTION",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "WRITER",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "EFFECT",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "COVER",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_UINT64",
+        "Uint64": 1,
+        "Literal": null,
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "POLICY",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "policy-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "TRUST",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "trust-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "BOOT",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "HOST",
+          "OwnerID": "owner-1",
+          "ResourceID": "host-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "boot-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "PROCESS",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "HOST",
+          "OwnerID": "owner-1",
+          "ResourceID": "host-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "process-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "RELEASE",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "release-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    },
+    {
+      "Key": {
+        "Axis": "CONFIG",
+        "OwnerID": "owner-1",
+        "Resource": {
+          "Kind": "RUN",
+          "OwnerID": "owner-1",
+          "ResourceID": "run-1"
+        }
+      },
+      "Incarnation": "incarnation-1",
+      "Value": {
+        "Kind": "PRESENT_LITERAL",
+        "Uint64": null,
+        "Literal": "config-1",
+        "Unavailable": null
+      },
+      "SourceFrameRef": "frame-1"
+    }
+  ],
+  "Cases": [
+    {
+      "Name": "same-typed-values",
+      "Mutation": "NONE",
+      "Expected": "STRUCTURALLY_COHERENT"
+    },
+    {
+      "Name": "incarnation-drift",
+      "Mutation": "INCARNATION",
+      "Expected": "STALE"
+    },
+    {
+      "Name": "known-zero-drift",
+      "Mutation": "ZERO",
+      "Expected": "STALE"
+    },
+    {
+      "Name": "unavailable-never-current",
+      "Mutation": "UNAVAILABLE",
+      "Expected": "NEEDS_EVIDENCE"
+    },
+    {
+      "Name": "duplicate-axis-even-with-new-incarnation",
+      "Mutation": "DUPLICATE",
+      "Expected": "REFUSED_UNCHANGED"
+    },
+    {
+      "Name": "literal-number-not-uint",
+      "Mutation": "TYPE",
+      "Expected": "REFUSED_UNCHANGED"
+    }
+  ]
+}
