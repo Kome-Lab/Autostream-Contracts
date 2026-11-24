@@ -18,6 +18,8 @@ import (
 
 const pinnedRedoclyVersion = "2.39.0"
 
+const mediaReleaseEntrypoint = "openapi/media-release-v1.yaml"
+
 type openAPIFingerprintManifest struct {
 	FormatVersion  int                     `json:"format_version"`
 	RedoclyVersion string                  `json:"redocly_version"`
@@ -342,8 +344,8 @@ func verifyOpenAPISourceInventory(t *testing.T, inventory openAPISourceInventory
 		actualEntrypoints = append(actualEntrypoints, "openapi/"+entry.Name())
 	}
 	sort.Strings(actualEntrypoints)
-	if !reflect.DeepEqual(actualEntrypoints, inventory.Entrypoints) {
-		t.Fatalf("OpenAPI entrypoint inventory drifted: got=%v want=%v", actualEntrypoints, inventory.Entrypoints)
+	if err := verifyRegisteredEntrypoints(actualEntrypoints, inventory.Entrypoints); err != nil {
+		t.Fatal(err)
 	}
 	if inventory.SourceFileCount != len(inventory.SourceFiles) || inventory.SourceFileCount == 0 {
 		t.Fatalf("OpenAPI source file count=%d/%d", inventory.SourceFileCount, len(inventory.SourceFiles))
@@ -366,6 +368,97 @@ func verifyOpenAPISourceInventory(t *testing.T, inventory openAPISourceInventory
 			t.Fatalf("OpenAPI source dependency %s drifted: got=%s want=%s; run the pinned characterization verifier",
 				source.Path, got, source.NormalizedSourceSHA256)
 		}
+	}
+}
+
+// The historical four documents retain their committed characterizations. The
+// independent release family adds one required document and its own vectors.
+func verifyRegisteredEntrypoints(actual, historical []string) error {
+	want := append([]string(nil), historical...)
+	want = append(want, mediaReleaseEntrypoint)
+	sort.Strings(want)
+	if !reflect.DeepEqual(actual, want) {
+		return fmt.Errorf("OpenAPI entrypoint inventory drifted: got=%v want=%v", actual, want)
+	}
+	return nil
+}
+
+func TestMediaReleaseEntrypointInventory(t *testing.T) {
+	four := []string{"openapi/control-api.yaml", "openapi/discord-bot-api.yaml", "openapi/encoder-recorder-api.yaml", "openapi/observability-api.yaml"}
+	five := append(append([]string(nil), four...), mediaReleaseEntrypoint)
+	for _, test := range []struct {
+		name  string
+		paths []string
+		valid bool
+	}{
+		{"four_and_release", five, true},
+		{"missing_release", four, false},
+		{"unknown_sixth", append(append([]string(nil), five...), "openapi/unregistered.yaml"), false},
+		{"missing_legacy", append([]string(nil), five[1:]...), false},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			actual := append([]string(nil), test.paths...)
+			sort.Strings(actual)
+			if err := verifyRegisteredEntrypoints(actual, four); (err == nil) != test.valid {
+				t.Fatalf("valid=%t, inventory check returned %v", test.valid, err)
+			}
+		})
+	}
+}
+
+func TestMediaReleaseOpenAPIConformance(t *testing.T) {
+	body, err := os.ReadFile(filepath.Join("..", "..", filepath.FromSlash(mediaReleaseEntrypoint)))
+	if err != nil {
+		t.Fatal(err)
+	}
+	document, err := jsonschema.UnmarshalJSON(bytes.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	compiler := jsonschema.NewCompiler()
+	compiler.AssertFormat()
+	compiler.UseRegexpEngine(compileECMAContractSchemaRegexp)
+	const resource = "media-release-v1.json"
+	if err := compiler.AddResource(resource, document); err != nil {
+		t.Fatal(err)
+	}
+	record, err := compiler.Compile(resource + "#/components/schemas/Record")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var vectors map[string]json.RawMessage
+	readCharacterizationJSON(t, filepath.Join("..", "..", "v3mediarelease", "testdata", "handoff.json"), &vectors)
+	required := []string{"a1", "a2", "b", "c", "d1", "d2", "d3", "d4", "e"}
+	if len(vectors) != len(required) {
+		t.Fatalf("release record vectors=%d, want %d", len(vectors), len(required))
+	}
+	for _, name := range required {
+		t.Run(name, func(t *testing.T) {
+			value, err := jsonschema.UnmarshalJSON(bytes.NewReader(vectors[name]))
+			if err != nil {
+				t.Fatal(err)
+			}
+			if err := record.Validate(value); err != nil {
+				t.Fatalf("Go conformance vector rejected by OpenAPI: %v", err)
+			}
+		})
+	}
+	for _, test := range []struct{ field, value string }{
+		{"profile_revision", "2"},
+		{"family", "FutureFamily"},
+		{"kind", "CP_ADMISSION_PROOF"},
+		{"unregistered_field", "synthetic"},
+	} {
+		t.Run("reject_"+test.field, func(t *testing.T) {
+			var candidate map[string]any
+			if err := json.Unmarshal(vectors["c"], &candidate); err != nil {
+				t.Fatal(err)
+			}
+			candidate["identity"].(map[string]any)[test.field] = test.value
+			if err := record.Validate(candidate); err == nil {
+				t.Fatalf("invalid permit field %q was accepted", test.field)
+			}
+		})
 	}
 }
 

@@ -1,0 +1,209 @@
+[
+  {
+    "Repository": "Kome-Lab/Autostream-ControlPanel",
+    "Component": "C01",
+    "Workstream": "WS1",
+    "Profile": "G0-P-APPROVAL-LOCAL",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-ControlPanel",
+    "Component": "C01",
+    "Workstream": "WS2",
+    "Profile": "G0-P-CLOSURE-ASSESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-ControlPanel",
+    "Component": "C02",
+    "Workstream": "WS7",
+    "Profile": "G0-P-STOP-LOOKUP",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-ControlPanel",
+    "Component": "C14",
+    "Workstream": "WS7",
+    "Profile": "G0-P-RECORD-REPAIR",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Contracts",
+    "Component": "C03",
+    "Workstream": "WS1",
+    "Profile": "G0-P-APPROVAL-LOCAL",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Contracts",
+    "Component": "C03",
+    "Workstream": "WS2",
+    "Profile": "G0-P-STOP-LOOKUP",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Contracts",
+    "Component": "C03",
+    "Workstream": "WS3",
+    "Profile": "G0-P-MEDIA-INGRESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Contracts",
+    "Component": "C03",
+    "Workstream": "WS4",
+    "Profile": "G0-P-CLOSURE-ASSESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Contracts",
+    "Component": "C03",
+    "Workstream": "WS5",
+    "Profile": "G0-P-EFFECT-OUTCOME",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Contracts",
+    "Component": "C03",
+    "Workstream": "WS6",
+    "Profile": "G0-P-RECORD-REPAIR",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Contracts",
+    "Component": "C03",
+    "Workstream": "WS7",
+    "Profile": "G0-P-EXPLICIT-RESUME",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Encoder-Recorder",
+    "Component": "C04",
+    "Workstream": "WS3",
+    "Profile": "G0-P-MEDIA-INGRESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Encoder-Recorder",
+    "Component": "C05",
+    "Workstream": "WS3",
+    "Profile": "G0-P-CLOSURE-ASSESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Worker",
+    "Component": "C06",
+    "Workstream": "WS3",
+    "Profile": "G0-P-MEDIA-INGRESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-DiscordBot",
+    "Component": "C07",
+    "Workstream": "WS3",
+    "Profile": "G0-P-MEDIA-INGRESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Observability",
+    "Component": "C08",
+    "Workstream": "WS5",
+    "Profile": "G0-P-EFFECT-OUTCOME",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Updater",
+    "Component": "C09",
+    "Workstream": "WS4",
+    "Profile": "G0-P-MEDIA-INGRESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Updater",
+    "Component": "C10",
+    "Workstream": "WS4",
+    "Profile": "G0-P-CLOSURE-ASSESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Updater",
+    "Component": "C11",
+    "Workstream": "WS6",
+    "Profile": "G0-P-RECORD-REPAIR",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Docker",
+    "Component": "C12",
+    "Workstream": "WS6",
+    "Profile": "G0-P-CLOSURE-ASSESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Docker",
+    "Component": "C14",
+    "Workstream": "WS6",
+    "Profile": "G0-P-CLOSURE-ASSESS",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Docs",
+    "Component": "C13",
+    "Workstream": "WS7",
+    "Profile": "G0-P-STOP-LOOKUP",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  },
+  {
+    "Repository": "Kome-Lab/Autostream-Docs",
+    "Component": "C14",
+    "Workstream": "WS7",
+    "Profile": "G0-P-RECORD-REPAIR",
+    "ContractRevision": 1,
+    "Expected": "STRUCTURALLY_COHERENT",
+    "ProductionQualified": false
+  }
+]

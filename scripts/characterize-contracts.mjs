@@ -23,6 +23,8 @@ const REPO_ROOT = path.resolve(SCRIPT_DIR, "..");
 const COMMITTED_ROOT = path.join(REPO_ROOT, "testdata", "characterization", "generated");
 const REDOCLY_PACKAGE = "@redocly/cli@2.39.0";
 const REDOCLY_VERSION = "2.39.0";
+const MEDIA_RELEASE_ENTRYPOINT = "openapi/media-release-v1.yaml";
+const MEDIA_RELEASE_BUNDLE_SHA256 = "e79407f620f65b51d93e2cdae54f5c0d30f7f595a46091b4f479d4d3fcd8bd1c";
 const API_ENTRYPOINTS = [
   "openapi/control-api.yaml",
   "openapi/discord-bot-api.yaml",
@@ -171,9 +173,10 @@ function captureOpenAPICharacterization(outputRoot) {
     .filter((entry) => entry.isFile() && /\.ya?ml$/i.test(entry.name))
     .map((entry) => `openapi/${entry.name}`)
     .sort();
-  if (JSON.stringify(actualEntrypoints) !== JSON.stringify(API_ENTRYPOINTS)) {
+  const registeredEntrypoints = [...API_ENTRYPOINTS, MEDIA_RELEASE_ENTRYPOINT].sort();
+  if (JSON.stringify(actualEntrypoints) !== JSON.stringify(registeredEntrypoints)) {
     throw new Error(
-      `OpenAPI entrypoint inventory drifted\nexpected=${JSON.stringify(API_ENTRYPOINTS)}\nactual=${JSON.stringify(actualEntrypoints)}`,
+      `OpenAPI entrypoint inventory drifted\nexpected=${JSON.stringify(registeredEntrypoints)}\nactual=${JSON.stringify(actualEntrypoints)}`,
     );
   }
 
@@ -196,6 +199,8 @@ function captureOpenAPICharacterization(outputRoot) {
     if (version.status !== 0 || version.stdout.trim() !== REDOCLY_VERSION) {
       throw commandFailure(`Redocly version check (wanted ${REDOCLY_VERSION})`, version);
     }
+
+    verifyMediaReleaseBundle(bundleRoot, redoclyEnvironment);
 
     const sourceInventory = buildOpenAPISourceInventory(API_ENTRYPOINTS);
     writeCanonicalJSON(outputRoot, "openapi/source-inventory.json", sourceInventory);
@@ -262,6 +267,27 @@ function captureOpenAPICharacterization(outputRoot) {
   } finally {
     removeExternalTempDirectory(redoclyRoot, "autostream-contracts-redocly-");
   }
+}
+
+// The fifth API has an independent family and fingerprint. The existing four
+// retain every artifact in their committed characterization baseline.
+function verifyMediaReleaseBundle(bundleRoot, environment) {
+  const file = path.join(bundleRoot, "media-release-v1.json");
+  const bundle = runRedocly(["bundle", MEDIA_RELEASE_ENTRYPOINT, "--ext", "json", "--output", file], environment);
+  if (bundle.status !== 0) {
+    throw commandFailure("MediaRelease1 OpenAPI bundle", bundle);
+  }
+  const normalized = normalizeBundle(JSON.parse(readFileSync(file, "utf8")));
+  assertNoAbsolutePaths(normalized, MEDIA_RELEASE_ENTRYPOINT);
+  const digest = sha256(canonicalCompact(normalized));
+  if (digest !== MEDIA_RELEASE_BUNDLE_SHA256) {
+    throw new Error(`MediaRelease1 OpenAPI fingerprint drifted: got=${digest} want=${MEDIA_RELEASE_BUNDLE_SHA256}`);
+  }
+  const lint = runRedocly(["lint", MEDIA_RELEASE_ENTRYPOINT], environment);
+  if (lint.status !== 0) {
+    throw commandFailure("MediaRelease1 OpenAPI lint", lint);
+  }
+  process.stdout.write(`MediaRelease1 OpenAPI verified with Redocly ${REDOCLY_VERSION}: ${digest}\n`);
 }
 
 function runRedocly(args, environment, allowLintFailure = false) {
