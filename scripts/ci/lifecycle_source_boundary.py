@@ -7,11 +7,20 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import re
 import subprocess
 import sys
 from pathlib import Path
+
+# Resolve the reviewed sibling even when this checker is loaded by file path.
+_media_path = Path(__file__).with_name("mediarelease_source_boundary.py")
+if _media_path.is_symlink():
+    raise ValueError("symlink forbidden for MediaRelease1 source checker")
+_media_spec = importlib.util.spec_from_file_location("mediarelease_source_boundary", _media_path)
+mediarelease = importlib.util.module_from_spec(_media_spec)
+_media_spec.loader.exec_module(mediarelease)
 
 BASELINE = "45aaa9932bcd92c728c86c95349853724fe1accc"
 MODULE = "github.com/Kome-Lab/Autostream-Contracts/v3lifecycle"
@@ -60,7 +69,8 @@ def git(repo: Path, *args: str) -> bytes:
 
 
 def allowed_change(path: str) -> bool:
-    return path == WORKFLOW or path in SCRIPTS or path.startswith("v3lifecycle/")
+    return (path == WORKFLOW or path in SCRIPTS or path.startswith("v3lifecycle/")
+            or path in mediarelease.NEW_PATHS or path in mediarelease.CHARACTERIZATION)
 
 
 def mask_go_noncode(text: str, preserve_strings: bool) -> str:
@@ -105,6 +115,9 @@ def production_imports(text: str) -> list[str]:
 
 def check_source(path: Path, relative: str) -> None:
     text = path.read_text(encoding="utf-8")
+    is_media_source = relative.startswith(mediarelease.MOD_DIR + "/")
+    if (is_media_source or relative in mediarelease.NEW_PATHS) and mediarelease.PERSONAL_PATH.search(text):
+        raise ValueError(f"personal path pattern: {relative}")
     for pattern in SECRET_PATTERNS:
         if pattern.search(text):
             raise ValueError(f"sensitive material or personal path pattern: {relative}")
@@ -113,14 +126,17 @@ def check_source(path: Path, relative: str) -> None:
     # The Go AST conformance root independently checks every production package.
     # This lightweight pre-test gate is conservative about import spellings.
     imports = production_imports(text)
+    allowed_imports = PURE_IMPORTS | mediarelease.ADDITIONAL_IMPORTS if is_media_source else PURE_IMPORTS
     for imported in imports:
-        if imported not in PURE_IMPORTS:
+        if imported not in allowed_imports:
             raise ValueError(f"non-pure production import {imported}: {relative}")
     code = mask_go_noncode(text, preserve_strings=False)
     if re.search(r"\bfunc\s+(?:main|init)\s*\(", code):
         raise ValueError(f"implicit/executable entry point: {relative}")
     if AUTHORITY_FUNCTION.search(code):
         raise ValueError(f"authority constructor/issuer: {relative}")
+    if is_media_source:
+        mediarelease.check_production(code, text, relative)
     for declaration in FIELD_DECLARATION.finditer(code):
         names = (name.strip() for name in declaration.group(1).split(","))
         if any(name in FORBIDDEN_FIELDS for name in names):
@@ -135,14 +151,20 @@ def verify(repo: Path) -> dict:
     for relative in filter(None, changed + untracked):
         if not allowed_change(relative):
             raise ValueError(f"out-of-scope change: {relative}")
+    mediarelease.verify_pinned_paths(repo, git)
+    mediarelease.check_legacy_tests(repo, git)
+    legacy_openapi = mediarelease.check_characterization(repo, git)
     baseline_workflow = git(repo, "show", BASELINE + ":" + WORKFLOW)
     workflow = (repo / WORKFLOW).read_bytes().replace(b"\r\n", b"\n")
     if not workflow.startswith(baseline_workflow):
         raise ValueError("existing workflow/job/steps/pins were altered")
     if workflow[len(baseline_workflow):].count(b"  v3-lifecycle-contract-checks:") != 1:
         raise ValueError("exactly one appended lifecycle job required")
-    # All baseline files except the append-only workflow must remain identical.
+    mediarelease.check_workflow(repo, workflow)
+    # The workflow prefix and the two reviewed registry deltas were checked
+    # separately. Other pre-IU-CC-01 files must still match the baseline.
     old_changes = [p for p in filter(None, changed) if p != WORKFLOW and
+                   p not in mediarelease.CHARACTERIZATION and
                    git(repo, "ls-tree", BASELINE, "--", p)]
     if old_changes:
         raise ValueError("baseline source/module/API/pin changes: " + ", ".join(old_changes))
@@ -168,6 +190,13 @@ def verify(repo: Path) -> dict:
     check_source(repo / WORKFLOW, WORKFLOW)
     for relative in sorted(SCRIPTS):
         check_source(repo / relative, relative)
+    checked.extend(mediarelease.verify_module(repo, check_source))
+    for relative in sorted(mediarelease.CI_PATHS | {mediarelease.OPENAPI}):
+        path = mediarelease.regular_path(repo, relative)
+        check_source(path, relative)
+        if relative == mediarelease.OPENAPI:
+            mediarelease.check_openapi(path)
+        checked.append(relative)
     modules = []
     for path in sorted(repo.rglob("go.mod")):
         if ".git" in path.parts:
@@ -175,7 +204,8 @@ def verify(repo: Path) -> dict:
         modules.append({
             "path": path.relative_to(repo).as_posix(),
             "sha256": hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
-            "validation_job": "v3-lifecycle-contract-checks" if path.parent == module_dir else
+            "validation_job": mediarelease.JOB if path.parent == repo / mediarelease.MOD_DIR else
+                              "v3-lifecycle-contract-checks" if path.parent == module_dir else
                               "v3-evidence-checks" if path.parent.name == "v3evidence" else "v3-lifecycle-contract-checks (unchanged root regression)",
         })
     return {
@@ -184,6 +214,10 @@ def verify(repo: Path) -> dict:
         "candidate_tree": git(repo, "rev-parse", "HEAD^{tree}").decode().strip(),
         "baseline_source_api_enums_module_pins": "UNCHANGED",
         "existing_workflow": "UNCHANGED_PREFIX", "pure_import_allowlist": sorted(PURE_IMPORTS),
+        "mediarelease_baseline": mediarelease.BASELINE,
+        "legacy_openapi_sources_and_normalized_fixtures": legacy_openapi,
+        "reviewed_characterization_registry_changes": list(mediarelease.CHARACTERIZATION),
+        "mediarelease_pure_imports": sorted(PURE_IMPORTS | mediarelease.ADDITIONAL_IMPORTS),
         "checked_files": checked, "modules": modules, "production_qualification": False,
     }
 

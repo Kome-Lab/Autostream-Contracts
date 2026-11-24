@@ -214,3 +214,76 @@ jobs:
           python3 -B ../scripts/ci/lifecycle_source_boundary.py
           printf 'CI_CHECKOUT_COMMIT=%s\n' "$(git rev-parse HEAD)"
           printf 'CI_CHECKOUT_TREE=%s\n' "$(git rev-parse 'HEAD^{tree}')"
+
+  v3-media-release-contract-checks:
+    name: v3-media-release-contract-checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: v3mediarelease
+        shell: bash
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+          submodules: false
+          lfs: false
+      - name: Set up pinned Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version: '1.26.5'
+          check-latest: false
+          cache: false
+      - name: Verify candidate and independent module
+        env:
+          CANDIDATE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
+          printf 'CI_CHECKOUT_COMMIT=%s\n' "$(git rev-parse HEAD)"
+          printf 'CI_CHECKOUT_TREE=%s\n' "$(git rev-parse 'HEAD^{tree}')"
+          test "$(go env GOVERSION)" = go1.26.5
+          test "$(go env GOWORK)" = off
+          test "$(go list -m all)" = github.com/Kome-Lab/Autostream-Contracts/v3mediarelease
+      - name: Check source boundary and negative cases
+        run: |
+          set -euo pipefail
+          python3 -B ../scripts/ci/lifecycle_source_boundary.py
+          python3 -B ../scripts/ci/lifecycle_ci_test.py
+      - name: Set up Node for the pinned OpenAPI validator
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 26
+      - name: Validate and bundle the MediaRelease1 OpenAPI
+        run: |
+          set -euo pipefail
+          npx --yes @redocly/cli@2.39.0 lint ../openapi/media-release-v1.yaml
+          npx --yes @redocly/cli@2.39.0 bundle ../openapi/media-release-v1.yaml --ext json --output "$RUNNER_TEMP/media-release-v1.bundle.json"
+          test -s "$RUNNER_TEMP/media-release-v1.bundle.json"
+      - name: Validate formatting and run conformance suites
+        run: |
+          set -euo pipefail
+          test -z "$(gofmt -l .)"
+          for suite in native cgo-free race; do
+            case "$suite" in
+              native) args=(); export CGO_ENABLED=1 ;;
+              cgo-free) args=(); export CGO_ENABLED=0 ;;
+              race) args=(-race); export CGO_ENABLED=1 ;;
+            esac
+            events="$RUNNER_TEMP/media-release-$suite.json"
+            go test -p 1 -count=1 "${args[@]}" -json ./... | tee "$events"
+            python3 -B ../scripts/ci/mediarelease_test_events.py "$events" testdata/required-roots.txt
+          done
+      - name: Vet, build and verify final source identity
+        run: |
+          set -euo pipefail
+          go vet -p 1 ./...
+          go build -p 1 ./...
+          python3 -B ../scripts/ci/lifecycle_source_boundary.py
+          git diff --exit-code HEAD -- .
+          printf 'CI_VERIFIED_COMMIT=%s\n' "$(git rev-parse HEAD)"
+          printf 'CI_VERIFIED_TREE=%s\n' "$(git rev-parse 'HEAD^{tree}')"

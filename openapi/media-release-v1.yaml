@@ -1,0 +1,2286 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AutoStream Media Release API",
+    "version": "1",
+    "description": "Owner-scoped, version-negotiated proof handoff for CP admission, Worker binding, Encoder cover, permit, consumption and release receipt. Each mutation requires independent authentication, current owner authority and preassigned original lookup keys. Shared validation has no physical authority."
+  },
+  "x-autostream-contract": {
+    "family": "MediaRelease1",
+    "wire_version": "1",
+    "profile_id": "MEDIA_RELEASE_HANDOFF_V1",
+    "profile_revision": "1",
+    "encoding_id": "MR1_JSON_ASCII_V1"
+  },
+  "servers": [
+    {"url": "/v3/media-release/v1"}
+  ],
+  "security": [
+    {
+      "serviceToken": []
+    }
+  ],
+  "paths": {
+    "/capabilities": {
+      "get": {
+        "operationId": "getMediaReleaseCapabilities",
+        "summary": "Read an owner capability snapshot",
+        "description": "Obtain the owner and scope through the authenticated service context. Resolve the actual incarnation and original roster. Exact selection must be durably bound to the attempt before interpreting any release record.",
+        "responses": {
+          "200": {
+            "description": "Owner-attributed capability snapshot.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Capability"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/admissions": {
+      "post": {
+        "operationId": "issueStartAdmissionProof",
+        "summary": "Issue the CP admission original",
+        "description": "Only the CP issues its own current authority after verifying the claim, originals, assignments and reservation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/AdmissionRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Durable owner record or decision at the identified boundary.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/CPAdmissionProof"}
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted for processing. No durable result or physical outcome is asserted. Use the original preassigned lookup key."
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "410": {"$ref": "#/components/responses/Expired"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/worker-bindings": {
+      "post": {
+        "operationId": "bindNonMediaWorker",
+        "summary": "Bind the actual Worker without media",
+        "description": "The Worker establishes a non-media binding for its own actual process and generation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/BindingRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Durable owner record or decision at the identified boundary.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/WorkerNonMediaBinding"}
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted for processing. No durable result or physical outcome is asserted. Use the original preassigned lookup key."
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "410": {"$ref": "#/components/responses/Expired"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/applied-cover-proofs": {
+      "post": {
+        "operationId": "attestAppliedCover",
+        "summary": "Attest cover on a continuously closed graph",
+        "description": "Only the actual Encoder may attest an observed cover and independently verified physical closure across every relevant egress.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/CoverRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Durable owner record or decision at the identified boundary.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/AppliedCoverProof"}
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted for processing. No durable result or physical outcome is asserted. Use the original preassigned lookup key."
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "410": {"$ref": "#/components/responses/Expired"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/permits": {
+      "post": {
+        "operationId": "issueMediaReleasePermit",
+        "summary": "Issue one target-specific release permit",
+        "description": "One logical open is bound to its owner, canonical destination, media scope and lifetime. Guard against aliases and overlapping physical units.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/PermitRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Durable owner record or decision at the identified boundary.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ReleasePermit"}
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted for processing. No durable result or physical outcome is asserted. Use the original preassigned lookup key."
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "410": {"$ref": "#/components/responses/Expired"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/permit-revocations": {
+      "post": {
+        "operationId": "revokeMediaReleasePermit",
+        "summary": "Record revocation at the issuing CP",
+        "description": "The CP freezes issuance for the original target and records its own revocation. Query each egress owner separately for pending activity and physical closure.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/FenceRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Durable owner record or decision at the identified boundary.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/FenceObservation"}
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted for processing. No durable result or physical outcome is asserted. Use the original preassigned lookup key."
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "410": {"$ref": "#/components/responses/Expired"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/opens": {
+      "post": {
+        "operationId": "openMediaRelease",
+        "summary": "Submit the original open to its sole owner",
+        "description": "Only the designated physical owner may durably consume the original slot. Revalidate its exact current authority at irreversible admission. After uncertainty or restart use pure inspection; an observed consumption never grants a transferable continuation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/OpenRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Durable owner record or decision at the identified boundary.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/OneTimeConsumption"}
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted for processing. No durable result or physical outcome is asserted. Use the original preassigned lookup key."
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "410": {"$ref": "#/components/responses/Expired"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/fences": {
+      "post": {
+        "operationId": "fenceMediaRelease",
+        "summary": "Fence new admission at the actual effect owner",
+        "description": "Fence original admission and observe already admitted work and physical closure independently. Late completion is scoped to the original owner and attempt.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/FenceRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Durable owner record or decision at the identified boundary.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/FenceObservation"}
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted for processing. No durable result or physical outcome is asserted. Use the original preassigned lookup key."
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "410": {"$ref": "#/components/responses/Expired"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/records/inspect": {
+      "post": {
+        "operationId": "inspectMediaReleaseRecord",
+        "summary": "Inspect the original record without side effects",
+        "description": "Return the immutable original when found. Keep currentness separate from lookup. Reading cannot create, reconcile, renew, redial or replay.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/InspectRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Original lookup with separate currentness and scoped evidence.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/RecordInspection"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    },
+    "/receipts/inspect": {
+      "post": {
+        "operationId": "inspectMediaReleaseReceipt",
+        "summary": "Inspect the original release receipt",
+        "description": "Only the effect owner records a receipt internally. Request its preassigned key even after loss of an ACK. Local observations do not establish downstream delivery or completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/ReceiptInspectRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Original lookup with separate currentness and scoped evidence.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ReceiptInspection"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthenticated"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "503": {"$ref": "#/components/responses/Held"}
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "serviceToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticated service principal bound to the actual owner, audience, deployment, role and original scope."
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid version, profile, input or canonical form.",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      },
+      "Unauthenticated": {
+        "description": "Authenticated identity is required.",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The authenticated principal lacks authority for this scope.",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Original identity, revision, tuple or owner conflicts with authoritative evidence.",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      },
+      "Expired": {
+        "description": "The authority has expired or has been revoked.",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      },
+      "Held": {
+        "description": "Required evidence or authoritative storage is unavailable. Inspect the original attempt before any further action.",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ID": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 192,
+        "pattern": "^[A-Za-z0-9._:/-]+(?![\\s\\S])",
+        "description": "Opaque, non-secret identifier in its registered namespace."
+      },
+      "Uint64": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20,
+        "pattern": "^(?:0|[1-9][0-9]{0,18}|1[0-7][0-9]{18}|18[0-3][0-9]{17}|184[0-3][0-9]{16}|1844[0-5][0-9]{15}|18446[0-6][0-9]{14}|184467[0-3][0-9]{13}|1844674[0-3][0-9]{12}|184467440[0-6][0-9]{10}|1844674407[0-2][0-9]{9}|18446744073[0-6][0-9]{8}|1844674407370[0-8][0-9]{6}|18446744073709[0-4][0-9]{5}|184467440737095[0-4][0-9]{4}|18446744073709550[0-9]{3}|18446744073709551[0-5][0-9]{2}|1844674407370955160[0-9]{1}|1844674407370955161[0-4]|18446744073709551615)(?![\\s\\S])",
+        "description": "Unsigned decimal integer string from 0 through 18446744073709551615, without leading zeroes."
+      },
+      "PositiveUint64": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Uint64"},
+          {
+            "not": {"const": "0"}
+          }
+        ]
+      },
+      "Digest": {
+        "type": "string",
+        "minLength": 64,
+        "maxLength": 64,
+        "pattern": "^[0-9a-f]{64}$",
+        "description": "Lowercase hexadecimal SHA-256 of the exact specified representation."
+      },
+      "Instant": {
+        "type": "string",
+        "format": "date-time",
+        "minLength": 30,
+        "maxLength": 30,
+        "pattern": "^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{9}Z$",
+        "description": "A valid UTC calendar instant with exactly nine fractional digits."
+      },
+      "Domain": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "deployment_id": {"$ref": "#/components/schemas/ID"},
+          "realm_id": {"$ref": "#/components/schemas/ID"},
+          "domain_id": {"$ref": "#/components/schemas/ID"}
+        },
+        "required": ["deployment_id", "realm_id", "domain_id"]
+      },
+      "Peer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "component_id": {"$ref": "#/components/schemas/ID"},
+          "service_id": {"$ref": "#/components/schemas/ID"},
+          "resource_id": {"$ref": "#/components/schemas/ID"}
+        },
+        "required": ["component_id", "service_id", "resource_id"]
+      },
+      "Owner": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "component_id": {"$ref": "#/components/schemas/ID"},
+          "service_id": {"$ref": "#/components/schemas/ID"},
+          "resource_id": {"$ref": "#/components/schemas/ID"},
+          "host_id": {"$ref": "#/components/schemas/ID"},
+          "boot_id": {"$ref": "#/components/schemas/ID"},
+          "process_incarnation": {"$ref": "#/components/schemas/ID"},
+          "writer_id": {"$ref": "#/components/schemas/ID"},
+          "principal_id": {"$ref": "#/components/schemas/ID"}
+        },
+        "required": [
+          "component_id",
+          "service_id",
+          "resource_id",
+          "host_id",
+          "boot_id",
+          "process_incarnation",
+          "writer_id",
+          "principal_id"
+        ]
+      },
+      "Key": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "deployment_id": {"$ref": "#/components/schemas/ID"},
+          "owner_id": {"$ref": "#/components/schemas/ID"},
+          "kind": {"$ref": "#/components/schemas/ID"},
+          "record_id": {"$ref": "#/components/schemas/ID"}
+        },
+        "required": ["deployment_id", "owner_id", "kind", "record_id"]
+      },
+      "Original": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {"$ref": "#/components/schemas/ID"},
+          "operation_id": {"$ref": "#/components/schemas/ID"},
+          "attempt_id": {"$ref": "#/components/schemas/ID"},
+          "step_id": {"$ref": "#/components/schemas/ID"},
+          "execution_key": {"$ref": "#/components/schemas/ID"},
+          "stream_id": {"$ref": "#/components/schemas/ID"},
+          "job_id": {"$ref": "#/components/schemas/ID"},
+          "run_id": {"$ref": "#/components/schemas/ID"}
+        },
+        "required": ["request_id", "operation_id", "attempt_id", "step_id", "execution_key", "stream_id", "job_id", "run_id"]
+      },
+      "Ref": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_family": {"$ref": "#/components/schemas/ID"},
+          "source_version": {"$ref": "#/components/schemas/ID"},
+          "source_type": {"$ref": "#/components/schemas/ID"},
+          "source_owner": {"$ref": "#/components/schemas/Peer"},
+          "source_key": {"$ref": "#/components/schemas/Key"},
+          "source_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "representation": {
+            "type": "string",
+            "enum": ["MR1_RECORD_V1", "REQUEST1_COMMAND_BYTES", "PINNED_RECORD_BYTES", "OWNER_SEALED_BYTES"]
+          },
+          "digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": [
+          "source_family",
+          "source_version",
+          "source_type",
+          "source_owner",
+          "source_key",
+          "source_revision",
+          "representation",
+          "digest"
+        ],
+        "description": "Resolve the exact authenticated issuer, key, revision, representation and digest. Original command bytes retain their original encoding and Binding."
+      },
+      "CPAdmissionProofRef": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Ref"},
+          {
+            "properties": {
+              "source_family": {"type": "string", "const": "MediaRelease1"},
+              "source_version": {"type": "string", "const": "1"},
+              "source_type": {"type": "string", "const": "CP_ADMISSION_PROOF"},
+              "source_key": {
+                "properties": {
+                  "kind": {"type": "string", "const": "CP_ADMISSION_PROOF"}
+                }
+              },
+              "representation": {"type": "string", "const": "MR1_RECORD_V1"}
+            }
+          }
+        ]
+      },
+      "WorkerNonMediaBindingRef": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Ref"},
+          {
+            "properties": {
+              "source_family": {"type": "string", "const": "MediaRelease1"},
+              "source_version": {"type": "string", "const": "1"},
+              "source_type": {"type": "string", "const": "WORKER_NON_MEDIA_BINDING"},
+              "source_key": {
+                "properties": {
+                  "kind": {"type": "string", "const": "WORKER_NON_MEDIA_BINDING"}
+                }
+              },
+              "representation": {"type": "string", "const": "MR1_RECORD_V1"}
+            }
+          }
+        ]
+      },
+      "AppliedCoverProofRef": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Ref"},
+          {
+            "properties": {
+              "source_family": {"type": "string", "const": "MediaRelease1"},
+              "source_version": {"type": "string", "const": "1"},
+              "source_type": {"type": "string", "const": "APPLIED_COVER_PROOF"},
+              "source_key": {
+                "properties": {
+                  "kind": {"type": "string", "const": "APPLIED_COVER_PROOF"}
+                }
+              },
+              "representation": {"type": "string", "const": "MR1_RECORD_V1"}
+            }
+          }
+        ]
+      },
+      "ReleasePermitRef": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Ref"},
+          {
+            "properties": {
+              "source_family": {"type": "string", "const": "MediaRelease1"},
+              "source_version": {"type": "string", "const": "1"},
+              "source_type": {"type": "string", "const": "MEDIA_RELEASE_PERMIT"},
+              "source_key": {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_PERMIT"}
+                }
+              },
+              "representation": {"type": "string", "const": "MR1_RECORD_V1"}
+            }
+          }
+        ]
+      },
+      "OneTimeConsumptionRef": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Ref"},
+          {
+            "properties": {
+              "source_family": {"type": "string", "const": "MediaRelease1"},
+              "source_version": {"type": "string", "const": "1"},
+              "source_type": {"type": "string", "const": "MEDIA_RELEASE_CONSUMPTION"},
+              "source_key": {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_CONSUMPTION"}
+                }
+              },
+              "representation": {"type": "string", "const": "MR1_RECORD_V1"}
+            }
+          }
+        ]
+      },
+      "ReleaseReceiptRef": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Ref"},
+          {
+            "properties": {
+              "source_family": {"type": "string", "const": "MediaRelease1"},
+              "source_version": {"type": "string", "const": "1"},
+              "source_type": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"},
+              "source_key": {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"}
+                }
+              },
+              "representation": {"type": "string", "const": "MR1_RECORD_V1"}
+            }
+          }
+        ]
+      },
+      "Assignment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "assignment_id": {"$ref": "#/components/schemas/ID"},
+          "ownership_epoch": {"$ref": "#/components/schemas/PositiveUint64"},
+          "assignee": {"$ref": "#/components/schemas/Peer"},
+          "endpoint_id": {"$ref": "#/components/schemas/ID"},
+          "config_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "assignment_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": ["assignment_id", "ownership_epoch", "assignee", "endpoint_id", "config_revision", "assignment_ref"]
+      },
+      "Window": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "not_before": {"$ref": "#/components/schemas/Instant"},
+          "expires_at": {"$ref": "#/components/schemas/Instant"},
+          "max_clock_error_ns": {"$ref": "#/components/schemas/Uint64"},
+          "clock_authority_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": ["not_before", "expires_at", "max_clock_error_ns", "clock_authority_ref"],
+        "description": "Admission requires the entire trusted clock interval within [not_before, expires_at). Retain historical records after expiry."
+      },
+      "Route": {
+        "type": "string",
+        "enum": ["ENCODER_DIRECT", "RELAY_UPSTREAM", "WORKER_SRT", "WORKER_DEEPGRAM", "HTTP_CALLBACK"]
+      },
+      "Scope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "route": {"$ref": "#/components/schemas/Route"},
+          "gate_id": {"$ref": "#/components/schemas/ID"},
+          "target_owner": {"$ref": "#/components/schemas/Owner"},
+          "destination_id": {"$ref": "#/components/schemas/ID"},
+          "endpoint_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "media": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/ID"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "effect_kind": {"$ref": "#/components/schemas/ID"},
+          "boundary_id": {"$ref": "#/components/schemas/ID"},
+          "success_profile_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": [
+          "route",
+          "gate_id",
+          "target_owner",
+          "destination_id",
+          "endpoint_revision",
+          "media",
+          "effect_kind",
+          "boundary_id",
+          "success_profile_ref"
+        ],
+        "description": "The original, indivisible effect at a registered physical boundary. Endpoint aliases or overlapping tracks cannot split a logical open."
+      },
+      "Closure": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scope": {"$ref": "#/components/schemas/Scope"},
+          "graph_id": {"$ref": "#/components/schemas/ID"},
+          "graph_generation": {"$ref": "#/components/schemas/PositiveUint64"},
+          "fence_ref": {"$ref": "#/components/schemas/Ref"},
+          "interval_start": {"$ref": "#/components/schemas/Instant"},
+          "observed_through": {"$ref": "#/components/schemas/Instant"},
+          "frame_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": ["scope", "graph_id", "graph_generation", "fence_ref", "interval_start", "observed_through", "frame_ref"],
+        "description": "The authenticated egress owner witnesses continuous closure of the named graph and scope across the observed interval."
+      },
+      "Observation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scope": {"$ref": "#/components/schemas/Scope"},
+          "fact": {"$ref": "#/components/schemas/ID"},
+          "knowledge": {
+            "type": "string",
+            "enum": ["KNOWN", "UNKNOWN"]
+          },
+          "observed_at": {"$ref": "#/components/schemas/Instant"},
+          "observer": {"$ref": "#/components/schemas/Owner"},
+          "frame_ref": {"$ref": "#/components/schemas/Ref"},
+          "reason_code": {"$ref": "#/components/schemas/ID"}
+        },
+        "required": ["scope", "fact", "knowledge", "observed_at", "observer"],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "knowledge": {"const": "KNOWN"}
+              },
+              "required": ["knowledge"]
+            },
+            "then": {
+              "required": ["frame_ref"],
+              "not": {
+                "required": ["reason_code"],
+                "properties": {
+                  "reason_code": {"$ref": "#/components/schemas/Observation/properties/reason_code"}
+                }
+              },
+              "properties": {
+                "frame_ref": {"$ref": "#/components/schemas/Observation/properties/frame_ref"}
+              }
+            },
+            "else": {
+              "required": ["reason_code"],
+              "not": {
+                "required": ["frame_ref"],
+                "properties": {
+                  "frame_ref": {"$ref": "#/components/schemas/Observation/properties/frame_ref"}
+                }
+              },
+              "properties": {
+                "reason_code": {"$ref": "#/components/schemas/Observation/properties/reason_code"}
+              }
+            }
+          }
+        ]
+      },
+      "ConsumptionState": {
+        "type": "string",
+        "enum": ["NOT_CONSUMED", "CONSUMPTION_PENDING", "CONSUMED"]
+      },
+      "EffectState": {
+        "type": "string",
+        "enum": ["EFFECT_UNKNOWN", "RELEASE_CONFIRMED", "RELEASE_FAILED"]
+      },
+      "Tuple": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "family": {"type": "string", "const": "MediaRelease1"},
+          "wire_version": {"type": "string", "const": "1"},
+          "profile_id": {"type": "string", "const": "MEDIA_RELEASE_HANDOFF_V1"},
+          "profile_revision": {"type": "string", "const": "1"},
+          "encoding_id": {"type": "string", "const": "MR1_JSON_ASCII_V1"}
+        },
+        "required": ["family", "wire_version", "profile_id", "profile_revision", "encoding_id"]
+      },
+      "CPAdmissionProofIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "family": {"type": "string", "const": "MediaRelease1"},
+          "wire_version": {"type": "string", "const": "1"},
+          "profile_id": {"type": "string", "const": "MEDIA_RELEASE_HANDOFF_V1"},
+          "profile_revision": {"type": "string", "const": "1"},
+          "encoding_id": {"type": "string", "const": "MR1_JSON_ASCII_V1"},
+          "cc": {"type": "string", "const": "CC10"},
+          "kind": {"type": "string", "const": "CP_ADMISSION_PROOF"},
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "CP_ADMISSION_PROOF"}
+                }
+              }
+            ]
+          },
+          "issuer": {"$ref": "#/components/schemas/Owner"},
+          "domain": {"$ref": "#/components/schemas/Domain"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Peer"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "purpose": {"type": "string", "const": "ADMISSION_AUTHORITY"},
+          "issued_at": {"$ref": "#/components/schemas/Instant"},
+          "clock_ref": {"$ref": "#/components/schemas/Ref"},
+          "claim_ref": {"$ref": "#/components/schemas/Ref"},
+          "worker_original_ref": {"$ref": "#/components/schemas/Ref"},
+          "encoder_original_ref": {"$ref": "#/components/schemas/Ref"},
+          "worker_assignment": {"$ref": "#/components/schemas/Assignment"},
+          "encoder_assignment": {"$ref": "#/components/schemas/Assignment"},
+          "membership_ref": {"$ref": "#/components/schemas/Ref"},
+          "membership_snapshot_ref": {"$ref": "#/components/schemas/Ref"},
+          "member_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "current_frame_refs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Ref"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "reservation_ref": {"$ref": "#/components/schemas/Ref"},
+          "domain_closure_ref": {"$ref": "#/components/schemas/Ref"},
+          "admission_epoch": {"$ref": "#/components/schemas/PositiveUint64"},
+          "hold_ref": {"$ref": "#/components/schemas/Ref"},
+          "stop_fence_ref": {"$ref": "#/components/schemas/Ref"},
+          "window": {"$ref": "#/components/schemas/Window"}
+        },
+        "required": [
+          "family",
+          "wire_version",
+          "profile_id",
+          "profile_revision",
+          "encoding_id",
+          "cc",
+          "kind",
+          "record_key",
+          "issuer",
+          "domain",
+          "original",
+          "audience",
+          "purpose",
+          "issued_at",
+          "clock_ref",
+          "claim_ref",
+          "worker_original_ref",
+          "encoder_original_ref",
+          "worker_assignment",
+          "encoder_assignment",
+          "membership_ref",
+          "membership_snapshot_ref",
+          "member_revision",
+          "current_frame_refs",
+          "reservation_ref",
+          "domain_closure_ref",
+          "admission_epoch",
+          "hold_ref",
+          "stop_fence_ref",
+          "window"
+        ],
+        "description": "CP admission original, primary assignments and reservation at the recorded epoch."
+      },
+      "WorkerNonMediaBindingIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "family": {"type": "string", "const": "MediaRelease1"},
+          "wire_version": {"type": "string", "const": "1"},
+          "profile_id": {"type": "string", "const": "MEDIA_RELEASE_HANDOFF_V1"},
+          "profile_revision": {"type": "string", "const": "1"},
+          "encoding_id": {"type": "string", "const": "MR1_JSON_ASCII_V1"},
+          "cc": {"type": "string", "const": "CC10"},
+          "kind": {"type": "string", "const": "WORKER_NON_MEDIA_BINDING"},
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "WORKER_NON_MEDIA_BINDING"}
+                }
+              }
+            ]
+          },
+          "issuer": {"$ref": "#/components/schemas/Owner"},
+          "domain": {"$ref": "#/components/schemas/Domain"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Peer"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "purpose": {"type": "string", "const": "NON_MEDIA_BINDING"},
+          "issued_at": {"$ref": "#/components/schemas/Instant"},
+          "clock_ref": {"$ref": "#/components/schemas/Ref"},
+          "cp_admission_ref": {"$ref": "#/components/schemas/CPAdmissionProofRef"},
+          "worker_original_ref": {"$ref": "#/components/schemas/Ref"},
+          "encoder_original_ref": {"$ref": "#/components/schemas/Ref"},
+          "worker_assignment": {"$ref": "#/components/schemas/Assignment"},
+          "reservation_ref": {"$ref": "#/components/schemas/Ref"},
+          "admission_epoch": {"$ref": "#/components/schemas/PositiveUint64"},
+          "membership_snapshot_ref": {"$ref": "#/components/schemas/Ref"},
+          "manager_process_id": {"$ref": "#/components/schemas/ID"},
+          "worker_generation": {"$ref": "#/components/schemas/PositiveUint64"},
+          "local_binding_ref": {"$ref": "#/components/schemas/Ref"},
+          "non_media_fence_ref": {"$ref": "#/components/schemas/Ref"},
+          "window": {"$ref": "#/components/schemas/Window"}
+        },
+        "required": [
+          "family",
+          "wire_version",
+          "profile_id",
+          "profile_revision",
+          "encoding_id",
+          "cc",
+          "kind",
+          "record_key",
+          "issuer",
+          "domain",
+          "original",
+          "audience",
+          "purpose",
+          "issued_at",
+          "clock_ref",
+          "cp_admission_ref",
+          "worker_original_ref",
+          "encoder_original_ref",
+          "worker_assignment",
+          "reservation_ref",
+          "admission_epoch",
+          "membership_snapshot_ref",
+          "manager_process_id",
+          "worker_generation",
+          "local_binding_ref",
+          "non_media_fence_ref",
+          "window"
+        ],
+        "description": "The actual Worker binds its process and generation to the original attempt under a non-media fence."
+      },
+      "AppliedCoverProofIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "family": {"type": "string", "const": "MediaRelease1"},
+          "wire_version": {"type": "string", "const": "1"},
+          "profile_id": {"type": "string", "const": "MEDIA_RELEASE_HANDOFF_V1"},
+          "profile_revision": {"type": "string", "const": "1"},
+          "encoding_id": {"type": "string", "const": "MR1_JSON_ASCII_V1"},
+          "cc": {"type": "string", "const": "CC11"},
+          "kind": {"type": "string", "const": "APPLIED_COVER_PROOF"},
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "APPLIED_COVER_PROOF"}
+                }
+              }
+            ]
+          },
+          "issuer": {"$ref": "#/components/schemas/Owner"},
+          "domain": {"$ref": "#/components/schemas/Domain"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Peer"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "purpose": {"type": "string", "const": "COVER_ATTESTATION"},
+          "issued_at": {"$ref": "#/components/schemas/Instant"},
+          "clock_ref": {"$ref": "#/components/schemas/Ref"},
+          "cp_admission_ref": {"$ref": "#/components/schemas/CPAdmissionProofRef"},
+          "worker_binding_ref": {"$ref": "#/components/schemas/WorkerNonMediaBindingRef"},
+          "preparation_id": {"$ref": "#/components/schemas/ID"},
+          "preparation_generation": {"$ref": "#/components/schemas/PositiveUint64"},
+          "worker_generation": {"$ref": "#/components/schemas/PositiveUint64"},
+          "graph_id": {"$ref": "#/components/schemas/ID"},
+          "graph_generation": {"$ref": "#/components/schemas/PositiveUint64"},
+          "graph_config_ref": {"$ref": "#/components/schemas/Ref"},
+          "desired_cover_ref": {"$ref": "#/components/schemas/Ref"},
+          "requested_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "applied_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "applied_active": {"type": "boolean"},
+          "asset_ref": {"$ref": "#/components/schemas/Ref"},
+          "variant_id": {"$ref": "#/components/schemas/ID"},
+          "hidden_observation_ref": {"$ref": "#/components/schemas/Ref"},
+          "feed_acceptance_ref": {"$ref": "#/components/schemas/Ref"},
+          "output_progress_ref": {"$ref": "#/components/schemas/Ref"},
+          "qualified_sink_ref": {"$ref": "#/components/schemas/Ref"},
+          "source_frame_ref": {"$ref": "#/components/schemas/Ref"},
+          "closures": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Closure"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "observed_at": {"$ref": "#/components/schemas/Instant"},
+          "window": {"$ref": "#/components/schemas/Window"}
+        },
+        "required": [
+          "family",
+          "wire_version",
+          "profile_id",
+          "profile_revision",
+          "encoding_id",
+          "cc",
+          "kind",
+          "record_key",
+          "issuer",
+          "domain",
+          "original",
+          "audience",
+          "purpose",
+          "issued_at",
+          "clock_ref",
+          "cp_admission_ref",
+          "worker_binding_ref",
+          "preparation_id",
+          "preparation_generation",
+          "worker_generation",
+          "graph_id",
+          "graph_generation",
+          "graph_config_ref",
+          "desired_cover_ref",
+          "requested_revision",
+          "applied_revision",
+          "applied_active",
+          "feed_acceptance_ref",
+          "output_progress_ref",
+          "qualified_sink_ref",
+          "source_frame_ref",
+          "closures",
+          "observed_at",
+          "window"
+        ],
+        "description": "The actual Encoder witnesses applied cover on the same graph with every scoped output continuously closed through durable recording.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "applied_active": {"const": true}
+              },
+              "required": ["applied_active"]
+            },
+            "then": {
+              "required": ["asset_ref", "variant_id"],
+              "not": {
+                "required": ["hidden_observation_ref"],
+                "properties": {
+                  "hidden_observation_ref": {
+                    "$ref": "#/components/schemas/AppliedCoverProofIdentity/properties/hidden_observation_ref"
+                  }
+                }
+              },
+              "properties": {
+                "asset_ref": {"$ref": "#/components/schemas/AppliedCoverProofIdentity/properties/asset_ref"},
+                "variant_id": {"$ref": "#/components/schemas/AppliedCoverProofIdentity/properties/variant_id"}
+              }
+            },
+            "else": {
+              "required": ["hidden_observation_ref"],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": ["asset_ref"],
+                    "properties": {
+                      "asset_ref": {"$ref": "#/components/schemas/AppliedCoverProofIdentity/properties/asset_ref"}
+                    }
+                  },
+                  {
+                    "required": ["variant_id"],
+                    "properties": {
+                      "variant_id": {"$ref": "#/components/schemas/AppliedCoverProofIdentity/properties/variant_id"}
+                    }
+                  }
+                ]
+              },
+              "properties": {
+                "hidden_observation_ref": {
+                  "$ref": "#/components/schemas/AppliedCoverProofIdentity/properties/hidden_observation_ref"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ReleasePermitIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "family": {"type": "string", "const": "MediaRelease1"},
+          "wire_version": {"type": "string", "const": "1"},
+          "profile_id": {"type": "string", "const": "MEDIA_RELEASE_HANDOFF_V1"},
+          "profile_revision": {"type": "string", "const": "1"},
+          "encoding_id": {"type": "string", "const": "MR1_JSON_ASCII_V1"},
+          "cc": {"type": "string", "const": "CC12"},
+          "kind": {"type": "string", "const": "MEDIA_RELEASE_PERMIT"},
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_PERMIT"}
+                }
+              }
+            ]
+          },
+          "issuer": {"$ref": "#/components/schemas/Owner"},
+          "domain": {"$ref": "#/components/schemas/Domain"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Peer"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "purpose": {"type": "string", "const": "AUTHORIZE_OPEN"},
+          "issued_at": {"$ref": "#/components/schemas/Instant"},
+          "clock_ref": {"$ref": "#/components/schemas/Ref"},
+          "permit_id": {"$ref": "#/components/schemas/ID"},
+          "release_attempt_id": {"$ref": "#/components/schemas/ID"},
+          "logical_effect_key": {"$ref": "#/components/schemas/ID"},
+          "connection_operation_id": {"$ref": "#/components/schemas/ID"},
+          "cp_admission_ref": {"$ref": "#/components/schemas/CPAdmissionProofRef"},
+          "worker_binding_ref": {"$ref": "#/components/schemas/WorkerNonMediaBindingRef"},
+          "applied_cover_ref": {"$ref": "#/components/schemas/AppliedCoverProofRef"},
+          "scope": {"$ref": "#/components/schemas/Scope"},
+          "closure_refs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Ref"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "authority_ref": {"$ref": "#/components/schemas/Ref"},
+          "revocation_ref": {"$ref": "#/components/schemas/Ref"},
+          "stop_fence_ref": {"$ref": "#/components/schemas/Ref"},
+          "lease_ref": {"$ref": "#/components/schemas/Ref"},
+          "window": {"$ref": "#/components/schemas/Window"},
+          "consumption_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_CONSUMPTION"}
+                }
+              }
+            ]
+          },
+          "receipt_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"}
+                }
+              }
+            ]
+          },
+          "expected_slot_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "slot_reservation_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": [
+          "family",
+          "wire_version",
+          "profile_id",
+          "profile_revision",
+          "encoding_id",
+          "cc",
+          "kind",
+          "record_key",
+          "issuer",
+          "domain",
+          "original",
+          "audience",
+          "purpose",
+          "issued_at",
+          "clock_ref",
+          "permit_id",
+          "release_attempt_id",
+          "logical_effect_key",
+          "connection_operation_id",
+          "cp_admission_ref",
+          "worker_binding_ref",
+          "applied_cover_ref",
+          "scope",
+          "closure_refs",
+          "authority_ref",
+          "revocation_ref",
+          "stop_fence_ref",
+          "lease_ref",
+          "window",
+          "consumption_key",
+          "receipt_key",
+          "expected_slot_revision",
+          "slot_reservation_ref"
+        ],
+        "description": "CP limits the permit to one owner, destination, logical effect and lifetime. Reserve consumption and receipt lookup keys before either outcome exists."
+      },
+      "OneTimeConsumptionIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "family": {"type": "string", "const": "MediaRelease1"},
+          "wire_version": {"type": "string", "const": "1"},
+          "profile_id": {"type": "string", "const": "MEDIA_RELEASE_HANDOFF_V1"},
+          "profile_revision": {"type": "string", "const": "1"},
+          "encoding_id": {"type": "string", "const": "MR1_JSON_ASCII_V1"},
+          "cc": {"type": "string", "const": "CC13"},
+          "kind": {"type": "string", "const": "MEDIA_RELEASE_CONSUMPTION"},
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_CONSUMPTION"}
+                }
+              }
+            ]
+          },
+          "issuer": {"$ref": "#/components/schemas/Owner"},
+          "domain": {"$ref": "#/components/schemas/Domain"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Peer"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "purpose": {"type": "string", "const": "CONSUME_OPEN"},
+          "issued_at": {"$ref": "#/components/schemas/Instant"},
+          "clock_ref": {"$ref": "#/components/schemas/Ref"},
+          "permit_ref": {"$ref": "#/components/schemas/ReleasePermitRef"},
+          "logical_effect_key": {"$ref": "#/components/schemas/ID"},
+          "connection_operation_id": {"$ref": "#/components/schemas/ID"},
+          "receipt_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"}
+                }
+              }
+            ]
+          },
+          "expected_slot_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "open_request_digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": [
+          "family",
+          "wire_version",
+          "profile_id",
+          "profile_revision",
+          "encoding_id",
+          "cc",
+          "kind",
+          "record_key",
+          "issuer",
+          "domain",
+          "original",
+          "audience",
+          "purpose",
+          "issued_at",
+          "clock_ref",
+          "permit_ref",
+          "logical_effect_key",
+          "connection_operation_id",
+          "receipt_key",
+          "expected_slot_revision",
+          "open_request_digest"
+        ],
+        "description": "The designated physical owner records durable slot consumption and separately scoped effect knowledge. Authorization of a live operation cannot be recovered by replay."
+      },
+      "ReleaseReceiptIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "family": {"type": "string", "const": "MediaRelease1"},
+          "wire_version": {"type": "string", "const": "1"},
+          "profile_id": {"type": "string", "const": "MEDIA_RELEASE_HANDOFF_V1"},
+          "profile_revision": {"type": "string", "const": "1"},
+          "encoding_id": {"type": "string", "const": "MR1_JSON_ASCII_V1"},
+          "cc": {"type": "string", "const": "CC14"},
+          "kind": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"},
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"}
+                }
+              }
+            ]
+          },
+          "issuer": {"$ref": "#/components/schemas/Owner"},
+          "domain": {"$ref": "#/components/schemas/Domain"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Peer"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "purpose": {"type": "string", "const": "REPORT_RESULT"},
+          "issued_at": {"$ref": "#/components/schemas/Instant"},
+          "clock_ref": {"$ref": "#/components/schemas/Ref"},
+          "permit_ref": {"$ref": "#/components/schemas/ReleasePermitRef"},
+          "consumption_ref": {"$ref": "#/components/schemas/OneTimeConsumptionRef"},
+          "logical_effect_key": {"$ref": "#/components/schemas/ID"},
+          "scope": {"$ref": "#/components/schemas/Scope"},
+          "store_record_id": {"$ref": "#/components/schemas/ID"}
+        },
+        "required": [
+          "family",
+          "wire_version",
+          "profile_id",
+          "profile_revision",
+          "encoding_id",
+          "cc",
+          "kind",
+          "record_key",
+          "issuer",
+          "domain",
+          "original",
+          "audience",
+          "purpose",
+          "issued_at",
+          "clock_ref",
+          "permit_ref",
+          "consumption_ref",
+          "logical_effect_key",
+          "scope",
+          "store_record_id"
+        ],
+        "description": "A durable, immutable revision of the actual effect owner’s observation. It points to a prior consumption revision and is available through pure inspection."
+      },
+      "SealedSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "revision": {"type": "string", "const": "1"},
+          "recorded_at": {"$ref": "#/components/schemas/Instant"},
+          "diagnostic_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": ["revision", "recorded_at"]
+      },
+      "ConsumptionSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "recorded_at": {"$ref": "#/components/schemas/Instant"},
+          "previous_digest": {"$ref": "#/components/schemas/Digest"},
+          "diagnostic_ref": {"$ref": "#/components/schemas/Ref"},
+          "consumption_state": {"$ref": "#/components/schemas/ConsumptionState"},
+          "effect_state": {"$ref": "#/components/schemas/EffectState"},
+          "observations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Observation"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "slot_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "freshness_ref": {"$ref": "#/components/schemas/Ref"},
+          "authorization_refs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Ref"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "dispatch_ref": {"$ref": "#/components/schemas/Ref"},
+          "work_registration_ref": {"$ref": "#/components/schemas/Ref"},
+          "checked_at": {"$ref": "#/components/schemas/Instant"},
+          "consume_commit_id": {"$ref": "#/components/schemas/ID"},
+          "stop_observation_ref": {"$ref": "#/components/schemas/Ref"},
+          "revoke_observation_ref": {"$ref": "#/components/schemas/Ref"},
+          "first_effect_ref": {"$ref": "#/components/schemas/Ref"},
+          "receipt_ref": {"$ref": "#/components/schemas/ReleaseReceiptRef"}
+        },
+        "required": ["revision", "recorded_at", "consumption_state", "effect_state", "observations", "slot_revision", "freshness_ref"],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "revision": {"const": "1"}
+              },
+              "required": ["revision"]
+            },
+            "then": {
+              "not": {
+                "required": ["previous_digest"],
+                "properties": {
+                  "previous_digest": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/previous_digest"}
+                }
+              }
+            },
+            "else": {
+              "required": ["previous_digest"],
+              "properties": {
+                "previous_digest": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/previous_digest"}
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "effect_state": {"const": "RELEASE_CONFIRMED"}
+              },
+              "required": ["effect_state"]
+            },
+            "then": {
+              "properties": {
+                "consumption_state": {"const": "CONSUMED"}
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "consumption_state": {"const": "NOT_CONSUMED"}
+              },
+              "required": ["consumption_state"]
+            },
+            "then": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": ["authorization_refs"],
+                    "properties": {
+                      "authorization_refs": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/authorization_refs"}
+                    }
+                  },
+                  {
+                    "required": ["dispatch_ref"],
+                    "properties": {
+                      "dispatch_ref": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/dispatch_ref"}
+                    }
+                  },
+                  {
+                    "required": ["work_registration_ref"],
+                    "properties": {
+                      "work_registration_ref": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/work_registration_ref"}
+                    }
+                  },
+                  {
+                    "required": ["checked_at"],
+                    "properties": {
+                      "checked_at": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/checked_at"}
+                    }
+                  }
+                ]
+              }
+            },
+            "else": {
+              "required": ["authorization_refs", "dispatch_ref", "work_registration_ref", "checked_at"],
+              "properties": {
+                "authorization_refs": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/authorization_refs"},
+                "dispatch_ref": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/dispatch_ref"},
+                "work_registration_ref": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/work_registration_ref"},
+                "checked_at": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/checked_at"}
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "consumption_state": {"const": "CONSUMED"}
+              },
+              "required": ["consumption_state"]
+            },
+            "then": {
+              "required": ["consume_commit_id"],
+              "properties": {
+                "consume_commit_id": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/consume_commit_id"}
+              }
+            },
+            "else": {
+              "not": {
+                "required": ["consume_commit_id"],
+                "properties": {
+                  "consume_commit_id": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/consume_commit_id"}
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "revision": {"const": "1"}
+              }
+            },
+            "then": {
+              "not": {
+                "required": ["receipt_ref"],
+                "properties": {
+                  "receipt_ref": {"$ref": "#/components/schemas/ConsumptionSnapshot/properties/receipt_ref"}
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ReceiptSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "recorded_at": {"$ref": "#/components/schemas/Instant"},
+          "previous_digest": {"$ref": "#/components/schemas/Digest"},
+          "diagnostic_ref": {"$ref": "#/components/schemas/Ref"},
+          "consumption_state": {"$ref": "#/components/schemas/ConsumptionState"},
+          "effect_state": {"$ref": "#/components/schemas/EffectState"},
+          "observations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Observation"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "observation_time": {"$ref": "#/components/schemas/Instant"},
+          "observed_consumption_ref": {"$ref": "#/components/schemas/OneTimeConsumptionRef"},
+          "decision_refs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Ref"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "result_evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Ref"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          }
+        },
+        "required": [
+          "revision",
+          "recorded_at",
+          "consumption_state",
+          "effect_state",
+          "observations",
+          "observation_time",
+          "observed_consumption_ref",
+          "decision_refs"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "revision": {"const": "1"}
+              },
+              "required": ["revision"]
+            },
+            "then": {
+              "not": {
+                "required": ["previous_digest"],
+                "properties": {
+                  "previous_digest": {"$ref": "#/components/schemas/ReceiptSnapshot/properties/previous_digest"}
+                }
+              }
+            },
+            "else": {
+              "required": ["previous_digest"],
+              "properties": {
+                "previous_digest": {"$ref": "#/components/schemas/ReceiptSnapshot/properties/previous_digest"}
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "effect_state": {"const": "RELEASE_CONFIRMED"}
+              },
+              "required": ["effect_state"]
+            },
+            "then": {
+              "properties": {
+                "consumption_state": {"const": "CONSUMED"}
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "effect_state": {"const": "EFFECT_UNKNOWN"}
+              },
+              "required": ["effect_state"]
+            },
+            "then": {
+              "not": {
+                "required": ["result_evidence_refs"],
+                "properties": {
+                  "result_evidence_refs": {"$ref": "#/components/schemas/ReceiptSnapshot/properties/result_evidence_refs"}
+                }
+              }
+            },
+            "else": {
+              "required": ["result_evidence_refs"],
+              "properties": {
+                "result_evidence_refs": {"$ref": "#/components/schemas/ReceiptSnapshot/properties/result_evidence_refs"}
+              }
+            }
+          }
+        ]
+      },
+      "CPAdmissionProof": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identity": {"$ref": "#/components/schemas/CPAdmissionProofIdentity"},
+          "snapshot": {"$ref": "#/components/schemas/SealedSnapshot"},
+          "immutable_digest": {"$ref": "#/components/schemas/Digest"},
+          "record_digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": ["identity", "snapshot", "immutable_digest", "record_digest"],
+        "description": "CP admission original, primary assignments and reservation at the recorded epoch."
+      },
+      "WorkerNonMediaBinding": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identity": {"$ref": "#/components/schemas/WorkerNonMediaBindingIdentity"},
+          "snapshot": {"$ref": "#/components/schemas/SealedSnapshot"},
+          "immutable_digest": {"$ref": "#/components/schemas/Digest"},
+          "record_digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": ["identity", "snapshot", "immutable_digest", "record_digest"],
+        "description": "The actual Worker binds its process and generation to the original attempt under a non-media fence."
+      },
+      "AppliedCoverProof": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identity": {"$ref": "#/components/schemas/AppliedCoverProofIdentity"},
+          "snapshot": {"$ref": "#/components/schemas/SealedSnapshot"},
+          "immutable_digest": {"$ref": "#/components/schemas/Digest"},
+          "record_digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": ["identity", "snapshot", "immutable_digest", "record_digest"],
+        "description": "The actual Encoder witnesses applied cover on the same graph with every scoped output continuously closed through durable recording."
+      },
+      "ReleasePermit": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identity": {"$ref": "#/components/schemas/ReleasePermitIdentity"},
+          "snapshot": {"$ref": "#/components/schemas/SealedSnapshot"},
+          "immutable_digest": {"$ref": "#/components/schemas/Digest"},
+          "record_digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": ["identity", "snapshot", "immutable_digest", "record_digest"],
+        "description": "CP limits the permit to one owner, destination, logical effect and lifetime. Reserve consumption and receipt lookup keys before either outcome exists."
+      },
+      "OneTimeConsumption": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identity": {"$ref": "#/components/schemas/OneTimeConsumptionIdentity"},
+          "snapshot": {"$ref": "#/components/schemas/ConsumptionSnapshot"},
+          "immutable_digest": {"$ref": "#/components/schemas/Digest"},
+          "record_digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": ["identity", "snapshot", "immutable_digest", "record_digest"],
+        "description": "The designated physical owner records durable slot consumption and separately scoped effect knowledge. Authorization of a live operation cannot be recovered by replay."
+      },
+      "ReleaseReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identity": {"$ref": "#/components/schemas/ReleaseReceiptIdentity"},
+          "snapshot": {"$ref": "#/components/schemas/ReceiptSnapshot"},
+          "immutable_digest": {"$ref": "#/components/schemas/Digest"},
+          "record_digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": ["identity", "snapshot", "immutable_digest", "record_digest"],
+        "description": "A durable, immutable revision of the actual effect owner’s observation. It points to a prior consumption revision and is available through pure inspection."
+      },
+      "Record": {
+        "oneOf": [
+          {"$ref": "#/components/schemas/CPAdmissionProof"},
+          {"$ref": "#/components/schemas/WorkerNonMediaBinding"},
+          {"$ref": "#/components/schemas/AppliedCoverProof"},
+          {"$ref": "#/components/schemas/ReleasePermit"},
+          {"$ref": "#/components/schemas/OneTimeConsumption"},
+          {"$ref": "#/components/schemas/ReleaseReceipt"}
+        ],
+        "description": "Exactly one owner-issued record. Reject unknown fields, duplicate keys, noncanonical bytes and any digest mismatch."
+      },
+      "OperationID": {
+        "type": "string",
+        "enum": [
+          "getMediaReleaseCapabilities",
+          "issueStartAdmissionProof",
+          "bindNonMediaWorker",
+          "attestAppliedCover",
+          "issueMediaReleasePermit",
+          "revokeMediaReleasePermit",
+          "openMediaRelease",
+          "fenceMediaRelease",
+          "inspectMediaReleaseRecord",
+          "inspectMediaReleaseReceipt"
+        ]
+      },
+      "CapabilityParticipant": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": ["CP", "WORKER", "ENCODER", "GATE"]
+          },
+          "owner": {"$ref": "#/components/schemas/Owner"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "scope": {"$ref": "#/components/schemas/Scope"}
+        },
+        "required": ["role", "owner", "original", "scope"],
+        "description": "One actual participant on the authenticated original attempt and output scope."
+      },
+      "AdvertisedTuple": {
+        "oneOf": [
+          {"$ref": "#/components/schemas/Tuple"},
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "family": {"$ref": "#/components/schemas/ID"},
+                  "wire_version": {"$ref": "#/components/schemas/ID"},
+                  "profile_id": {"$ref": "#/components/schemas/ID"},
+                  "profile_revision": {"$ref": "#/components/schemas/ID"},
+                  "encoding_id": {"$ref": "#/components/schemas/ID"}
+                },
+                "required": ["family", "wire_version", "profile_id", "profile_revision", "encoding_id"]
+              },
+              {
+                "not": {"$ref": "#/components/schemas/Tuple"}
+              }
+            ]
+          }
+        ],
+        "description": "Future tuples may be advertised. Only explicit unanimous selection of the exact supported tuple permits interpreting a record."
+      },
+      "Capability": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "participant": {"$ref": "#/components/schemas/CapabilityParticipant"},
+          "versions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/AdvertisedTuple"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "operations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/OperationID"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "snapshot_ref": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Ref"},
+              {
+                "properties": {
+                  "source_type": {"const": "CAPABILITY_SNAPSHOT"},
+                  "source_key": {
+                    "properties": {
+                      "kind": {"const": "CAPABILITY_SNAPSHOT"}
+                    }
+                  },
+                  "representation": {"const": "OWNER_SEALED_BYTES"}
+                }
+              }
+            ]
+          },
+          "observed_at": {"$ref": "#/components/schemas/Instant"},
+          "expires_at": {"$ref": "#/components/schemas/Instant"}
+        },
+        "required": ["participant", "versions", "operations", "snapshot_ref", "observed_at", "expires_at"],
+        "description": "Authenticated capability snapshot of the actual service incarnation. Bind the authoritative participant roster to the original attempt. A capability advertises protocol support only. The authenticated participant asserts every operation for every listed tuple and its stated role. Advertise their intersection or supply a snapshot for the selected tuple; never merge claims across snapshots. Use an owner-sealed capability snapshot per role. An immutable snapshot reference identifies one body."
+      },
+      "InspectRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lookup_key": {"$ref": "#/components/schemas/Key"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "owner": {"$ref": "#/components/schemas/Owner"},
+          "expected_revision": {"$ref": "#/components/schemas/PositiveUint64"},
+          "expected_digest": {"$ref": "#/components/schemas/Digest"}
+        },
+        "required": ["lookup_key", "original", "owner"],
+        "description": "Use the preassigned original key, owner and original correlation. Supply an exact revision or digest when known; missing fields never request a new effect."
+      },
+      "ReceiptInspectRequest": {
+        "allOf": [
+          {"$ref": "#/components/schemas/InspectRequest"},
+          {
+            "properties": {
+              "lookup_key": {
+                "allOf": [
+                  {"$ref": "#/components/schemas/Key"},
+                  {
+                    "properties": {
+                      "kind": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "InspectResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lookup_key": {"$ref": "#/components/schemas/Key"},
+          "original": {"$ref": "#/components/schemas/Original"},
+          "responder": {"$ref": "#/components/schemas/Owner"},
+          "observed_at": {"$ref": "#/components/schemas/Instant"},
+          "status": {
+            "type": "string",
+            "enum": ["FOUND", "UNKNOWN", "CONFLICT"]
+          },
+          "currentness": {
+            "type": "string",
+            "enum": ["CURRENT", "EXPIRED", "REVOKED", "UNKNOWN"]
+          },
+          "found_ref": {"$ref": "#/components/schemas/Ref"},
+          "storage_witness_ref": {"$ref": "#/components/schemas/Ref"},
+          "freshness_ref": {"$ref": "#/components/schemas/Ref"},
+          "reason_refs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Ref"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          }
+        },
+        "required": ["lookup_key", "original", "responder", "observed_at", "status", "currentness"],
+        "description": "An observation made without mutation. Currentness and durable lookup are independent. A committed historical result stays readable after expiry and revocation; uncertainty never implies unused.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {"const": "FOUND"}
+              },
+              "required": ["status"]
+            },
+            "then": {
+              "required": ["found_ref", "storage_witness_ref"],
+              "properties": {
+                "found_ref": {"$ref": "#/components/schemas/InspectResult/properties/found_ref"},
+                "storage_witness_ref": {"$ref": "#/components/schemas/InspectResult/properties/storage_witness_ref"}
+              }
+            },
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": ["found_ref"],
+                    "properties": {
+                      "found_ref": {"$ref": "#/components/schemas/InspectResult/properties/found_ref"}
+                    }
+                  },
+                  {
+                    "required": ["storage_witness_ref"],
+                    "properties": {
+                      "storage_witness_ref": {"$ref": "#/components/schemas/InspectResult/properties/storage_witness_ref"}
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "currentness": {"const": "CURRENT"}
+              },
+              "required": ["currentness"]
+            },
+            "then": {
+              "required": ["freshness_ref"],
+              "properties": {
+                "freshness_ref": {"$ref": "#/components/schemas/InspectResult/properties/freshness_ref"}
+              }
+            }
+          }
+        ]
+      },
+      "RecordInspection": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "inspection": {"$ref": "#/components/schemas/InspectResult"},
+          "record": {"$ref": "#/components/schemas/Record"}
+        },
+        "required": ["inspection"],
+        "description": "Transport response. A found original record is returned intact alongside the separate storage observation. Match its issuer, key, revision and digest against found_ref.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "inspection": {
+                  "properties": {
+                    "status": {"const": "FOUND"}
+                  }
+                }
+              }
+            },
+            "then": {
+              "required": ["record"],
+              "properties": {
+                "record": {"$ref": "#/components/schemas/RecordInspection/properties/record"}
+              }
+            },
+            "else": {
+              "not": {
+                "required": ["record"],
+                "properties": {
+                  "record": {"$ref": "#/components/schemas/RecordInspection/properties/record"}
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ReceiptInspection": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "inspection": {"$ref": "#/components/schemas/InspectResult"},
+          "record": {"$ref": "#/components/schemas/ReleaseReceipt"}
+        },
+        "required": ["inspection"],
+        "description": "Transport response. A found original record is returned intact alongside the separate storage observation. Match its issuer, key, revision and digest against found_ref.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "inspection": {
+                  "properties": {
+                    "status": {"const": "FOUND"}
+                  }
+                }
+              }
+            },
+            "then": {
+              "required": ["record"],
+              "properties": {
+                "record": {"$ref": "#/components/schemas/ReceiptInspection/properties/record"}
+              }
+            },
+            "else": {
+              "not": {
+                "required": ["record"],
+                "properties": {
+                  "record": {"$ref": "#/components/schemas/ReceiptInspection/properties/record"}
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "inspection": {
+                "properties": {
+                  "lookup_key": {
+                    "allOf": [
+                      {"$ref": "#/components/schemas/Key"},
+                      {
+                        "properties": {
+                          "kind": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"}
+                        }
+                      }
+                    ]
+                  },
+                  "found_ref": {"$ref": "#/components/schemas/ReleaseReceiptRef"}
+                }
+              }
+            }
+          }
+        ]
+      },
+      "FenceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "original": {"$ref": "#/components/schemas/Original"},
+          "scope": {"$ref": "#/components/schemas/Scope"},
+          "permit_ref": {"$ref": "#/components/schemas/ReleasePermitRef"},
+          "authority_ref": {"$ref": "#/components/schemas/Ref"},
+          "slot_key": {"$ref": "#/components/schemas/Key"}
+        },
+        "required": ["original", "scope"],
+        "description": "Bind a fence to the original permit, or use its authoritative original and preassigned slot before issuance.",
+        "oneOf": [
+          {
+            "required": ["permit_ref"],
+            "not": {
+              "anyOf": [
+                {
+                  "required": ["authority_ref"],
+                  "properties": {
+                    "authority_ref": {"$ref": "#/components/schemas/FenceRequest/properties/authority_ref"}
+                  }
+                },
+                {
+                  "required": ["slot_key"],
+                  "properties": {
+                    "slot_key": {"$ref": "#/components/schemas/FenceRequest/properties/slot_key"}
+                  }
+                }
+              ]
+            },
+            "properties": {
+              "permit_ref": {"$ref": "#/components/schemas/FenceRequest/properties/permit_ref"}
+            }
+          },
+          {
+            "required": ["authority_ref", "slot_key"],
+            "not": {
+              "required": ["permit_ref"],
+              "properties": {
+                "permit_ref": {"$ref": "#/components/schemas/FenceRequest/properties/permit_ref"}
+              }
+            },
+            "properties": {
+              "authority_ref": {"$ref": "#/components/schemas/FenceRequest/properties/authority_ref"},
+              "slot_key": {"$ref": "#/components/schemas/FenceRequest/properties/slot_key"}
+            }
+          }
+        ]
+      },
+      "FenceObservation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "original": {"$ref": "#/components/schemas/Original"},
+          "scope": {"$ref": "#/components/schemas/Scope"},
+          "responder": {"$ref": "#/components/schemas/Owner"},
+          "observed_at": {"$ref": "#/components/schemas/Instant"},
+          "observations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {"$ref": "#/components/schemas/Observation"},
+            "description": "A nonempty set in strictly increasing canonical byte order."
+          },
+          "permit_ref": {"$ref": "#/components/schemas/ReleasePermitRef"},
+          "authority_ref": {"$ref": "#/components/schemas/Ref"},
+          "slot_key": {"$ref": "#/components/schemas/Key"},
+          "decision_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": ["original", "scope", "responder", "observed_at", "observations"],
+        "description": "Identify the exact owner of each observation. A committed decision requires an inspectable decision reference. Record revocation, durable gate fencing, joined operations, closed FD and remote terminal as separate facts.",
+        "oneOf": [
+          {
+            "required": ["permit_ref"],
+            "not": {
+              "anyOf": [
+                {
+                  "required": ["authority_ref"],
+                  "properties": {
+                    "authority_ref": {"$ref": "#/components/schemas/FenceObservation/properties/authority_ref"}
+                  }
+                },
+                {
+                  "required": ["slot_key"],
+                  "properties": {
+                    "slot_key": {"$ref": "#/components/schemas/FenceObservation/properties/slot_key"}
+                  }
+                }
+              ]
+            },
+            "properties": {
+              "permit_ref": {"$ref": "#/components/schemas/FenceObservation/properties/permit_ref"}
+            }
+          },
+          {
+            "required": ["authority_ref", "slot_key"],
+            "not": {
+              "required": ["permit_ref"],
+              "properties": {
+                "permit_ref": {"$ref": "#/components/schemas/FenceObservation/properties/permit_ref"}
+              }
+            },
+            "properties": {
+              "authority_ref": {"$ref": "#/components/schemas/FenceObservation/properties/authority_ref"},
+              "slot_key": {"$ref": "#/components/schemas/FenceObservation/properties/slot_key"}
+            }
+          }
+        ]
+      },
+      "AdmissionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "CP_ADMISSION_PROOF"}
+                }
+              }
+            ]
+          },
+          "original": {"$ref": "#/components/schemas/Original"},
+          "claim_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": ["record_key", "original", "claim_ref"],
+        "description": "The CP resolves both originals, both primary assignments and its current reservation and fences independently."
+      },
+      "BindingRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "WORKER_NON_MEDIA_BINDING"}
+                }
+              }
+            ]
+          },
+          "original": {"$ref": "#/components/schemas/Original"},
+          "cp_admission_ref": {"$ref": "#/components/schemas/CPAdmissionProofRef"}
+        },
+        "required": ["record_key", "original", "cp_admission_ref"],
+        "description": "The Worker resolves the verified CP original and attests its own non-media fence, live process and generation."
+      },
+      "CoverRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "APPLIED_COVER_PROOF"}
+                }
+              }
+            ]
+          },
+          "original": {"$ref": "#/components/schemas/Original"},
+          "cp_admission_ref": {"$ref": "#/components/schemas/CPAdmissionProofRef"},
+          "worker_binding_ref": {"$ref": "#/components/schemas/WorkerNonMediaBindingRef"},
+          "preparation_id": {"$ref": "#/components/schemas/ID"},
+          "desired_cover_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": ["record_key", "original", "cp_admission_ref", "worker_binding_ref", "preparation_id", "desired_cover_ref"],
+        "description": "The Encoder resolves the intended preparation and observes the same closed graph. Submitting a desired revision never establishes applied cover."
+      },
+      "PermitRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "record_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_PERMIT"}
+                }
+              }
+            ]
+          },
+          "original": {"$ref": "#/components/schemas/Original"},
+          "cp_admission_ref": {"$ref": "#/components/schemas/CPAdmissionProofRef"},
+          "worker_binding_ref": {"$ref": "#/components/schemas/WorkerNonMediaBindingRef"},
+          "applied_cover_ref": {"$ref": "#/components/schemas/AppliedCoverProofRef"},
+          "scope": {"$ref": "#/components/schemas/Scope"},
+          "release_attempt_id": {"$ref": "#/components/schemas/ID"},
+          "logical_effect_key": {"$ref": "#/components/schemas/ID"},
+          "connection_operation_id": {"$ref": "#/components/schemas/ID"},
+          "slot_reservation_ref": {"$ref": "#/components/schemas/Ref"}
+        },
+        "required": [
+          "record_key",
+          "original",
+          "cp_admission_ref",
+          "worker_binding_ref",
+          "applied_cover_ref",
+          "scope",
+          "release_attempt_id",
+          "logical_effect_key",
+          "connection_operation_id",
+          "slot_reservation_ref"
+        ],
+        "description": "The CP verifies every referenced original and the target owner’s closed slot reservation before issuing the permit."
+      },
+      "OpenRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "connection_operation_id": {"$ref": "#/components/schemas/ID"},
+          "logical_effect_key": {"$ref": "#/components/schemas/ID"},
+          "permit_ref": {"$ref": "#/components/schemas/ReleasePermitRef"},
+          "receipt_key": {
+            "allOf": [
+              {"$ref": "#/components/schemas/Key"},
+              {
+                "properties": {
+                  "kind": {"type": "string", "const": "MEDIA_RELEASE_RECEIPT"}
+                }
+              }
+            ]
+          }
+        },
+        "required": ["connection_operation_id", "logical_effect_key", "permit_ref", "receipt_key"],
+        "description": "Immutable original command at the sole consumer. Domain-separated digest uses exactly these four fields. Resolve the target slot, expected revision, parent attempt and expiry from the referenced original permit."
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": ["INVALID_RECORD", "UNAUTHENTICATED", "FORBIDDEN", "CONFLICT", "EXPIRED", "REVOKED", "HELD", "UNKNOWN"]
+          }
+        },
+        "required": ["code"],
+        "description": "A non-secret machine-readable reason; never discloses the existence of a record to an unauthorized caller."
+      }
+    }
+  }
+}
